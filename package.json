@@ -1,0 +1,31 @@
+{
+  "name": "brmodelo-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "angular": "^1.4.4",
+    "angular-cookies": "^1.4.8",
+    "angular-ui-router": "^0.2.15",
+    "bcrypt-nodejs": "~0.0.3",
+    "body-parser": "^1.13.3",
+    "consolidate": "~0.9.1",
+    "ejs": "^2.3.3",
+    "errorhandler": "^1.4.2",
+    "express": "*",
+    "express-session": "^1.12.1",
+    "gulp-express": "^0.3.5",
+    "jade": "*",
+    "mocha": "^2.3.4",
+    "mongodb": "~1.4.34",
+    "mongoose": "^4.1.5",
+    "response-time": "^2.3.1",
+    "swig": "~0.14.0",
+    "validator": "~1.1.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
