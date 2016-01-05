@@ -1,0 +1,31 @@
+<header>
+
+</header>
+
+<main ng-controller="taskListController">
+
+    <div class="panel panel-default" ng-repeat="taskList in taskLists">
+      <!-- Default panel contents -->
+      <div class="panel-heading">{{taskList.listName}}</div>
+
+      <!-- List group -->
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="task in taskList.tasks">
+          <input type="checkbox" ng-model="task.done">
+          <span ng-class="{done: task.done}">{{task.text}}</span>
+        </li>
+      </ul>
+    </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="taskList.taskText" placeholder="What do you want to save?...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="addTask(taskList.taskText)">Save</button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+      </div><!-- /.row -->
+
+</main>

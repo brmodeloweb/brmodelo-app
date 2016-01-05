@@ -1,0 +1,84 @@
+h1 {
+  color: green;
+}
+
+/*************************************
+  header
+*************************************/
+
+header {
+  position: absolute;
+  background: #fff;
+  border-bottom: 1px solid #f1f2f7;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1002;
+  min-height: 60px;
+  padding: 0 15px;
+  display: block;
+}
+
+.decriptionLabel {
+  float: left;
+  margin-top: 15px;
+}
+
+.actions.cf {
+  float: right;
+  margin-top: 15px;
+}
+
+/*************************************
+  main
+*************************************/
+
+body {
+  background-color: #F1F2F7;
+}
+
+main{
+  margin-top: 60px;
+  padding: 15px;
+}
+
+/*************************************
+  login
+*************************************/
+
+.loginPanel{
+  margin: auto;
+  margin-top: 60px;
+  width: 500px;
+}
+
+.done{
+  text-decoration: line-through;
+  color: grey;
+}
+
+.modal-backdrop {
+  bottom:0;
+}
+
+.modal.fade .modal-dialog, .modal.in .modal-dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.modal-content {
+  position: absolute;
+  top:50%;
+  -ms-transform: translate(0,-50%);
+  -moz-transform: translate(0,-50%);
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+  width:100%;
+}
+
+.error{
+  background-color: red;
+}
