@@ -6,11 +6,14 @@
     "start": "node app"
   },
   "dependencies": {
-    "angular": "^1.4.4",
+    "angular": "^1.5.0-rc.0",
     "angular-cookies": "^1.4.8",
+    "angular-modal-service": "^0.6.9",
+    "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-router": "^0.2.15",
     "bcrypt-nodejs": "~0.0.3",
     "body-parser": "^1.13.3",
+    "bootstrap": "^3.3.6",
     "consolidate": "~0.9.1",
     "ejs": "^2.3.3",
     "errorhandler": "^1.4.2",
