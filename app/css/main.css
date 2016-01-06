@@ -6,7 +6,7 @@ h1 {
   header
 *************************************/
 
-header {
+/*header {
   position: absolute;
   background: #fff;
   border-bottom: 1px solid #f1f2f7;
@@ -17,7 +17,7 @@ header {
   min-height: 60px;
   padding: 0 15px;
   display: block;
-}
+}*/
 
 .decriptionLabel {
   float: left;
@@ -80,5 +80,202 @@ main{
 }
 
 .error{
+  background-color: red;
+}
+
+/***********************************************************/
+/* .content */
+/***********************************************************/
+.content {
+	position: fixed;
+	top: 30px;
+	right: 0;
+	bottom: 5px;
+	left: 0;
+}
+
+/***********************************************************/
+/* .modelList */
+/***********************************************************/
+.modelList {
+    position:relative;
+	left: 8px;
+    overflow:hidden;
+}
+
+.modelList ul{
+    list-style-type: none;
+}
+
+.modelList li {
+    float: left;
+	position: relative;
+    width:150px;
+    overflow: hidden;
+    height:36px;
+	cursor: pointer;
+	padding: 10px;
+	margin-right: 7px;
+	font-size: 1.3em;
+	line-height: 1.2em;
+	text-align: left;
+	overflow: hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+	color: rgba(0, 0, 0, 0.7);
+	border: 1px solid rgba(0,0,0, 0.2);
+	border-bottom: 0;
+	border-radius: 2px 0 0 2px;
+	background: rgba(255,255,255, 0.3);
+}
+
+.modelList li:hover {
+	text-decoration: none;
+	background: rgba(255,255,255, 1);
+}
+
+.modelList .active {
+	top: 4px;
+    height:40px;
+	padding-bottom: 16px;
+	z-index: 100;
+	background: rgba(255,255,255, 1);
+}
+
+.modelList .newModel {
+    float: left;
+	position: relative;
+	top: 0;
+	right: 0;
+	width: 38px;
+	height: 38px;
+	overflow: hidden;
+	padding: 0;
+}
+
+.modelList .newModel:hover {
+	width: 120px;
+}
+
+.modelList .newModel > strong {
+	display: block;
+	float: left;
+	width: 38px;
+	height: 38px;
+	padding: 10px;
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: center;
+}
+
+.modelList .newModel > strong:hover {background: rgba(0,0,0, 0.1);}
+
+.modelList .newModel:hover > strong:first-child,
+.modelList .newModel:hover > strong:first-child:hover {
+	cursor: default;
+	background: transparent;
+}
+
+.modelList .newModel:hover > strong:first-child i,
+.modelList .newModel:hover > strong:first-child:hover i {opacity: 0.1;}
+
+.modelList .naming > input {
+	width: 130px;
+}
+
+/***********************************************************/
+/* .visibleModel */
+/***********************************************************/
+.visibleModel {
+	position: absolute;
+	top: 36px;
+	right: 200px;
+  left: 200px;
+	bottom: 0;
+	overflow: hidden;
+	border: 1px solid rgba(0,0,0, 0.2);
+	background: rgba(255,255,255, 0.9);
+	box-shadow: 0 0 10px -5px rgba(0,0,0, 0.5) inset;
+}
+
+/********************************************/
+/* .visibleModel > header */
+/********************************************/
+.visibleModel > header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	padding: 20px;
+}
+
+.visibleModel > header h2 {
+	display: none /*inline-block*/;
+	font-size: 2em;
+	line-height: 1em;
+	font-style: italic;
+}
+
+.visibleModel .tools,
+.visibleModel .zoom {
+	position: absolute;
+	top: 15px;
+	background: rgba(255,255,255, 0.95);
+}
+
+.visibleModel .tools {left: 15px;}
+.visibleModel .zoom {right: 15px;}
+
+.tools span,
+.zoom span {
+	display: block;
+	margin-bottom: 10px;
+	cursor: pointer;
+	opacity: 0.5;
+}
+
+.visibleModel .tools:hover span,
+.visibleModel .zoom:hover span {opacity: 1;}
+
+.tools span > img {width: 20px; height: 20px;}
+.zoom span > i {font-size: 1.5em;}
+
+.tools span:hover,
+.zoom span:hover {background: rgba(0,0,0, 0.1);}
+
+.tools span:hover,
+.zoom span:active {box-shadow: 0 0 4px rgba(0,0,0, 0.2) inset;}
+
+/********************************************/
+/* components model */
+/********************************************/
+.componentsModel {
+	position: absolute;
+	top: 36px;
+  width: 200px;
+
+  left: 0;
+	bottom: 0;
+	overflow: hidden;
+	border: 1px solid rgba(0,0,0, 0.2);
+	background: rgba(255,255,255, 0.9);
+	box-shadow: 0 0 10px -5px rgba(0,0,0, 0.5) inset;
+  background-color: blue;
+}
+
+/********************************************/
+/* components model */
+/********************************************/
+.editionModel {
+	position: absolute;
+	top: 36px;
+  float: right;
+  right: 0;
+  width: 200px;
+	bottom: 0;
+	overflow: hidden;
+	border: 1px solid rgba(0,0,0, 0.2);
+	background: rgba(255,255,255, 0.9);
+	box-shadow: 0 0 10px -5px rgba(0,0,0, 0.5) inset;
   background-color: red;
 }

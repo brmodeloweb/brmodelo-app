@@ -1,37 +1,4 @@
-angular.module('myapp').controller("taskListController", ['$scope', '$http', function($scope ,$http) {
-
-    $scope.taskLists = [
-    {
-        "listName": "List1",
-        "user": "",
-        "done": false,
-        "tasks": [
-            {
-                "text": "learnangular",
-                "done": true,
-                "date": new Date(),
-                "tags": ["impartante", "facil"]
-            },
-            {
-                "text": "buildanangularapp",
-                "done": false
-            }
-        ]
-    },
-    {
-        "listName": "Ai meu peru",
-        "tasks": [
-            {
-                "text": "Que lindo",
-                "done": true
-            },
-            {
-                "text": "show",
-                "done": false
-            }
-        ]
-    }
-    ]
+angular.module('myapp').controller("listController", ['$scope', '$http', function($scope ,$http) {
 
     $scope.addTask = function(taskText) {
     //  $scope.tasks.push({text:taskList.taskText, done:false});

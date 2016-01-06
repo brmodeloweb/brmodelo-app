@@ -13,6 +13,11 @@ app.config(['$urlRouterProvider', '$stateProvider',
             templateUrl:'/view/main.html',
             data: {requireLogin: true}
           });
+        $stateProvider.state('conceptual', {
+            url:'/conceptual',
+            templateUrl:'/view/conceptual.html',
+            data: {requireLogin: true}
+          });
         $urlRouterProvider.otherwise("/")
     }
 
