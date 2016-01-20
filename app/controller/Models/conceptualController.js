@@ -65,7 +65,8 @@ $(document).ready(function () {
         return cell;
     };
 
-    var employee = element(erd.Entity, 100, 200, "Employee");
+//    var employee = element(erd.Entity, 100, 200, "Employee");
+
 
 
 });
