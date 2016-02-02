@@ -34,6 +34,7 @@ h1 {
 
 body {
   background-color: #F1F2F7;
+  line-height: 1.1;
 }
 
 main{
@@ -79,7 +80,7 @@ main{
 }
 
 .error{
-  background-color: red;
+  background-color: #DEB4BB;
 }
 
 /***********************************************************/
@@ -345,4 +346,24 @@ main{
 
 .button:active {
     opacity: 0.3;
+}
+
+/********************************************/
+/* Login Header */
+/********************************************/
+.login-header{
+  position: absolute;
+  background: #fff;
+  border-bottom: 1px solid #254ac4;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1002;
+  min-height: 70px;
+  padding: 0 15px;
+  display: block;
+}
+
+.panel {
+  border-radius: 0;
 }
