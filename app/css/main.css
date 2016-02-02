@@ -80,7 +80,7 @@ main{
 }
 
 .error{
-  background-color: #DEB4BB;
+  background-color: #fbbfbf;
 }
 
 /***********************************************************/
@@ -366,4 +366,9 @@ main{
 
 .panel {
   border-radius: 0;
+}
+
+.feedback .message{
+  width: 400px!important;
+  margin: auto;
 }

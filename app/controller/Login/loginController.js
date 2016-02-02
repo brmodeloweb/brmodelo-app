@@ -26,7 +26,10 @@ angular.module('myapp').controller('LoginController', function ($scope, $rootSco
 
         $state.go('workspace');
 
-      }, function () {
+      }, function (error) {
+        console.log(error);
+        console.log(error.status);
+        console.log(error.data);
         console.log('deu ruim');
       });
     }

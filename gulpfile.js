@@ -9,13 +9,20 @@ gulp.task('copy', function() {
     'node_modules/angular/angular.min.js',
     'node_modules/angular-ui-router/build/angular-ui-router.min.js',
     'node_modules/angular-cookies/angular-cookies.min.js'
-
-  ])
-        .pipe(gulp.dest('build/libs/'));
+  ]).pipe(gulp.dest('build/libs/'));
 
     gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css'
-  ])
-        .pipe(gulp.dest('build/css/'));
+  ]).pipe(gulp.dest('build/css/'));
+
+    gulp.src(['app/css/Sweet-Feedback/css/sweetfeedback.css',
+    'app/css/Sweet-Feedback/images/iconError.png',
+    'app/css/Sweet-Feedback/images/iconInfo.png',
+    'app/css/Sweet-Feedback/images/iconSuccess.png',
+    'app/css/Sweet-Feedback/images/iconWarning.png',
+    'app/css/Sweet-Feedback/images/noise.png',
+    'app/css/Sweet-Feedback/images/noiseStripes.png',
+  ]).pipe(gulp.dest('build/sweetfeedback/'));
+
 });
 
 gulp.task('server', function () {

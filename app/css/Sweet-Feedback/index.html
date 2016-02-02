@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  	<meta charset="utf-8" />
+  	<title>Sweet Feedback Example</title>
+	
+	<link rel="stylesheet" media="screen" href="css/sweetfeedback.css">
+	<link href='http://fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+	
+	<!-- Jquery loaded from google but with a fallback to local file if you won't have internet (Thanks: h5bp.com ) -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
+	
+	<script src="js/sweetfeedback.js"></script>
+	
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="feedback">
+	<div class="message info sr">
+		<p class="">This is the message to inform your user about something.</p>
+	</div>
+	<div class="message warning sr">
+		<p>This is the message to warning your user about something.</p>
+	</div>
+	<div class="message error sr">
+		<p>This is the message to explain about something that went wrong.</p>
+	</div>
+	<div class="message success sr">
+		<p>This is the message to tell your user that something went right!</p>
+	</div>
+</section><!-- End #feedback -->
+	
+</body>
+</html>
