@@ -1,0 +1,18 @@
+<header class="main-header" ng-controller="mainController">
+    <div class="decriptionLabel">
+      <img src="imgs/120_01.png" alt="Smiley face">
+    </div>
+    <nav>
+			<a ui-sref="workspace.conceptual">Workspace</a>
+			<a href="#">Modelos</a>
+			<a href="#">Contato</a>
+		</nav>
+
+     <div class="actions cf">
+       <button type="button" class="button" tabindex="4" ng-click="logout()">Sair</button>
+     </div>
+</header>
+
+<main>
+  <div ui-view></div>
+</main>

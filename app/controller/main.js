@@ -8,12 +8,12 @@ app.config(['$urlRouterProvider', '$stateProvider',
           templateUrl:'/view/login.html',
           data: {requireLogin: false}
         });
-        $stateProvider.state('main', {
-            url:'/main',
+        $stateProvider.state('workspace', {
+            url:'/workspace',
             templateUrl:'/view/main.html',
             data: {requireLogin: true}
           });
-        $stateProvider.state('conceptual', {
+        $stateProvider.state('workspace.conceptual', {
             url:'/conceptual',
             templateUrl:'/view/conceptual.html',
             data: {requireLogin: true}

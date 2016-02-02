@@ -22,6 +22,12 @@ angular.module('myapp').factory('AuthService', function ($http, $cookies) {
       });
   };
 
+  authService.logout = function () {
+    $cookies.remove('sessionId');
+    $cookies.remove('userId');
+    $cookies.remove('userName');
+  };
+
   authService.register = function (credentials) {
     return $http
       .post('/createUser', credentials)

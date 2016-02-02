@@ -21,7 +21,6 @@ h1 {
 
 .decriptionLabel {
   float: left;
-  margin-top: 15px;
 }
 
 .actions.cf {
@@ -88,7 +87,7 @@ main{
 /***********************************************************/
 .content-main {
 	position: fixed;
-	top: 20px;
+	top: 30px;
 	right: 0;
 	bottom: 5px;
 	left: 0;
@@ -278,4 +277,72 @@ main{
 	background: rgba(255,255,255, 0.9);
 	box-shadow: 0 0 10px -5px rgba(0,0,0, 0.5) inset;
   background-color: red;
+}
+
+/********************************************/
+/* Main header */
+/********************************************/
+.main-header{
+  position: absolute;
+  background: #fff;
+  border-bottom: 1px solid #f1f2f7;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1002;
+  min-height: 60px;
+  padding: 0 15px;
+  display: block;
+}
+
+/*.main-header > nav a{
+  display: block;
+  float: left;
+  line-height: 65px;
+  font-size: 1.3em;
+  padding: 0 20px;
+  border-right: 1px solid grey;
+  color: grey;
+}*/
+
+.main-header nav {
+    float: left;
+    margin-top: 23px;
+    margin-right: 15px;
+}
+
+.main-header > nav a {
+    margin-right: 10px;
+    border-right: 1px solid #6494f9;
+    color: #646565;
+    cursor: pointer;
+    padding-right: 10px;
+    text-decoration: none;
+}
+
+.main-header > nav a:hover {
+    text-decoration: underline;
+}
+
+/********************************************/
+/* Components */
+/********************************************/
+
+.button {
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    background: #254ac4;
+    color: #e2e5e5 !important;
+    border: 0px none;
+    cursor: pointer;
+    padding: 10px !important;
+}
+
+.button:hover {
+    opacity: 0.7;
+}
+
+.button:active {
+    opacity: 0.3;
 }

@@ -24,7 +24,7 @@ angular.module('myapp').controller('LoginController', function ($scope, $rootSco
 
       AuthService.login(credentials).then(function (user) {
 
-        $state.go('main');
+        $state.go('workspace');
 
       }, function () {
         console.log('deu ruim');
