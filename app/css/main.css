@@ -368,6 +368,10 @@ main{
   border-radius: 0;
 }
 
+.feedback{
+  min-height: 55px;
+}
+
 .feedback .message{
   width: 400px!important;
   margin: auto;

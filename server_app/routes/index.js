@@ -66,6 +66,7 @@ module.exports = exports = function(app, helper) {
               });
           } else {
             // implement user already exist
+            res.sendStatus(409);
           }
       });
 

@@ -12,7 +12,8 @@ app.controller('registerController', function ($scope, $modalInstance, AuthServi
     submitted: false,
     validmail: false,
     validname: false,
-    validpassword: false
+    validpassword: false,
+    useralreadyexist: false
   }
 
   $scope.register = function (credentials, repassword) {
@@ -29,8 +30,9 @@ app.controller('registerController', function ($scope, $modalInstance, AuthServi
         // $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         // $scope.setCurrentUser(user);
         $modalInstance.close("Result ok");
-      }, function () {
+      }, function (error) {
         // $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+        $scope.config.useralreadyexist = true;
       });
 
     }

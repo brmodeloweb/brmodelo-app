@@ -8,12 +8,15 @@ angular.module('myapp').controller('LoginController', function ($scope, $rootSco
   $scope.config = {
     submitted: false,
     validmail: false,
-    validpassword: false
+    validpassword: false,
+    usernotfound: false
   }
 
   $scope.animationsEnabled = true;
 
   $scope.login = function (credentials) {
+
+    cleanValidations();
 
     $scope.config.submitted = true;
 
@@ -31,6 +34,9 @@ angular.module('myapp').controller('LoginController', function ($scope, $rootSco
         console.log(error.status);
         console.log(error.data);
         console.log('deu ruim');
+
+        $scope.config.usernotfound = true;
+
       });
     }
   };
@@ -57,6 +63,12 @@ angular.module('myapp').controller('LoginController', function ($scope, $rootSco
   $scope.toggleAnimation = function () {
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
+
+  function cleanValidations(){
+    $scope.config.validmail = false;
+    $scope.config.validpassword = false;
+    $scope.configusernotfound = false;
+  }
 
   function isValidPassword(pass) {
     if ((pass.length > 3)) {
