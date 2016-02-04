@@ -78,3 +78,16 @@
 	background-color: rgba(0,0, 0, 0.05);
 	box-shadow: 0 0 5px rgba(0,0,0, 0.4);
 }
+
+/******************************************************************************/
+/* .modelWorkspace */
+/******************************************************************************/
+.modelWorkspace {
+	position: fixed;
+	top: 66px;
+	right: 0;
+	bottom: 0;
+	left: 200px;
+	background-color: rgba(230,230,0,0.3);
+}
+
