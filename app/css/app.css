@@ -88,6 +88,33 @@
 	right: 0;
 	bottom: 0;
 	left: 200px;
-	background-color: rgba(230,230,0,0.3);
+	background-color: rgba(230,230,0, 0.3);
 }
 
+/******************************************************************************/
+/* .modelProperties */
+/******************************************************************************/
+.modelProperties {
+	position: fixed;
+	top: 66px;
+	right: -180px;
+	bottom: 0;
+	width: 200px;
+	background-color: rgba(230,0,230, 0.3);
+	box-shadow: 0 0 5px rgba(0,0,0, 0.4);
+	transition: 0.3 ease-in-out right;
+}
+
+.modelProperties.active {right: 0;}
+
+.modelProperties:before {
+	content: " ";
+	display: block;
+	height: 25px;
+	width: 25px;
+	position: absolute;
+	top: 20px;
+	left: -25px;
+	border-radius: 3px 0 0 3px;
+	background-color: rgba(230,0,230, 0.3);
+}
