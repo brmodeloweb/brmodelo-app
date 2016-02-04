@@ -1,16 +1,14 @@
-
-<div ng-controller="conceptualController">
-
-  <section class="content-main cf" >
-
-    <section class="componentsModel" id="stencil-holder"> </section> <!-- End .left -->
-
-    <section class="visibleModel" id="content">
-        <div class="theModel" id="myholder"></div> <!-- End .middle -->
-  	</section> <!-- End .visibleModel -->
-
-    <section class="editionModel"> </section> <!-- End .rigth6 -->
-
-  </section> <!-- End .content -->
-
+<div data-ng-controller="conceptualController">
+	<section id="stencil-holder" class="componentsList">
+		<header class="vhide">
+			<h2>Models list</h2>
+		</header>
+		<!-- List of models used by the user -->
+	</section><!-- End .componentsList -->
+	<section id="content" class="modelWorkspace">
+		<!-- Here is the space used by the user to work -->
+	</section><!-- End .modelWorkspace -->
+	<aside class="modelProperties">
+		<!-- When an element is selected, it's properties are showed here. -->
+	</aside><!-- End .modelProperties -->
 </div>
