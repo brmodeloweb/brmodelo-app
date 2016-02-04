@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     var graph = new joint.dia.Graph;
     var paper = new joint.dia.Paper({
-      el: $('#myholder'),
+      el: $('#content'),
       width: $('#content').width(),
       height: $('#content').height(),
       gridSize: 1,
