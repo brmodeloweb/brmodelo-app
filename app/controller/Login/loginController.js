@@ -27,7 +27,7 @@ angular.module('myapp').controller('LoginController', function ($scope, $rootSco
 
       AuthService.login(credentials).then(function (user) {
 
-        $state.go('workspace');
+        $state.go('workspace.main');
 
       }, function (error) {
         console.log(error);

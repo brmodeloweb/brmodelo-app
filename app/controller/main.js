@@ -10,12 +10,22 @@ app.config(['$urlRouterProvider', '$stateProvider',
         });
         $stateProvider.state('workspace', {
             url:'/workspace',
-            templateUrl:'/view/main.html',
+            templateUrl:'/view/workspace.html',
             data: {requireLogin: true}
           });
+          $stateProvider.state('workspace.main', {
+              url:'/main',
+              templateUrl:'/view/workspace.html',
+              data: {requireLogin: true}
+            });
         $stateProvider.state('workspace.conceptual', {
             url:'/conceptual',
             templateUrl:'/view/conceptual.html',
+            data: {requireLogin: true}
+          });
+        $stateProvider.state('workspace.logic', {
+            url:'/logic',
+            templateUrl:'/view/logic.html',
             data: {requireLogin: true}
           });
         $urlRouterProvider.otherwise("/")
