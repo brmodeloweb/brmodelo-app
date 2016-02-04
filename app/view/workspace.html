@@ -1,18 +1,16 @@
-<header class="main-header" ng-controller="mainController">
-    <div class="decriptionLabel">
-      <img src="imgs/120_01.png" alt="Smiley face">
-    </div>
-    <nav>
-			<a ui-sref="workspace.main">Workspace</a>
-			<a ui-sref="workspace.conceptual">Conceitual</a>
-			<a ui-sref="workspace.logic">Lógico</a>
-		</nav>
-
-     <div class="actions cf">
-       <button type="button" class="button" tabindex="4" ng-click="logout()">Sair</button>
-     </div>
-</header>
-
-<main>
-  <div ui-view></div>
-</main>
+<header class="mainHeader" data-ng-controller="mainController">
+	<h1 class="logo">
+		<img src="imgs/120_01.png" alt="BRModelo Logo">
+	</h1><!-- End .logo -->
+	<nav class="mainNav">
+		<a data-ui-sref="workspace.main">Workspace</a>
+		<a data-ui-sref="workspace.conceptual">Conceitual</a>
+		<a data-ui-sref="workspace.logic">Lógico</a>
+	</nav><!-- End .mainNav -->
+	<aside class="userActions cf">
+		<button type="button" class="button" tabindex="4" ng-click="logout()">Sair</button>
+	</aside><!-- End .userActions -->
+</header><!-- End .mainHeader -->
+<div data-ui-view>
+	<!-- Inject models related page. -->
+</div>
