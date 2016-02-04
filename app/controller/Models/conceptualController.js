@@ -8,7 +8,8 @@ $(document).ready(function () {
       width: $('#content').width(),
       height: $('#content').height(),
       gridSize: 1,
-      model: graph
+      model: graph,
+      linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
     });
 
     paper.on('cell:pointerup', function(cellView) {
@@ -46,16 +47,53 @@ $(document).ready(function () {
    //  });
    //  $('#stencil-holder-loading').append(stencil.render().el);
 
-    var r = new joint.shapes.basic.Rect({
-        position: { x: 10, y: 10 }, size: { width: 50, height: 30 },
-        attrs: { rect: { fill: '#2ECC71' }, text: { text: 'rect', fill: 'black' } }
-    });
-    var c = new joint.shapes.basic.Circle({
-        position: { x: 70, y: 10 }, size: { width: 50, height: 30 },
-        attrs: { circle: { fill: '#9B59B6' }, text: { text: 'circle', fill: 'white' } }
+   var entity = new joint.shapes.erd.Entity({
+     position: { x: 10, y:10},
+     size: {width: 80, height: 40}
+   });
+
+   var attribute = new joint.shapes.erd.Normal({
+     position: { x: 100, y:10},
+     size: {width: 80, height: 40}
+   });
+
+   var isa = new joint.shapes.erd.ISA({
+     position: { x: 10, y:70},
+     size: {width: 80, height: 40}
+   });
+
+   var key = new joint.shapes.erd.Key({
+     position: { x: 100, y:70},
+     size: {width: 80, height: 40}
+   });
+
+    var relationship = new joint.shapes.erd.Relationship({
+      position: { x: 10, y:130},
+      size: {width: 80, height: 40}
     });
 
-   stencil.load([r, c]);
+   var multivalued = new joint.shapes.erd.Multivalued({
+     position: { x: 100, y:130},
+     size: {width: 80, height: 40}
+   });
+
+   var weakEntity = new joint.shapes.erd.WeakEntity({
+     position: { x: 10, y:190},
+     size: {width: 80, height: 40}
+   });
+
+   var devived = new joint.shapes.erd.Derived({
+     position: { x: 100, y:190},
+     size: {width: 80, height: 40}
+   });
+
+   var identifyingRelationship = new joint.shapes.erd.IdentifyingRelationship({
+     position: { x: 10, y:250},
+     size: {width: 80, height: 40}
+   });
+
+   stencil.load([entity, attribute, isa, key, relationship,
+      multivalued, devived, weakEntity, identifyingRelationship]);
 
     var erd = joint.shapes.erd;
 
