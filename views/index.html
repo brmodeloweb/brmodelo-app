@@ -1,63 +1,53 @@
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>brmodelo</title>
+<head>
+	<meta charset="utf-8">
+	<title>brmodelo</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="sweetfeedback/sweetfeedback.css">
+	<!-- CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="sweetfeedback/sweetfeedback.css" />
+	<link rel="stylesheet" href="joint/joint.css" />
+	<link rel="stylesheet" href="joint/joint.ui.halo.css" />
+	<link rel="stylesheet" href="joint/joint.ui.stencil.css" />
 
-    <link rel="stylesheet" href="joint/joint.css">
-    <link rel="stylesheet" href="joint/joint.ui.halo.css">
-    <link rel="stylesheet" href="joint/joint.ui.stencil.css">
+	<!-- BRModelo Styles -->
+	<link rel="stylesheet" href="css/main.css" />
 
-    <!-- <link rel="stylesheet" href="joint/joint.ui.stencil.css"> -->
+	<!-- Scripts -->
+	<script src="joint/jquery.min.js"></script>
+	<script src="joint/lodash.min.js"></script>
+	<script src="joint/backbone-min.js"></script>
+	<script src="joint/joint.js"></script>
+	<script src="joint/joint.ui.stencil.js"></script>
+	<script src="joint/joint.ui.halo.js"></script>
+	<script src="joint/joint.shapes.erd.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.0/bootstrap.min.js"></script>
 
-    <!-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+	<script src="libs/angular.min.js"></script>
+	<script src="libs/angular-ui-router.min.js"></script>
+	<script src="libs/angular-cookies.min.js"></script>
+	<script src="libs/angular-modal-service.min.js"></script>
 
-    <script src="joint/jquery.min.js"></script>
+	<script src="libs/ui-bootstrap.js"></script>
+	<script src="libs/ui-bootstrap-tpls.min.js"></script>
 
-    <!-- <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+	<script src="controller/main.js"></script>
+	<script src="controller/mainController.js"></script>
+	<script src="controller/Models/conceptualController.js"></script>
+	<script src="controller/login/authService.js"></script>
+	<script src="controller/login/loginController.js"></script>
+	<script src="controller/Register/registerController.js"></script>
+	<script src="controller/login/session.js"></script>
 
-    <script src="joint/lodash.min.js"></script>
-    <script src="joint/backbone-min.js"></script>
-    <script src="joint/joint.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.0/bootstrap.min.js"></script>
-
-    <script src="joint/joint.ui.stencil.js"> </script>
-    <script src="joint/joint.ui.halo.js"> </script>
-    <!-- <script src="joint/rappid.js"> </script> -->
-    <script src="joint/joint.shapes.erd.js"> </script>
-
-    <script src="libs/angular.min.js"> </script>
-    <script src="libs/angular-ui-router.min.js"> </script>
-    <script src="libs/angular-cookies.min.js"> </script>
-
-    <script src="libs/ui-bootstrap.js"> </script>
-    <script src="libs/ui-bootstrap-tpls.min.js"> </script>
-    <script src="libs/angular-modal-service.min.js"></script>
-
-    <script src="controller/main.js"> </script>
-    <script src="controller/mainController.js"> </script>
-    <script src="controller/Models/conceptualController.js"> </script>
-    <script src="controller/login/authService.js"> </script>
-    <script src="controller/login/loginController.js"> </script>
-    <script src="controller/Register/registerController.js"> </script>
-    <script src="controller/login/session.js"> </script>
-
-    <script>
-        angular.element(document).ready(function () {
-            var $injector = angular.bootstrap(document, ['myapp']);
-        });
-    </script>
-
-    <!--  <script src="script.js"></script> -->
-  </head>
-  <body>
-    <!-- page content -->
-    <div ui-view></div>
-  </body>
+	<script>
+		angular.element(document).ready(function () {
+			var $injector = angular.bootstrap(document, ['myapp']);
+		});
+	</script>
+</head>
+<body>
+	<main data-ui-view>
+		<!-- Page content goes ehre -->
+	</main>
+</body>
 </html>
