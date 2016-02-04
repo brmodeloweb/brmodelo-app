@@ -1,6 +1,6 @@
-/***********************************************************/
+/******************************************************************************/
 /* Hide Stuff */
-/***********************************************************/
+/******************************************************************************/
 .hide {display: none!important;}
 
 .vhide {
@@ -13,3 +13,48 @@
 	overflow: hidden !important;
 	clip: rect(0 0 0 0) !important;
 }
+
+/******************************************************************************/
+/* .mainHeader */
+/******************************************************************************/
+.mainHeader {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	border-bottom: 1px solid rgba(0,0,0, 0.3);
+	background-color: rgba(255,255,255, 1);
+	box-shadow: 0 0 5px rgba(0,0,0, 0.4);
+}
+
+.mainHeader .logo {
+	float: left;
+	margin: 0 25px;
+}
+
+.mainHeader .mainNav {
+	float: left;
+	position: relative;
+	top: 23px;
+}
+
+/***************************************************************/
+/* .mainNav */
+/***************************************************************/
+.mainNav a {display: inline-block;}
+
+.mainNav a:not(:last-child) {
+	padding-right: 10px;
+	border-right: 1px solid rgba(0,0,0, 1);
+	margin-right: 10px;
+}
+
+/***************************************************************/
+/* .userActions */
+/***************************************************************/
+.userActions {
+	position: absolute;
+	top: 20px;
+	right: 25px;
+}
+
