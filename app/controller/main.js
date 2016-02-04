@@ -15,7 +15,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
           });
           $stateProvider.state('workspace.main', {
               url:'/main',
-              templateUrl:'/view/workspace.html',
+              templateUrl:'/view/main.html',
               data: {requireLogin: true}
             });
         $stateProvider.state('workspace.conceptual', {
