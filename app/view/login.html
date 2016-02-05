@@ -54,19 +54,28 @@
 
 </main><!-- End .userLogin -->
 
+<!-- <section class="feedback">
+	<div class="message error sr" ng-class="{'hide': !config.useralreadyexist}">
+		<p>Usuário já cadastrado ;(</p>
+	</div>
+</section> -->
+
+<!-- <div class="modalFeedback"> Usuário já cadastrado ;( </div> -->
+
 <script type="text/ng-template" id="register.html">
 
 	<div class="modal-header">
 		<h3 class="modal-title">Register</h3>
-	</div>
-	<div class="modal-body">
 
-		<section class="feedback">
+		<section class="modalFeedback">
 			<div class="message error sr" ng-class="{'hide': !config.useralreadyexist}">
 				<p>Usuário já cadastrado ;(</p>
 			</div>
 		</section>
-		<!-- End #feedback -->
+
+	</div>
+
+	<div class="modal-body">
 
 		<form class="form-horizontal" role="form">
 			<div class="form-group">

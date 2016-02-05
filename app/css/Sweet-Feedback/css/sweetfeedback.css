@@ -62,6 +62,23 @@ SweetFeedback in your project*/
 				-moz-linear-gradient(top, #fbbfbf 0%, #e8b0b0 100%);
 }
 
+.modalFeedback .message.error {
+	border-color: #fc5858;
+	background: #F0B7B7;
+	background: url(iconError.png) 12px center no-repeat,
+				url(noiseStripes.png),
+				url(noise.png),
+				-ms-linear-gradient(top, #fbbfbf 0%, #e8b0b0 100%);
+	background: url(iconError.png) 12px center no-repeat,
+				url(noiseStripes.png),
+				url(noise.png),
+				-webkit-linear-gradient(top, #fbbfbf 0%, #e8b0b0 100%);
+	background: url(iconError.png) 12px center no-repeat,
+				url(noiseStripes.png),
+				url(noise.png),
+				-moz-linear-gradient(top, #fbbfbf 0%, #e8b0b0 100%);
+}
+
 .feedback .message.success {
 	border-color: #09c600;
 	background: #95e391;
