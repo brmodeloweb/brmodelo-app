@@ -8,7 +8,8 @@
 	<section id="content" class="modelWorkspace">
 		<!-- Here is the space used by the user to work -->
 	</section><!-- End .modelWorkspace -->
-	<aside class="modelProperties">
+	<aside class="modelProperties" ng-class="{'active': editionVisible}">
+		<p class="action" ng-click="changeVisible()" > << </p>
 		<!-- When an element is selected, it's properties are showed here. -->
 	</aside><!-- End .modelProperties -->
 </div><!-- End .conceptual -->

@@ -1,5 +1,11 @@
 angular.module('myapp').controller("conceptualController", ['$scope', '$http', function($scope, $http) {
 
+	$scope.editionVisible = false;
+
+	$scope.changeVisible = function(){
+		$scope.editionVisible = !$scope.editionVisible;
+	}
+
 	$(document).ready(function() {
 
 		var graph = new joint.dia.Graph;
@@ -12,7 +18,7 @@ angular.module('myapp').controller("conceptualController", ['$scope', '$http', f
 			linkPinning: false,
 			markAvailable: true,
 			restrictTranslate: true,
-			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
+			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
 		});
 
 		paper.on('cell:pointerup', function(cellView) {
@@ -162,47 +168,11 @@ angular.module('myapp').controller("conceptualController", ['$scope', '$http', f
 
 		//    var employee = element(erd.Entity, 100, 200, "Employee");
 
-
-
 	});
 
-	$scope.addTask = function(taskText) {
-		//  $scope.tasks.push({text:taskList.taskText, done:false});
-		//  taskList.taskText = '';
-		// Simple POST request example (passing data) :
-		$http.post('/addTask', {
-			msg: taskText
-		}).
-		then(function(response) {
-			// this callback will be called asynchronously
-			// when the response is available
-			$scope.tasks.push({
-				text: taskText,
-				done: false
-			});
-		}, function(response) {
-			console.log(response);
-			// called asynchronously if an error occurs
-			// or server returns response with an error status.
-		});
-	};
-
-	$scope.remaining = function() {
-		var count = 0;
-		angular.forEach($scope.tasks, function(task) {
-			count += task.done ? 0 : 1;
-		});
-		return count;
-	};
-
-	$scope.archive = function() {
-		var oldtasks = taskList.tasks;
-		taskList.tasks = [];
-		angular.forEach(oldtasks, function(task) {
-			if (!task.done) taskList.tasks.push(task);
-		});
-	};
 }]);
+
+
 
 
 app.$inject = ['$scope', '$http', '$cookies'];

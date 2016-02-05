@@ -111,8 +111,7 @@
 
 .modelProperties.active {right: 0;}
 
-.modelProperties:before {
-	content: " ";
+.modelProperties .action {
 	display: block;
 	height: 25px;
 	width: 25px;
@@ -121,6 +120,7 @@
 	left: -25px;
 	border-radius: 3px 0 0 3px;
 	background-color: rgba(230,0,230, 0.3);
+	cursor: pointer;
 }
 
 /******************************************************************************/
