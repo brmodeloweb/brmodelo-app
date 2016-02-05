@@ -3,12 +3,14 @@
 /*You can remove it when use
 SweetFeedback in your project*/
 /****************************************/
-body {background: url(noise.png) repeat #d6d6d6;}
+/*body {background: url(noise.png) repeat #d6d6d6;}*/
 
 /****************************************/
 /* Feedbacks */
 /****************************************/
-.feedback {overflow-x: hidden;}
+.feedback {
+	overflow-x: hidden;
+}
 
 .feedback .message {
 	font-family: 'Lato', sans-serif;

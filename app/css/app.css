@@ -152,7 +152,7 @@
 /******************************************************************************/
 .loginPanel{
   margin: auto;
-  margin-top: 110px;
+  margin-top: 50px;
   width: 500px;
 }
 
@@ -190,10 +190,15 @@
 /* .modal */
 /******************************************************************************/
 .feedback{
-  min-height: 55px;
+  min-height: 70px;
 }
 
-.feedback .message{
+.feedback .message {
   width: 400px!important;
   margin: auto;
+	margin-top: 20px;
+}
+
+.loginFeebackds{
+	margin-top: 20px!important;
 }
