@@ -1,98 +1,103 @@
-<header class="login-header" ng-controller="LoginController">
-    <div class="decriptionLabel">
-      <img src="imgs/120_01.png" alt="Smiley face">
-    </div>
-     <div class="actions cf">
-       <button type="button" class="button" tabindex="4" ng-click="register()">Register</button>
-     </div>
+<header class="loginHeader" ng-controller="LoginController">
+	<h1 class="logo">
+		<strong class="vhide">BR Modelo</strong>
+		<img src="imgs/120_01.png" alt="BRModelo Logo">
+	</h1>
+	<!-- End .logo -->
+	<aside class="userActions cf">
+		<button type="button" class="button" tabindex="4" ng-click="register()">Register</button>
+	</aside>
+	<!-- End .userActions -->
 </header>
 
 
-<main ng-controller="LoginController">
+<main ng-controller="LoginController" class="userLogin">
 
-  <section class="feedback">
-    <div class="message error sr" ng-class="{'hide': !config.usernotfound}">
-      <p>Login ou senha incorretos ;(</p>
-    </div>
-  </section><!-- End #feedback -->
+	<section class="feedback">
+		<div class="message error sr" ng-class="{'hide': !config.usernotfound}">
+			<p>Login ou senha incorretos ;(</p>
+		</div>
+	</section>
+	<!-- End #feedback -->
 
-  <div class="panel panel-default loginPanel">
-    <div class="panel-body">
+	<div class="panel panel-default loginPanel">
+		<div class="panel-body">
 
-      <section class="box login cf">
+			<section class="box login cf">
 
-          <form class="form-horizontal">
+				<form class="form-horizontal">
 
-             <div class="form-group">
-                <!-- <label for="email" class="col-sm-2 control-label">Email:</label> -->
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" placeholder="Username" ng-model="credentials.username" ng-class="{'error': config.submitted && !config.validmail}" >
-                </div>
-              </div>
+					<div class="form-group">
+						<!-- <label for="email" class="col-sm-2 control-label">Email:</label> -->
+						<div class="col-sm-12">
+							<input type="text" class="form-control" placeholder="Username" ng-model="credentials.username" ng-class="{'error': config.submitted && !config.validmail}">
+						</div>
+					</div>
 
-             <div class="form-group">
-                <!-- <label for="inputPassword" class="col-sm-2 control-label">Password:</label> -->
-                <div class="col-sm-12">
-                  <input type="password" class="form-control" placeholder="Password" ng-model="credentials.password" ng-class="{'error': config.submitted && !config.validpassword}">
-                </div>
-             </div>
+					<div class="form-group">
+						<!-- <label for="inputPassword" class="col-sm-2 control-label">Password:</label> -->
+						<div class="col-sm-12">
+							<input type="password" class="form-control" placeholder="Password" ng-model="credentials.password" ng-class="{'error': config.submitted && !config.validpassword}">
+						</div>
+					</div>
 
-             <div class="actions cf">
-               <button type="button" class="button" tabindex="3" ng-click="login(credentials)">Login</button>
-             </div>
-            <!-- End .actions -->
-          </form>
-      </section>
-        <!-- End .box.login -->
+					<div class="actions cf">
+						<button type="button" class="button" tabindex="3" ng-click="login(credentials)">Login</button>
+					</div>
+					<!-- End .actions -->
+				</form>
+			</section>
+			<!-- End .box.login -->
 
-      </div>
-    </div>
+		</div>
+	</div>
 
-</main>
+</main><!-- End .userLogin -->
 
 <script type="text/ng-template" id="register.html">
 
-    <div class="modal-header">
-        <h3 class="modal-title">Register</h3>
-    </div>
-    <div class="modal-body">
+	<div class="modal-header">
+		<h3 class="modal-title">Register</h3>
+	</div>
+	<div class="modal-body">
 
-    <section class="feedback">
-      <div class="message error sr" ng-class="{'hide': !config.useralreadyexist}">
-        <p>Usuário já cadastrado ;(</p>
-      </div>
-    </section><!-- End #feedback -->
+		<section class="feedback">
+			<div class="message error sr" ng-class="{'hide': !config.useralreadyexist}">
+				<p>Usuário já cadastrado ;(</p>
+			</div>
+		</section>
+		<!-- End #feedback -->
 
-    <form class="form-horizontal" role="form">
-    		  <div class="form-group">
-    		    <label for="name" class="col-sm-3 control-label">Name</label>
-    		    <div class="col-sm-8">
-    		      <input type="text" class="form-control" ng-class="{'error': config.submitted && !config.validname}" id="name" placeholder="Your Name" ng-model="credentials.username">
-    		    </div>
-    		  </div>
-    		  <div class="form-group">
-    		    <label for="mail" class="col-sm-3 control-label">Email</label>
-    		    <div class="col-sm-8">
-    		      <input type="text" class="form-control" id="mail" placeholder="Your email" ng-model="credentials.email" ng-class="{'error': config.submitted && !config.validmail}">
-    		    </div>
-    		  </div>
-          <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">Password</label>
-            <div class="col-sm-8">
-              <input type="password" class="form-control" id="password" placeholder="Your Password" ng-model="credentials.password" ng-class="{'error': config.submitted && !config.validpassword}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="re-password" class="col-sm-3 control-label">RE-Password</label>
-            <div class="col-sm-8">
-              <input type="password" class="form-control" id="re-password" placeholder="Confirm Password" ng-model="repassword" ng-class="{'error': config.submitted && !config.validpassword}">
-            </div>
-          </div>
-    		</form>
-    </div>
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="name" class="col-sm-3 control-label">Name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-class="{'error': config.submitted && !config.validname}" id="name" placeholder="Your Name" ng-model="credentials.username">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="mail" class="col-sm-3 control-label">Email</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="mail" placeholder="Your email" ng-model="credentials.email" ng-class="{'error': config.submitted && !config.validmail}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="password" class="col-sm-3 control-label">Password</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" id="password" placeholder="Your Password" ng-model="credentials.password" ng-class="{'error': config.submitted && !config.validpassword}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="re-password" class="col-sm-3 control-label">RE-Password</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" id="re-password" placeholder="Confirm Password" ng-model="repassword" ng-class="{'error': config.submitted && !config.validpassword}">
+				</div>
+			</div>
+		</form>
+	</div>
 
-    <div class="modal-footer">
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        <button class="btn btn-primary" type="button" ng-click="register(credentials, repassword)">Register</button>
-    </div>
+	<div class="modal-footer">
+		<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+		<button class="btn btn-primary" type="button" ng-click="register(credentials, repassword)">Register</button>
+	</div>
 </script>

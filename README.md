@@ -2,7 +2,7 @@
 
 1) Git clone https://github.com/miltonbsn/brmodelo.git  
 
-2) npm intall  
+2) npm install  
 
 * Install gulp: sudo npm install -g gulp
 * brew install mongodb
