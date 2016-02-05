@@ -9,6 +9,9 @@ angular.module('myapp').controller("conceptualController", ['$scope', '$http', f
 			height: $('#content').height(),
 			gridSize: 1,
 			model: graph,
+			linkPinning: false,
+			markAvailable: true,
+			restrictTranslate: true,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
 		});
 
