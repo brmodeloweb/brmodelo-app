@@ -30,12 +30,17 @@ angular.module('myapp').controller("conceptualController", ['$scope', '$http', f
 			// halo.render();
 			// var freetransform = new joint.ui.FreeTransform({ cellView: cellView, allowRotation: false });
 			var halo = new joint.ui.Halo({
-				cellView: cellView
+				cellView: cellView,
+				boxContent: false
 			});
-			halo.removeHandle('resize');
-			halo.changeHandle('clone', {
-				position: 'se'
-			});
+				halo.removeHandle('resize');
+				halo.removeHandle('clone');
+				halo.removeHandle('fork');
+				halo.removeHandle('rotate');
+				// halo.removeHandle('remove');
+		//	halo.changeHandle('clone', {
+		//		position: 'se'
+		//	});
 			halo.render();
 		});
 
