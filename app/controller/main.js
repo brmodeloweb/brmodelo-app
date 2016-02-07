@@ -42,14 +42,14 @@ app.config(['$urlRouterProvider', '$stateProvider',
 				requireLogin: true
 			}
 		});
-    
+
 		$urlRouterProvider.otherwise("/")
 	}
 
 ]);
 
 
-app.run(function($rootScope, $state, $cookies, AuthService) {
+app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
 		var requireLogin = toState.data.requireLogin;
 		if (requireLogin) {
