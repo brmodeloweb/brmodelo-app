@@ -11,8 +11,8 @@ gulp.task('copy', function() {
     'node_modules/angular-cookies/angular-cookies.min.js'
   ]).pipe(gulp.dest('build/libs/'));
 
-    gulp.src(['node_modules/bootstrap/dist/css/bootstrap.min.css'
-  ]).pipe(gulp.dest('build/css/'));
+    gulp.src(['node_modules/bootstrap/dist/**/*'
+  ]).pipe(gulp.dest('build/css/bootstrap'));
 
     gulp.src(['app/css/Sweet-Feedback/css/sweetfeedback.css',
     'app/css/Sweet-Feedback/images/iconError.png',

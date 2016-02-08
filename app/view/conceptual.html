@@ -9,7 +9,9 @@
 		<!-- Here is the space used by the user to work -->
 	</section><!-- End .modelWorkspace -->
 	<aside class="modelProperties" ng-class="{'active': editionVisible}">
-		<p class="action" ng-click="changeVisible()" > << </p>
+		<button class="action" ng-click="changeVisible()">
+			<span class="glyphicon " ng-class="!editionVisible ? 'glyphicon-menu-left' : 'glyphicon-menu-right'" aria-hidden="true" > </span>
+		</button>
 		<!-- When an element is selected, it's properties are showed here. -->
 	</aside><!-- End .modelProperties -->
 </div><!-- End .conceptual -->
