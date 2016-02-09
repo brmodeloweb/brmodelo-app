@@ -41,7 +41,9 @@ angular.module('myapp').factory('AuthService', function ($http, $cookies) {
   };
 
   authService.isAuthenticated = function () {
-    return !!$cookies.get('userId');
+    var userId = $cookies.get('userId');
+    authService.loggeduser = userId;
+    return !!userId;
   };
 
   return authService;

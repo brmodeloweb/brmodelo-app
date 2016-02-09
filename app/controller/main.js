@@ -54,7 +54,7 @@ app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 		var requireLogin = toState.data.requireLogin;
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
-				$rootScope.currentUser = $cookies.getObject('user');
+				$rootScope.loggeduser = AuthService.loggeduser;
 			} else {
 				event.preventDefault();
 				$state.go('login');

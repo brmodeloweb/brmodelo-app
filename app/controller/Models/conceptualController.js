@@ -1,4 +1,4 @@
-angular.module('myapp').controller("conceptualController", function($scope, $http, ConceptualFactory, ModelAPI) {
+angular.module('myapp').controller("conceptualController", function($scope, $http, $rootScope, ConceptualFactory, ModelAPI) {
 
 	$scope.editionVisible = false;
 
@@ -8,12 +8,11 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 
 	$scope.saveModel = function()  {
 
-		console.log("Saving");
-
 		var model = {
 			name: 'mymodel',
 			type: 'conceptual',
-			model: JSON.stringify($scope.graph)
+			model: JSON.stringify($scope.graph),
+			user: $rootScope.loggeduser
 		}
 
 		ModelAPI.saveModel(model).then(function(res){

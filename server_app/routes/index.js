@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var UserSchema = mongoose.model('User');
+var ModelSchema = mongoose.model('Model');
 
 module.exports = exports = function(app, helper) {
     // A route for the home page
@@ -74,8 +75,21 @@ module.exports = exports = function(app, helper) {
 
 
     app.post('/saveModel', function(req, res){
-      console.log(req.body );
-      res.sendStatus(200);
+      var _name = req.body.name;
+      var _type = req.body.type;
+      var _model = req.body.model;
+      var _user = req.body.user;
+
+      var Model = mongoose.model('Model', ModelSchema);
+      var model = new Model({who: _user , type: _type , model: _model, name: _name});
+
+      Model.create(model, function (err, newModel) {
+        if (err) {
+          console.log(err);
+        } else{
+          res.sendStatus(200, "Deu boa esse save");
+        }
+      });
     });
 
 
