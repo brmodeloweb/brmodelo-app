@@ -239,3 +239,17 @@
 .loginFeebackds{
 	margin-top: 20px!important;
 }
+
+/******************************************************************************/
+/* .modelActions */
+/******************************************************************************/
+.modelActions {
+	position: fixed;
+	top: 75px;
+	left: 210px;
+	width: 250px;
+	height: 35px;
+	background-color: rgba(0,153,51, 0.3);
+	box-shadow: 0 0 5px rgba(0,0,0, 0.4);
+	transition: 0.3 ease-in-out right;
+}

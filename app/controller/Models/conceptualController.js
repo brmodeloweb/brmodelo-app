@@ -1,4 +1,4 @@
-angular.module('myapp').controller("conceptualController", function($scope, $http, ConceptualFactory) {
+angular.module('myapp').controller("conceptualController", function($scope, $http, ConceptualFactory, ModelAPI) {
 
 	$scope.editionVisible = false;
 
@@ -6,13 +6,29 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 		$scope.editionVisible = !$scope.editionVisible;
 	}
 
-	var graph = new joint.dia.Graph;
+	$scope.saveModel = function()  {
+
+		console.log("Saving");
+
+		var model = {
+			name: 'mymodel',
+			type: 'conceptual',
+			model: JSON.stringify($scope.graph)
+		}
+
+		ModelAPI.saveModel(model).then(function(res){
+			console.log(res);
+		});
+
+	}
+
+	$scope.graph = new joint.dia.Graph;
 	var paper = new joint.dia.Paper({
 		el: $('#content'),
 		width: $('#content').width(),
 		height: $('#content').height(),
 		gridSize: 1,
-		model: graph,
+		model: $scope.graph,
 		linkPinning: false,
 		markAvailable: true,
 		restrictTranslate: true,
@@ -33,7 +49,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 	});
 
 	var stencil = new joint.ui.Stencil({
-		graph: graph,
+		graph: $scope.graph,
 		paper: paper
 	});
 	$('#stencil-holder').append(stencil.render().el);

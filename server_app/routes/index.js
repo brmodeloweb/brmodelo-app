@@ -73,8 +73,8 @@ module.exports = exports = function(app, helper) {
     });
 
 
-    app.post('/addTask', function(req, res){
-      console.log(req.body.msg);
+    app.post('/saveModel', function(req, res){
+      console.log(req.body );
       res.sendStatus(200);
     });
 
