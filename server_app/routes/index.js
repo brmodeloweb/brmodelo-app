@@ -43,52 +43,69 @@ module.exports = exports = function(app, helper) {
 
     });
 
-    app.post('/createUser', function(req, res){
-      console.log(req.body);
+app.post('/createUser', function(req, res) {
+	console.log(req.body);
 
-      var _name = req.body.username;
-      var _email = req.body.email;
-      var _pass = req.body.password;
+	var _name = req.body.username;
+	var _email = req.body.email;
+	var _pass = req.body.password;
 
-      _pass =  helper.Crypto(_pass, _email);
+	_pass = helper.Crypto(_pass, _email);
 
-      var User = mongoose.model('User', UserSchema);
-      var user = new User({login: _email, name: _name, password:_pass});
+	var User = mongoose.model('User', UserSchema);
+	var user = new User({
+		login: _email,
+		name: _name,
+		password: _pass
+	});
 
-      User.findOne({ 'login': _email }, function (err, doc) {
-          if(doc == null) {
-              User.create(user, function (err, newUser) {
-                if (err) {
-                  console.log(err);
-                } else{
+	User.findOne({
+		'login': _email
+	}, function(err, doc) {
+		if (doc == null) {
+			User.create(user, function(err, newUser) {
+				if (err) {
+					console.log(err);
+				} else {
 
-                }
-                res.sendStatus(200, "Deu boa esse registro");
-              });
-          } else {
-            // implement user already exist
-            res.sendStatus(409);
-          }
-      });
+				}
+				res.sendStatus(200, "Deu boa esse registro");
+			});
+		} else {
+			// implement user already exist
+			res.sendStatus(409);
+		}
+	});
+});
 
-    });
 
+  app.post('/saveModel', function(req, res) {
+  	var _name = req.body.name;
+  	var _type = req.body.type;
+  	var _model = req.body.model;
+  	var _user = req.body.user;
 
-    app.post('/saveModel', function(req, res){
-      var _name = req.body.name;
-      var _type = req.body.type;
-      var _model = req.body.model;
-      var _user = req.body.user;
+  	var Model = mongoose.model('Model', ModelSchema);
+  	var model = new Model({
+  		who: _user,
+  		type: _type,
+  		model: _model,
+  		name: _name
+  	});
 
+  	Model.create(model, function(err, newModel) {
+  		if (err) {
+  			console.log(err);
+  		} else {
+  			res.sendStatus(200, "Deu boa esse save");
+  		}
+  	});
+  });
+
+    app.get('/getAllModels', function(req, res) {
       var Model = mongoose.model('Model', ModelSchema);
-      var model = new Model({who: _user , type: _type , model: _model, name: _name});
-
-      Model.create(model, function (err, newModel) {
-        if (err) {
-          console.log(err);
-        } else{
-          res.sendStatus(200, "Deu boa esse save");
-        }
+      Model.find({},  function(err, models){
+        res.send(models);
       });
     });
 

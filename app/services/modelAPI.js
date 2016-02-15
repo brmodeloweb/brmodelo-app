@@ -8,8 +8,18 @@ angular.module('myapp').factory('ModelAPI', function($http){
 			});
 	}
 
+	_getAllModels = function(){
+		return $http
+			.get('/getAllModels')
+			.then(function(res){
+			//	console.log(res);
+				return res;
+			});
+	}
+
 	return {
-		saveModel : _saveModel
+		saveModel : _saveModel,
+		getAllModels : _getAllModels
 	}
 
 });
