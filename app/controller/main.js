@@ -28,7 +28,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 		});
 
 		$stateProvider.state('workspace.conceptual', {
-			url: '/conceptual',
+			url: '/conceptual/{modelid}',
 			templateUrl: '/view/conceptual.html',
 			data: {
 				requireLogin: true
