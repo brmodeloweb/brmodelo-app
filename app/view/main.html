@@ -1,6 +1,25 @@
 <!-- To do -->
 <section ng-controller="listController">
-	<ul>
-		<li ng-repeat="model in models"> {{model.name}} </li>
-	</ul>
+
+	<div class="mainTable">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Título</th>
+					<th>Tipo</th>
+					<th>Autor</th>
+					<th>Data</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="model in models">
+					<td>{{model.name}}</td>
+					<td>{{model.type}}</td>
+					<td>{{model.who}}</td>
+					<td>{{model.created}}</td>
+				</tr>
+		</tbody>
+		</table>
+	</div>
+
 </section>
