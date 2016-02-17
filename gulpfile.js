@@ -6,6 +6,7 @@ gulp.task('compileStyles', function() {
 	gulp.src('app/sass/**/*.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(gulp.dest('./app/css/'));
+	gulp.watch('app/sass/**/*.scss',['compileStyles']);
 });//End task compileStyles
 
 gulp.task('copy', function() {
