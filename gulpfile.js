@@ -21,7 +21,7 @@ gulp.task('copy', function() {
 
 	gulp.src([
 		'node_modules/bootstrap/dist/**/*'
-	]).pipe(gulp.dest('build/css/bootstrap'));
+	]).pipe(gulp.dest('build/bootstrap'));
 
 	gulp.src([
 		'app/css/Sweet-Feedback/css/sweetfeedback.css',
