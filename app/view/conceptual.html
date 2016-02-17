@@ -13,12 +13,14 @@
 		<!-- Here is the space used by the user to work -->
 	</section><!-- End .modelWorkspace -->
 	<aside class="modelProperties" ng-class="{'active': editionVisible}">
-		<button class="action" ng-click="changeVisible()">
-			<span class="glyphicon " ng-class="!editionVisible ? 'glyphicon-menu-left' : 'glyphicon-menu-right'" aria-hidden="true" > </span>
-		</button>
+		<!-- <button class="action" > -->
+			<span class="action" ng-click="changeVisible()"  aria-hidden="true" >
+				<i class="fa fa-5px" ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+			</span>
+		<!-- </button> -->
 
-		<label> name </label>
-		<input type="text" ng-model="selectedElement.value"  ng-blur="applyChanges()"> </input>
+		<label> Nome </label>
+		<input class="form-control input_modelProperties" type="text" ng-model="selectedElement.value"  ng-blur="applyChanges()"> </input>
 		<!-- When an element is selected, it's properties are showed here. -->
 	</aside><!-- End .modelProperties -->
 </div><!-- End .conceptual -->
