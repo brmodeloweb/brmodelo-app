@@ -1,5 +1,12 @@
 var gulp = require('gulp');
+var sass = require('gulp-sass');
 var server = require('gulp-express');
+
+gulp.task('compileStyles', function() {
+	gulp.src('app/sass/**/*.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest('./app/css/'));
+});//End task compileStyles
 
 gulp.task('copy', function() {
 	gulp.src([
@@ -28,6 +35,6 @@ gulp.task('copy', function() {
 
 gulp.task('server', function () {
 	server.run(['server.js']);
-}); //End task server
+});//End task server
 
-gulp.task('default', ['copy','server']);
+gulp.task('default', ['compileStyles','copy','server']);
