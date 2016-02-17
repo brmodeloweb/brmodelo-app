@@ -29,6 +29,7 @@
     "validator": "~1.1.3"
   },
   "devDependencies": {
+    "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
     "gulp-sass": "^2.2.0"
   }
