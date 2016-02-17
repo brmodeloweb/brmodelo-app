@@ -1,15 +1,17 @@
-### Welcome to the brmodelo wiki!
+#BRModelo
 
-1) Git clone https://github.com/miltonbsn/brmodelo.git  
+## What you need installed to run this project:
+* [NodeJS](http://nodejs.org)
+* [Gulp](http://gulpjs.com)
+* [Mongo DB](https://www.mongodb.org)
 
-2) npm install  
+## Setting up development envoirment:
+After clone the repo to your local machine, in project's folder using `terminal.app`:
 
-* Install gulp: sudo npm install -g gulp
-* brew install mongodb
-* mkdir -p /data/db  
+1. Install project dependencies running: `npm install`;
+2. Create **MongoDB** database directory `mkdir -p /data/db`;
 
-3) mongod  
-
-4) gulp  
-
-localhost:3000
+## Running local envoirment:
+1. Start **MongoDB**: `mongod`;
+2. Start local server: `gulp`;
+3. Access: [localhost:3000](http://localhost:3000);
