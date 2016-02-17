@@ -23,15 +23,6 @@ gulp.task('copy', function() {
 		'node_modules/bootstrap/dist/**/*'
 	]).pipe(gulp.dest('build/bootstrap'));
 
-	gulp.src([
-		'app/css/Sweet-Feedback/css/sweetfeedback.css',
-		'app/css/Sweet-Feedback/images/iconError.png',
-		'app/css/Sweet-Feedback/images/iconInfo.png',
-		'app/css/Sweet-Feedback/images/iconSuccess.png',
-		'app/css/Sweet-Feedback/images/iconWarning.png',
-		'app/css/Sweet-Feedback/images/noise.png',
-		'app/css/Sweet-Feedback/images/noiseStripes.png',
-	]).pipe(gulp.dest('build/sweetfeedback/'));
 });//End task copy
 
 gulp.task('server', function () {
