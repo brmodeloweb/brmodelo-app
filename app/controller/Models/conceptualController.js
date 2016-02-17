@@ -1,4 +1,6 @@
-angular.module('myapp').controller("conceptualController", function($scope, $http, $rootScope, ConceptualFactory, ModelAPI) {
+angular.module('myapp').controller("conceptualController", function($scope, $http, $rootScope, $stateParams, ConceptualFactory, ModelAPI) {
+
+	console.log($stateParams);
 
 	$scope.editionVisible = false;
 

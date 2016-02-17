@@ -7,4 +7,8 @@ app.controller('mainController', function ($scope, $state, AuthService) {
     $state.go('login');
   };
 
+  $scope.newModel = function () {
+    $state.go('workspace.conceptual', {'modelid': 0});
+  };
+
 });
