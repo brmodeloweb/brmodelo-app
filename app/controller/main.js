@@ -51,6 +51,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 
 app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+		console.log("Teste");
 		var requireLogin = toState.data.requireLogin;
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {

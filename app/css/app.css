@@ -124,11 +124,16 @@
 }
 
 .angle-double-icon {
-	font-size: 20px;
-	color: rgba(105,129,185, 0.6);
+	font-size: 21px;
+	color: rgba(105,129,185, 0.7);
 	margin-left: 5px;
 	margin-top: 1px;
 	font-weight: bold;
+}
+
+.label-modelProperties {
+	margin-left: 10px;
+	margin-top: 10px;
 }
 
 .input_modelProperties {
@@ -282,4 +287,3 @@
 	float: right;
 	padding: 6px;
 }
-
