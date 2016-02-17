@@ -3,7 +3,7 @@ var sass = require('gulp-sass');
 var server = require('gulp-express');
 
 gulp.task('compileStyles', function() {
-	gulp.src('app/sass/app.scss')
+	gulp.src('app/sass/*.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(gulp.dest('./app/css/'));
 	gulp.watch('app/sass/**/*.scss',['compileStyles']);
