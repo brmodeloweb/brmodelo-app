@@ -123,6 +123,14 @@
 	cursor: pointer;
 }
 
+.angle-double-icon {
+	font-size: 20px;
+	color: rgba(105,129,185, 0.6);
+	margin-left: 5px;
+	margin-top: 1px;
+	font-weight: bold;
+}
+
 .input_modelProperties {
 	width: 180px;
 	margin: auto;
