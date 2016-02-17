@@ -15,7 +15,7 @@ gulp.task('copy', function() {
 		'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js',
 		'node_modules/angular-modal-service/dst/angular-modal-service.min.js',
 		'node_modules/angular/angular.min.js',
-		'node_modules/angular-ui-router/build/angular-ui-router.min.js',
+		'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 		'node_modules/angular-cookies/angular-cookies.min.js'
 	]).pipe(gulp.dest('build/libs/'));
 
