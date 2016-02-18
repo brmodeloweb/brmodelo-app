@@ -5,7 +5,7 @@ angular.module('myapp').controller('listController', function($scope, $state, Mo
 	});
 
 	$scope.openModel = function(model) {
-		$state.go('workspace.conceptual', {
+		$state.go('conceptual', {
 			'modelid': model._id
 		});
 	}
