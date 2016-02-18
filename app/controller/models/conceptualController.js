@@ -70,7 +70,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 			graph: $scope.graph,
 			paper: paper
 		});
-		
+
 		$('#stencil-holder').append(stencil.render().el);
 
 		stencil.load([
@@ -78,7 +78,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 			ConceptualFactory.createAttribute(),
 			ConceptualFactory.createIsa(),
 			ConceptualFactory.createKey(),
-			ConceptualFactory.createRelationship()
+			ConceptualFactory.createRelationship(),
 			ConceptualFactory.createMultivalued(),
 			ConceptualFactory.createWeakEntity(),
 			ConceptualFactory.createWeakEntity(),

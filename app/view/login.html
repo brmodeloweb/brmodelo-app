@@ -2,14 +2,11 @@
 	<h1 class="logo">
 		<strong class="vhide">BR Modelo</strong>
 		<img src="imgs/120_01.png" alt="BRModelo Logo">
-	</h1>
-	<!-- End .logo -->
+	</h1><!-- End .logo -->
 	<aside class="userActions cf">
 		<button type="button" class="button" tabindex="4" ng-click="register()">Register</button>
-	</aside>
-	<!-- End .userActions -->
+	</aside><!-- End .userActions -->
 </header>
-
 
 <main ng-controller="LoginController" class="userLogin">
 
@@ -17,50 +14,31 @@
 		<div class="message error sr loginFeeback" ng-class="{'hide': !config.usernotfound}">
 			<p>Login ou senha incorretos ;(</p>
 		</div>
-	</section>
-	<!-- End #feedback -->
+	</section><!-- End #feedback -->
 
 	<div class="panel panel-default loginPanel">
 		<div class="panel-body">
-
 			<section class="box login cf">
-
 				<form class="form-horizontal">
-
 					<div class="form-group">
-						<!-- <label for="email" class="col-sm-2 control-label">Email:</label> -->
 						<div class="col-sm-12">
 							<input type="text" class="form-control" placeholder="Username" ng-model="credentials.username" ng-class="{'error': config.submitted && !config.validmail}">
 						</div>
 					</div>
-
 					<div class="form-group">
-						<!-- <label for="inputPassword" class="col-sm-2 control-label">Password:</label> -->
 						<div class="col-sm-12">
 							<input type="password" class="form-control" placeholder="Password" ng-model="credentials.password" ng-class="{'error': config.submitted && !config.validpassword}">
 						</div>
 					</div>
-
 					<div class="actions cf">
 						<button type="button" class="button" tabindex="3" ng-click="login(credentials)">Login</button>
-					</div>
-					<!-- End .actions -->
+					</div><!-- End .actions -->
 				</form>
-			</section>
-			<!-- End .box.login -->
-
+			</section><!-- End .box.login -->
 		</div>
 	</div>
 
 </main><!-- End .userLogin -->
-
-<!-- <section class="feedback">
-	<div class="message error sr" ng-class="{'hide': !config.useralreadyexist}">
-		<p>Usuário já cadastrado ;(</p>
-	</div>
-</section> -->
-
-<!-- <div class="modalFeedback"> Usuário já cadastrado ;( </div> -->
 
 <script type="text/ng-template" id="register.html">
 

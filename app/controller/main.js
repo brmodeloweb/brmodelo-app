@@ -19,7 +19,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 			}
 		});
 
-		$stateProvider.state('workspace.main', {
+		$stateProvider.state('main', {
 			url: '/main',
 			templateUrl: '/view/main.html',
 			data: {
@@ -27,7 +27,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 			}
 		});
 
-		$stateProvider.state('workspace.conceptual', {
+		$stateProvider.state('conceptual', {
 			url: '/conceptual/{modelid}',
 			templateUrl: '/view/conceptual.html',
 			data: {
@@ -35,7 +35,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 			}
 		});
 
-		$stateProvider.state('workspace.logic', {
+		$stateProvider.state('logic', {
 			url: '/logic',
 			templateUrl: '/view/logic.html',
 			data: {

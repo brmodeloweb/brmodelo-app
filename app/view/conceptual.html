@@ -1,26 +1,56 @@
-<div class="conceptual" data-ng-controller="conceptualController" data-ng-init="initView()">
-	<section id="stencil-holder" class="componentsList">
-		<header class="vhide">
-			<h2>Models list</h2>
-		</header>
-		<!-- List of models used by the user -->
-	</section><!-- End .componentsList -->
-	<section id="content" class="modelWorkspace">
-		<aside class="modelActions">
-			<a ng-click="saveModel()"> Salvar </a>
-		</aside>
-	</aside>
-		<!-- Here is the space used by the user to work -->
-	</section><!-- End .modelWorkspace -->
-	<aside class="modelProperties" ng-class="{'active': editionVisible}">
-		<!-- <button class="action" > -->
-			<span class="action" ng-click="changeVisible()"  aria-hidden="true" >
-				<i class="fa angle-double-icon" ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
-			</span>
-		<!-- </button> -->
+<header class="mainHeader" data-ng-controller="mainController">
+	<h1 class="logo">
+		<strong class="vhide">BR Modelo</strong>
+		<img src="imgs/120_01.png" alt="BRModelo Logo">
+	</h1><!-- End .logo -->
 
-		<label class="label-modelProperties">Nome</label>
-		<input class="form-control input_modelProperties" type="text" ng-model="selectedElement.value"  ng-blur="applyChanges()"> </input>
-		<!-- When an element is selected, it's properties are showed here. -->
-	</aside><!-- End .modelProperties -->
-</div><!-- End .conceptual -->
+	<nav class="mainNav">
+		<a data-ui-sref="main">Workspace</a>
+		<a ng-click="newModel()">Conceitual</a>
+		<a data-ui-sref="logic">Lógico</a>
+	</nav><!-- End .mainNav -->
+
+	<aside class="userActions cf">
+		<div class="dropdown">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#" ng-click="logout">Sair</a></li>
+			</ul>
+		</div>
+	</aside><!-- End .userActions -->
+</header><!-- End .mainHeader -->
+
+<div class="userWorkspace" data-ui-view>
+	<div class="conceptual" data-ng-controller="conceptualController" data-ng-init="initView()">
+
+		<section id="stencil-holder" class="componentsList">
+			<header class="vhide">
+				<h2>Models list</h2>
+			</header><!-- List of models used by the user -->
+		</section><!-- End .componentsList -->
+
+		<section id="content" class="modelWorkspace">
+			<aside class="modelActions">
+				<a ng-click="saveModel()"> Salvar </a>
+			</aside>
+			</aside><!-- Here is the space used by the user to work -->
+		</section>	<!-- End .modelWorkspace -->
+
+		<aside class="modelProperties" ng-class="{'active': editionVisible}"><!-- <button class="action" > -->
+			<span class="action" ng-click="changeVisible()" aria-hidden="true">
+				<i class="fa angle-double-icon" ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+			</span><!-- </button> -->
+			<label class="label-modelProperties">Nome</label>
+			<input class="form-control input_modelProperties" type="text" ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
+			<!-- When an element is selected, it's properties are showed here. -->
+		</aside>	<!-- End .modelProperties -->
+
+	</div>	<!-- End .conceptual -->
+
+</div><!-- End .userWorkspace -->
