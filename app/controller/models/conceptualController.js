@@ -7,7 +7,25 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 	};
 
 	$scope.initView = function(){
-		buildWorkspace()
+		buildWorkspace();
+
+		checkLoading();
+	}
+
+	checkLoading = function(){
+
+		console.log($stateParams);
+
+		var json = {'modelId': $stateParams.modelid,
+							 'userId': $rootScope.loggeduser
+						 }
+
+		console.log(json);
+
+		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
+			console.log(resp);
+		});
+
 	}
 
 	$scope.applyChanges = function(){

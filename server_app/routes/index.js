@@ -1,3 +1,4 @@
+
 var mongoose = require('mongoose');
 var UserSchema = mongoose.model('User');
 var ModelSchema = mongoose.model('Model');
@@ -112,14 +113,15 @@ module.exports = exports = function(app, helper) {
 		});
 	});
 
-	app.get('/getModel', function(req, resp){
-    var userId = req.body.userId;
-    var modelId = req.body.modelId;
+	app.get('/getModel/:id?', function(req, resp){
+	  var modelId = req.query.modelId;
+		var userId = req.query.userId;
     var Model = mongoose.model('Model', ModelSchema);
     Model.find({'who': userId, '_id': modelId}, function(err, model){
       if(err)
         console.log(err);
 
+			console.log(model);
       resp.send(model);
     })
   });
