@@ -1,50 +1,40 @@
-angular.module('myapp').factory('AuthService', function ($http, $cookies) {
-  var authService = {};
+angular.module('myapp').factory('AuthService', function($http, $cookies) {
+	var authService = {};
 
-  authService.login = function (credentials) {
-    return $http
-      .post('/login', credentials)
-      .then(function (res) {
+	authService.login = function(credentials) {
+		return $http
+			.post('/login', credentials)
+			.then(function(res) {
+				var user = res.data;
+				var today = new Date();
+				var expired = new Date(today);
+				expired.setDate(today.getDate() + 1);
+				$cookies.put('sessionId', user.sessionId, {expires: expired});
+				$cookies.put('userId', user.userId, {expires: expired});
+				$cookies.put('userName', user.userName, {expires: expired});
+				return user;
+			});
+	};
 
-        console.log("Resposta: " + res);
+	authService.logout = function() {
+		$cookies.remove('sessionId');
+		$cookies.remove('userId');
+		$cookies.remove('userName');
+	};
 
-        var user = res.data;
+	authService.register = function(credentials) {
+		return $http
+			.post('/createUser', credentials)
+			.then(function(res) {
+				//implement resp here!!
+			});
+	};
 
-        var today = new Date();
-        var expired = new Date(today);
-        expired.setDate(today.getDate() + 1);
+	authService.isAuthenticated = function() {
+		var userId = $cookies.get('userId');
+		authService.loggeduser = userId;
+		return !!userId;
+	};
 
-        $cookies.put('sessionId', user.sessionId, {expires : expired });
-        $cookies.put('userId', user.userId, {expires : expired });
-        $cookies.put('userName', user.userName, {expires : expired });
-
-         return user;
-      });
-  };
-
-  authService.logout = function () {
-    $cookies.remove('sessionId');
-    $cookies.remove('userId');
-    $cookies.remove('userName');
-  };
-
-  authService.register = function (credentials) {
-    return $http
-      .post('/createUser', credentials)
-      .then(function (res) {
-
-        console.log(res);
-
-        // Session.create(res.data.id, res.data.user.id);
-        // return res.data.user;
-      });
-  };
-
-  authService.isAuthenticated = function () {
-    var userId = $cookies.get('userId');
-    authService.loggeduser = userId;
-    return !!userId;
-  };
-
-  return authService;
+	return authService;
 });
