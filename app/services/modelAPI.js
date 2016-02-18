@@ -17,9 +17,18 @@ angular.module('myapp').factory('ModelAPI', function($http){
 			});
 	}
 
+	_getModel = function(){
+		return $http
+			.get('/getModel')
+			.then(function(resp){
+				return resp;
+			});
+	}
+
 	return {
 		saveModel : _saveModel,
-		getAllModels : _getAllModels
+		getAllModels : _getAllModels,
+		getModel : _getModel
 	}
 
 });
