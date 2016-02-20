@@ -8,17 +8,22 @@ angular.module('myapp').factory('ModelAPI', function($http){
 			});
 	}
 
+	_updateModel = function(model){
+		return $http
+			.put('/updateModel', model).then(function(res){
+				console.log(res);
+			});
+	}
+
 	_getAllModels = function(){
 		return $http
 			.get('/getAllModels')
 			.then(function(res){
-			//	console.log(res);
 				return res;
 			});
 	}
 
 	_getModel = function(_modelId, _userId){
-
 		return $http
 			.get('/getModel', {
     		params: {'userId': _userId, 'modelId': _modelId}
@@ -30,7 +35,8 @@ angular.module('myapp').factory('ModelAPI', function($http){
 	return {
 		saveModel : _saveModel,
 		getAllModels : _getAllModels,
-		getModel : _getModel
+		getModel : _getModel,
+		updateModel : _updateModel
 	}
 
 });

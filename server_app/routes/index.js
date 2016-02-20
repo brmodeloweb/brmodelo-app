@@ -41,8 +41,6 @@ module.exports = exports = function(app, helper) {
 				res.sendStatus(404);
 			}
 
-
-
 		});
 
 	});
@@ -113,18 +111,34 @@ module.exports = exports = function(app, helper) {
 		});
 	});
 
-	app.get('/getModel/:id?', function(req, resp){
+	app.get('/getModel', function(req, resp){
 	  var modelId = req.query.modelId;
 		var userId = req.query.userId;
     var Model = mongoose.model('Model', ModelSchema);
     Model.find({'who': userId, '_id': modelId}, function(err, model){
       if(err)
         console.log(err);
-
-			console.log(model);
       resp.send(model);
     })
   });
 
+	app.put('/updateModel', function(req, resp){
+		var Model = mongoose.model('Model', ModelSchema);
+		console.log(req.body.user);
+		console.log(req.body.id);
+		Model.findOne({'_id': req.body.id}, function(err, model){
+
+			console.log('#### RESP: ' + model);
+
+			if(err)
+				console.log(err);
+
+			model.model = req.body.model;
+			model.save(function (err) {
+				if(err) console.log(err);
+				resp.send(model);
+			});
+		})
+	});
 
 }

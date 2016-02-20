@@ -1,5 +1,12 @@
 angular.module('myapp').controller("conceptualController", function($scope, $http, $rootScope, $stateParams, ConceptualFactory, ModelAPI) {
 
+	$scope.model = {
+		id: '',
+		name: 'mymodel',
+		type: 'conceptual',
+		model: '',
+		user: $rootScope.loggeduser
+	}
 	$scope.editionVisible = false;
 	$scope.selectedElement = {
 		element: {},
@@ -14,16 +21,21 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 
 	checkLoading = function(){
 
-		console.log($stateParams);
+		if($stateParams.modelid == 0) {
+			$scope.model.id = 0;
+			return;
+		}
 
 		var json = {'modelId': $stateParams.modelid,
-							 'userId': $rootScope.loggeduser
-						 }
-
-		console.log(json);
+								'userId': $rootScope.loggeduser
+								}
 
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
-			console.log(resp);
+			console.log("getModel");
+			$scope.model.name = resp.data[0].name;
+			$scope.model.type = resp.data[0].type;
+			$scope.model.id   = resp.data[0]._id;
+			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
 		});
 
 	}
@@ -37,17 +49,18 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 		$scope.editionVisible = !$scope.editionVisible;
 	}
 
-	$scope.saveModel = function()  {
-		$scope.model = {
-			name: 'mymodel',
-			type: 'conceptual',
-			model: JSON.stringify($scope.graph),
-			user: $rootScope.loggeduser
-		}
+	$scope.saveModel = function() {
+		$scope.model.model = JSON.stringify($scope.graph);
 
-		ModelAPI.saveModel($scope.model).then(function(res){
-			console.log(res);
-		});
+		if ($scope.model.id == 0){
+			ModelAPI.saveModel($scope.model).then(function(res){
+				console.log(res);
+			});
+		} else {
+			ModelAPI.updateModel($scope.model).then(function(res){
+				console.log(res);
+			});
+		}
 	}
 
 	$scope.set = function(cellView) {
