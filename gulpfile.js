@@ -2,12 +2,16 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var server = require('gulp-express');
 
-gulp.task('compileStyles', function() {
-	gulp.src('app/sass/*.scss')
-		.pipe(sass().on('error', sass.logError))
-		.pipe(gulp.dest('./app/css/'));
-	gulp.watch('app/sass/**/*.scss',['compileStyles']);
-});//End task compileStyles
+var input = 'app/sass/*.scss';
+var output = './app/css/';
+
+
+gulp.task('sass', function () {
+	return gulp
+	.src(input)
+	.pipe(sass(sassOptions).on('error', sass.logError))
+	.pipe(gulp.dest(output));
+});
 
 gulp.task('copy', function() {
 	gulp.src([
@@ -32,4 +36,4 @@ gulp.task('server', function () {
 	server.run(['server.js']);
 });//End task server
 
-gulp.task('default', ['compileStyles','copy','server']);
+gulp.task('default', ['copy','server']);
