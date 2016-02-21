@@ -3,7 +3,7 @@
 	top: 0;
 	right: 0;
 	left: 0;
-	min-height: 66px;
+	min-height: 71px;
 	border-bottom: 1px solid rgba(0,0,0, 0.2);
 	background-color: #efefef;
 	z-index: 50;
@@ -17,7 +17,10 @@
 /******************************************************************************/
 /* .mainNav */
 /******************************************************************************/
-.mainNav {float: left;}
+.mainNav {
+	float: left;
+	min-width: 500px;
+}
 .mainNav .mainHeaderItem {float: left;}
 
 .mainNav .mainHeaderItem {border-right: 1px solid rgba(#000, 0.2);}
@@ -75,3 +78,27 @@
 								rgba(255,255,255, 1) 0%,
 								rgba(229,229,229, 1) 100%);
 }
+
+/******************************************************************************/
+/* Esse css não deveria estar aqui, ver com o Id a melhor forma de reaprovitar /
+/* o código para novos hearders                                               */
+/******************************************************************************/
+.modelTitleItem {
+	margin: 10px;
+	width: 260px!important;
+}
+
+.actionItem{
+	float: left;
+	min-width: 80px;
+}
+
+/******************************************************************************/
+/* Não consegui posicionar esse botao mas nem rezando muito!  /
+/******************************************************************************/
+.special{
+	margin-top: 20px;
+}
+
+
+

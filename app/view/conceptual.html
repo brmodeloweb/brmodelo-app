@@ -1,37 +1,57 @@
-<header
-	class="mainHeader cf"
-	data-ng-controller="mainController"
-	data-ng-include=""
-	src="'view/mainHeader.html'"
-></header>
-
-<div class="userWorkspace">
-	<div class="conceptual" data-ng-controller="conceptualController" data-ng-init="initView()">
-
-		<section id="stencil-holder" class="componentsList">
-			<header class="vhide">
-				<h2>Models list</h2>
-			</header><!-- List of models used by the user -->
-		</section><!-- End .componentsList -->
-
-		<section id="content" class="modelWorkspace">
-			<aside class="modelActions">
+<div data-ng-controller="conceptualController" data-ng-init="initView()">
+	<header class="mainHeader cf">
+		<h1 class="logo">
+			<strong class="vhide">BR Modelo</strong>
+			<img src="imgs/120_01.png" alt="BRModelo Logo">
+		</h1><!-- End .logo -->
+		<nav class="mainNav">
+			<div class="actionItem">
+				<input class="modelTitleItem fieldInput"
+				       type="text"
+							 data-ng-model="model.name">
+				</input>
+			</div>
+			<div class="actionItem special">
 				<a class="button style1" ng-click="saveModel()">Salvar</a>
-			</aside>
-			</aside><!-- Here is the space used by the user to work -->
-		</section>	<!-- End .modelWorkspace -->
+			</div>
+		</nav><!-- End .mainNav -->
+		<aside class="userActions cf">
+			<div class="dropdownButton"> <!-- Add/Remove class .active to show/hide submenu -->
+				<span class="mainHeaderItem">Options</span>
+				<ul class="dropDownList">
+					<li><a class="dropDownItem" href="#">Profile</a></li>
+					<li><a class="dropDownItem" href="#">Preferences</a></li>
+					<li><a class="dropDownItem" href="#" ng-click="logout">Logout</a></li>
+				</ul><!-- End .dropDownList -->
+			</div><!-- End .dropdown -->
+		</aside><!-- End .userActions -->
+	</header>
 
-		<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
-			<!-- <button class="action" > -->
-			<span class="action" data-ng-click="changeVisible()">
-				<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
-			</span><!-- </button> -->
-			<div class="field">
-				<label class="fieldLabel">Nome</label>
-				<input class="fieldInput" type="text" data-ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
-			</div><!-- End .field -->
-			<!-- When an element is selected, it's properties are showed here. -->
-		</aside>	<!-- End .modelProperties -->
+	<div class="userWorkspace">
+		<div class="conceptual">
 
-	</div>	<!-- End .conceptual -->
-</div><!-- End .userWorkspace -->
+			<section id="stencil-holder" class="componentsList">
+				<header class="vhide">
+					<h2>Models list</h2>
+				</header><!-- List of models used by the user -->
+			</section><!-- End .componentsList -->
+
+			<section id="content" class="modelWorkspace">
+				</aside><!-- Here is the space used by the user to work -->
+			</section>	<!-- End .modelWorkspace -->
+
+			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
+				<!-- <button class="action" > -->
+				<span class="action" data-ng-click="changeVisible()">
+					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+				</span><!-- </button> -->
+				<div class="field">
+					<label class="fieldLabel">Nome</label>
+					<input class="fieldInput" type="text" data-ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
+				</div><!-- End .field -->
+				<!-- When an element is selected, it's properties are showed here. -->
+			</aside>	<!-- End .modelProperties -->
+
+		</div>	<!-- End .conceptual -->
+	</div><!-- End .userWorkspace -->
+<div>

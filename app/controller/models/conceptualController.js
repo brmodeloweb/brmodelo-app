@@ -57,6 +57,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 				console.log(res);
 			});
 		} else {
+			console.log($scope.model.name);
 			ModelAPI.updateModel($scope.model).then(function(res){
 				console.log(res);
 			});

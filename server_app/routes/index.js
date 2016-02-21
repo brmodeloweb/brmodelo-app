@@ -124,16 +124,12 @@ module.exports = exports = function(app, helper) {
 
 	app.put('/updateModel', function(req, resp){
 		var Model = mongoose.model('Model', ModelSchema);
-		console.log(req.body.user);
-		console.log(req.body.id);
 		Model.findOne({'_id': req.body.id}, function(err, model){
-
-			console.log('#### RESP: ' + model);
-
 			if(err)
 				console.log(err);
 
 			model.model = req.body.model;
+		  model.name = req.body.name;
 			model.save(function (err) {
 				if(err) console.log(err);
 				resp.send(model);
