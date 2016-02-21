@@ -4,9 +4,9 @@ var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 var server = require('gulp-express');
 
+//Sass variables
 var input = './app/sass/*.scss';
 var output = './app/css/';
-
 var sassOptions = {
 	errLogToConsole: true,
 	outputStyle: 'expanded'
@@ -17,10 +17,10 @@ gulp.task('sass', function () {
 	.src(input)
 	.pipe(sourcemaps.init())
 	.pipe(sass(sassOptions).on('error', sass.logError))
-	.pipe(sourcemaps.write('./app/css/maps'))
+	.pipe(sourcemaps.write())
 	.pipe(autoprefixer())
-	.pipe(gulp.dest(output));
-});
+	.pipe(gulp.dest(output))
+});//End task sass
 
 gulp.task('watch', function() {
 	return gulp
@@ -28,7 +28,7 @@ gulp.task('watch', function() {
 	.on('change', function(event) {
 	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 	});
-});
+});//End tastk watch
 
 gulp.task('copy', function() {
 	gulp.src([
