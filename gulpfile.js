@@ -7,7 +7,6 @@ var server = require('gulp-express');
 var input = './app/sass/*.scss';
 var output = './app/css/';
 
-
 gulp.task('sass', function () {
 	return gulp
 	.src(input)
@@ -16,6 +15,14 @@ gulp.task('sass', function () {
 	.pipe(sourcemaps.write('./app/css/maps'))
 	.pipe(autoprefixer())
 	.pipe(gulp.dest(output));
+});
+
+gulp.task('watch', function() {
+	return gulp
+	.watch(input, ['sass'])
+	.on('change', function(event) {
+	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+	});
 });
 
 gulp.task('copy', function() {
