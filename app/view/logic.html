@@ -1,25 +1,6 @@
-<header class="mainHeader" data-ng-controller="mainController">
-	<h1 class="logo">
-		<strong class="vhide">BR Modelo</strong>
-		<img src="imgs/120_01.png" alt="BRModelo Logo">
-	</h1><!-- End .logo -->
-	<nav class="mainNav">
-		<a data-ui-sref="workspace.main">Workspace</a>
-		<a ng-click="newModel()">Conceitual</a>
-		<a data-ui-sref="workspace.logic">Lógico</a>
-	</nav><!-- End .mainNav -->
-	<aside class="userActions cf">
-		<div class="dropdown">
-		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-		    <span class="caret"></span>
-		  </button>
-		  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-		    <li><a href="#">Action</a></li>
-		    <li><a href="#">Another action</a></li>
-		    <li role="separator" class="divider"></li>
-		    <li><a href="#" ng-click="logout">Sair</a></li>
-		  </ul>
-	</div>
-	</aside><!-- End .userActions -->
-</header><!-- End .mainHeader -->
+<header
+	class="mainHeader"
+	data-ng-controller="mainController"
+	data-ng-include=""
+	src="'view/mainHeader.html'"
+></header>
