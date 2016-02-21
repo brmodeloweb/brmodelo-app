@@ -16,17 +16,20 @@
 
 		<section id="content" class="modelWorkspace">
 			<aside class="modelActions">
-				<a ng-click="saveModel()"> Salvar </a>
+				<a class="button style1" ng-click="saveModel()">Salvar</a>
 			</aside>
 			</aside><!-- Here is the space used by the user to work -->
 		</section>	<!-- End .modelWorkspace -->
 
-		<aside class="modelProperties" ng-class="{'active': editionVisible}"><!-- <button class="action" > -->
-			<span class="action" ng-click="changeVisible()" aria-hidden="true">
-				<i class="fa angle-double-icon" ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+		<aside class="modelProperties" ng-class="{'active': editionVisible}">
+			<!-- <button class="action" > -->
+			<span class="action" ng-click="changeVisible()">
+				<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 			</span><!-- </button> -->
-			<label class="label-modelProperties">Nome</label>
-			<input class="form-control input_modelProperties" type="text" ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
+			<div class="field">
+				<label class="fieldLabel">Nome</label>
+				<input class="fieldInput" type="text" data-ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
+			</div><!-- End .field -->
 			<!-- When an element is selected, it's properties are showed here. -->
 		</aside>	<!-- End .modelProperties -->
 
