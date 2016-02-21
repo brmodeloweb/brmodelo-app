@@ -1,13 +1,34 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
+var autoprefixer = require('gulp-autoprefixer');
 var server = require('gulp-express');
 
-gulp.task('compileStyles', function() {
-	gulp.src('app/sass/*.scss')
-		.pipe(sass().on('error', sass.logError))
-		.pipe(gulp.dest('./app/css/'));
-	gulp.watch('app/sass/**/*.scss',['compileStyles']);
-});//End task compileStyles
+//Sass variables
+var input = './app/sass/*.scss';
+var output = './app/css/';
+var sassOptions = {
+	errLogToConsole: true,
+	outputStyle: 'expanded'
+};
+
+gulp.task('sass', function () {
+	return gulp
+	.src(input)
+	.pipe(sourcemaps.init())
+	.pipe(sass(sassOptions).on('error', sass.logError))
+	.pipe(sourcemaps.write())
+	.pipe(autoprefixer())
+	.pipe(gulp.dest(output))
+});//End task sass
+
+gulp.task('watch', function() {
+	return gulp
+	.watch(input, ['sass'])
+	.on('change', function(event) {
+	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+	});
+});//End tastk watch
 
 gulp.task('copy', function() {
 	gulp.src([
@@ -32,4 +53,4 @@ gulp.task('server', function () {
 	server.run(['server.js']);
 });//End task server
 
-gulp.task('default', ['compileStyles','copy','server']);
+gulp.task('default', ['sass','watch','copy','server']);
