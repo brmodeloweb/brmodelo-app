@@ -1,0 +1,51 @@
+/******************************************************************************/
+/* Font declaration */
+/******************************************************************************/
+label,
+input,
+textarea,
+button {
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 300;
+	color: inherit;
+}
+
+/******************************************************************************/
+/* .field */
+/******************************************************************************/
+.field {position: relative;}
+.field:not(:last-child) {margin-bottom: 25px;}
+
+.fieldLabel,
+.fieldInput {
+	display: block;
+	width: 100%;
+}
+
+.fieldLabel {
+	font-size: 1.2em;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: -0.1em;
+	margin-bottom: 5px;
+}
+
+.fieldInput {
+	transition: 0.3s ease all;
+	position: relative;
+	font-size: 1.1em;
+	padding: 10px;
+	border: 1px solid rgba(0,0,0, 0.3);
+	border-radius: 2px;
+	background-color: rgba(#fff, 1);
+	box-shadow: 0px 1px 1px rgba(#000, 0.5),
+				1px 1px 1px rgba(#fff, 1) inset;
+}
+
+.fieldInput:focus {
+	top: 2px;
+	border-color: rgba(#000, 0.8);
+	background-color: rgba(#000, .06);
+	box-shadow: 0px 1px 1px transparent,
+				1px 1px 1px rgba(#fff, 1) inset;
+}
