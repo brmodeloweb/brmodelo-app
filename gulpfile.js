@@ -48,4 +48,4 @@ gulp.task('server', function () {
 	server.run(['server.js']);
 });//End task server
 
-gulp.task('default', ['copy','server']);
+gulp.task('default', ['sass','watch','copy','server']);
