@@ -32,6 +32,7 @@
     "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
     "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
     "sweet-feedback": "^1.0.1"
   }
 }
