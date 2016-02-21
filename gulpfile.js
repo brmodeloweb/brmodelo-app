@@ -12,7 +12,7 @@ gulp.task('sass', function () {
 	.src(input)
 	.pipe(sourcemaps.init())
 	.pipe(sass(sassOptions).on('error', sass.logError))
-	.pipe(sourcemaps.write())
+	.pipe(sourcemaps.write('./app/css/maps'))
 	.pipe(gulp.dest(output));
 });
 
