@@ -7,6 +7,11 @@ var server = require('gulp-express');
 var input = './app/sass/*.scss';
 var output = './app/css/';
 
+var sassOptions = {
+	errLogToConsole: true,
+	outputStyle: 'expanded'
+};
+
 gulp.task('sass', function () {
 	return gulp
 	.src(input)
