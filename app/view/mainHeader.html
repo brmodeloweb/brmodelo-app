@@ -3,17 +3,17 @@
 	<img src="imgs/120_01.png" alt="BRModelo Logo">
 </h1><!-- End .logo -->
 <nav class="mainNav">
-	<a data-ui-sref="main">Workspace</a>
-	<a ng-click="newModel()">Conceitual</a>
-	<a data-ui-sref="logic">Lógico</a>
+	<a class="mainHeaderItem" data-ui-sref="main">Workspace</a>
+	<a class="mainHeaderItem" ng-click="newModel()">Conceitual</a>
+	<a class="mainHeaderItem" data-ui-sref="logic">Lógico</a>
 </nav><!-- End .mainNav -->
 <aside class="userActions cf">
 	<div class="dropdownButton">
-		<span class="button">Actions</span>
-		<ul>
-			<li><a href="#">Action</a></li>
-			<li><a href="#">Another action</a></li>
-			<li><a href="#" ng-click="logout">Sair</a></li>
-		</ul><!-- End .dropdownButton -->
+		<span class="mainHeaderItem">Options</span>
+		<ul class="dropDownList">
+			<li><a class="dropDownItem" href="#">Profile</a></li>
+			<li><a class="dropDownItem" href="#">Preferences</a></li>
+			<li><a class="dropDownItem" href="#" ng-click="logout">Logout</a></li>
+		</ul><!-- End .dropDownList -->
 	</div><!-- End .dropdown -->
 </aside><!-- End .userActions -->

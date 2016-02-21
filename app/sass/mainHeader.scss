@@ -5,30 +5,42 @@
 	left: 0;
 	min-height: 66px;
 	border-bottom: 1px solid rgba(0,0,0, 0.2);
-	background-color: rgba(#000, 0.03);
+	background-color: #efefef;
 	z-index: 50;
 }
 
 .mainHeader .logo {
 	float: left;
-	margin: 0 25px;
-}
-
-.mainHeader .mainNav {
-	float: left;
-	position: relative;
-	top: 23px;
+	margin: 0 20px;
 }
 
 /******************************************************************************/
 /* .mainNav */
 /******************************************************************************/
-.mainNav a {display: inline-block;}
+.mainNav {float: left;}
+.mainNav .mainHeaderItem {float: left;}
 
-.mainNav a:not(:last-child) {
-	padding-right: 10px;
-	border-right: 1px solid rgba(0,0,0, 1);
-	margin-right: 10px;
+.mainNav .mainHeaderItem {border-right: 1px solid rgba(#000, 0.2);}
+.mainNav .mainHeaderItem:first-child {border-left: 1px solid rgba(#000, 0.2);}
+
+/******************************************************************************/
+/* .mainHeaderItem */
+/******************************************************************************/
+.mainHeaderItem {
+	display: block;
+	font-size: 1.5em;
+	font-weight: 200;
+	padding: 25px;
+	cursor: pointer;
+	color: rgba(0,0,0, 0.8);
+}
+
+.mainHeaderItem:hover,
+.mainHeaderItem.active {
+	text-decoration: none;
+	background: linear-gradient(to bottom,
+								rgba(255,255,255, 1) 0%,
+								rgba(229,229,229, 1) 100%);
 }
 
 /******************************************************************************/
@@ -36,8 +48,30 @@
 /******************************************************************************/
 .userActions {
 	position: absolute;
-	top: 20px;
-	right: 25px;
+	top: 0;
+	right: 0;
+	bottom: 0;
 }
 
-.actions.cf {float: right;}
+.userActions .dropdownButton {float: right;}
+.userActions .mainHeaderItem {border-left: 1px solid rgba(#000, 0.2);}
+
+.userActions .dropDownList {
+	list-style: none;
+	background-color: #efefef;
+}
+
+.userActions .dropDownItem {
+	display: block;
+	padding: 10px 25px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	border-left: 1px solid rgba(0, 0, 0, 0.2);
+	color: rgba(0,0,0, 0.8);
+	background-color: #efefef;
+}
+
+.userActions .dropDownItem:hover {
+	background: linear-gradient(to bottom,
+								rgba(255,255,255, 1) 0%,
+								rgba(229,229,229, 1) 100%);
+}

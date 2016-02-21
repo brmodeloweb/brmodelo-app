@@ -7,12 +7,12 @@ body {
 }
 
 a,
-.link {color: rgba(#FA6900, 1);}
+.link {color: rgba(#fa6900, 1);}
 
 /******************************************************************************/
 /* .content */
 /******************************************************************************/
-.content {padding-top: 97px;}
+.content {padding-top: 107px;}
 
 /******************************************************************************/
 /* .contentHeader */
@@ -48,7 +48,7 @@ a,
 	bottom: 0;
 	left: 0;
 	width: 200px;
-	border-right: 1px solid rgba(0,0,0, 0.3);
+	border-right: 1px solid #efefef;
 	background-color: rgba(0,0, 0, 0.05);
 	box-shadow: 0 0 5px rgba(0,0,0, 0.4);
 }
