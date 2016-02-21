@@ -1,14 +1,4 @@
-<header class="mainHeader" data-ng-controller="LoginController">
-	<h1 class="logo">
-		<strong class="vhide">BR Modelo</strong>
-		<img src="imgs/120_01.png" alt="BRModelo Logo">
-	</h1><!-- End .logo -->
-	<aside class="userActions cf">
-		<button type="button" class="button" data-ng-click="register()">Create account</button>
-	</aside><!-- End .userActions -->
-</header><!-- End .mainHeader -->
-
-<div class="content">
+<div class="content public">
 	<section class="userLogin" data-ng-controller="LoginController">
 
 		<aside class="feedback">
@@ -19,8 +9,16 @@
 			</div><!-- End .wrapper -->
 		</aside><!-- End #feedback -->
 
-		<form class="loginForm">
-			<div class="wrapper">
+		<div class="wrapper">
+
+			<header class="publicHeader">
+				<h1 class="logo">
+					<strong class="vhide">BR Modelo</strong>
+					<img src="imgs/120_01.png" alt="BRModelo Logo">
+				</h1><!-- End .logo -->
+			</header>
+
+			<form class="loginForm publicBox">
 				<div class="field">
 					<label for="userEmail" class="fieldLabel">Email</label>
 					<input
@@ -47,19 +45,25 @@
 				<div class="actions">
 					<button
 						type="button"
-						class="button"
+						class="button style1 block"
 						data-ng-click="login(credentials)"
 					>Login</button>
 				</div><!-- End .actions -->
-			</div><!-- End .wrapper -->
-		</form><!-- End .loginForm -->
+			</form><!-- End .loginForm -->
+
+			<footer class="callToAction">
+				<button type="button" class="button block" data-ng-click="register()">Create account</button>
+				<button type="button" class="button block">Forgot password</button>
+			</footer><!-- End .callToAction -->
+
+		</div><!-- End .wrapper -->
 	</section><!-- End .userLogin -->
 
 
-	<section class="userRegister hide">
-		<header>
-			<h3>Register</h3>
-		<header>
+	<section class="userRegister ">
+		<header class="vhide">
+			<h2>Create account</h2>
+		</header>
 		<aside class="feedback">
 			<div class="wrapper">
 				<div class="message error sr" data-ng-class="{'hide': !config.useralreadyexist}">
@@ -68,7 +72,7 @@
 			</div><!-- End .wrapper -->
 		</aside><!-- End .feedback -->
 
-		<form class="registerForm">
+		<form class="registerForm publicBox hide">
 			<div class="field">
 				<label for="name" class="fieldLabel">Name</label>
 				<input
@@ -118,8 +122,8 @@
 			</div><!-- End .field -->
 
 			<div class="actions">
-				<button type="button" data-ng-click="cancel()">Cancel</button>
-				<button type="button" data-ng-click="register(credentials, repassword)">Register</button>
+				<button type="button" class="button style3 block" data-ng-click="cancel()">Cancel</button>
+				<button type="button" class="button style2 block" data-ng-click="register(credentials, repassword)">Register</button>
 			</div><!-- End .actions -->
 		</form><!-- End .registerForm -->
 
