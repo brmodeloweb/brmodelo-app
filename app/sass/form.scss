@@ -38,8 +38,6 @@ button {
 	border: 1px solid rgba(0,0,0, 0.3);
 	border-radius: 2px;
 	background-color: rgba(#fff, 1);
-	box-shadow: 0px 1px 1px rgba(#000, 0.5),
-				1px 1px 1px rgba(#fff, 1) inset;
 }
 
 .fieldInput:focus {
@@ -49,3 +47,8 @@ button {
 	box-shadow: 0px 1px 1px transparent,
 				1px 1px 1px rgba(#fff, 1) inset;
 }
+
+/******************************************************************************/
+/* .actions */
+/******************************************************************************/
+.actions .button:not(:last-child) {margin-bottom: 10px;}

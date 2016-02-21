@@ -3,9 +3,9 @@
 	top: 0;
 	right: 0;
 	left: 0;
-	border-bottom: 1px solid rgba(0,0,0, 0.3);
-	background-color: rgba(255,255,255, 1);
-	box-shadow: 0 0 5px rgba(0,0,0, 0.4);
+	min-height: 66px;
+	border-bottom: 1px solid rgba(0,0,0, 0.2);
+	background-color: rgba(#000, 0.03);
 	z-index: 50;
 }
 
