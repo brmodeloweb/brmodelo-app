@@ -98,11 +98,14 @@
 .dropdownButton {position: relative;}
 
 .dropdownButton .dropDownList {
+	display: none;
 	position: absolute;
 	top: calc(100% + 1px);
 	right: 0;
 	z-index: 10;
 }
+
+.dropdownButton.active .dropDownList {display: block;}
 
 .dropDownList .dropDownItem {white-space: nowrap;}
 .dropDownList .dropDownItem:hover {text-decoration: none;}
