@@ -3,18 +3,93 @@
 /******************************************************************************/
 .button {
 	position: relative;
-	font-size: 1.3em;
+	font-size: 1em;
+	font-weight: 300;
 	text-align: center;
+	text-transform: uppercase;
 	padding: 5px 10px;
 	border: 1px solid rgba(0,0,0, 0.3);
-	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
+	border-radius: 2px;
+	background: linear-gradient(to bottom,
+								rgba(255,255,255,1) 0%,
+								rgba(229,229,229,1) 100%);
 	box-shadow: 0px 1px 1px rgba(#000, 0.5);
 }
 
-.button:hover {background: linear-gradient(to bottom, rgba(229,229,229,1) 0%,rgba(255,255,255,1) 100%);}
+.button:hover {
+	background: linear-gradient(to bottom,
+								rgba(229,229,229,1) 0%,
+								rgba(255,255,255,1) 100%);
+}
 
 .button:active {
 	top: 2px;
-	background: linear-gradient(to bottom, rgba(229,229,229,1) 0%,rgba(255,255,255,1) 100%);
+	background: linear-gradient(to bottom,
+								rgba(229,229,229,1) 0%,
+								rgba(255,255,255,1) 100%);
 	box-shadow: 0px 1px 1px transparent;
+}
+
+/******************************************************************************/
+/* .button.style1 */
+/******************************************************************************/
+.button.style1 {
+	color: rgba(green, 0.8);
+	border-color: rgba(green, 1);
+	background: linear-gradient(to bottom,
+								rgba(210,255,82,0.8) 0%,
+								rgba(145,232,66, 0.8) 100%);
+}
+
+.button.style1:hover {
+	background: linear-gradient(to bottom,
+								rgba(145,232,66, 0.8) 0%,
+								rgba(210,255,82, 0.8) 100%);
+}
+
+/******************************************************************************/
+/* .button.style2 */
+/******************************************************************************/
+.button.style2 {
+	color: rgba(#19285B, 1);
+	border-color: rgba(#19285B, 0.8);
+	background: linear-gradient(to bottom,
+								rgba(122,188,255, 0.8) 0%,
+								rgba(96,171,248, 0.8) 44%,
+								rgba(64,150,238, 0.8) 100%);
+}
+
+.button.style2:hover {
+	background: linear-gradient(to bottom,
+								rgba(64,150,238, 0.8) 0%,
+								rgba(96,171,248, 0.8) 44%,
+								rgba(122,188,255, 0.8) 100%);
+}
+
+/******************************************************************************/
+/* .button.style3 */
+/******************************************************************************/
+.button.style3 {
+	color: rgba(red, 1);
+	border-color: rgba(red, 0.8);
+	background: linear-gradient(to bottom,
+								rgba(169,3,41, 0.8) 0%,
+								rgba(143,2,34, 0.8) 44%,
+								rgba(109,0,25, 0.8) 100%);
+}
+
+.button.style3:hover {
+	background: linear-gradient(to bottom,
+								rgba(109,0,25, 0.8) 100%) 0%,
+								rgba(143,2,34, 0.8) 44%,
+								rgba(169,3,41, 0.8);
+}
+
+/******************************************************************************/
+/* .button.block */
+/******************************************************************************/
+.button.block {
+	display: block;
+	width: 100%;
+	padding: 12px;
 }
