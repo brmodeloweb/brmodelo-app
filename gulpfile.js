@@ -3,7 +3,7 @@ var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var server = require('gulp-express');
 
-var input = 'app/sass/*.scss';
+var input = './app/sass/*.scss';
 var output = './app/css/';
 
 
