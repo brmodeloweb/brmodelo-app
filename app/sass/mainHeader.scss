@@ -3,7 +3,6 @@
 	top: 0;
 	right: 0;
 	left: 0;
-	min-height: 71px;
 	border-bottom: 1px solid rgba(0,0,0, 0.2);
 	background-color: #efefef;
 	z-index: 50;
@@ -12,6 +11,12 @@
 .mainHeader .logo {
 	float: left;
 	margin: 0 15px 0 16px;
+}
+
+.mainHeader .logo strong {
+	display: block;
+	font-size: 1.2em;
+	padding: 15px 25px;
 }
 
 /******************************************************************************/
@@ -31,9 +36,9 @@
 /******************************************************************************/
 .mainHeaderItem {
 	display: block;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	font-weight: 200;
-	padding: 25px;
+	padding: 15px;
 	cursor: pointer;
 	color: rgba(0,0,0, 0.8);
 }

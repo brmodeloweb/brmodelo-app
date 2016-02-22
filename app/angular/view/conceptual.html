@@ -1,15 +1,15 @@
 <div data-ng-controller="conceptualController" data-ng-init="initView()">
 	<header class="mainHeader cf">
 		<h1 class="logo">
-			<strong class="vhide">BR Modelo</strong>
-			<img src="imgs/120_01.png" alt="BRModelo Logo">
+			<strong>BR Modelo</strong>
 		</h1><!-- End .logo -->
 		<nav class="mainNav">
 			<div class="actionItem">
-				<input class="modelTitleItem fieldInput"
-				       type="text"
-							 data-ng-model="model.name">
-				</input>
+				<input
+					class="modelTitleItem fieldInput"
+					type="text"
+					data-ng-model="model.name"
+				/>
 			</div>
 			<div class="actionItem special">
 				<a class="button style1" ng-click="saveModel()">Salvar</a>
