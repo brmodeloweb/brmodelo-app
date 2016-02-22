@@ -19,7 +19,7 @@
 			</header>
 
 			<form class="loginForm publicBox">
-				<div class="field">
+				<div class="field" data-ng-class="{'error': config.submitted && !config.validmail}">
 					<label for="userEmail" class="fieldLabel">Email</label>
 					<input
 						id="userEmail"
@@ -27,10 +27,9 @@
 						type="text"
 						placeholder="Email"
 						data-ng-model="credentials.username"
-						data-ng-class="{'error': config.submitted && !config.validmail}"
 					/>
 				</div><!-- End .field -->
-				<div class="field">
+				<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
 					<label for="userPassword" class="fieldLabel">Senha</label>
 					<input
 						id="userPassword"
@@ -39,7 +38,6 @@
 						class="form-control"
 						placeholder="Password"
 						data-ng-model="credentials.password"
-						ng-class="{'error': config.submitted && !config.validpassword}"
 					/>
 				</div><!-- End .field -->
 				<div class="actions">
@@ -72,8 +70,8 @@
 			</div><!-- End .wrapper -->
 		</aside><!-- End .feedback -->
 
-		<form class="registerForm publicBox hide">
-			<div class="field">
+		<form class="registerForm publicBox ">
+			<div class="field" data-ng-model="credentials.username">
 				<label for="name" class="fieldLabel">Name</label>
 				<input
 					id="name"
@@ -81,11 +79,10 @@
 					type="text"
 					placeholder="Your Name"
 					data-ng-class="{'error': config.submitted && !config.validname}"
-					data-ng-model="credentials.username"
 				/>
 			</div><!-- End .field -->
 
-			<div class="field">
+			<div class="field" data-ng-class="{'error': config.submitted && !config.validmail}">
 				<label for="mail" class="fieldLabel">Email</label>
 				<input
 					id="mail"
@@ -93,11 +90,10 @@
 					type="text"
 					placeholder="Your email"
 					data-ng-model="credentials.email"
-					data-ng-class="{'error': config.submitted && !config.validmail}"
 				/>
 			</div><!-- End .field -->
 
-			<div class="field">
+			<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
 				<label for="password" class="fieldLabel">Password</label>
 				<input
 					id="password"
@@ -105,11 +101,10 @@
 					type="password"
 					placeholder="Your Password"
 					data-ng-model="credentials.password"
-					data-ng-class="{'error': config.submitted && !config.validpassword}"
 				/>
 			</div><!-- End .field -->
 
-			<div class="field">
+			<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
 				<label for="re-password" class="fieldLabel">Confirm password</label>
 				<input
 					id="re-password"
@@ -117,7 +112,6 @@
 					type="password"
 					placeholder="Confirm Password"
 					data-ng-model="repassword"
-					data-ng-class="{'error': config.submitted && !config.validpassword}"
 				/>
 			</div><!-- End .field -->
 

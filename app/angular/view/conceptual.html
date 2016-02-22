@@ -17,8 +17,8 @@
 		</aside><!-- End .modelOptions -->
 
 		<aside class="userActions cf">
-			<div class="dropdownButton"> <!-- Add/Remove class .active to show/hide submenu -->
-				<span class="mainHeaderItem">Options</span>
+			<div class="dropdownButton" data-ng-class="{'active': dropdownVisible}"> <!-- Add/Remove class .active to show/hide submenu -->
+				<span class="mainHeaderItem" data-ng-click="changeDropdownVisible()">Options</span>
 				<ul class="dropDownList">
 					<li><a class="dropDownItem" href="#">Profile</a></li>
 					<li><a class="dropDownItem" href="#">Preferences</a></li>
