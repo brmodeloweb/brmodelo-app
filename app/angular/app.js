@@ -5,7 +5,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 	function($urlRouterProvider, $stateProvider) {
 		$stateProvider.state('login', {
 			url: '/',
-			templateUrl: '/view/login.html',
+			templateUrl: 'angular/view/login.html',
 			data: {
 				requireLogin: false
 			}
@@ -13,7 +13,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 
 		$stateProvider.state('workspace', {
 			url: '/workspace',
-			templateUrl: '/view/workspace.html',
+			templateUrl: 'angular/view/workspace.html',
 			data: {
 				requireLogin: true
 			}
@@ -21,7 +21,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 
 		$stateProvider.state('main', {
 			url: '/main',
-			templateUrl: '/view/main.html',
+			templateUrl: 'angular/view/main.html',
 			data: {
 				requireLogin: true
 			}
@@ -29,7 +29,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 
 		$stateProvider.state('conceptual', {
 			url: '/conceptual/{modelid}',
-			templateUrl: '/view/conceptual.html',
+			templateUrl: 'angular/view/conceptual.html',
 			data: {
 				requireLogin: true
 			}
@@ -37,7 +37,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 
 		$stateProvider.state('logic', {
 			url: '/logic',
-			templateUrl: '/view/logic.html',
+			templateUrl: 'angular/view/logic.html',
 			data: {
 				requireLogin: true
 			}
