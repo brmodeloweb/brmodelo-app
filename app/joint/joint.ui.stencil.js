@@ -197,7 +197,7 @@ var Handlebars = {};
     },
     options: {
         width: 200,
-        height: 300
+        height: 500
     },
     initialize: function(a) {
         this.options = _.extend({}, _.result(this, "options"), a || {}), this.graphs = {}, this.papers = {}, this.$groups = {}, _.bindAll(this, "onDrag", "onDragEnd"), $(document.body).on({

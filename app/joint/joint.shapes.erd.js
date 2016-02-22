@@ -1,4 +1,4 @@
-/*! JointJS v0.9.3 - JavaScript diagramming library  2015-02-03 
+/*! JointJS v0.9.3 - JavaScript diagramming library  2015-02-03
 
 
 This Source Code Form is subject to the terms of the Mozilla Public
@@ -66,7 +66,7 @@ joint.shapes.erd.WeakEntity = joint.shapes.erd.Entity.extend({
 joint.shapes.erd.Relationship = joint.dia.Element.extend({
 
     markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
-    
+
     defaults: joint.util.deepSupplement({
 
         type: 'erd.Relationship',
