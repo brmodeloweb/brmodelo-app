@@ -10,7 +10,6 @@
 					type="text"
 					data-ng-model="model.name"
 				/>
-				<a class="button style1 hide" data-ng-click="saveModel()">Salvar</a>
 			</div><!-- End .modelName -->
 			<div class="modelViewiewOptions">
 				<!-- Zoom, Undo, etc,etc -->
@@ -39,7 +38,10 @@
 			</section><!-- End .componentsList -->
 
 			<section id="content" class="modelWorkspace">
-				</aside><!-- Here is the space used by the user to work -->
+				<aside class="modelActions">
+					<a class="button style1" data-ng-click="saveModel()">Salvar</a>
+				</aside><!-- End .modelActions -->
+				<!-- Here is the space used by the user to work -->
 			</section>	<!-- End .modelWorkspace -->
 
 			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">

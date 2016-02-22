@@ -43,7 +43,7 @@ a,
 /******************************************************************************/
 .componentsList {
 	position: fixed;
-	top: 70px;
+	top: 46px;
 	bottom: 0;
 	left: 0;
 	width: 200px;
@@ -51,6 +51,7 @@ a,
 	background-color: #efefef;
 }
 
+.componentsList .stencil {border: none;}
 .componentsList .stencil .elements {background-color: transparent;}
 
 /******************************************************************************/
@@ -58,7 +59,7 @@ a,
 /******************************************************************************/
 .modelWorkspace {
 	position: fixed;
-	top: 70px;
+	top: 46px;
 	right: 0;
 	bottom: 0;
 	left: 200px;
@@ -69,7 +70,7 @@ a,
 /******************************************************************************/
 .modelProperties {
 	position: fixed;
-	top: 70px;
+	top: 46px;
 	right: -200px;
 	bottom: 0;
 	width: 220px;
