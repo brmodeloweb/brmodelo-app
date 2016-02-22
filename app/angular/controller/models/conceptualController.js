@@ -8,6 +8,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 		user: $rootScope.loggeduser
 	}
 	$scope.editionVisible = false;
+	$scope.dropdownVisible = false;
 	$scope.selectedElement = {
 		element: {},
 		value: ""
@@ -47,6 +48,10 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 
 	$scope.changeVisible = function(){
 		$scope.editionVisible = !$scope.editionVisible;
+	}
+
+	$scope.changeDropdownVisible = function(){
+		$scope.dropdownVisible = !$scope.dropdownVisible;
 	}
 
 	$scope.saveModel = function() {
