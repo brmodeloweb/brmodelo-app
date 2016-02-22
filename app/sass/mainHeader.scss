@@ -10,7 +10,8 @@
 
 .mainHeader .logo {
 	float: left;
-	margin: 0 15px 0 16px;
+	border-right: 1px solid rgba(#000, 0.2);
+	margin-left: 15px;
 }
 
 .mainHeader .logo strong {
@@ -27,9 +28,7 @@
 	min-width: 500px;
 }
 .mainNav .mainHeaderItem {float: left;}
-
 .mainNav .mainHeaderItem {border-right: 1px solid rgba(#000, 0.2);}
-.mainNav .mainHeaderItem:first-child {border-left: 1px solid rgba(#000, 0.2);}
 
 /******************************************************************************/
 /* .mainHeaderItem */
@@ -85,25 +84,34 @@
 }
 
 /******************************************************************************/
-/* Esse css não deveria estar aqui, ver com o Id a melhor forma de reaprovitar /
-/* o código para novos hearders                                               */
+/* .modelOptions */
 /******************************************************************************/
-.modelTitleItem {
-	margin: 10px;
-	width: 260px!important;
+.modelOptions {float: left;}
+
+.modelName,
+.modelViewiewOptions {
+	float: left;
+	padding: 8px 0;
+	margin: 0 10px;
 }
 
-.actionItem{
-	float: left;
-	min-width: 80px;
+.modelName input {
+	min-width: 250px;
+	padding: 3px 5px;
+	border-color: transparent;
+	background-color: transparent;
 }
+
+.modelViewiewOptions {
+	position: relative;
+	top: 2px;
+}
+
+/******************************************************************************/
+/* .modelViewiewOptions */
+/******************************************************************************/
 
 /******************************************************************************/
 /* Não consegui posicionar esse botao mas nem rezando muito!  /
 /******************************************************************************/
-.special{
-	margin-top: 20px;
-}
-
-
-
+.special{margin-top: 20px;}

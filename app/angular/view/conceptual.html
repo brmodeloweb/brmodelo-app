@@ -3,18 +3,20 @@
 		<h1 class="logo">
 			<strong>BR Modelo</strong>
 		</h1><!-- End .logo -->
-		<nav class="mainNav">
-			<div class="actionItem">
+		<aside class="modelOptions cf">
+			<div class="modelName">
 				<input
 					class="modelTitleItem fieldInput"
 					type="text"
 					data-ng-model="model.name"
 				/>
-			</div>
-			<div class="actionItem special">
-				<a class="button style1" ng-click="saveModel()">Salvar</a>
-			</div>
-		</nav><!-- End .mainNav -->
+				<a class="button style1 hide" data-ng-click="saveModel()">Salvar</a>
+			</div><!-- End .modelName -->
+			<div class="modelViewiewOptions">
+				<!-- Zoom, Undo, etc,etc -->
+			</div><!-- End .modelViewiewOptions -->
+		</aside><!-- End .modelOptions -->
+
 		<aside class="userActions cf">
 			<div class="dropdownButton"> <!-- Add/Remove class .active to show/hide submenu -->
 				<span class="mainHeaderItem">Options</span>
