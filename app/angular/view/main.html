@@ -30,7 +30,7 @@
 							<td>{{model.name}}</td>
 							<td>{{model.type}}</td>
 							<td>{{model.who}}</td>
-							<td>{{model.created}}</td>
+							<td>{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td> <a ng-click="openModel(model)"> open </a> </td>
 						</tr>
 					</tbody>
