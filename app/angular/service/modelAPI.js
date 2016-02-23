@@ -18,7 +18,7 @@ angular.module('myapp').factory('ModelAPI', function($http){
 	_getAllModels = function(_userId){
 		return $http
 			.get('/getAllModels', {
-				params: {'userId': _userId, 'modelId': _modelId}
+				params: {'userId': _userId}
 			}).then(function(res){
 				return res;
 			});
