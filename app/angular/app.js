@@ -11,6 +11,14 @@ app.config(['$urlRouterProvider', '$stateProvider',
 			}
 		});
 
+		$stateProvider.state('register', {
+			url: '/register',
+			templateUrl: 'angular/view/register.html',
+			data: {
+				requireLogin: false
+			}
+		});
+
 		$stateProvider.state('workspace', {
 			url: '/workspace',
 			templateUrl: 'angular/view/workspace.html',

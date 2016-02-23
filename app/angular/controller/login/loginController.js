@@ -31,19 +31,7 @@ angular.module('myapp').controller('LoginController', function($scope, $rootScop
 	};
 
 	$scope.register = function() {
-		var modalInstance = $modal.open({
-			animation: $scope.animationsEnabled,
-			templateUrl: 'register.html',
-			controller: 'registerController',
-			size: ""
-		});
-
-		modalInstance.result.then(function(result) {
-			console.log("Result");
-			//$scope.selected = selectedItem;
-		}, function() {
-			//$log.info('Modal dismissed at: ' + new Date());
-		});
+		$state.go('register');
 	};
 
 	$scope.toggleAnimation = function() {

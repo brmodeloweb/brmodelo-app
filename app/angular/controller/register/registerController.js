@@ -1,6 +1,6 @@
 var app = angular.module('myapp');
 
-app.controller('registerController', function($scope, $modalInstance, AuthService) {
+app.controller('registerController', function($scope, $state, AuthService) {
 
 	$scope.credentials = {
 		username: '',
@@ -25,7 +25,7 @@ app.controller('registerController', function($scope, $modalInstance, AuthServic
 
 		if ($scope.config.validmail && $scope.config.validname && $scope.config.validpassword) {
 			AuthService.register(credentials).then(function(user) {
-				$modalInstance.close("Result ok");
+				$state.go('login');
 			}, function(error) {
 				$scope.config.useralreadyexist = true;
 			});

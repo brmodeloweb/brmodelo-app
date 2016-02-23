@@ -50,76 +50,11 @@
 			</form><!-- End .loginForm -->
 
 			<footer class="callToAction">
-				<button type="button" class="button block" data-ng-click="register()">Create account</button>
-				<button type="button" class="button block">Forgot password</button>
+				<button type="button" class="button block" ng-click="register()" >Create account</button>
+				<button type="button" class="button block vhide">Forgot password</button>
 			</footer><!-- End .callToAction -->
 
 		</div><!-- End .wrapper -->
 	</section><!-- End .userLogin -->
 
-
-	<section class="userRegister ">
-		<header class="vhide">
-			<h2>Create account</h2>
-		</header>
-		<aside class="feedback">
-			<div class="wrapper">
-				<div class="message error sr" data-ng-class="{'hide': !config.useralreadyexist}">
-					<p>This user already exist :(</p>
-				</div>
-			</div><!-- End .wrapper -->
-		</aside><!-- End .feedback -->
-
-		<form class="registerForm publicBox ">
-			<div class="field" data-ng-model="credentials.username">
-				<label for="name" class="fieldLabel">Name</label>
-				<input
-					id="name"
-					class="fieldInput"
-					type="text"
-					placeholder="Your Name"
-					data-ng-class="{'error': config.submitted && !config.validname}"
-				/>
-			</div><!-- End .field -->
-
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validmail}">
-				<label for="mail" class="fieldLabel">Email</label>
-				<input
-					id="mail"
-					class="fieldInput"
-					type="text"
-					placeholder="Your email"
-					data-ng-model="credentials.email"
-				/>
-			</div><!-- End .field -->
-
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
-				<label for="password" class="fieldLabel">Password</label>
-				<input
-					id="password"
-					class="fieldInput"
-					type="password"
-					placeholder="Your Password"
-					data-ng-model="credentials.password"
-				/>
-			</div><!-- End .field -->
-
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
-				<label for="re-password" class="fieldLabel">Confirm password</label>
-				<input
-					id="re-password"
-					class="fieldInput"
-					type="password"
-					placeholder="Confirm Password"
-					data-ng-model="repassword"
-				/>
-			</div><!-- End .field -->
-
-			<div class="actions">
-				<button type="button" class="button style3 block" data-ng-click="cancel()">Cancel</button>
-				<button type="button" class="button style2 block" data-ng-click="register(credentials, repassword)">Register</button>
-			</div><!-- End .actions -->
-		</form><!-- End .registerForm -->
-
-	</section><!-- End .userRegister -->
 </div><!-- End .mainContent -->
