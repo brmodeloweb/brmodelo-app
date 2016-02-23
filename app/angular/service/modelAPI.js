@@ -15,10 +15,11 @@ angular.module('myapp').factory('ModelAPI', function($http){
 			});
 	}
 
-	_getAllModels = function(){
+	_getAllModels = function(_userId){
 		return $http
-			.get('/getAllModels')
-			.then(function(res){
+			.get('/getAllModels', {
+				params: {'userId': _userId, 'modelId': _modelId}
+			}).then(function(res){
 				return res;
 			});
 	}

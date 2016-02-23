@@ -106,7 +106,8 @@ module.exports = exports = function(app, helper) {
 
 	app.get('/getAllModels', function(req, res) {
 		var Model = mongoose.model('Model', ModelSchema);
-		Model.find({}, function(err, models) {
+		var userId = req.query.userId;
+		Model.find({'who': userId}, function(err, models) {
 			res.send(models);
 		});
 	});

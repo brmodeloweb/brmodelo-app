@@ -1,6 +1,6 @@
-angular.module('myapp').controller('listController', function($scope, $state, ModelAPI) {
+angular.module('myapp').controller('listController', function($scope, $state, ModelAPI, $rootScope) {
 
-	ModelAPI.getAllModels().then(function(models) {
+	ModelAPI.getAllModels($rootScope.loggeduser).then(function(models) {
 		$scope.models = models.data;
 	});
 
