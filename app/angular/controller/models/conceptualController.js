@@ -32,7 +32,6 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 								}
 
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
-			console.log("getModel");
 			$scope.model.name = resp.data[0].name;
 			$scope.model.type = resp.data[0].type;
 			$scope.model.id   = resp.data[0]._id;
@@ -70,9 +69,11 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 	}
 
 	$scope.set = function(cellView) {
-		$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
-		$scope.selectedElement.element = cellView;
-		$scope.$apply();
+		if(cellView.model.attributes.attrs.text != null){
+			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
+			$scope.selectedElement.element = cellView;
+			$scope.$apply();
+		}
 	}
 
 	function buildWorkspace(){
