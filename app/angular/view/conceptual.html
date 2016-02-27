@@ -1,6 +1,6 @@
 <div data-ng-controller="conceptualController" data-ng-init="initView()">
 	<header class="mainHeader cf">
-		<h1 class="logo">
+		<h1 class="logo" data-ui-sref="main">
 			<strong>BR Modelo</strong>
 		</h1><!-- End .logo -->
 		<aside class="modelOptions cf">
@@ -10,8 +10,14 @@
 					type="text"
 					data-ng-model="model.name"
 				/>
+				<span class="fa fa-pencil inputPencil"></span>
 			</div><!-- End .modelName -->
 			<div class="modelViewiewOptions">
+				<a><i class="fa fa-reply fa-lg"></i></a>
+				<a><i class="fa fa-share fa-lg"></i></a>
+				<a><i class="fa fa-search-plus fa-lg"></i></a>
+				<a><i class="fa fa-search-minus fa-lg"></i></a>
+				<a class="button style1" data-ng-click="saveModel()">Salvar</a>
 				<!-- Zoom, Undo, etc,etc -->
 			</div><!-- End .modelViewiewOptions -->
 		</aside><!-- End .modelOptions -->
@@ -32,9 +38,9 @@
 			</section><!-- End .componentsList -->
 
 			<section id="content" class="modelWorkspace">
-				<aside class="modelActions">
-					<a class="button style1" data-ng-click="saveModel()">Salvar</a>
-				</aside><!-- End .modelActions -->
+				<!-- <aside class="modelActions"> -->
+					<!-- <a class="button style1" data-ng-click="saveModel()">Salvar</a> -->
+				<!-- </aside> --><!-- End .modelActions -->
 				<!-- Here is the space used by the user to work -->
 			</section>	<!-- End .modelWorkspace -->
 

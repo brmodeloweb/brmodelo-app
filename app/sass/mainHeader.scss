@@ -12,6 +12,7 @@
 	float: left;
 	border-right: 1px solid rgba(#000, 0.2);
 	margin-left: 15px;
+	cursor: pointer;
 }
 
 .mainHeader .logo strong {
@@ -98,18 +99,41 @@
 .modelName input {
 	min-width: 250px;
 	padding: 3px 5px;
-	border-color: transparent;
-	background-color: transparent;
+	border-color: 1px solid rgba(0, 0, 0, 0.4);
+	background-color: rgba(255, 255, 255, 0.1);
+	color: grey;
 }
 
+.inputPencil {
+    float: right;
+    margin-right: 6px;
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    color: grey;
+}
+
+
+/******************************************************************************/
+/* .modelViewiewOptions */
+/******************************************************************************/
 .modelViewiewOptions {
 	position: relative;
 	top: 2px;
 }
 
-/******************************************************************************/
-/* .modelViewiewOptions */
-/******************************************************************************/
+.modelViewiewOptions a {
+	padding: 5px;
+	color: black;
+}
+
+.modelViewiewOptions a:hover {
+	color: yellow;
+}
+
+.modelViewiewOptions a:active {
+	color: red;
+}
 
 /******************************************************************************/
 /* Não consegui posicionar esse botao mas nem rezando muito!  /
