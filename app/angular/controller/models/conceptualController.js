@@ -91,6 +91,8 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 		});
 
 		paper.on('cell:pointerup', function(cellView) {
+			console.log("entity");
+			console.log(cellView);
 			$scope.set(cellView);
 			if (cellView.model instanceof joint.dia.Link) return;
 			var halo = new joint.ui.Halo({
@@ -102,6 +104,15 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 			halo.removeHandle('fork');
 			halo.removeHandle('rotate');
 			halo.render();
+		});
+
+		paper.on('blank:pointerdown', function(evt, x, y) {
+			console.log("unselected");
+			$scope.selectedElement = {
+				element: {},
+				value: ""
+			};
+			$scope.$apply();
 		});
 
 		var stencil = new joint.ui.Stencil({

@@ -23,6 +23,12 @@ a,
 .headerText {
 	font-size: 2em;
 	font-weight: 100;
+	width: 300px;
+	display: inline-block;
+}
+
+.wrapper .headerButton {
+	float: right;
 }
 
 /******************************************************************************/

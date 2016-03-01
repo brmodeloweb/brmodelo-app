@@ -10,4 +10,10 @@ angular.module('myapp').controller('listController', function($scope, $state, Mo
 		});
 	}
 
+	$scope.newModel = function() {
+		$state.go('conceptual', {
+			'modelid': 0
+		});
+	};
+
 });
