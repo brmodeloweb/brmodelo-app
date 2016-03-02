@@ -40,6 +40,16 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 
 	}
 
+	$scope.undoModel = function(){
+		console.log("undo");
+		$scope.commandManager.undo();
+	}
+
+	$scope.redoModel = function(){
+		console.log("redo");
+		$scope.commandManager.redo();
+	}
+
 	$scope.applyChanges = function(){
 		$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
 		$scope.selectedElement.element.update();
@@ -78,6 +88,8 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 
 	function buildWorkspace(){
 		$scope.graph = new joint.dia.Graph;
+		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
+
 		var paper = new joint.dia.Paper({
 			el: $('#content'),
 			width: $('#content').width(),
