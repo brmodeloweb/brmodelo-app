@@ -102,7 +102,21 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
 		});
 
-		paper.on('cell:pointerup', function(cellView) {
+		var selection = new Backbone.Collection;
+		var selectionView = new joint.ui.SelectionView({ paper: paper, graph: $scope.graph , model: selection });
+
+		paper.on('blank:pointerdown', function(evt){
+			if (evt.shiftKey) {
+				selectionView.startSelecting(evt);
+			}
+		});
+
+		selection.on('reset add', function() {
+        // Print types of all the elements in the selection.
+        $('#selection-info').text('Selected types: ' + selection.pluck('type'));
+    });
+
+		paper.on('cell:pointerup', function(cellView, evt) {
 			console.log("entity");
 			console.log(cellView);
 			$scope.set(cellView);
@@ -111,6 +125,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 				cellView: cellView,
 				boxContent: false
 			});
+
 			halo.removeHandle('resize');
 			halo.removeHandle('clone');
 			halo.removeHandle('fork');
