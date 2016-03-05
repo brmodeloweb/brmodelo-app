@@ -33,11 +33,20 @@ angular.module('myapp').factory('ModelAPI', function($http){
 			});
 	}
 
+	_deleteModel = function(_modelId){
+		return $http.delete('/deleteModel', {
+			params: {'modelId': _modelId}
+		}).then(function(resp){
+			return resp;
+		});
+	}
+
 	return {
 		saveModel : _saveModel,
 		getAllModels : _getAllModels,
 		getModel : _getModel,
-		updateModel : _updateModel
+		updateModel : _updateModel,
+		deleteModel : _deleteModel
 	}
 
 });

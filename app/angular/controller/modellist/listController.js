@@ -16,4 +16,13 @@ angular.module('myapp').controller('listController', function($scope, $state, Mo
 		});
 	};
 
+	$scope.deleteModel = function(model) {
+		ModelAPI.deleteModel(model._id).then(function (resp) {
+			if (resp.status === 200){
+				console.log($scope.models.indexOf(model));
+				$scope.models.splice($scope.models.indexOf(model), 1);
+			}
+		});
+	}
+
 });

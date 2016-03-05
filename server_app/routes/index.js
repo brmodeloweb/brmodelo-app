@@ -138,4 +138,15 @@ module.exports = exports = function(app, helper) {
 		})
 	});
 
+	app.delete('/deleteModel', function(req, resp){
+		var Model = mongoose.model('Model', ModelSchema);
+		Model.find({'_id': req.query.modelId}).remove(function (err) {
+			if (err) {
+				console.log(err);
+				resp.send(404);
+			}
+			resp.send(200);
+		});
+	});
+
 }

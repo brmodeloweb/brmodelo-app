@@ -23,7 +23,7 @@
 							<th><strong>Kind</strong></th>
 							<th><strong>Author</strong></th>
 							<th><strong>Date</strong></th>
-							<th><strong class="vhide">Actions</strong></th>
+							<th colspan="2"><strong class="vhide">Actions</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -33,6 +33,7 @@
 							<td>{{model.who}}</td>
 							<td>{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td> <a ng-click="openModel(model)"> open </a> </td>
+							<td> <a ng-click="deleteModel(model)"> delete </a> </td>
 						</tr>
 					</tbody>
 				</table>
