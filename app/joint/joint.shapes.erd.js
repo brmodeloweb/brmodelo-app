@@ -27,6 +27,7 @@ joint.shapes.erd.Entity = joint.dia.Element.extend({
     defaults: joint.util.deepSupplement({
 
         type: 'erd.Entity',
+        supertype: 'Entity',
         size: { width: 150, height: 60 },
         attrs: {
             '.outer': {
@@ -54,7 +55,7 @@ joint.shapes.erd.WeakEntity = joint.shapes.erd.Entity.extend({
     defaults: joint.util.deepSupplement({
 
         type: 'erd.WeakEntity',
-
+        supertype: 'Entity',
         attrs: {
             '.inner' : { display: 'auto' },
             text: { text: 'Weak Entity' }
@@ -70,6 +71,7 @@ joint.shapes.erd.Relationship = joint.dia.Element.extend({
     defaults: joint.util.deepSupplement({
 
         type: 'erd.Relationship',
+        supertype: 'Relationship',
         size: { width: 80, height: 80 },
         attrs: {
             '.outer': {
@@ -97,7 +99,7 @@ joint.shapes.erd.IdentifyingRelationship = joint.shapes.erd.Relationship.extend(
     defaults: joint.util.deepSupplement({
 
         type: 'erd.IdentifyingRelationship',
-
+        supertype: 'Relationship',
         attrs: {
             '.inner': { display: 'auto' },
             text: { text: 'Identifying' }
@@ -113,6 +115,7 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
     defaults: joint.util.deepSupplement({
 
         type: 'erd.Attribute',
+        supertype: 'Attribute',
         size: { width: 100, height: 50 },
         attrs: {
             'ellipse': {
@@ -144,7 +147,7 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
      defaults: joint.util.deepSupplement({
 
          type: 'erd.Multivalued',
-
+         supertype: 'Attribute',
          attrs: {
              '.inner': { display: 'block' },
              text: { text: 'multivalued' }
@@ -157,7 +160,7 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
      defaults: joint.util.deepSupplement({
 
          type: 'erd.Derived',
-
+         supertype: 'Attribute',
          attrs: {
              '.outer': { 'stroke-dasharray': '3,5' },
              text: { text: 'derived' }
@@ -171,7 +174,7 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
      defaults: joint.util.deepSupplement({
 
          type: 'erd.Key',
-
+         supertype: 'Attribute',
          attrs: {
              ellipse: { 'stroke-width': 4 },
              text: { text: 'key', 'font-weight': '800', 'text-decoration': 'underline' }
@@ -197,6 +200,7 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
     defaults: joint.util.deepSupplement({
 
         type: 'erd.ISA',
+        supertype: 'Inheritance',
         size: { width: 100, height: 50 },
         attrs: {
             polygon: {

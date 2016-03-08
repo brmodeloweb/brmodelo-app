@@ -41,12 +41,10 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 	}
 
 	$scope.undoModel = function(){
-		console.log("undo");
 		$scope.commandManager.undo();
 	}
 
 	$scope.redoModel = function(){
-		console.log("redo");
 		$scope.commandManager.redo();
 	}
 
@@ -68,12 +66,11 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 
 		if ($scope.model.id == 0){
 			ModelAPI.saveModel($scope.model).then(function(res){
-				console.log(res);
+				// call feedback here
 			});
 		} else {
-			console.log($scope.model.name);
 			ModelAPI.updateModel($scope.model).then(function(res){
-				console.log(res);
+				// call feedback here
 			});
 		}
 	}
@@ -84,6 +81,32 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 			$scope.selectedElement.element = cellView;
 			$scope.$apply();
 		}
+	}
+
+	$scope.isValidConnection = function (source, target) {
+		if(source.attributes.supertype === target.attributes.supertype)
+			return false;
+
+		if (source.attributes.supertype === 'Attribute') {
+			if(target.attributes.supertype != 'Entity'){
+				return false;
+			}
+
+			if($scope.graph.getNeighbors(source).length > 1) {
+				return false;
+			}
+		}
+
+		if (target.attributes.supertype === 'Attribute') {
+			if(source.attributes.supertype != 'Entity'){
+				return false;
+			}
+
+			if($scope.graph.getNeighbors(target).length > 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	function buildWorkspace(){
@@ -117,13 +140,21 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
     });
 
 		paper.on('cell:pointerup', function(cellView, evt) {
-			console.log("entity");
-			console.log(cellView);
 			$scope.set(cellView);
 			if (cellView.model instanceof joint.dia.Link) return;
 			var halo = new joint.ui.Halo({
 				cellView: cellView,
 				boxContent: false
+			});
+
+			halo.on('action:link:add', function(link) {
+				var source = $scope.graph.getCell(link.get('source').id);
+				var target = $scope.graph.getCell(link.get('target').id);
+
+				if(!$scope.isValidConnection(source, target)){
+				  link.remove();
+				}
+
 			});
 
 			halo.removeHandle('resize');
@@ -134,7 +165,6 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 		});
 
 		paper.on('blank:pointerdown', function(evt, x, y) {
-			console.log("unselected");
 			$scope.selectedElement = {
 				element: {},
 				value: ""
