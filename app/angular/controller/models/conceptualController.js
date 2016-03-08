@@ -147,12 +147,37 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 				boxContent: false
 			});
 
+			console.log(cellView);
+			if(cellView.model.attributes.supertype === 'Relationship'){
+				console.log("Relacionamento");
+			}
+
 			halo.on('action:link:add', function(link) {
 				var source = $scope.graph.getCell(link.get('source').id);
 				var target = $scope.graph.getCell(link.get('target').id);
 
 				if(!$scope.isValidConnection(source, target)){
 				  link.remove();
+				}
+
+				if(source.attributes.supertype === 'Relationship' ||
+					 target.attributes.supertype === 'Relationship'){
+
+					link.label(0, {
+						position: .1,
+						attrs: {
+							rect: { fill: 'transparent' },
+							text: { fill: 'blue', text: '0..1' }
+						}
+					});
+					link.label(1, {
+						position: .9,
+						attrs: {
+							rect: { fill: 'transparent' },
+							text: { fill: 'blue', text: '0..1' }
+						}
+					});
+					
 				}
 
 			});
