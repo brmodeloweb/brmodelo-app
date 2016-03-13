@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
-var server = require('gulp-express');
+var gls = require('gulp-live-server');
 
 //Sass variables
 var input = './app/sass/*.scss';
@@ -32,15 +32,13 @@ gulp.task('watch', function() {
 
 gulp.task('copy', function() {
 	gulp.src([
-		'node_modules/angular-ui-bootstrap/ui-bootstrap.js',
-		'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js',
-		'node_modules/angular-modal-service/dst/angular-modal-service.min.js',
-		'node_modules/angular-modal-service/dst/angular-modal-service.min.js.map',
-		'node_modules/angular/angular.min.js',
-		'node_modules/angular/angular.min.js.map',
-		'node_modules/angular-ui-router/release/angular-ui-router.min.js',
-		'node_modules/angular-cookies/angular-cookies.min.js',
-		'node_modules/angular-cookies/angular-cookies.min.js.map',
+		'bower_components/angular-bootstrap/ui-bootstrap.js',
+		'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+		'bower_components/angular/angular.min.js',
+		'bower_components/angular/angular.min.js.map',
+		'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+		'bower_components/angular-cookies/angular-cookies.min.js',
+		'bower_components/angular-cookies/angular-cookies.min.js.map',
 		'bower_components/angular-ui-select3/src/select3.js'
 	]).pipe(gulp.dest('build/libs/'));
 
@@ -55,7 +53,8 @@ gulp.task('copy', function() {
 });//End task copy
 
 gulp.task('server', function () {
-	server.run(['server.js']);
+	var server = gls.new('myapp.js');
+	server.start();
 });//End task server
 
 gulp.task('default', ['sass','watch','copy','server']);
