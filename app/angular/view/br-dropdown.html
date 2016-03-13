@@ -1,5 +1,5 @@
 <div class="dropdownButton" data-ng-class="{'active': opened}"> <!-- Add/Remove class .active to show/hide submenu -->
-	<span class="mainHeaderItem" ng-click="show()">{{title}}</span>
+	<span class="mainHeaderItem" ng-click="show()"> <i class="fa fa-cog"></i> </span>
 	<ul class="dropDownList" >
 		<li data-ng-repeat="item in list">
 			<a class="dropDownItem" ng-click="doAction(item)">{{item.text}}</a>

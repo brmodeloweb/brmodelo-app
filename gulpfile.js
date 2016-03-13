@@ -40,12 +40,17 @@ gulp.task('copy', function() {
 		'node_modules/angular/angular.min.js.map',
 		'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 		'node_modules/angular-cookies/angular-cookies.min.js',
-		'node_modules/angular-cookies/angular-cookies.min.js.map'
+		'node_modules/angular-cookies/angular-cookies.min.js.map',
+		'bower_components/angular-ui-select3/src/select3.js'
 	]).pipe(gulp.dest('build/libs/'));
 
 	gulp.src([
 		'node_modules/bootstrap/dist/**/*'
 	]).pipe(gulp.dest('build/bootstrap'));
+
+	gulp.src([
+		'bower_components/jquery-nice-select/**/*'
+	]).pipe(gulp.dest('build/jquery-nice-select'));
 
 });//End task copy
 
