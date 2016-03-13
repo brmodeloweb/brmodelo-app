@@ -1,4 +1,6 @@
-var app = angular.module('myapp', ['ui.router', 'ui.bootstrap', 'angularModalService', 'ngCookies']);
+var app = angular.module('myapp', ['ui.router',
+																	 'ui.bootstrap',
+																	 'ngCookies']);
 
 app.config(['$urlRouterProvider', '$stateProvider',
 
@@ -69,4 +71,4 @@ app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 	});
 });
 
-app.$inject = ['$scope', '$http', '$cookies', 'ModalService'];
+app.$inject = ['$scope', '$http', '$cookies'];

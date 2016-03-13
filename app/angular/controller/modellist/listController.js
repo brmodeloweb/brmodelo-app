@@ -1,4 +1,8 @@
-angular.module('myapp').controller('listController', function($scope, $state, ModelAPI, $rootScope) {
+var app = angular.module('myapp');
+
+app.controller('listController', function($scope, $state, ModelAPI, $rootScope, $uibModal) {
+
+	$scope.animationsEnabled = true;
 
 	ModelAPI.getAllModels($rootScope.loggeduser).then(function(models) {
 		$scope.models = models.data;
@@ -11,9 +15,23 @@ angular.module('myapp').controller('listController', function($scope, $state, Mo
 	}
 
 	$scope.newModel = function() {
-		$state.go('conceptual', {
-			'modelid': 0
+		$('select').niceSelect();
+
+		var modalInstance = $uibModal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'angular/view/modal/newModelModal.html',
+			controller:  'newModelModalController'
 		});
+
+		modalInstance.result.then(function (model) {
+			ModelAPI.saveModel($scope.model).then(function(res){
+				// call feedback here
+			});
+		});
+	};
+
+	$scope.toggleAnimation = function() {
+		$scope.animationsEnabled = !$scope.animationsEnabled;
 	};
 
 	$scope.deleteModel = function(model) {

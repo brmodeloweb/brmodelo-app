@@ -1,4 +1,5 @@
-angular.module('myapp').controller("conceptualController", function($scope, $http, $rootScope, $stateParams, ConceptualFactory, ModelAPI) {
+angular.module('myapp').controller("conceptualController",
+	function($scope, $http, $rootScope, $stateParams, ConceptualFactory, ModelAPI) {
 
 	$scope.model = {
 		id: '',
@@ -177,7 +178,7 @@ angular.module('myapp').controller("conceptualController", function($scope, $htt
 							text: { fill: 'blue', text: '0..1' }
 						}
 					});
-					
+
 				}
 
 			});
