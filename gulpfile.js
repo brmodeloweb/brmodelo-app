@@ -43,7 +43,7 @@ gulp.task('copy', function() {
 	]).pipe(gulp.dest('build/libs/'));
 
 	gulp.src([
-		'node_modules/bootstrap/dist/**/*'
+		'bower_components/bootstrap/dist/**/*'
 	]).pipe(gulp.dest('build/bootstrap'));
 
 	gulp.src([
