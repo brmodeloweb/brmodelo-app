@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "postinstall": "bower cache clean && bower install",
+    "start": "gulp"
   },
   "dependencies": {
     "bcrypt-nodejs": "~0.0.3",
     "body-parser": "^1.13.3",
+    "bower": "^1.7.7",
     "consolidate": "~0.14.0",
     "ejs": "^2.3.3",
     "errorhandler": "^1.4.2",
@@ -27,9 +29,5 @@
   },
   "engines": {
     "node": "5.8.0"
-  },
-  "scripts": {
-    "postinstall": "bower cache clean && bower install",
-    "start": "gulp"
   }
 }
