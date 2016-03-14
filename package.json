@@ -25,12 +25,11 @@
     "sweet-feedback": "^1.0.1",
     "validator": "~5.1.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": "5.8.0"
   },
   "scripts": {
-  "start": "node app",
-  "postinstall": "bower install &&  gulp"
+    "postinstall": "bower install",
+    "start": "gulp"
   }
 }
