@@ -30,7 +30,7 @@
     "node": "5.8.0"
   },
   "scripts": {
-  "start": "node server.js",
-  "postinstall": "bower install && gulp"
+  "start": "node app",
+  "postinstall": "bower install &&  gulp"
   }
 }
