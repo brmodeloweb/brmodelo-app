@@ -29,7 +29,7 @@
     "node": "5.8.0"
   },
   "scripts": {
-    "postinstall": "node node_modules/bower/bin/bower install",
+    "postinstall": "bower cache clean && bower install",
     "start": "gulp"
   }
 }
