@@ -53,7 +53,7 @@ gulp.task('copy', function() {
 });//End task copy
 
 gulp.task('server', function () {
-	var server = gls.new('myapp.js');
+	var server = gls.new('server.js');
 	server.start();
 });//End task server
 

@@ -1,4 +1,4 @@
-angular.module('myapp').controller('LoginController', function($scope, $rootScope, AuthService, $modal, $state, $cookies) {
+angular.module('myapp').controller('LoginController', function($scope, $rootScope, AuthService , $state, $cookies) {
 
 	$scope.credentials = {
 		username: '',
