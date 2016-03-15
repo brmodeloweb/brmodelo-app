@@ -52,3 +52,16 @@
 	cursor: default;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
+
+// addmodel
+.modal-dialog {
+	max-width: 500px;
+}
+
+.modelselect .nice-select {
+	min-width: 260px;
+}
+
+.modelselect .nice-select.open .list {
+		min-width: 260px;
+}

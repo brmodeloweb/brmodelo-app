@@ -99,7 +99,7 @@ module.exports = exports = function(app, helper) {
 			if (err) {
 				console.log(err);
 			} else {
-				res.sendStatus(200, "Deu boa esse save");
+				res.send(newModel);
 			}
 		});
 	});

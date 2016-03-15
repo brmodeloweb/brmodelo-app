@@ -15,8 +15,7 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 	}
 
 	$scope.newModel = function() {
-		$('select').niceSelect();
-
+		//TODO refac it to a controller
 		var modalInstance = $uibModal.open({
 			animation: $scope.animationsEnabled,
 			templateUrl: 'angular/view/modal/newModelModal.html',
@@ -24,8 +23,8 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 		});
 
 		modalInstance.result.then(function (model) {
-			ModelAPI.saveModel($scope.model).then(function(res){
-				// call feedback here
+			ModelAPI.saveModel(model).then(function(newModel){
+				$scope.openModel(newModel);
 			});
 		});
 	};
