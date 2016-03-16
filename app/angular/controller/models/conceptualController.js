@@ -10,6 +10,8 @@ angular.module('myapp').controller("conceptualController",
 	}
 	$scope.editionVisible = false;
 	$scope.dropdownVisible = false;
+	$scope.shouldShow = false;
+
 	$scope.selectedElement = {
 		element: {},
 		value: ""
@@ -18,19 +20,8 @@ angular.module('myapp').controller("conceptualController",
 	$scope.initView = function(){
 		buildWorkspace();
 
-		checkLoading();
-	}
-
-	checkLoading = function(){
-
-		if($stateParams.modelid == 0) {
-			$scope.model.id = 0;
+		if($stateParams.modelid == 0)
 			return;
-		}
-
-		var json = {'modelId': $stateParams.modelid,
-								'userId': $rootScope.loggeduser
-								}
 
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
 			$scope.model.name = resp.data[0].name;
@@ -38,7 +29,6 @@ angular.module('myapp').controller("conceptualController",
 			$scope.model.id   = resp.data[0]._id;
 			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
 		});
-
 	}
 
 	$scope.undoModel = function(){
@@ -78,10 +68,19 @@ angular.module('myapp').controller("conceptualController",
 
 	$scope.set = function(cellView) {
 		if(cellView.model.attributes.attrs.text != null){
+
+			if(cellView.model.attributes.supertype === 'Relationship'){
+				treatRelationship(cellView);
+			}
+
 			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
 			$scope.selectedElement.element = cellView;
 			$scope.$apply();
 		}
+	}
+
+	treatRelationship = function (cellView) {
+
 	}
 
 	$scope.isValidConnection = function (source, target) {
@@ -148,11 +147,6 @@ angular.module('myapp').controller("conceptualController",
 				boxContent: false
 			});
 
-			console.log(cellView);
-			if(cellView.model.attributes.supertype === 'Relationship'){
-				console.log("Relacionamento");
-			}
-
 			halo.on('action:link:add', function(link) {
 				var source = $scope.graph.getCell(link.get('source').id);
 				var target = $scope.graph.getCell(link.get('target').id);
@@ -162,20 +156,13 @@ angular.module('myapp').controller("conceptualController",
 				}
 
 				if(source.attributes.supertype === 'Relationship' ||
-					 target.attributes.supertype === 'Relationship'){
+					 target.attributes.supertype === 'Relationship') {
 
 					link.label(0, {
 						position: .1,
 						attrs: {
 							rect: { fill: 'transparent' },
-							text: { fill: 'blue', text: '0..1' }
-						}
-					});
-					link.label(1, {
-						position: .9,
-						attrs: {
-							rect: { fill: 'transparent' },
-							text: { fill: 'blue', text: '0..1' }
+							text: { fill: 'blue', text: '1' }
 						}
 					});
 
