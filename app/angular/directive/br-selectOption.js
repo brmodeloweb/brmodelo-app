@@ -3,16 +3,14 @@ angular.module("myapp").directive('brselectoption', function () {
 		replace: false,
 		restrict: "A",
 		link: function(scope){
-
 			angular.element(document).ready(function () {
 				$(function(){
 				   function show_popup(){
 				  		$('#br-selectoption').niceSelect();
 				   };
-				   window.setTimeout( show_popup, 250 ); // 5 seconds
+				   window.setTimeout( show_popup, 200 ); // 5 seconds
 				});
 			});
-
 		}
 	}
 });
