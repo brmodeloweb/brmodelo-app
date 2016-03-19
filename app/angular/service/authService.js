@@ -3,7 +3,7 @@ angular.module('myapp').factory('AuthService', function($http, $cookies) {
 
 	authService.login = function(credentials) {
 		return $http
-			.post('/login', credentials)
+			.post('/users/login', credentials)
 			.then(function(res) {
 				var user = res.data;
 				var today = new Date();
@@ -24,7 +24,7 @@ angular.module('myapp').factory('AuthService', function($http, $cookies) {
 
 	authService.register = function(credentials) {
 		return $http
-			.post('/createUser', credentials)
+			.post('/users/create', credentials)
 			.then(function(res) {
 				//implement resp here!!
 			});

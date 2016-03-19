@@ -2,31 +2,31 @@ angular.module('myapp').factory('ModelAPI', function($http){
 
 	_saveModel = function(model){
 		return $http
-			.post('/saveModel', model)
+			.post('/models', model)
 			.then(function(newModel){
 				return newModel.data;
 			});
 	}
 
-	_updateModel = function(model){
-		return $http
-			.put('/updateModel', model).then(function(res){
-				console.log(res);
-			});
-	}
-
 	_getAllModels = function(_userId){
 		return $http
-			.get('/getAllModels', {
+			.get('/models', {
 				params: {'userId': _userId}
 			}).then(function(res){
 				return res;
 			});
 	}
 
+	_updateModel = function(model){
+		return $http
+			.put('/models/:modelId', model).then(function(res){
+				console.log(res);
+			});
+	}
+
 	_getModel = function(_modelId, _userId){
 		return $http
-			.get('/getModel', {
+			.get('/models/:modelId', {
     		params: {'userId': _userId, 'modelId': _modelId}
 			}).then(function(resp){
 				return resp;
@@ -34,7 +34,7 @@ angular.module('myapp').factory('ModelAPI', function($http){
 	}
 
 	_deleteModel = function(_modelId){
-		return $http.delete('/deleteModel', {
+		return $http.delete('/models/:modelId', {
 			params: {'modelId': _modelId}
 		}).then(function(resp){
 			return resp;
