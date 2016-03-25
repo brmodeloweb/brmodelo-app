@@ -196,13 +196,9 @@ angular.module('myapp').controller("conceptualController",
 			ConceptualFactory.createEntity(),
 			ConceptualFactory.createAttribute(),
 			ConceptualFactory.createIsa(),
-			ConceptualFactory.createKey(),
 			ConceptualFactory.createRelationship(),
-			ConceptualFactory.createMultivalued(),
 			ConceptualFactory.createWeakEntity(),
-			ConceptualFactory.createWeakEntity(),
-			ConceptualFactory.createDerived(),
-			ConceptualFactory.createIdentifyingRelationship()
+			ConceptualFactory.createIdentifyingRelationship(),
 		]);
 	}
 

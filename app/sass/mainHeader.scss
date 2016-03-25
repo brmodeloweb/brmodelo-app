@@ -11,14 +11,13 @@
 .mainHeader .logo {
 	float: left;
 	border-right: 1px solid rgba(#000, 0.2);
-	margin-left: 15px;
 	cursor: pointer;
 }
 
 .mainHeader .logo strong {
 	display: block;
-	font-size: 1.2em;
-	padding: 15px 53px;
+	font-size: 24px;
+	padding: 10px;
 }
 
 /******************************************************************************/
@@ -59,10 +58,10 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
+	border-left: 1px solid rgba(#000, 0.2);
 }
 
 .userActions .dropdownButton {float: right;}
-.userActions .mainHeaderItem {border-left: 1px solid rgba(#000, 0.2);}
 
 .userActions .dropDownList {
 	list-style: none;

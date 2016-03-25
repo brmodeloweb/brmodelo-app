@@ -5,7 +5,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 	_createEntity = function() {
 		return new erd.Entity({
 			position: {
-				x: 10,
+				x: 25,
 				y: 10
 			},
 			size: {
@@ -24,35 +24,14 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
-	_createAttribute = function() {
-		return new erd.Normal({
-			position: {
-				x: 100,
-				y: 10
-			},
-			size: {
-				width: 80,
-				height: 40
-			},
-			attrs: {
-				text: {
-					text: 'Atributo'
-				},
-				'.outer': {
-						fill: '#FFFFFF'
-				}
-			}
-		});
-	};
-
 	_createIsa = function() {
 		return new erd.ISA({
 			position: {
-				x: 10,
+				x: 40,
 				y: 70
 			},
 			size: {
-				width: 80,
+				width: 50,
 				height: 40
 			},
 			attrs: {
@@ -63,31 +42,31 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
-	_createKey = function() {
-		return new erd.Key({
-			position: {
-				x: 100,
-				y: 70
-			},
-			size: {
-				width: 80,
-				height: 40
-			},
-			attrs: {
-				text: {
-					text: 'Chave'
-				},
-				'.outer': {
-						fill: '#FFFFFF'
-				}
-			}
-		});
-	};
+	// _createKey = function() {
+	// 	return new erd.Key({
+	// 		position: {
+	// 			x: 100,
+	// 			y: 70
+	// 		},
+	// 		size: {
+	// 			width: 80,
+	// 			height: 40
+	// 		},
+	// 		attrs: {
+	// 			text: {
+	// 				text: 'Chave'
+	// 			},
+	// 			'.outer': {
+	// 					fill: '#FFFFFF'
+	// 			}
+	// 		}
+	// 	});
+	// };
 
 	_createRelationship = function() {
 		return new erd.Relationship({
 			position: {
-				x: 10,
+				x: 25,
 				y: 130
 			},
 			size: {
@@ -106,40 +85,10 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 
 	};
 
-	_createMultivalued = function() {
-		return new erd.Multivalued({
-			position: {
-				x: 100,
-				y: 130
-			},
-			size: {
-				width: 80,
-				height: 40
-			},
-			attrs: {
-				text: {
-					text: 'Mult valor'
-				},
-				'ellipse': {
-						transform: 'translate(50, 25)'
-				},
-				'.outer': {
-						stroke: '#D35400', 'stroke-width': 2,
-						cx: 0, cy: 0, rx: 50, ry: 25,
-						fill: '#FFFFFF'
-				},
-				'.inner': {
-						stroke: '#D35400',
-						fill: '#FFFFFF'
-				}
-			}
-		});
-	};
-
 	_createWeakEntity = function() {
 		return new erd.WeakEntity({
 			position: {
-				x: 10,
+				x: 25,
 				y: 190
 			},
 			size: {
@@ -160,41 +109,10 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
-	_createDerived = function() {
-		return new erd.Derived({
-			position: {
-				x: 100,
-				y: 190
-			},
-			size: {
-				width: 80,
-				height: 40
-			},
-			attrs: {
-				text: {
-					text: 'Fraca'
-				},
-				'ellipse': {
-						transform: 'translate(50, 25)'
-				},
-				'.outer': {
-						stroke: '#D35400', 'stroke-width': 2,
-						cx: 0, cy: 0, rx: 50, ry: 25,
-						fill: '#FFFFFF'
-				},
-				'.inner': {
-						stroke: '#D35400',
-						fill: '#FFFFFF'
-				}
-			}
-		});
-
-	};
-
 	_createIdentifyingRelationship = function() {
 		return new erd.IdentifyingRelationship({
 			position: {
-				x: 10,
+				x: 25,
 				y: 245
 			},
 			size: {
@@ -215,15 +133,26 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
+	_createAttribute = function() {
+		return new erd.Attribute({
+			position: {
+				x: 65,
+				y: 335
+			},
+			attrs: {
+				text: {
+						text: 'Atributo'
+				}
+			}
+		});
+	};
+
 	return {
 		createEntity : _createEntity,
 		createAttribute : _createAttribute,
 		createIsa : _createIsa,
-		createKey : _createKey,
 		createRelationship : _createRelationship,
-		createMultivalued : _createMultivalued,
 		createWeakEntity : _createWeakEntity,
-		createDerived : _createDerived,
 		createIdentifyingRelationship : _createIdentifyingRelationship
 	}
 

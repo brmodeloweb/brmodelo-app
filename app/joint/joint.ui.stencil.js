@@ -196,14 +196,14 @@ var Handlebars = {};
         "input .search": "onSearch"
     },
     options: {
-        width: 200,
+        width: 126,
         height: 500
     },
     initialize: function(a) {
         this.options = _.extend({}, _.result(this, "options"), a || {}), this.graphs = {}, this.papers = {}, this.$groups = {}, _.bindAll(this, "onDrag", "onDragEnd"), $(document.body).on({
             "mousemove.stencil touchmove.stencil": this.onDrag,
             "mouseup.stencil touchend.stencil": this.onDragEnd
-        }), this.onSearch = _.debounce(this.onSearch, 200)
+        }), this.onSearch = _.debounce(this.onSearch, 126)
     },
     render: function() {
         this.$el.html(joint.templates.stencil["stencil.html"](this.template)), this.$content = this.$(".content"), this.options.search && this.$el.addClass("searchable").prepend(joint.templates.stencil["search.html"]());

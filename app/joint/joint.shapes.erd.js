@@ -110,77 +110,119 @@ joint.shapes.erd.IdentifyingRelationship = joint.shapes.erd.Relationship.extend(
 
 joint.shapes.erd.Attribute = joint.dia.Element.extend({
 
-    markup: '<g class="rotatable"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
+	markup : '<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
 
-    defaults: joint.util.deepSupplement({
+	defaults : joint.util.deepSupplement({
 
-        type: 'erd.Attribute',
-        supertype: 'Attribute',
-        size: { width: 100, height: 50 },
-        attrs: {
-            'ellipse': {
-                transform: 'translate(50, 25)'
-            },
-            '.outer': {
-                stroke: '#D35400', 'stroke-width': 2,
-                cx: 0, cy: 0, rx: 50, ry: 25,
-                fill: '#E67E22'
-            },
-            '.inner': {
-                stroke: '#D35400', 'stroke-width': 2,
-                cx: 0, cy: 0, rx: 45, ry: 20,
-                fill: '#E67E22', display: 'none'
-            },
-            text: {
-                 'font-family': 'Arial', 'font-size': 14,
-                 ref: '.', 'ref-x': .5, 'ref-y': .5,
-                 'x-alignment': 'middle', 'y-alignment': 'middle'
-             }
-         }
+		type : 'erd.Attribute',
+    supertype: 'Attribute',
+		size : {
+			width : 15,
+			height : 15
+		},
+		attrs : {
+			'ellipse' : {
+				stroke : 'black',
+				'stroke-width' : 1,
+				transform : 'translate(0, 15)',
+				opacity : .6
+			},
+			'.outer' : {
+				cy : 0,
+				rx : 30,
+				ry : 15,
+				fill : 'white'
+			},
+			'.inner' : {
+				cx : 10, cy : 25, rx : 45, ry : 20,
+				fill : 'black',
+				display : 'none'
+			},
+			text : {
+        text: 'Atributo',
+        ref: '.',
+        'x-alignment': 'middle',
+        'ref-y': -5
+			}
+		}
 
-     }, joint.dia.Element.prototype.defaults)
+	}, joint.dia.Element.prototype.defaults)
 
- });
-
- joint.shapes.erd.Multivalued = joint.shapes.erd.Attribute.extend({
-
-     defaults: joint.util.deepSupplement({
-
-         type: 'erd.Multivalued',
-         supertype: 'Attribute',
-         attrs: {
-             '.inner': { display: 'block' },
-             text: { text: 'multivalued' }
-         }
-     }, joint.shapes.erd.Attribute.prototype.defaults)
- });
-
- joint.shapes.erd.Derived = joint.shapes.erd.Attribute.extend({
-
-     defaults: joint.util.deepSupplement({
-
-         type: 'erd.Derived',
-         supertype: 'Attribute',
-         attrs: {
-             '.outer': { 'stroke-dasharray': '3,5' },
-             text: { text: 'derived' }
-         }
-
-     }, joint.shapes.erd.Attribute.prototype.defaults)
- });
-
- joint.shapes.erd.Key = joint.shapes.erd.Attribute.extend({
-
-     defaults: joint.util.deepSupplement({
-
-         type: 'erd.Key',
-         supertype: 'Attribute',
-         attrs: {
-             ellipse: { 'stroke-width': 4 },
-             text: { text: 'key', 'font-weight': '800', 'text-decoration': 'underline' }
-         }
-     }, joint.shapes.erd.Attribute.prototype.defaults)
 });
+
+// // joint.shapes.erd.Attribute = joint.dia.Element.extend({
+// //
+// //     markup: '<g class="rotatable"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
+// //
+// //     defaults: joint.util.deepSupplement({
+// //
+// //         type: 'erd.Attribute',
+// //         supertype: 'Attribute',
+// //         size: { width: 100, height: 50 },
+// //         attrs: {
+// //             'ellipse': {
+// //                 transform: 'translate(50, 25)'
+// //             },
+// //             '.outer': {
+// //                 stroke: '#D35400', 'stroke-width': 2,
+// //                 cx: 0, cy: 0, rx: 50, ry: 25,
+// //                 fill: '#E67E22'
+// //             },
+// //             '.inner': {
+// //                 stroke: '#D35400', 'stroke-width': 2,
+// //                 cx: 0, cy: 0, rx: 45, ry: 20,
+// //                 fill: '#E67E22', display: 'none'
+// //             },
+// //             text: {
+// //                  'font-family': 'Arial', 'font-size': 14,
+// //                  ref: '.', 'ref-x': .5, 'ref-y': .5,
+// //                  'x-alignment': 'middle', 'y-alignment': 'middle'
+// //              }
+// //          }
+// //
+// //      }, joint.dia.Element.prototype.defaults)
+// //
+// //  });
+//
+//  joint.shapes.erd.Multivalued = joint.shapes.erd.Attribute.extend({
+//
+//      defaults: joint.util.deepSupplement({
+//
+//          type: 'erd.Multivalued',
+//          supertype: 'Attribute',
+//          attrs: {
+//              '.inner': { display: 'block' },
+//              text: { text: 'multivalued' }
+//          }
+//      }, joint.shapes.erd.Attribute.prototype.defaults)
+//  });
+//
+//  joint.shapes.erd.Derived = joint.shapes.erd.Attribute.extend({
+//
+//      defaults: joint.util.deepSupplement({
+//
+//          type: 'erd.Derived',
+//          supertype: 'Attribute',
+//          attrs: {
+//              '.outer': { 'stroke-dasharray': '3,5' },
+//              text: { text: 'derived' }
+//          }
+//
+//      }, joint.shapes.erd.Attribute.prototype.defaults)
+//  });
+//
+//  joint.shapes.erd.Key = joint.shapes.erd.Attribute.extend({
+//
+//      defaults: joint.util.deepSupplement({
+//
+//          type: 'erd.Key',
+//          supertype: 'Attribute',
+//          attrs: {
+//              ellipse: { 'stroke-width': 4 },
+//              text: { text: 'key', 'font-weight': '800', 'text-decoration': 'underline' }
+//          }
+//      }, joint.shapes.erd.Attribute.prototype.defaults)
+// });
 
 joint.shapes.erd.Normal = joint.shapes.erd.Attribute.extend({
 
@@ -204,13 +246,9 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
         size: { width: 100, height: 50 },
         attrs: {
             polygon: {
-                points: '0,0 50,50 100,0',
+                //25,0 15,50 35,50
+                points: '25,0 0,50 50,50',
                 fill: '#F1C40F', stroke: '#F39C12', 'stroke-width': 2
-            },
-            text: {
-                text: 'ISA', 'font-size': 18,
-                ref: 'polygon', 'ref-x': .5, 'ref-y': .3,
-                'x-alignment': 'middle', 'y-alignment': 'middle'
             }
         }
 
