@@ -80,7 +80,7 @@ angular.module('myapp').controller("conceptualController",
 	}
 
 	treatRelationship = function (cellView) {
-
+		console.log('tratando');
 	}
 
 	$scope.isValidConnection = function (source, target) {

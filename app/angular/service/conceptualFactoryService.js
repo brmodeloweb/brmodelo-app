@@ -42,27 +42,6 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
-	// _createKey = function() {
-	// 	return new erd.Key({
-	// 		position: {
-	// 			x: 100,
-	// 			y: 70
-	// 		},
-	// 		size: {
-	// 			width: 80,
-	// 			height: 40
-	// 		},
-	// 		attrs: {
-	// 			text: {
-	// 				text: 'Chave'
-	// 			},
-	// 			'.outer': {
-	// 					fill: '#FFFFFF'
-	// 			}
-	// 		}
-	// 	});
-	// };
-
 	_createRelationship = function() {
 		return new erd.Relationship({
 			position: {
