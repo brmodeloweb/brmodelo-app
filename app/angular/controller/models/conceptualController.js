@@ -55,35 +55,57 @@ angular.module('myapp').controller("conceptualController",
 	$scope.saveModel = function() {
 		$scope.model.model = JSON.stringify($scope.graph);
 
-		if ($scope.model.id == 0){
-			ModelAPI.saveModel($scope.model).then(function(res){
-				// call feedback here
-			});
-		} else {
-			ModelAPI.updateModel($scope.model).then(function(res){
-				// call feedback here
-			});
-		}
+		ModelAPI.updateModel($scope.model).then(function(res){
+			// call feedback here
+			console.log("saved");
+		});
 	}
 
 	$scope.set = function(cellView) {
 		if(cellView.model.attributes.attrs.text != null){
-
-			if(cellView.model.attributes.supertype === 'Relationship'){
-				treatRelationship(cellView);
-			}
-
 			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
 			$scope.selectedElement.element = cellView;
 			$scope.$apply();
 		}
 	}
 
-	treatRelationship = function (cellView) {
-		console.log('tratando');
-	}
+	var createLink = function(elm1, elm2) {
+		var myLink = new joint.shapes.erd.Line({
+			source: {
+				id: elm1.id
+			},
+			target: {
+				id: elm2.id
+			}
+		});
+		return myLink.addTo($scope.graph);
+	};
 
-	$scope.isValidConnection = function (source, target) {
+	$scope.isValidConnection = function (source, target, link) {
+		if (source.attributes.supertype === 'Entity' && target.attributes.supertype === 'Entity') {
+
+			var x1 = source.attributes.position.x;
+			var y1 = source.attributes.position.y;
+			var x2 = target.attributes.position.x;
+			var y2 = target.attributes.position.y;
+
+			var x = (x1 + x2) / 2;
+			var y = (y1 + y2) / 2;
+			var isa = ConceptualFactory.createRelationship();
+
+			link.remove();
+
+			isa.attributes.position.x = x;
+			isa.attributes.position.y = y;
+
+			$scope.graph.addCell(isa);
+
+			createLink(source, isa);
+			createLink(target, isa);
+
+			return true;
+		}
+
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
@@ -151,7 +173,8 @@ angular.module('myapp').controller("conceptualController",
 				var source = $scope.graph.getCell(link.get('source').id);
 				var target = $scope.graph.getCell(link.get('target').id);
 
-				if(!$scope.isValidConnection(source, target)){
+				console.log(link);
+				if(!$scope.isValidConnection(source, target, link)){
 				  link.remove();
 				}
 
@@ -197,8 +220,7 @@ angular.module('myapp').controller("conceptualController",
 			ConceptualFactory.createAttribute(),
 			ConceptualFactory.createIsa(),
 			ConceptualFactory.createRelationship(),
-			ConceptualFactory.createWeakEntity(),
-			ConceptualFactory.createIdentifyingRelationship(),
+			ConceptualFactory.createKey(),
 		]);
 	}
 

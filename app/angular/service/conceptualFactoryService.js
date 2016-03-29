@@ -18,7 +18,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 				},
 				'.outer': {
 						fill: '#FFFFFF',
-						stroke: '#8deeee'
+						stroke: 'black'
 				}
 			}
 		});
@@ -36,7 +36,8 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 			},
 			attrs: {
 				polygon: {
-						fill: '#FFFFFF'
+						fill: '#FFFFFF',
+						stroke: 'black'
 				}
 			}
 		});
@@ -50,64 +51,16 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 			},
 			size: {
 				width: 80,
-				height: 50
+				height: 60
 			},
 			attrs: {
 				text: {
 					text: 'Rel'
 				},
 				'.outer': {
-						fill: '#FFFFFF'
+						fill: '#FFFFFF',
+						stroke: 'black'
 				}
-			}
-		});
-
-	};
-
-	_createWeakEntity = function() {
-		return new erd.WeakEntity({
-			position: {
-				x: 25,
-				y: 190
-			},
-			size: {
-				width: 80,
-				height: 40
-			},
-			attrs: {
-				text: {
-					text: 'Fraca'
-				},
-				'.outer': {
-						fill: '#FFFFFF', stroke: '#27AE60'
-				},
-				'.inner': {
-						fill: '#FFFFFF', stroke: '#27AE60',
-				},
-			}
-		});
-	};
-
-	_createIdentifyingRelationship = function() {
-		return new erd.IdentifyingRelationship({
-			position: {
-				x: 25,
-				y: 245
-			},
-			size: {
-				width: 85,
-				height: 60
-			},
-			attrs: {
-					'.outer': {
-							fill: '#ffffff', stroke: '#2980B9'
-					},
-					'.inner': {
-							fill: '#ffffff', stroke: '#2980B9'
-					},
-					text: {
-							text: 'Identificada'
-					}
 			}
 		});
 	};
@@ -116,11 +69,25 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		return new erd.Attribute({
 			position: {
 				x: 65,
-				y: 335
+				y: 230
 			},
 			attrs: {
 				text: {
 						text: 'Atributo'
+				}
+			}
+		});
+	};
+
+	_createKey = function() {
+		return new erd.Key({
+			position: {
+				x: 65,
+				y: 280
+			},
+			attrs: {
+				text: {
+						text: 'Chave'
 				}
 			}
 		});
@@ -131,8 +98,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		createAttribute : _createAttribute,
 		createIsa : _createIsa,
 		createRelationship : _createRelationship,
-		createWeakEntity : _createWeakEntity,
-		createIdentifyingRelationship : _createIdentifyingRelationship
+		createKey : _createKey
 	}
 
 });

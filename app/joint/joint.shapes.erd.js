@@ -150,79 +150,21 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
 
 });
 
-// // joint.shapes.erd.Attribute = joint.dia.Element.extend({
-// //
-// //     markup: '<g class="rotatable"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
-// //
-// //     defaults: joint.util.deepSupplement({
-// //
-// //         type: 'erd.Attribute',
-// //         supertype: 'Attribute',
-// //         size: { width: 100, height: 50 },
-// //         attrs: {
-// //             'ellipse': {
-// //                 transform: 'translate(50, 25)'
-// //             },
-// //             '.outer': {
-// //                 stroke: '#D35400', 'stroke-width': 2,
-// //                 cx: 0, cy: 0, rx: 50, ry: 25,
-// //                 fill: '#E67E22'
-// //             },
-// //             '.inner': {
-// //                 stroke: '#D35400', 'stroke-width': 2,
-// //                 cx: 0, cy: 0, rx: 45, ry: 20,
-// //                 fill: '#E67E22', display: 'none'
-// //             },
-// //             text: {
-// //                  'font-family': 'Arial', 'font-size': 14,
-// //                  ref: '.', 'ref-x': .5, 'ref-y': .5,
-// //                  'x-alignment': 'middle', 'y-alignment': 'middle'
-// //              }
-// //          }
-// //
-// //      }, joint.dia.Element.prototype.defaults)
-// //
-// //  });
-//
-//  joint.shapes.erd.Multivalued = joint.shapes.erd.Attribute.extend({
-//
-//      defaults: joint.util.deepSupplement({
-//
-//          type: 'erd.Multivalued',
-//          supertype: 'Attribute',
-//          attrs: {
-//              '.inner': { display: 'block' },
-//              text: { text: 'multivalued' }
-//          }
-//      }, joint.shapes.erd.Attribute.prototype.defaults)
-//  });
-//
-//  joint.shapes.erd.Derived = joint.shapes.erd.Attribute.extend({
-//
-//      defaults: joint.util.deepSupplement({
-//
-//          type: 'erd.Derived',
-//          supertype: 'Attribute',
-//          attrs: {
-//              '.outer': { 'stroke-dasharray': '3,5' },
-//              text: { text: 'derived' }
-//          }
-//
-//      }, joint.shapes.erd.Attribute.prototype.defaults)
-//  });
-//
-//  joint.shapes.erd.Key = joint.shapes.erd.Attribute.extend({
-//
-//      defaults: joint.util.deepSupplement({
-//
-//          type: 'erd.Key',
-//          supertype: 'Attribute',
-//          attrs: {
-//              ellipse: { 'stroke-width': 4 },
-//              text: { text: 'key', 'font-weight': '800', 'text-decoration': 'underline' }
-//          }
-//      }, joint.shapes.erd.Attribute.prototype.defaults)
-// });
+joint.shapes.erd.Key = joint.shapes.erd.Attribute.extend({
+
+    defaults: joint.util.deepSupplement({
+
+        type: 'erd.Key',
+
+        attrs: {
+            ellipse: { 'stroke-width': 2 },
+            '.outer' : {
+           fill : 'black'
+         },
+            text: { text: 'key', 'font-weight': 'bold', 'text-decoration': 'underline' }
+        }
+    }, joint.shapes.erd.Attribute.prototype.defaults)
+});
 
 joint.shapes.erd.Normal = joint.shapes.erd.Attribute.extend({
 
