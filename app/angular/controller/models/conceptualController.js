@@ -1,5 +1,28 @@
-angular.module('myapp').controller("conceptualController",
-	function($scope, $http, $rootScope, $stateParams, ConceptualFactory, ModelAPI) {
+angular.module('myapp')
+			 .controller("conceptualController",
+				function($scope,
+								 $http,
+								 $window,
+								 $rootScope,
+								 $stateParams,
+								 ConceptualFactory,
+								 ConceptualService,
+								 ModelAPI) {
+
+	var cs = ConceptualService;
+
+	// how to resize
+	$(window).resize(function(){
+		var canvas = $('#content');
+		$scope.paper.setDimensions(canvas.width(), canvas.height());
+	});
+
+	$scope.types = [{id: 1, txt: '(t, c)', type: 'conceptual'},
+									{id: 2, txt: '(t, p)', type: 'conceptual'},
+									{id: 3, txt: '(p, d)', type: 'conceptual'},
+									{id: 4, txt: '(p, c)', type: 'conceptual'}];
+							//  {txt: 'Lógico'   , type: 'Logic'}
+	$scope.selected = $scope.types[0];
 
 	$scope.model = {
 		id: '',
@@ -8,9 +31,11 @@ angular.module('myapp').controller("conceptualController",
 		model: '',
 		user: $rootScope.loggeduser
 	}
+
 	$scope.editionVisible = false;
 	$scope.dropdownVisible = false;
 	$scope.shouldShow = false;
+	$scope.isElementSelected = false;
 
 	$scope.selectedElement = {
 		element: {},
@@ -19,9 +44,6 @@ angular.module('myapp').controller("conceptualController",
 
 	$scope.initView = function(){
 		buildWorkspace();
-
-		if($stateParams.modelid == 0)
-			return;
 
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
 			$scope.model.name = resp.data[0].name;
@@ -61,12 +83,18 @@ angular.module('myapp').controller("conceptualController",
 		});
 	}
 
-	$scope.set = function(cellView) {
+	$scope.onSelectElement = function(cellView) {
+
 		if(cellView.model.attributes.attrs.text != null){
 			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
 			$scope.selectedElement.element = cellView;
 			$scope.$apply();
 		}
+
+		if(cs.isEntity(cellView.model)){
+			console.log('Entity Selected');
+		}
+
 	}
 
 	var createLink = function(elm1, elm2) {
@@ -82,7 +110,7 @@ angular.module('myapp').controller("conceptualController",
 	};
 
 	$scope.isValidConnection = function (source, target, link) {
-		if (source.attributes.supertype === 'Entity' && target.attributes.supertype === 'Entity') {
+		if (cs.isEntity(source) && cs.isEntity(target)) {
 
 			var x1 = source.attributes.position.x;
 			var y1 = source.attributes.position.y;
@@ -135,7 +163,7 @@ angular.module('myapp').controller("conceptualController",
 		$scope.graph = new joint.dia.Graph;
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
-		var paper = new joint.dia.Paper({
+		$scope.paper = new joint.dia.Paper({
 			el: $('#content'),
 			width: $('#content').width(),
 			height: $('#content').height(),
@@ -148,9 +176,9 @@ angular.module('myapp').controller("conceptualController",
 		});
 
 		var selection = new Backbone.Collection;
-		var selectionView = new joint.ui.SelectionView({ paper: paper, graph: $scope.graph , model: selection });
+		var selectionView = new joint.ui.SelectionView({ paper: $scope.paper, graph: $scope.graph , model: selection });
 
-		paper.on('blank:pointerdown', function(evt){
+		$scope.paper.on('blank:pointerdown', function(evt){
 			if (evt.shiftKey) {
 				selectionView.startSelecting(evt);
 			}
@@ -161,8 +189,10 @@ angular.module('myapp').controller("conceptualController",
         $('#selection-info').text('Selected types: ' + selection.pluck('type'));
     });
 
-		paper.on('cell:pointerup', function(cellView, evt) {
-			$scope.set(cellView);
+		$scope.paper.on('cell:pointerup', function(cellView, evt) {
+
+			$scope.onSelectElement(cellView);
+
 			if (cellView.model instanceof joint.dia.Link) return;
 			var halo = new joint.ui.Halo({
 				cellView: cellView,
@@ -200,7 +230,7 @@ angular.module('myapp').controller("conceptualController",
 			halo.render();
 		});
 
-		paper.on('blank:pointerdown', function(evt, x, y) {
+		$scope.paper.on('blank:pointerdown', function(evt, x, y) {
 			$scope.selectedElement = {
 				element: {},
 				value: ""
@@ -210,7 +240,7 @@ angular.module('myapp').controller("conceptualController",
 
 		var stencil = new joint.ui.Stencil({
 			graph: $scope.graph,
-			paper: paper
+			paper: $scope.paper
 		});
 
 		$('#stencil-holder').append(stencil.render().el);

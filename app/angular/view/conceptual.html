@@ -1,7 +1,7 @@
 <div data-ng-controller="conceptualController" data-ng-init="initView()">
 	<header class="mainHeader cf">
 		<h1 class="logo" data-ui-sref="main">
-			<strong>BrModelo</strong>
+			<strong>brModelo</strong>
 		</h1><!-- End .logo -->
 		<aside class="modelOptions cf">
 			<div class="modelName">
@@ -49,11 +49,22 @@
 				<span class="action" data-ng-click="changeVisible()">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 				</span><!-- </button> -->
+
 				<div class="field">
 					<label class="fieldLabel">Nome</label>
 					<input class="fieldInput" type="text" data-ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
 				</div><!-- End .field -->
 				<!-- When an element is selected, it's properties are showed here. -->
+
+				<div class="field">
+					<label class="fieldLabel">Herança</label>
+					<select
+							id="br-selectoption"
+							brselectoption
+							ng-options="type as type.txt for type in types track by type.id"
+							ng-model="selected">
+					</select>
+				</div><!-- End .field -->
 
 				<div class="field" ng-show="shouldShow">
 					<label class="fieldLabel">Cardinalidade</label>

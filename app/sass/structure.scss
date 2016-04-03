@@ -112,6 +112,14 @@ a,
 
 .modelProperties .fieldInput {padding: 5px 10px;}
 
+.modelProperties .nice-select {
+	width: 100%;
+}
+
+.modelProperties .nice-select.open .list {
+	width: 100%;
+}
+
 /******************************************************************************/
 /* .modelActions */
 /******************************************************************************/

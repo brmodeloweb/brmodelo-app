@@ -38,7 +38,14 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 				polygon: {
 						fill: '#FFFFFF',
 						stroke: 'black'
-				}
+				},
+				text : {
+					text:'(t,c)',
+					ref: '.',
+							 'ref-x': .75,
+							 'ref-y': .3,
+
+					}
 			}
 		});
 	};
@@ -73,7 +80,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 			},
 			attrs: {
 				text: {
-						text: 'Atributo'
+					text: 'Atributo'
 				}
 			}
 		});
@@ -87,7 +94,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 			},
 			attrs: {
 				text: {
-						text: 'Chave'
+					text: 'Chave'
 				}
 			}
 		});
