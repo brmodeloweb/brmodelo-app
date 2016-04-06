@@ -17,12 +17,14 @@ angular.module('myapp')
 		$scope.paper.setDimensions(canvas.width(), canvas.height());
 	});
 
-	$scope.types = [{id: 1, txt: '(t, c)', type: 'conceptual'},
-									{id: 2, txt: '(t, p)', type: 'conceptual'},
-									{id: 3, txt: '(p, d)', type: 'conceptual'},
-									{id: 4, txt: '(p, c)', type: 'conceptual'}];
+	$scope.extensions = [{id: 0, txt: 'Selecione'},
+											 {id: 1, txt: '(t, c)'},
+											 {id: 2, txt: '(t, p)'},
+											 {id: 3, txt: '(p, d)'},
+											 {id: 4, txt: '(p, c)'}];
 							//  {txt: 'Lógico'   , type: 'Logic'}
-	$scope.selected = $scope.types[0];
+	$scope.selectedItem = $scope.extensions[0];
+	$scope.entitySelected = false;
 
 	$scope.model = {
 		id: '',
@@ -41,6 +43,40 @@ angular.module('myapp')
 		element: {},
 		value: ""
 	};
+
+	$scope.call = function(selected) {
+
+		console.log(selected);
+		if(!$scope.selectedElement.element.model.attributes.isExtended
+			&& selected.txt != "Selecione") {
+
+			$scope.selectedElement.element.model.attributes.isExtended = true;
+
+			var x = $scope.selectedElement.element.model.attributes.position.x;
+			var y = $scope.selectedElement.element.model.attributes.position.y;
+
+			var isa = ConceptualFactory.createIsa();
+			var entity = ConceptualFactory.createEntity();
+
+			isa.attributes.position.x = x + 18 ;
+			isa.attributes.position.y = y + 60;
+			isa.attributes.attrs.text.text = selected.txt;
+
+			entity.attributes.position.x = x;
+			entity.attributes.position.y = y + 120;
+
+			$scope.graph.addCell(isa);
+			$scope.graph.addCell(entity);
+
+			createLink(isa, $scope.selectedElement.element.model);
+			createLink(isa, entity);
+
+		} else {
+			var updated = ConceptualService.updateExtension($scope.graph.getNeighbors($scope.selectedElement.element.model), selected.txt);
+			console.log(updated);
+		//	updated.update();
+		}
+	}
 
 	$scope.initView = function(){
 		buildWorkspace();
@@ -84,17 +120,26 @@ angular.module('myapp')
 	}
 
 	$scope.onSelectElement = function(cellView) {
-
-		if(cellView.model.attributes.attrs.text != null){
+		console.log("onSelectElement");
+		if(cellView.model.attributes.attrs.text != null && !cs.isExtension(cellView.model)){
 			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
 			$scope.selectedElement.element = cellView;
+		} else {
+			$scope.selectedElement.value = "";
+			$scope.selectedElement.element = null;
+		}
+
+		if(cs.isEntity(cellView.model)) {
+
+			$scope.selectedItem = $scope.extensions[1];
+			$scope.entitySelected = true;
 			$scope.$apply();
+
+		} else {
+			$scope.entitySelected = false;
 		}
 
-		if(cs.isEntity(cellView.model)){
-			console.log('Entity Selected');
-		}
-
+		$scope.$apply();
 	}
 
 	var createLink = function(elm1, elm2) {
@@ -132,6 +177,21 @@ angular.module('myapp')
 			createLink(target, isa);
 
 			return true;
+		}
+
+		if ((cs.isEntity(source) && cs.isExtension(target)) ||
+				(cs.isEntity(target) && cs.isExtension(source))) {
+
+				if(target.attributes.isExtended || source.attributes.isExtended) {
+					return false;
+				} else {
+					if (cs.isEntity(source)) {
+						source.attributes.isExtended = true;
+					} else {
+						target.attributes.isExtended = true;
+					}
+				}
+
 		}
 
 		if(source.attributes.supertype === target.attributes.supertype)
@@ -231,10 +291,17 @@ angular.module('myapp')
 		});
 
 		$scope.paper.on('blank:pointerdown', function(evt, x, y) {
+
+			$scope.applyChanges();
 			$scope.selectedElement = {
 				element: {},
 				value: ""
 			};
+
+			$scope.selectedItem = $scope.extensions[0];
+			$scope.entitySelected = false;
+
+			console.log("pontered");
 			$scope.$apply();
 		});
 

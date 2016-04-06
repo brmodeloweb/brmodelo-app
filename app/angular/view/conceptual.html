@@ -56,13 +56,14 @@
 				</div><!-- End .field -->
 				<!-- When an element is selected, it's properties are showed here. -->
 
-				<div class="field">
-					<label class="fieldLabel">Herança</label>
+				<div class="field" ng-show="entitySelected">
+					<label class="fieldLabel">Extender:</label>
 					<select
 							id="br-selectoption"
 							brselectoption
-							ng-options="type as type.txt for type in types track by type.id"
-							ng-model="selected">
+							ng-options="type as type.txt for type in extensions"
+							ng-model="selectedItem"
+							ng-change="call(selectedItem)">
 					</select>
 				</div><!-- End .field -->
 

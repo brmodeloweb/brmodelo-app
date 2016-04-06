@@ -28,6 +28,7 @@ joint.shapes.erd.Entity = joint.dia.Element.extend({
 
         type: 'erd.Entity',
         supertype: 'Entity',
+        isExtended: false,
         size: { width: 150, height: 60 },
         attrs: {
             '.outer': {
