@@ -1,23 +1,3 @@
-/*! JointJS v0.9.3 - JavaScript diagramming library  2015-02-03
-
-
-This Source Code Form is subject to the terms of the Mozilla Public
-License, v. 2.0. If a copy of the MPL was not distributed with this
-file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-if (typeof exports === 'object') {
-
-    var joint = {
-        util: require('../src/core').util,
-        shapes: {},
-        dia: {
-            Element: require('../src/joint.dia.element').Element,
-            Link: require('../src/joint.dia.link').Link
-        }
-    };
-}
-
-
 joint.shapes.erd = {};
 
 joint.shapes.erd.Entity = joint.dia.Element.extend({
@@ -201,14 +181,13 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
 
 joint.shapes.erd.Line = joint.dia.Link.extend({
 
-    defaults: { type: "erd.Line" },
+    defaults: { type: 'erd.Line' },
 
-    cardinality: function(value) {
-        this.set('labels', [{ position: -20, attrs: { text: { dy: -8, text: value }}}]);
+    attrs: {
+        '.marker-target': { d: 'M 20 0 L 0 10 L 20 20 z', fill: 'white' },
+        '.connection': { 'stroke-dasharray': '3,3' }
     }
+
 });
 
-if (typeof exports === 'object') {
 
-    module.exports = joint.shapes.erd;
-}
