@@ -151,7 +151,8 @@ angular.module('myapp')
 				id: elm2.id
 			}
 		});
-		return myLink.addTo($scope.graph);
+		myLink.addTo($scope.graph);
+		onLink(myLink);
 	};
 
 	$scope.isValidConnection = function (source, target, link) {
@@ -219,6 +220,31 @@ angular.module('myapp')
 		return true;
 	}
 
+	function onLink(link) {
+		console.log("");
+
+		var source = $scope.graph.getCell(link.get('source').id);
+		var target = $scope.graph.getCell(link.get('target').id);
+
+		console.log(link);
+		if(!$scope.isValidConnection(source, target, link)){
+			link.remove();
+		}
+
+		if(source.attributes.supertype === 'Relationship' ||
+			 target.attributes.supertype === 'Relationship') {
+
+			link.label(0, {
+				position: .1,
+				attrs: {
+					rect: { fill: 'transparent' },
+					text: { fill: 'blue', text: '1' }
+				}
+			});
+
+		}
+	}
+
 	function buildWorkspace(){
 		$scope.graph = new joint.dia.Graph;
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
@@ -249,9 +275,28 @@ angular.module('myapp')
         $('#selection-info').text('Selected types: ' + selection.pluck('type'));
     });
 
-		$scope.paper.on('cell:pointerup', function(cellView, evt) {
+		$scope.paper.on('cell:pointerup', function(cellView, evt, x, y) {
 
 			$scope.onSelectElement(cellView);
+
+			// Find the first element below that is not a link nor the dragged element itself.
+		    var elementBelow = $scope.graph.get('cells').find(function(cell) {
+		        if (cell instanceof joint.dia.Link) return false; // Not interested in links.
+		        if (cell.id === cellView.model.id) return false; // The same element as the dropped one.
+		        if (cell.getBBox().containsPoint(g.point(x, y))) {
+		            return true;
+		        }
+		        return false;
+		    });
+
+		    // If the two elements are connected already, don't
+		    // connect them again (this is application specific though).
+		    if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model)) {
+
+						createLink(cellView.model, elementBelow);
+		        // Move the element a bit to the side.
+		        cellView.model.translate(100, 0);
+		    }
 
 			if (cellView.model instanceof joint.dia.Link) return;
 			var halo = new joint.ui.Halo({
@@ -260,27 +305,7 @@ angular.module('myapp')
 			});
 
 			halo.on('action:link:add', function(link) {
-				var source = $scope.graph.getCell(link.get('source').id);
-				var target = $scope.graph.getCell(link.get('target').id);
-
-				console.log(link);
-				if(!$scope.isValidConnection(source, target, link)){
-				  link.remove();
-				}
-
-				if(source.attributes.supertype === 'Relationship' ||
-					 target.attributes.supertype === 'Relationship') {
-
-					link.label(0, {
-						position: .1,
-						attrs: {
-							rect: { fill: 'transparent' },
-							text: { fill: 'blue', text: '1' }
-						}
-					});
-
-				}
-
+				onLink(link);
 			});
 
 			halo.removeHandle('resize');
@@ -319,6 +344,15 @@ angular.module('myapp')
 			ConceptualFactory.createRelationship(),
 			ConceptualFactory.createKey(),
 		]);
+
+
+		$scope.graph.on('change:source change:target', function(link) {
+
+		});
+
+
 	}
+
+
 
 });
