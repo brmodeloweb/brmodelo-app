@@ -21,11 +21,26 @@ angular.module('myapp').factory('ConceptualService', function(){
 			}
 		};
 
+		_getExtensionTxt = function(entity, neighbors) {
+			if(entity.attributes.isExtended){
+				for (var i = 0; i < neighbors.length; i++) {
+					if (_isExtension(neighbors[i]) &&
+						neighbors[i].attributes.parentId != null &&
+						neighbors[i].attributes.parentId == entity.attributes.id) {
+
+						return neighbors[i].attributes.attrs.text.text;
+					}
+				}
+			}
+			return "Selecione";
+		};
+
 	return {
 		isEntity : _isEntity,
 		isAttribute : _isAttribute,
 		isExtension : _isExtension,
-		updateExtension : _updateExtension
+		updateExtension : _updateExtension,
+		getExtensionTxt: _getExtensionTxt
 	}
 
 });

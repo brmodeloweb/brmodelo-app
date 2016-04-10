@@ -58,14 +58,28 @@
 
 				<div class="field" ng-show="entitySelected">
 					<label class="fieldLabel">Extender:</label>
-					<select
-							id="br-selectoption"
-							brselectoption
-							ng-options="type as type.txt for type in extensions"
-							ng-model="selectedItem"
-							ng-change="call(selectedItem)">
-					</select>
+					<div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0" >
+						<div class="dropdown-tmp-trigger">
+							<button class="btn ng-binding">{{extensionSelected}}</button>
+						</div><!--/dropdown-tmp-trigger-->
+						<ul class="dropdown-tmp-list" style="min-width: 140px;">
+							<li class="dropdown-tmp-item" ng-click="call('(t, c)')">
+								<span>(t, c)</span>
+							</li><!--/dropdown-tmp-item-->
+							<li class="dropdown-tmp-item" ng-click="call('(t, p)')">
+								<span>(t, p)</span>
+							</li><!--/dropdown-tmp-item-->
+							<li class="dropdown-tmp-item" ng-click="call('(p, d)')">
+								<span>(p, d)</span>
+							</li><!--/dropdown-tmp-item-->
+							<li class="dropdown-tmp-item" ng-click="call('(p, c)')">
+								<span>(p, c)</span>
+							</li><!--/dropdown-tmp-item-->
+						</ul><!--/dropdown-tmp-list-->
+					</div>
 				</div><!-- End .field -->
+
+
 
 				<div class="field" ng-show="shouldShow">
 					<label class="fieldLabel">Cardinalidade</label>

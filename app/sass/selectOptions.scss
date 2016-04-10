@@ -1,0 +1,384 @@
+/* =================================================================================== */
+/* MODULES / DROPDOWN - OLD */
+/* =================================================================================== */
+.dropdown-tmp {
+  position: relative;
+		width: 100%;
+}
+
+.dropdown-tmp > * {
+  display: none;
+}
+
+.dropdown-tmp.expanded > .dropdown-tmp-list {
+  display: block;
+}
+
+.dropdown-tmp-list {
+    border-color: #c8c8c8;
+    box-shadow: 2px 0px 3px 0px rgba(0, 0, 0, 0.2);
+}
+.dropdown-tmp-text.expanded, .dropdown-tmp-list {
+    background: #fff;
+}
+
+.dropdown-tmp-trigger > button {
+	width: 100%;
+}
+
+.dropdown-tmp-trigger:after {
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    content: '';
+    display: block;
+    height: 5px;
+    margin-top: -4px;
+    pointer-events: none;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    -webkit-transform-origin: 66% 66%;
+        -ms-transform-origin: 66% 66%;
+            transform-origin: 66% 66%;
+    -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+    -webkit-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    width: 5px;
+}
+
+.dropdown-tmp-btn .dropdown-tmp-trigger:after {
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    content: '';
+    display: block;
+    height: 5px;
+    margin-top: -4px;
+    pointer-events: none;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    -webkit-transform-origin: 66% 66%;
+        -ms-transform-origin: 66% 66%;
+            transform-origin: 66% 66%;
+    -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+    -webkit-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    width: 5px;
+}
+
+.dropdown-tmp-btn.expanded .dropdown-tmp-trigger:after {
+	-webkit-transform: rotate(-135deg);
+	-ms-transform: rotate(-135deg);
+	transform: rotate(-135deg);
+}
+
+.dropdown-tmp-list,
+.dropdown-tmp-trigger {
+  float: right;
+}
+
+.dropdown-tmp-trigger {
+  width: 100%;
+}
+
+.dropdown-tmp-list,
+.dropdown-tmp-item {
+  width: 100%;
+}
+
+.dropdown-tmp-list {
+  list-style: none;
+  border-radius: 3px;
+  padding: 5px 0;
+  border: solid 1px;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: auto;
+}
+
+.dropdown-tmp-item {
+	text-align: center;
+  line-height: 26px;
+  padding: 0 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 26px;
+  clear: both;
+}
+
+.dropdown-tmp-item a {
+  display: inline-block;
+  width: 100%;
+  font-size: 13px;
+}
+
+.dropdown-tmp-item a:hover {
+  text-decoration: none;
+}
+
+.dropdown-tmp-item span {
+  cursor: pointer;
+}
+
+.dropdown-tmp-trigger,
+.dropdown-tmp-text.expanded > small,
+.dropdown-tmp-text.expanded > hr,
+.dropdown-tmp-text .dropdown-tmp-trigger a,
+.dropdown-tmp-btn .dropdown-tmp-trigger .btn {
+  display: block;
+}
+
+.dropdown-tmp-btn .dropdown-tmp-list {
+  margin-top: 3px;
+}
+
+.dropdown-tmp-item > * {
+  padding: 5px 0;
+}
+
+.dropdown-tmp-text {
+  padding: 7px;
+  border-radius: 3px;
+  border: solid 1px transparent;
+}
+
+.dropdown-tmp-text .dropdown-tmp-trigger {
+  text-align: right;
+}
+
+.dropdown-tmp-text .dropdown-tmp-trigger a:hover {
+  text-decoration: none;
+}
+
+.dropdown-tmp-text > small {
+  border-bottom: solid 1px;
+  clear: both;
+  padding: 10px 0;
+}
+
+.dropdown-tmp-text > hr {
+  margin-top: 25px;
+}
+
+.dropdown-tmp-text .dropdown-tmp-list {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  position: static;
+  text-align: right;
+}
+
+.dropdown-tmp-text .dropdown-tmp-item.expanded {
+  background: transparent;
+}
+
+.dropdown-tmp-text .dropdown-tmp-item a:hover {
+  text-decoration: underline;
+}
+
+.dropdown-tmp-icon .dropdown-tmp-list {
+  margin-top: 2px;
+}
+
+/* =================================================================================== */
+/* DROPDOWN */
+/* =================================================================================== */
+.dropdown,
+.dropdown-tmp {
+  position: relative;
+  float: left;
+  line-height: 1em;
+}
+
+.dropdown-header > *,
+.dropdown-trigger > *,
+.dropdown-tmp-header > *,
+.dropdown-tmp-trigger > * {
+  display: none;
+}
+
+.dropdown-text .dropdown-header a,
+.dropdown-text .dropdown-trigger a,
+.dropdown-btn .dropdown-header .btn,
+.dropdown-btn .dropdown-trigger .btn,
+.dropdown-icon .dropdown-header .fa,
+.dropdown-icon .dropdown-trigger .fa,
+.dropdown-tmp-text .dropdown-header a,
+.dropdown-tmp-text .dropdown-trigger a,
+.dropdown-tmp-btn .dropdown-header .btn,
+.dropdown-tmp-btn .dropdown-trigger .btn,
+.dropdown-tmp-icon .dropdown-header .fa,
+.dropdown-tmp-icon .dropdown-trigger .fa, .dropdown-text
+.dropdown-tmp-header a,
+.dropdown-text
+.dropdown-tmp-trigger a,
+.dropdown-btn
+.dropdown-tmp-header .btn,
+.dropdown-btn
+.dropdown-tmp-trigger .btn,
+.dropdown-icon
+.dropdown-tmp-header .fa,
+.dropdown-icon
+.dropdown-tmp-trigger .fa,
+.dropdown-tmp-text
+.dropdown-tmp-header a,
+.dropdown-tmp-text
+.dropdown-tmp-trigger a,
+.dropdown-tmp-btn
+.dropdown-tmp-header .btn,
+.dropdown-tmp-btn
+.dropdown-tmp-trigger .btn,
+.dropdown-tmp-icon
+.dropdown-tmp-header .fa,
+.dropdown-tmp-icon
+.dropdown-tmp-trigger .fa {
+  display: block;
+}
+
+.dropdown-body, .dropdown-list, .dropdown-text,
+.dropdown-tmp-body,
+.dropdown-tmp-list,
+.dropdown-tmp-text {
+  background: white;
+  border: solid 1px;
+  border-radius: 2px;
+}
+
+.dropdown-body, .dropdown-list,
+.dropdown-tmp-body,
+.dropdown-tmp-list {
+  display: none;
+	width: 100%;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  padding: 10px 0;
+}
+
+.tools .dropdown-body, .tools .dropdown-list, .tools
+.dropdown-tmp-body, .tools
+.dropdown-tmp-list {
+  left: auto;
+  right: 0;
+}
+
+.dropdown-body,
+.dropdown-tmp-body {
+  padding: 10px;
+}
+
+.dropdown-body .dropdown-list,
+.dropdown-tmp-body .dropdown-list, .dropdown-body
+.dropdown-tmp-list,
+.dropdown-tmp-body
+.dropdown-tmp-list {
+  background: transparent;
+  border: none;
+  min-width: auto !important;
+  position: static;
+  padding: 0;
+  clear: both;
+}
+
+.dropdown.expanded .dropdown-body,
+.dropdown.expanded .dropdown-list,
+.dropdown-tmp.expanded .dropdown-body,
+.dropdown-tmp.expanded .dropdown-list, .dropdown.expanded
+.dropdown-tmp-body,
+.dropdown.expanded
+.dropdown-tmp-list,
+.dropdown-tmp.expanded
+.dropdown-tmp-body,
+.dropdown-tmp.expanded
+.dropdown-tmp-list {
+  display: block;
+}
+
+.dropdown-text,
+.dropdown-tmp-text {
+  border-color: transparent;
+  padding: 7px;
+}
+
+.dropdown-text.expanded,
+.dropdown-tmp-text.expanded {
+  border-color: black;
+}
+
+.dropdown-text.expanded .dropdown-trigger,
+.dropdown-tmp-text.expanded .dropdown-trigger, .dropdown-text.expanded
+.dropdown-tmp-trigger,
+.dropdown-tmp-text.expanded
+.dropdown-tmp-trigger {
+  padding-bottom: 10px;
+}
+
+.dropdown-text .dropdown-trigger a:hover,
+.dropdown-tmp-text .dropdown-trigger a:hover, .dropdown-text
+.dropdown-tmp-trigger a:hover,
+.dropdown-tmp-text
+.dropdown-tmp-trigger a:hover {
+  text-decoration: none;
+}
+
+.dropdown-text .dropdown-list,
+.dropdown-tmp-text .dropdown-list, .dropdown-text
+.dropdown-tmp-list,
+.dropdown-tmp-text
+.dropdown-tmp-list {
+  border-top: none;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  top: 35px;
+  width: calc(100% + 2px);
+  left: -1px;
+  min-width: auto !important;
+}
+
+.dropdown-text .dropdown-list:before,
+.dropdown-tmp-text .dropdown-list:before, .dropdown-text
+.dropdown-tmp-list:before,
+.dropdown-tmp-text
+.dropdown-tmp-list:before {
+  content: '';
+  display: block;
+  border-top: solid 1px;
+  width: 100%;
+  margin: -6px 0 6px 0;
+}
+
+.dropdown-text .dropdown-item,
+.dropdown-tmp-text .dropdown-item, .dropdown-text
+.dropdown-tmp-item,
+.dropdown-tmp-text
+.dropdown-tmp-item {
+  text-align: right;
+}
+
+.dropdown-item,
+.dropdown-tmp-item {
+  white-space: nowrap;
+  width: 100%;
+  padding: 5px 10px;
+}
+
+.dropdown-item:hover,
+.dropdown-tmp-item:hover {
+  background: grey;
+}
+
+// .dropdown-item > *,
+// .dropdown-tmp-item > * {
+//   float: left;
+// }
+//
+// .dropdown-item > * + *,
+// .dropdown-tmp-item > * + * {
+//   margin-left: 10px;
+// }
+

@@ -17,14 +17,8 @@ angular.module('myapp')
 		$scope.paper.setDimensions(canvas.width(), canvas.height());
 	});
 
-	$scope.extensions = [{id: 0, txt: 'Selecione'},
-											 {id: 1, txt: '(t, c)'},
-											 {id: 2, txt: '(t, p)'},
-											 {id: 3, txt: '(p, d)'},
-											 {id: 4, txt: '(p, c)'}];
-							//  {txt: 'Lógico'   , type: 'Logic'}
-	$scope.selectedItem = $scope.extensions[0];
 	$scope.entitySelected = false;
+	$scope.extensionSelected = "Selecione";
 
 	$scope.model = {
 		id: '',
@@ -46,11 +40,7 @@ angular.module('myapp')
 
 	$scope.call = function(selected) {
 
-		console.log(selected);
-		if(!$scope.selectedElement.element.model.attributes.isExtended
-			&& selected.txt != "Selecione") {
-
-			$scope.selectedElement.element.model.attributes.isExtended = true;
+		if(!$scope.selectedElement.element.model.attributes.isExtended) {
 
 			var x = $scope.selectedElement.element.model.attributes.position.x;
 			var y = $scope.selectedElement.element.model.attributes.position.y;
@@ -60,7 +50,7 @@ angular.module('myapp')
 
 			isa.attributes.position.x = x + 18 ;
 			isa.attributes.position.y = y + 60;
-			isa.attributes.attrs.text.text = selected.txt;
+			isa.attributes.attrs.text.text = selected;
 
 			entity.attributes.position.x = x;
 			entity.attributes.position.y = y + 120;
@@ -69,12 +59,18 @@ angular.module('myapp')
 			$scope.graph.addCell(entity);
 
 			createLink(isa, $scope.selectedElement.element.model);
+
+			$scope.selectedElement.element.model.attributes.isExtended = true;
+			isa.attributes.parentId = $scope.selectedElement.element.model.attributes.id;
+
 			createLink(isa, entity);
 
+			$scope.extensionSelected = selected;
+
 		} else {
-			var updated = ConceptualService.updateExtension($scope.graph.getNeighbors($scope.selectedElement.element.model), selected.txt);
-			console.log(updated);
-		//	updated.update();
+			var updated = ConceptualService.updateExtension($scope.graph.getNeighbors($scope.selectedElement.element.model), selected);
+			updated.findView($scope.paper).update();
+			$scope.extensionSelected = selected;
 		}
 	}
 
@@ -98,8 +94,14 @@ angular.module('myapp')
 	}
 
 	$scope.applyChanges = function(){
-		$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
-		$scope.selectedElement.element.update();
+		if($scope.selectedElement.element != null &&
+			$scope.selectedElement.element.model != null &&
+			$scope.selectedElement != null &&
+			$scope.selectedElement.element.model.attributes.attrs.text.text !=
+			$scope.selectedElement.value){
+			$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
+			$scope.selectedElement.element.update();
+		}
 	}
 
 	$scope.changeVisible = function(){
@@ -120,7 +122,7 @@ angular.module('myapp')
 	}
 
 	$scope.onSelectElement = function(cellView) {
-		console.log("onSelectElement");
+
 		if(cellView.model.attributes.attrs.text != null && !cs.isExtension(cellView.model)){
 			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
 			$scope.selectedElement.element = cellView;
@@ -131,7 +133,7 @@ angular.module('myapp')
 
 		if(cs.isEntity(cellView.model)) {
 
-			$scope.selectedItem = $scope.extensions[1];
+			$scope.extensionSelected = cs.getExtensionTxt(cellView.model, $scope.graph.getNeighbors(cellView.model));
 			$scope.entitySelected = true;
 			$scope.$apply();
 
@@ -140,6 +142,7 @@ angular.module('myapp')
 		}
 
 		$scope.$apply();
+
 	}
 
 	var createLink = function(elm1, elm2) {
@@ -156,6 +159,11 @@ angular.module('myapp')
 	};
 
 	$scope.isValidConnection = function (source, target, link) {
+
+		if (!link.get('source').id || !link.get('target').id) {
+				return false;
+		}
+
 		if (cs.isEntity(source) && cs.isEntity(target)) {
 
 			var x1 = source.attributes.position.x;
@@ -191,6 +199,7 @@ angular.module('myapp')
 					} else {
 						target.attributes.isExtended = true;
 					}
+					return true;
 				}
 
 		}
@@ -221,12 +230,10 @@ angular.module('myapp')
 	}
 
 	function onLink(link) {
-		console.log("");
 
 		var source = $scope.graph.getCell(link.get('source').id);
 		var target = $scope.graph.getCell(link.get('target').id);
 
-		console.log(link);
 		if(!$scope.isValidConnection(source, target, link)){
 			link.remove();
 		}
@@ -234,13 +241,13 @@ angular.module('myapp')
 		if(source.attributes.supertype === 'Relationship' ||
 			 target.attributes.supertype === 'Relationship') {
 
-			link.label(0, {
-				position: .1,
-				attrs: {
-					rect: { fill: 'transparent' },
-					text: { fill: 'blue', text: '1' }
-				}
-			});
+			// link.label(0, {
+			// 	position: .1,
+			// 	attrs: {
+			// 		rect: { fill: 'transparent' },
+			// 		text: { fill: 'blue', text: '1' }
+			// 	}
+			// });
 
 		}
 	}
@@ -259,7 +266,12 @@ angular.module('myapp')
 			markAvailable: true,
 			restrictTranslate: true,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
+			// multiLinks: false
 		});
+
+		$scope.graph.on('remove', function(cell) {
+    	console.log('New cell with id ' + cell.id + ' removed to the graph.');
+		})
 
 		var selection = new Backbone.Collection;
 		var selectionView = new joint.ui.SelectionView({ paper: $scope.paper, graph: $scope.graph , model: selection });
@@ -279,6 +291,7 @@ angular.module('myapp')
 
 			$scope.onSelectElement(cellView);
 
+			if(x != null && y != null){
 			// Find the first element below that is not a link nor the dragged element itself.
 		    var elementBelow = $scope.graph.get('cells').find(function(cell) {
 		        if (cell instanceof joint.dia.Link) return false; // Not interested in links.
@@ -297,6 +310,7 @@ angular.module('myapp')
 		        // Move the element a bit to the side.
 		        cellView.model.translate(100, 0);
 		    }
+			}
 
 			if (cellView.model instanceof joint.dia.Link) return;
 			var halo = new joint.ui.Halo({
@@ -305,7 +319,12 @@ angular.module('myapp')
 			});
 
 			halo.on('action:link:add', function(link) {
+				console.log("onlink");
 				onLink(link);
+			});
+
+			halo.on('action:removeElement:pointerdown', function(link) {
+				console.log("removing....");
 			});
 
 			halo.removeHandle('resize');
@@ -323,11 +342,10 @@ angular.module('myapp')
 				value: ""
 			};
 
-			$scope.selectedItem = $scope.extensions[0];
 			$scope.entitySelected = false;
 
-			console.log("pontered");
 			$scope.$apply();
+
 		});
 
 		var stencil = new joint.ui.Stencil({
@@ -345,14 +363,6 @@ angular.module('myapp')
 			ConceptualFactory.createKey(),
 		]);
 
-
-		$scope.graph.on('change:source change:target', function(link) {
-
-		});
-
-
 	}
-
-
 
 });

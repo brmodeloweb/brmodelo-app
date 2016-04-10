@@ -166,6 +166,7 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
 
         type: 'erd.ISA',
         supertype: 'Inheritance',
+        parentId: null,
         size: { width: 100, height: 50 },
         attrs: {
             polygon: {
@@ -182,11 +183,10 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
 joint.shapes.erd.Line = joint.dia.Link.extend({
 
     defaults: { type: 'erd.Line' },
-
     attrs: {
-        '.marker-target': { d: 'M 20 0 L 0 10 L 20 20 z', fill: 'white' },
-        '.connection': { 'stroke-dasharray': '3,3' }
-    }
+            '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z', fill: '#34495e', stroke: '#2c3e50' },
+            '.connection': { stroke: '#2c3e50'}
+          }
 
 });
 

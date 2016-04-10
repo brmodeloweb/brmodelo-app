@@ -385,6 +385,7 @@ joint.ui.Halo = Backbone.View.extend({
         Backbone.View.prototype.remove.apply(this, arguments), $(document.body).off("mousemove touchmove", this.pointermove), $(document).off("mouseup touchend", this.pointerup)
     },
     removeElement: function(a) {
+        console.log("REMOVE ELEMENT");
         this.options.cellView.model.remove()
     },
     unlinkElement: function(a) {
