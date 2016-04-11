@@ -12,11 +12,11 @@ joint.shapes.erd.Entity = joint.dia.Element.extend({
         size: { width: 150, height: 60 },
         attrs: {
             '.outer': {
-                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 2,
+                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
                 points: '100,0 100,60 0,60 0,0'
             },
             '.inner': {
-                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 2,
+                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
                 points: '95,5 95,55 5,55 5,5',
                 display: 'none'
             },
@@ -56,11 +56,11 @@ joint.shapes.erd.Relationship = joint.dia.Element.extend({
         size: { width: 80, height: 80 },
         attrs: {
             '.outer': {
-                fill: '#3498DB', stroke: '#2980B9', 'stroke-width': 2,
+                fill: '#3498DB', stroke: '#2980B9', 'stroke-width': 1,
                 points: '40,0 80,40 40,80 0,40'
             },
             '.inner': {
-                fill: '#3498DB', stroke: '#2980B9', 'stroke-width': 2,
+                fill: '#3498DB', stroke: '#2980B9', 'stroke-width': 1,
                 points: '40,5 75,40 40,75 5,40',
                 display: 'none'
             },
@@ -172,7 +172,7 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
             polygon: {
                 //25,0 15,50 35,50
                 points: '25,0 0,50 50,50',
-                fill: '#F1C40F', stroke: '#F39C12', 'stroke-width': 2
+                fill: '#F1C40F', stroke: '#F39C12', 'stroke-width': 1
             }
         }
 

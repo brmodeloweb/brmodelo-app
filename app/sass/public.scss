@@ -35,3 +35,19 @@
 }
 
 .callToAction .button:not(:last-child) {margin-bottom: 10px;}
+
+/*********************************************************************/
+/* .specialHeader */
+/*********************************************************************/
+
+.specialHeader {
+    position: relative;
+    margin-bottom: 20px;
+    min-height: 60px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.specialHeader div {
+    float: right;
+    padding: 15px;
+}

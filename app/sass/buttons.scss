@@ -103,6 +103,23 @@
 }
 
 /******************************************************************************/
+/* .button.style5 */
+/******************************************************************************/
+.button.style5 {
+	background-color: #3D9970;
+	color: rgba(green, 0.8);
+	border-color: rgba(green, 1);
+	// background: linear-gradient(to bottom,
+	// 							rgba(210,255,82,0.6) 0%,
+	// 							rgba(145,232,66, 0.6) 100%);
+}
+
+// .button.style5:hover {
+// 	background: linear-gradient(to bottom,
+// 								rgba(145,232,66, 0.6) 0%,
+// 								rgba(210,255,82, 0.6) 100%);
+// }
+/******************************************************************************/
 /* .button.block */
 /******************************************************************************/
 .button.block {
@@ -128,3 +145,26 @@
 
 .dropDownList .dropDownItem {white-space: nowrap;}
 .dropDownList .dropDownItem:hover {text-decoration: none;}
+
+/******************************************************************************/
+/* .br-button */
+/******************************************************************************/
+.br-button {
+    font-size: 0.8rem;
+    padding: 0.7rem 1.1rem 0.5rem;
+    text-transform: uppercase;
+    border: 1px solid #3D9970;
+    color: #3D9970;
+    font-weight: 400;
+    border-radius: 2px;
+    background-color: transparent;
+    transition: all 0.25s ease;
+    margin: 0.25rem 0.5rem;
+    z-index: 1;
+}
+
+.br-button:hover {
+  background: #3D9970;
+  cursor: pointer;
+  color: #FFF;
+}

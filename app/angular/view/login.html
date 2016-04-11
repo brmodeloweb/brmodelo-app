@@ -1,4 +1,10 @@
-<div class="mainContent public">
+<header class="specialHeader cf" >
+  <div >
+    <button class="br-button" data-ui-sref="register"> Criar conta </button>
+  </div>
+</header>
+
+<div class="public">
 	<section class="userLogin" data-ng-controller="LoginController">
 
 		<aside class="feedback">
@@ -11,48 +17,38 @@
 
 		<div class="wrapper">
 
-			<header class="publicHeader">
-				<h1 class="logo">
-					<strong class="vhide">BR Modelo</strong>
-					<img src="imgs/120_01.png" alt="BRModelo Logo">
-				</h1><!-- End .logo -->
-			</header>
+			<section class="box login cf" >
 
-			<form class="loginForm publicBox">
-				<div class="field" data-ng-class="{'error': config.submitted && !config.validmail}">
-					<label for="userEmail" class="fieldLabel">Email</label>
-					<input
-						id="userEmail"
-						class="fieldInput"
-						type="text"
-						placeholder="Email"
-						data-ng-model="credentials.username"
-					/>
-				</div><!-- End .field -->
-				<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
-					<label for="userPassword" class="fieldLabel">Senha</label>
-					<input
-						id="userPassword"
-						class="fieldInput"
-						type="password"
-						class="form-control"
-						placeholder="Password"
-						data-ng-model="credentials.password"
-					/>
-				</div><!-- End .field -->
-				<div class="actions">
-					<button
-						type="button"
-						class="button style4 block"
-						data-ng-click="login(credentials)"
-					>Login</button>
-				</div><!-- End .actions -->
-			</form><!-- End .loginForm -->
+				<header class="publicHeader">
+					<h1> brModelo </h1><!-- End .logo -->
+				</header>
 
-			<footer class="callToAction">
-				<button type="button" class="button block" ng-click="register()" >Create account</button>
-				<button type="button" class="button block vhide">Forgot password</button>
-			</footer><!-- End .callToAction -->
+				<form class="cf">
+					<div class="field" data-ng-class="{'error': config.submitted && !config.validmail}">
+						<input
+							id="userEmail"
+							class="specialInput"
+							type="text"
+							placeholder="Email"
+							data-ng-model="credentials.username"
+						/>
+					</div><!-- End .field -->
+					<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
+						<input
+							id="userPassword"
+							class="specialInput"
+							type="password"
+							class="form-control"
+							placeholder="Password"
+							data-ng-model="credentials.password"
+						/>
+					</div><!-- End .field -->
+					<div class="actions">
+						<button type="button" class="br-button" data-ng-click="login(credentials)">Login</button>
+					</div><!-- End .actions -->
+				</form><!-- End .loginForm -->
+
+		  </section>
 
 		</div><!-- End .wrapper -->
 	</section><!-- End .userLogin -->

@@ -52,3 +52,97 @@ button {
 /* .actions */
 /******************************************************************************/
 .actions .button:not(:last-child) {margin-bottom: 10px;}
+
+/******************************************************************************/
+/* .specialInput */
+/******************************************************************************/
+.specialInput {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-bottom-color: #3D9970;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14pt;
+  line-height: 1.2em;
+  color: #503c28;
+
+  -webkit-box-sizing: content-box !important;
+  -moz-box-sizing: content-box !important;
+  box-sizing: content-box !important;
+}
+
+.specialInput:focus {
+  border-bottom-width: 2px;
+  color: #503c28;
+  margin-bottom: -1px;
+}
+
+.error > .specialInput,
+.error ::-webkit-input-placeholder {
+    color: #fc5858;
+    border-bottom-color: #fc5858;
+}
+
+/*********************************************************************/
+/* .box */
+/*********************************************************************/
+.box {
+	position: relative;
+	max-width: 450px;
+	padding: 102px 20px 20px 20px;
+	margin: 0 auto;
+	font-family: "Lato", sans-serif;
+	font-size: 10px;
+	line-height: 1.2em;
+	color: rgba(0, 0, 0, 0.8);
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+}
+.box header {
+	z-index: 10;
+	position: absolute;
+	top: 20px;
+	left: -10px;
+	right: -10px;
+	padding: 12px;
+}
+.box header h1 {
+	text-align: center;
+	font-size: 3em;
+	font-weight: bold;
+	font-family: "Lato", sans-serif;
+	font-size: 32px;
+	line-height: 1.2em;
+	color: gray;
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+	color: #3D9970;
+}
+.box h2 {
+	z-index: 1;
+	position: absolute;
+	top: 80px;
+	left: 20px;
+	right: 20px;
+	text-align: center;
+	padding: 10px;
+}
+.box.login h2, .box.newUser h2, .box.forgotPassword h2 {
+	font-size: 1.5em;
+}
+.box.newUser > form, .box.forgotPassword form {
+	margin-top: 20px;
+}
+.box.login .field, .box.newUser .field, .box.forgotPassword .field {
+	margin-bottom: 20px;
+}
+.box.login .field input, .box.newUser .field input, .box.forgotPassword .field input {
+	display: block;
+	width: 390px;
+	font-size: 1.5em;
+	height: 35px;
+	padding: 5px;
+}
+
+.box.login .actions button, .box.newUser .actions button, .box.forgotPassword .actions button {
+	float: right;
+}

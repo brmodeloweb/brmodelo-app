@@ -327,7 +327,10 @@ angular.module('myapp')
 				console.log("removing....");
 			});
 
-			halo.removeHandle('resize');
+			if (cs.isAttribute(cellView.model) || cs.isExtension(cellView.model)) {
+				halo.removeHandle('resize');
+			}
+
 			halo.removeHandle('clone');
 			halo.removeHandle('fork');
 			halo.removeHandle('rotate');
