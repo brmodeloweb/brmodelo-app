@@ -56,8 +56,8 @@
 				</div><!-- End .field -->
 				<!-- When an element is selected, it's properties are showed here. -->
 
-				<div class="field" ng-show="entitySelected">
-					<label class="fieldLabel">Extender:</label>
+				<div class="field" ng-show="entitySelected == 'ENTITY'">
+					<label class="fieldLabel">Especializar:</label>
 					<div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0" >
 						<div class="dropdown-tmp-trigger">
 							<button class="btn ng-binding">{{extensionSelected}}</button>
@@ -79,7 +79,23 @@
 					</div>
 				</div><!-- End .field -->
 
+				<div ng-show="entitySelected == 'Attribute'">
+					<div class="field">
+				  	<div class="checkboxFive">
+				  		<input type="checkbox" value="1" id="checkboxFiveInput" name="" />
+					  	<label for="checkboxFiveInput"></label>
+				  	</div>
+						<label class="check-label"> Multivalorado </label>
+					</div>
 
+					<div class="field">
+						<div class="checkboxFive">
+							<input type="checkbox" value="1" id="composed" name="" />
+							<label for="composed"></label>
+						</div>
+						<label class="check-label"> Composto </label>
+					</div>
+			</div>
 
 				<div class="field" ng-show="shouldShow">
 					<label class="fieldLabel">Cardinalidade</label>

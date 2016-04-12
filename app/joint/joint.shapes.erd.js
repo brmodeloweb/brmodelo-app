@@ -97,6 +97,8 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
 
 		type : 'erd.Attribute',
     supertype: 'Attribute',
+    multivalued: false,
+    composed: false,
 		size : {
 			width : 15,
 			height : 15

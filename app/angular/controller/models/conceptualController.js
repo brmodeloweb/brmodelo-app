@@ -17,7 +17,7 @@ angular.module('myapp')
 		$scope.paper.setDimensions(canvas.width(), canvas.height());
 	});
 
-	$scope.entitySelected = false;
+	$scope.entitySelected = "NONE";
 	$scope.extensionSelected = "Selecione";
 
 	$scope.model = {
@@ -131,14 +131,15 @@ angular.module('myapp')
 			$scope.selectedElement.element = null;
 		}
 
+		$scope.entitySelected = "NONE";
+
 		if(cs.isEntity(cellView.model)) {
-
 			$scope.extensionSelected = cs.getExtensionTxt(cellView.model, $scope.graph.getNeighbors(cellView.model));
-			$scope.entitySelected = true;
-			$scope.$apply();
+			$scope.entitySelected = "ENTITY";
+		}
 
-		} else {
-			$scope.entitySelected = false;
+		if(cs.isAttribute(cellView.model)) {
+			$scope.entitySelected = "Attribute";
 		}
 
 		$scope.$apply();
@@ -204,28 +205,51 @@ angular.module('myapp')
 
 		}
 
+		if(cs.isAttribute(source) && cs.isAttribute(target)){
+			return true;
+		}
+
+		if(cs.isAttribute(source) || cs.isAttribute(target)){
+			if(cs.isExtension(source) || cs.isExtension(target)){
+				return false;
+			} else {
+					if(cs.isAttribute(source) && $scope.graph.getNeighbors(source).length > 1) {
+						return false;
+					}
+
+					if(cs.isAttribute(target) && $scope.graph.getNeighbors(target).length > 1) {
+						return false;
+					}
+
+					// 	if(source.attributes.supertype != 'Entity'){
+					// 		return false;
+					// 	}
+				return true;
+			}
+		}
+
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
-		if (source.attributes.supertype === 'Attribute') {
-			if(target.attributes.supertype != 'Entity'){
-				return false;
-			}
-
-			if($scope.graph.getNeighbors(source).length > 1) {
-				return false;
-			}
-		}
-
-		if (target.attributes.supertype === 'Attribute') {
-			if(source.attributes.supertype != 'Entity'){
-				return false;
-			}
-
-			if($scope.graph.getNeighbors(target).length > 1) {
-				return false;
-			}
-		}
+		// if (source.attributes.supertype === 'Attribute') {
+		// 	if(target.attributes.supertype != 'Entity'){
+		// 		return false;
+		// 	}
+		//
+		// 	if($scope.graph.getNeighbors(source).length > 1) {
+		// 		return false;
+		// 	}
+		// }
+		//
+		// if (target.attributes.supertype === 'Attribute') {
+		// 	if(source.attributes.supertype != 'Entity'){
+		// 		return false;
+		// 	}
+		//
+		// 	if($scope.graph.getNeighbors(target).length > 1) {
+		// 		return false;
+		// 	}
+		// }
 		return true;
 	}
 
