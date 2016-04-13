@@ -121,8 +121,14 @@ angular.module('myapp')
 			$scope.selectedElement != null &&
 			$scope.selectedElement.element.model.attributes.attrs.text.text !=
 			$scope.selectedElement.value){
+
 			$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
+
 			$scope.selectedElement.element.update();
+
+			console.log($scope.selectedElement.element.model.attributes.attrs.text);
+
+
 		}
 	}
 

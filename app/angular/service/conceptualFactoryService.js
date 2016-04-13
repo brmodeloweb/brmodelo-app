@@ -33,19 +33,6 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 			size: {
 				width: 50,
 				height: 40
-			},
-			attrs: {
-				polygon: {
-						fill: '#FFFFFF',
-						stroke: 'black'
-				},
-				text : {
-					text:'(t,c)',
-					ref: '.',
-							 'ref-x': .75,
-							 'ref-y': .3,
-
-					}
 			}
 		});
 	};

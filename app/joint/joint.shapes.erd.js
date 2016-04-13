@@ -69,7 +69,7 @@ joint.shapes.erd.Relationship = joint.dia.Element.extend({
             text: {
                 text: 'Relationship',
                 'font-family': 'Arial', 'font-size': 12,
-                ref: '.', 'ref-x': .5, 'ref-y': .5,
+                ref: '.outer', 'ref-x': .5, 'ref-y': .5,
                 'x-alignment': 'middle', 'y-alignment': 'middle'
             }
         }
@@ -125,9 +125,9 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
 			},
 			text : {
         text: 'Atributo',
-        ref: '.',
-        'x-alignment': 'middle',
-        'ref-y': -5
+        ref: '.outer',
+        'ref-x': .5, 'ref-y': -5,
+        'x-alignment': 'middle', 'y-alignment': 'middle'
 			}
 		}
 
@@ -164,7 +164,7 @@ joint.shapes.erd.Normal = joint.shapes.erd.Attribute.extend({
 
 joint.shapes.erd.ISA = joint.dia.Element.extend({
 
-    markup: '<g class="rotatable"><g class="scalable"><polygon/></g><text/></g>',
+    markup: '<g class="rotatable"><g class="scalable"><polygon class="poly"/></g><text/></g>',
 
     defaults: joint.util.deepSupplement({
 
@@ -176,7 +176,13 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
             polygon: {
                 //25,0 15,50 35,50
                 points: '25,0 0,50 50,50',
-                fill: '#F1C40F', stroke: '#F39C12', 'stroke-width': 1
+                fill: '#FFFFFF', stroke: 'black', 'stroke-width': 1
+            },
+          text : {
+            text:'(t,c)',
+            ref: '.poly',
+                 'ref-x': .9,
+                 'ref-y': .3,
             }
         }
 
