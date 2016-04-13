@@ -9,6 +9,7 @@ joint.shapes.erd.Entity = joint.dia.Element.extend({
         type: 'erd.Entity',
         supertype: 'Entity',
         isExtended: false,
+        autorelationship: false,
         size: { width: 150, height: 60 },
         attrs: {
             '.outer': {
@@ -53,6 +54,7 @@ joint.shapes.erd.Relationship = joint.dia.Element.extend({
 
         type: 'erd.Relationship',
         supertype: 'Relationship',
+        autorelationship: false,
         size: { width: 80, height: 80 },
         attrs: {
             '.outer': {

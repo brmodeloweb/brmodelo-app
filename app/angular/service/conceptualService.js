@@ -12,6 +12,10 @@ angular.module('myapp').factory('ConceptualService', function(){
 			return element.attributes.supertype === 'Inheritance';
 		};
 
+		_isRelationship = function(element) {
+			return element.attributes.supertype === 'Relationship';
+		};
+
 		_updateExtension = function(elements, text) {
 			for (var i = 0; i < elements.length; i++) {
 				if (_isExtension(elements[i])) {
@@ -35,10 +39,23 @@ angular.module('myapp').factory('ConceptualService', function(){
 			return "Selecione";
 		};
 
+		_getAutoRelationship = function(entity, neighbors) {
+
+				for (var i = 0; i < neighbors.length; i++) {
+					if (_isRelationship(neighbors[i]) && neighbors[i].attributes.autorelationship) {
+						return neighbors[i];;
+					}
+				}
+
+			return null;
+		};
+
 	return {
 		isEntity : _isEntity,
 		isAttribute : _isAttribute,
 		isExtension : _isExtension,
+	 	isRelationship : _isRelationship,
+		getAutoRelationship : _getAutoRelationship,
 		updateExtension : _updateExtension,
 		getExtensionTxt: _getExtensionTxt
 	}

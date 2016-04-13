@@ -74,6 +74,28 @@ angular.module('myapp')
 		}
 	}
 
+	$scope.autoRelationshipChange = function(){
+		var entity = $scope.selectedElement.element.model;
+
+		if(entity.attributes.autorelationship) {
+			if(cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)) == null){
+				var rel = ConceptualFactory.createRelationship();
+
+				rel.attributes.position.x = entity.attributes.position.x + 100;
+				rel.attributes.position.y = entity.attributes.position.y - 10;
+
+				$scope.graph.addCell(rel);
+
+				createLink(entity, rel);
+
+				rel.attributes.autorelationship = true;
+			}
+		} else {
+			cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)).remove();
+		}
+
+	}
+
 	$scope.initView = function(){
 		buildWorkspace();
 
@@ -232,28 +254,19 @@ angular.module('myapp')
 			}
 		}
 
+		if(cs.isRelationship(source) || cs.isRelationship(target)){
+			if(cs.isRelationship(source) && source.attributes.autorelationship){
+				return false;
+			}
+
+			if(cs.isRelationship(target) && target.attributes.autorelationship){
+				return false;
+			}
+		}
+
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
-		// if (source.attributes.supertype === 'Attribute') {
-		// 	if(target.attributes.supertype != 'Entity'){
-		// 		return false;
-		// 	}
-		//
-		// 	if($scope.graph.getNeighbors(source).length > 1) {
-		// 		return false;
-		// 	}
-		// }
-		//
-		// if (target.attributes.supertype === 'Attribute') {
-		// 	if(source.attributes.supertype != 'Entity'){
-		// 		return false;
-		// 	}
-		//
-		// 	if($scope.graph.getNeighbors(target).length > 1) {
-		// 		return false;
-		// 	}
-		// }
 		return true;
 	}
 
