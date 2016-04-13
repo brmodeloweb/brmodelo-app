@@ -82,16 +82,22 @@
 				<div ng-show="entitySelected == 'Attribute'">
 					<div class="field">
 				  	<div class="checkboxFive">
-				  		<input type="checkbox" value="1" id="checkboxFiveInput" name="" />
+
+				  		<input type="checkbox" id="checkboxFiveInput"
+							 			 ng-model="selectedElement.element.model.attributes.multivalued"/>
 					  	<label for="checkboxFiveInput"></label>
+
 				  	</div>
 						<label class="check-label"> Multivalorado </label>
 					</div>
 
 					<div class="field">
 						<div class="checkboxFive">
-							<input type="checkbox" value="1" id="composed" name="" />
+
+							<input type="checkbox" id="composed"
+										 ng-model="selectedElement.element.model.attributes.composed"/>
 							<label for="composed"></label>
+
 						</div>
 						<label class="check-label"> Composto </label>
 					</div>

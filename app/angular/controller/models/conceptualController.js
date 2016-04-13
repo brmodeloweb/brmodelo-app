@@ -206,7 +206,11 @@ angular.module('myapp')
 		}
 
 		if(cs.isAttribute(source) && cs.isAttribute(target)){
-			return true;
+			if(source.attributes.composed || target.attributes.composed){
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		if(cs.isAttribute(source) || cs.isAttribute(target)){
@@ -392,4 +396,15 @@ angular.module('myapp')
 
 	}
 
+
+
 });
+
+// graph.on('remove', function(cell, collection, opt) {
+//    if (cell.isLink()) {
+//       // a link was removed  (cell.id contains the ID of the removed link)
+//    }
+// })
+
+// .link-tools .tool-remove { display: none }
+// .link-tools .tool-options { display: none }
