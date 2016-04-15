@@ -336,11 +336,14 @@ angular.module('myapp')
 
 		$scope.paper.on('cell:pointerup', function(cellView, evt, x, y) {
 
+			if (cellView.model instanceof joint.dia.Link) return;
+
 			$scope.onSelectElement(cellView);
 
 			if(x != null && y != null){
 			// Find the first element below that is not a link nor the dragged element itself.
 		    var elementBelow = $scope.graph.get('cells').find(function(cell) {
+			//			console.log(cell);
 		        if (cell instanceof joint.dia.Link) return false; // Not interested in links.
 		        if (cell.id === cellView.model.id) return false; // The same element as the dropped one.
 		        if (cell.getBBox().containsPoint(g.point(x, y))) {
@@ -359,7 +362,6 @@ angular.module('myapp')
 		    }
 			}
 
-			if (cellView.model instanceof joint.dia.Link) return;
 			var halo = new joint.ui.Halo({
 				cellView: cellView,
 				boxContent: false
@@ -397,6 +399,32 @@ angular.module('myapp')
 			$scope.$apply();
 
 		});
+
+		$scope.paper.on('link:options', function (evt, cellView, x, y) {
+			console.log(cellView.model);
+			// cellView.model.label(0, {
+			// 	position: 0.2,
+			// 	attrs: {
+			// 		rect: { fill: 'transparent' },
+			// 		text: { fill: 'green', text: '1', 'ref-y': -5 }
+			// 	}
+			// });
+
+			// cellView.model.label(0,
+			// 	{ position: 0.2,
+			// 		attrs: { text: { text: '1',
+			// 										 fill: '#f6f6f6'},
+			// 						 rect: { stroke: '#7c68fc', 'stroke-width': 10, rx: 10, ry: 10 } }
+			// 	});
+
+			cellView.model.label(0,
+				{ position: 0.2,
+					attrs: { text: { text: '1'}}
+				});
+
+
+            // your logic here: e.g. select a link by its options tool
+    });
 
 		var stencil = new joint.ui.Stencil({
 			graph: $scope.graph,

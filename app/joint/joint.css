@@ -1,4 +1,4 @@
-/*! JointJS v0.9.6 - JavaScript diagramming library  2015-12-19 
+/*! JointJS v0.9.6 - JavaScript diagramming library  2015-12-19
 
 
 This Source Code Form is subject to the terms of the Mozilla Public
@@ -146,7 +146,7 @@ Vertex markers are `<circle>` elements that appear at connection vertex position
    cursor: pointer;
 }
 .link-tools .tool-options {
-   display: none;       /* by default, we don't display link options tool */
+   /*display: none;       /* by default, we don't display link options tool */*/
 }
 .link-tools .tool-remove circle {
    fill: red;
