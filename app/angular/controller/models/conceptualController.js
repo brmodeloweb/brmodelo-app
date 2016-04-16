@@ -439,6 +439,7 @@ angular.module('myapp')
 			ConceptualFactory.createIsa(),
 			ConceptualFactory.createRelationship(),
 			ConceptualFactory.createKey(),
+			ConceptualFactory.createAssociative()
 		]);
 
 	}

@@ -44,8 +44,8 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 				y: 130
 			},
 			size: {
-				width: 80,
-				height: 60
+				width: 85,
+				height: 45
 			},
 			attrs: {
 				text: {
@@ -59,11 +59,34 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
+	_createAssociative = function() {
+		return new erd.Associative({
+			position: {
+				x: 25,
+				y: 190
+			},
+			size: {
+				width: 80,
+				height: 40
+			},
+			attrs: {
+				'.outer': {
+						fill: '#FFFFFF',
+						stroke: 'black'
+				},
+				'.inner': {
+						fill: '#FFFFFF',
+						stroke: 'black'
+				}
+			}
+		});
+	};
+
 	_createAttribute = function() {
 		return new erd.Attribute({
 			position: {
 				x: 65,
-				y: 230
+				y: 260
 			},
 			attrs: {
 				text: {
@@ -77,7 +100,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		return new erd.Key({
 			position: {
 				x: 65,
-				y: 280
+				y: 300
 			},
 			attrs: {
 				text: {
@@ -92,7 +115,8 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		createAttribute : _createAttribute,
 		createIsa : _createIsa,
 		createRelationship : _createRelationship,
-		createKey : _createKey
+		createKey : _createKey,
+		createAssociative : _createAssociative
 	}
 
 });

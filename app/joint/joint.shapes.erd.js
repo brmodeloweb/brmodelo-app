@@ -33,6 +33,38 @@ joint.shapes.erd.Entity = joint.dia.Element.extend({
     }, joint.dia.Element.prototype.defaults)
 });
 
+joint.shapes.erd.Associative = joint.dia.Element.extend({
+
+    markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+
+    defaults: joint.util.deepSupplement({
+
+        type: 'erd.Associative',
+        supertype: 'Relationship',
+        isExtended: false,
+        autorelationship: false,
+        weak: false,
+        size: { width: 150, height: 60 },
+        attrs: {
+            '.outer': {
+                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
+                points: '100,0 100,60 0,60 0,0'
+            },
+            '.inner': {
+                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
+                points: '50,0 100,30 50,60 0,30'
+            },
+            text: {
+                text: 'Rel',
+                'font-family': 'Arial', 'font-size': 12,
+                ref: '.outer', 'ref-x': .5, 'ref-y': .5,
+                'x-alignment': 'middle', 'y-alignment': 'middle'
+            }
+        }
+
+    }, joint.dia.Element.prototype.defaults)
+});
+
 joint.shapes.erd.WeakEntity = joint.shapes.erd.Entity.extend({
 
     defaults: joint.util.deepSupplement({
@@ -56,7 +88,7 @@ joint.shapes.erd.Relationship = joint.dia.Element.extend({
         type: 'erd.Relationship',
         supertype: 'Relationship',
         autorelationship: false,
-        size: { width: 80, height: 80 },
+        size: { width: 100, height: 80 },
         attrs: {
             '.outer': {
                 fill: '#3498DB', stroke: '#2980B9', 'stroke-width': 1,
