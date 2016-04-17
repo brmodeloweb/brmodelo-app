@@ -65,12 +65,21 @@ a,
 /* .modelWorkspace */
 /******************************************************************************/
 .modelWorkspace {
-	position: fixed;
+	position: absolute;
 	top: 48px;
 	right: 0;
 	bottom: 0;
 	left: 127px;
 }
+
+// .paperHolder {
+// 	position: fixed;
+// 	top: 58px;
+// 	right: 60px;
+// 	bottom: 10px;
+// 	left: 137px;
+// 	background-color: yellow;
+// }
 
 /******************************************************************************/
 /* .modelProperties */

@@ -12,10 +12,11 @@ angular.module('myapp')
 	var cs = ConceptualService;
 
 	// how to resize
-	$(window).resize(function(){
-		var canvas = $('#content');
-		$scope.paper.setDimensions(canvas.width(), canvas.height());
-	});
+	// $(window).resize(function(){
+	// 	var canvas = $('#content');
+	// 	$scope.paper.setDimensions(canvas.width(), canvas.height());
+	// 	console.log("Resizing...");
+	// });
 
 	$scope.entitySelected = "NONE";
 	$scope.extensionSelected = "Selecione";
@@ -27,6 +28,9 @@ angular.module('myapp')
 		model: '',
 		user: $rootScope.loggeduser
 	}
+
+
+
 
 	$scope.editionVisible = false;
 	$scope.dropdownVisible = false;
@@ -318,17 +322,38 @@ angular.module('myapp')
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
 		$scope.paper = new joint.dia.Paper({
-			el: $('#content'),
+			//el: $('#content'),
+			//width: $('#content').width(),
+			//height: $('#content').height(),
 			width: $('#content').width(),
 			height: $('#content').height(),
 			gridSize: 1,
 			model: $scope.graph,
-			linkPinning: false,
-			markAvailable: true,
-			restrictTranslate: true,
+			//linkPinning: false,
+			//markAvailable: true,
+			//restrictTranslate: true,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
 			// multiLinks: false
 		});
+
+		var $app = $('#content');
+
+    var paperScroller = new joint.ui.PaperScroller({
+        autoResizePaper: true,
+    //    padding: 10,
+        paper: $scope.paper
+    });
+
+		$scope.paper.on('blank:pointerdown', paperScroller.startPanning);
+
+		// paperScroller.$el.css({
+		// 		width: $('#paper-holder').width(),
+		// 		height: $('#paper-holder').height()
+		// 		width: 500,
+		// 		height: 500
+		// });
+
+		$app.append(paperScroller.render().el);
 
 		$scope.graph.on('remove', function(cell) {
     	console.log('New cell with id ' + cell.id + ' removed to the graph.');
