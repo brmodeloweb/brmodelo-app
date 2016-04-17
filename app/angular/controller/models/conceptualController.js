@@ -125,6 +125,14 @@ angular.module('myapp')
 		$scope.commandManager.redo();
 	}
 
+	$scope.zoomIn = function(){
+		$scope.paperScroller.zoom(0.2, { max: 2 });
+	}
+
+	$scope.zoomOut = function(){
+		$scope.paperScroller.zoom(-0.2, { min: 0.2 });
+	}
+
 	$scope.applyChanges = function(){
 		if($scope.selectedElement.element != null &&
 			$scope.selectedElement.element.model != null &&
@@ -338,13 +346,13 @@ angular.module('myapp')
 
 		var $app = $('#content');
 
-    var paperScroller = new joint.ui.PaperScroller({
+    $scope.paperScroller = new joint.ui.PaperScroller({
         autoResizePaper: true,
     //    padding: 10,
         paper: $scope.paper
     });
 
-		$scope.paper.on('blank:pointerdown', paperScroller.startPanning);
+		$scope.paper.on('blank:pointerdown', $scope.paperScroller.startPanning);
 
 		// paperScroller.$el.css({
 		// 		width: $('#paper-holder').width(),
@@ -353,7 +361,7 @@ angular.module('myapp')
 		// 		height: 500
 		// });
 
-		$app.append(paperScroller.render().el);
+		$app.append($scope.paperScroller.render().el);
 
 		$scope.graph.on('remove', function(cell) {
     	console.log('New cell with id ' + cell.id + ' removed to the graph.');
