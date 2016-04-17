@@ -74,6 +74,12 @@ angular.module('myapp')
 		}
 	}
 
+	$scope.updateExtension = function(selected){
+		$scope.selectedElement.element.model.attributes.attrs.text.text = selected;
+		$scope.selectedElement.element.update();
+		$scope.extensionSelected = selected;
+	}
+
 	$scope.autoRelationshipChange = function(){
 		var entity = $scope.selectedElement.element.model;
 
@@ -120,7 +126,9 @@ angular.module('myapp')
 			$scope.selectedElement.element.model != null &&
 			$scope.selectedElement != null &&
 			$scope.selectedElement.element.model.attributes.attrs.text.text !=
-			$scope.selectedElement.value){
+			$scope.selectedElement.value &&
+			$scope.selectedElement.value != ""
+		  ){
 
 			$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
 
@@ -164,6 +172,12 @@ angular.module('myapp')
 		if(cs.isEntity(cellView.model)) {
 			$scope.extensionSelected = cs.getExtensionTxt(cellView.model, $scope.graph.getNeighbors(cellView.model));
 			$scope.entitySelected = "ENTITY";
+		}
+
+		if(cs.isExtension(cellView.model)) {
+			$scope.selectedElement.element = cellView;
+			$scope.extensionSelected = cellView.model.attributes.attrs.text.text;
+			$scope.entitySelected = "EXTENSION";
 		}
 
 		if(cs.isAttribute(cellView.model)) {
