@@ -20,6 +20,8 @@ angular.module('myapp')
 
 	$scope.entitySelected = "NONE";
 	$scope.extensionSelected = "Selecione";
+	$scope.cardSelected = "Selecione";
+
 
 	$scope.model = {
 		id: '',
@@ -76,6 +78,13 @@ angular.module('myapp')
 			updated.findView($scope.paper).update();
 			$scope.extensionSelected = selected;
 		}
+	}
+
+	$scope.updateCard = function(selected){
+		$scope.selectedElement.element.model.label(0,
+			{ position: 0.2,
+				attrs: { text: { text: selected}}
+			});
 	}
 
 	$scope.updateExtension = function(selected){
@@ -137,6 +146,8 @@ angular.module('myapp')
 		if($scope.selectedElement.element != null &&
 			$scope.selectedElement.element.model != null &&
 			$scope.selectedElement != null &&
+			$scope.selectedElement.element.model.attributes.attrs != null &&
+			$scope.selectedElement.element.model.attributes.attrs.text != null &&
 			$scope.selectedElement.element.model.attributes.attrs.text.text !=
 			$scope.selectedElement.value &&
 			$scope.selectedElement.value != ""
@@ -179,6 +190,7 @@ angular.module('myapp')
 			$scope.selectedElement.element = null;
 		}
 
+		console.log("App NONE");
 		$scope.entitySelected = "NONE";
 
 		if(cs.isEntity(cellView.model)) {
@@ -201,6 +213,7 @@ angular.module('myapp')
 	}
 
 	var createLink = function(elm1, elm2) {
+		console.log("createLink");
 		var myLink = new joint.shapes.erd.Line({
 			source: {
 				id: elm1.id
@@ -304,6 +317,8 @@ angular.module('myapp')
 
 	function onLink(link) {
 
+
+		console.log("onLink");
 		var source = $scope.graph.getCell(link.get('source').id);
 		var target = $scope.graph.getCell(link.get('target').id);
 
@@ -311,8 +326,15 @@ angular.module('myapp')
 			link.remove();
 		}
 
-		if(source.attributes.supertype === 'Relationship' ||
-			 target.attributes.supertype === 'Relationship') {
+		if((source.attributes.supertype === 'Relationship' ||
+			 target.attributes.supertype === 'Relationship') &&
+		   (cs.isEntity(source) || cs.isEntity(target))) {
+
+			 var pos = 0.2;
+
+			 if(cs.isEntity(target)){
+				 pos = 0.8;
+			 }
 
 			// link.label(0, {
 			// 	position: .1,
@@ -321,6 +343,8 @@ angular.module('myapp')
 			// 		text: { fill: 'blue', text: '1' }
 			// 	}
 			// });
+
+			 link.label(0, { position: pos, attrs: { text: { text: '(0, n)'}}});
 
 		}
 	}
@@ -415,7 +439,6 @@ angular.module('myapp')
 			});
 
 			halo.on('action:link:add', function(link) {
-				console.log("onlink");
 				onLink(link);
 			});
 
@@ -441,36 +464,30 @@ angular.module('myapp')
 				value: ""
 			};
 
-			$scope.entitySelected = false;
+			$scope.entitySelected = 'NONE';
 
 			$scope.$apply();
 
 		});
 
 		$scope.paper.on('link:options', function (evt, cellView, x, y) {
-			console.log(cellView.model);
-			// cellView.model.label(0, {
-			// 	position: 0.2,
-			// 	attrs: {
-			// 		rect: { fill: 'transparent' },
-			// 		text: { fill: 'green', text: '1', 'ref-y': -5 }
-			// 	}
-			// });
 
-			// cellView.model.label(0,
-			// 	{ position: 0.2,
-			// 		attrs: { text: { text: '1',
-			// 										 fill: '#f6f6f6'},
-			// 						 rect: { stroke: '#7c68fc', 'stroke-width': 10, rx: 10, ry: 10 } }
-			// 	});
+			var source = $scope.graph.getCell(cellView.model.get('source').id);
+			var target = $scope.graph.getCell(cellView.model.get('target').id);
 
-			cellView.model.label(0,
-				{ position: 0.2,
-					attrs: { text: { text: '1'}}
-				});
+			if((cs.isRelationship(source) || cs.isRelationship(target)) &&
+			   (cs.isEntity(source) || cs.isEntity(target))) {
 
+				if(cellView.model.attributes.labels != null){
+					$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
+				}
 
-            // your logic here: e.g. select a link by its options tool
+				$scope.entitySelected = "LINK";
+				$scope.selectedElement.element = cellView;
+
+				$scope.$apply();
+			}
+
     });
 
 		var stencil = new joint.ui.Stencil({

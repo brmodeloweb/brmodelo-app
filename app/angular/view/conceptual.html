@@ -144,9 +144,27 @@
 					</div>
 				</div>
 
-				<div class="field" ng-show="shouldShow">
+				<div class="field" ng-show="entitySelected == 'LINK'">
 					<label class="fieldLabel">Cardinalidade</label>
-					<input class="fieldInput" type="text" </input>
+					<div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0" >
+					<div class="dropdown-tmp-trigger">
+						<button class="btn ng-binding">{{cardSelected}}</button>
+					</div><!--/dropdown-tmp-trigger-->
+					<ul class="dropdown-tmp-list" style="min-width: 140px;">
+						<li class="dropdown-tmp-item" ng-click="updateCard('(0, 1)')">
+							<span>(0, 1)</span>
+						</li><!--/dropdown-tmp-item-->
+						<li class="dropdown-tmp-item" ng-click="updateCard('(0, n)')">
+							<span>(0, n)</span>
+						</li><!--/dropdown-tmp-item-->
+						<li class="dropdown-tmp-item" ng-click="updateCard('(1, 1)')">
+							<span>(1, 1)</span>
+						</li><!--/dropdown-tmp-item-->
+						<li class="dropdown-tmp-item" ng-click="updateCard('(1, n)')">
+							<span>(1, n)</span>
+						</li><!--/dropdown-tmp-item-->
+					</ul><!--/dropdown-tmp-list-->
+					</div><!-- End .field -->
 				</div><!-- End .field -->
 
 			</aside>	<!-- End .modelProperties -->
