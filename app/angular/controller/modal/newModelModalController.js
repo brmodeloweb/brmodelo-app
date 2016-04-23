@@ -1,15 +1,12 @@
 var app = angular.module('myapp');
 
-app.controller('newModelModalController', function($scope, $state, $uibModalInstance, $rootScope){
+app.controller('ModelModalController', function($scope, $uibModalInstance, $rootScope){
 
-	$scope.types = [{id: 1, txt: 'Conceitual', type: 'conceptual'}];
-							//  {txt: 'Lógico'   , type: 'Logic'}
-
-	$scope.selected = $scope.types[0];
+	$scope.selected = 'conceptual';
 
 	$scope.save = function(newmodel) {
 		newmodel.user = $rootScope.loggeduser;
-		newmodel.type = 'conceptual';
+		newmodel.type = $scope.selected;
 		newmodel.model = '{"cells":[]}';
 		$uibModalInstance.close(newmodel);
 	};

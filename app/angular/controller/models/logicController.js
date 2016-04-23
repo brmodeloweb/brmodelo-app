@@ -1,5 +1,5 @@
 angular.module('myapp')
-			 .controller("conceptualController",
+			 .controller("logicController",
 				function($scope,
 								 $http,
 								 $window,
@@ -11,109 +11,18 @@ angular.module('myapp')
 
 	var cs = ConceptualService;
 
-	// how to resize
-	// $(window).resize(function(){
-	// 	var canvas = $('#content');
-	// 	$scope.paper.setDimensions(canvas.width(), canvas.height());
-	// 	console.log("Resizing...");
-	// });
-
-	$scope.entitySelected = "NONE";
-	$scope.extensionSelected = "Selecione";
-	$scope.cardSelected = "Selecione";
-
-
 	$scope.model = {
 		id: '',
 		name: 'mymodel',
-		type: 'conceptual',
+		type: 'logic',
 		model: '',
 		user: $rootScope.loggeduser
 	}
-
-
-
-
-	$scope.editionVisible = false;
-	$scope.dropdownVisible = false;
-	$scope.shouldShow = false;
-	$scope.isElementSelected = false;
 
 	$scope.selectedElement = {
 		element: {},
 		value: ""
 	};
-
-	$scope.call = function(selected) {
-
-		if(!$scope.selectedElement.element.model.attributes.isExtended) {
-
-			var x = $scope.selectedElement.element.model.attributes.position.x;
-			var y = $scope.selectedElement.element.model.attributes.position.y;
-
-			var isa = ConceptualFactory.createIsa();
-			var entity = ConceptualFactory.createEntity();
-
-			isa.attributes.position.x = x + 18 ;
-			isa.attributes.position.y = y + 60;
-			isa.attributes.attrs.text.text = selected;
-
-			entity.attributes.position.x = x;
-			entity.attributes.position.y = y + 120;
-
-			$scope.graph.addCell(isa);
-			$scope.graph.addCell(entity);
-
-			createLink(isa, $scope.selectedElement.element.model);
-
-			$scope.selectedElement.element.model.attributes.isExtended = true;
-			isa.attributes.parentId = $scope.selectedElement.element.model.attributes.id;
-
-			createLink(isa, entity);
-
-			$scope.extensionSelected = selected;
-
-		} else {
-			var updated = ConceptualService.updateExtension($scope.graph.getNeighbors($scope.selectedElement.element.model), selected);
-			updated.findView($scope.paper).update();
-			$scope.extensionSelected = selected;
-		}
-	}
-
-	$scope.updateCard = function(selected){
-		$scope.selectedElement.element.model.label(0,
-			{ position: 0.3,
-				attrs: { text: { text: selected}}
-			});
-	}
-
-	$scope.updateExtension = function(selected){
-		$scope.selectedElement.element.model.attributes.attrs.text.text = selected;
-		$scope.selectedElement.element.update();
-		$scope.extensionSelected = selected;
-	}
-
-	$scope.autoRelationshipChange = function(){
-		var entity = $scope.selectedElement.element.model;
-
-		if(entity.attributes.autorelationship) {
-			if(cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)) == null){
-				var rel = ConceptualFactory.createRelationship();
-
-				rel.attributes.position.x = entity.attributes.position.x + 100;
-				rel.attributes.position.y = entity.attributes.position.y - 10;
-
-				$scope.graph.addCell(rel);
-
-				createLink(entity, rel);
-
-				rel.attributes.autorelationship = true;
-			}
-		} else {
-			cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)).remove();
-		}
-
-	}
 
 	$scope.initView = function(){
 		buildWorkspace();
@@ -124,6 +33,7 @@ angular.module('myapp')
 			$scope.model.id   = resp.data[0]._id;
 			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
 		});
+
 	}
 
 	$scope.undoModel = function(){
@@ -140,27 +50,6 @@ angular.module('myapp')
 
 	$scope.zoomOut = function(){
 		$scope.paperScroller.zoom(-0.2, { min: 0.2 });
-	}
-
-	$scope.applyChanges = function(){
-		if($scope.selectedElement.element != null &&
-			$scope.selectedElement.element.model != null &&
-			$scope.selectedElement != null &&
-			$scope.selectedElement.element.model.attributes.attrs != null &&
-			$scope.selectedElement.element.model.attributes.attrs.text != null &&
-			$scope.selectedElement.element.model.attributes.attrs.text.text !=
-			$scope.selectedElement.value &&
-			$scope.selectedElement.value != ""
-		  ){
-
-			$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
-
-			$scope.selectedElement.element.update();
-
-			console.log($scope.selectedElement.element.model.attributes.attrs.text);
-
-
-		}
 	}
 
 	$scope.changeVisible = function(){
@@ -317,31 +206,19 @@ angular.module('myapp')
 
 	function onLink(link) {
 
-
-		console.log("onLink");
 		var source = $scope.graph.getCell(link.get('source').id);
 		var target = $scope.graph.getCell(link.get('target').id);
 
-		if(!$scope.isValidConnection(source, target, link)){
-			link.remove();
-		}
-
 		if((source.attributes.supertype === 'Relationship' ||
-			 target.attributes.supertype === 'Relationship') &&
-		   (cs.isEntity(source) || cs.isEntity(target))) {
+				target.attributes.supertype === 'Relationship') &&
+				(cs.isEntity(source) || cs.isEntity(target))) {
 
-			 var pos = 0.3;
-
-			 if(cs.isEntity(target)){
-				 pos = 0.7;
-			 }
-
-			 link.label(0, { position: pos, attrs: { text: { text: '(0, n)'}}});
 
 		}
+
 	}
 
-	function buildWorkspace(){
+	function buildWorkspace() {
 		$scope.graph = new joint.dia.Graph;
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
@@ -450,35 +327,9 @@ angular.module('myapp')
 
 		$scope.paper.on('blank:pointerdown', function(evt, x, y) {
 
-			$scope.applyChanges();
-			$scope.selectedElement = {
-				element: {},
-				value: ""
-			};
-
-			$scope.entitySelected = 'NONE';
-
-			$scope.$apply();
-
 		});
 
 		$scope.paper.on('link:options', function (evt, cellView, x, y) {
-
-			var source = $scope.graph.getCell(cellView.model.get('source').id);
-			var target = $scope.graph.getCell(cellView.model.get('target').id);
-
-			if((cs.isRelationship(source) || cs.isRelationship(target)) &&
-			   (cs.isEntity(source) || cs.isEntity(target))) {
-
-				if(cellView.model.attributes.labels != null){
-					$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
-				}
-
-				$scope.entitySelected = "LINK";
-				$scope.selectedElement.element = cellView;
-
-				$scope.$apply();
-			}
 
     });
 
@@ -490,12 +341,7 @@ angular.module('myapp')
 		$('#stencil-holder').append(stencil.render().el);
 
 		stencil.load([
-			ConceptualFactory.createEntity(),
-			ConceptualFactory.createAttribute(),
-			ConceptualFactory.createIsa(),
-			ConceptualFactory.createRelationship(),
-			ConceptualFactory.createKey(),
-			ConceptualFactory.createAssociative()
+
 		]);
 
 	}

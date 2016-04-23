@@ -2,44 +2,39 @@ var app = angular.module('myapp');
 
 app.controller('listController', function($scope, $state, ModelAPI, $rootScope, $uibModal) {
 
-	$scope.animationsEnabled = true;
+	var vm = this;
+	vm.models = [];
 
 	ModelAPI.getAllModels($rootScope.loggeduser).then(function(models) {
-		$scope.models = models.data;
+		vm.models = models.data;
 	});
 
-	$scope.openModel = function(model) {
-		$state.go('conceptual', {
+	vm.openModel = function(model) {
+		$state.go(model.type, {
 			'modelid': model._id
 		});
-	}
+	};
 
-	$scope.newModel = function() {
-		//TODO refac it to a controller
+	vm.newModel = function() {
 		var modalInstance = $uibModal.open({
-			animation: $scope.animationsEnabled,
+			animation: true,
 			templateUrl: 'angular/view/modal/newModelModal.html',
-			controller:  'newModelModalController'
+			controller:  'ModelModalController'
 		});
 
 		modalInstance.result.then(function (model) {
 			ModelAPI.saveModel(model).then(function(newModel){
-				$scope.openModel(newModel);
+				vm.openModel(newModel);
 			});
 		});
 	};
 
-	$scope.toggleAnimation = function() {
-		$scope.animationsEnabled = !$scope.animationsEnabled;
-	};
-
-	$scope.deleteModel = function(model) {
+	vm.deleteModel = function(model) {
 		ModelAPI.deleteModel(model._id).then(function (resp) {
 			if (resp.status === 200){
-				console.log($scope.models.indexOf(model));
-				$scope.models.splice($scope.models.indexOf(model), 1);
+				vm.models.splice(vm.models.indexOf(model), 1);
 			}
 		});
-	}
+	};
 
 });

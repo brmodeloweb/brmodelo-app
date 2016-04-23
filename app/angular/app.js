@@ -46,7 +46,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 		});
 
 		$stateProvider.state('logic', {
-			url: '/logic',
+			url: '/logic/{modelid}',
 			templateUrl: 'angular/view/logic.html',
 			data: {
 				requireLogin: true
@@ -71,4 +71,4 @@ app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 	});
 });
 
-app.$inject = ['$scope', '$http', '$cookies'];
+app.$inject = ['$scope', '$http', '$cookies', '$uibModalInstance'];

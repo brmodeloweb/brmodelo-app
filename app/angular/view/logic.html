@@ -1,10 +1,54 @@
-<header
-	class="mainHeader cf"
-	data-ng-controller="mainController"
-	data-ng-include=""
-	src="'angular/view/mainHeader.html'"
-></header>
+<div data-ng-controller="logicController" data-ng-init="initView()">
+	<header class="mainHeader cf">
+		<h1 class="logo" data-ui-sref="main">
+			<strong>brModelo</strong>
+		</h1><!-- End .logo -->
+		<aside class="modelOptions cf">
+			<div class="modelName">
+				<input
+					class="modelTitleItem fieldInput"
+					type="text"
+					data-ng-model="model.name"
+				/>
+				<span class="fa fa-pencil inputPencil"></span>
+			</div><!-- End .modelName -->
+			<div class="modelViewiewOptions">
+				<a data-ng-click="undoModel()"><i class="fa fa-reply fa-lg"></i></a>
+				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i></a>
+				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
+				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
+				<a class="button style5" data-ng-click="saveModel()">Salvar</a>
+				<!-- Zoom, Undo, etc,etc -->
+			</div><!-- End .modelViewiewOptions -->
+		</aside><!-- End .modelOptions -->
 
-<div class="mainContent">
-	<!-- Be happy -->
-</div><!-- End .mainContent -->
+		<aside class="userActions cf" ng-controller="optionsController">
+			<brdropdown title="Options" list="menuItens"> </brdropdown>
+		</aside><!-- End .userActions -->
+
+	</header>
+
+	<div class="userWorkspace">
+		<div class="conceptual">
+
+			<section id="stencil-holder" class="componentsList">
+				<header class="vhide">
+					<h2>Models list</h2>
+				</header><!-- List of models used by the user -->
+			</section><!-- End .componentsList -->
+
+			<section id="content" class="modelWorkspace">
+
+			</section>	<!-- End .modelWorkspace -->
+
+			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
+				<!-- <button class="action" > -->
+				<span class="action" data-ng-click="changeVisible()">
+					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+				</span><!-- </button> -->
+
+			</aside>	<!-- End .modelProperties -->
+
+		</div>	<!-- End .conceptual -->
+	</div><!-- End .userWorkspace -->
+<div>
