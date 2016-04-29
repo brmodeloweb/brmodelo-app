@@ -125,7 +125,7 @@ angular.module('myapp')
 			$scope.model.id   = resp.data[0]._id;
 			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
 
-			$scope.paperScroller.centerContent();
+	//		$scope.paperScroller.centerContent();
 		});
 	}
 
