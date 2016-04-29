@@ -10,7 +10,6 @@ joint.shapes.erd.Entity = joint.dia.Element.extend({
         supertype: 'Entity',
         isExtended: false,
         autorelationship: false,
-        weak: false,
         size: { width: 150, height: 60 },
         attrs: {
             '.outer': {
@@ -226,6 +225,7 @@ joint.shapes.erd.ISA = joint.dia.Element.extend({
 joint.shapes.erd.Line = joint.dia.Link.extend({
 
     defaults: { type: 'erd.Line' },
+    weak: false,
     attrs: {
             '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z', fill: '#34495e', stroke: '#2c3e50' },
             '.connection': { stroke: '#2c3e50'}

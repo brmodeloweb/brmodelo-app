@@ -2,13 +2,15 @@ angular.module('myapp').factory('LogicFactory', function(){
 
 	var logic = joint.shapes.uml;
 
+	console.log(logic);
+
 	_createTable = function() {
-		return new uml.Class({
-        position: { x:20  , y: 190 },
-        size: { width: 220, height: 100 },
-        name: 'BloodGroup',
-        attributes: ['bloodGroup: String'],
-        methods: ['+ isCompatible(bG: String): Boolean'],
+		return new logic.Class({
+        position: { x:15  , y: 15 },
+        size: { width: 100, height: 100 },
+        name: 'Entidade',
+        attributes: ['id: Number', 'nome: String'],
+    //    methods: ['+ isCompatible(bG: String): Boolean'],
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#ff8450',

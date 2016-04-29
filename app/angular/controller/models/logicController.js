@@ -5,11 +5,8 @@ angular.module('myapp')
 								 $window,
 								 $rootScope,
 								 $stateParams,
-								 ConceptualFactory,
-								 ConceptualService,
+								 LogicFactory,
 								 ModelAPI) {
-
-	var cs = ConceptualService;
 
 	$scope.model = {
 		id: '',
@@ -62,159 +59,12 @@ angular.module('myapp')
 
 	$scope.saveModel = function() {
 		$scope.model.model = JSON.stringify($scope.graph);
-
 		ModelAPI.updateModel($scope.model).then(function(res){
-			// call feedback here
 			console.log("saved");
 		});
 	}
 
 	$scope.onSelectElement = function(cellView) {
-
-		if(cellView.model.attributes.attrs.text != null && !cs.isExtension(cellView.model)){
-			$scope.selectedElement.value = cellView.model.attributes.attrs.text.text;
-			$scope.selectedElement.element = cellView;
-		} else {
-			$scope.selectedElement.value = "";
-			$scope.selectedElement.element = null;
-		}
-
-		console.log("App NONE");
-		$scope.entitySelected = "NONE";
-
-		if(cs.isEntity(cellView.model)) {
-			$scope.extensionSelected = cs.getExtensionTxt(cellView.model, $scope.graph.getNeighbors(cellView.model));
-			$scope.entitySelected = "ENTITY";
-		}
-
-		if(cs.isExtension(cellView.model)) {
-			$scope.selectedElement.element = cellView;
-			$scope.extensionSelected = cellView.model.attributes.attrs.text.text;
-			$scope.entitySelected = "EXTENSION";
-		}
-
-		if(cs.isAttribute(cellView.model)) {
-			$scope.entitySelected = "Attribute";
-		}
-
-		$scope.$apply();
-
-	}
-
-	var createLink = function(elm1, elm2) {
-		console.log("createLink");
-		var myLink = new joint.shapes.erd.Line({
-			source: {
-				id: elm1.id
-			},
-			target: {
-				id: elm2.id
-			}
-		});
-		myLink.addTo($scope.graph);
-		onLink(myLink);
-	};
-
-	$scope.isValidConnection = function (source, target, link) {
-
-		if (!link.get('source').id || !link.get('target').id) {
-				return false;
-		}
-
-		if (cs.isEntity(source) && cs.isEntity(target)) {
-
-			var x1 = source.attributes.position.x;
-			var y1 = source.attributes.position.y;
-			var x2 = target.attributes.position.x;
-			var y2 = target.attributes.position.y;
-
-			var x = (x1 + x2) / 2;
-			var y = (y1 + y2) / 2;
-			var isa = ConceptualFactory.createRelationship();
-
-			link.remove();
-
-			isa.attributes.position.x = x;
-			isa.attributes.position.y = y;
-
-			$scope.graph.addCell(isa);
-
-			createLink(source, isa);
-			createLink(target, isa);
-
-			return true;
-		}
-
-		if ((cs.isEntity(source) && cs.isExtension(target)) ||
-				(cs.isEntity(target) && cs.isExtension(source))) {
-
-				if(target.attributes.isExtended || source.attributes.isExtended) {
-					return false;
-				} else {
-					if (cs.isEntity(source)) {
-						source.attributes.isExtended = true;
-					} else {
-						target.attributes.isExtended = true;
-					}
-					return true;
-				}
-
-		}
-
-		if(cs.isAttribute(source) && cs.isAttribute(target)){
-			if(source.attributes.composed || target.attributes.composed){
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		if(cs.isAttribute(source) || cs.isAttribute(target)){
-			if(cs.isExtension(source) || cs.isExtension(target)){
-				return false;
-			} else {
-					if(cs.isAttribute(source) && $scope.graph.getNeighbors(source).length > 1) {
-						return false;
-					}
-
-					if(cs.isAttribute(target) && $scope.graph.getNeighbors(target).length > 1) {
-						return false;
-					}
-
-					// 	if(source.attributes.supertype != 'Entity'){
-					// 		return false;
-					// 	}
-				return true;
-			}
-		}
-
-		if(cs.isRelationship(source) || cs.isRelationship(target)){
-			if(cs.isRelationship(source) && source.attributes.autorelationship){
-				return false;
-			}
-
-			if(cs.isRelationship(target) && target.attributes.autorelationship){
-				return false;
-			}
-		}
-
-		if(source.attributes.supertype === target.attributes.supertype)
-			return false;
-
-		return true;
-	}
-
-	function onLink(link) {
-
-		var source = $scope.graph.getCell(link.get('source').id);
-		var target = $scope.graph.getCell(link.get('target').id);
-
-		if((source.attributes.supertype === 'Relationship' ||
-				target.attributes.supertype === 'Relationship') &&
-				(cs.isEntity(source) || cs.isEntity(target))) {
-
-
-		}
 
 	}
 
@@ -223,36 +73,20 @@ angular.module('myapp')
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
 		$scope.paper = new joint.dia.Paper({
-			//el: $('#content'),
-			//width: $('#content').width(),
-			//height: $('#content').height(),
 			width: $('#content').width(),
 			height: $('#content').height(),
 			gridSize: 1,
-			model: $scope.graph,
-			//linkPinning: false,
-			//markAvailable: true,
-			//restrictTranslate: true,
-			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
-			// multiLinks: false
+			model: $scope.graph
 		});
 
 		var $app = $('#content');
 
     $scope.paperScroller = new joint.ui.PaperScroller({
         autoResizePaper: true,
-    //    padding: 10,
         paper: $scope.paper
     });
 
 		$scope.paper.on('blank:pointerdown', $scope.paperScroller.startPanning);
-
-		// paperScroller.$el.css({
-		// 		width: $('#paper-holder').width(),
-		// 		height: $('#paper-holder').height()
-		// 		width: 500,
-		// 		height: 500
-		// });
 
 		$app.append($scope.paperScroller.render().el);
 
@@ -278,46 +112,22 @@ angular.module('myapp')
 
 			if (cellView.model instanceof joint.dia.Link) return;
 
-			$scope.onSelectElement(cellView);
-
-			if(x != null && y != null){
-			// Find the first element below that is not a link nor the dragged element itself.
-		    var elementBelow = $scope.graph.get('cells').find(function(cell) {
-			//			console.log(cell);
-		        if (cell instanceof joint.dia.Link) return false; // Not interested in links.
-		        if (cell.id === cellView.model.id) return false; // The same element as the dropped one.
-		        if (cell.getBBox().containsPoint(g.point(x, y))) {
-		            return true;
-		        }
-		        return false;
-		    });
-
-		    // If the two elements are connected already, don't
-		    // connect them again (this is application specific though).
-		    if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model)) {
-
-						createLink(cellView.model, elementBelow);
-		        // Move the element a bit to the side.
-		        cellView.model.translate(100, 0);
-		    }
-			}
-
 			var halo = new joint.ui.Halo({
 				cellView: cellView,
 				boxContent: false
 			});
 
 			halo.on('action:link:add', function(link) {
-				onLink(link);
+
 			});
 
 			halo.on('action:removeElement:pointerdown', function(link) {
-				console.log("removing....");
+
 			});
 
-			if (cs.isAttribute(cellView.model) || cs.isExtension(cellView.model)) {
-				halo.removeHandle('resize');
-			}
+			// if (cs.isAttribute(cellView.model) || cs.isExtension(cellView.model)) {
+			// 	halo.removeHandle('resize');
+			// }
 
 			halo.removeHandle('clone');
 			halo.removeHandle('fork');
@@ -341,7 +151,7 @@ angular.module('myapp')
 		$('#stencil-holder').append(stencil.render().el);
 
 		stencil.load([
-
+			LogicFactory.createTable()
 		]);
 
 	}

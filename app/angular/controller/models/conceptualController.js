@@ -7,6 +7,7 @@ angular.module('myapp')
 								 $stateParams,
 								 ConceptualFactory,
 								 ConceptualService,
+								 ConversorService,
 								 ModelAPI) {
 
 	var cs = ConceptualService;
@@ -123,6 +124,8 @@ angular.module('myapp')
 			$scope.model.type = resp.data[0].type;
 			$scope.model.id   = resp.data[0]._id;
 			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
+
+			$scope.paperScroller.centerContent();
 		});
 	}
 
@@ -180,6 +183,10 @@ angular.module('myapp')
 		});
 	}
 
+	$scope.convertModel = function(){
+		ConversorService.toLogic($scope.graph);
+	}
+
 	$scope.onSelectElement = function(cellView) {
 
 		if(cellView.model.attributes.attrs.text != null && !cs.isExtension(cellView.model)){
@@ -190,7 +197,6 @@ angular.module('myapp')
 			$scope.selectedElement.element = null;
 		}
 
-		console.log("App NONE");
 		$scope.entitySelected = "NONE";
 
 		if(cs.isEntity(cellView.model)) {
@@ -206,6 +212,10 @@ angular.module('myapp')
 
 		if(cs.isAttribute(cellView.model)) {
 			$scope.entitySelected = "Attribute";
+		}
+
+		if(cs.isRelationship(cellView.model)) {
+			$scope.entitySelected = "RELATIONSHIP";
 		}
 
 		$scope.$apply();
@@ -476,6 +486,8 @@ angular.module('myapp')
 
 				$scope.entitySelected = "LINK";
 				$scope.selectedElement.element = cellView;
+
+				console.log(cellView);
 
 				$scope.$apply();
 			}
