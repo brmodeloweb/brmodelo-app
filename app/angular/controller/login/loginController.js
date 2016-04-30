@@ -7,7 +7,7 @@
  		showing: false
  	}
 
-	this.submitForm = function(validForm) {
+	vm.submitForm = function(validForm) {
 		vm.submitted = true;
 		vm.feedback.showing = false;
 		if (validForm) {

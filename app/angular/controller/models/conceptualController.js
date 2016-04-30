@@ -101,14 +101,23 @@ angular.module('myapp')
 			if(cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)) == null){
 				var rel = ConceptualFactory.createRelationship();
 
-				rel.attributes.position.x = entity.attributes.position.x + 100;
-				rel.attributes.position.y = entity.attributes.position.y - 10;
+				rel.attributes.position.x = entity.attributes.position.x + 150;
+				rel.attributes.position.y = entity.attributes.position.y;
 
 				$scope.graph.addCell(rel);
 
-				createLink(entity, rel);
+				var u = createLink(entity, rel);
+				u.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y - 10}]);
+
+				// link.set('router', { name: 'manhattan' });
+				// link.set('router', { name: 'metro' });
+
+				var d = createLink(entity, rel);
+				d.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y + 60}]);
 
 				rel.attributes.autorelationship = true;
+
+
 			}
 		} else {
 			cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)).remove();
@@ -234,6 +243,8 @@ angular.module('myapp')
 		});
 		myLink.addTo($scope.graph);
 		onLink(myLink);
+
+		return myLink;
 	};
 
 	$scope.isValidConnection = function (source, target, link) {
