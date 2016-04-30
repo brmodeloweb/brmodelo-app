@@ -472,6 +472,19 @@ angular.module('myapp')
 
 		});
 
+		$scope.setWeak = function(){
+			if($scope.selectedElement.element.model.attributes.weak){
+				$scope.selectedElement.element.model.attributes.attrs = {
+								'.connection': { stroke: 'black', 'stroke-width': 3}
+							};
+			} else {
+				$scope.selectedElement.element.model.attributes.attrs = {
+								'.connection': { stroke: 'black', 'stroke-width': 1}
+							};
+			}
+			$scope.selectedElement.element .update();
+		}
+
 		$scope.paper.on('link:options', function (evt, cellView, x, y) {
 
 			var source = $scope.graph.getCell(cellView.model.get('source').id);
@@ -486,8 +499,6 @@ angular.module('myapp')
 
 				$scope.entitySelected = "LINK";
 				$scope.selectedElement.element = cellView;
-
-				console.log(cellView);
 
 				$scope.$apply();
 			}
