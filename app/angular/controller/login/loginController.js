@@ -1,15 +1,15 @@
  var LoginController = function(AuthService, $state) {
-	var vm = this;
-	vm.submitted = false;
-	vm.credentials = {}
- 	vm.feedback = {
+	var self = this;
+	self.submitted = false;
+	self.credentials = {}
+ 	self.feedback = {
  		message: "",
  		showing: false
  	}
 
-	vm.submitForm = function(validForm) {
-		vm.submitted = true;
-		vm.feedback.showing = false;
+	self.submitForm = function(validForm) {
+		self.submitted = true;
+		self.feedback.showing = false;
 		if (validForm) {
 			doLogin();
 		} else {
@@ -18,7 +18,7 @@
 	}
 
 	function doLogin(){
-		AuthService.login(vm.credentials).then(
+		AuthService.login(self.credentials).then(
 			function(user) {
 				$state.go('main');
 			}, function(error) {
@@ -27,8 +27,8 @@
 	}
 
 	function showError(newMessage){
-		vm.feedback.message = newMessage;
-		vm.feedback.showing = true;
+		self.feedback.message = newMessage;
+		self.feedback.showing = true;
 	}
 };
 
