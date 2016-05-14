@@ -53,7 +53,7 @@
 
 				<div class="field" ng-show="(entitySelected == 'ENTITY') || (entitySelected == 'Attribute')  || (entitySelected == 'RELATIONSHIP')" >
 					<label class="fieldLabel">Nome</label>
-					<input class="fieldInput" type="text" data-ng-model="selectedElement.value" ng-blur="applyChanges()"> </input>
+					<input class="fieldInput" type="text" data-ng-model="selectedElement.value" ng-change="applyChanges()"> </input>
 				</div><!-- End .field -->
 				<!-- When an element is selected, it's properties are showed here. -->
 
