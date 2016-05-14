@@ -1,67 +1,70 @@
-<div class="mainContent public">
-	<section class="userRegister" data-ng-controller="registerController">
-		<header class="vhide">
-			<h2>Create account</h2>
-		</header>
+<header class="specialHeader cf" >
+  <div >
+    <button class="br-button yellow" data-ui-sref="login"> voltar </button>
+  </div>
+</header>
 
+<div class="public">
+	<section class="userLogin" data-ng-controller="registerController as register">
 		<aside class="feedback">
 			<div class="wrapper">
-				<div class="message error sr" data-ng-class="{'hide': !config.useralreadyexist}">
-					<p>This user already exist :(</p>
-				</div>
+				<div class="message error sr loginFeeback" data-ng-class="{'hide': !register.feedback.showing}">
+					<p>{{ register.feedback.message }}</p>
+				</div><!-- End .message -->
 			</div><!-- End .wrapper -->
-		</aside><!-- End .feedback -->
+		</aside><!-- End #feedback -->
+		<div class="wrapper">
+			<section class="box login cf" >
+				<header class="publicHeader">
+					<h1> Criar conta </h1><!-- End .logo -->
+				</header>
+				<form class="cf" name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
+					<div class="field" ng-class="{'error': registerForm.name.$invalid && (!registerForm.name.$pristine || register.submitted)}" >
+						<input
+							id="name"
+							class="specialInput"
+							type="text"
+							placeholder="Nome"
+							name="name"
+							ng-model="register.credentials.username"
+							autocomplete="off"
+							required
+						/>
+					</div><!-- End .field -->
 
-		<form class="registerForm publicBox ">
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validname}" >
-				<label for="name" class="fieldLabel">Name</label>
-				<input
-					id="name"
-					class="fieldInput"
-					type="text"
-					placeholder="Your Name"
-					data-ng-model="credentials.username"
-				/>
-			</div><!-- End .field -->
+					<div class="field" data-ng-class="{'error': registerForm.email.$invalid && (!registerForm.email.$pristine || register.submitted)}">
+						<!-- <label for="mail" class="fieldLabel">Email</label> -->
+						<input
+							id="mail"
+							class="specialInput"
+							type="text"
+							placeholder="Email"
+							name="email"
+							data-ng-model="register.credentials.email"
+							autocomplete="off"
+							required
+						/>
+					</div><!-- End .field -->
 
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validmail}">
-				<label for="mail" class="fieldLabel">Email</label>
-				<input
-					id="mail"
-					class="fieldInput"
-					type="text"
-					placeholder="Your email"
-					data-ng-model="credentials.email"
-				/>
-			</div><!-- End .field -->
+					<div class="field" data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || register.submitted)}">
+						<!-- <label for="password" class="fieldLabel">Password</label> -->
+						<input
+							id="password"
+							class="specialInput"
+							type="password"
+							placeholder="Senha"
+							name="password"
+							data-ng-model="register.credentials.password"
+							autocomplete="off"
+							required
+						/>
+					</div><!-- End .field -->
 
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
-				<label for="password" class="fieldLabel">Password</label>
-				<input
-					id="password"
-					class="fieldInput"
-					type="password"
-					placeholder="Your Password"
-					data-ng-model="credentials.password"
-				/>
-			</div><!-- End .field -->
-
-			<div class="field" data-ng-class="{'error': config.submitted && !config.validpassword}">
-				<label for="re-password" class="fieldLabel">Confirm password</label>
-				<input
-					id="re-password"
-					class="fieldInput"
-					type="password"
-					placeholder="Confirm Password"
-					data-ng-model="repassword"
-				/>
-			</div><!-- End .field -->
-
-			<div class="actions">
-				<button type="button" class="button style2 block" data-ng-click="register(credentials, repassword)">Register</button>
-				<button type="button" class="button style3 block" data-ng-click="cancel()">Cancel</button>
-			</div><!-- End .actions -->
-		</form><!-- End .registerForm -->
-
-	</section><!-- End .userRegister -->
+					<div class="actions">
+						<button type="submit" class="br-button">Registrar</button>
+					</div><!-- End .actions -->
+				</form><!-- End .loginForm -->
+		  </section>
+		</div><!-- End .wrapper -->
+	</section><!-- End .userLogin -->
 </div><!-- End .mainContent -->
