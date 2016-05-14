@@ -4,17 +4,18 @@
 
 <div class="modal-body addmodel">
 
-	<form class="form-horizontal" role="form" name="modelForm" ng-submit="save(modelForm.$valid, newmodel)">
+	<form class="form-horizontal" role="form" name="modelForm">
 		<div class="form-group">
 			<label for="name" class="col-sm-3 control-label">Título</label>
-			<div class="col-sm-7" data-ng-class="{'error': modelForm.name.$invalid && (!modelForm.name.$pristine || modelForm.$submitted)}">
+			<div class="col-sm-7">
 				<input type="text"
 							 class="modal-input"
-							 ng-class="{'error': (!modelForm.name.$pristine)}"
+							 ng-class="{'error': (name == null || name == '') && submitted}"
 							 id="name"
 							 name="name"
 							 placeholder="Nome do modelo"
-							 ng-model="newmodel.name"
+							 ng-model="name"
+							 autocomplete="off"
 							 >
 			</div>
 		</div>
@@ -27,11 +28,11 @@
 						<button class="btn ng-binding">{{selected}}</button>
 					</div><!--/dropdown-tmp-trigger-->
 					<ul class="dropdown-tmp-list" style="min-width: 140px;">
-						<li class="dropdown-tmp-item" ng-click="selected = 'conceptual'">
-							<span>conceptual</span>
+						<li class="dropdown-tmp-item" ng-click="selected = 'Conceitual'">
+							<span>Conceitual</span>
 						</li><!--/dropdown-tmp-item-->
-						<li class="dropdown-tmp-item" ng-click="selected = 'logic'">
-							<span>logic</span>
+						<li class="dropdown-tmp-item" ng-click="selected = 'Lógico'">
+							<span>Lógico</span>
 						</li><!--/dropdown-tmp-item-->
 					</ul><!--/dropdown-tmp-list-->
 				</div>
@@ -39,8 +40,8 @@
 		</div>
 
 		<div class="modal-footer">
-			<button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
-			<button type="submit" class="br-button">Salvar</button>
+			<button class="br-button yellow" type="button" ng-click="cancel()">Cancelar</button>
+			<button type="button" class="br-button" ng-click="save(name)">Salvar</button>
 		</div>
 
 	</form>

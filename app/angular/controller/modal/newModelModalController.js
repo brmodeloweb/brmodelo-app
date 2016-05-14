@@ -2,13 +2,17 @@ var app = angular.module('myapp');
 
 app.controller('ModelModalController', function($scope, $uibModalInstance, $rootScope){
 
-	$scope.selected = 'conceptual';
+	$scope.selected = 'Conceitual';
+	$scope.submitted = false;
+	var self = this;
 
-	$scope.save = function(validForm, newmodel) {
-		console.log(validForm);
-		if(validForm){
+	$scope.save = function(modelname) {
+		$scope.submitted = true;
+		if(modelname != null && modelname != ""){
+			newmodel = {};
+			newmodel.name = modelname;
 			newmodel.user = $rootScope.loggeduser;
-			newmodel.type = $scope.selected;
+			newmodel.type = self.getType();
 			newmodel.model = '{"cells":[]}';
 			$uibModalInstance.close(newmodel);
 		}
@@ -17,5 +21,12 @@ app.controller('ModelModalController', function($scope, $uibModalInstance, $root
 	$scope.cancel = function() {
 		$uibModalInstance.dismiss('cancel');
 	};
+
+	self.getType = function(){
+		if($scope.selected == 'Conceitual'){
+			return 'conceptual';
+		}
+		return 'logic';
+	}
 
 });
