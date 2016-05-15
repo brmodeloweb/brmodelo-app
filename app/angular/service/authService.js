@@ -33,6 +33,7 @@ angular.module('myapp').factory('AuthService', function($http, $cookies) {
 	authService.isAuthenticated = function() {
 		var userId = $cookies.get('userId');
 		authService.loggeduser = userId;
+		authService.loggeduserName = $cookies.get('userName');
 		return !!userId;
 	};
 

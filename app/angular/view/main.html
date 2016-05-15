@@ -19,21 +19,20 @@
 				<table>
 					<thead>
 						<tr>
-							<th><strong>Nome</strong></th>
 							<th><strong>Tipo</strong></th>
-							<th><strong>Author</strong></th>
+							<th><strong>Nome</strong></th>
+							<th><strong>Autor</strong></th>
 							<th><strong>Criação</strong></th>
-							<th colspan="2"><strong class="vhide">Actions</strong></th>
+							<th colspan="1"><strong class="vhide">Actions</strong></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="model in ctrl.models">
-							<td>{{model.name}}</td>
-							<td>{{model.type}}</td>
-							<td>{{model.who}}</td>
-							<td>{{model.created | date:'dd/MM/yyyy'}}</td>
-							<td> <a ng-click="ctrl.openModel(model)"> open </a> </td>
-							<td> <a ng-click="ctrl.deleteModel(model)"> delete </a> </td>
+						<tr ng-repeat="model in ctrl.models" class="listLine">
+							<td ng-click="ctrl.openModel(model)">{{ctrl.getTypeName(model.type)}}</td>
+							<td ng-click="ctrl.openModel(model)">{{model.name}}</td>
+							<td ng-click="ctrl.openModel(model)">{{ctrl.getAuthorName(model.who)}}</td>
+							<td ng-click="ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
+							<td ng-click="ctrl.deleteModel(model)"> <a> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
 						</tr>
 					</tbody>
 				</table>

@@ -1,6 +1,6 @@
 var app = angular.module('myapp');
 
-app.controller('listController', function($scope, $state, ModelAPI, $rootScope, $uibModal) {
+app.controller('listController', function($scope, $state, ModelAPI, $rootScope, $uibModal, AuthService) {
 
 	var self = this;
 	self.models = [];
@@ -36,5 +36,16 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 			}
 		});
 	};
+
+	self.getTypeName = function(type) {
+		if(type == 'conceptual'){
+			return "Conceitual";
+		}
+		return "Lógico";
+	}
+
+	self.getAuthorName = function(type) {
+		return AuthService.loggeduserName;
+	}
 
 });
