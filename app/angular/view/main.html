@@ -32,7 +32,7 @@
 							<td ng-click="ctrl.openModel(model)">{{model.name}}</td>
 							<td ng-click="ctrl.openModel(model)">{{ctrl.getAuthorName(model.who)}}</td>
 							<td ng-click="ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
-							<td ng-click="ctrl.deleteModel(model)"> <a> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+							<td> <a ng-click="ctrl.deleteModel(model)" class="deleteIcon"> <i class="fa fa-times fa-lg" aria-hidden="true"></i> </a> </td>
 						</tr>
 					</tbody>
 				</table>

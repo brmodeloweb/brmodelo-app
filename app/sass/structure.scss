@@ -151,6 +151,17 @@ a,
 /******************************************************************************/
 .listLine:hover {
 	cursor: pointer;
-	background-color: #3D9970;
-	opacity: 0.6;
+	background-color: #96D3B7;
+}
+
+.listLine:hover .deleteIcon{
+	display: block;
+
+}
+
+.deleteIcon {
+	display: none;
+	position : absolute;
+	color: red;
+	z-index:100;
 }
