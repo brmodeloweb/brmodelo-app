@@ -93,6 +93,7 @@ joint.shapes.uml.ClassView = joint.dia.ElementView.extend({
         joint.dia.ElementView.prototype.initialize.apply(this, arguments);
 
         this.listenTo(this.model, 'uml-update', function() {
+            console.log("listenTo");
             this.update();
             this.resize();
         });

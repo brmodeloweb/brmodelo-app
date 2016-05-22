@@ -36,6 +36,12 @@
 				<span class="action" data-ng-click="editionVisible = !editionVisible">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 				</span>
+
+				<div class="field">
+					<label class="fieldLabel">Nome</label>
+					<input class="fieldInput" type="text" ng-model="selectedName" ng-change="changeName()"> </input>
+				</div><!-- End .field -->
+
 			</aside>	<!-- End .modelProperties -->
 		</div>	<!-- End .conceptual -->
 	</div><!-- End .userWorkspace -->

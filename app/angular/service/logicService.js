@@ -8,6 +8,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		model: '',
 		user: $rootScope.loggeduser
 	}
+	ls.selectedElement = {};
 
 	ls.buildWorkspace = function(modelid, userId) {
 		ls.graph = new joint.dia.Graph;
@@ -47,7 +48,6 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 
 	ls.loadModel = function(modelid, userId) {
 		ModelAPI.getModel(modelid, userId).then(function(resp){
-			console.log(resp);
 			ls.model.name = resp.data[0].name;
 			ls.model.type = resp.data[0].type;
 			ls.model.id   = resp.data[0]._id;
@@ -65,6 +65,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	ls.applyComponentSelection = function(){
 		ls.paper.on('cell:pointerup', function(cellView, evt, x, y) {
 			if (cellView.model instanceof joint.dia.Link) return;
+			ls.onSelectElement(cellView);
 			var halo = new joint.ui.Halo({
 				cellView: cellView,
 				boxContent: false
@@ -80,6 +81,27 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			halo.removeHandle('rotate');
 			halo.render();
 		});
+
+		ls.paper.on('blank:pointerdown', function(evt, x, y) {
+			if(ls.selectedElement != null && ls.selectedElement.model != null) ls.selectedElement.unhighlight();
+		});
+	}
+
+	ls.onSelectElement = function (cellView){
+		var name = "";
+		if(ls.selectedElement.model != null) ls.selectedElement.unhighlight();
+		if(cellView.model.attributes.name != null){
+			ls.selectedElement = cellView;
+			name = 	cellView.model.attributes.name;
+			ls.selectedElement.highlight();
+		}
+		$rootScope.$broadcast('name:updated', name);
+	}
+
+	ls.editName = function(newName){
+		if(newName != null && newName != "") {
+			ls.selectedElement.model.set('name', newName);
+		}
 	}
 
 	return ls;
