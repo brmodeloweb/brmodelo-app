@@ -18,37 +18,25 @@
 				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
 				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
 				<a class="button style5" data-ng-click="saveModel()">Salvar</a>
-				<!-- Zoom, Undo, etc,etc -->
 			</div><!-- End .modelViewiewOptions -->
 		</aside><!-- End .modelOptions -->
-
 		<aside class="userActions cf" ng-controller="optionsController">
 			<brdropdown title="Options" list="menuItens"> </brdropdown>
 		</aside><!-- End .userActions -->
-
 	</header>
-
 	<div class="userWorkspace">
 		<div class="conceptual">
-
 			<section id="stencil-holder" class="componentsList">
 				<header class="vhide">
 					<h2>Models list</h2>
 				</header><!-- List of models used by the user -->
 			</section><!-- End .componentsList -->
-
-			<section id="content" class="modelWorkspace">
-
-			</section>	<!-- End .modelWorkspace -->
-
+			<section id="content" class="modelWorkspace"> </section>	<!-- End .modelWorkspace -->
 			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
-				<!-- <button class="action" > -->
 				<span class="action" data-ng-click="editionVisible = !editionVisible">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
-				</span><!-- </button> -->
-
+				</span>
 			</aside>	<!-- End .modelProperties -->
-
 		</div>	<!-- End .conceptual -->
 	</div><!-- End .userWorkspace -->
 <div>
