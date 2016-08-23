@@ -1,11 +1,11 @@
- var LoginController = function(AuthService, $state) {
+var LoginController = function(AuthService, $state) {
 	var self = this;
 	self.submitted = false;
 	self.credentials = {}
- 	self.feedback = {
- 		message: "",
- 		showing: false
- 	}
+	self.feedback = {
+		message: "",
+		showing: false
+	}
 
 	self.submitForm = function(validForm) {
 		self.submitted = true;
