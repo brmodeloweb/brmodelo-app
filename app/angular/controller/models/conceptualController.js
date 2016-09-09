@@ -8,7 +8,8 @@ angular.module('myapp')
 								 ConceptualFactory,
 								 ConceptualService,
 								 ConversorService,
-								 ModelAPI) {
+								 ModelAPI,
+							 	$timeout) {
 
 	var cs = ConceptualService;
 
@@ -23,7 +24,6 @@ angular.module('myapp')
 	$scope.extensionSelected = "Selecione";
 	$scope.cardSelected = "Selecione";
 
-
 	$scope.model = {
 		id: '',
 		name: 'mymodel',
@@ -31,9 +31,6 @@ angular.module('myapp')
 		model: '',
 		user: $rootScope.loggeduser
 	}
-
-
-
 
 	$scope.editionVisible = false;
 	$scope.dropdownVisible = false;
@@ -398,10 +395,44 @@ angular.module('myapp')
 		// 		height: 500
 		// });
 
+		$scope.conectElements = function(cellView, x, y) {
+			var elementBelow = $scope.graph.get('cells').find(function(cell) {
+		//			console.log(cell);
+					if (cell instanceof joint.dia.Link) return false; // Not interested in links.
+					if (cell.id === cellView.model.id) return false; // The same element as the dropped one.
+					if (cell.getBBox().containsPoint(g.point(x, y))) {
+							return true;
+					}
+					return false;
+			});
+
+			// If the two elements are connected already, don't
+			// connect them again (this is application specific though).
+			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model)) {
+
+					createLink(cellView.model, elementBelow);
+					// Move the element a bit to the side.
+					cellView.model.translate(100, 0);
+			}
+		}
+
+		$scope.graph.on('add', function(cell) {
+			// Connectando elementos ao realizar drop
+			var cellView = $scope.paper.findViewByModel(cell);
+			if (cellView.model instanceof joint.dia.Link) return;
+			if(cellView != null && cs.isAttribute(cell)){
+				var x = cellView.model.attributes.position.x;
+				var y = cellView.model.attributes.position.y;
+				if(x != null && y != null){
+					$scope.conectElements(cellView, x, y);
+				}
+			}
+	  });
+
 		$app.append($scope.paperScroller.render().el);
 
 		$scope.graph.on('remove', function(cell) {
-    	console.log('New cell with id ' + cell.id + ' removed to the graph.');
+			console.log('New cell with id ' + cell.id + ' removed to the graph.');
 		})
 
 		var selection = new Backbone.Collection;
@@ -414,36 +445,21 @@ angular.module('myapp')
 		});
 
 		selection.on('reset add', function() {
-        // Print types of all the elements in the selection.
-        $('#selection-info').text('Selected types: ' + selection.pluck('type'));
-    });
+			// Print types of all the elements in the selection.
+			$('#selection-info').text('Selected types: ' + selection.pluck('type'));
+		});
 
 		$scope.paper.on('cell:pointerup', function(cellView, evt, x, y) {
+
+			console.log("pointerup event");
 
 			if (cellView.model instanceof joint.dia.Link) return;
 
 			$scope.onSelectElement(cellView);
 
+			//conect elementos ao jogar em cima
 			if(x != null && y != null){
-			// Find the first element below that is not a link nor the dragged element itself.
-		    var elementBelow = $scope.graph.get('cells').find(function(cell) {
-			//			console.log(cell);
-		        if (cell instanceof joint.dia.Link) return false; // Not interested in links.
-		        if (cell.id === cellView.model.id) return false; // The same element as the dropped one.
-		        if (cell.getBBox().containsPoint(g.point(x, y))) {
-		            return true;
-		        }
-		        return false;
-		    });
-
-		    // If the two elements are connected already, don't
-		    // connect them again (this is application specific though).
-		    if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model)) {
-
-						createLink(cellView.model, elementBelow);
-		        // Move the element a bit to the side.
-		        cellView.model.translate(100, 0);
-		    }
+				$scope.conectElements(cellView, x, y)
 			}
 
 			var halo = new joint.ui.Halo({
@@ -493,7 +509,7 @@ angular.module('myapp')
 								'.connection': { stroke: 'black', 'stroke-width': 1}
 							};
 			}
-			$scope.selectedElement.element .update();
+			$scope.selectedElement.element.update();
 		}
 
 		$scope.paper.on('link:options', function (evt, cellView, x, y) {
@@ -537,12 +553,6 @@ angular.module('myapp')
 
 
 });
-
-// graph.on('remove', function(cell, collection, opt) {
-//    if (cell.isLink()) {
-//       // a link was removed  (cell.id contains the ID of the removed link)
-//    }
-// })
 
 // .link-tools .tool-remove { display: none }
 // .link-tools .tool-options { display: none }
