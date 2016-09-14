@@ -131,6 +131,7 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
 
 		type : 'erd.Attribute',
     supertype: 'Attribute',
+    cardinality: '(1, 1)',
     multivalued: false,
     composed: false,
 		size : {
@@ -172,6 +173,7 @@ joint.shapes.erd.Key = joint.shapes.erd.Attribute.extend({
     defaults: joint.util.deepSupplement({
 
         type: 'erd.Key',
+        supertype: 'Key',
 
         attrs: {
             ellipse: { 'stroke-width': 2 },
@@ -232,5 +234,3 @@ joint.shapes.erd.Line = joint.dia.Link.extend({
           }
 
 });
-
-

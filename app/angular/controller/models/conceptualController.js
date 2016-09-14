@@ -23,6 +23,7 @@ angular.module('myapp')
 	$scope.entitySelected = "NONE";
 	$scope.extensionSelected = "Selecione";
 	$scope.cardSelected = "Selecione";
+	$scope.attributeCardSelected = "Selecione";
 
 	$scope.model = {
 		id: '',
@@ -83,6 +84,19 @@ angular.module('myapp')
 			{ position: 0.3,
 				attrs: { text: { text: selected}}
 			});
+	}
+
+	$scope.updateAttributeCard = function(selected){
+		var text = $scope.selectedElement.value;
+
+		if(selected != '(1, 1)'){
+			text = text + " " + selected;
+		}
+
+		$scope.selectedElement.element.model.attributes.attrs.text.text = text;
+		$scope.selectedElement.element.model.attributes.cardinality = selected;
+		$scope.attributeCardSelected = selected;
+		$scope.selectedElement.element.update();
 	}
 
 	$scope.updateExtension = function(selected){
@@ -162,8 +176,18 @@ angular.module('myapp')
 			$scope.selectedElement.value != ""
 		  ){
 
-			$scope.selectedElement.element.model.attributes.attrs.text.text = $scope.selectedElement.value;
+			var text = $scope.selectedElement.value
 
+			if($scope.entitySelected == "Attribute"){
+				var cardinality = $scope.selectedElement.element.model.attributes.cardinality;
+
+				if(cardinality != '(1, 1)'){
+					text = text + " " + cardinality;
+				}
+
+			}
+
+			$scope.selectedElement.element.model.attributes.attrs.text.text = text;
 			$scope.selectedElement.element.update();
 
 			console.log($scope.selectedElement.element.model.attributes.attrs.text);
@@ -218,6 +242,15 @@ angular.module('myapp')
 
 		if(cs.isAttribute(cellView.model)) {
 			$scope.entitySelected = "Attribute";
+			$scope.attributeCardSelected = cellView.model.attributes.cardinality;
+			if(cellView.model.attributes.attrs.text != null && !cs.isExtension(cellView.model)){
+				var text = cellView.model.attributes.attrs.text.text;
+				$scope.selectedElement.value = text.replace(/ *\([^)]*\) */g, "");
+			}
+		}
+
+		if(cs.isKey(cellView.model)) {
+			$scope.entitySelected = "KEY";
 		}
 
 		if(cs.isRelationship(cellView.model)) {
@@ -335,8 +368,6 @@ angular.module('myapp')
 
 	function onLink(link) {
 
-
-		console.log("onLink");
 		var source = $scope.graph.getCell(link.get('source').id);
 		var target = $scope.graph.getCell(link.get('target').id);
 
@@ -450,8 +481,6 @@ angular.module('myapp')
 		});
 
 		$scope.paper.on('cell:pointerup', function(cellView, evt, x, y) {
-
-			console.log("pointerup event");
 
 			if (cellView.model instanceof joint.dia.Link) return;
 

@@ -12,6 +12,7 @@
 
 .dropdown-tmp.expanded > .dropdown-tmp-list {
   display: block;
+  z-index: 1;
 }
 
 .dropdown-tmp-list {
@@ -372,6 +373,10 @@
   background: grey;
 }
 
+.specialElement {
+  margin-bottom: 25px;
+}
+
 // .dropdown-item > *,
 // .dropdown-tmp-item > * {
 //   float: left;
@@ -381,4 +386,3 @@
 // .dropdown-tmp-item > * + * {
 //   margin-left: 10px;
 // }
-

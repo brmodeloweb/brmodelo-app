@@ -16,6 +16,10 @@ angular.module('myapp').factory('ConceptualService', function(){
 			return element.attributes.supertype === 'Relationship';
 		};
 
+		_isKey = function(element) {
+			return element.attributes.supertype === 'Key';
+		};
+
 		_updateExtension = function(elements, text) {
 			for (var i = 0; i < elements.length; i++) {
 				if (_isExtension(elements[i])) {
@@ -57,7 +61,8 @@ angular.module('myapp').factory('ConceptualService', function(){
 	 	isRelationship : _isRelationship,
 		getAutoRelationship : _getAutoRelationship,
 		updateExtension : _updateExtension,
-		getExtensionTxt: _getExtensionTxt
+		getExtensionTxt: _getExtensionTxt,
+		isKey: _isKey
 	}
 
 });
