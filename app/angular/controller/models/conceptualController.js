@@ -136,6 +136,36 @@ angular.module('myapp')
 
 	}
 
+	$scope.composedChange = function() {
+		var entity = $scope.selectedElement.element.model;
+
+		if(entity.attributes.composed) {
+		//	if(!cs.hasAttributeNeighbors(entity, $scope.graph.getNeighbors(entity))){
+				var attr1 = ConceptualFactory.createAttribute();
+				attr1.attributes.attrs.text.text = "attr1";
+				attr1.attributes.position.x = entity.attributes.position.x + 50;
+				attr1.attributes.position.y = entity.attributes.position.y + 20;
+				$scope.graph.addCell(attr1);
+				createLink(entity, attr1);
+
+				var attr2 = ConceptualFactory.createAttribute();
+				attr2.attributes.attrs.text.text = "attr2";
+				attr2.attributes.position.x = entity.attributes.position.x + 50;
+				attr2.attributes.position.y = entity.attributes.position.y - 20 ;
+				$scope.graph.addCell(attr2);
+				createLink(entity, attr2);
+	//		}
+		} else {
+			var neighbors = $scope.graph.getNeighbors(entity)
+			for (var i = 0; i < neighbors.length; i++) {
+				if (_isAttribute(neighbors[i])) {
+					neighbors[i].remove();
+				}
+			}
+		}
+
+	}
+
 	$scope.initView = function(){
 		buildWorkspace();
 

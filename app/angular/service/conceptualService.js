@@ -44,15 +44,22 @@ angular.module('myapp').factory('ConceptualService', function(){
 		};
 
 		_getAutoRelationship = function(entity, neighbors) {
-
 				for (var i = 0; i < neighbors.length; i++) {
 					if (_isRelationship(neighbors[i]) && neighbors[i].attributes.autorelationship) {
 						return neighbors[i];;
 					}
 				}
-
 			return null;
 		};
+
+		_hasAttributeNeighbors = function(entity, neighbors) {
+			for (var i = 0; i < neighbors.length; i++) {
+				if (_isAttribute(neighbors[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 	return {
 		isEntity : _isEntity,
@@ -62,7 +69,8 @@ angular.module('myapp').factory('ConceptualService', function(){
 		getAutoRelationship : _getAutoRelationship,
 		updateExtension : _updateExtension,
 		getExtensionTxt: _getExtensionTxt,
-		isKey: _isKey
+		isKey: _isKey,
+		hasAttributeNeighbors: _hasAttributeNeighbors
 	}
 
 });
