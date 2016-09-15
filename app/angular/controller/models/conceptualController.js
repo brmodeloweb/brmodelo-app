@@ -107,7 +107,6 @@ angular.module('myapp')
 
 	$scope.autoRelationshipChange = function(){
 		var entity = $scope.selectedElement.element.model;
-		console.log("autoRelationshipChange");
 
 		if(entity.attributes.autorelationship) {
 			if(cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)) == null){
@@ -388,11 +387,16 @@ angular.module('myapp')
 			if(cs.isRelationship(target) && target.attributes.autorelationship){
 				return false;
 			}
+
+			if(cs.isAssociative(target) || cs.isAssociative(source)){
+				return true;
+			}
 		}
 
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
+		console.log("Returnig true");
 		return true;
 	}
 

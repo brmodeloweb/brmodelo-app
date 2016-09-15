@@ -75,7 +75,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 						stroke: 'black'
 				},
 				'.inner': {
-						fill: '#FFFFFF',
+						fill: 'transparent',
 						stroke: 'black'
 				}
 			}

@@ -13,7 +13,11 @@ angular.module('myapp').factory('ConceptualService', function(){
 		};
 
 		_isRelationship = function(element) {
-			return element.attributes.supertype === 'Relationship';
+			return element.attributes.supertype === 'Relationship' 
+		};
+
+		_isAssociative = function(element) {
+			return element.attributes.type === 'erd.Associative'
 		};
 
 		_isKey = function(element) {
@@ -67,6 +71,7 @@ angular.module('myapp').factory('ConceptualService', function(){
 		isExtension : _isExtension,
 	 	isRelationship : _isRelationship,
 		getAutoRelationship : _getAutoRelationship,
+		isAssociative: _isAssociative,
 		updateExtension : _updateExtension,
 		getExtensionTxt: _getExtensionTxt,
 		isKey: _isKey,

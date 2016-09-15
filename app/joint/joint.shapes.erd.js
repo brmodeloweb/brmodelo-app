@@ -47,14 +47,15 @@ joint.shapes.erd.Associative = joint.dia.Element.extend({
         attrs: {
             '.outer': {
                 fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
-                points: '100,0 100,60 0,60 0,0'
+                points: '50,0 100,30 50,60 0,30',
+
             },
             '.inner': {
-                fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
-                points: '50,0 100,30 50,60 0,30'
+                fill: 'trasparent', stroke: '#27AE60', 'stroke-width': 1,
+                points: '100,0 100,60 0,60 0,0'
             },
             text: {
-                text: 'Rel',
+                text: 'Auto',
                 'font-family': 'Arial', 'font-size': 12,
                 ref: '.outer', 'ref-x': .5, 'ref-y': .5,
                 'x-alignment': 'middle', 'y-alignment': 'middle'
