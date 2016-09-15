@@ -159,7 +159,7 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
 			text : {
         text: 'Atributo',
         ref: '.outer',
-        'ref-x': .5, 'ref-y': -5,
+        'ref-x': .5, 'ref-y': -8,
         'x-alignment': 'middle', 'y-alignment': 'middle'
 			}
 		}

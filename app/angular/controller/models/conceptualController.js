@@ -107,6 +107,7 @@ angular.module('myapp')
 
 	$scope.autoRelationshipChange = function(){
 		var entity = $scope.selectedElement.element.model;
+		console.log("autoRelationshipChange");
 
 		if(entity.attributes.autorelationship) {
 			if(cs.getAutoRelationship(entity, $scope.graph.getNeighbors(entity)) == null){
@@ -126,8 +127,7 @@ angular.module('myapp')
 				var d = createLink(entity, rel);
 				d.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y + 60}]);
 
-				rel.attributes.autorelationship = true;
-
+				//rel.attributes.autorelationship = true;
 
 			}
 		} else {
