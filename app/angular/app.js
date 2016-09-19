@@ -1,6 +1,7 @@
 var app = angular.module('myapp', ['ui.router',
 																	 'ui.bootstrap',
-																	 'ngCookies']);
+																	 'ngCookies',
+																 	 'textAngular']);
 
 app.config(['$urlRouterProvider', '$stateProvider',
 
@@ -48,6 +49,14 @@ app.config(['$urlRouterProvider', '$stateProvider',
 		$stateProvider.state('logic', {
 			url: '/logic/{modelid}',
 			templateUrl: 'angular/view/logic.html',
+			data: {
+				requireLogin: true
+			}
+		});
+
+		$stateProvider.state('sql', {
+			url: '/sql',
+			templateUrl: 'angular/view/sql.html',
 			data: {
 				requireLogin: true
 			}

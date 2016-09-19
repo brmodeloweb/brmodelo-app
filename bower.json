@@ -22,6 +22,7 @@
     "bootstrap": "^3.3.6",
     "angular-cookies": "^1.5.0",
     "angular-bootstrap": "^1.2.4",
-    "angular-ui-router": "^0.2.18"
+    "angular-ui-router": "^0.2.18",
+    "textAngular": "^1.5.9"
   }
 }

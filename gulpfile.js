@@ -39,7 +39,13 @@ gulp.task('copy', function() {
 		'bower_components/angular-ui-router/release/angular-ui-router.min.js',
 		'bower_components/angular-cookies/angular-cookies.min.js',
 		'bower_components/angular-cookies/angular-cookies.min.js.map',
-		'bower_components/angular-ui-select3/src/select3.js'
+		'bower_components/angular-ui-select3/src/select3.js',
+		'bower_components/textAngular/dist/textAngular-rangy.min.js',
+		'bower_components/textAngular/dist/textAngular-sanitize.min.js',
+		'bower_components/textAngular/dist/textAngular.min.js',
+		'bower_components/textAngular/dist/textAngular.css'
+
+
 	]).pipe(gulp.dest('build/libs/'));
 
 	gulp.src([
