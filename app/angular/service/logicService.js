@@ -62,6 +62,13 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		});
 	}
 
+	ls.onLink = function(link){
+		var source = ls.graph.getCell(link.get('source').id);
+		var target = ls.graph.getCell(link.get('target').id);
+
+		target.addAttribute(source.getClassName() + ": FK");
+	}
+
 	ls.applyComponentSelection = function(){
 		ls.paper.on('cell:pointerup', function(cellView, evt, x, y) {
 			if (cellView.model instanceof joint.dia.Link) return;
@@ -71,7 +78,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 				boxContent: false
 			});
 			halo.on('action:link:add', function(link) {
-				onLink(link);
+				ls.onLink(link);
 			});
 			halo.on('action:removeElement:pointerdown', function(link) {
 				console.log("removing....");

@@ -2,14 +2,12 @@ angular.module('myapp').factory('LogicFactory', function(){
 
 	var logic = joint.shapes.uml;
 
-	console.log(logic);
-
 	_createTable = function() {
 		return new logic.Class({
         position: { x:12  , y: 15 },
         size: { width: 100, height: 100 },
         name: 'Entidade',
-        attributes: ['id: Number'],
+        attributes: ['id: PK', 'nome: STRING'],
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#fff',
