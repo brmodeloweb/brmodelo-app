@@ -575,7 +575,7 @@ angular.module('myapp')
 			$scope.selectedElement.element.update();
 		}
 
-		$scope.paper.on('link:options', function (evt, cellView, x, y) {
+		$scope.paper.on('link:options', function (cellView, evt, x, y) {
 
 			var source = $scope.graph.getCell(cellView.model.get('source').id);
 			var target = $scope.graph.getCell(cellView.model.get('target').id);
