@@ -13,9 +13,9 @@ file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
 
 .selection {
    position: absolute;
-   background-color: #3498DB;
+   background-color: #3D9970;
    opacity: .3;
-   border: 2px solid #2980B9;
+   border: 2px dashed #3D9970;
    overflow: visible;
 }
 
@@ -24,14 +24,14 @@ file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
    border: none;
    opacity: 1;
    cursor: move;
+   position: static;
+   height: 0 !important;
    /* Position the selection rectangle static so that the selection-boxe are contained within
      the paper container (which is supposed to be positioned relative). The height 0 !important
      makes sure the selection rectangle is not-visible, only the selection-boxes inside it (thanks to overflow: visible). */
-   position: static;
-   height: 0 !important;
 }
 
 .selection-box {
    position: absolute;
-   border: 1px solid black;
+   border: 1px solid #3D9970;
 }

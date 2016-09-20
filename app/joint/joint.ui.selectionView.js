@@ -3,10 +3,10 @@ joint.ui.SelectionView = Backbone.View.extend({
         paper: void 0,
         graph: void 0,
         boxContent: function(a) {
-            var b = _.template("<%= length %> elements selected.");
-            return b({
-                length: this.model.length
-            })
+            // var b = _.template("<%= length %> elements selected.");
+            // return b({
+            //     length: this.model.length
+            // })
         },
         handles: [{
             name: "remove",
