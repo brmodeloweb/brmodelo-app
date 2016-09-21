@@ -42,6 +42,33 @@
 					<input class="fieldInput" type="text" ng-model="selectedName" ng-change="changeName()"> </input>
 				</div><!-- End .field -->
 
+				<div class="field">
+					<label class="fieldLabel">Colunas</label>
+					<div class="fieldColumns" >
+						<div class="columnItem" ng-repeat="column in columns track by $index">
+							<label> {{column}} </label>
+
+							<div ng-show="false">
+								<input class="fieldInput" type="text"> </input>
+								<input class="fieldInput" type="text"> </input>
+
+								<div>
+									<input type="checkbox" id="c1"/>
+									<label for="c1"> PK </label>
+								</div>
+
+								<div>
+									<input type="checkbox" id="c2"/>
+									<label for="c2"> fK </label>
+								</div>
+
+								<input type="checkbox"> Opcional </input>
+							</div>
+
+						</div>
+					</div>
+				</div><!-- End .field -->
+
 			</aside>	<!-- End .modelProperties -->
 		</div>	<!-- End .conceptual -->
 	</div><!-- End .userWorkspace -->

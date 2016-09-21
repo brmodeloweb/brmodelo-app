@@ -8,6 +8,8 @@ angular.module('myapp')
 
 	$scope.model = LogicService.model;
 	$scope.selectedName = LogicService.selectedElement.name;
+	$scope.columns = [];
+	$scope.editionVisible = true;
 
 	$scope.initView = function(){
 		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser);
@@ -23,6 +25,10 @@ angular.module('myapp')
      $scope.selectedName = newName;
 		 $scope.$apply();
 	 });
+
+	$scope.$on('columns:select', function(event, columns) {
+		$scope.columns = columns;
+	});
 
 	 $scope.changeName = function(){
 		 LogicService.editName($scope.selectedName);
@@ -45,5 +51,3 @@ angular.module('myapp')
 	// }
 
 });
-
-

@@ -69,29 +69,40 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		target.addAttribute(source.getClassName() + ": FK");
 	}
 
-	ls.applyComponentSelection = function(){
+	ls.applyComponentSelection = function() {
 		ls.paper.on('cell:pointerup', function(cellView, evt, x, y) {
 			if (cellView.model instanceof joint.dia.Link) return;
 			ls.onSelectElement(cellView);
-			var halo = new joint.ui.Halo({
-				cellView: cellView,
-				boxContent: false
-			});
-			halo.on('action:link:add', function(link) {
-				ls.onLink(link);
-			});
-			halo.on('action:removeElement:pointerdown', function(link) {
-				console.log("removing....");
-			});
-			halo.removeHandle('clone');
-			halo.removeHandle('fork');
-			halo.removeHandle('rotate');
-			halo.render();
 		});
 
 		ls.paper.on('blank:pointerdown', function(evt, x, y) {
-			if(ls.selectedElement != null && ls.selectedElement.model != null) ls.selectedElement.unhighlight();
+			if(ls.selectedElement != null && ls.selectedElement.model != null){
+				ls.selectedElement.unhighlight();
+			}
+			ls.clearSelectedElement();
 		});
+	}
+
+	ls.clearSelectedElement = function(){
+		ls.selectedElement = {};
+		$rootScope.$broadcast('name:updated', "");
+	}
+
+	ls.applySelectionOptions = function (cellView) {
+		var halo = new joint.ui.Halo({
+			cellView: cellView,
+			boxContent: false
+		});
+		halo.on('action:link:add', function(link) {
+			ls.onLink(link);
+		});
+		halo.on('action:removeElement:pointerdown', function(link) {
+			console.log("removing....");
+		});
+		halo.removeHandle('clone');
+		halo.removeHandle('fork');
+		halo.removeHandle('rotate');
+		halo.render();
 	}
 
 	ls.onSelectElement = function (cellView){
@@ -99,8 +110,13 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		if(ls.selectedElement.model != null) ls.selectedElement.unhighlight();
 		if(cellView.model.attributes.name != null){
 			ls.selectedElement = cellView;
-			name = 	cellView.model.attributes.name;
+			name = 	ls.selectedElement.model.attributes.name;
 			ls.selectedElement.highlight();
+			ls.applySelectionOptions(cellView);
+
+			var selected = ls.selectedElement.model.attributes.attributes;
+			$rootScope.$broadcast('columns:select', selected);
+
 		}
 		$rootScope.$broadcast('name:updated', name);
 	}

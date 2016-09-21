@@ -16,6 +16,7 @@ button {
 .field {position: relative;}
 .field:not(:last-child) {margin-bottom: 25px;}
 
+.columnItem,
 .fieldLabel,
 .fieldInput {
 	display: block;
@@ -38,6 +39,12 @@ button {
 	border: 1px solid rgba(#000, 0.4);
 	border-radius: 2px;
 	background-color: rgba(#fff, 0.5);
+}
+
+.columnItem {
+	background-color: blue;
+	padding: 10px;
+	margin-bottom: 2px;
 }
 
 .fieldInput:focus {

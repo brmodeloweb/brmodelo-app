@@ -509,11 +509,6 @@ angular.module('myapp')
 			}
 		});
 
-		selection.on('reset add', function() {
-			// Print types of all the elements in the selection.
-			$('#selection-info').text('Selected types: ' + selection.pluck('type'));
-		});
-
 		$scope.paper.on('cell:pointerup', function(cellView, evt, x, y) {
 
 			if (cellView.model instanceof joint.dia.Link) return;

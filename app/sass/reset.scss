@@ -147,6 +147,11 @@ input{
 	-webkit-border-radius: 0;
 }
 
+input[type=checkbox]
+{
+  -webkit-appearance:checkbox;
+}
+
 /*Reset outline in :focus*/
 a:focus,
 button:focus,
