@@ -7,14 +7,19 @@
 
 <div data-ng-controller="sqlController as ctrl" class="sqlpage">
 
-<!-- <text-angular ng-model="htmlVariable" ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="active"></text-angular> -->
+<h1 class="sqlTitle"> Title </h1>
 
-  <!-- <div text-angular ng-model="ctrl.pagex" ta-text-editor-class="border-around" class="ta-root focussed">
-		<p>Hello World!</p>
-	</div> -->
-
- <page  text-angular size="A4">
-  	<h1> teste </h1>
+<page size="A4">
+	<div class="pageContent">
+		CREATE TABLE Persons <br>
+		( <br>
+			PersonID int, <br>
+			LastName varchar(255), <br>
+			FirstName varchar(255), <br>
+			Address varchar(255), <br>
+			City varchar(255) <br>
+		);<br>
+	</div>
 </page>
 
 </div>

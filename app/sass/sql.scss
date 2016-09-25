@@ -40,7 +40,16 @@ page[size="A5"][layout="portrait"] {
 }
 
 .sqlpage {
-  margin-top: 60px;
+  margin-top: 75px;
+}
+
+.sqlTitle {
+  font-size: 24px;
+  color: #3D9970;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  margin: 20px;
 }
 
 .ta-editor {
@@ -50,4 +59,9 @@ page[size="A5"][layout="portrait"] {
     font-family: inherit;
     font-size: 100%;
     margin:20px 0;
+}
+
+.pageContent {
+  font-size: 16px;
+  padding: 35px;
 }
