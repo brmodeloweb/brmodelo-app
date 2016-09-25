@@ -380,17 +380,20 @@ angular.module('myapp')
 		}
 
 		if(cs.isRelationship(source) || cs.isRelationship(target)){
-			if(cs.isRelationship(source) && source.attributes.autorelationship){
-				return false;
-			}
 
-			if(cs.isRelationship(target) && target.attributes.autorelationship){
-				return false;
-			}
 
-			if(cs.isAssociative(target) || cs.isAssociative(source)){
-				return true;
-			}
+
+			// if(cs.isRelationship(source) && source.attributes.autorelationship){
+			// 	return false;
+			// }
+			//
+			// if(cs.isRelationship(target) && target.attributes.autorelationship){
+			// 	return false;
+			// }
+			//
+			// if(cs.isAssociative(target) || cs.isAssociative(source)){
+			// 	return true;
+			// }
 		}
 
 		if(source.attributes.supertype === target.attributes.supertype)
@@ -461,9 +464,15 @@ angular.module('myapp')
 		// });
 
 		$scope.conectElements = function(cellView, x, y) {
+
+			console.log(cellView);
+
 			var elementBelow = $scope.graph.get('cells').find(function(cell) {
-		//			console.log(cell);
-					if (cell instanceof joint.dia.Link) return false; // Not interested in links.
+					if (cellView.model.attributes.parent != null) return false;
+					if (cell instanceof joint.dia.Link) return false; // Not interested in links
+					if (cellView.model.attributes.embeds != null){
+						if (cell.id === cellView.model.attributes.embeds[0]) return false;
+					}
 					if (cell.id === cellView.model.id) return false; // The same element as the dropped one.
 					if (cell.getBBox().containsPoint(g.point(x, y))) {
 							return true;
@@ -473,8 +482,10 @@ angular.module('myapp')
 
 			// If the two elements are connected already, don't
 			// connect them again (this is application specific though).
-			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model)) {
-
+			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) && !cs.isAssociative(elementBelow)) {
+				console.log(elementBelow);
+				console.log(cellView);
+					console.log("connetinnng");
 					createLink(cellView.model, elementBelow);
 					// Move the element a bit to the side.
 					cellView.model.translate(100, 0);
@@ -485,6 +496,25 @@ angular.module('myapp')
 			// Connectando elementos ao realizar drop
 			var cellView = $scope.paper.findViewByModel(cell);
 			if (cellView.model instanceof joint.dia.Link) return;
+
+			if(cs.isAssociative(cellView.model)){
+
+				var block = ConceptualFactory.createBlockAssociative();
+				block.attributes.position.x = cellView.model.attributes.position.x;
+				block.attributes.position.y = cellView.model.attributes.position.y;
+
+				var auto = ConceptualFactory.createRelationship();
+				auto.attributes.position.x = block.attributes.position.x + 6;
+				auto.attributes.position.y = block.attributes.position.y + 2;
+
+				cellView.remove();
+				$scope.graph.removeCells(cellView);
+				$scope.graph.addCell(block);
+				$scope.graph.addCell(auto);
+
+				block.embed(auto);
+			}
+
 			if(cellView != null && cs.isAttribute(cell)){
 				var x = cellView.model.attributes.position.x;
 				var y = cellView.model.attributes.position.y;
@@ -495,6 +525,29 @@ angular.module('myapp')
 	  });
 
 		$app.append($scope.paperScroller.render().el);
+
+		$scope.graph.on('change:position', function(cell) {
+
+	    var parentId = cell.get('parent');
+	    if (!parentId) return;
+
+	    var parent = $scope.graph.getCell(parentId);
+	    var parentBbox = parent.getBBox();
+	    var cellBbox = cell.getBBox();
+
+	    if (parentBbox.containsPoint(cellBbox.origin()) &&
+	        parentBbox.containsPoint(cellBbox.topRight()) &&
+	        parentBbox.containsPoint(cellBbox.corner()) &&
+	        parentBbox.containsPoint(cellBbox.bottomLeft())) {
+
+	        // All the four corners of the child are inside
+	        // the parent area.
+	        return;
+	    }
+	    // Revert the child position.
+	    cell.set('position', cell.previous('position'));
+		});
+
 
 		$scope.graph.on('remove', function(cell) {
 			console.log('New cell with id ' + cell.id + ' removed to the graph.');

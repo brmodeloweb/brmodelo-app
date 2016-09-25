@@ -62,12 +62,12 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 	_createAssociative = function() {
 		return new erd.Associative({
 			position: {
-				x: 25,
-				y: 190
+				x: 15,
+				y: 185
 			},
 			size: {
-				width: 80,
-				height: 40
+				width: 100,
+				height: 50
 			},
 			attrs: {
 				'.outer': {
@@ -86,7 +86,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		return new erd.Attribute({
 			position: {
 				x: 65,
-				y: 260
+				y: 265
 			},
 			attrs: {
 				text: {
@@ -100,11 +100,26 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		return new erd.Key({
 			position: {
 				x: 65,
-				y: 300
+				y: 305
 			},
 			attrs: {
 				text: {
 					text: 'Chave'
+				}
+			}
+		});
+	};
+
+	_createBlockAssociative = function() {
+		return new erd.BlockAssociative({
+			size: {
+				width: 100,
+				height: 50
+			},
+			attrs: {
+				'.outer': {
+						fill: 'transparent',
+						stroke: 'black'
 				}
 			}
 		});
@@ -116,7 +131,8 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		createIsa : _createIsa,
 		createRelationship : _createRelationship,
 		createKey : _createKey,
-		createAssociative : _createAssociative
+		createAssociative : _createAssociative,
+		createBlockAssociative: _createBlockAssociative,
 	}
 
 });

@@ -47,7 +47,7 @@ joint.shapes.erd.Associative = joint.dia.Element.extend({
         attrs: {
             '.outer': {
                 fill: '#2ECC71', stroke: '#27AE60', 'stroke-width': 1,
-                points: '50,0 100,30 50,60 0,30',
+                points: '50,5 95,30 50,55 5,30',
 
             },
             '.inner': {
@@ -64,6 +64,29 @@ joint.shapes.erd.Associative = joint.dia.Element.extend({
 
     }, joint.dia.Element.prototype.defaults)
 });
+
+joint.shapes.erd.BlockAssociative = joint.dia.Element.extend({
+
+    markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
+
+    defaults: _.defaultsDeep({
+
+        type: 'erd.BlockAssociative',
+        supertype: 'Relationship',
+        isExtended: false,
+        autorelationship: false,
+        weak: false,
+        size: { width: 150, height: 60 },
+        attrs: {
+            '.outer': {
+                fill: 'trasparent', stroke: '#27AE60', 'stroke-width': 1,
+                points: '100,0 100,60 0,60 0,0'
+            }
+        }
+
+    }, joint.dia.Element.prototype.defaults)
+});
+
 
 joint.shapes.erd.WeakEntity = joint.shapes.erd.Entity.extend({
 
