@@ -127,7 +127,7 @@ angular.module('myapp')
 				var d = createLink(entity, rel);
 				d.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y + 60}]);
 
-				//rel.attributes.autorelationship = true;
+				rel.attributes.autorelationship = true;
 
 			}
 		} else {
