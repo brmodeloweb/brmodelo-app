@@ -136,6 +136,40 @@ angular.module('myapp')
 
 	}
 
+	$scope.createAssociative = function() {
+		var entity = $scope.selectedElement.element.model;
+		var neighbors = $scope.graph.getNeighbors(entity)
+		console.log($scope.selectedElement.element);
+
+		var block = ConceptualFactory.createBlockAssociative();
+		block.attributes.position.x = entity.attributes.position.x - 6;
+		block.attributes.position.y = entity.attributes.position.y - 2;
+
+		var auto = ConceptualFactory.createRelationship();
+		auto.attributes.position.x = block.attributes.position.x + 6;
+		auto.attributes.position.y = block.attributes.position.y + 2;
+
+
+		console.log($scope.selectedElement.element);
+
+		var links = $scope.graph.getConnectedLinks(entity);
+		for (var i = 0; i < links.length; i++) {
+			links[i].remove();
+		}
+
+		$scope.selectedElement.element.remove();
+
+		$scope.graph.addCell(block);
+		$scope.graph.addCell(auto);
+
+		for (var i = 0; i < neighbors.length; i++) {
+			createLink(auto, neighbors[i]);
+		}
+
+		block.embed(auto);
+
+	}
+
 	$scope.composedChange = function() {
 		var entity = $scope.selectedElement.element.model;
 
@@ -498,12 +532,14 @@ angular.module('myapp')
 		}
 
 		$scope.graph.on('add', function(cell) {
+			console.log("addind elements");
 			// Connectando elementos ao realizar drop
 			var cellView = $scope.paper.findViewByModel(cell);
 			if (cellView.model instanceof joint.dia.Link) return;
 
 			if(cs.isAssociative(cellView.model)) {
 
+				console.log("isAssociative!!");
 				var block = ConceptualFactory.createBlockAssociative();
 				block.attributes.position.x = cellView.model.attributes.position.x;
 				block.attributes.position.y = cellView.model.attributes.position.y;
