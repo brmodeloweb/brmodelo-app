@@ -24,6 +24,7 @@ angular.module('myapp')
 	$scope.extensionSelected = "Selecione";
 	$scope.cardSelected = "Selecione";
 	$scope.attributeCardSelected = "Selecione";
+	$scope.roleSelected = "";
 
 	$scope.model = {
 		id: '',
@@ -86,7 +87,7 @@ angular.module('myapp')
 			});
 	}
 
-	$scope.updateAttributeCard = function(selected){
+	$scope.updateAttributeCard = function(selected) {
 		var text = $scope.selectedElement.value;
 
 		if(selected != '(1, 1)'){
@@ -194,7 +195,7 @@ angular.module('myapp')
 		$scope.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
-	$scope.applyChanges = function(){
+	$scope.applyChanges = function() {
 		if($scope.selectedElement.element != null &&
 			$scope.selectedElement.element.model != null &&
 			$scope.selectedElement != null &&
@@ -209,18 +210,22 @@ angular.module('myapp')
 
 			if($scope.entitySelected == "Attribute"){
 				var cardinality = $scope.selectedElement.element.model.attributes.cardinality;
-
 				if(cardinality != '(1, 1)'){
 					text = text + " " + cardinality;
 				}
-
 			}
 
 			$scope.selectedElement.element.model.attributes.attrs.text.text = text;
 			$scope.selectedElement.element.update();
+		}
+	}
 
-			console.log($scope.selectedElement.element.model.attributes.attrs.text);
-
+	$scope.applyRoleChange = function() {
+		if($scope.entitySelected == "LINK"){
+			$scope.selectedElement.element.model.label(1,
+				{ position: 0.7,
+					attrs: { text: { text: $scope.roleSelected}}
+				});
 
 		}
 	}
@@ -497,7 +502,7 @@ angular.module('myapp')
 			var cellView = $scope.paper.findViewByModel(cell);
 			if (cellView.model instanceof joint.dia.Link) return;
 
-			if(cs.isAssociative(cellView.model)){
+			if(cs.isAssociative(cellView.model)) {
 
 				var block = ConceptualFactory.createBlockAssociative();
 				block.attributes.position.x = cellView.model.attributes.position.x;
@@ -515,7 +520,6 @@ angular.module('myapp')
 				block.embed(auto);
 			}
 
-			console.log(cell);
 			if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
 				var x = cellView.model.attributes.position.x;
 				var y = cellView.model.attributes.position.y;
@@ -604,9 +608,8 @@ angular.module('myapp')
 				element: {},
 				value: ""
 			};
-
+			$scope.roleSelected = "";
 			$scope.entitySelected = 'NONE';
-
 			$scope.$apply();
 
 		});
@@ -634,6 +637,11 @@ angular.module('myapp')
 
 				if(cellView.model.attributes.labels != null){
 					$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
+
+					$scope.roleSelected = "";
+					if(cellView.model.attributes.labels[1] != null) {
+						$scope.roleSelected = cellView.model.attributes.labels[1].attrs.text.text;
+					}
 				}
 
 				$scope.entitySelected = "LINK";

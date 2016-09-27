@@ -151,6 +151,12 @@
 				</div>
 
 				<div ng-show="entitySelected == 'LINK'">
+
+					<div class="field">
+						<label class="fieldLabel">Papel</label>
+						<input class="fieldInput" type="text" data-ng-model="roleSelected" ng-change="applyRoleChange()"> </input>
+					</div><!-- End .field -->
+
 					<div class="field">
 						<div class="checkboxFive">
 							<input type="checkbox" id="weak"
