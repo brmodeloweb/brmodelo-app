@@ -465,7 +465,7 @@ angular.module('myapp')
 
 		$scope.conectElements = function(cellView, x, y) {
 
-			console.log(cellView);
+			console.log("connect elements: ", cellView);
 
 			var elementBelow = $scope.graph.get('cells').find(function(cell) {
 					if (cellView.model.attributes.parent != null) return false;
@@ -515,7 +515,8 @@ angular.module('myapp')
 				block.embed(auto);
 			}
 
-			if(cellView != null && cs.isAttribute(cell)){
+			console.log(cell);
+			if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
 				var x = cellView.model.attributes.position.x;
 				var y = cellView.model.attributes.position.y;
 				if(x != null && y != null){
