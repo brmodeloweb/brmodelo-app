@@ -373,11 +373,21 @@ angular.module('myapp')
 		}
 
 		if(cs.isAttribute(source) && cs.isAttribute(target)){
+			if($scope.graph.getNeighbors(source).length > 1) {
+				source.attributes.composed = true;
+				return true;
+			}
+
+			if($scope.graph.getNeighbors(target).length > 1) {
+				target.attributes.composed = true;
+				return true;
+			}
+
 			if(source.attributes.composed || target.attributes.composed){
 				return true;
-			} else {
-				return false;
 			}
+
+			return false;
 		}
 
 		if(cs.isAttribute(source) || cs.isAttribute(target)){
@@ -502,9 +512,10 @@ angular.module('myapp')
 
 			// If the two elements are connected already, don't
 			// connect them again (this is application specific though).
-			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) && !cs.isAssociative(elementBelow)) {
-				console.log(elementBelow);
-				console.log(cellView);
+			console.log("conectElements", elementBelow);
+
+			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) &&
+					!cs.isAssociative(elementBelow)) {
 					console.log("connetinnng");
 					createLink(cellView.model, elementBelow);
 					// Move the element a bit to the side.
@@ -513,7 +524,7 @@ angular.module('myapp')
 		}
 
 		$scope.graph.on('add', function(cell) {
-			console.log("addind elements");
+
 			// Connectando elementos ao realizar drop
 			var cellView = $scope.paper.findViewByModel(cell);
 			if (cellView.model instanceof joint.dia.Link) return;
