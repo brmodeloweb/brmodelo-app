@@ -259,3 +259,20 @@ joint.shapes.erd.Line = joint.dia.Link.extend({
           }
 
 });
+
+joint.shapes.erd.ComposedAttribute = joint.shapes.basic.Generic.extend({
+
+    markup: '<g class="rotatable"><g class="scalable"><rect/></g><image/><text/></g>',
+
+    defaults: joint.util.deepSupplement({
+
+        type: 'erd.ComposedAttribute',
+        size: { width: 80, height: 60 },
+        attrs: {
+            'rect': { fill: '#FFFFFF', stroke: 'black', width: 100, height: 60 },
+            // 'text': { 'font-size': 14, text: '', 'ref-x': .5, 'ref-y': .5, ref: 'rect', 'y-alignment': 'middle', 'x-alignment': 'middle', fill: 'black' },
+            'image': { 'ref-x': 15, 'ref-y': 15, ref: 'rect', width: 20, height: 20 }
+        }
+
+    }, joint.shapes.basic.Generic.prototype.defaults)
+});

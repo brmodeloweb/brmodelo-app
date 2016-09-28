@@ -390,10 +390,15 @@ angular.module('myapp')
 			return false;
 		}
 
-		if(cs.isAttribute(source) || cs.isAttribute(target)){
+		if(cs.isAttribute(source) || cs.isAttribute(target)) {
 			if(cs.isExtension(source) || cs.isExtension(target)){
 				return false;
 			} else {
+
+					if(cs.isEntity(source) || cs.isEntity(target)){
+						return true;
+					}
+
 					if(cs.isAttribute(source) && $scope.graph.getNeighbors(source).length > 1) {
 						return false;
 					}
@@ -410,8 +415,6 @@ angular.module('myapp')
 		}
 
 		if(cs.isRelationship(source) || cs.isRelationship(target)){
-
-
 
 			// if(cs.isRelationship(source) && source.attributes.autorelationship){
 			// 	return false;
@@ -515,7 +518,8 @@ angular.module('myapp')
 			console.log("conectElements", elementBelow);
 
 			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) &&
-					!cs.isAssociative(elementBelow)) {
+					!cs.isAssociative(elementBelow) &&
+					!cs.isComposedAttribute(elementBelow)) {
 					console.log("connetinnng");
 					createLink(cellView.model, elementBelow);
 					// Move the element a bit to the side.
@@ -531,7 +535,6 @@ angular.module('myapp')
 
 			if(cs.isAssociative(cellView.model)) {
 
-				console.log("isAssociative!!");
 				var block = ConceptualFactory.createBlockAssociative();
 				block.attributes.position.x = cellView.model.attributes.position.x;
 				block.attributes.position.y = cellView.model.attributes.position.y;
@@ -546,6 +549,45 @@ angular.module('myapp')
 				$scope.graph.addCell(auto);
 
 				block.embed(auto);
+			}
+
+			if(cs.isComposedAttribute(cellView.model)) {
+
+				var x = cellView.model.attributes.position.x;
+				var y = cellView.model.attributes.position.y;
+				cellView.remove();
+
+				$timeout(function(){
+					var base = ConceptualFactory.createAttribute();
+					base.attributes.position.x = x + 15;
+					base.attributes.position.y = y + 15;
+					base.attributes.composed = true;
+					$scope.graph.addCell(base);
+
+					var attr1 = ConceptualFactory.createAttribute();
+					attr1.attributes.attrs.text.text = "attr1";
+					attr1.attributes.position.x = base.attributes.position.x + 50;
+					attr1.attributes.position.y = base.attributes.position.y + 20;
+					$scope.graph.addCell(attr1);
+					createLink(base, attr1);
+
+					var attr2 = ConceptualFactory.createAttribute();
+					attr2.attributes.attrs.text.text = "attr2";
+					attr2.attributes.position.x = base.attributes.position.x + 50;
+					attr2.attributes.position.y = base.attributes.position.y - 20 ;
+					$scope.graph.addCell(attr2);
+					createLink(base, attr2);
+
+				}, 100);
+
+			//	$scope.graph.addCell(base);
+			//	createLink(entity, attr1);
+
+
+
+				// $scope.graph.addCell(block);
+				// $scope.graph.addCell(auto);
+
 			}
 
 			if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
@@ -693,12 +735,11 @@ angular.module('myapp')
 			ConceptualFactory.createIsa(),
 			ConceptualFactory.createRelationship(),
 			ConceptualFactory.createKey(),
-			ConceptualFactory.createAssociative()
+			ConceptualFactory.createAssociative(),
+			ConceptualFactory.createComposedAttribute()
 		]);
 
 	}
-
-
 
 });
 

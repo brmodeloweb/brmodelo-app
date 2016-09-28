@@ -13,7 +13,7 @@ angular.module('myapp').factory('ConceptualService', function(){
 		};
 
 		_isRelationship = function(element) {
-			return element.attributes.supertype === 'Relationship' 
+			return element.attributes.supertype === 'Relationship'
 		};
 
 		_isAssociative = function(element) {
@@ -22,6 +22,10 @@ angular.module('myapp').factory('ConceptualService', function(){
 
 		_isKey = function(element) {
 			return element.attributes.supertype === 'Key';
+		};
+
+		_isComposedAttribute = function(element) {
+			return element.attributes.type === 'erd.ComposedAttribute';
 		};
 
 		_updateExtension = function(elements, text) {
@@ -75,7 +79,9 @@ angular.module('myapp').factory('ConceptualService', function(){
 		updateExtension : _updateExtension,
 		getExtensionTxt: _getExtensionTxt,
 		isKey: _isKey,
-		hasAttributeNeighbors: _hasAttributeNeighbors
+		isComposedAttribute : _isComposedAttribute,
+		hasAttributeNeighbors: _hasAttributeNeighbors,
+
 	}
 
 });

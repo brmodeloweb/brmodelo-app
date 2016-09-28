@@ -125,6 +125,22 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		});
 	};
 
+	_createComposedAttribute = function() {
+		return new erd.ComposedAttribute({
+			size: {
+				width: 50,
+				height: 50
+			},
+			position: {
+				x: 38,
+				y: 335
+			},
+			attrs: {
+		 		image: { 'xlink:href': '../../imgs/atributo_composto.png' }
+ 			}
+		});
+	};
+
 	return {
 		createEntity : _createEntity,
 		createAttribute : _createAttribute,
@@ -133,6 +149,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 		createKey : _createKey,
 		createAssociative : _createAssociative,
 		createBlockAssociative: _createBlockAssociative,
+		createComposedAttribute: _createComposedAttribute
 	}
 
 });
