@@ -138,36 +138,16 @@ angular.module('myapp')
 
 	$scope.createAssociative = function() {
 		var entity = $scope.selectedElement.element.model;
-		var neighbors = $scope.graph.getNeighbors(entity)
-		console.log($scope.selectedElement.element);
+		if(entity.attributes.parent == null){
+			var block = ConceptualFactory.createBlockAssociative();
+			block.attributes.position.x = entity.attributes.position.x - 6;
+			block.attributes.position.y = entity.attributes.position.y - 2;
 
-		var block = ConceptualFactory.createBlockAssociative();
-		block.attributes.position.x = entity.attributes.position.x - 6;
-		block.attributes.position.y = entity.attributes.position.y - 2;
+			$scope.graph.addCell(block);
 
-		var auto = ConceptualFactory.createRelationship();
-		auto.attributes.position.x = block.attributes.position.x + 6;
-		auto.attributes.position.y = block.attributes.position.y + 2;
-
-
-		console.log($scope.selectedElement.element);
-
-		var links = $scope.graph.getConnectedLinks(entity);
-		for (var i = 0; i < links.length; i++) {
-			links[i].remove();
+			block.embed(entity);
+			entity.toFront();
 		}
-
-		$scope.selectedElement.element.remove();
-
-		$scope.graph.addCell(block);
-		$scope.graph.addCell(auto);
-
-		for (var i = 0; i < neighbors.length; i++) {
-			createLink(auto, neighbors[i]);
-		}
-
-		block.embed(auto);
-
 	}
 
 	$scope.composedChange = function() {
@@ -321,7 +301,8 @@ angular.module('myapp')
 			$scope.entitySelected = "KEY";
 		}
 
-		if(cs.isRelationship(cellView.model)) {
+		console.log(cellView.model);
+		if(cs.isRelationship(cellView.model) && cellView.model.attributes.type=="erd.Relationship") {
 			$scope.entitySelected = "RELATIONSHIP";
 		}
 
