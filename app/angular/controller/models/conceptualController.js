@@ -121,9 +121,6 @@ angular.module('myapp')
 				var u = createLink(entity, rel);
 				u.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y - 10}]);
 
-				// link.set('router', { name: 'manhattan' });
-				// link.set('router', { name: 'metro' });
-
 				var d = createLink(entity, rel);
 				d.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y + 60}]);
 
@@ -543,7 +540,7 @@ angular.module('myapp')
 				auto.attributes.position.x = block.attributes.position.x + 6;
 				auto.attributes.position.y = block.attributes.position.y + 2;
 
-				cellView.remove();
+				cellView.model.remove();
 				$scope.graph.removeCells(cellView);
 				$scope.graph.addCell(block);
 				$scope.graph.addCell(auto);
@@ -555,7 +552,7 @@ angular.module('myapp')
 
 				var x = cellView.model.attributes.position.x;
 				var y = cellView.model.attributes.position.y;
-				cellView.remove();
+				cellView.model.remove();
 
 				$timeout(function(){
 					var base = ConceptualFactory.createAttribute();

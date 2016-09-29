@@ -232,3 +232,9 @@
 	cursor: pointer;
 	margin-top: 1px;
 }
+
+input[type="checkbox"] {
+  margin: -1px 0 0;
+  margin-top: 0px \9; // IE8-9
+  line-height: normal;
+}

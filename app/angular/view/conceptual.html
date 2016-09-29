@@ -60,13 +60,12 @@
 
 				<div class="field" ng-show="entitySelected == 'ENTITY'">
 					<label class="fieldLabel">Auto-relacionada:</label>
-					<div class="checkboxFive">
+					<div>
 						<input type="checkbox" id="auto-relationed"
 									 ng-model="selectedElement.element.model.attributes.autorelationship"
 									 ng-change="autoRelationshipChange()"/>
-						<label for="auto-relationed"></label>
-				 	</div>
-					<label class="check-label"> Auto-relacionada </label>
+						<label for="auto-relationed"> Auto-relacionada </label>
+					</div>
 				</div>
 
 				<div class="field" ng-show="entitySelected == 'ENTITY'">
@@ -117,15 +116,13 @@
 
 			<div class="field" ng-show="entitySelected == 'Attribute'">
 				<label class="fieldLabel">Tipo</label>
-				<div class="checkboxFive">
+				<div>
 					<input type="checkbox" id="composed"
 								 ng-model="selectedElement.element.model.attributes.composed"
 								 ng-change="composedChange()"/>
-					<label for="composed"></label>
+					<label for="composed"> Composto </label>
 				</div>
-				<label class="check-label"> Composto </label>
 			</div>
-
 
 				<div ng-show="entitySelected == 'EXTENSION'">
 					<label class="fieldLabel">Editar:</label>
@@ -158,14 +155,13 @@
 					</div><!-- End .field -->
 
 					<div class="field">
-						<div class="checkboxFive">
+						<div>
 							<input type="checkbox" id="weak"
 										 ng-model="selectedElement.element.model.attributes.weak"
 										 ng-click="setWeak()"
 										 />
-							<label for="weak"></label>
+							<label for="weak"> Fraca </label>
 						</div>
-						<label class="check-label"> Fraca </label>
 					</div>
 
 					<div class="field">
