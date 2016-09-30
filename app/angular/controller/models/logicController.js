@@ -28,11 +28,21 @@ angular.module('myapp')
 
 	$scope.$on('columns:select', function(event, columns) {
 		$scope.columns = columns;
+	//	$scope.$apply();
 	});
 
 	 $scope.changeName = function(){
 		 LogicService.editName($scope.selectedName);
 	 }
+
+	 $scope.deleteColumn = function(column, $index){
+		 LogicService.deleteColumn($index);
+	 }
+
+	 $scope.editColumn = function($index){
+		 LogicService.editColumn($index);
+	 }
+
 
 	// $scope.undoModel = function(){
 	// 	$scope.commandManager.undo();

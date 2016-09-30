@@ -45,7 +45,8 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
          name: [],
          attributes: [],
-         methods: []
+         methods: [],
+         objects: []
 
      }, joint.shapes.basic.Generic.prototype.defaults),
 
@@ -65,8 +66,24 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
          return this.get('name');
      },
 
-     addAttribute: function(newAttribute){
-       this.get('attributes').push(newAttribute);
+     addAttribute: function(obj){
+       if(obj.PK){
+         obj.name = obj.name + ": PK";
+       }
+
+       if(obj.FK){
+         obj.name = obj.name + ": FK";
+       }
+
+       this.get('attributes').push(obj.name);
+       this.get('objects').push(obj);
+       this.updateRectangles();
+       this.trigger('uml-update');
+     },
+
+     deleteColumn: function(index){
+       this.get('attributes').slice(index, 1);
+       this.get('objects').slice(index, 1);
        this.updateRectangles();
        this.trigger('uml-update');
      },

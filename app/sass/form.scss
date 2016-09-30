@@ -45,6 +45,15 @@ button {
 	background-color: gray;
 	padding: 10px;
 	margin-bottom: 2px;
+	cursor: pointer;
+}
+
+.columnItem:hover{
+	opacity: 0.5;
+}
+
+.columnItem i {
+	float: right;
 }
 
 .fieldInput:focus {

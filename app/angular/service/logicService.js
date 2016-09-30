@@ -8,7 +8,9 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		model: '',
 		user: $rootScope.loggeduser
 	}
-	ls.selectedElement = {};
+	ls.selectedElement = {
+		"name":''
+	};
 
 	ls.buildWorkspace = function(modelid, userId) {
 		ls.graph = new joint.dia.Graph;
@@ -66,7 +68,17 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		var source = ls.graph.getCell(link.get('source').id);
 		var target = ls.graph.getCell(link.get('target').id);
 
-		target.addAttribute(source.getClassName() + ": FK");
+		var originName = source.attributes.name;
+
+		var obj = {
+			"name": "id" + originName,
+			"type": "Integer",
+			"PK": false,
+			"FK": true,
+			"tableOrigin": source.attributes.id
+		}
+
+		target.addAttribute(obj);
 	}
 
 	ls.applyComponentSelection = function() {
@@ -86,6 +98,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	ls.clearSelectedElement = function(){
 		ls.selectedElement = {};
 		$rootScope.$broadcast('name:updated', "");
+		$rootScope.$broadcast('columns:select', []);
 	}
 
 	ls.applySelectionOptions = function (cellView) {
@@ -125,6 +138,17 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		if(newName != null && newName != "") {
 			ls.selectedElement.model.set('name', newName);
 		}
+	}
+
+	ls.deleteColumn = function(index) {
+		var selected = ls.selectedElement.model.attributes.attributes;
+		selected.splice(index, 1);
+		$rootScope.$broadcast('columns:select', selected);
+		ls.selectedElement.model.deleteColumn(index);
+	}
+
+	ls.editColumn = function(index) {
+		console.log(ls.selectedElement.model.attributes.objects[index]);
 	}
 
 	return ls;

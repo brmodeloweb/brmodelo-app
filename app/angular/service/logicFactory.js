@@ -3,11 +3,11 @@ angular.module('myapp').factory('LogicFactory', function(){
 	var logic = joint.shapes.uml;
 
 	_createTable = function() {
-		return new logic.Class({
+		var table = new logic.Class({
         position: { x:12  , y: 15 },
         size: { width: 100, height: 100 },
         name: 'Entidade',
-        attributes: ['id: PK', 'nome: STRING'],
+        attributes: [],
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#fff',
@@ -27,6 +27,18 @@ angular.module('myapp').factory('LogicFactory', function(){
 
         }
     });
+
+		var obj = {
+			"name": "id",
+			"type": "Integer",
+			"PK": true,
+			"FK": false,
+			"tableOrigin": null
+		}
+
+		table.addAttribute(obj);
+
+		return table;
 	}
 
 	return {
