@@ -8,6 +8,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		model: '',
 		user: $rootScope.loggeduser
 	}
+
 	ls.selectedElement = {
 		"name":''
 	};
@@ -25,6 +26,13 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		ls.loadModel(modelid, userId, callback);
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
+		ls.applyGraphEvents();
+	}
+
+	ls.applyGraphEvents = function(){
+		ls.graph.on('add', function(cell) {
+			ls.checkAndEditTableName(cell);
+		});
 	}
 
 	ls.applyResizePage = function(){
@@ -46,6 +54,54 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		stencil.load([
 			LogicFactory.createTable()
 		]);
+	}
+
+	ls.applyComponentSelection = function() {
+		ls.paper.on('cell:pointerup', function(cellView, evt, x, y) {
+			if (cellView.model instanceof joint.dia.Link) return;
+			ls.onSelectElement(cellView);
+		});
+
+		ls.paper.on('blank:pointerdown', function(evt, x, y) {
+			if(ls.selectedElement != null && ls.selectedElement.model != null){
+				ls.checkAndEditTableName(ls.selectedElement.model);
+				ls.selectedElement.unhighlight();
+			}
+			ls.clearSelectedElement();
+		});
+	}
+
+	ls.applySelectionOptions = function (cellView) {
+		var halo = new joint.ui.Halo({
+			cellView: cellView,
+			boxContent: false
+		});
+		halo.on('action:link:add', function(link) {
+			ls.onLink(link);
+		});
+		halo.on('action:removeElement:pointerdown', function(link) {
+			console.log("removing....");
+		});
+		halo.removeHandle('clone');
+		halo.removeHandle('fork');
+		halo.removeHandle('rotate');
+		halo.render();
+	}
+
+	ls.checkAndEditTableName = function(model){
+		var name = model.get('name');
+		var elements = ls.graph.getElements();
+		var size = elements.length;
+		var count = -1;
+		for (var i = 0; i < size; i++) {
+			if(elements[i].get('name') == name){
+				count++;
+			}
+		}
+		if(count > 0) {
+			model.set('name', name+count);
+			ls.checkAndEditTableName(model);
+		}
 	}
 
 	ls.loadModel = function(modelid, userId, callback) {
@@ -82,41 +138,10 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		target.addAttribute(obj);
 	}
 
-	ls.applyComponentSelection = function() {
-		ls.paper.on('cell:pointerup', function(cellView, evt, x, y) {
-			if (cellView.model instanceof joint.dia.Link) return;
-			ls.onSelectElement(cellView);
-		});
-
-		ls.paper.on('blank:pointerdown', function(evt, x, y) {
-			if(ls.selectedElement != null && ls.selectedElement.model != null){
-				ls.selectedElement.unhighlight();
-			}
-			ls.clearSelectedElement();
-		});
-	}
-
 	ls.clearSelectedElement = function(){
 		ls.selectedElement = {};
 		$rootScope.$broadcast('name:updated', "");
 		$rootScope.$broadcast('columns:select', []);
-	}
-
-	ls.applySelectionOptions = function (cellView) {
-		var halo = new joint.ui.Halo({
-			cellView: cellView,
-			boxContent: false
-		});
-		halo.on('action:link:add', function(link) {
-			ls.onLink(link);
-		});
-		halo.on('action:removeElement:pointerdown', function(link) {
-			console.log("removing....");
-		});
-		halo.removeHandle('clone');
-		halo.removeHandle('fork');
-		halo.removeHandle('rotate');
-		halo.render();
 	}
 
 	ls.onSelectElement = function (cellView){
