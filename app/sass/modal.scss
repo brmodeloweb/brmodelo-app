@@ -81,6 +81,11 @@
 	font-size: 18px;
 }
 
+.modal-message{
+	font-size: 18px;
+	margin-left: 15px;
+}
+
 .modal-input {
 	display: block;
   width: 100%;
@@ -110,4 +115,3 @@
 
 .modal-input.error:focus {box-shadow: 1px 1px 1px rgba(#fff, 1) inset;}
 .modal-input.error:placeholder {color: rgba(red, 0.6);}
-

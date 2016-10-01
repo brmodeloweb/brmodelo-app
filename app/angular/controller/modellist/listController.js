@@ -34,10 +34,24 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 	};
 
 	self.deleteModel = function(model) {
+		var modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/deleteModelModal.html',
+			controller:  'DeleteModalController'
+		});
+
+		modalInstance.result.then(function() {
+			self.doDelete(model);
+		});
+	};
+
+	self.doDelete = function(model) {
+		$scope.showLoading(true);
 		ModelAPI.deleteModel(model._id).then(function (resp) {
 			if (resp.status === 200){
 				self.models.splice(self.models.indexOf(model), 1);
 			}
+			$scope.showLoading(false);
 		});
 	};
 
