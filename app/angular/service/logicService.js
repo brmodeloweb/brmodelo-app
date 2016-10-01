@@ -12,7 +12,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		"name":''
 	};
 
-	ls.buildWorkspace = function(modelid, userId) {
+	ls.buildWorkspace = function(modelid, userId, callback) {
 		ls.graph = new joint.dia.Graph;
 		ls.paper = new joint.dia.Paper({
 			width: $('#content').width(),
@@ -22,7 +22,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		});
 
 		ls.applyResizePage();
-		ls.loadModel(modelid, userId);
+		ls.loadModel(modelid, userId, callback);
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
 	}
@@ -48,12 +48,13 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		]);
 	}
 
-	ls.loadModel = function(modelid, userId) {
+	ls.loadModel = function(modelid, userId, callback) {
 		ModelAPI.getModel(modelid, userId).then(function(resp){
 			ls.model.name = resp.data[0].name;
 			ls.model.type = resp.data[0].type;
 			ls.model.id   = resp.data[0]._id;
 			ls.graph.fromJSON(JSON.parse(resp.data[0].model));
+			callback();
 		});
 	}
 

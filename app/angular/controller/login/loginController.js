@@ -1,4 +1,4 @@
-var LoginController = function(AuthService, $state) {
+var LoginController = function(AuthService, $state, $scope) {
 	var self = this;
 	self.submitted = false;
 	self.credentials = {}
@@ -18,10 +18,13 @@ var LoginController = function(AuthService, $state) {
 	}
 
 	function doLogin(){
+		$scope.showLoading(true);
 		AuthService.login(self.credentials).then(
 			function(user) {
 				$state.go('main');
+				$scope.showLoading(false);
 			}, function(error) {
+				$scope.showLoading(false);
 				showError("Login ou senha incorretos");
 		});
 	}

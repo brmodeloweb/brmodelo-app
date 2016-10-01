@@ -11,8 +11,15 @@ angular.module('myapp')
 	$scope.columns = [];
 	$scope.editionVisible = true;
 
+	var self = this;
+
+	self.stopLoading = function () {
+		$scope.showLoading(false);
+	}
+
 	$scope.initView = function(){
-		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser);
+		$scope.showLoading(true);
+		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser, self.stopLoading);
 	}
 
 	$scope.saveModel = function() {

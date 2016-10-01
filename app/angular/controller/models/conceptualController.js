@@ -180,12 +180,14 @@ angular.module('myapp')
 	$scope.initView = function(){
 		buildWorkspace();
 
+		$scope.showLoading(true);
+
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
 			$scope.model.name = resp.data[0].name;
 			$scope.model.type = resp.data[0].type;
 			$scope.model.id   = resp.data[0]._id;
 			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
-
+			$scope.showLoading(false);
 	//		$scope.paperScroller.centerContent();
 		});
 	}

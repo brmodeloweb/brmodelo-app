@@ -67,6 +67,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 ]);
 
 app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
+
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
 		var requireLogin = toState.data.requireLogin;
 		if (requireLogin) {
@@ -78,6 +79,7 @@ app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 			}
 		}
 	});
+
 });
 
 app.$inject = ['$scope', '$http', '$cookies', '$uibModalInstance'];

@@ -141,3 +141,18 @@
 /* Não consegui posicionar esse botao mas nem rezando muito!  /
 /******************************************************************************/
 .special{margin-top: 20px;}
+
+/******************************************************************************/
+/* Loading /
+/******************************************************************************/
+
+.br-loader {
+  position: fixed;
+  top: 58px;
+  left: 50%;
+  margin-left: -20px;
+  display: none;
+}
+.br-loader.loading {
+	display: block;
+}

@@ -1,4 +1,4 @@
-var registerController = function($state, AuthService) {
+var registerController = function($state, AuthService, $scope) {
 	var self = this;
 	self.submitted = false;
 	self.feedback = {
@@ -22,10 +22,13 @@ var registerController = function($state, AuthService) {
 	};
 
 	function doRegister(){
+		$scope.showLoading(true);
 		AuthService.register(self.credentials).then(
 			function(user) {
+				$scope.showLoading(false);
 				$state.go('main');
 			}, function(error) {
+				$scope.showLoading(false);
 				showError("Email já cadastrado");
 		});
 	}

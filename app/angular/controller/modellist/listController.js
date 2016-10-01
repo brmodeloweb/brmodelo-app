@@ -5,9 +5,13 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 	var self = this;
 	self.models = [];
 
-	ModelAPI.getAllModels($rootScope.loggeduser).then(function(models) {
-		self.models = models.data;
-	});
+	$scope.initList = function() {
+		$scope.showLoading(true);
+		ModelAPI.getAllModels($rootScope.loggeduser).then(function(models) {
+			self.models = models.data;
+			$scope.showLoading(false);
+		});
+	}
 
 	self.openModel = function(model) {
 		$state.go(model.type, {
