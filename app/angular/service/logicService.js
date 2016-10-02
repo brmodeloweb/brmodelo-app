@@ -27,6 +27,15 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
 		ls.applyGraphEvents();
+		ls.applyDeleteLinkAction();
+	}
+
+	ls.applyDeleteLinkAction = function(){
+		ls.graph.on('remove', function(cell, collection, opt) {
+			if (cell.isLink()) {
+				console.log("removing", cell);
+			}
+		})
 	}
 
 	ls.applyGraphEvents = function(){
@@ -123,6 +132,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	}
 
 	ls.onLink = function(link){
+
 		var source = ls.graph.getCell(link.get('source').id);
 		var target = ls.graph.getCell(link.get('target').id);
 
@@ -134,10 +144,11 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			"type": "Integer",
 			"PK": false,
 			"FK": true,
-			"tableOrigin": idOrigin
+			"tableOrigin": {
+				"idOrigin": idOrigin,
+				"idLink": link.id
+				}
 		}
-
-		console.log("connecting to", idOrigin);
 
 		target.addAttribute(obj);
 	}
@@ -175,12 +186,13 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		var object = ls.selectedElement.model.attributes.objects[index];
 
 		if(object.FK){
-			console.log(ls.graph.getCell(object.tableOrigin));
+			var link = ls.graph.getCell(object.tableOrigin.idLink);
+			link.remove();
 		}
 
-		// selected.splice(index, 1);
-		// $rootScope.$broadcast('columns:select', selected);
-		// ls.selectedElement.model.deleteColumn(index);
+		selected.splice(index, 1);
+		$rootScope.$broadcast('columns:select', selected);
+		ls.selectedElement.model.deleteColumn(index);
 	}
 
 	ls.editColumn = function(index) {
