@@ -72,10 +72,7 @@ joint.shapes.erd.BlockAssociative = joint.dia.Element.extend({
     defaults: _.defaultsDeep({
 
         type: 'erd.BlockAssociative',
-        supertype: 'Relationship',
-        isExtended: false,
-        autorelationship: false,
-        weak: false,
+        supertype: 'Entity',
         size: { width: 150, height: 60 },
         attrs: {
             '.outer': {

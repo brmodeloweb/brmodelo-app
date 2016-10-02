@@ -359,7 +359,7 @@ angular.module('myapp')
 				(cs.isEntity(target) && cs.isExtension(source))) {
 
 				if(target.attributes.isExtended || source.attributes.isExtended) {
-					return false;
+				//	return false;
 				} else {
 					if (cs.isEntity(source)) {
 						source.attributes.isExtended = true;
