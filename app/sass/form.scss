@@ -16,7 +16,6 @@ button {
 .field {position: relative;}
 .field:not(:last-child) {margin-bottom: 25px;}
 
-.columnItem,
 .fieldLabel,
 .fieldInput {
 	display: block;
@@ -40,27 +39,40 @@ button {
 	background-color: rgba(#fff, 0.5);
 }
 
-.columnItem {
-	background-color: gray;
-	padding: 10px;
-	margin-bottom: 2px;
-	cursor: pointer;
-}
-
-.columnItem:hover{
-	opacity: 0.5;
-}
-
-.columnItem i {
-	float: right;
-}
-
 .fieldInput:focus {
 	border-color: rgba(#000, 0.8);
 	color: rgba(#000, 0.8);
 	background-color: rgba(#fff, 1);
 	box-shadow: 0px 1px 1px transparent,
 				1px 1px 1px rgba(#fff, 1) inset;
+}
+
+/******************************************************************************/
+/* .columnItem */
+/******************************************************************************/
+.columnItem {
+	position: relative;
+	padding: 10px;
+	border: 1px solid rgba(#000, 0.3);
+	background: rgba(#fff, 0.2);
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+.columnItem:hover{ border-color: rgba(#000, 0.9);}
+
+.columnItem > label {
+	display: block;
+	padding-right: 25px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.columnItem .fa {
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
 
 /******************************************************************************/
