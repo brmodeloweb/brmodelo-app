@@ -168,3 +168,19 @@ a,
 	position : absolute;
 	z-index:100;
 }
+
+/******************************************************************************/
+/* .modelPropert */
+/******************************************************************************/
+.editionColumn {
+	margin-top: 5px;
+}
+
+.editionColumn .editionItem {
+	margin-bottom: 5px;
+}
+
+.editionItem .fieldInput {
+	padding: 2px 5px;
+	font-size: 1.0em;
+}
