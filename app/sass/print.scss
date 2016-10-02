@@ -1,0 +1,15 @@
+@media print {
+
+
+    //@page {size: landscape}
+
+    .printarea, .modelWorkspace {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+    }
+
+    .stencil, .inspector, .toolbar, .mainHeader, .modelProperties, .componentsList {
+        display: none;
+    }
+}

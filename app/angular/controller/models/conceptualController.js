@@ -44,6 +44,10 @@ angular.module('myapp')
 		value: ""
 	};
 
+	$scope.print = function(){
+		window.print();
+	}
+
 	$scope.call = function(selected) {
 
 		if(!$scope.selectedElement.element.model.attributes.isExtended) {
