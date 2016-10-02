@@ -49,9 +49,9 @@ angular.module('myapp')
 		showing: false
 	}
 
-	$scope.showError =  function(newMessage){
+	$scope.showFeedback =  function(newMessage, show){
 		$scope.feedback.message = newMessage;
-		$scope.feedback.showing = true;
+		$scope.feedback.showing = show;
 	}
 
 	$scope.print = function(){
@@ -270,7 +270,7 @@ angular.module('myapp')
 
 		ModelAPI.updateModel($scope.model).then(function(res){
 			// call feedback here
-			$scope.showError("Salvo com sucesso!");
+			$scope.showFeedback("Salvo com sucesso!", true);
 			console.log("saved");
 		});
 	}
@@ -689,6 +689,7 @@ angular.module('myapp')
 		$scope.paper.on('blank:pointerdown', function(evt, x, y) {
 
 			$scope.applyChanges();
+			$scope.showFeedback("",false);
 			$scope.selectedElement = {
 				element: {},
 				value: ""
