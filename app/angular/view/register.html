@@ -1,6 +1,6 @@
 <header class="specialHeader cf" >
 	<div>
-		<button class="br-button yellow" data-ui-sref="login"> voltar </button>
+		<button class="br-button yellow" data-ui-sref="login">Voltar</button>
 	</div>
 	<img
 		src="imgs/loading-dots.gif"
@@ -8,13 +8,13 @@
 		class="br-loader"
 		ng-class="{'loading': loading}"
 	/>
-</header>
+</header><!-- End .specialHeader -->
 
 <div class="public">
 	<section class="userLogin" data-ng-controller="registerController as register">
 		<aside class="feedback">
 			<div class="wrapper">
-				<div class="message error sr loginFeeback" data-ng-class="{'hide': !register.feedback.showing}">
+				<div class="message error sd loginFeeback" data-ng-class="{'hide': !register.feedback.showing}">
 					<p>{{ register.feedback.message }}</p>
 				</div><!-- End .message -->
 			</div><!-- End .wrapper -->
