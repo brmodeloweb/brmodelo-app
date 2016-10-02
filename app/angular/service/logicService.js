@@ -178,9 +178,8 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			ls.selectedElement.highlight();
 			ls.applySelectionOptions(cellView);
 
-			var selected = ls.selectedElement.model.attributes.attributes;
+			var selected = ls.selectedElement.model.attributes.objects;
 			$rootScope.$broadcast('columns:select', selected);
-
 		}
 		$rootScope.$broadcast('name:updated', name);
 	}

@@ -50,6 +50,12 @@ button {
 /******************************************************************************/
 /* .columnItem */
 /******************************************************************************/
+.labelAction{
+	float: right;
+	color: green;
+	cursor: pointer;
+}
+
 .columnItem {
 	position: relative;
 	padding: 10px;
