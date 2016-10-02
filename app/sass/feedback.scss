@@ -9,15 +9,7 @@
 }
 
 /******************************************************************************/
-/* .feedback */
-/******************************************************************************/
-.feedback {
-	position: relative;
-	z-index: 1;
-}
-
-/******************************************************************************/
-/* .error */
+/* .field.error */
 /******************************************************************************/
 .field.error .fieldLabel {color: rgba(red, 0.8);}
 
@@ -32,29 +24,50 @@
 .field.error .fieldInput::placeholder {color: rgba(red, 0.6);}
 
 /******************************************************************************/
-/* .workspaceConceptual .feedback */
+/* .feedback */
 /******************************************************************************/
-.workspaceConceptual .feedback {top: -20px;}
+.feedback {
+	position: relative;
+	z-index: 1;
+}
 
-.workspaceConceptual .feedback .message {
+/******************************************************************************/
+/* .modelWorkspace .feedback */
+/******************************************************************************/
+.modelWorkspace .feedback {top: -20px;}
+
+.modelWorkspace .feedback .message {
 	padding: 30px;
 	border-width: 0;
 	border-radius: 0;
 	border-bottom-width: 1px;
 	font-size: 1.4em;
+	background-image: none;
 	box-shadow: 0 0 0 transparent;
 }
 
-.workspaceConceptual .feedback .error {;
-	border-bottom-color: #fc5858;
+.modelWorkspace .feedback .message p {padding-right: 60px;}
+
+.modelWorkspace .feedback .error {;
 	color: #fc5858;
-	background-image: none;
-	background-color: rgba(#F0B7B7, 0.5);
+	border-bottom-color: #fc5858;
+	background-color: rgba(#f7dbdc, 0.95);
 }
 
-.workspaceConceptual .feedback .success {;
-	border-bottom-color: #09c600;
+.modelWorkspace .feedback .success {;
 	color: #09c600;
-	background-image: none;
-	background-color: rgba(#95e391, 0.5);
+	border-bottom-color: #09c600;
+	background-color: rgba(#cbf0ca, 0.95);
+}
+
+.modelWorkspace .feedback .warning {;
+	color: #bbb90c;
+	border-bottom-color: #bbb90c;
+	background-color: rgba(#f3f2c4, 0.95);
+}
+
+.modelWorkspace .feedback .info {;
+	color: #198fb0;
+	border-bottom-color: #198fb0;
+	background-color: rgba(#d0f2fb, 0.95);
 }

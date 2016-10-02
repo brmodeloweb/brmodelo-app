@@ -1,5 +1,5 @@
 <section
-	class="view workspaceLogic"
+	class="view modelWorkspace workspaceLogic"
 	data-ng-controller="logicController"
 	data-ng-init="initView()"
 >
@@ -56,7 +56,7 @@
 				</header><!-- List of models used by the user -->
 			</section><!-- End .componentsList -->
 
-			<div id="content" class="modelWorkspace"> </div>	<!-- End .modelWorkspace -->
+			<div id="content" class="modelContent"> </div>
 
 			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
 				<span class="action" data-ng-click="editionVisible = !editionVisible">
