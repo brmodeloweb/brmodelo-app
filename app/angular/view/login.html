@@ -1,14 +1,19 @@
 <header class="specialHeader cf" >
-  <div >
-    <button class="br-button" data-ui-sref="register"> Criar conta </button>
-  </div>
-  <img src="imgs/loading-dots.gif" class="br-loader" ng-class="{'loading': loading}" >
+	<div >
+		<button class="br-button" data-ui-sref="register">Criar conta</button>
+	</div>
+	<img
+		src="imgs/loading-dots.gif"
+		alt="Loading"
+		class="br-loader"
+		ng-class="{'loading': loading}"
+	/>
 </header>
 <div class="public">
 	<section class="userLogin" data-ng-controller="LoginController as login">
 		<aside class="feedback">
 			<div class="wrapper">
-				<div class="message error sr loginFeeback" data-ng-class="{'hide': !login.feedback.showing}">
+				<div class="message error sd loginFeeback" data-ng-class="{'hide': !login.feedback.showing}">
 					<p>{{ login.feedback.message }}</p>
 				</div><!-- End .message -->
 			</div><!-- End .wrapper -->
@@ -16,23 +21,35 @@
 		<div class="wrapper">
 			<section class="box login cf" >
 				<header class="publicHeader">
-          <img src="../imgs/brlogo.png" alt="Smiley face" height="42" width="42">
-					<h1> brModelo </h1><!-- End .logo -->
+					<img
+						src="../imgs/brlogo.png"
+						alt="Smiley face"
+						height="42"
+						width="42"
+					/>
+					<h1> brModelo </h1>
 				</header>
-				<form class="cf" name="loginForm" ng-submit="login.submitForm(loginForm.$valid)" novalidate>
-          <div class="field" data-ng-class="{'error': loginForm.email.$invalid && (!loginForm.email.$pristine || login.submitted)}">
+				<form
+					class="cf"
+					name="loginForm"
+					ng-submit="login.submitForm(loginForm.$valid)"
+					novalidate
+				>
+					<div class="field" data-ng-class="{'error': loginForm.email.$invalid && (!loginForm.email.$pristine || login.submitted)}">
+						<label for="userEmail" class="vhide fieldLabel">Email</label>
 						<input
 							id="userEmail"
 							class="specialInput"
 							type="email"
-              name="email"
+							name="email"
 							placeholder="Email"
 							ng-model="login.credentials.username"
-              autocomplete="off"
-              required
+							autocomplete="off"
+							required
 						/>
 					</div><!-- End .field -->
-					<div class="field"  data-ng-class="{'error': loginForm.password.$invalid && (!loginForm.password.$pristine || login.submitted)}">
+					<div class="field" data-ng-class="{'error': loginForm.password.$invalid && (!loginForm.password.$pristine || login.submitted)}">
+						<label for="userPassword" class="vhide fieldLabel">Password</label>
 						<input
 							id="userPassword"
 							class="specialInput"
@@ -40,15 +57,15 @@
 							name="password"
 							placeholder="Password"
 							ng-model="login.credentials.password"
-              autocomplete="off"
-              required
+							autocomplete="off"
+							required
 						/>
 					</div><!-- End .field -->
 					<div class="actions">
 						<button type="submit" class="br-button">Login</button>
 					</div><!-- End .actions -->
 				</form><!-- End .loginForm -->
-		  </section>
+			</section><!-- End .box -->
 		</div><!-- End .wrapper -->
 	</section><!-- End .userLogin -->
 </div><!-- End .mainContent -->

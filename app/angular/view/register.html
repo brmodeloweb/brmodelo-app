@@ -1,8 +1,13 @@
 <header class="specialHeader cf" >
-  <div >
-    <button class="br-button yellow" data-ui-sref="login"> voltar </button>
-  </div>
-  <img src="imgs/loading-dots.gif" class="br-loader" ng-class="{'loading': loading}">
+	<div>
+		<button class="br-button yellow" data-ui-sref="login"> voltar </button>
+	</div>
+	<img
+		src="imgs/loading-dots.gif"
+		alt="Loading"
+		class="br-loader"
+		ng-class="{'loading': loading}"
+	/>
 </header>
 
 <div class="public">
@@ -21,6 +26,7 @@
 				</header>
 				<form class="cf" name="registerForm" ng-submit="register.submitForm(registerForm.$valid)" novalidate>
 					<div class="field" ng-class="{'error': registerForm.name.$invalid && (!registerForm.name.$pristine || register.submitted)}" >
+						<label for="name" class="vhide fieldLabel">Nome</label>
 						<input
 							id="name"
 							class="specialInput"
@@ -34,7 +40,7 @@
 					</div><!-- End .field -->
 
 					<div class="field" data-ng-class="{'error': registerForm.email.$invalid && (!registerForm.email.$pristine || register.submitted)}">
-						<!-- <label for="mail" class="fieldLabel">Email</label> -->
+						<label for="mail" class="vhide fieldLabel">Email</label>
 						<input
 							id="mail"
 							class="specialInput"
@@ -48,7 +54,7 @@
 					</div><!-- End .field -->
 
 					<div class="field" data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || register.submitted)}">
-						<!-- <label for="password" class="fieldLabel">Password</label> -->
+						<label for="password" class="vhide fieldLabel">Password</label>
 						<input
 							id="password"
 							class="specialInput"
