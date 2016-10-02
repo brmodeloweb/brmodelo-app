@@ -67,6 +67,8 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
      },
 
      addAttribute: function(obj){
+       console.log("obj", obj);
+
        if(obj.PK){
          obj.name = obj.name + ": PK";
        }

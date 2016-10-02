@@ -32,6 +32,14 @@
 	</header>
 
 	<div class="userWorkspace">
+		<aside class="feedback">
+			<div class="wrapper">
+				<div class="message error sr loginFeeback" data-ng-class="{'hide': !feedback.showing}">
+					<p>{{ feedback.message }}</p>
+				</div><!-- End .message -->
+			</div><!-- End .wrapper -->
+		</aside><!-- End #feedback -->
+
 		<div class="conceptual">
 
 			<section id="stencil-holder" class="componentsList">
