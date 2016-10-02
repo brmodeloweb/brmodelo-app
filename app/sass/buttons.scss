@@ -109,16 +109,7 @@
 	background-color: #3D9970;
 	color: rgba(green, 0.8);
 	border-color: rgba(green, 1);
-	// background: linear-gradient(to bottom,
-	// 							rgba(210,255,82,0.6) 0%,
-	// 							rgba(145,232,66, 0.6) 100%);
 }
-
-// .button.style5:hover {
-// 	background: linear-gradient(to bottom,
-// 								rgba(145,232,66, 0.6) 0%,
-// 								rgba(210,255,82, 0.6) 100%);
-// }
 /******************************************************************************/
 /* .button.block */
 /******************************************************************************/
@@ -147,40 +138,42 @@
 .dropDownList .dropDownItem:hover {text-decoration: none;}
 
 /******************************************************************************/
-/* .br-button */
+/* .tton */
 /******************************************************************************/
 .br-button {
-    font-size: 0.8rem;
-    padding: 0.7rem 1.1rem 0.5rem;
-    text-transform: uppercase;
-    border: 1px solid #3D9970;
-    color: #3D9970;
-    font-weight: 400;
-    border-radius: 2px;
-    background-color: transparent;
-    transition: all 0.25s ease;
-    margin: 0.25rem 0.5rem;
-    z-index: 1;
+	font-size: 0.8rem;
+	padding: 0.7rem 1.1rem 0.5rem;
+	text-transform: uppercase;
+	border: 1px solid #3D9970;
+	color: #3D9970;
+	font-weight: 400;
+	border-radius: 2px;
+	background-color: transparent;
+	transition: all 0.25s ease;
+	margin: 0.25rem 0.5rem;
+	z-index: 1;
 }
 
 .br-button:hover {
-  background: #3D9970;
-  cursor: pointer;
-  color: #FFF;
+	color: #FFF;
+	text-decoration: none;
+	cursor: pointer;
+	background: #3D9970;
 }
 
 .br-button.yellow {
-    border: 1px solid #DD7C58;
-    color: #DD7C58;
+	border: 1px solid #DD7C58;
+	color: #DD7C58;
 }
 
 .br-button.yellow:hover {
-  background: #DD7C58;
-  color: #FFF;
+	background: #DD7C58;
+	color: #FFF;
 }
 
-
-
+/******************************************************************************/
+/* .checkboxFive */
+/******************************************************************************/
 .checkboxFive {
 	width: 25px;
 	position: relative;
@@ -192,7 +185,7 @@
 	width: 25px;
 	height: 22px;
 	top: 0;
-  left: 0;
+	left: 0;
 	background: #eee;
 	border:1px solid #ddd;
 }
@@ -209,23 +202,14 @@
 	border: 3px solid #333;
 	border-top: none;
 	border-right: none;
-
 	transform: rotate(-45deg);
 }
 
-/**
- * Create the hover event of the tick
- */
-.checkboxFive label:hover::after {
-	opacity: 0.5;
-}
+/* Create the hover event of the tick */
+.checkboxFive label:hover::after {opacity: 0.5;}
 
-/**
- * Create the checkbox state for the tick
- */
-.checkboxFive input[type=checkbox]:checked + label:after {
-	opacity: 1;
-}
+/* Create the checkbox state for the tick */
+.checkboxFive input[type=checkbox]:checked + label:after {opacity: 1;}
 
 .check-label{
 	margin-left: 30px;
@@ -234,7 +218,7 @@
 }
 
 input[type="checkbox"] {
-  margin: -1px 0 0;
-  margin-top: 0px \9; // IE8-9
-  line-height: normal;
+	margin: -1px 0 0;
+	margin-top: 0px \9; // IE8-9
+	line-height: normal;
 }

@@ -106,14 +106,13 @@
 }
 
 .inputPencil {
-    float: right;
-    margin-right: 6px;
-    margin-top: -20px;
-    position: relative;
-    z-index: 2;
-    color: grey;
+	float: right;
+	margin-right: 6px;
+	margin-top: -20px;
+	position: relative;
+	z-index: 2;
+	color: grey;
 }
-
 
 /******************************************************************************/
 /* .modelViewiewOptions */
@@ -129,30 +128,23 @@
 	position: relative;
 }
 
-.modelViewiewOptions a:hover {
-	opacity: 0.6;
-}
-
-.modelViewiewOptions a:active {
-	opacity: 0.2;
-}
+.modelViewiewOptions a:hover {opacity: 0.6;}
+.modelViewiewOptions a:active {opacity: 0.2;}
 
 /******************************************************************************/
 /* Não consegui posicionar esse botao mas nem rezando muito!  /
 /******************************************************************************/
-.special{margin-top: 20px;}
+.special {margin-top: 20px;}
 
 /******************************************************************************/
 /* Loading /
 /******************************************************************************/
-
 .br-loader {
-  position: fixed;
-  top: 58px;
-  left: 50%;
-  margin-left: -20px;
-  display: none;
+	position: fixed;
+	top: 58px;
+	left: 50%;
+	margin-left: -20px;
+	display: none;
 }
-.br-loader.loading {
-	display: block;
-}
+
+.br-loader.loading {display: block;}
