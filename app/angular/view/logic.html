@@ -91,25 +91,28 @@
 										ng-click="deleteColumn(column, $index); $event.stopPropagation();"
 									></i>
 
-									<div>
+									<div class="columnDetails">
 										<input class="fieldInput" type="text" ng-model="column.name"/>
 										<input class="fieldInput" type="text" ng-model="column.type"/>
 
-										<div>
+										<div class="check">
 											<input type="checkbox" id="c1" ng-model="column.PK"/>
-											<label for="c1"> PK </label>
+											<label for="c1">PK</label>
 										</div>
 
-										<div>
+										<div class="check">
 											<input type="checkbox" id="c2" ng-model="column.FK"/>
-											<label for="c2"> fK </label>
+											<label for="c2">fK</label>
 										</div>
 
-										<input type="checkbox"> Opcional </input>
-									</div>
+										<div class="check optional">
+											<input type="checkbox" />
+											<label>Opcional</label>
+										</div><!-- End . -->
+									</div><!-- End .columnDetails -->
 								</div><!-- End .columnItem -->
-							</div><!-- End .fieldColumns -->
-						</div><!-- End .field -->
+							</div>
+						</div><!-- End .columnsList -->
 
 					<div><!-- End .fields -->
 				</div><!-- End .propertiesContent -->

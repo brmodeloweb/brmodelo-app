@@ -48,6 +48,22 @@ button {
 }
 
 /******************************************************************************/
+/* .check */
+/******************************************************************************/
+.check {margin-bottom: 5px;}
+.check label {margin-left: 5px;}
+
+/******************************************************************************/
+/* .check.optional */
+/******************************************************************************/
+.check.optional {
+	margin-top: 10px;
+	margin-bottom: 0;
+	border-top: 1px solid rgba(#000, 0.3);
+	padding-top: 10px;
+}
+
+/******************************************************************************/
 /* .columnsList */
 /******************************************************************************/
 .columnsList {
@@ -71,7 +87,7 @@ button {
 	padding: 10px;
 	border: 1px solid rgba(#000, 0.3);
 	background: rgba(#fff, 0.2);
-	margin-bottom: 5px;
+	margin-bottom: 15px;
 }
 
 .columnItem:hover{ border-color: rgba(#000, 0.9);}
@@ -82,6 +98,7 @@ button {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	margin-bottom: 10px;
 }
 
 .columnItem .fa {
@@ -93,6 +110,11 @@ button {
 }
 
 .columnItem .fa:hover {color: rgba(#000, 1);}
+
+/******************************************************************************/
+/* .columnDetails */
+/******************************************************************************/
+.columnDetails .fieldInput {margin-bottom: 10px;}
 
 /******************************************************************************/
 /* .actions */
