@@ -3,13 +3,10 @@ var app = angular.module('myapp');
 app.controller('optionsController', function($scope, $state, AuthService) {
 
 	$scope.menuItens = [{
-			text: "doAction1",
+			text: "Preferências",
 			action: function(){}
 		}, {
-			text: "doAction2",
-			action: function(){}
-		}, {
-			text: "logout",
+			text: "Sair",
 			action: function(){
 				AuthService.logout();
 				$state.go('login');

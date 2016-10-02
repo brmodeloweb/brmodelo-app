@@ -72,7 +72,9 @@
 
 .userActions .dropDownItem {
 	display: block;
-	padding: 10px 25px;
+	min-width: 200px;
+	padding: 20px;
+	font-size: 1.1em;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	border-left: 1px solid rgba(0, 0, 0, 0.2);
 	color: rgba(0,0,0, 0.8);
