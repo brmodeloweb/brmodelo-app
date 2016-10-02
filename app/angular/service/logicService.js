@@ -127,14 +127,17 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		var target = ls.graph.getCell(link.get('target').id);
 
 		var originName = source.attributes.name;
+		var idOrigin = source.attributes.id;
 
 		var obj = {
 			"name": "id" + originName,
 			"type": "Integer",
 			"PK": false,
 			"FK": true,
-			"tableOrigin": source.attributes.id
+			"tableOrigin": idOrigin
 		}
+
+		console.log("connecting to", idOrigin);
 
 		target.addAttribute(obj);
 	}
@@ -169,9 +172,15 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 
 	ls.deleteColumn = function(index) {
 		var selected = ls.selectedElement.model.attributes.attributes;
-		selected.splice(index, 1);
-		$rootScope.$broadcast('columns:select', selected);
-		ls.selectedElement.model.deleteColumn(index);
+		var object = ls.selectedElement.model.attributes.objects[index];
+
+		if(object.FK){
+			console.log(ls.graph.getCell(object.tableOrigin));
+		}
+
+		// selected.splice(index, 1);
+		// $rootScope.$broadcast('columns:select', selected);
+		// ls.selectedElement.model.deleteColumn(index);
 	}
 
 	ls.editColumn = function(index) {

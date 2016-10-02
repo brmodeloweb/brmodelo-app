@@ -44,6 +44,16 @@ angular.module('myapp')
 		value: ""
 	};
 
+	$scope.feedback = {
+		message: "",
+		showing: false
+	}
+
+	$scope.showError =  function(newMessage){
+		$scope.feedback.message = newMessage;
+		$scope.feedback.showing = true;
+	}
+
 	$scope.print = function(){
 		window.print();
 	}
@@ -260,6 +270,7 @@ angular.module('myapp')
 
 		ModelAPI.updateModel($scope.model).then(function(res){
 			// call feedback here
+			$scope.showError("Salvo com sucesso!");
 			console.log("saved");
 		});
 	}
