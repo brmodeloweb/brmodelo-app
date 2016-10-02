@@ -95,10 +95,9 @@ a,
 	position: fixed;
 	z-index: 10;
 	top: 46px;
-	right: -175px;
+	right: -205px;
 	bottom: 0;
-	width: 220px;
-	padding: 20px;
+	width: 250px;
 	border-left: 1px solid rgba(0, 0, 0, 0.2);
 	background-color: #efefef;
 	transition: 0.3s ease-in-out right;
@@ -126,6 +125,16 @@ a,
 	font-size: 1.7em;
 	color: rgba(0, 0, 0, 0.3);
 	font-weight: bold;
+}
+
+.propertiesContent {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 20px;
+	overflow-y: scroll;
 }
 
 /******************************************************************************/

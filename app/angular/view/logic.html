@@ -62,55 +62,56 @@
 				<span class="action" data-ng-click="editionVisible = !editionVisible">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 				</span>
+				<div class="propertiesContent">
+					<div class="fields" ng-show="selectedName != ''">
 
-				<div class="fields" ng-show="selectedName != ''">
+						<div class="field">
+							<label class="fieldLabel">Nome</label>
+							<input
+								class="fieldInput"
+								type="text"
+								ng-model="selectedName"
+								ng-change="changeName()"
+							/>
+						</div><!-- End .field -->
 
-					<div class="field">
-						<label class="fieldLabel">Nome</label>
-						<input
-							class="fieldInput"
-							type="text"
-							ng-model="selectedName"
-							ng-change="changeName()"
-						/>
-					</div><!-- End .field -->
+						<div class="field">
+							<label class="fieldLabel">Colunas</label>
+							<div class="fieldColumns" >
+								<div
+									class="columnItem"
+									ng-repeat="column in columns track by $index"
+									ng-click="editColumn($index)"
+								>
+									<label draggable="true"> {{column}} </label>
+									<i
+										class="fa fa-trash"
+										aria-hidden="true"
+										ng-click="deleteColumn(column, $index); $event.stopPropagation();"
+									></i>
 
-					<div class="field">
-						<label class="fieldLabel">Colunas</label>
-						<div class="fieldColumns" >
-							<div
-								class="columnItem"
-								ng-repeat="column in columns track by $index"
-								ng-click="editColumn($index)"
-							>
-								<label draggable="true"> {{column}} </label>
-								<i
-									class="fa fa-trash"
-									aria-hidden="true"
-									ng-click="deleteColumn(column, $index); $event.stopPropagation();"
-								></i>
+									<div ng-show="false">
+										<input class="fieldInput" type="text" />
+										<input class="fieldInput" type="text" />
 
-								<div ng-show="false">
-									<input class="fieldInput" type="text" />
-									<input class="fieldInput" type="text" />
+										<div>
+											<input type="checkbox" id="c1" />
+											<label for="c1"> PK </label>
+										</div>
 
-									<div>
-										<input type="checkbox" id="c1" />
-										<label for="c1"> PK </label>
+										<div>
+											<input type="checkbox" id="c2" />
+											<label for="c2"> fK </label>
+										</div>
+
+										<input type="checkbox"> Opcional </input>
 									</div>
+								</div><!-- End .columnItem -->
+							</div><!-- End .fieldColumns -->
+						</div><!-- End .field -->
 
-									<div>
-										<input type="checkbox" id="c2" />
-										<label for="c2"> fK </label>
-									</div>
-
-									<input type="checkbox"> Opcional </input>
-								</div>
-							</div><!-- End .columnItem -->
-						</div><!-- End .fieldColumns -->
-					</div><!-- End .field -->
-
-				<div><!-- End .fields -->
+					<div><!-- End .fields -->
+				</div><!-- End .propertiesContent -->
 			</aside><!-- End .modelProperties -->
 		</div>	<!-- End .logicModel -->
 
