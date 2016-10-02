@@ -14,16 +14,18 @@ a,
 .fa {user-select: none;}
 
 /******************************************************************************/
+/* .view */
+/******************************************************************************/
+.view {
+	width: 100vw;
+	height: 100vh;
+}
+
+/******************************************************************************/
 /* .mainContent */
 /******************************************************************************/
 .mainContent {padding-top: 47px;}
 .modelsList .mainContent {padding-top: calc(47px + 40px);}
-
-.conceptualModel,
-.logicModel {
-	position: relative;
-	z-index: 10;
-}
 
 .workspaceConceptual .mainContent,
 .workspaceLogic .mainContent {
@@ -91,6 +93,7 @@ a,
 /******************************************************************************/
 .modelProperties {
 	position: fixed;
+	z-index: 10;
 	top: 46px;
 	right: -175px;
 	bottom: 0;
