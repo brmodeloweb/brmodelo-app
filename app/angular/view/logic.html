@@ -1,4 +1,5 @@
 <div data-ng-controller="logicController" data-ng-init="initView()">
+
 	<header class="mainHeader cf">
 		<h1 class="logo" data-ui-sref="main">
 			<strong>brModelo</strong>
@@ -13,18 +14,34 @@
 				<span class="fa fa-pencil inputPencil"></span>
 			</div><!-- End .modelName -->
 			<div class="modelViewiewOptions">
-				<a data-ng-click="undoModel()"><i class="fa fa-reply fa-lg"></i></a>
-				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i></a>
-				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
-				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
+				<a data-ng-click="undoModel()">
+					<i class="fa fa-reply fa-lg"></i>
+				</a>
+				<a data-ng-click="redoModel()">
+					<i class="fa fa-share fa-lg"></i>
+				</a>
+				<a data-ng-click="zoomIn()">
+					<i class="fa fa-search-plus fa-lg"></i>
+				</a>
+				<a data-ng-click="zoomOut()">
+					<i class="fa fa-search-minus fa-lg"></i>
+				</a>
 				<a class="button style5" data-ng-click="saveModel()">Salvar</a>
 			</div><!-- End .modelViewiewOptions -->
 		</aside><!-- End .modelOptions -->
+
 		<aside class="userActions cf" ng-controller="optionsController">
 			<brdropdown title="Options" list="menuItens"> </brdropdown>
 		</aside><!-- End .userActions -->
-		<img src="imgs/loading-dots.gif" class="br-loader" ng-class="{'loading': loading}" >
+
+		<img
+			src="imgs/loading-dots.gif"
+			alt="Loading"
+			class="br-loader"
+			ng-class="{'loading': loading}"
+		/>
 	</header>
+
 	<div class="userWorkspace">
 		<div class="conceptual">
 			<section id="stencil-holder" class="componentsList">
@@ -42,39 +59,52 @@
 
 					<div class="field">
 						<label class="fieldLabel">Nome</label>
-						<input class="fieldInput" type="text" ng-model="selectedName" ng-change="changeName()"> </input>
+						<input
+							class="fieldInput"
+							type="text"
+							ng-model="selectedName"
+							ng-change="changeName()"
+						/>
 					</div><!-- End .field -->
 
 					<div class="field">
 						<label class="fieldLabel">Colunas</label>
 						<div class="fieldColumns" >
-							<div class="columnItem" ng-repeat="column in columns track by $index" ng-click="editColumn($index)">
+							<div
+								class="columnItem"
+								ng-repeat="column in columns track by $index"
+								ng-click="editColumn($index)"
+							>
 								<label draggable="true"> {{column}} </label>
-								<i class="fa fa-trash" aria-hidden="true" ng-click="deleteColumn(column, $index); $event.stopPropagation();"></i>
+								<i
+									class="fa fa-trash"
+									aria-hidden="true"
+									ng-click="deleteColumn(column, $index); $event.stopPropagation();"
+								></i>
 
 								<div ng-show="false">
-									<input class="fieldInput" type="text"> </input>
-									<input class="fieldInput" type="text"> </input>
+									<input class="fieldInput" type="text" />
+									<input class="fieldInput" type="text" />
 
 									<div>
-										<input type="checkbox" id="c1"/>
+										<input type="checkbox" id="c1" />
 										<label for="c1"> PK </label>
 									</div>
 
 									<div>
-										<input type="checkbox" id="c2"/>
+										<input type="checkbox" id="c2" />
 										<label for="c2"> fK </label>
 									</div>
 
 									<input type="checkbox"> Opcional </input>
 								</div>
-
-							</div>
-						</div>
+							</div><!-- End .columnItem -->
+						</div><!-- End .fieldColumns -->
 					</div><!-- End .field -->
+
 				<div><!-- End .fields -->
 
-			</aside>	<!-- End .modelProperties -->
+			</aside><!-- End .modelProperties -->
 		</div>	<!-- End .conceptual -->
 	</div><!-- End .userWorkspace -->
 <div>
