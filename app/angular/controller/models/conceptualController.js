@@ -483,10 +483,9 @@ angular.module('myapp')
     $scope.paperScroller = new joint.ui.PaperScroller({
         autoResizePaper: true,
     //    padding: 10,
-        paper: $scope.paper
+        paper: $scope.paper,
+				cursor: 'grab'
     });
-
-		$scope.paper.on('blank:pointerdown', $scope.paperScroller.startPanning);
 
 		// paperScroller.$el.css({
 		// 		width: $('#paper-holder').width(),
@@ -630,9 +629,11 @@ angular.module('myapp')
 		var selection = new Backbone.Collection;
 		var selectionView = new joint.ui.SelectionView({ paper: $scope.paper, graph: $scope.graph , model: selection });
 
-		$scope.paper.on('blank:pointerdown', function(evt){
+		$scope.paper.on('blank:pointerdown', function(evt) {
 			if (evt.shiftKey) {
 				selectionView.startSelecting(evt);
+			} else {
+				$scope.paperScroller.startPanning;
 			}
 		});
 

@@ -39,7 +39,8 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		var $app = $('#content');
 		ls.paperScroller = new joint.ui.PaperScroller({
 				autoResizePaper: true,
-				paper: ls.paper
+				paper: ls.paper,
+				cursor: 'grab'
 		});
 		ls.paper.on('blank:pointerdown', ls.paperScroller.startPanning);
 		$app.append(ls.paperScroller.render().el);
