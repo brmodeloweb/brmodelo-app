@@ -16,7 +16,15 @@ a,
 /******************************************************************************/
 /* .mainContent */
 /******************************************************************************/
-.mainContent {padding-top: calc(47px + 40px);} //.mainHeader height + space
+.mainContent {padding-top: 47px;}
+.modelsList .mainContent {padding-top: calc(47px + 40px);}
+
+.workspaceConceptual .mainContent,
+.workspaceLogic .mainContent {
+	padding-top: calc(47px + 20px);
+	margin-left: 126px;
+}
+
 
 /******************************************************************************/
 /* .contentHeader */

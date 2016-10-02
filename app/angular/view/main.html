@@ -1,13 +1,14 @@
-<header
-	class="mainHeader cf"
-	data-ng-controller="mainController"
-	data-ng-include=""
-	src="'angular/view/mainHeader.html'"
-></header>
+<section class="view modelsList">
 
-<div class="mainContent">
+	<header
+		class="mainHeader cf"
+		data-ng-controller="mainController"
+		data-ng-include=""
+		src="'angular/view/mainHeader.html'"
+	></header>
+
 	<section
-		class="userWorkspace"
+		class="mainContent"
 		data-ng-controller="listController as ctrl"
 		ng-init="initList()"
 	>
@@ -17,6 +18,7 @@
 				<a class="br-button headerButton" data-ng-click="ctrl.newModel()">Novo Modelo</a>
 			</div><!-- End .wrapper -->
 		</header><!-- End .contentHeader -->
+
 		<div class="projectsList">
 			<div class="wrapper">
 				<table>
@@ -41,5 +43,6 @@
 				</table>
 			</div><!-- End .wrapper -->
 		</div><!-- End .projectsList -->
-	</section><!-- End .userWorkspace -->
-</div><!-- End .mainContent -->
+
+	</section><!-- End .mainContent -->
+</section><!-- End .view -->

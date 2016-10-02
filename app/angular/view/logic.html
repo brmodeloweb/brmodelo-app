@@ -1,4 +1,8 @@
-<div data-ng-controller="logicController" data-ng-init="initView()">
+<section
+	class="view workspaceLogic"
+	data-ng-controller="logicController"
+	data-ng-init="initView()"
+>
 
 	<header class="mainHeader cf">
 		<h1 class="logo" data-ui-sref="main">
@@ -14,18 +18,10 @@
 				<span class="fa fa-pencil inputPencil"></span>
 			</div><!-- End .modelName -->
 			<div class="modelViewiewOptions">
-				<a data-ng-click="undoModel()">
-					<i class="fa fa-reply fa-lg"></i>
-				</a>
-				<a data-ng-click="redoModel()">
-					<i class="fa fa-share fa-lg"></i>
-				</a>
-				<a data-ng-click="zoomIn()">
-					<i class="fa fa-search-plus fa-lg"></i>
-				</a>
-				<a data-ng-click="zoomOut()">
-					<i class="fa fa-search-minus fa-lg"></i>
-				</a>
+				<a data-ng-click="undoModel()"><i class="fa fa-reply fa-lg"></i></a>
+				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i>\</a>
+				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
+				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
 				<a class="button style5" data-ng-click="saveModel()">Salvar</a>
 			</div><!-- End .modelViewiewOptions -->
 		</aside><!-- End .modelOptions -->
@@ -42,14 +38,28 @@
 		/>
 	</header>
 
-	<div class="userWorkspace">
-		<div class="conceptual">
+	<section class="mainContent">
+		<header class="contentHeader vhide">
+			<h2>Modelo lógico de ????</h2>
+		</header>
+
+		<aside class="feedback">
+			<div class="wrapper">
+				<div class="message error sr" data-ng-class="{'hide': !feedback.showing}">
+					<p>{{ feedback.message }}</p>
+				</div><!-- End .message -->
+			</div><!-- End .wrapper -->
+		</aside><!-- End #feedback -->
+
+		<div class="logicModel">
 			<section id="stencil-holder" class="componentsList">
 				<header class="vhide">
 					<h2>Models list</h2>
 				</header><!-- List of models used by the user -->
 			</section><!-- End .componentsList -->
-			<section id="content" class="modelWorkspace"> </section>	<!-- End .modelWorkspace -->
+
+			<div id="content" class="modelWorkspace"> </div>	<!-- End .modelWorkspace -->
+
 			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
 				<span class="action" data-ng-click="editionVisible = !editionVisible">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
@@ -103,8 +113,8 @@
 					</div><!-- End .field -->
 
 				<div><!-- End .fields -->
-
 			</aside><!-- End .modelProperties -->
-		</div>	<!-- End .conceptual -->
-	</div><!-- End .userWorkspace -->
-<div>
+		</div>	<!-- End .logicModel -->
+
+	</section><!-- End .mainContent -->
+<section><!-- End .view -->

@@ -1,4 +1,8 @@
-<div data-ng-controller="conceptualController" data-ng-init="initView()">
+<section
+	class="view workspaceConceptual"
+	data-ng-controller="conceptualController"
+	data-ng-init="initView()"
+>
 
 	<header class="mainHeader cf">
 		<h1 class="logo" data-ui-sref="main">
@@ -31,29 +35,29 @@
 		<img src="imgs/loading-dots.gif" class="br-loader" ng-class="{'loading': loading}">
 	</header>
 
-	<div class="userWorkspace">
+	<div class="mainContent">
+		<header class="contentHeader vhide">
+			<h2>Modelo conceitual de ????</h2>
+		</header>
+
 		<aside class="feedback">
 			<div class="wrapper">
-				<div class="message error sr loginFeeback" data-ng-class="{'hide': !feedback.showing}">
+				<div class="message error sr" data-ng-class="{'hide': !feedback.showing}">
 					<p>{{ feedback.message }}</p>
 				</div><!-- End .message -->
 			</div><!-- End .wrapper -->
 		</aside><!-- End #feedback -->
 
-		<div class="conceptual">
-
-			<section id="stencil-holder" class="componentsList">
+		<div class="conceptualModel">
+			<section class="componentsList" id="stencil-holder">
 				<header class="vhide">
-					<h2>Models list</h2>
+					<h3>Models list</h3>
 				</header><!-- List of models used by the user -->
 			</section><!-- End .componentsList -->
 
-			<section id="content" class="modelWorkspace">
-
-			</section><!-- End .modelWorkspace -->
+			<section id="content" class="modelWorkspace"></section>
 
 			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
-				<!-- <button class="action" > -->
 				<span class="action" data-ng-click="changeVisible()">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 				</span><!-- </button> -->
@@ -231,8 +235,7 @@
 					</div>
 				</div>
 			</aside><!-- End .modelProperties -->
+		</div>	<!-- End .conceptualModel -->
 
-		</div>	<!-- End .conceptual -->
-	</div><!-- End .userWorkspace -->
-
-<div>
+	</div><!-- End .mainContent -->
+<section><!-- End .view -->
