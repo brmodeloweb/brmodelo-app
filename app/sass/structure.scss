@@ -19,6 +19,12 @@ a,
 .mainContent {padding-top: 47px;}
 .modelsList .mainContent {padding-top: calc(47px + 40px);}
 
+.conceptualModel,
+.logicModel {
+	position: relative;
+	z-index: 10;
+}
+
 .workspaceConceptual .mainContent,
 .workspaceLogic .mainContent {
 	padding-top: calc(47px + 20px);

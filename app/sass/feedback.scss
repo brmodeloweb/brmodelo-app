@@ -9,6 +9,14 @@
 }
 
 /******************************************************************************/
+/* .feedback */
+/******************************************************************************/
+.feedback {
+	position: relative;
+	z-index: 1;
+}
+
+/******************************************************************************/
 /* .error */
 /******************************************************************************/
 .field.error .fieldLabel {color: rgba(red, 0.8);}
@@ -22,3 +30,31 @@
 
 .field.error .fieldInput:focus {box-shadow: 1px 1px 1px rgba(#fff, 1) inset;}
 .field.error .fieldInput::placeholder {color: rgba(red, 0.6);}
+
+/******************************************************************************/
+/* .workspaceConceptual .feedback */
+/******************************************************************************/
+.workspaceConceptual .feedback {top: -20px;}
+
+.workspaceConceptual .feedback .message {
+	padding: 30px;
+	border-width: 0;
+	border-radius: 0;
+	border-bottom-width: 1px;
+	font-size: 1.4em;
+	box-shadow: 0 0 0 transparent;
+}
+
+.workspaceConceptual .feedback .error {;
+	border-bottom-color: #fc5858;
+	color: #fc5858;
+	background-image: none;
+	background-color: rgba(#F0B7B7, 0.5);
+}
+
+.workspaceConceptual .feedback .success {;
+	border-bottom-color: #09c600;
+	color: #09c600;
+	background-image: none;
+	background-color: rgba(#95e391, 0.5);
+}
