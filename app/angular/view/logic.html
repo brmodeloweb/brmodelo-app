@@ -75,16 +75,16 @@
 							/>
 						</div><!-- End .field -->
 
-						<div class="field">
+						<div class="columnsList">
 							<label class="fieldLabel">Colunas</label>
-							
-							<div class="fieldColumns">
+							<i class="fa fa-plus-circle addColumn" aria-hidden="true"></i>
+							<div>
 								<div
 									class="columnItem"
 									ng-repeat="column in columns track by $index"
 									ng-click="editColumn($index)"
 								>
-									<label draggable="true"> {{column.name}} </label>
+									<label draggable="true"> {{column.name}}</label>
 									<i
 										class="fa fa-trash"
 										aria-hidden="true"
