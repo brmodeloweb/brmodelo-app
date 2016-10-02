@@ -19,7 +19,7 @@
 			</div><!-- End .modelName -->
 			<div class="modelViewiewOptions">
 				<a data-ng-click="undoModel()"><i class="fa fa-reply fa-lg"></i></a>
-				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i>\</a>
+				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i></a>
 				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
 				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
 				<a class="button style5" data-ng-click="saveModel()">Salvar</a>
@@ -77,13 +77,14 @@
 
 						<div class="field">
 							<label class="fieldLabel">Colunas</label>
-							<div class="fieldColumns" >
+							
+							<div class="fieldColumns">
 								<div
 									class="columnItem"
 									ng-repeat="column in columns track by $index"
 									ng-click="editColumn($index)"
 								>
-									<label draggable="true"> {{column}} </label>
+									<label draggable="true"> {{column.name}} </label>
 									<i
 										class="fa fa-trash"
 										aria-hidden="true"
@@ -91,16 +92,16 @@
 									></i>
 
 									<div ng-show="false">
-										<input class="fieldInput" type="text" />
-										<input class="fieldInput" type="text" />
+										<input class="fieldInput" type="text" ng-model="column.name"/>
+										<input class="fieldInput" type="text" ng-model="column.type"/>
 
 										<div>
-											<input type="checkbox" id="c1" />
+											<input type="checkbox" id="c1" ng-model="column.PK"/>
 											<label for="c1"> PK </label>
 										</div>
 
 										<div>
-											<input type="checkbox" id="c2" />
+											<input type="checkbox" id="c2" ng-model="column.FK"/>
 											<label for="c2"> fK </label>
 										</div>
 
