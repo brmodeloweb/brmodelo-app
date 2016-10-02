@@ -33,7 +33,17 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	ls.applyDeleteLinkAction = function(){
 		ls.graph.on('remove', function(cell, collection, opt) {
 			if (cell.isLink()) {
-				console.log("removing", cell);
+				var source = ls.graph.getCell(cell.get('source').id);
+				var target = ls.graph.getCell(cell.get('target').id);
+				var objects = target.attributes.objects;
+				for (var i = 0; i < objects.length; i++) {
+					var object = objects[i];
+					if(object.FK && object.tableOrigin.idOrigin == source.id){
+						target.attributes.attributes.splice(i, 1);
+						target.deleteColumn(i);
+						break;
+					}
+				}
 			}
 		})
 	}
