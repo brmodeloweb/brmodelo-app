@@ -12,8 +12,21 @@ angular.module('myapp')
 	$scope.selectedName = LogicService.selectedElement.name;
 	$scope.columns = [];
 	$scope.editionVisible = true;
+	$scope.tableNames = [];
+	self.mapTables = {};
 
 	$scope.addColumnVisible = false;
+
+	$scope.feedback = {
+		message: "",
+		showing: false,
+		type: "success"
+	}
+
+	$scope.showFeedback =  function(newMessage, show){
+		$scope.feedback.message = newMessage;
+		$scope.feedback.showing = show;
+	}
 
 	self.stopLoading = function () {
 		$scope.showLoading(false);
@@ -54,19 +67,56 @@ angular.module('myapp')
 	 }
 
 	 $scope.addColumn = function(column){
-		 console.log(column);
+		 if(column.name == "") {
+			$scope.showFeedback("NOME de coluna não pode ficar em branco!", true);
+			return;
+		 }
+
+		 if(column.FK && column.tableOrigin.idName == "") {
+				$scope.showFeedback("Selecione a origem da tabela estrangeira!", true);
+				return;
+		 } else {
+			 column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);
+		 }
+		 LogicService.addColumn(column);
 		 $scope.addColumnModel = self.newColumnObject();
 		 $scope.addColumnVisible = false;
-		 LogicService.addColumn(column);
 	 }
+
+	 $scope.showAddColumn = function(show){
+		$scope.addColumnVisible = show;
+		$scope.addColumnModel = self.newColumnObject();
+
+		$scope.tableNames = [];
+		self.mapTables = LogicService.getTablesMap();
+		for (var key of self.mapTables.keys()) {
+			$scope.tableNames.push(key);
+		}
+	 }
+
+	$scope.selectAddType = function(type){
+		if(!$scope.addColumnModel.PK && !$scope.addColumnModel.FK) {
+			$scope.addColumnModel.type = type;
+		} else {
+			$scope.addColumnModel.type = "INTEGER";
+		}
+	}
+
+	$scope.selectAddTableOrigin = function(originName){
+		$scope.addColumnModel.tableOrigin.idName = originName;
+	}
 
 	self.newColumnObject = function() {
 		return {
 			"FK": false,
 			"PK": false,
 			"name": "",
-			"tableOrigin": "",
-			"type": "Integer"
+			"tableOrigin": {
+				"idOrigin" : null,
+				"idLink" : null,
+				"idName" : ""
+			},
+			"type": "INTEGER"
 		};
 	}
 

@@ -39,7 +39,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 				for (var i = 0; i < objects.length; i++) {
 					var object = objects[i];
 					if(object.FK && object.tableOrigin.idOrigin == source.id){
-						target.attributes.attributes.splice(i, 1);
+						//target.attributes.attributes.splice(i, 1);
 						target.deleteColumn(i);
 						break;
 					}
@@ -197,9 +197,9 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		if(object.FK){
 			var link = ls.graph.getCell(object.tableOrigin.idLink);
 			link.remove();
+		} else {
+			ls.selectedElement.model.deleteColumn(index);
 		}
-
-		ls.selectedElement.model.deleteColumn(index);
 	}
 
 	ls.editColumn = function(index) {
@@ -207,7 +207,28 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	}
 
 	ls.addColumn = function(column) {
+		if(column.FK){
+			var myLink = new joint.shapes.erd.Line({
+				source: {
+					id: column.tableOrigin.idOrigin
+				},
+				target: {
+					id: ls.selectedElement.model.id
+				}
+			});
+			myLink.addTo(ls.graph);
+		}
+		column.tableOrigin.idLink = myLink.id;
 		ls.selectedElement.model.addAttribute(column);
+	}
+
+	ls.getTablesMap = function() {
+		var map = new Map();
+		var elements = ls.graph.getElements();
+		for (var i = 0; i < elements.length; i++) {
+			map.set(elements[i].attributes.name, elements[i].id);
+		}
+		return map;
 	}
 
 	return ls;

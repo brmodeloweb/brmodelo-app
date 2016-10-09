@@ -101,12 +101,28 @@ button {
 	margin-bottom: 5px;
 }
 
+.columnItem .specialElement {
+	margin-bottom: 10px;
+}
+
+.columnItem .specialElement .btn {
+	padding: 2px 12px;
+}
+
+.columnItem .dropdown-tmp-item {
+	line-height: 10px;
+	padding: 10px 0px;
+}
 .columnItem .fa {
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	color: rgba(#000, 0.5);
 	cursor: pointer;
+}
+
+.columnItem .dropdownElement {
+	margin-bottom: 40px;
 }
 
 .columnItem .fa:hover {color: rgba(#000, 1);}
