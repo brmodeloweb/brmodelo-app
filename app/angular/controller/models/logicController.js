@@ -23,9 +23,10 @@ angular.module('myapp')
 		type: "success"
 	}
 
-	$scope.showFeedback =  function(newMessage, show){
+	$scope.showFeedback =  function(newMessage, show, type){
 		$scope.feedback.message = newMessage;
 		$scope.feedback.showing = show;
+		$scope.feedback.type = type;
 	}
 
 	self.stopLoading = function () {
@@ -39,9 +40,14 @@ angular.module('myapp')
 
 	$scope.saveModel = function() {
 		LogicService.updateModel().then(function(res){
-			console.log("saved -> show feedback");
+			$scope.showFeedback("Salvo com sucesso!", true, "success");
 		});
 	}
+
+	$scope.$on('clean:logic:selection', function(){
+		$scope.showFeedback("",false);
+		$scope.$apply();
+	});
 
 	$scope.$on('name:updated', function(event, newName) {
      $scope.selectedName = newName;
@@ -68,12 +74,12 @@ angular.module('myapp')
 
 	 $scope.addColumn = function(column){
 		 if(column.name == "") {
-			$scope.showFeedback("NOME de coluna não pode ficar em branco!", true);
+			$scope.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
 			return;
 		 }
 
 		 if(column.FK && column.tableOrigin.idName == "") {
-				$scope.showFeedback("Selecione a origem da tabela estrangeira!", true);
+				$scope.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
 				return;
 		 } else {
 			 column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);

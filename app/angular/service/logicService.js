@@ -167,6 +167,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		ls.selectedElement = {};
 		$rootScope.$broadcast('name:updated', "");
 		$rootScope.$broadcast('columns:select', []);
+		$rootScope.$broadcast('clean:logic:selection');
 	}
 
 	ls.onSelectElement = function (cellView){

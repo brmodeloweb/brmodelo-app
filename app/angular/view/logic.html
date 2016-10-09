@@ -44,7 +44,7 @@
 		</header>
 
 		<aside class="feedback">
-			<div class="message success sd" data-ng-class="{'hide': !feedback.showing}">
+			<div class="message {{feedback.type}} sd" data-ng-class="{'hide': !feedback.showing}">
 				<p>{{ feedback.message }}</p>
 			</div><!-- End .message -->
 		</aside><!-- End #feedback -->
