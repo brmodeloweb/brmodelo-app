@@ -84,10 +84,10 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
      },
 
      deleteColumn: function(index){
-       this.get('attributes').slice(index, 1);
-       this.get('objects').slice(index, 1);
-       this.updateRectangles();
-       this.trigger('uml-update');
+      this.get('attributes').splice(index, 1);
+      this.get('objects').splice(index, 1);
+      this.updateRectangles();
+      this.trigger('uml-update');
      },
 
      updateRectangles: function() {

@@ -199,13 +199,15 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			link.remove();
 		}
 
-		selected.splice(index, 1);
-		$rootScope.$broadcast('columns:select', selected);
 		ls.selectedElement.model.deleteColumn(index);
 	}
 
 	ls.editColumn = function(index) {
 		console.log(ls.selectedElement.model.attributes.objects[index]);
+	}
+
+	ls.addColumn = function(column) {
+		ls.selectedElement.model.addAttribute(column);
 	}
 
 	return ls;

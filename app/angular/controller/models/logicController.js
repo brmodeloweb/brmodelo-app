@@ -6,12 +6,14 @@ angular.module('myapp')
 								 ModelAPI,
 								 LogicService) {
 
+	var self = this;
+
 	$scope.model = LogicService.model;
 	$scope.selectedName = LogicService.selectedElement.name;
 	$scope.columns = [];
 	$scope.editionVisible = true;
 
-	var self = this;
+	$scope.addColumnVisible = false;
 
 	self.stopLoading = function () {
 		$scope.showLoading(false);
@@ -34,6 +36,7 @@ angular.module('myapp')
 	 });
 
 	$scope.$on('columns:select', function(event, columns) {
+		$scope.addColumnVisible = false;
 		$scope.columns = columns;
 	//	$scope.$apply();
 	});
@@ -50,6 +53,24 @@ angular.module('myapp')
 		 LogicService.editColumn($index);
 	 }
 
+	 $scope.addColumn = function(column){
+		 console.log(column);
+		 $scope.addColumnModel = self.newColumnObject();
+		 $scope.addColumnVisible = false;
+		 LogicService.addColumn(column);
+	 }
+
+	self.newColumnObject = function() {
+		return {
+			"FK": false,
+			"PK": false,
+			"name": "",
+			"tableOrigin": "",
+			"type": "Integer"
+		};
+	}
+
+	$scope.addColumnModel = self.newColumnObject();
 
 	// $scope.undoModel = function(){
 	// 	$scope.commandManager.undo();
