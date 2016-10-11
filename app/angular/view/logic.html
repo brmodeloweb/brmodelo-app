@@ -82,10 +82,10 @@
 
 								<div class="columnDetails columnItem" ng-show="addColumnVisible">
 
-									<label for="">NOME</label>
+									<label class="titleLabel">NOME</label>
 									<input class="fieldInput" type="text" ng-model="addColumnModel.name"/>
 
-									<label for="">TIPO</label>
+									<label class="titleLabel">TIPO</label>
 									<br-select-dropdown options="['VARCHAR', 'STRING', 'INTEGER']" selected="{'value': 'INTEGER'}" on-select-action="selectAddType"> </br-select-dropdown>
 
 									<div class="check">
@@ -112,33 +112,41 @@
 								<div
 									class="columnItem"
 									ng-repeat="column in columns track by $index"
-									ng-click="editColumn($index)"
 								>
-									<label draggable="true"> {{column.name}}</label>
+									<label draggable="true" ng-click="editionColumnMode(column, $index)" ng-show="!column.expanded"> {{column.name}}</label>
 									<i
 										class="fa fa-trash"
 										aria-hidden="true"
 										ng-click="deleteColumn(column, $index); $event.stopPropagation();"
 									></i>
 
-									<div class="columnDetails" ng-show="false">
-										<input class="fieldInput" type="text" ng-model="column.name"/>
-										<input class="fieldInput" type="text" ng-model="column.type"/>
+									<div class="columnDetails" ng-show="column.expanded">
+
+										<label class="titleLabel">NOME</label>
+										<input class="fieldInput" type="text" ng-model="editColumnModel.name"/>
+
+										<label class="titleLabel">TIPO</label>
+										<br-select-dropdown options="['DATE', 'FLOAT', 'VARCHAR(n)', 'CHAR(n)', 'INT']" selected="{'value': column.type }" on-select-action="selectEditType"> </br-select-dropdown>
 
 										<div class="check">
-											<input type="checkbox" id="c1" ng-model="column.PK"/>
+											<input type="checkbox" id="c1" ng-model="editColumnModel.PK"/>
 											<label for="c1">PK</label>
 										</div>
 
 										<div class="check">
-											<input type="checkbox" id="c2" ng-model="column.FK"/>
-											<label for="c2">fK</label>
+											<input type="checkbox" id="c2" ng-model="editColumnModel.FK"/>
+											<label for="c2">FK</label>
 										</div>
 
-										<div class="check optional">
-											<input type="checkbox" />
-											<label>Opcional</label>
+										<div class="dropdownElement">
+											<br-select-dropdown options="tableNames" selected="{'value': 'ORIGEM'}" on-select-action="selectAddTableOrigin" ng-disabled="true"> </br-select-dropdown>
+										</div>
+
+										<div class="actions">
+											<i class="fa fa-check-circle add" aria-hidden="true" ng-click="editColumn(column, editColumnModel, $index); expanded=!expanded;"></i>
+											<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="column.expanded=!column.expanded"></i>
 										</div><!-- End . -->
+
 									</div><!-- End .columnDetails -->
 
 								</div><!-- End .columnItem -->

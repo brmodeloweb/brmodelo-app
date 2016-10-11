@@ -67,8 +67,6 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
      },
 
      addAttribute: function(obj){
-       console.log("obj", obj);
-
        if(obj.PK){
          obj.name = obj.name + ": PK";
        }
@@ -88,6 +86,13 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
       this.get('objects').splice(index, 1);
       this.updateRectangles();
       this.trigger('uml-update');
+     },
+
+     editColumn: function(index, name, object){
+       this.get('attributes')[index] = name;
+       this.get('objects')[index] = object;
+       this.updateRectangles();
+       this.trigger('uml-update');
      },
 
      updateRectangles: function() {

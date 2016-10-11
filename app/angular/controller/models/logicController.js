@@ -16,11 +16,18 @@ angular.module('myapp')
 	self.mapTables = {};
 
 	$scope.addColumnVisible = false;
+	$scope.editColumnVisible = false;
 
 	$scope.feedback = {
 		message: "",
 		showing: false,
 		type: "success"
+	}
+
+	self.closeAll = function(){
+		for (var i = 0; i < $scope.columns.length; i++) {
+			$scope.columns[i].expanded = false;
+		}
 	}
 
 	$scope.showFeedback =  function(newMessage, show, type){
@@ -56,8 +63,12 @@ angular.module('myapp')
 
 	$scope.$on('columns:select', function(event, columns) {
 		$scope.addColumnVisible = false;
+		$scope.columns = [];
+		for (var i = 0; i < columns.length; i++) {
+			columns[i].expanded = false;
+			$scope.columns.push(columns[i]);
+		}
 		$scope.columns = columns;
-	//	$scope.$apply();
 	});
 
 	 $scope.changeName = function(){
@@ -68,8 +79,33 @@ angular.module('myapp')
 		 LogicService.deleteColumn($index);
 	 }
 
-	 $scope.editColumn = function($index){
-		 LogicService.editColumn($index);
+	 $scope.editionColumnMode = function(column) {
+		 console.log("Edition: ");
+		 console.log(column);
+		 $scope.editColumnModel = JSON.parse(JSON.stringify(column));
+
+		 self.closeAll();
+
+		 column.expanded = true;
+		 //LogicService.editColumn($index);
+	 }
+
+	 $scope.editColumn = function(oldColumn, editedColumn, $index) {
+		if(editedColumn.name == ""){
+			$scope.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
+			return;
+		}
+
+		// if(editedColumn.FK && editedColumn.tableOrigin.idName == "") {
+		// 	 $scope.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
+		// 	 return;
+		// } else {
+		// 	column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);
+		// }
+
+		LogicService.editColumn($index, editedColumn);
+
+		self.closeAll();
 	 }
 
 	 $scope.addColumn = function(column){
@@ -84,6 +120,7 @@ angular.module('myapp')
 		 } else {
 			 column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);
 		 }
+
 		 LogicService.addColumn(column);
 		 $scope.addColumnModel = self.newColumnObject();
 		 $scope.addColumnVisible = false;
@@ -108,6 +145,10 @@ angular.module('myapp')
 		}
 	}
 
+	$scope.selectEditType = function(type){
+		$scope.editColumnModel.type = type;
+	}
+
 	$scope.selectAddTableOrigin = function(originName){
 		$scope.addColumnModel.tableOrigin.idName = originName;
 	}
@@ -127,6 +168,7 @@ angular.module('myapp')
 	}
 
 	$scope.addColumnModel = self.newColumnObject();
+	$scope.editColumnModel = self.newColumnObject();
 
 	// $scope.undoModel = function(){
 	// 	$scope.commandManager.undo();

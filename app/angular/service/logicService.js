@@ -203,8 +203,18 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		}
 	}
 
-	ls.editColumn = function(index) {
-		console.log(ls.selectedElement.model.attributes.objects[index]);
+	ls.editColumn = function(index, editedColumn) {
+		console.log(editedColumn);
+
+			var name = editedColumn.name;
+
+			if(editedColumn.PK){
+				name = name + ": PK";
+			}
+			// ls.selectedElement.model.attributes.attributes[index] = name;
+			//  	ls.selectedElement.model.attributes.objects[index].name = name;
+
+			ls.selectedElement.model.editColumn(index, name, editedColumn);
 	}
 
 	ls.addColumn = function(column) {
