@@ -165,7 +165,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 
 	ls.clearSelectedElement = function(){
 		ls.selectedElement = {};
-		$rootScope.$broadcast('name:updated', "");
+		$rootScope.$broadcast('element:select', null);
 		$rootScope.$broadcast('columns:select', []);
 		$rootScope.$broadcast('clean:logic:selection');
 	}
@@ -182,7 +182,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			var selected = ls.selectedElement.model.attributes.objects;
 			$rootScope.$broadcast('columns:select', selected);
 		}
-		$rootScope.$broadcast('name:updated', name);
+		$rootScope.$broadcast('element:select', ls.selectedElement.model);
 	}
 
 	ls.editName = function(newName){

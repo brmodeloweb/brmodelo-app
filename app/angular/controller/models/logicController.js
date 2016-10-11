@@ -9,7 +9,8 @@ angular.module('myapp')
 	var self = this;
 
 	$scope.model = LogicService.model;
-	$scope.selectedName = LogicService.selectedElement.name;
+	$scope.selectedName = "";
+	$scope.selectedElement = null;
 	$scope.columns = [];
 	$scope.editionVisible = true;
 	$scope.tableNames = [];
@@ -56,9 +57,12 @@ angular.module('myapp')
 		$scope.$apply();
 	});
 
-	$scope.$on('name:updated', function(event, newName) {
-     $scope.selectedName = newName;
-		 $scope.$apply();
+	$scope.$on('element:select', function(event, element) {
+		$scope.selectedElement = element;
+		if(element != null) {
+			$scope.selectedName = element.attributes.name;
+		}
+		$scope.$apply();
 	 });
 
 	$scope.$on('columns:select', function(event, columns) {
@@ -72,7 +76,9 @@ angular.module('myapp')
 	});
 
 	 $scope.changeName = function(){
-		 LogicService.editName($scope.selectedName);
+		 if($scope.selectedName != null && $scope.selectedName != "") {
+			 LogicService.editName($scope.selectedName);
+		 }
 	 }
 
 	 $scope.deleteColumn = function(column, $index){
