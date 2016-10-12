@@ -1,4 +1,4 @@
-angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, LogicFactory){
+angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, LogicFactory, ConversorService){
 	var ls = {};
 
 	ls.model = {
@@ -13,7 +13,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		"name":''
 	};
 
-	ls.buildWorkspace = function(modelid, userId, callback) {
+	ls.buildWorkspace = function(modelid, userId, callback, conversionId) {
 		ls.graph = new joint.dia.Graph;
 		ls.paper = new joint.dia.Paper({
 			width: $('#content').width(),
@@ -23,7 +23,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		});
 
 		ls.applyResizePage();
-		ls.loadModel(modelid, userId, callback);
+		ls.loadModel(modelid, userId, callback, conversionId);
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
 		ls.applyGraphEvents();
@@ -124,14 +124,56 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		}
 	}
 
-	ls.loadModel = function(modelid, userId, callback) {
-		ModelAPI.getModel(modelid, userId).then(function(resp){
-			ls.model.name = resp.data[0].name;
-			ls.model.type = resp.data[0].type;
-			ls.model.id   = resp.data[0]._id;
-			ls.graph.fromJSON(JSON.parse(resp.data[0].model));
-			callback();
-		});
+	ls.loadModel = function(modelid, userId, callback, conversionId) {
+
+		if(modelid != null && modelid != "") {
+			ModelAPI.getModel(modelid, userId).then(function(resp){
+				ls.model.name = resp.data[0].name;
+				ls.model.type = resp.data[0].type;
+				ls.model.id   = resp.data[0]._id;
+				ls.graph.fromJSON(JSON.parse(resp.data[0].model));
+				callback();
+			});
+		}
+
+		if(conversionId != null){
+
+			ModelAPI.getModel(conversionId, userId).then(function(resp) {
+
+				var graph = new joint.dia.Graph;
+				var tables = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)));
+
+				for (var i = 0; i < tables.length; i++) {
+					var table = tables[i];
+					var newTable = LogicFactory.createTable();
+
+					newTable.attributes.position.x = (table.position.x);
+					newTable.attributes.position.y = (table.position.y);
+					newTable.set('name', table.name);
+
+					var columns = table.columns;
+
+					for (var j = 0; j < columns.length; j++) {
+						var obj = {
+							"name": columns[j].name,
+							"type": "Integer",
+							"PK": columns[j].PK,
+							"FK": false,
+							"tableOrigin": {
+								"idOrigin": "",
+								"idLink": ""
+								}
+						}
+						newTable.addAttribute(obj);
+					}
+
+					ls.graph.addCell(newTable);
+				}
+
+			});
+
+		}
+
 	}
 
 	ls.updateModel = function(){

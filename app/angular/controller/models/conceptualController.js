@@ -3,6 +3,7 @@ angular.module('myapp')
 				function($scope,
 								 $http,
 								 $window,
+								 $state,
 								 $rootScope,
 								 $stateParams,
 								 ConceptualFactory,
@@ -12,13 +13,6 @@ angular.module('myapp')
 							 	$timeout) {
 
 	var cs = ConceptualService;
-
-	// how to resize
-	// $(window).resize(function(){
-	// 	var canvas = $('#content');
-	// 	$scope.paper.setDimensions(canvas.width(), canvas.height());
-	// 	console.log("Resizing...");
-	// });
 
 	$scope.entitySelected = "NONE";
 	$scope.extensionSelected = "Selecione";
@@ -275,8 +269,23 @@ angular.module('myapp')
 		});
 	}
 
-	$scope.convertModel = function(){
-		ConversorService.toLogic($scope.graph);
+	$scope.convertModel = function() {
+
+		var model = {
+			"name": "convertido",
+			"user": $rootScope.loggeduser,
+			"type": "logic",
+			"model": '{"cells":[]}'
+		};
+
+		ModelAPI.saveModel(model).then(function(newModel){
+
+			ConversorService.toLogic($scope.graph);
+
+			$window.open($state.href('logic', {'modelid': newModel._id, 'conversionId': $scope.model.id}),  '_blank')
+
+		});
+
 	}
 
 	$scope.onSelectElement = function(cellView) {

@@ -25,7 +25,13 @@ angular.module('myapp')
 		type: "success"
 	}
 
-	self.closeAll = function(){
+	$scope.initView = function(){
+		$scope.showLoading(true);
+		console.log($stateParams);
+		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser, self.stopLoading, $stateParams.conversionId);
+	}
+
+	self.closeAllColumns = function(){
 		for (var i = 0; i < $scope.columns.length; i++) {
 			$scope.columns[i].expanded = false;
 		}
@@ -39,11 +45,6 @@ angular.module('myapp')
 
 	self.stopLoading = function () {
 		$scope.showLoading(false);
-	}
-
-	$scope.initView = function(){
-		$scope.showLoading(true);
-		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser, self.stopLoading);
 	}
 
 	$scope.saveModel = function() {
@@ -90,7 +91,7 @@ angular.module('myapp')
 		 console.log(column);
 		 $scope.editColumnModel = JSON.parse(JSON.stringify(column));
 
-		 self.closeAll();
+		 self.closeAllColumns();
 
 		 column.expanded = true;
 		 //LogicService.editColumn($index);
@@ -111,7 +112,7 @@ angular.module('myapp')
 
 		LogicService.editColumn($index, editedColumn);
 
-		self.closeAll();
+		self.closeAllColumns();
 	 }
 
 	 $scope.addColumn = function(column){
