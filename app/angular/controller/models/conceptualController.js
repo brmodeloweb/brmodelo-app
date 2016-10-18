@@ -279,11 +279,7 @@ angular.module('myapp')
 		};
 
 		ModelAPI.saveModel(model).then(function(newModel){
-
-			ConversorService.toLogic($scope.graph);
-
-			$window.open($state.href('logic', {'modelid': newModel._id, 'conversionId': $scope.model.id}),  '_blank')
-
+			$window.open($state.href('logic', {'modelid': newModel._id, 'conversionId': $scope.model.id}),  '_blank');
 		});
 
 	}

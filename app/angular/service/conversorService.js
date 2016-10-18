@@ -1,4 +1,4 @@
-angular.module('myapp').factory('ConversorService', function(ConceptualService){
+angular.module('myapp').factory('ConversorService', function(ConceptualService, $uibModal){
 
 		var modelGraph;
 		var cs = ConceptualService;
@@ -25,6 +25,51 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService){
 			return tables;
 		};
 
+		buildAttributes = function(attribute, table, parents) {
+			if(attribute.attributes.composed) {
+				parents.set(attribute.id, attribute);
+				var filhos = modelGraph.getNeighbors(attribute);
+				for (filho of filhos){
+					if(cs.isAttribute(filho) && parents.get(filho.id) == null) {
+						buildAttributes(filho, table, parents);
+					}
+				}
+			} else {
+				var cardinality = attribute.attributes.cardinality;
+
+					if(cardinality == "(0, n)" || cardinality == "(1, n)") {
+						var modalInstance = $uibModal.open({
+							animation: true,
+							templateUrl: 'angular/view/modal/conversions/attributeConversionModal.html',
+							controller:  'AttributeModalController'
+						});
+
+						modalInstance.result.then(function (model) {
+							console.log("Result", model);
+							for (var i = 0; i < 2; i++) {
+								var name = attribute.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
+								console.log(name);
+								var pi = {
+									"name": name + i,
+									"PK": false
+								}
+								console.log(pi);
+								table.columns.push(pi);
+								console.log(table);
+							}
+						});
+
+					} else {
+					var column = {
+						"name": attribute.attributes.attrs.text.text,
+						"PK": false
+					}
+					table.columns.push(column);
+				}
+
+			}
+		}
+
 		buildTable = function(element, neighbors) {
 
 			var table = {
@@ -44,11 +89,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService){
 			for (neighbor of neighbors) {
 
 				if(cs.isAttribute(neighbor)){
-					var column = {
-						"name": neighbor.attributes.attrs.text.text,
-						"PK": false
-					}
-					table.columns.push(column);
+					buildAttributes(neighbor, table, new Map());
 				}
 
 				if(cs.isKey(neighbor)){
@@ -62,7 +103,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService){
 				if(cs.isRelationship(neighbor)){
 					table.connectedTo.push(getConnectedTo(element, neighbor));
 				}
-				
+
 			}
 
 			return table;
