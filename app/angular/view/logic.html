@@ -39,9 +39,6 @@
 	</header>
 
 	<section class="mainContent">
-		<header class="contentHeader vhide">
-			<h2>Modelo lógico de ???? </h2>
-		</header>
 
 		<aside class="feedback">
 			<div class="message {{feedback.type}} sd" data-ng-class="{'hide': !feedback.showing}">
@@ -50,6 +47,7 @@
 		</aside><!-- End #feedback -->
 
 		<div class="logicModel">
+
 			<section id="stencil-holder" class="componentsList">
 				<header class="vhide">
 					<h2>Models list</h2>
@@ -74,11 +72,9 @@
 								ng-change="changeName()"
 							/>
 						</div><!-- End .field -->
-
 						<div class="columnsList">
 							<label class="fieldLabel">Colunas</label>
 							<i class="fa fa-plus-circle addColumn" aria-hidden="true" ng-click="showAddColumn(true)"></i>
-							<div>
 
 								<div class="columnDetails columnItem" ng-show="addColumnVisible">
 
@@ -109,51 +105,97 @@
 
 								</div><!-- End .columnDetails -->
 
-								<div
-									class="columnItem"
-									ng-repeat="column in columns track by $index"
-								>
+								<div class="columnItem" ng-repeat="column in columns track by $index">
 									<label draggable="true" ng-click="editionColumnMode(column, $index)" ng-show="!column.expanded"> {{column.name}}</label>
 									<i
 										class="fa fa-trash"
 										aria-hidden="true"
 										ng-click="deleteColumn(column, $index); $event.stopPropagation();"
 									></i>
-
 									<div class="columnDetails" ng-show="column.expanded">
-
 										<label class="titleLabel">NOME</label>
 										<input class="fieldInput" type="text" ng-model="editColumnModel.name"/>
-
 										<label class="titleLabel">TIPO</label>
 										<br-select-dropdown options="['DATE', 'FLOAT', 'VARCHAR(n)', 'CHAR(n)', 'INT']" selected="{'value': column.type }" on-select-action="selectEditType"> </br-select-dropdown>
-
 										<div class="check">
 											<input type="checkbox" id="c1" ng-model="editColumnModel.PK"/>
 											<label for="c1">PK</label>
 										</div>
-
 										<div class="check">
 											<input type="checkbox" id="c2" ng-model="editColumnModel.FK"/>
 											<label for="c2">FK</label>
 										</div>
-
 										<div class="dropdownElement">
 											<br-select-dropdown options="tableNames" selected="{'value': 'ORIGEM'}" on-select-action="selectAddTableOrigin" ng-disabled="true"> </br-select-dropdown>
 										</div>
-
 										<div class="actions">
 											<i class="fa fa-check-circle add" aria-hidden="true" ng-click="editColumn(column, editColumnModel, $index); expanded=!expanded;"></i>
 											<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="column.expanded=!column.expanded"></i>
 										</div><!-- End . -->
-
 									</div><!-- End .columnDetails -->
-
 								</div><!-- End .columnItem -->
-							</div>
-						</div><!-- End .columnsList -->
 
-					<div><!-- End .fields -->
+						</div><!-- End .columnsList -->
+					</div><!-- End .fields -->
+
+					<div class="fields" ng-show="selectedLink != null">
+
+						<div class="field">
+								<label class="fieldLabel">Cardinalidade</label>
+								<div
+									class="dropdown-tmp dropdown-tmp-btn"
+									broption=""
+									tabindex="0"
+								>
+									<div class="dropdown-tmp-trigger">
+										<button class="btn ng-binding">{{selectedLink.a.card}}</button>
+									</div><!--/dropdown-tmp-trigger-->
+									<ul class="dropdown-tmp-list" style="min-width: 140px;">
+										<li class="dropdown-tmp-item" ng-click="updateCardA('(0, 1)')">
+											<span>(0, 1)</span>
+										</li>
+										<li class="dropdown-tmp-item" ng-click="updateCardA('(0, n)')">
+											<span>(0, n)</span>
+										</li>
+										<li class="dropdown-tmp-item" ng-click="updateCardA('(1, 1)')">
+											<span>(1, 1)</span>
+										</li>
+										<li class="dropdown-tmp-item" ng-click="updateCardA('(1, n)')">
+											<span>(1, n)</span>
+										</li>
+									</ul><!--/dropdown-tmp-list-->
+								</div><!-- End .field -->
+						</div><!-- End .field -->
+
+							<label class="fieldLabel">Cardinalidade</label>
+							<div
+								class="dropdown-tmp dropdown-tmp-btn"
+								broption=""
+								tabindex="0"
+							>
+								<div class="dropdown-tmp-trigger">
+									<button class="btn ng-binding">{{selectedLink.b.card}}</button>
+								</div><!--/dropdown-tmp-trigger-->
+								<ul class="dropdown-tmp-list" style="min-width: 140px;">
+									<li class="dropdown-tmp-item" ng-click="updateCardB('(0, 1)')">
+										<span>(0, 1)</span>
+									</li>
+									<li class="dropdown-tmp-item" ng-click="updateCardB('(0, n)')">
+										<span>(0, n)</span>
+									</li>
+									<li class="dropdown-tmp-item" ng-click="updateCardB('(1, 1)')">
+										<span>(1, 1)</span>
+									</li>
+									<li class="dropdown-tmp-item" ng-click="updateCardB('(1, n)')">
+										<span>(1, n)</span>
+									</li>
+								</ul><!--/dropdown-tmp-list-->
+							</div><!-- End .field -->
+						</div><!-- End .field -->
+
+				</div> <!-- End .fields -->
+
+
 				</div><!-- End .propertiesContent -->
 			</aside><!-- End .modelProperties -->
 		</div>	<!-- End .logicModel -->

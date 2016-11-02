@@ -16,6 +16,8 @@ angular.module('myapp')
 	$scope.tableNames = [];
 	self.mapTables = {};
 
+	$scope.selectedLink = null;
+
 	$scope.addColumnVisible = false;
 	$scope.editColumnVisible = false;
 
@@ -59,12 +61,13 @@ angular.module('myapp')
 	});
 
 	$scope.$on('element:select', function(event, element) {
+		$scope.selectedLink = null;
 		$scope.selectedElement = element;
 		if(element != null) {
 			$scope.selectedName = element.attributes.name;
 		}
 		$scope.$apply();
-	 });
+	});
 
 	$scope.$on('columns:select', function(event, columns) {
 		$scope.addColumnVisible = false;
@@ -76,26 +79,40 @@ angular.module('myapp')
 		$scope.columns = columns;
 	});
 
-	 $scope.changeName = function(){
-		 if($scope.selectedName != null && $scope.selectedName != "") {
-			 LogicService.editName($scope.selectedName);
-		 }
+	$scope.$on('link:select', function(event, selectedLink) {
+		$scope.selectedElement = null;
+		$scope.selectedLink = selectedLink;
+		$scope.$apply();
+	});
+
+	$scope.updateCardA = function(card) {
+		LogicService.editCardinalityA(card);
+	}
+
+	$scope.updateCardB = function(card) {
+		LogicService.editCardinalityB(card);
+	}
+
+	$scope.changeName = function(){
+	 if($scope.selectedName != null && $scope.selectedName != "") {
+		 LogicService.editName($scope.selectedName);
 	 }
+	}
 
-	 $scope.deleteColumn = function(column, $index){
-		 LogicService.deleteColumn($index);
-	 }
+	$scope.deleteColumn = function(column, $index){
+	 LogicService.deleteColumn($index);
+	}
 
-	 $scope.editionColumnMode = function(column) {
-		 console.log("Edition: ");
-		 console.log(column);
-		 $scope.editColumnModel = JSON.parse(JSON.stringify(column));
+	$scope.editionColumnMode = function(column) {
+	 console.log("Edition: ");
+	 console.log(column);
+	 $scope.editColumnModel = JSON.parse(JSON.stringify(column));
 
-		 self.closeAllColumns();
+	 self.closeAllColumns();
 
-		 column.expanded = true;
-		 //LogicService.editColumn($index);
-	 }
+	 column.expanded = true;
+	 //LogicService.editColumn($index);
+	}
 
 	 $scope.editColumn = function(oldColumn, editedColumn, $index) {
 		if(editedColumn.name == ""){

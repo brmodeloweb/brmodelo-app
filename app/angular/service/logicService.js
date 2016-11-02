@@ -13,6 +13,8 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		"name":''
 	};
 
+	ls.selectedLink = {};
+
 	ls.buildWorkspace = function(modelid, userId, callback, conversionId) {
 		ls.graph = new joint.dia.Graph;
 		ls.paper = new joint.dia.Paper({
@@ -22,12 +24,49 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			model: ls.graph
 		});
 
+		ls.paper.on('link:options', function (link, evt, x, y) {
+
+			var source = ls.graph.getCell(link.model.get('source').id);
+			var target = ls.graph.getCell(link.model.get('target').id);
+
+			var obj = {
+				'a' : {
+					'source': source.attributes.name,
+					'target': target.attributes.name,
+					'card': link.model.attributes.labels[0].attrs.text.text
+				},
+				'b' : {
+					'source': target.attributes.name,
+					'target': source.attributes.name,
+					'card': link.model.attributes.labels[1].attrs.text.text
+				}
+			}
+
+			ls.selectedLink = link;
+			$rootScope.$broadcast('link:select', obj);
+
+		});
+
 		ls.applyResizePage();
 		ls.loadModel(modelid, userId, callback, conversionId);
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
 		ls.applyGraphEvents();
 		ls.applyDeleteLinkAction();
+	}
+
+	ls.editCardinalityA = function(card){
+		ls.selectedLink.model.label(0,
+			{ position: 0.2,
+				attrs: { text: { text: card, 'font-weight': 'normal', 'font-size': 12} }
+			});
+	}
+
+	ls.editCardinalityB = function(card){
+		ls.selectedLink.model.label(1,
+			{ position: 0.8,
+				attrs: { text: { text: card, 'font-weight': 'normal', 'font-size': 12} }
+			});
 	}
 
 	ls.applyDeleteLinkAction = function(){
@@ -185,6 +224,16 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 
 	ls.onLink = function(link){
 
+		link.label(0,
+			{ position: 0.2,
+				attrs: { text: { text: "(1, 1)", 'font-weight': 'normal', 'font-size': 12} }
+			});
+
+		link.label(1,
+			{ position: 0.8,
+				attrs: { text: { text: "(0, n)", 'font-weight': 'normal', 'font-size': 12} }
+			});
+
 		var source = ls.graph.getCell(link.get('source').id);
 		var target = ls.graph.getCell(link.get('target').id);
 
@@ -208,6 +257,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	ls.clearSelectedElement = function(){
 		ls.selectedElement = {};
 		$rootScope.$broadcast('element:select', null);
+		$rootScope.$broadcast('link:select', null);
 		$rootScope.$broadcast('columns:select', []);
 		$rootScope.$broadcast('clean:logic:selection');
 	}
@@ -246,7 +296,6 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	}
 
 	ls.editColumn = function(index, editedColumn) {
-		console.log(editedColumn);
 
 			var name = editedColumn.name;
 
@@ -269,6 +318,15 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 					id: ls.selectedElement.model.id
 				}
 			});
+			myLink.label(0,
+				{ position: 0.2,
+					attrs: { text: { text: "(1, 1)", 'font-weight': 'normal', 'font-size': 12} }
+				});
+
+			myLink.label(1,
+				{ position: 0.8,
+					attrs: { text: { text: "(0, n)", 'font-weight': 'normal', 'font-size': 12} }
+				});
 			myLink.addTo(ls.graph);
 		}
 		column.tableOrigin.idLink = myLink.id;
