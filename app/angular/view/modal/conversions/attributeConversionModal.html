@@ -6,20 +6,22 @@
 
 	<form class="form-horizontal" role="form" name="modelForm">
 		<div class="form-group">
-      <p class="modal-message"> O que deseja fazer com atributo multivalorado <strong>"Rua"</strong> ? </p>
+      <p class="modal-message"> O que deseja fazer com atributo multivalorado <strong>"{{params.attribute}}"</strong> ? </p>
 			<!-- <label for="name" class="col-sm-3 control-label">Título</label> -->
 		</div>
 
     <div class="radio">
       <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-        Incluir X atributos
+        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="userOption" value="add_attributes" class="withinput" checked>
+        Incluir n=<input type="number" class="fieldInput" ng-model="qt"/> atributos
       </label>
+
+
     </div>
     <div class="radio">
       <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-        Criar Tabela <strong>"Rua"</strong>?
+        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="userOption" value="new_table">
+        Criar nova tabela <strong>{{params.attribute}}</strong>?
       </label>
     </div>
 

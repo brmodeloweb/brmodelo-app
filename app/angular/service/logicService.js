@@ -175,44 +175,47 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			});
 		}
 
-		if(conversionId != null){
+		if(conversionId != null) {
 
 			ModelAPI.getModel(conversionId, userId).then(function(resp) {
 
 				var graph = new joint.dia.Graph;
-				var tables = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)));
+				var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)));
 
-				for (var i = 0; i < tables.length; i++) {
-					var table = tables[i];
-					var newTable = LogicFactory.createTable();
+				promise.then(function(tables){
 
-					newTable.attributes.position.x = (table.position.x);
-					newTable.attributes.position.y = (table.position.y);
-					newTable.set('name', table.name);
+					for (var i = 0; i < tables.length; i++) {
+						var table = tables[i];
+						var newTable = LogicFactory.createTable();
 
-					var columns = table.columns;
+						newTable.attributes.position.x = (table.position.x);
+						newTable.attributes.position.y = (table.position.y);
+						newTable.set('name', table.name);
 
-					for (var j = 0; j < columns.length; j++) {
-						var obj = {
-							"name": columns[j].name,
-							"type": "Integer",
-							"PK": columns[j].PK,
-							"FK": false,
-							"tableOrigin": {
-								"idOrigin": "",
-								"idLink": ""
-								}
+						var columns = table.columns;
+
+						for (var j = 0; j < columns.length; j++) {
+							var obj = {
+								"name": columns[j].name,
+								"type": "Integer",
+								"PK": columns[j].PK,
+								"FK": false,
+								"tableOrigin": {
+									"idOrigin": "",
+									"idLink": ""
+									}
+							}
+							newTable.addAttribute(obj);
 						}
-						newTable.addAttribute(obj);
+
+						ls.graph.addCell(newTable);
 					}
 
-					ls.graph.addCell(newTable);
-				}
+				});
 
 			});
 
 		}
-
 	}
 
 	ls.updateModel = function(){
@@ -328,8 +331,8 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 					attrs: { text: { text: "(0, n)", 'font-weight': 'normal', 'font-size': 12} }
 				});
 			myLink.addTo(ls.graph);
+			column.tableOrigin.idLink = myLink.id;
 		}
-		column.tableOrigin.idLink = myLink.id;
 		ls.selectedElement.model.addAttribute(column);
 	}
 

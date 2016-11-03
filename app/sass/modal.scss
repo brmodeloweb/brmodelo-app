@@ -115,3 +115,29 @@
 
 .modal-input.error:focus {box-shadow: 1px 1px 1px rgba(#fff, 1) inset;}
 .modal-input.error:placeholder {color: rgba(red, 0.6);}
+
+.radio > label {
+	margin-bottom: 5px;
+	font-size: 15px;
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 300;
+}
+
+.radio > label > input[type="radio"] {
+	font-size: 14px;
+	margin-top: 0;
+}
+
+.radio > label > input[type="radio"].withinput {
+	margin-top: 3px;
+}
+
+.radio > label > input[type="number"] {
+	width: 40px;
+	height: 22px;
+	display: inline;
+	padding: 3px;
+	font-size: 15px;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
