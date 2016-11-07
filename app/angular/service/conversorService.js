@@ -6,6 +6,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		var conversion = {};
 
 		var entityTableMap = new Map();
+		var tableEntityMap = new Map();
 
 		var tables = [];
 
@@ -18,8 +19,6 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			ls = logicService;
 
 			return $q(function(resolve, reject) {
-
-				console.log("TOLOGIC");
 
 				tables = [];
 
@@ -56,7 +55,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							var promise = buildTable(element, modelGraph.getNeighbors(element));
 							promise.then(function(editedTable) {
 								var newTable = ls.insertTable(editedTable);
-								entityTableMap.set(element.id, newTable.id);
+								entityTableMap.set(element.id, newTable);
+								tableEntityMap.set(newTable.id, element.id);
 								iterate();
 							});
 						}
@@ -72,10 +72,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 				(function iterate() {
 
-					console.log("iterate");
-
 					if(relations.length == 0){
-						console.log("resolve");
+
 						resolve();
 
 					} else {
@@ -101,7 +99,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 								ls.selectedElement = ls.paper.findViewByModel(newTable);
 								var entityNeighbors = getEntityNeighbors(relation);
 								for (entity of entityNeighbors) {
-									ls.addColumn(createFKColumn(entity));
+									ls.addColumn(createFKColumn(entity.attributes));
 								}
 
 								iterate();
@@ -118,7 +116,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		}
 
-		buildAttributes = function(table, neighbors) {
+		buildAttributes = function(table, neighbors, entityReference) {
 
 			var attributes = [];
 			var parents = new Map();
@@ -170,20 +168,27 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 											modalInstance.result.then(function (resp) {
 												if(resp=="new_table"){
 
-													createTableFromAttribute(tables, attribute);
+													createTableFromAttribute(tables, attribute, entityReference);
 
 												} else {
+
+													var newTable = entityTableMap.get(entityReference.id);
+
+													ls.selectedElement = ls.paper.findViewByModel(newTable);;
+
 													for (var i = 0; i < resp; i++) {
 														var pi = {
 															"name": attname + i,
-															"PK": attribute.attributes.type === 'erd.Key'
+															"PK": attribute.attributes.type === 'erd.Key',
+															"FK": false
 														}
-														table.columns.push(pi);
+														ls.addColumn(pi);
 													}
 												}
 
-												iterate();
 											});
+
+											iterate();
 
 										} else {
 											var column = {
@@ -198,6 +203,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 						}
 
+						console.log(attributes);
 						if(attributes.length == 0) {
 							resolve(table);
 						}
@@ -215,28 +221,36 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var y = element.position.y;
 				var table = createTableObject(name, x, y);
 
-				buildAttributes(table, neighbors).then(function(resp){
+				buildAttributes(table, neighbors, element).then(function(resp){
 					resolve(resp);
 				});
 
 			});
 		}
 
-		createTableFromAttribute = function(tables, reference) {
+		createTableFromAttribute = function(tables, reference, entityReference) {
 			var name = reference.attributes.attrs.text.text;
+
+			name = name.replace(/ *\([^)]*\) */g, "");
+
 			var x = reference.attributes.position.x;
 			var y = reference.attributes.position.y -100;
 
 			var table = createTableObject(name, x, y);
 
 			var column = {
-				"name": name,
-				"PK": true
+				"name": "nome",
+				"PK": true,
+				"FK": false,
+				"type": "VARCHAR"
 			}
 
 			table.columns.push(column);
-		//	tables.push(table);
-			ls.insertTable(table);
+			var newTable = ls.insertTable(table);
+
+			ls.selectedElement = ls.paper.findViewByModel(newTable);
+
+			ls.addColumn(createFKColumn(entityReference));
 		}
 
 		createTableObject = function(name, x, y){
@@ -288,8 +302,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		}
 
 		createFKColumn = function(entity) {
+			console.log(entity);
 			var pks = getPKs(entity);
-			var attName = "id" + entity.attributes.attrs.text.text;
+			var attName = "id" + entity.attrs.text.text;
 			if(pks.length > 0) {
 				attName = pks[0].attributes.attrs.text.text;
 			}
@@ -299,7 +314,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				"PK": true,
 				"FK": true,
 				"tableOrigin": {
-					"idOrigin": entityTableMap.get(entity.id),
+					"idOrigin": entityTableMap.get(entity.id).id,
 					"idLink": ""
 					}
 			}
