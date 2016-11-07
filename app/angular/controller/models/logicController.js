@@ -29,7 +29,6 @@ angular.module('myapp')
 
 	$scope.initView = function(){
 		$scope.showLoading(true);
-		console.log($stateParams);
 		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser, self.stopLoading, $stateParams.conversionId);
 	}
 
@@ -104,8 +103,6 @@ angular.module('myapp')
 	}
 
 	$scope.editionColumnMode = function(column) {
-	 console.log("Edition: ");
-	 console.log(column);
 	 $scope.editColumnModel = JSON.parse(JSON.stringify(column));
 
 	 self.closeAllColumns();

@@ -7,18 +7,115 @@
 
 <div data-ng-controller="sqlController as ctrl" class="sqlpage">
 
-<h1 class="sqlTitle"> Title </h1>
+<h1 class="sqlTitle"> SQL Museu </h1>
 
 <page size="A4">
 	<div class="pageContent">
-		CREATE TABLE Persons <br>
-		( <br>
-			PersonID int, <br>
-			LastName varchar(255), <br>
-			FirstName varchar(255), <br>
-			Address varchar(255), <br>
-			City varchar(255) <br>
-		);<br>
+
+	<b>CREATE TABLE</b> Restaurador  <br>
+	(  <br>
+		idRestaurado INTEGER <b>PRIMARY KEY</b>,  <br>
+		Salario VARCHAR(50),  <br>
+		Nome VARCHAR(50),  <br>
+		CPF VARCHAR(50),  <br>
+	) <br>
+	<br>
+
+	<b>CREATE TABLE</b> Materia_Prima  <br>
+	( <br>
+		idMateria_Prima INTEGER <b>PRIMARY KEY</b>, <br>
+		Quantidade INTEGER, <br>
+		Nome VARCHAR(50) <br>
+	) <br>
+	<br>
+
+	<b>CREATE TABLE</b> Fornecedores <br>
+	( <br>
+		CNPJ INTEGER <b>PRIMARY KEY</b>, <br>
+		Nome VARCHAR(50), <br>
+		Rua VARCHAR(50), <br>
+		Complemento VARCHAR(50), <br>
+		Numero INTEGER, <br>
+		Cidade VARCHAR(50), <br>
+		UF VARCHAR(2), <br>
+		CEP VARCHAR(50) <br>
+	) <br>
+	<br>
+
+	<b>CREATE TABLE</b> Obra <br>
+	( <br>
+	Codigo INTEGER <b>PRIMARY KEY</b>, <br>
+	Ano Texto(1), <br>
+	Titulo Texto(1), <br>
+	Descricao Texto(1), <br>
+	Codigo Texto(1), <br>
+	Numero Texto(1), <br>
+	Data_Inicio Texto(1), <br>
+	Custo Texto(1), <br>
+	Data_Termino Texto(1), <br>
+	Descricao Texto(1), <br>
+	FOREIGN KEY(Numero) REFERENCES Salao (Numero) <br>
+	) <br>
+
+CREATE TABLE Pintura (
+area Texto(1),
+tipo Texto(1),
+Codigo Texto(1),
+FOREIGN KEY(Codigo) REFERENCES Obra+Manutencao (Codigo)
+)
+
+CREATE TABLE Escultura (
+altura Texto(1),
+peso Texto(1),
+Codigo Texto(1),
+FOREIGN KEY(Codigo) REFERENCES Obra+Manutencao (Codigo)
+)
+
+CREATE TABLE Metal (
+tipo_metal Texto(1),
+tempo_vida_estimado Texto(1)
+)
+
+CREATE TABLE Autor (
+Codigo Texto(1) PRIMARY KEY,
+Nome Texto(1),
+sexo Texto(1),
+ID Texto(1)
+)
+
+CREATE TABLE Pais (
+Descricao Texto(1),
+ID Texto(1) PRIMARY KEY
+)
+
+CREATE TABLE Pedra (
+tipo_pedra Texto(1),
+ID Texto(1),
+FOREIGN KEY(ID) REFERENCES Pais (ID)
+)
+
+CREATE TABLE Dias_Atendimento (
+Dias_Atendimento Texto(1)
+)
+
+CREATE TABLE Uso (
+Quantidade Texto(1),
+Codigo Texto(1),
+FOREIGN KEY(Codigo) REFERENCES Materia_Prima (Codigo)
+)
+
+CREATE TABLE fornecimento (
+Data Texto(1) PRIMARY KEY,
+quantidade Texto(1),
+CNPJ Texto(1),
+Codigo Texto(1),
+FOREIGN KEY(CNPJ) REFERENCES Fornecedores (CNPJ),
+FOREIGN KEY(Codigo) REFERENCES Materia_Prima (Codigo)
+)
+
+ALTER TABLE Restaurador ADD FOREIGN KEY(Codigo) REFERENCES Obra+Manutencao (Codigo)
+ALTER TABLE Obra+Manutencao ADD FOREIGN KEY(Codigo) REFERENCES Autor (Codigo)
+ALTER TABLE Autor ADD FOREIGN KEY(ID) REFERENCES Pais (ID)
 	</div>
 </page>
 

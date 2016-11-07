@@ -175,47 +175,49 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			});
 		}
 
-		if(conversionId != null) {
+		if(conversionId != null && modelid != "") {
 
 			ModelAPI.getModel(conversionId, userId).then(function(resp) {
 
 				var graph = new joint.dia.Graph;
-				var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)));
+				var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)), ls);
 
 				promise.then(function(tables){
-
 					for (var i = 0; i < tables.length; i++) {
-						var table = tables[i];
-						var newTable = LogicFactory.createTable();
-
-						newTable.attributes.position.x = (table.position.x);
-						newTable.attributes.position.y = (table.position.y);
-						newTable.set('name', table.name);
-
-						var columns = table.columns;
-
-						for (var j = 0; j < columns.length; j++) {
-							var obj = {
-								"name": columns[j].name,
-								"type": "Integer",
-								"PK": columns[j].PK,
-								"FK": false,
-								"tableOrigin": {
-									"idOrigin": "",
-									"idLink": ""
-									}
-							}
-							newTable.addAttribute(obj);
-						}
-
-						ls.graph.addCell(newTable);
+					//	var table = ls.insertTable(tables[i]);
 					}
-
 				});
 
 			});
 
 		}
+	}
+
+	ls.insertTable = function(table) {
+		var newTable = LogicFactory.createTable();
+
+		newTable.attributes.position.x = (table.position.x);
+		newTable.attributes.position.y = (table.position.y);
+		newTable.set('name', table.name);
+
+		var columns = table.columns;
+
+		for (var j = 0; j < columns.length; j++) {
+			var obj = {
+				"name": columns[j].name,
+				"type": "Integer",
+				"PK": columns[j].PK,
+				"FK": false,
+				"tableOrigin": {
+					"idOrigin": "",
+					"idLink": ""
+					}
+			}
+			newTable.addAttribute(obj);
+		}
+		ls.graph.addCell(newTable);
+
+		return newTable;
 	}
 
 	ls.updateModel = function(){
