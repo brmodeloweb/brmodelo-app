@@ -84,61 +84,26 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 						var relationType = getRelationType(links);
 
-						if(relationType.type == "nn"){
-
-							createTableFromRelation(relation).then(function(){
+						switch (relationType.type) {
+							case "nn":
+								createTableFromRelation(relation).then(function(){
+									iterate();
+								});
+								break;
+							case "1n" || "n1":
+								treatN1case(relation, links).then(function(){
+									iterate();
+								});
+								break;
+							case "11":
+								treat11case(relation, links).then(function(){
+									iterate();
+								});
+								break;
+							default:
 								iterate();
-							});
-
-						} else {
-
-							if(relationType.type == "1n" || relationType.type == "n1"){
-
-								if(isN1Optional(links)) {
-
-									var modalInstance = $uibModal.open({
-										animation: true,
-										templateUrl: 'angular/view/modal/conversions/1nConversionModal.html',
-										controller:  'AttributeModalController',
-										resolve: {
-											params: function () {
-												return {'relationName': relation.attrs.text.text,
-																'relationType': buildRelationDescriotion(links)
-															 	};
-											}
-										}
-									});
-									modalInstance.result.then(function (resp) {
-										if(resp=="new_table"){
-
-											createTableFromRelation(relation).then(function(){
-												iterate();
-											});
-
-										} else {
-
-											createColumnFromRelation(relation, links).then(function(){
-												iterate();
-											});
-
-										}
-
-									});
-
-								} else {
-
-									createColumnFromRelation(relation, links).then(function(){
-										iterate();
-									});
-
-								}
-
-							} else {
-
-								iterate();
-
-							}
 						}
+
 					}
 
 				})();
@@ -320,6 +285,10 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return false;
 		}
 
+		is01Optional = function(links){
+			return links[0].attributes.labels[0].attrs.text.text == '(0, 1)' && links[1].attributes.labels[0].attrs.text.text == '(0, 1)';
+		}
+
 		buildRelationDescriotion = function(links){
 			return links[0].attributes.labels[0].attrs.text.text + " < - > " + links[1].attributes.labels[0].attrs.text.text;
 		}
@@ -427,6 +396,70 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var table2 = getTableType_2(links, relation);
 				connectTables(table1, table2);
 				resolve();
+			});
+		}
+
+		treatN1case = function(relation, links){
+			return $q(function(resolve){
+				if(isN1Optional(links)) {
+					var modalInstance = $uibModal.open({
+						animation: true,
+						templateUrl: 'angular/view/modal/conversions/1nConversionModal.html',
+						controller:  'AttributeModalController',
+						resolve: {
+							params: function () {
+								return {'relationName': relation.attrs.text.text,
+												'relationType': buildRelationDescriotion(links)
+												};
+							}
+						}
+					});
+					modalInstance.result.then(function (resp) {
+						if(resp=="new_table"){
+							createTableFromRelation(relation).then(function(){
+								resolve();
+							});
+						} else {
+							createColumnFromRelation(relation, links).then(function(){
+								resolve();
+							});
+						}
+					});
+				} else {
+					createColumnFromRelation(relation, links).then(function(){
+						resolve();
+					});
+				}
+			});
+		}
+
+		treat11case = function(relation, links){
+			return $q(function(resolve){
+				if(is01Optional(links)) {
+					var modalInstance = $uibModal.open({
+						animation: true,
+						templateUrl: 'angular/view/modal/conversions/1nConversionModal.html',
+						controller:  'AttributeModalController',
+						resolve: {
+							params: function () {
+								return {'relationName': relation.attrs.text.text,
+												'relationType': buildRelationDescriotion(links)
+												};
+							}
+						}
+					});
+					modalInstance.result.then(function (resp) {
+						if(resp=="new_table"){
+							createTableFromRelation(relation).then(function(){
+								resolve();
+							});
+						} else {
+							createColumnFromRelation(relation, links).then(function(){
+								resolve();
+							});
+						}
+					});
+				}
 			});
 		}
 
