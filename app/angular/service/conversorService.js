@@ -86,29 +86,37 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 						var relationType = getRelationType(links);
 
-						switch (relationType.type) {
-							case "nn":
-								createTableFromRelation(relation).then(function(){
-									iterate();
-								});
-								break;
-							case "1n":
-								treatN1case(relation, links).then(function(){
-									iterate();
-								});
-								break;
-							case "n1":
-								treatN1case(relation, links).then(function(){
-									iterate();
-								});
-								break;
-							case "11":
-								treat11case(relation, links).then(function(){
-									iterate();
-								});
-								break;
-							default:
+						if(relationType.quantity > 2) {
+
+							createTableFromRelation(relation).then(function(){
 								iterate();
+							});
+							
+						} else {
+							switch (relationType.type) {
+								case "nn":
+									createTableFromRelation(relation).then(function(){
+										iterate();
+									});
+									break;
+								case "1n":
+									treatN1case(relation, links).then(function(){
+										iterate();
+									});
+									break;
+								case "n1":
+									treatN1case(relation, links).then(function(){
+										iterate();
+									});
+									break;
+								case "11":
+									treat11case(relation, links).then(function(){
+										iterate();
+									});
+									break;
+								default:
+									iterate();
+							}
 						}
 
 					}
