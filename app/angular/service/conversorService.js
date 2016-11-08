@@ -6,7 +6,6 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		var conversion = {};
 
 		var entityTableMap = new Map();
-		var tableEntityMap = new Map();
 
 		var tables = [];
 
@@ -27,10 +26,12 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 				var cell_tables = [];
 				var cell_relations = [];
+				var cell_associatives = [];
 
 				var all = modelGraph.toJSON().cells;
 
-				for (element of all) {
+				for (element of all){
+
 					if(element.type === 'erd.Entity') {
 						cell_tables.push(element);
 					}
@@ -38,37 +39,98 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					if(element.type === 'erd.Relationship') {
 						cell_relations.push(element);
 					}
+
+					if(element.type === 'erd.BlockAssociative'){
+						cell_associatives.push(element);
+					}
+
 				}
 
-				(function iterate() {
+				buildTables(cell_tables).then(function(){
 
-						if(cell_tables.length == 0){
-							var relation_promise = buildRelations(cell_relations);
-							relation_promise.then(function() {
-								resolve(tables);
-							});
-						}
+					buildRelations(cell_relations).then(function() {
 
-						var element = cell_tables.shift();
+						buildAssociatives(cell_associatives).then(function() {
 
-						if(element != null) {
-							var promise = buildTable(element, modelGraph.getNeighbors(element));
-							promise.then(function(editedTable) {
-								var newTable = ls.insertTable(editedTable);
-								entityTableMap.set(element.id, newTable);
-								tableEntityMap.set(newTable.id, element.id);
-								iterate();
-							});
-						}
+							resolve(tables);
 
-					})();
+						});
+
+					});
+
+				});
+
 
 				});
 		};
 
-		buildRelations = function(relations) {
+		buildAssociatives = function(associatives) {
+			return $q(function(resolve){
 
-			console.log("relations: ", relations);
+				(function iterate(){
+					if(associatives.length == 0){
+						resolve();
+					} else {
+							var element = associatives.shift();
+
+							var new_attributes = [];
+							new_attributes.push.apply(new_attributes, getPKs(element));
+							new_attributes.push.apply(new_attributes, getAttributes(element));
+
+							var tableRelation = entityTableMap.get(element.embeds[0]);
+
+							if(tableRelation != null) {
+
+								for (attribute of new_attributes) {
+									var pi = {
+										"name": attribute.attributes.attrs.text.text,
+										"PK": false,
+										"FK": false
+									}
+									tableRelation.addAttribute(pi);
+								}
+
+								var relationTables = getEntityOrRelationNeighbors(element);
+
+								for (toConnect of relationTables) {
+									connectTables(tableRelation, entityTableMap.get(toConnect.id));
+								}
+
+								iterate();
+
+							} else {
+								iterate();
+							}
+
+					}
+				})();
+
+			});
+		}
+
+		buildTables = function(tables) {
+			return $q(function(resolve){
+
+				(function iterate(){
+					if(tables.length == 0){
+						resolve();
+					} else {
+							var element = tables.shift();
+							if(element != null) {
+								var promise = buildTable(element, modelGraph.getNeighbors(element));
+								promise.then(function(editedTable) {
+									var newTable = ls.insertTable(editedTable);
+									entityTableMap.set(element.id, newTable);
+									iterate();
+								});
+							}
+					}
+				})();
+
+			});
+		}
+
+		buildRelations = function(relations) {
 
 			return $q(function(resolve){
 
@@ -91,7 +153,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							createTableFromRelation(relation).then(function(){
 								iterate();
 							});
-							
+
 						} else {
 							switch (relationType.type) {
 								case "nn":
@@ -338,6 +400,16 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return entities;
 		}
 
+		getEntityOrRelationNeighbors = function(relation){
+			var entities = [];
+			for (element of modelGraph.getNeighbors(relation)) {
+				if(element.attributes.type === 'erd.Entity' || element.attributes.type === 'erd.Relationship') {
+					entities.push(element);
+				}
+			}
+			return entities;
+		}
+
 		getTableType_1 = function(links, relation) {
 			var link = links[0];
 			var card = link.attributes.labels[0].attrs.text.text;
@@ -386,6 +458,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 				buildAttributes(table, neighbors).then(function(table){
 					var newTable = ls.insertTable(table);
+
+					entityTableMap.set(relation.id, newTable);
+
 					ls.selectedElement = ls.paper.findViewByModel(newTable);
 					var entityNeighbors = getEntityNeighbors(relation);
 					for (entity of entityNeighbors) {
@@ -419,6 +494,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					ls.addColumn(pi);
 				}
 				var table2 = getTableType_2(links, relation);
+				entityTableMap.set(relation.id, table2);
 				connectTables(table1, table2);
 				resolve();
 			});
@@ -553,6 +629,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 				buildAttributes(table, neighbors).then(function(table){
 					var newTable = ls.insertTable(table);
+					entityTableMap.set(relation.id, newTable);
+
 					ls.selectedElement = ls.paper.findViewByModel(newTable);
 
 					for (entity of entities) {
