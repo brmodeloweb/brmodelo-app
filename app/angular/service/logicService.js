@@ -332,7 +332,9 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 				{ position: 0.8,
 					attrs: { text: { text: "(0, n)", 'font-weight': 'normal', 'font-size': 12} }
 				});
-			myLink.addTo(ls.graph);
+			if(myLink.attributes.source.id != myLink.attributes.target.id){
+				myLink.addTo(ls.graph);
+			}
 			column.tableOrigin.idLink = myLink.id;
 		}
 		ls.selectedElement.model.addAttribute(column);

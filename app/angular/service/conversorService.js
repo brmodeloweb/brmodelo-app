@@ -300,6 +300,16 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return links[0].attributes.labels[0].attrs.text.text + " < - > " + links[1].attributes.labels[0].attrs.text.text;
 		}
 
+		isAutoRelationship = function(relation){
+			var entities = [];
+			for (element of modelGraph.getNeighbors(relation)) {
+				if(element.attributes.type === 'erd.Entity') {
+					entities.push(element);
+				}
+			}
+			return (entities.length == 1) && entities[0].attributes.autorelationship;
+		}
+
 		getAttributes = function(relation){
 			var entities = [];
 			for (element of modelGraph.getNeighbors(relation)) {
@@ -467,30 +477,37 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						}
 					});
 				} else {
-					var modalInstance = $uibModal.open({
-						animation: true,
-						templateUrl: 'angular/view/modal/conversions/11ConversionModal.html',
-						controller:  'AttributeModalController',
-						resolve: {
-							params: function () {
-								return {'relationName': relation.attrs.text.text,
-												'relationType': buildRelationDescriotion(links)
-												};
+					if(isAutoRelationship(relation)){
+						createColumnFromRelation(relation, links).then(function(){
+							resolve();
+						});
+					} else {
+						var modalInstance = $uibModal.open({
+							animation: true,
+							templateUrl: 'angular/view/modal/conversions/11ConversionModal.html',
+							controller:  'AttributeModalController',
+							resolve: {
+								params: function () {
+									return {'relationName': relation.attrs.text.text,
+													'relationType': buildRelationDescriotion(links)
+													};
+								}
 							}
-						}
-					});
-					modalInstance.result.then(function (resp) {
-						//arrumar isso aqui!!
-						if(resp=="new_table"){
-							joinTablesFromRelation(relation).then(function(){
-								resolve();
-							});
-						} else {
-							createTableFromRelation(relation).then(function(){
-								resolve();
-							});
-						}
-					});
+						});
+						modalInstance.result.then(function (resp) {
+							//arrumar isso aqui!!
+							if(resp=="new_table"){
+								joinTablesFromRelation(relation).then(function(){
+									resolve();
+								});
+							} else {
+								createColumnFromRelation(relation, links).then(function(){
+									resolve();
+								});
+							}
+
+						});
+					}
 				}
 			});
 		}
