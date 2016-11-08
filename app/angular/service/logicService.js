@@ -54,6 +54,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		ls.applyDeleteLinkAction();
 
 		ls.loadModel(modelid, userId, callback, conversionId);
+
 	}
 
 	ls.editCardinalityA = function(card){
@@ -173,25 +174,22 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 				ls.model.id   = resp.data[0]._id;
 				ls.graph.fromJSON(JSON.parse(resp.data[0].model));
 				callback();
+
+				if(conversionId != null && modelid != "") {
+					ModelAPI.getModel(conversionId, userId).then(function(resp) {
+						var graph = new joint.dia.Graph;
+						var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)), ls);
+						promise.then(function(tables){
+							for (var i = 0; i < tables.length; i++) {
+							//	var table = ls.insertTable(tables[i]);
+							}
+						});
+					});
+				}
+
 			});
 		}
 
-		if(conversionId != null && modelid != "") {
-
-			ModelAPI.getModel(conversionId, userId).then(function(resp) {
-
-				var graph = new joint.dia.Graph;
-				var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)), ls);
-
-				promise.then(function(tables){
-					for (var i = 0; i < tables.length; i++) {
-					//	var table = ls.insertTable(tables[i]);
-					}
-				});
-
-			});
-
-		}
 	}
 
 	ls.insertTable = function(table) {
