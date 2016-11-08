@@ -86,48 +86,53 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 						if(relationType.type == "nn"){
 
-							var name = relation.attrs.text.text;
-							var x = relation.position.x;
-							var y = relation.position.y;
-
-							var table = createTableObject(name, x, y);
-
-							var neighbors = modelGraph.getNeighbors(relation);
-
-							buildAttributes(table, neighbors).then(function(table){
-								var newTable = ls.insertTable(table);
-								ls.selectedElement = ls.paper.findViewByModel(newTable);
-								var entityNeighbors = getEntityNeighbors(relation);
-								for (entity of entityNeighbors) {
-									ls.addColumn(createFKColumn(entity.attributes));
-								}
+							createTableFromRelation(relation).then(function(){
 								iterate();
 							});
+
 						} else {
 
 							if(relationType.type == "1n" || relationType.type == "n1"){
-								var attributes = getAttributes(relation);
-								var pks = getPKs(relation);
-								var table1 = getTableType_1(links, relation);
-								ls.selectedElement = ls.paper.findViewByModel(table1);
-								for (att of attributes) {
-									var pi = {
-										"name": att.attributes.attrs.text.text,
-										"PK": false,
-										"FK": false
-									}
-									ls.addColumn(pi);
+
+								if(isN1Optional(links)) {
+
+									var modalInstance = $uibModal.open({
+										animation: true,
+										templateUrl: 'angular/view/modal/conversions/1nConversionModal.html',
+										controller:  'AttributeModalController',
+										resolve: {
+											params: function () {
+												return {'relationName': relation.attrs.text.text,
+																'relationType': buildRelationDescriotion(links)
+															 	};
+											}
+										}
+									});
+									modalInstance.result.then(function (resp) {
+										if(resp=="new_table"){
+
+											createTableFromRelation(relation).then(function(){
+												iterate();
+											});
+
+										} else {
+
+											createColumnFromRelation(relation, links).then(function(){
+												iterate();
+											});
+
+										}
+
+									});
+
+								} else {
+
+									createColumnFromRelation(relation, links).then(function(){
+										iterate();
+									});
+
 								}
-								for (pk of pks) {
-									var pi = {
-										"name": pk.attributes.attrs.text.text,
-										"PK": true,
-										"FK": false
-									}
-									ls.addColumn(pi);
-								}
-								var table2 = getTableType_2(links, relation);
-								connectTables(table1, table2);
+
 							} else {
 
 								iterate();
@@ -306,6 +311,19 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return obj;
 		}
 
+		isN1Optional = function(links){
+			for (link of links) {
+				if(link.attributes.labels != null && link.attributes.labels[0].attrs.text.text == '(0, 1)'){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		buildRelationDescriotion = function(links){
+			return links[0].attributes.labels[0].attrs.text.text + " < - > " + links[1].attributes.labels[0].attrs.text.text;
+		}
+
 		getAttributes = function(relation){
 			var entities = [];
 			for (element of modelGraph.getNeighbors(relation)) {
@@ -329,7 +347,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		getTableType_1 = function(links, relation) {
 			var link = links[0];
 			var card = link.attributes.labels[0].attrs.text.text;
-			if(card != "(1, 1)"){
+			if(card != "(1, 1)" && card != "(0, 1)"){
 				link = links[1];
 			}
 			if(link.attributes.source.id != relation.id) {
@@ -342,7 +360,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		getTableType_2 = function(links, relation) {
 			var link = links[0];
 			var card = link.attributes.labels[0].attrs.text.text;
-			if(card == "(1, 1)"){
+			if(card == "(1, 1)" || card == "(0, 1)"){
 				link = links[1];
 			}
 			if(link.attributes.source.id != relation.id) {
@@ -360,6 +378,56 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				}
 			}
 			return entities;
+		}
+
+		createTableFromRelation = function(relation){
+			return $q(function(resolve){
+				var name = relation.attrs.text.text;
+				var x = relation.position.x;
+				var y = relation.position.y;
+
+				var table = createTableObject(name, x, y);
+
+				var neighbors = modelGraph.getNeighbors(relation);
+
+				buildAttributes(table, neighbors).then(function(table){
+					var newTable = ls.insertTable(table);
+					ls.selectedElement = ls.paper.findViewByModel(newTable);
+					var entityNeighbors = getEntityNeighbors(relation);
+					for (entity of entityNeighbors) {
+						ls.addColumn(createFKColumn(entity.attributes));
+					}
+					resolve();
+				});
+			});
+		}
+
+		createColumnFromRelation = function(relation, links){
+			return $q(function(resolve){
+				var attributes = getAttributes(relation);
+				var pks = getPKs(relation);
+				var table1 = getTableType_1(links, relation);
+				ls.selectedElement = ls.paper.findViewByModel(table1);
+				for (att of attributes) {
+					var pi = {
+						"name": att.attributes.attrs.text.text,
+						"PK": false,
+						"FK": false
+					}
+					ls.addColumn(pi);
+				}
+				for (pk of pks) {
+					var pi = {
+						"name": pk.attributes.attrs.text.text,
+						"PK": true,
+						"FK": false
+					}
+					ls.addColumn(pi);
+				}
+				var table2 = getTableType_2(links, relation);
+				connectTables(table1, table2);
+				resolve();
+			});
 		}
 
 		connectTables = function(source, target){
