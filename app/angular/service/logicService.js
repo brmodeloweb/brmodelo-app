@@ -48,11 +48,12 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		});
 
 		ls.applyResizePage();
-		ls.loadModel(modelid, userId, callback, conversionId);
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
 		ls.applyGraphEvents();
 		ls.applyDeleteLinkAction();
+
+		ls.loadModel(modelid, userId, callback, conversionId);
 	}
 
 	ls.editCardinalityA = function(card){
