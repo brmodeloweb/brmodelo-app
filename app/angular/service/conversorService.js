@@ -68,6 +68,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		buildRelations = function(relations) {
 
+			console.log("relations: ", relations);
+
 			return $q(function(resolve){
 
 				(function iterate() {
@@ -90,7 +92,12 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 									iterate();
 								});
 								break;
-							case "1n" || "n1":
+							case "1n":
+								treatN1case(relation, links).then(function(){
+									iterate();
+								});
+								break;
+							case "n1":
 								treatN1case(relation, links).then(function(){
 									iterate();
 								});
@@ -459,6 +466,31 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							});
 						}
 					});
+				} else {
+					var modalInstance = $uibModal.open({
+						animation: true,
+						templateUrl: 'angular/view/modal/conversions/11ConversionModal.html',
+						controller:  'AttributeModalController',
+						resolve: {
+							params: function () {
+								return {'relationName': relation.attrs.text.text,
+												'relationType': buildRelationDescriotion(links)
+												};
+							}
+						}
+					});
+					modalInstance.result.then(function (resp) {
+						//arrumar isso aqui!!
+						if(resp=="new_table"){
+							joinTablesFromRelation(relation).then(function(){
+								resolve();
+							});
+						} else {
+							createTableFromRelation(relation).then(function(){
+								resolve();
+							});
+						}
+					});
 				}
 			});
 		}
@@ -476,6 +508,36 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			}
 			ls.selectedElement = ls.paper.findViewByModel(target);
 			ls.addColumn(obj);
+		}
+
+		joinTablesFromRelation = function(relation){
+			return $q(function(resolve){
+
+				var entities = getEntityNeighbors(relation);
+
+				var name = entities[0].attributes.attrs.text.text + "_" + entities[1].attributes.attrs.text.text;
+				var x = relation.position.x;
+				var y = relation.position.y;
+
+				var table = createTableObject(name, x, y);
+
+				var neighbors = modelGraph.getNeighbors(relation);
+
+				neighbors.push.apply(neighbors, modelGraph.getNeighbors(entities[0]));
+				neighbors.push.apply(neighbors, modelGraph.getNeighbors(entities[1]));
+
+				buildAttributes(table, neighbors).then(function(table){
+					var newTable = ls.insertTable(table);
+					ls.selectedElement = ls.paper.findViewByModel(newTable);
+
+					for (entity of entities) {
+						entityTableMap.get(entity.id).remove();
+						entityTableMap.set(entity.id, newTable);
+					}
+
+					resolve();
+				});
+			});
 		}
 
 		createFKColumn = function(entity) {
