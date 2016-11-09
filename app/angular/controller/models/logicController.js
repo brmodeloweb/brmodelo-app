@@ -12,7 +12,7 @@ angular.module('myapp')
 	$scope.selectedName = "";
 	$scope.selectedElement = null;
 	$scope.columns = [];
-	$scope.editionVisible = true;
+	$scope.editionVisible = false;
 	$scope.tableNames = [];
 	self.mapTables = {};
 

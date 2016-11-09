@@ -272,7 +272,7 @@ angular.module('myapp')
 	$scope.convertModel = function() {
 
 		var model = {
-			"name": "convertido",
+			"name": $scope.model.name+"_convertido",
 			"user": $rootScope.loggeduser,
 			"type": "logic",
 			"model": '{"cells":[]}'

@@ -175,15 +175,12 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 				ls.graph.fromJSON(JSON.parse(resp.data[0].model));
 				callback();
 
-				console.log("conversionId", conversionId);
 				if(conversionId != null && conversionId != "" && modelid != "") {
 					ModelAPI.getModel(conversionId, userId).then(function(resp) {
 						var graph = new joint.dia.Graph;
 						var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)), ls);
 						promise.then(function(tables){
-							for (var i = 0; i < tables.length; i++) {
-							//	var table = ls.insertTable(tables[i]);
-							}
+							ls.updateModel();
 						});
 					});
 				}
