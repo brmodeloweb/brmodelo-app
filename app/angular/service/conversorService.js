@@ -27,6 +27,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var cell_tables = [];
 				var cell_relations = [];
 				var cell_associatives = [];
+				var cell_extensions = [];
 
 				var all = modelGraph.toJSON().cells;
 
@@ -44,15 +45,23 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						cell_associatives.push(element);
 					}
 
+					if(element.type === 'erd.ISA'){
+						cell_extensions.push(element);
+					}
+
 				}
 
 				buildTables(cell_tables).then(function(){
 
-					buildRelations(cell_relations).then(function() {
+					buildExtensions(cell_extensions).then(function(){
 
-						buildAssociatives(cell_associatives).then(function() {
+						buildRelations(cell_relations).then(function() {
 
-							resolve(tables);
+							buildAssociatives(cell_associatives).then(function() {
+
+								resolve(tables);
+
+							});
 
 						});
 
@@ -64,9 +73,90 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				});
 		};
 
+		buildExtensions = function(extensions) {
+			return $q(function(resolve){
+				(function iterate(){
+					if(extensions.length == 0){
+						resolve();
+					} else {
+						var extension = extensions.shift();
+						var modalInstance = $uibModal.open({
+							backdrop  : 'static',
+							keyboard  : false,
+							animation: true,
+							templateUrl: 'angular/view/modal/conversions/extensionConversionModal.html',
+							controller:  'ExtensionModalController',
+							resolve: {
+								params: function () {
+									return {'attribute': "attname"};
+								}
+							}
+						});
+						modalInstance.result.then(function (resp) {
+							switch (resp) {
+								case "all_tables":
+									treatExtensionAll(extension).then(function(){
+										iterate();
+									});
+									break;
+								case "one_table":
+									iterate();
+									break;
+								case "children_tables":
+									treatExtensionChildrensOnly(extension).then(function(){
+										iterate();
+									});
+									break;
+								default:
+							}
+						});
+					}
+				})();
+			});
+		}
+
+		treatExtensionChildrensOnly = function(extension) {
+			return $q(function(resolve){
+				var childrens = [];
+				var root = {};
+				for (neighbor of getEntityNeighbors(extension)){
+					if(extension.parentId != neighbor.id){
+						childrens.push(neighbor);
+					} else {
+						root = neighbor;
+					}
+				}
+				for (children of childrens) {
+					connectTables(entityTableMap.get(root.id), entityTableMap.get(children.id));
+				}
+				resolve();
+			});
+		}
+
+		treatExtensionAll = function(extension) {
+			return $q(function(resolve){
+				var childrens = [];
+				var root = {};
+				for (neighbor of getEntityNeighbors(extension)){
+					console.log(extension);
+					console.log(extension.parentId);
+					if(extension.parentId != neighbor.id){
+						childrens.push(neighbor);
+					} else {
+						root = neighbor;
+					}
+				}
+				console.log(root);
+				console.log(childrens);
+				for (children of childrens) {
+					connectTables(entityTableMap.get(root.id), entityTableMap.get(children.id));
+				}
+				resolve();
+			});
+		}
+
 		buildAssociatives = function(associatives) {
 			return $q(function(resolve){
-
 				(function iterate(){
 					if(associatives.length == 0){
 						resolve();
@@ -101,10 +191,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							} else {
 								iterate();
 							}
-
 					}
 				})();
-
 			});
 		}
 

@@ -378,13 +378,25 @@ angular.module('myapp')
 		if ((cs.isEntity(source) && cs.isExtension(target)) ||
 				(cs.isEntity(target) && cs.isExtension(source))) {
 
+					if (cs.isEntity(source)) {
+						if(target.attributes.parentId == null){
+							target.attributes.parentId = source.id;
+						}
+					} else {
+						if(source.attributes.parentId == null){
+							source.attributes.parentId = target.id;
+						}
+					}
+
 				if(target.attributes.isExtended || source.attributes.isExtended) {
 				//	return false;
 				} else {
 					if (cs.isEntity(source)) {
 						source.attributes.isExtended = true;
+						console.log(target);
 					} else {
 						target.attributes.isExtended = true;
+						console.log(source);
 					}
 					return true;
 				}

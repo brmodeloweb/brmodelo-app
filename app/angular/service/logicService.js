@@ -180,7 +180,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 						var graph = new joint.dia.Graph;
 						var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)), ls);
 						promise.then(function(tables){
-							ls.updateModel();
+						//	ls.updateModel();
 						});
 					});
 				}
