@@ -327,7 +327,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 												controller:  'AttributeModalController',
 												resolve: {
 													params: function () {
-														return {'attribute': attname};
+														return {'attribute': attname,
+																		'tableName': table.name};
 													}
 												}
 											});
