@@ -1,0 +1,35 @@
+<div class="modal-header addmodel">
+	<h1 class="modaltitle">Atenção!!!</h1>
+</div>
+
+<div class="modal-body addmodel">
+
+	<form class="form-horizontal" role="form" name="modelForm">
+		<div class="form-group">
+      <p class="modal-message">
+				Não foi possível realizar essa conversão pois a tabela <b>{{params.rootName}}</b> outras conexões. Escolha outra opção
+			</p>
+			<!-- <label for="name" class="col-sm-3 control-label">Título</label> -->
+		</div>
+
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="userOption" value="all_tables" checked>
+        Uso de uma tabela para cada entidade
+      </label>
+    </div>
+
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="userOption" value="one_table">
+        Uso de uma única tabela para toda hierarquia
+      </label>
+    </div>
+
+		<div class="modal-footer">
+			<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
+		</div>
+
+	</form>
+
+</div>

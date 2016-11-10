@@ -100,7 +100,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 									});
 									break;
 								case "one_table":
-									iterate();
+									treatExtensionOne_table(extension).then(function(){
+										iterate();
+									});
 									break;
 								case "children_tables":
 									treatExtensionChildrensOnly(extension).then(function(){
@@ -124,6 +126,14 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return "";
 		}
 
+		treatExtensionOne_table = function(extension) {
+			return $q(function(resolve){
+				joinTablesFromRelation(extension).then(function(){
+					resolve();
+				});
+			});
+		}
+
 		treatExtensionChildrensOnly = function(extension) {
 			return $q(function(resolve){
 				var childrens = [];
@@ -135,10 +145,51 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						root = neighbor;
 					}
 				}
-				for (children of childrens) {
-					connectTables(entityTableMap.get(root.id), entityTableMap.get(children.id));
+
+				if(getEntityOrRelationNeighbors(root).length > 0){
+					var modalInstance = $uibModal.open({
+						backdrop  : 'static',
+						keyboard  : false,
+						animation: true,
+						templateUrl: 'angular/view/modal/conversions/alertExtensionConversionModal.html',
+						controller:  'ExtensionModalController',
+						resolve: {
+							params: function () {
+								return {'rootName': getExtensionRootName(extension)};
+							}
+						}
+					});
+					modalInstance.result.then(function (resp) {
+						switch (resp) {
+							case "all_tables":
+								treatExtensionAll(extension).then(function(){
+									resolve();
+								});
+								break;
+							case "one_table":
+								treatExtensionOne_table(extension).then(function(){
+									resolve();
+								});
+								break;
+							default:
+						}
+					});
+				} else {
+					var new_attributes = [];
+					new_attributes.push.apply(new_attributes, getPKs(root));
+					new_attributes.push.apply(new_attributes, getAttributes(root));
+					for (children of childrens) {
+						for (attribute of new_attributes) {
+							var pi = {
+								"name": attribute.attributes.attrs.text.text,
+								"PK": attribute.attributes.type === 'erd.Key',
+								"FK": false
+							}
+							entityTableMap.get(children.id).addAttribute(pi);
+						}
+					}
+					resolve();
 				}
-				resolve();
 			});
 		}
 
@@ -464,6 +515,17 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return links[0].attributes.labels[0].attrs.text.text + " < - > " + links[1].attributes.labels[0].attrs.text.text;
 		}
 
+		getTableNames = function(relation){
+			var tableNames = "(";
+			for (element of modelGraph.getNeighbors(relation)) {
+				if(element.attributes.type === 'erd.Entity') {
+					tableNames += " " + element.attributes.attrs.text.text;
+				}
+			}
+			tableNames += " )";
+			return tableNames;
+		}
+
 		isAutoRelationship = function(relation){
 			var entities = [];
 			for (element of modelGraph.getNeighbors(relation)) {
@@ -604,7 +666,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						resolve: {
 							params: function () {
 								return {'relationName': relation.attrs.text.text,
-												'relationType': buildRelationDescriotion(links)
+												'relationType': buildRelationDescriotion(links),
+												'tableNames': getTableNames(relation)
 												};
 							}
 						}
@@ -638,7 +701,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						resolve: {
 							params: function () {
 								return {'relationName': relation.attrs.text.text,
-												'relationType': buildRelationDescriotion(links)
+												'relationType': buildRelationDescriotion(links),
+												'tableNames': getTableNames(relation)
 												};
 							}
 						}
@@ -667,7 +731,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							resolve: {
 								params: function () {
 									return {'relationName': relation.attrs.text.text,
-													'relationType': buildRelationDescriotion(links)
+													'relationType': buildRelationDescriotion(links),
+													'tableNames': getTableNames(relation)
 													};
 								}
 							}
@@ -708,18 +773,22 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		joinTablesFromRelation = function(relation){
 			return $q(function(resolve){
 
-				var entities = getEntityNeighbors(relation);
-
-				var name = entities[0].attributes.attrs.text.text + "_" + entities[1].attributes.attrs.text.text;
 				var x = relation.position.x;
 				var y = relation.position.y;
 
-				var table = createTableObject(name, x, y);
-
 				var neighbors = modelGraph.getNeighbors(relation);
 
-				neighbors.push.apply(neighbors, modelGraph.getNeighbors(entities[0]));
-				neighbors.push.apply(neighbors, modelGraph.getNeighbors(entities[1]));
+				var entities = getEntityNeighbors(relation);
+
+				var name = "";
+
+				for (entity of entities) {
+					name += entity.attributes.attrs.text.text + "_";
+
+					neighbors.push.apply(neighbors, modelGraph.getNeighbors(entity));
+				}
+
+				var table = createTableObject(name, x, y);
 
 				buildAttributes(table, neighbors).then(function(table){
 					var newTable = ls.insertTable(table);
