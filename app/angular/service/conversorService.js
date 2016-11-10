@@ -88,7 +88,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							controller:  'ExtensionModalController',
 							resolve: {
 								params: function () {
-									return {'attribute': "attname"};
+									return {'rootName': getExtensionRootName(extension)};
 								}
 							}
 						});
@@ -115,6 +115,15 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			});
 		}
 
+		getExtensionRootName = function(extension) {
+			for (neighbor of getEntityNeighbors(extension)){
+				if(extension.parentId == neighbor.id){
+					return neighbor.attributes.attrs.text.text;
+				}
+			}
+			return "";
+		}
+
 		treatExtensionChildrensOnly = function(extension) {
 			return $q(function(resolve){
 				var childrens = [];
@@ -138,16 +147,12 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var childrens = [];
 				var root = {};
 				for (neighbor of getEntityNeighbors(extension)){
-					console.log(extension);
-					console.log(extension.parentId);
 					if(extension.parentId != neighbor.id){
 						childrens.push(neighbor);
 					} else {
 						root = neighbor;
 					}
 				}
-				console.log(root);
-				console.log(childrens);
 				for (children of childrens) {
 					connectTables(entityTableMap.get(root.id), entityTableMap.get(children.id));
 				}
