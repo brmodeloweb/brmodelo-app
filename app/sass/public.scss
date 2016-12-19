@@ -52,22 +52,3 @@
 	float: right;
 	padding: 15px;
 }
-
-.paper-scroller {
-	position: relative;
-	overflow: scroll;
-	cursor: move;
-	cursor: -moz-grabbing;
-	cursor: -webkit-grabbing;
-}
-
-.paper-scroller>.paper {
-	margin: 0;
-	position: relative;
-	display: inline-block;
-}
-
-#content .paper-scroller {
-	width: 100%;
-	height: 100%;
-}

@@ -6,7 +6,7 @@ angular.module('myapp').factory('LogicFactory', function(){
 		var table = new logic.Class({
         position: { x:12  , y: 15 },
         size: { width: 100, height: 100 },
-        name: 'Entidade',
+        name: 'Tabela',
         attributes: [],
         attrs: {
             '.uml-class-name-rect': {

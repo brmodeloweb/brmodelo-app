@@ -14,6 +14,9 @@ angular.module('myapp')
 
 	var cs = ConceptualService;
 
+	var baseX = 0;
+	var baseY = 0;
+
 	$scope.entitySelected = "NONE";
 	$scope.extensionSelected = "Selecione";
 	$scope.cardSelected = "Selecione";
@@ -496,12 +499,13 @@ angular.module('myapp')
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
 		$scope.paper = new joint.dia.Paper({
-			//el: $('#content'),
-			//width: $('#content').width(),
-			//height: $('#content').height(),
+		//	el: $('#content'),
+			//width: 1000,
+			//height: 1000,
 			width: $('#content').width(),
 			height: $('#content').height(),
-			gridSize: 1,
+			gridSize: 10,
+			drawGrid: true,
 			model: $scope.graph,
 			//linkPinning: false,
 			//markAvailable: true,
@@ -513,11 +517,49 @@ angular.module('myapp')
 		var $app = $('#content');
 
     $scope.paperScroller = new joint.ui.PaperScroller({
-        autoResizePaper: true,
-    //    padding: 10,
-        paper: $scope.paper,
-				cursor: 'grab'
+			paper: $scope.paper,
+			cursor: 'grab',
+			autoResizePaper: true
     });
+
+		$app.append($scope.paperScroller.render().el);
+
+		$(window).resize(function() {
+    	var canvas = $('#content');
+			console.log("#content");
+			console.log(canvas.width());
+			console.log(canvas.height());
+
+			var paper = $('.paper-scroller');
+			console.log(".paper-scroller");
+			console.log(paper.width());
+			console.log(paper.height());
+
+			var jointpaper = $('.joint-paper');
+			console.log(".joint-theme-default.joint-paper");
+			console.log(jointpaper.width());
+			console.log(jointpaper.height());
+			console.log(jointpaper);
+    //	$scope.paper.setDimensions(canvas.width(), canvas.height());
+		});
+
+		var stencil = new joint.ui.Stencil({
+			graph: $scope.graph,
+			paper: $scope.paper
+		//	scaleClones: true
+		});
+
+		$('#stencil-holder').append(stencil.render().el);
+
+		stencil.load([
+			ConceptualFactory.createEntity(),
+			ConceptualFactory.createAttribute(),
+			ConceptualFactory.createIsa(),
+			ConceptualFactory.createRelationship(),
+			ConceptualFactory.createKey(),
+			ConceptualFactory.createAssociative(),
+			ConceptualFactory.createComposedAttribute()
+		]);
 
 		// paperScroller.$el.css({
 		// 		width: $('#paper-holder').width(),
@@ -628,8 +670,6 @@ angular.module('myapp')
 				}
 			}
 	  });
-
-		$app.append($scope.paperScroller.render().el);
 
 		$scope.graph.on('change:position', function(cell) {
 
@@ -754,23 +794,6 @@ angular.module('myapp')
 			}
 
     });
-
-		var stencil = new joint.ui.Stencil({
-			graph: $scope.graph,
-			paper: $scope.paper
-		});
-
-		$('#stencil-holder').append(stencil.render().el);
-
-		stencil.load([
-			ConceptualFactory.createEntity(),
-			ConceptualFactory.createAttribute(),
-			ConceptualFactory.createIsa(),
-			ConceptualFactory.createRelationship(),
-			ConceptualFactory.createKey(),
-			ConceptualFactory.createAssociative(),
-			ConceptualFactory.createComposedAttribute()
-		]);
 
 	}
 
