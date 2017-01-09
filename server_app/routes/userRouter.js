@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var helper = require('../helpers');
 
-var UserSchema = mongoose.model('User');
+var UserSchema = mongoose.model('User').schema;
 var router = express.Router();
 var userRouter = express.Router();
 
