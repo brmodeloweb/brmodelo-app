@@ -23,6 +23,7 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			gridSize: 1,
 			model: ls.graph
 		});
+		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -335,6 +336,22 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 			column.tableOrigin.idLink = myLink.id;
 		}
 		ls.selectedElement.model.addAttribute(column);
+	}
+
+	ls.undo = function() {
+		ls.commandManager.undo();
+	}
+
+	ls.redo = function() {
+		ls.commandManager.redo();
+	}
+
+	ls.zoomIn = function(){
+		ls.paperScroller.zoom(0.2, { max: 2 });
+	}
+
+	ls.zoomOut = function(){
+		ls.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
 	ls.getTablesMap = function() {

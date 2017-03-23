@@ -191,20 +191,20 @@ angular.module('myapp')
 	$scope.addColumnModel = self.newColumnObject();
 	$scope.editColumnModel = self.newColumnObject();
 
-	// $scope.undoModel = function(){
-	// 	$scope.commandManager.undo();
-	// }
-	//
-	// $scope.redoModel = function(){
-	// 	$scope.commandManager.redo();
-	// }
-	//
-	// $scope.zoomIn = function(){
-	// 	$scope.paperScroller.zoom(0.2, { max: 2 });
-	// }
-	//
-	// $scope.zoomOut = function(){
-	// 	$scope.paperScroller.zoom(-0.2, { min: 0.2 });
-	// }
+	$scope.undoModel = function(){
+		LogicService.undo();
+	}
+
+	$scope.redoModel = function(){
+		LogicService.redo();
+	}
+
+	$scope.zoomIn = function(){
+		LogicService.zoomIn();
+	}
+
+	$scope.zoomOut = function(){
+		LogicService.zoomOut();
+	}
 
 });
