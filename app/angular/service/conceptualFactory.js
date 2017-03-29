@@ -128,15 +128,15 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 	_createComposedAttribute = function() {
 		return new erd.ComposedAttribute({
 			size: {
-				width: 50,
-				height: 50
+				width: 60,
+				height: 60
 			},
 			position: {
-				x: 38,
-				y: 335
+				x: 20,
+				y: 320
 			},
 			attrs: {
-		 		image: { 'xlink:href': '../../imgs/atributo_composto.png' }
+		 		image: { 'xlink:href': '../../imgs/composto-01.png' }
  			}
 		});
 	};
