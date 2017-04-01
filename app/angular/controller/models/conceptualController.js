@@ -777,8 +777,6 @@ angular.module('myapp')
 
 		$scope.paper.on('link:options', function (cellView, evt, x, y) {
 
-			console.log("Selecting links...");
-
 			var source = $scope.graph.getCell(cellView.model.get('source').id);
 			var target = $scope.graph.getCell(cellView.model.get('target').id);
 
@@ -796,8 +794,6 @@ angular.module('myapp')
 
 				$scope.entitySelected = "LINK";
 				$scope.selectedElement.element = cellView;
-
-				console.log($scope.entitySelected);
 
 				$scope.$apply();
 			}

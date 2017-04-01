@@ -194,8 +194,6 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 	ls.insertTable = function(table) {
 		var newTable = LogicFactory.createTable();
 
-		console.log(newTable);
-		console.log(table.name.length );
 		if(table.name.length > 15){
 			newTable.attributes.size.width = table.name.length * 7;
 		}
