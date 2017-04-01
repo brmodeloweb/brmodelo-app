@@ -306,11 +306,13 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 									});
 									break;
 								case "1n":
+									console.log("1n");
 									treatN1case(relation, links).then(function(){
 										iterate();
 									});
 									break;
 								case "n1":
+									console.log("n1");
 									treatN1case(relation, links).then(function(){
 										iterate();
 									});
@@ -631,8 +633,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return $q(function(resolve){
 				var attributes = getAttributes(relation);
 				var pks = getPKs(relation);
-				var table1 = getTableType_1(links, relation);
-				ls.selectedElement = ls.paper.findViewByModel(table1);
+				var table2 = getTableType_2(links, relation);
+				ls.selectedElement = ls.paper.findViewByModel(table2);
 				for (att of attributes) {
 					var pi = {
 						"name": att.attributes.attrs.text.text,
@@ -649,9 +651,11 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					}
 					ls.addColumn(pi);
 				}
-				var table2 = getTableType_2(links, relation);
-				entityTableMap.set(relation.id, table2);
+				var table1 = getTableType_1(links, relation);
+				entityTableMap.set(relation.id, table1);
 				connectTables(table1, table2);
+				console.log(table1);
+				console.log(table2);
 				resolve();
 			});
 		}
