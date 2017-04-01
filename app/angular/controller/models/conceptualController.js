@@ -86,8 +86,13 @@ angular.module('myapp')
 
 		} else {
 			var updated = ConceptualService.updateExtension($scope.graph.getNeighbors($scope.selectedElement.element.model), selected);
-			updated.findView($scope.paper).update();
-			$scope.extensionSelected = selected;
+			if(updated == null){
+				$scope.selectedElement.element.model.attributes.isExtended = false;
+				$scope.call(selected);
+			} else {
+				updated.findView($scope.paper).update();
+				$scope.extensionSelected = selected;
+			}
 		}
 	}
 

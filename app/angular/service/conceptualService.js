@@ -43,7 +43,6 @@ angular.module('myapp').factory('ConceptualService', function(){
 					if (_isExtension(neighbors[i]) &&
 						neighbors[i].attributes.parentId != null &&
 						neighbors[i].attributes.parentId == entity.attributes.id) {
-
 						return neighbors[i].attributes.attrs.text.text;
 					}
 				}
