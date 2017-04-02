@@ -294,25 +294,23 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 						if(relationType.quantity > 2) {
 
-							createTableFromRelation(relation).then(function(){
+							createTableFromRelation(relation, true).then(function(){
 								iterate();
 							});
 
 						} else {
 							switch (relationType.type) {
 								case "nn":
-									createTableFromRelation(relation).then(function(){
+									treatNNcase(relation, links).then(function(){
 										iterate();
 									});
 									break;
 								case "1n":
-									console.log("1n");
 									treatN1case(relation, links).then(function(){
 										iterate();
 									});
 									break;
 								case "n1":
-									console.log("n1");
 									treatN1case(relation, links).then(function(){
 										iterate();
 									});
@@ -500,6 +498,17 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return obj;
 		}
 
+		getRelationOptionality = function(links) {
+			var optionality = "";
+			for (link of links) {
+				if(link.attributes.labels != null){
+					var card = link.attributes.labels[0].attrs.text.text;
+					optionality = optionality + card[1];
+				}
+			}
+			return optionality;
+		}
+
 		isN1Optional = function(links){
 			for (link of links) {
 				if(link.attributes.labels != null && link.attributes.labels[0].attrs.text.text == '(0, 1)'){
@@ -604,7 +613,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return entities;
 		}
 
-		createTableFromRelation = function(relation){
+		createTableFromRelation = function(relation, allPKs){
 			return $q(function(resolve){
 				var name = relation.attrs.text.text;
 				var x = relation.position.x;
@@ -620,9 +629,18 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					entityTableMap.set(relation.id, newTable);
 
 					ls.selectedElement = ls.paper.findViewByModel(newTable);
+					var hasPrimaryKey = false;
+
 					var entityNeighbors = getEntityNeighbors(relation);
 					for (entity of entityNeighbors) {
-						ls.addColumn(createFKColumn(entity.attributes));
+						var column = createFKColumn(entity.attributes);
+						if(!hasPrimaryKey){
+							column.PK = true;
+							if(!allPKs){
+								hasPrimaryKey = true;
+							}
+						}
+						ls.addColumn(column);
 					}
 					resolve();
 				});
@@ -654,9 +672,22 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var table1 = getTableType_1(links, relation);
 				entityTableMap.set(relation.id, table1);
 				connectTables(table1, table2);
-				console.log(table1);
-				console.log(table2);
 				resolve();
+			});
+		}
+
+		treatNNcase = function(relation, links){
+			return $q(function(resolve){
+				var optionality =getRelationOptionality(links);
+				if(optionality=="11" || optionality=="00"){
+					createTableFromRelation(relation, true).then(function(){
+						resolve();
+					});
+				} else {
+					createTableFromRelation(relation, false).then(function(){
+						resolve();
+					});
+				}
 			});
 		}
 
@@ -678,7 +709,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					});
 					modalInstance.result.then(function (resp) {
 						if(resp=="new_table"){
-							createTableFromRelation(relation).then(function(){
+							createTableFromRelation(relation, false).then(function(){
 								resolve();
 							});
 						} else {
@@ -713,7 +744,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					});
 					modalInstance.result.then(function (resp) {
 						if(resp=="new_table"){
-							createTableFromRelation(relation).then(function(){
+							createTableFromRelation(relation, false).then(function(){
 								resolve();
 							});
 						} else {
@@ -752,7 +783,6 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 									resolve();
 								});
 							}
-
 						});
 					}
 				}
@@ -819,7 +849,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			var obj = {
 				"name": attName,
 				"type": "Integer",
-				"PK": true,
+				"PK": false,
 				"FK": true,
 				"tableOrigin": {
 					"idOrigin": entityTableMap.get(entity.id).id,
