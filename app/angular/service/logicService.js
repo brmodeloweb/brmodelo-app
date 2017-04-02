@@ -371,7 +371,11 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		var map = new Map();
 		var elements = ls.graph.getElements();
 		for (var i = 0; i < elements.length; i++) {
-			map.set(elements[i].attributes.name, elements[i].attributes.objects);
+			var obj = {
+				"name": elements[i].attributes.name,
+				"columns": elements[i].attributes.objects
+			}
+			map.set(elements[i].id, obj);
 		}
 		return map;
 	}
