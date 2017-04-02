@@ -18,14 +18,13 @@
   ],
   "dependencies": {
     "jquery-nice-select": "*",
-    "angular": "1.5.8",
+    "angular": "1.5.0",
     "bootstrap": "^3.3.6",
-    "angular-cookies": "^1.5.8",
+    "angular-cookies": "1.6.0",
     "angular-bootstrap": "^1.2.4",
-    "angular-ui-router": "^0.2.18",
-    "textAngular": "^1.5.9"
+    "angular-ui-router": "^0.2.18"
   },
   "resolutions": {
-    "angular": "1.5.8"
+    "angular": "1.5.0"
   }
 }
