@@ -55,7 +55,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 		});
 
 		$stateProvider.state('sql', {
-			url: '/sql',
+			url: '/sql/{code}',
 			templateUrl: 'angular/view/sql.html',
 			data: {
 				requireLogin: true
