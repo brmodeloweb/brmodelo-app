@@ -367,5 +367,14 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 		return map;
 	}
 
+	ls.buildTablesJson = function() {
+		var map = new Map();
+		var elements = ls.graph.getElements();
+		for (var i = 0; i < elements.length; i++) {
+			map.set(elements[i].attributes.name, elements[i].attributes.objects);
+		}
+		return map;
+	}
+
 	return ls;
 });

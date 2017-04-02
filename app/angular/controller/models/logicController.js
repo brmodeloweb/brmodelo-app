@@ -4,7 +4,8 @@ angular.module('myapp')
 								 $rootScope,
 								 $stateParams,
 								 ModelAPI,
-								 LogicService) {
+								 LogicService,
+								 SqlGeneratorService) {
 
 	var self = this;
 
@@ -205,6 +206,10 @@ angular.module('myapp')
 
 	$scope.zoomOut = function(){
 		LogicService.zoomOut();
+	}
+
+	$scope.generateSQL = function(){
+		console.log(SqlGeneratorService.generate(LogicService.buildTablesJson()));
 	}
 
 });
