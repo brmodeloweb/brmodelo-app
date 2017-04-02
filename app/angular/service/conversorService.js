@@ -647,6 +647,45 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			});
 		}
 
+		createTableFrom1NRelation = function(relation, links){
+			return $q(function(resolve){
+				var name = relation.attrs.text.text;
+				var x = relation.position.x;
+				var y = relation.position.y;
+
+				var table = createTableObject(name, x, y);
+
+				var neighbors = modelGraph.getNeighbors(relation);
+
+				buildAttributes(table, neighbors).then(function(table){
+					var newTable = ls.insertTable(table);
+
+					entityTableMap.set(relation.id, newTable);
+
+					ls.selectedElement = ls.paper.findViewByModel(newTable);
+
+					var entityNeighbors = getEntityNeighbors(relation);
+
+					var sideN = {};
+
+					for (link of links) {
+						if(link.attributes.labels[0].attrs.text.text[4] == 'n'){
+							sideN = link;
+						}
+					}
+
+					for (entity of entityNeighbors) {
+						var column = createFKColumn(entity.attributes);
+							if((entity.id == sideN.attributes.source.id) || (entity.id == sideN.attributes.target.id)){
+								column.PK = true;
+							}
+							ls.addColumn(column);
+					}
+					resolve();
+				});
+			});
+		}
+
 		createColumnFromRelation = function(relation, links){
 			return $q(function(resolve){
 				var attributes = getAttributes(relation);
@@ -709,7 +748,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					});
 					modalInstance.result.then(function (resp) {
 						if(resp=="new_table"){
-							createTableFromRelation(relation, false).then(function(){
+							createTableFrom1NRelation(relation, links).then(function(){
 								resolve();
 							});
 						} else {
