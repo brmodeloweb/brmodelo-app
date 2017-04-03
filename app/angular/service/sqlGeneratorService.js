@@ -30,7 +30,7 @@ angular.module('myapp').factory('SqlGeneratorService', function() {
     for (column of table.columns) {
       if(column.FK){
         var originTable = createdMap.get(column.tableOrigin.idOrigin).name;
-        alter = "ALTER TABLE " + table.name + " ADD FOREIGN KEY("
+        alter += "ALTER TABLE " + table.name + " ADD FOREIGN KEY("
                 + cleanString(column.name)
                 + ") REFERENCES " + originTable + " ("+ cleanString(column.name) + ")\n";
       }
