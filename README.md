@@ -6,8 +6,8 @@
 * [Bower](http://bower.io/)
 * [Mongo DB](https://www.mongodb.org)
 
-## Setting up development envoirment:
-After clone the repo to your local machine, in project's folder using `terminal.app`:
+## Setting up development environment:
+After cloning the repo to your local machine, in project's folder using `terminal.app`:
 
 1. Install server dependencies running: `npm install`;
 2. Install client dependencies running: `bower install`;
