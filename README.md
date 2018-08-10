@@ -1,7 +1,7 @@
 # brModeloWeb
 ### Web application for database modeling and teaching
 
-#### Developed by [@miltonbsn](https://github.com/miltonbsn) and released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/). Currently being worked at by [@telmotrooper](https://github.com/telmotrooper).
+#### Developed by [@miltonbsn](https://github.com/miltonbsn) and released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/), currently being worked at by [@telmotrooper](https://github.com/telmotrooper).
 
 #### Dependencies
 To use this application you'll need:
