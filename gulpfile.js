@@ -47,7 +47,8 @@ gulp.task('copy', function() {
 	]).pipe(gulp.dest('build/libs/'));
 
 	gulp.src([
-		'node_modules/jquery/dist/jquery.min.js'
+		'node_modules/jquery/dist/jquery.min.js',
+		'node_modules/jquery/dist/jquery.min.map'
 	]).pipe(gulp.dest('build/joint/'));
 
 	gulp.src([
@@ -55,7 +56,7 @@ gulp.task('copy', function() {
 	]).pipe(gulp.dest('build/bootstrap'));
 
 	gulp.src([
-		'bower_components/jquery-nice-select/**/*'
+		'node_modules/jquery-nice-select/**/*'
 	]).pipe(gulp.dest('build/jquery-nice-select'));
 
 });//End task copy
