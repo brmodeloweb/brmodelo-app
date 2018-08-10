@@ -9,6 +9,7 @@
   "dependencies": {
     "angular": "^1.5.0",
     "angular-cookies": "^1.6.0",
+    "angular-ui-router": "^0.2.18",
     "bcrypt-nodejs": "~0.0.3",
     "body-parser": "^1.18.3",
     "bootstrap": "^3.3.7",
