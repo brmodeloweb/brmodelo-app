@@ -34,8 +34,8 @@ gulp.task('copy', function() {
 	gulp.src([
 		'bower_components/angular-bootstrap/ui-bootstrap.js',
 		'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-		'bower_components/angular/angular.min.js',
-		'bower_components/angular/angular.min.js.map',
+		'node_modules/angular/angular.min.js',
+		'node_modules/angular/angular.min.js.map',
 		'bower_components/angular-ui-router/release/angular-ui-router.min.js',
 		'node_modules/angular-cookies/angular-cookies.min.js',
 		'node_modules/angular-cookies/angular-cookies.min.js.map',
