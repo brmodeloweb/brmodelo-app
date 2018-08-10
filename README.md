@@ -10,7 +10,7 @@ To use this application you'll need:
 * [MongoDB](https://www.mongodb.com/)
 
 #### Setup
-1. Create a directory for the database with `sudo mkdir -p /data/db` and give your user ownership of it `sudo chown YOUR_USER_NAME:users -R /data/db`
+1. Create a directory for the database with `sudo mkdir -p /data/db` and give your user ownership of it with `sudo chown YOUR_USER_NAME:users -R /data/db`
 1. Clone this repository
 2. Install the dependencies with `npm i`
 
