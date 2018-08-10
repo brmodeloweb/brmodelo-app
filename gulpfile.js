@@ -39,7 +39,6 @@ gulp.task('copy', function() {
 		'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 		'node_modules/angular-cookies/angular-cookies.min.js',
 		'node_modules/angular-cookies/angular-cookies.min.js.map',
-		'bower_components/angular-ui-select3/src/select3.js',
 		'node_modules/textangular/dist/textAngular-rangy.min.js',
 		'node_modules/textangular/dist/textAngular-sanitize.min.js',
 		'node_modules/textangular/dist/textAngular.min.js',
