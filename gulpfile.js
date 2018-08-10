@@ -40,13 +40,15 @@ gulp.task('copy', function() {
 		'bower_components/angular-cookies/angular-cookies.min.js',
 		'bower_components/angular-cookies/angular-cookies.min.js.map',
 		'bower_components/angular-ui-select3/src/select3.js',
-		'bower_components/textAngular/dist/textAngular-rangy.min.js',
-		'bower_components/textAngular/dist/textAngular-sanitize.min.js',
-		'bower_components/textAngular/dist/textAngular.min.js',
-		'bower_components/textAngular/dist/textAngular.css'
-
-
+		'node_modules/textangular/dist/textAngular-rangy.min.js',
+		'node_modules/textangular/dist/textAngular-sanitize.min.js',
+		'node_modules/textangular/dist/textAngular.min.js',
+		'node_modules/textangular/dist/textAngular.css'
 	]).pipe(gulp.dest('build/libs/'));
+
+	gulp.src([
+		'node_modules/jquery/dist/jquery.min.js'
+	]).pipe(gulp.dest('build/joint/'));
 
 	gulp.src([
 		'bower_components/bootstrap/dist/**/*'
