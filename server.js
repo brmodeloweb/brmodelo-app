@@ -35,7 +35,9 @@ mongoose.set("debug", true)
 mongoose.connect(mongoport, function (err) {
  if (err) throw err
   app.listen(port, function () {
-    console.log("Mongo running on: " + mongoport)
-    console.log("now listening on: " + port)
+    console.log(`--------------------------------------------------
+Application running on http://localhost:${port}
+MongoDB running on ${mongoport}
+--------------------------------------------------`)
   })
 })
