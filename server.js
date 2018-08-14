@@ -7,7 +7,7 @@ const session = require("express-session")
 const bodyParser = require("body-parser")
 mongoose.Promise = require("bluebird")
 
-let app = module.exports.app = exports.app = express()
+let app = express()
 
 // Where to find the view files
 app.set("views", "./views")

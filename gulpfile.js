@@ -12,7 +12,7 @@ let sassOptions = {
 	outputStyle: "expanded"
 }
 
-gulp.task("sass", function () {
+gulp.task("sass", function() {
 	return gulp
 	.src(input)
 	.pipe(sourcemaps.init())
@@ -23,14 +23,13 @@ gulp.task("sass", function () {
 }) // End task sass
 
 gulp.task("watch", function() {
-	return gulp
-	.watch(input, ["sass"])
-	.on("change", function(event) {
-	console.log("File " + event.path + " was " + event.type + ", running tasks...")
-	})
-}) // End tast watch
+  gulp.watch(input, gulp.series("sass"))
+	.on("change", function(file) {
+  console.log(`File ${file} has been changed...`)
+  })
+}) // End task watch
 
-gulp.task("copy", function() {
+gulp.task("copy", function(done) {
 	gulp.src([
 		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
 		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
@@ -56,13 +55,16 @@ gulp.task("copy", function() {
 
 	gulp.src([
 		"node_modules/jquery-nice-select/**/*"
-	]).pipe(gulp.dest("build/jquery-nice-select"))
+  ]).pipe(gulp.dest("build/jquery-nice-select"))
+  
+  done()
 
 }) // End task copy
 
-gulp.task("server", function () {
+gulp.task("server", function() {
 	let server = gls.new("server.js")
 	server.start()
 }) // End task server
 
-gulp.task("default", ["sass","watch","copy","server"])
+
+gulp.task("default", gulp.series("sass", "copy", gulp.parallel("watch", "server")))
