@@ -3,6 +3,7 @@ const sass = require("gulp-sass")
 const sourcemaps = require("gulp-sourcemaps")
 const autoprefixer = require("gulp-autoprefixer")
 const gls = require("gulp-live-server")
+const del = require("del")
 
 // Sass variables
 let input = "./app/sass/*.scss"
@@ -11,6 +12,10 @@ let sassOptions = {
 	errLogToConsole: true,
 	outputStyle: "expanded"
 }
+
+gulp.task("clean", function() {
+  return del("build")
+})
 
 gulp.task("sass", function() {
 	return gulp
@@ -25,7 +30,7 @@ gulp.task("sass", function() {
 gulp.task("watch", function() {
   gulp.watch(input, gulp.series("sass"))
 	.on("change", function(file) {
-  console.log(`File ${file} has been changed...`)
+  console.log(`File "${file}" has been changed...`)
   })
 }) // End task watch
 
@@ -67,4 +72,4 @@ gulp.task("server", function() {
 }) // End task server
 
 
-gulp.task("default", gulp.series("sass", "copy", gulp.parallel("watch", "server")))
+gulp.task("default", gulp.series("clean", "sass", "copy", gulp.parallel("watch", "server")))
