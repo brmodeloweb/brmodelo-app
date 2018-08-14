@@ -6,9 +6,9 @@ const gls = require("gulp-live-server")
 const del = require("del")
 
 // Sass variables
-let input = "./app/sass/*.scss"
-let output = "./app/css/"
-let sassOptions = {
+const input = "./app/sass/*.scss"
+const output = "./app/css/"
+const sassOptions = {
 	errLogToConsole: true,
 	outputStyle: "expanded"
 }
