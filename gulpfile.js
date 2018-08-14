@@ -1,8 +1,8 @@
-let gulp = require("gulp")
-let sass = require("gulp-sass")
-let sourcemaps = require("gulp-sourcemaps")
-let autoprefixer = require("gulp-autoprefixer")
-let gls = require("gulp-live-server")
+const gulp = require("gulp")
+const sass = require("gulp-sass")
+const sourcemaps = require("gulp-sourcemaps")
+const autoprefixer = require("gulp-autoprefixer")
+const gls = require("gulp-live-server")
 
 // Sass variables
 let input = "./app/sass/*.scss"

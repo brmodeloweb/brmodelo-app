@@ -1,4 +1,4 @@
-let crypto = require("crypto")
+const crypto = require("crypto")
 
 module.exports = function (pass, salt) {
   let hash = crypto.createHash("sha512")

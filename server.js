@@ -1,10 +1,10 @@
-let express = require("express")
-let responseTime = require("response-time")
-let errorhandler = require("errorhandler")
-let morgan = require("morgan")
-let mongoose = require("mongoose")
-let session = require("express-session")
-let bodyParser = require("body-parser")
+const express = require("express")
+const responseTime = require("response-time")
+const errorhandler = require("errorhandler")
+const morgan = require("morgan")
+const mongoose = require("mongoose")
+const session = require("express-session")
+const bodyParser = require("body-parser")
 
 let app = module.exports.app = exports.app = express()
 
