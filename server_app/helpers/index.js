@@ -1,1 +1,1 @@
-exports.Crypto = require('./hash.js');
+exports.Crypto = require('./hash.js')

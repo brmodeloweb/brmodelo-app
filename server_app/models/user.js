@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
+const mongoose = require("mongoose")
 
-var schema = mongoose.Schema({
-    login: { type: String}
-  , name: { type: String}
-  , password: { type: String}
-});
+let schema = mongoose.Schema({
+  login: { type: String },
+  name: { type: String },
+  password: { type: String }
+})
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model("User", schema)
