@@ -5,6 +5,7 @@ const morgan = require("morgan")
 const mongoose = require("mongoose")
 const session = require("express-session")
 const bodyParser = require("body-parser")
+mongoose.Promise = require("bluebird")
 
 let app = module.exports.app = exports.app = express()
 
@@ -18,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 app.use(express.static("./app"))
 app.use(express.static("./build"))
 app.use(express.static("./node_modules"))
-app.use(express.static("./bower_components"))
 app.use(responseTime())
 app.use(session({resave: true, saveUninitialized: true, secret: "SOMERANDOMSECRETHERE", cookie: { maxAge: 60000 }}))
 app.use(errorhandler())

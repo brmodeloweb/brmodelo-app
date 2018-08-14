@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+mongoose.Promise = require("bluebird")
 
 let model = mongoose.Schema({
   who: { type: String, required: true },

@@ -2,9 +2,9 @@ let express = require("express")
 let mongoose = require("mongoose")
 let bodyParser = require("body-parser")
 let helper = require("../helpers")
-
 let UserSchema = mongoose.model("User").schema
 let userRouter = express.Router()
+mongoose.Promise = require("bluebird")
 
 userRouter.use(bodyParser.json())
 

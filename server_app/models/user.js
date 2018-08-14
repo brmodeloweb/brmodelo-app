@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+mongoose.Promise = require("bluebird")
 
 let schema = mongoose.Schema({
   login: { type: String },
