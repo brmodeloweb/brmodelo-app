@@ -1,19 +1,20 @@
-#BRModelo
+# brModeloWeb
+### Web application for database modeling and teaching
 
-## What you need installed to run this project:
-* [NodeJS](http://nodejs.org)
-* [Gulp](http://gulpjs.com)
-* [Bower](http://bower.io/)
-* [Mongo DB](https://www.mongodb.org)
+Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-## Setting up development environment:
-After cloning the repo to your local machine, in project's folder using `terminal.app`:
+#### Dependencies
+To use this application you'll need:
+* [Node.js](https://nodejs.org/)
+* [Gulp](https://gulpjs.com/)
+* [MongoDB](https://www.mongodb.com/)
 
-1. Install server dependencies running: `npm install`;
-2. Install client dependencies running: `bower install`;
-2. Create **MongoDB** database directory `mkdir -p /data/db`;
+#### Setup
+1. Create a directory for the database with `sudo mkdir -p /data/db` and give your user ownership of it with `sudo chown YOUR_USER_NAME:users -R /data/db`
+1. Clone this repository
+2. Install the dependencies with `npm i`
 
-## Running local environment:
-1. Start **MongoDB**: `mongod`;
-2. Start local server: `gulp`;
-3. Access: [localhost:3000](http://localhost:3000);
+#### Running the application
+1. Start the database with `mongod`
+2. Start the application with `npm start`
+3. Access the application at [http://localhost:3000/](http://localhost:3000/)

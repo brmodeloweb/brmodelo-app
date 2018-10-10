@@ -1,66 +1,75 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var autoprefixer = require('gulp-autoprefixer');
-var gls = require('gulp-live-server');
+const gulp = require("gulp")
+const sass = require("gulp-sass")
+const sourcemaps = require("gulp-sourcemaps")
+const autoprefixer = require("gulp-autoprefixer")
+const gls = require("gulp-live-server")
+const del = require("del")
 
-//Sass variables
-var input = './app/sass/*.scss';
-var output = './app/css/';
-var sassOptions = {
+// Sass variables
+const input = "./app/sass/*.scss"
+const output = "./app/css/"
+const sassOptions = {
 	errLogToConsole: true,
-	outputStyle: 'expanded'
-};
+	outputStyle: "expanded"
+}
 
-gulp.task('sass', function () {
+gulp.task("clean", function() {
+  return del("build")
+})
+
+gulp.task("sass", function() {
 	return gulp
 	.src(input)
 	.pipe(sourcemaps.init())
-	.pipe(sass(sassOptions).on('error', sass.logError))
+	.pipe(sass(sassOptions).on("error", sass.logError))
 	.pipe(sourcemaps.write())
 	.pipe(autoprefixer())
 	.pipe(gulp.dest(output))
-});//End task sass
+}) // End task sass
 
-gulp.task('watch', function() {
-	return gulp
-	.watch(input, ['sass'])
-	.on('change', function(event) {
-	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-	});
-});//End tastk watch
+gulp.task("watch", function() {
+  gulp.watch(input, gulp.series("sass"))
+	.on("change", function(file) {
+  console.log(`File "${file}" has been changed...`)
+  })
+}) // End task watch
 
-gulp.task('copy', function() {
+gulp.task("copy", function(done) {
 	gulp.src([
-		'bower_components/angular-bootstrap/ui-bootstrap.js',
-		'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-		'bower_components/angular/angular.min.js',
-		'bower_components/angular/angular.min.js.map',
-		'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-		'bower_components/angular-cookies/angular-cookies.min.js',
-		'bower_components/angular-cookies/angular-cookies.min.js.map',
-		'bower_components/angular-ui-select3/src/select3.js',
-		'bower_components/textAngular/dist/textAngular-rangy.min.js',
-		'bower_components/textAngular/dist/textAngular-sanitize.min.js',
-		'bower_components/textAngular/dist/textAngular.min.js',
-		'bower_components/textAngular/dist/textAngular.css'
-
-
-	]).pipe(gulp.dest('build/libs/'));
+		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
+		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+		"node_modules/angular/angular.min.js",
+		"node_modules/angular/angular.min.js.map",
+		"node_modules/angular-ui-router/release/angular-ui-router.min.js",
+		"node_modules/angular-cookies/angular-cookies.min.js",
+		"node_modules/angular-cookies/angular-cookies.min.js.map",
+		"node_modules/textangular/dist/textAngular-rangy.min.js",
+		"node_modules/textangular/dist/textAngular-sanitize.min.js",
+		"node_modules/textangular/dist/textAngular.min.js",
+		"node_modules/textangular/dist/textAngular.css"
+	]).pipe(gulp.dest("build/libs/"))
 
 	gulp.src([
-		'bower_components/bootstrap/dist/**/*'
-	]).pipe(gulp.dest('build/bootstrap'));
+		"node_modules/jquery/dist/jquery.min.js",
+		"node_modules/jquery/dist/jquery.min.map"
+	]).pipe(gulp.dest("build/joint/"))
 
 	gulp.src([
-		'bower_components/jquery-nice-select/**/*'
-	]).pipe(gulp.dest('build/jquery-nice-select'));
+		"node_modules/bootstrap/dist/**/*"
+	]).pipe(gulp.dest("build/bootstrap"))
 
-});//End task copy
+	gulp.src([
+		"node_modules/jquery-nice-select/**/*"
+  ]).pipe(gulp.dest("build/jquery-nice-select"))
+  
+  done()
 
-gulp.task('server', function () {
-	var server = gls.new('server.js');
-	server.start();
-});//End task server
+}) // End task copy
 
-gulp.task('default', ['sass','watch','copy','server']);
+gulp.task("server", function() {
+	let server = gls.new("server.js")
+	server.start()
+}) // End task server
+
+
+gulp.task("default", gulp.series("clean", "sass", "copy", gulp.parallel("watch", "server")))
