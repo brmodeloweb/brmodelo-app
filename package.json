@@ -35,7 +35,6 @@
     "node-sass": "^4.9.3",
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
-    "textangular": "^1.5.16",
-    "validator": "~5.1.0"
+    "textangular": "^1.5.16"
   }
 }
