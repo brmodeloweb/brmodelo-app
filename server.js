@@ -32,7 +32,7 @@ let mongoport = process.env.PROD_MONGODB || "mongodb://localhost:27017/brmodeloD
 // https://mlab.com/
 
 mongoose.set("debug", true)
-mongoose.connect(mongoport, {useNewUrlParser: true}, function (err) {
+mongoose.connect(mongoport, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
  if (err) throw err
   app.listen(port, function () {
     console.log(`--------------------------------------------------
