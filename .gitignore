@@ -13,3 +13,5 @@ build/
 
 #Remove compilet CSS
 app/css
+
+.idea
