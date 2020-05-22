@@ -29,7 +29,7 @@
     "jquery-nice-select": "^1.1.0",
     "mongodb": "~2.2.36",
     "mongoose": "^5.9.15",
-    "morgan": "^1.9.0",
+    "morgan": "^1.10.0",
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
     "textangular": "^1.5.16"
