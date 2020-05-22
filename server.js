@@ -5,13 +5,14 @@ const morgan = require("morgan")
 const mongoose = require("mongoose")
 const session = require("express-session")
 const bodyParser = require("body-parser")
+const ejs = require("ejs")
 mongoose.Promise = require("bluebird")
 
 let app = express()
 
 // Where to find the view files
 app.set("views", "./views")
-app.engine("html", require("ejs").renderFile)
+app.engine("html", ejs.renderFile)
 
 app.use(morgan("dev"))
 app.use(bodyParser.json()) // support json encoded bodies
