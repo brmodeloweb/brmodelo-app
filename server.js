@@ -5,13 +5,14 @@ const morgan = require("morgan")
 const mongoose = require("mongoose")
 const session = require("express-session")
 const bodyParser = require("body-parser")
+const ejs = require("ejs")
 mongoose.Promise = require("bluebird")
 
 let app = express()
 
 // Where to find the view files
 app.set("views", "./views")
-app.engine("html", require("ejs").renderFile)
+app.engine("html", ejs.renderFile)
 
 app.use(morgan("dev"))
 app.use(bodyParser.json()) // support json encoded bodies
@@ -32,7 +33,7 @@ let mongoport = process.env.PROD_MONGODB || "mongodb://localhost:27017/brmodeloD
 // https://mlab.com/
 
 mongoose.set("debug", true)
-mongoose.connect(mongoport, {useNewUrlParser: true}, function (err) {
+mongoose.connect(mongoport, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
  if (err) throw err
   app.listen(port, function () {
     console.log(`--------------------------------------------------
