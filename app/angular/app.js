@@ -82,4 +82,10 @@ app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
 
 });
 
+app.config(function() {
+	angular.lowercase = function(text){
+		return (typeof text === 'string') ? text.toLowerCase() : text;
+	}
+})
+
 app.$inject = ['$scope', '$http', '$cookies', '$uibModalInstance'];
