@@ -66,21 +66,18 @@ app.config(['$urlRouterProvider', '$stateProvider',
 	}
 ]);
 
-app.run(function($rootScope, $state, $cookies, AuthService, ConceptualFactory) {
-
-	$rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
-		var requireLogin = toState.data.requireLogin;
+app.run(function($transitions, $rootScope, AuthService, $state) {
+  $transitions.onStart({}, function(trans) {
+		var requireLogin = trans.to().data.requireLogin
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
 				$rootScope.loggeduser = AuthService.loggeduser;
 			} else {
-				event.preventDefault();
 				$state.go('login');
 			}
 		}
-	});
-
-});
+  });
+})
 
 app.config(function() {
 	angular.lowercase = function(text){
