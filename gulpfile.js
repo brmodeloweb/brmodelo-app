@@ -41,6 +41,7 @@ gulp.task("copy", function(done) {
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",
 		"node_modules/angular-ui-router/release/angular-ui-router.min.js",
+		"node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
 		"node_modules/angular-cookies/angular-cookies.min.js",
 		"node_modules/angular-cookies/angular-cookies.min.js.map",
 		"node_modules/textangular/dist/textAngular-rangy.min.js",

@@ -6,10 +6,10 @@
     "start": "gulp"
   },
   "dependencies": {
-    "angular": "^1.5.0",
-    "angular-cookies": "^1.6.0",
+    "angular": "^1.7.9",
+    "angular-cookies": "^1.7.9",
     "angular-ui-bootstrap": "^2.5.6",
-    "angular-ui-router": "^0.2.18",
+    "angular-ui-router": "^1.0.26",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.3.7",
