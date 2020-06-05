@@ -1,17 +1,24 @@
-#node-waf configuration
+###############################################################################
+# System files
+###############################################################################
+.idea
+.DS_Store
+
+###############################################################################
+# node-waf configuration
+###############################################################################
 .lock-wscript
 npm-debug.log
 
-#Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
-#Dependency directory
-#https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+###############################################################################
+# Dependency directories
+###############################################################################
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules/
 bower_components/
 build/
 
-#Remove compilet CSS
+###############################################################################
+# Compiled files
+###############################################################################
 app/css
-
-.idea
