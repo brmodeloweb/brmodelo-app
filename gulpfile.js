@@ -15,9 +15,11 @@ const newer = require('gulp-newer');
 
 // Input location variables
 const scssInput = './app/sass/**/*.scss';
+const imgInput = './app/img/**/*';
 
 // Output location variables
 const cssAssets = './app/assets/css/';
+const imgAssets = './app/assets/img/';
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Clear compiled files
@@ -43,6 +45,31 @@ function scss(){
 	.pipe(postcss( [ autoprefixer(), cssnano() ] ))
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest(cssAssets))
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Optimize images
+////////////////////////////////////////////////////////////////////////////////
+function imagesOptimize() {
+	const imageOptimization = [
+		imagemin.gifsicle({ interlaced: true }),
+		imagemin.mozjpeg({ progressive: true }),
+		imagemin.optipng({ optimizationLevel: 5 }),
+		imagemin.svgo({
+			plugins: [
+				{
+					removeViewBox: false,
+					collapseGroups: true
+				}
+			]
+		})
+	];
+
+	return gulp
+	.src(imgInput)
+	.pipe(newer(imgAssets))
+	.pipe(imagemin(imageOptimization))
+	.pipe(gulp.dest(imgAssets))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +162,7 @@ exports.clean = clean;
 exports.default = series(
 	clean,
 	scss,
+	imagesOptimize,
 	gulp.parallel(
 		copyToLibs,
 		copyToJoint,
