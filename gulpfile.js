@@ -88,7 +88,8 @@ function copyToLibs() {
 		"node_modules/textangular/dist/textAngular-rangy.min.js",
 		"node_modules/textangular/dist/textAngular-sanitize.min.js",
 		"node_modules/textangular/dist/textAngular.min.js",
-		"node_modules/textangular/dist/textAngular.css"
+		"node_modules/textangular/dist/textAngular.css",
+		"node_modules/bootstrap/dist/**/*"
 	];
 
 	return gulp
@@ -108,19 +109,6 @@ function copyToJoint() {
 	return gulp
 	.src(files)
 	.pipe(gulp.dest('./build/joint'))
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Copy bootstrap files
-////////////////////////////////////////////////////////////////////////////////
-function copyToBootstrap() {
-	const files = [
-		"node_modules/bootstrap/dist/**/*"
-	];
-
-	return gulp
-	.src(files)
-	.pipe(gulp.dest('./build/bootstrap'))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +154,6 @@ exports.default = series(
 	gulp.parallel(
 		copyToLibs,
 		copyToJoint,
-		copyToBootstrap,
 		copyToJqueryNiceSelect
 	),
 	gulp.parallel(
