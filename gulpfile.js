@@ -10,6 +10,8 @@ const autoprefixer = require('autoprefixer');
 const sourcemaps = require("gulp-sourcemaps");
 const cssnano = require('cssnano');
 const gls = require("gulp-live-server");
+const imagemin = require('gulp-imagemin');
+const newer = require('gulp-newer');
 
 // Input location variables
 const scssInput = './app/sass/**/*.scss';

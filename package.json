@@ -34,6 +34,8 @@
   "devDependencies": {
     "autoprefixer": "^9.8.0",
     "cssnano": "^4.1.10",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^3.2.1",
