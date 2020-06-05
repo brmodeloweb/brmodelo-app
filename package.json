@@ -32,6 +32,10 @@
     "textangular": "^1.5.16"
   },
   "devDependencies": {
+    "autoprefixer": "^9.8.0",
+    "cssnano": "^4.1.10",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^8.0.0",
     "gulp-sass": "^3.2.1",
     "gulp-sourcemaps": "^1.12.1"
   }

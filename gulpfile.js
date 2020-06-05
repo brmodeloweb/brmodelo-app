@@ -1,20 +1,21 @@
 "use strict";
 const { series, parallel } = require('gulp');
 
-const gulp = require("gulp")
-const sass = require("gulp-sass")
-const sourcemaps = require("gulp-sourcemaps")
-const autoprefixer = require("gulp-autoprefixer")
-const gls = require("gulp-live-server")
-const del = require("del")
+const gulp = require("gulp");
+const plumber = require('gulp-plumber');
+const del = require("del");
+const sass = require("gulp-sass");
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const sourcemaps = require("gulp-sourcemaps");
+const cssnano = require('cssnano');
+const gls = require("gulp-live-server");
 
-// Sass variables
-const input = "./app/sass/*.scss"
-const output = "./app/css/"
-const sassOptions = {
-	errLogToConsole: true,
-	outputStyle: "expanded"
-}
+// Input location variables
+const scssInput = './app/sass/**/*.scss';
+
+// Output location variables
+const cssAssets = './app/assets/css/';
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Clear compiled files
@@ -27,13 +28,19 @@ function clean() {
 // Compile CSS task
 ////////////////////////////////////////////////////////////////////////////////
 function scss(){
+	const sassOptions = {
+		errLogToConsole: true,
+		outputStyle: 'expanded'
+	};
+
 	return gulp
-	.src(input)
+	.src(scssInput)
+	.pipe(plumber())
 	.pipe(sourcemaps.init())
-	.pipe(sass(sassOptions).on("error", sass.logError))
+	.pipe(sass(sassOptions).on('error', sass.logError))
+	.pipe(postcss( [ autoprefixer(), cssnano() ] ))
 	.pipe(sourcemaps.write())
-	.pipe(autoprefixer())
-	.pipe(gulp.dest(output))
+	.pipe(gulp.dest(cssAssets))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +119,7 @@ function server() {
 // Watch task
 ////////////////////////////////////////////////////////////////////////////////
 function watch() {
-	gulp.watch(input, gulp.series(scss))
+	gulp.watch(scssInput, gulp.series(scss))
 	.on('change', function(path) {
 		console.log(`File ${path} was changed, running tasks...`);
 	});
