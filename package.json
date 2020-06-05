@@ -13,7 +13,6 @@
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.3.7",
-    "bower": "^1.8.8",
     "del": "^3.0.0",
     "ejs": "^2.7.4",
     "errorhandler": "^1.5.1",
@@ -23,8 +22,6 @@
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-live-server": "0.0.31",
-    "gulp-sass": "^3.0.0",
-    "gulp-sourcemaps": "^1.9.1",
     "jquery": "^3.5.1",
     "jquery-nice-select": "^1.1.0",
     "mongodb": "~2.2.36",
@@ -33,5 +30,9 @@
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
     "textangular": "^1.5.16"
+  },
+  "devDependencies": {
+    "gulp-sass": "^3.2.1",
+    "gulp-sourcemaps": "^1.12.1"
   }
 }
