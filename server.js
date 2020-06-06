@@ -26,6 +26,9 @@ app.use(errorhandler())
 
 let models  = require("./server_app/models")
 let routes  = require("./server_app/routes")(app)
+let userRoute  = require("./server_app/user/handler")
+
+app.use("/users", userRoute);
 
 let port = Number(process.env.PORT || 3000)
 
