@@ -79,6 +79,9 @@ function copyToAssets() {
 	const files = [
 		//Jquery
 		"node_modules/jquery/dist/**/*",
+		// Jquery Nice Select
+		"node_modules/jquery-nice-select/css/**/*",
+		"node_modules/jquery-nice-select/js/**/*",
 		// AngularJS
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",
@@ -103,19 +106,6 @@ function copyToAssets() {
 	return gulp
 	.src(files, {base: '.'})
 	.pipe(gulp.dest('./app/assets/'))
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Copy jquery-nice-select files
-////////////////////////////////////////////////////////////////////////////////
-function copyToJqueryNiceSelect() {
-	const files = [
-		"node_modules/jquery-nice-select/**/*"
-	];
-
-	return gulp
-	.src(files)
-	.pipe(gulp.dest('./build/jquery-nice-select'))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,10 +134,9 @@ exports.clean = clean;
 exports.default = series(
 	clean,
 	scss,
-	imagesOptimize,
 	gulp.parallel(
-		copyToAssets,
-		copyToJqueryNiceSelect
+		imagesOptimize,
+		copyToAssets
 	),
 	gulp.parallel(
 		watch,

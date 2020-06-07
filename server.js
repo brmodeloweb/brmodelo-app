@@ -20,7 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 app.use(express.static("./app"))
 app.use(express.static("./app/assets"))
 app.use(express.static("./app/assets/node_modules"))
-app.use(express.static("./build"))
 app.use(responseTime())
 app.use(session({resave: true, saveUninitialized: true, secret: "SOMERANDOMSECRETHERE", cookie: { maxAge: 60000 }}))
 app.use(errorhandler())
