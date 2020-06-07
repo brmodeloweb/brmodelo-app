@@ -6,13 +6,13 @@
     "start": "gulp"
   },
   "dependencies": {
-    "angular": "^1.7.9",
-    "angular-cookies": "^1.7.9",
+    "angular": "^1.8.0",
+    "angular-cookies": "^1.8.0",
     "angular-ui-bootstrap": "^2.5.6",
     "angular-ui-router": "^1.0.26",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "del": "^3.0.0",
     "ejs": "^2.7.4",
     "errorhandler": "^1.5.1",
@@ -25,7 +25,7 @@
     "jquery": "^2.2.4",
     "jquery-nice-select": "^1.1.0",
     "mongodb": "~2.2.36",
-    "mongoose": "^5.9.15",
+    "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
@@ -38,7 +38,7 @@
     "gulp-newer": "^1.4.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
-    "gulp-sass": "^3.2.1",
-    "gulp-sourcemaps": "^1.12.1"
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5"
   }
 }
