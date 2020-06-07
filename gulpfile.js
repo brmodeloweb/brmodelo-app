@@ -14,7 +14,7 @@ const imagemin = require('gulp-imagemin');
 const newer = require('gulp-newer');
 
 // Input location variables
-const scssInput = './app/sass/**/*.scss';
+const scssInput = './app/sass/app.scss';
 const imgInput = './app/img/**/*';
 
 // Output location variables
