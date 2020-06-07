@@ -75,26 +75,32 @@ function imagesOptimize() {
 ////////////////////////////////////////////////////////////////////////////////
 // Copy files to libs/
 ////////////////////////////////////////////////////////////////////////////////
-function copyToLibs() {
+function copyToAssets() {
 	const files = [
-		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
-		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+		// AngularJS
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",
+		// Angular UI Router
 		"node_modules/angular-ui-router/release/angular-ui-router.min.js",
 		"node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
+		// Angular Cookies
 		"node_modules/angular-cookies/angular-cookies.min.js",
 		"node_modules/angular-cookies/angular-cookies.min.js.map",
-		"node_modules/textangular/dist/textAngular-rangy.min.js",
-		"node_modules/textangular/dist/textAngular-sanitize.min.js",
-		"node_modules/textangular/dist/textAngular.min.js",
-		"node_modules/textangular/dist/textAngular.css",
-		"node_modules/bootstrap/dist/**/*"
+		// TextAngular
+		"node_modules/textangular/dist/**/*",
+		// Bootstrap + Augular UI Bootstrap
+		"node_modules/bootstrap/dist/**/*",
+		"node_modules/angular-ui-bootstrap/dist/**/*",
+		// Font-awesome
+		"node_modules/font-awesome/css/**/*",
+		"node_modules/font-awesome/fonts/**/*",
+		// Sweet-Feedback
+		"node_modules/sweet-feedback/**/*"
 	];
 
 	return gulp
-	.src(files)
-	.pipe(gulp.dest('./build/libs'))
+	.src(files, {base: '.'})
+	.pipe(gulp.dest('./app/assets/'))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +158,7 @@ exports.default = series(
 	scss,
 	imagesOptimize,
 	gulp.parallel(
-		copyToLibs,
+		copyToAssets,
 		copyToJoint,
 		copyToJqueryNiceSelect
 	),

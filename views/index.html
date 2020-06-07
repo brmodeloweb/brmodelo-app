@@ -3,23 +3,7 @@
 	<meta charset="utf-8">
 	<title>brModeloWeb</title>
 
-	<!-- CSS modules -->
-	<link rel="stylesheet" href="assets/node_modules/bootstrap/dist/css/bootstrap.css"/>
-	<link rel="stylesheet" href="assets/css/reset.css" />
-	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="sweet-feedback/css/sweetfeedback.css"/>
-	<link rel="stylesheet" href="joint/joint.css" />
-	<link rel="stylesheet" href="joint/joint.ui.halo.css" />
-	<link rel="stylesheet" href="joint/joint.ui.stencil.css" />
-	<link rel="stylesheet" href="joint/joint.ui.selectionView.css" />
-
-	<!-- BrModelo Styles -->
-	<link rel="stylesheet" href="assets/css/app.css" />
-
-	<!-- Custom Fonts -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700italic,700,500italic,500,400italic,300italic,300" />
-
-	<!-- Scripts -->
+	<!-- Joint -->
 	<script src="joint/jquery.min.js"></script>
 	<script src="joint/lodash.min.js"></script>
 	<script src="joint/backbone-min.js"></script>
@@ -29,28 +13,53 @@
 	<script src="joint/joint.dia.command.js"></script>
 	<script src="joint/joint.shapes.erd.js"></script>
 	<script src="joint/joint.shapes.uml.js"></script>
-	<script src="joint/joint.ui.selectionView.js"></script>
 	<script src="joint/br-scroller.js"></script>
+	<script src="joint/joint.ui.selectionView.js"></script>
+	<link rel="stylesheet" href="joint/joint.css" />
+	<link rel="stylesheet" href="joint/joint.ui.halo.css" />
+	<link rel="stylesheet" href="joint/joint.ui.stencil.css" />
+	<link rel="stylesheet" href="joint/joint.ui.selectionView.css" />
 
-	<script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
+	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<!-- jquery-nice-select -->
-	<script src="jquery-nice-select/js/jquery.nice-select.min.js"></script>
+	<!-- Font-Awesome -->
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
+
+	<!-- Sweet-Feedback -->
+	<link rel="stylesheet" href="sweet-feedback/css/sweetfeedback.css" />
+
+	<!-- Custom Fonts -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:400,700italic,700,500italic,500,400italic,300italic,300" />
+
+	<!-- Jquery Nice Selece -->
 	<link rel="stylesheet" href="jquery-nice-select/css/nice-select.css" />
+	<script src="jquery-nice-select/js/jquery.nice-select.min.js"></script>
 
-	<script src="libs/angular.min.js"></script>
-	<script src="libs/angular-ui-router.min.js"></script>
-	<script src="libs/angular-cookies.min.js"></script>
-	<script src="libs/ui-bootstrap-tpls.js"></script>
+	<!-- AngularJS -->
+	<script src="angular/angular.min.js"></script>
 
-	<link rel="stylesheet" href="libs/textAngular.css">
-	<script src="libs/textAngular-rangy.min.js"></script>
-	<script src="libs/textAngular-sanitize.min.js"></script>
-	<script src="libs/textAngular.min.js"></script>
+	<!-- TextAngular -->
+	<link rel="stylesheet" href="textangular/dist/textAngular.css" />
+	<script src="textangular/dist/textAngular-rangy.min.js"></script>
+	<script src="textangular/dist/textAngular-sanitize.min.js"></script>
+	<script src="textangular/dist/textAngular.min.js"></script>
 
+	<!-- Angular Ui Router -->
+	<script src="angular-ui-router/release/angular-ui-router.min.js"></script>
+
+	<!-- Angular Cookies -->
+	<script src="angular-cookies/angular-cookies.min.js"></script>
+
+	<!-- Angular UI Bootsrtrap -->
+	<script src="angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+	<!-- App -->
 	<script src="angular/app.js"></script>
 	<script src="angular/session.js"></script>
 
+	<!-- Contorllers -->
 	<script src="angular/controller/mainController.js"></script>
 	<script src="angular/controller/models/conceptualController.js"></script>
 	<script src="angular/controller/models/logicController.js"></script>
@@ -62,10 +71,10 @@
 	<script src="angular/controller/modal/deleteModelModalController.js"></script>
 	<script src="angular/controller/modal/sqlGeneratorModalController.js"></script>
 	<script src="angular/controller/sqlController.js"></script>
-
 	<script src="angular/controller/modal/conversions/attributeModalController.js"></script>
 	<script src="angular/controller/modal/conversions/extensionModalController.js"></script>
 
+	<!-- Services -->
 	<script src="angular/service/authService.js"></script>
 	<script src="angular/service/conceptualFactory.js"></script>
 	<script src="angular/service/logicFactory.js"></script>
@@ -75,10 +84,15 @@
 	<script src="angular/service/modelAPI.js"></script>
 	<script src="angular/service/sqlGeneratorService.js"></script>
 
+	<!-- Directives -->
 	<script src="angular/directive/br-dropdown.js"></script>
 	<script src="angular/directive/br-select-option.js"></script>
 	<script src="angular/directive/br-option.js"></script>
 	<script src="angular/directive/br-select-dropdown.js"></script>
+
+	<!-- BrModelo Styles -->
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="assets/css/app.css" />
 
 	<script>
 		angular.element(document).ready(function () {
