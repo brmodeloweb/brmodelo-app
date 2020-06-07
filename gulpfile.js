@@ -77,6 +77,8 @@ function imagesOptimize() {
 ////////////////////////////////////////////////////////////////////////////////
 function copyToAssets() {
 	const files = [
+		//Jquery
+		"node_modules/jquery/dist/**/*",
 		// AngularJS
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",
@@ -101,20 +103,6 @@ function copyToAssets() {
 	return gulp
 	.src(files, {base: '.'})
 	.pipe(gulp.dest('./app/assets/'))
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Copy files to joint/
-////////////////////////////////////////////////////////////////////////////////
-function copyToJoint() {
-	const files = [
-		"node_modules/jquery/dist/jquery.min.js",
-		"node_modules/jquery/dist/jquery.min.map"
-	];
-
-	return gulp
-	.src(files)
-	.pipe(gulp.dest('./build/joint'))
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +147,6 @@ exports.default = series(
 	imagesOptimize,
 	gulp.parallel(
 		copyToAssets,
-		copyToJoint,
 		copyToJqueryNiceSelect
 	),
 	gulp.parallel(
