@@ -33,8 +33,36 @@ const userLogin = async(req, res) => {
 }
 
 const userCreate = async(req, res) => {
-  res.status(201).json({});
+  try {
+    const username = req.body.username;
+    const mail = req.body.email;
+    const password = req.body.password;
+
+    if(username == "") {
+      res.status(422).send("Missig username");
+    }
+  
+    if(mail == "") {
+      res.status(422).send("Missig mail")
+    }
+
+    if(password == "") {
+      res.status(422).send("Missig password")
+    }
+  
+    const createdUser = await userService.create({username, mail, password});
+
+    res.status(200).json(createdUser);
+    
+  } catch (error) {
+    console.error(error);
+    if(error.code == 'USER_ERROR_ALREADY_EXISTS') {
+      res.status(409).send("User alredy exists")
+    }
+    res.status(500).send("There's an error while treating your request, try again later");
+  }
 }
 
 module.exports = router
+  .post("/create", userCreate)
   .post("/login", userLogin);
