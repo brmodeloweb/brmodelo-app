@@ -1,18 +1,5 @@
 {
-	"extends": ["airbnb", "plugin:prettier/recommended", "plugin:jest/recommended"],
-	"rules": {
-		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-		"class-methods-use-this": 0,
-		"react/prefer-stateless-function": 0,
-		"react/no-did-update-set-state": 0,
-		"import/no-unresolved": 0,
-		"import/prefer-default-export": 0,
-		"react/no-array-index-key": 0,
-		"react/forbid-prop-types": 0,
-		"import/no-named-as-default": 0,
-		"import/no-extraneous-dependencies": 0,
-		"no-plusplus": [1, { "allowForLoopAfterthoughts":  true }]
-	},
+	"extends": ["airbnb-base", "plugin:prettier/recommended"],
 	"env": {
 		"browser": true
 	}
