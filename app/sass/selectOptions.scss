@@ -23,8 +23,14 @@
     background: #fff;
 }
 
+.dropdown-tmp-trigger {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+}
+
 .dropdown-tmp-trigger > button {
-	width: 100%;
+    width: 100%;
+    text-align: left;
 }
 
 .dropdown-tmp-trigger:after {
@@ -103,7 +109,7 @@
 }
 
 .dropdown-tmp-item {
-	text-align: center;
+  text-align: left;
   line-height: 26px;
   padding: 0 10px;
   cursor: pointer;
