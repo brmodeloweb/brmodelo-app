@@ -1,15 +1,27 @@
+///////////////////////////////////////////////////////////////////////////////
+// Box Model
+///////////////////////////////////////////////////////////////////////////////
+html {box-sizing: border-box;}
+
+*,
+*:before,
+*:after {box-sizing: inherit;}
+
 /******************************************************************************/
 /* .General styles */
 /******************************************************************************/
 body {
 	font-size: 10pt;
 	font-family: 'Fira Sans', sans-serif;
-	font-weight: 300;
+	font-weight: 400;
 	color: rgba(0,0,0, 0.8);
 }
 
 a,
-.link {color: rgba(#3D9970, 1);}
+.link {
+	color: rgba(#3D9970, 1);
+	cursor: pointer;
+}
 
 .fa {user-select: none;}
 
