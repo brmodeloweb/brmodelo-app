@@ -17,9 +17,30 @@
 	cursor: pointer;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// .action-cell
+///////////////////////////////////////////////////////////////////////////////
+.actions-cell {
+	text-align: right;
 }
 
+.actions-cell .fa {
+	pointer-events: none;
+	opacity: 0;
+	font-size: 1.3em;
+	padding: 4px 6px;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	margin-left: 3px;
 }
 
+tr:hover .actions-cell .fa {
+	pointer-events: all;
+	opacity: 1;
+}
+
+.actions-cell .fa:hover {
+	border-color: #d2d2d2;
+	background-color: #d2d2d2;
 }
 
