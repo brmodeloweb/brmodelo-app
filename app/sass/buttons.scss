@@ -1,116 +1,4 @@
 /******************************************************************************/
-/* .buttons */
-/******************************************************************************/
-.button {
-	position: relative;
-	display: inline-block;
-	font-size: 1em;
-	font-weight: 300;
-	text-align: center;
-	text-transform: uppercase;
-	padding: 5px 10px;
-	border: 1px solid rgba(0,0,0, 0.2);
-	border-radius: 2px;
-	margin: 0;
-	background: linear-gradient(to bottom,
-								rgba(255,255,255, 0.6) 0%,
-								rgba(229,229,229, 0.6) 100%);
-}
-
-.button:hover {
-	text-decoration: none;
-	background: linear-gradient(to bottom,
-								rgba(229,229,229, 0.6) 0%,
-								rgba(255,255,255, 0.6) 100%);
-}
-
-.button:active {
-	top: 2px;
-	background: linear-gradient(to bottom,
-								rgba(229,229,229, 0.6) 0%,
-								rgba(255,255,255, 0.6) 100%);
-	box-shadow: 0px 1px 1px transparent;
-}
-
-/******************************************************************************/
-/* .button.style1 */
-/******************************************************************************/
-.button.style1 {
-	color: rgba(green, 0.8);
-	border-color: rgba(green, 1);
-	background: linear-gradient(to bottom,
-								rgba(210,255,82,0.6) 0%,
-								rgba(145,232,66, 0.6) 100%);
-}
-
-.button.style1:hover {
-	background: linear-gradient(to bottom,
-								rgba(145,232,66, 0.6) 0%,
-								rgba(210,255,82, 0.6) 100%);
-}
-
-/******************************************************************************/
-/* .button.style2 */
-/******************************************************************************/
-.button.style2 {
-	color: rgba(#19285B, 1); //blue
-	border-color: rgba(#19285B, 0.8);
-	background: linear-gradient(to bottom,
-								rgba(122,188,255, 0.6) 0%,
-								rgba(96,171,248, 0.6) 44%,
-								rgba(64,150,238, 0.6) 100%);
-}
-
-.button.style2:hover {
-	background: linear-gradient(to bottom,
-								rgba(64,150,238, 0.6) 0%,
-								rgba(96,171,248, 0.6) 44%,
-								rgba(122,188,255, 0.6) 100%);
-}
-
-/******************************************************************************/
-/* .button.style3 */
-/******************************************************************************/
-.button.style3 {
-	color: rgba(#fff, 1);
-	border-color: rgba(red, 0.8);
-	background: linear-gradient(to bottom,
-								rgba(#f38630, 0.8) 0%,
-								rgba(#fa6900, 0.8) 100%);
-}
-
-.button.style3:hover {
-	background: linear-gradient(to bottom,
-								rgba(#fa6900, 0.8) 0%,
-								rgba(#f38630, 0.8) 100%);
-}
-
-/******************************************************************************/
-/* .button.style4 */
-/******************************************************************************/
-.button.style4 {
-	color: rgba(#fff, 1);
-	border-color: rgba(red, 0.8);
-	background: linear-gradient(to bottom,
-								rgba(#02b3e4, 0.8) 0%,
-								rgba(#fa6900, 0.8) 100%);
-}
-
-.button.style4:hover {
-	background: linear-gradient(to bottom,
-								rgba(#fa6900, 0.8) 0%,
-								rgba(#f38630, 0.8) 100%);
-}
-
-/******************************************************************************/
-/* .button.style5 */
-/******************************************************************************/
-.button.style5 {
-	background-color: #3D9970;
-	color: rgba(green, 0.8);
-	border-color: rgba(green, 1);
-}
-/******************************************************************************/
 /* .button.block */
 /******************************************************************************/
 .button.block {
@@ -138,7 +26,7 @@
 .dropDownList .dropDownItem:hover {text-decoration: none;}
 
 /******************************************************************************/
-/* .tton */
+/* .br-button */
 /******************************************************************************/
 .br-button {
 	font-size: 0.8rem;
