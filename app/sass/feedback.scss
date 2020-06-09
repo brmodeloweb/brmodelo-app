@@ -26,48 +26,10 @@
 /******************************************************************************/
 /* .feedback */
 /******************************************************************************/
-.feedback {
-	position: relative;
+.workspace-header .feedback {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: calc(100% - 16px);
 	z-index: 1;
-}
-
-/******************************************************************************/
-/* .modelWorkspace .feedback */
-/******************************************************************************/
-.modelWorkspace .feedback {top: -20px;}
-
-.modelWorkspace .feedback .message {
-	padding: 20px;
-	border-width: 0;
-	border-radius: 0;
-	border-bottom-width: 1px;
-	font-size: 1.4em;
-	background-image: none;
-	box-shadow: 0 0 0 transparent;
-}
-
-.modelWorkspace .feedback .message p {padding-right: 60px;}
-
-.modelWorkspace .feedback .error {;
-	color: #fc5858;
-	border-bottom-color: #fc5858;
-	background-color: rgba(#f7dbdc, 0.95);
-}
-
-.modelWorkspace .feedback .success {;
-	color: #09c600;
-	border-bottom-color: #09c600;
-	background-color: rgba(#cbf0ca, 0.95);
-}
-
-.modelWorkspace .feedback .warning {;
-	color: #bbb90c;
-	border-bottom-color: #bbb90c;
-	background-color: rgba(#f3f2c4, 0.95);
-}
-
-.modelWorkspace .feedback .info {;
-	color: #198fb0;
-	border-bottom-color: #198fb0;
-	background-color: rgba(#d0f2fb, 0.95);
 }
