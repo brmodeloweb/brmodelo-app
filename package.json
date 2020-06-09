@@ -6,14 +6,13 @@
     "start": "gulp"
   },
   "dependencies": {
-    "angular": "^1.7.9",
-    "angular-cookies": "^1.7.9",
+    "angular": "^1.8.0",
+    "angular-cookies": "^1.8.0",
     "angular-ui-bootstrap": "^2.5.6",
     "angular-ui-router": "^1.0.26",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
-    "bootstrap": "^3.3.7",
-    "bower": "^1.8.8",
+    "bootstrap": "^3.4.1",
     "del": "^3.0.0",
     "ejs": "^2.7.4",
     "errorhandler": "^1.5.1",
@@ -23,15 +22,23 @@
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-live-server": "0.0.31",
-    "gulp-sass": "^3.0.0",
-    "gulp-sourcemaps": "^1.9.1",
-    "jquery": "^3.5.1",
+    "jquery": "^2.2.4",
     "jquery-nice-select": "^1.1.0",
+    "mongoose": "^5.9.18",
     "mongodb": "~3.5.8",
-    "mongoose": "^5.9.17",
     "morgan": "^1.10.0",
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
     "textangular": "^1.5.16"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.8.0",
+    "cssnano": "^4.1.10",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5"
   }
 }

@@ -1,76 +1,145 @@
-const gulp = require("gulp")
-const sass = require("gulp-sass")
-const sourcemaps = require("gulp-sourcemaps")
-const autoprefixer = require("gulp-autoprefixer")
-const gls = require("gulp-live-server")
-const del = require("del")
+"use strict";
+const { series, parallel } = require('gulp');
 
-// Sass variables
-const input = "./app/sass/*.scss"
-const output = "./app/css/"
-const sassOptions = {
-	errLogToConsole: true,
-	outputStyle: "expanded"
+const gulp = require("gulp");
+const plumber = require('gulp-plumber');
+const del = require("del");
+const sass = require("gulp-sass");
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const sourcemaps = require("gulp-sourcemaps");
+const cssnano = require('cssnano');
+const gls = require("gulp-live-server");
+const imagemin = require('gulp-imagemin');
+const newer = require('gulp-newer');
+
+// Input location variables
+const scssInput = './app/sass/**/*';
+const imgInput = './app/img/**/*';
+
+// Output location variables
+const cssAssets = './app/assets/css/';
+const imgAssets = './app/assets/img/';
+
+////////////////////////////////////////////////////////////////////////////////
+//  Clear compiled files
+////////////////////////////////////////////////////////////////////////////////
+function clean() {
+	return del(['./dist/', './app/assets/']);
 }
 
-gulp.task("clean", function() {
-  return del("build")
-})
+////////////////////////////////////////////////////////////////////////////////
+// Compile CSS task
+////////////////////////////////////////////////////////////////////////////////
+function scss(){
+	const sassOptions = {
+		errLogToConsole: true,
+		outputStyle: 'expanded'
+	};
 
-gulp.task("sass", function() {
 	return gulp
-	.src(input)
+	.src(scssInput)
+	.pipe(plumber())
 	.pipe(sourcemaps.init())
-	.pipe(sass(sassOptions).on("error", sass.logError))
+	.pipe(sass(sassOptions).on('error', sass.logError))
+	.pipe(postcss( [ autoprefixer(), cssnano() ] ))
 	.pipe(sourcemaps.write())
-	.pipe(autoprefixer())
-	.pipe(gulp.dest(output))
-}) // End task sass
+	.pipe(gulp.dest(cssAssets))
+}
 
-gulp.task("watch", function() {
-  gulp.watch(input, gulp.series("sass"))
-	.on("change", function(file) {
-  console.log(`File "${file}" has been changed...`)
-  })
-}) // End task watch
+////////////////////////////////////////////////////////////////////////////////
+// Optimize images
+////////////////////////////////////////////////////////////////////////////////
+function imagesOptimize() {
+	const imageOptimization = [
+		imagemin.gifsicle({ interlaced: true }),
+		imagemin.mozjpeg({ progressive: true }),
+		imagemin.optipng({ optimizationLevel: 5 }),
+		imagemin.svgo({
+			plugins: [
+				{
+					removeViewBox: false,
+					collapseGroups: true
+				}
+			]
+		})
+	];
 
-gulp.task("copy", function(done) {
-	gulp.src([
-		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
-		"node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+	return gulp
+	.src(imgInput)
+	.pipe(newer(imgAssets))
+	.pipe(imagemin(imageOptimization))
+	.pipe(gulp.dest(imgAssets))
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Copy files to libs/
+////////////////////////////////////////////////////////////////////////////////
+function copyToAssets() {
+	const files = [
+		//Jquery
+		"node_modules/jquery/dist/**/*",
+		// Jquery Nice Select
+		"node_modules/jquery-nice-select/css/**/*",
+		"node_modules/jquery-nice-select/js/**/*",
+		// AngularJS
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",
+		// Angular UI Router
 		"node_modules/angular-ui-router/release/angular-ui-router.min.js",
 		"node_modules/angular-ui-router/release/angular-ui-router.min.js.map",
+		// Angular Cookies
 		"node_modules/angular-cookies/angular-cookies.min.js",
 		"node_modules/angular-cookies/angular-cookies.min.js.map",
-		"node_modules/textangular/dist/textAngular-rangy.min.js",
-		"node_modules/textangular/dist/textAngular-sanitize.min.js",
-		"node_modules/textangular/dist/textAngular.min.js",
-		"node_modules/textangular/dist/textAngular.css"
-	]).pipe(gulp.dest("build/libs/"))
+		// TextAngular
+		"node_modules/textangular/dist/**/*",
+		// Bootstrap + Augular UI Bootstrap
+		"node_modules/bootstrap/dist/**/*",
+		"node_modules/angular-ui-bootstrap/dist/**/*",
+		// Font-awesome
+		"node_modules/font-awesome/css/**/*",
+		"node_modules/font-awesome/fonts/**/*",
+		// Sweet-Feedback
+		"node_modules/sweet-feedback/**/*"
+	];
 
-	gulp.src([
-		"node_modules/jquery/dist/jquery.min.js",
-		"node_modules/jquery/dist/jquery.min.map"
-	]).pipe(gulp.dest("build/joint/"))
+	return gulp
+	.src(files, {base: '.'})
+	.pipe(gulp.dest('./app/assets/'))
+}
 
-	gulp.src([
-		"node_modules/bootstrap/dist/**/*"
-	]).pipe(gulp.dest("build/bootstrap"))
-
-	gulp.src([
-		"node_modules/jquery-nice-select/**/*"
-  ]).pipe(gulp.dest("build/jquery-nice-select"))
-  
-  done()
-
-}) // End task copy
-
-gulp.task("server", function() {
-	let server = gls.new("server.js")
+////////////////////////////////////////////////////////////////////////////////
+// Local server
+////////////////////////////////////////////////////////////////////////////////
+function server() {
+	let server = gls.new("./server.js")
 	server.start()
-}) // End task server
+}
 
+////////////////////////////////////////////////////////////////////////////////
+// Watch task
+////////////////////////////////////////////////////////////////////////////////
+function watch() {
+	gulp.watch(scssInput, gulp.series(scss))
+	.on('change', function(path) {
+		console.log(`File ${path} was changed, running tasks...`);
+	});
+}
 
-gulp.task("default", gulp.series("clean", "sass", "copy", gulp.parallel("watch", "server")))
+////////////////////////////////////////////////////////////////////////////////
+// Export tasks
+////////////////////////////////////////////////////////////////////////////////
+exports.clean = clean;
+
+exports.default = series(
+	clean,
+	scss,
+	gulp.parallel(
+		imagesOptimize,
+		copyToAssets
+	),
+	gulp.parallel(
+		watch,
+		server
+	)
+);

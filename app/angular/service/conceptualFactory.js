@@ -136,7 +136,7 @@ angular.module('myapp').factory('ConceptualFactory', function(){
 				y: 320
 			},
 			attrs: {
-		 		image: { 'xlink:href': '../../imgs/composto-01.png' }
+		 		image: { 'xlink:href': '../../assets/img/composto-01.png' }
  			}
 		});
 	};
