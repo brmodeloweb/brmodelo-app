@@ -29,42 +29,41 @@
 /* .br-button */
 /******************************************************************************/
 .br-button {
-	font-size: 0.8rem;
-	padding: 0.7rem 1.1rem 0.5rem;
-	text-transform: uppercase;
-	border: 1px solid #3D9970;
+	display: inline-block;
+	cursor: pointer;
+	font-size: 1em;
+	padding: 8px 12px;
+	border: 1px solid #3d9970;
+	border-radius: 2px;
+	margin: 0 8px;
 	color: #3D9970;
 	font-weight: 400;
-	border-radius: 2px;
+	text-transform: uppercase;
 	background-color: transparent;
 	transition: all 0.25s ease;
-	margin: 0.25rem 0.5rem;
-	z-index: 1;
 }
 
 .br-button:hover {
-	color: #FFF;
+	color: #fff;
+	background: #3d9970;
 	text-decoration: none;
-	cursor: pointer;
-	background: #3D9970;
 }
 
 .br-button.yellow {
-	border: 1px solid #DD7C58;
-	color: #DD7C58;
+	border-color: #dd7c58;
+	color: #dd7c58;
 }
 
 .br-button.yellow:hover {
-	background: #DD7C58;
-	color: #FFF;
+	background: #dd7c58;
+	color: #fff;
 }
 
 .br-button.btn-disable {
 	cursor: not-allowed;
 	pointer-events: none;
- /*Button disabled - CSS color class*/
 	color: #c0c0c0;
-	background-color: #dddddd;
+	background-color: #ddd;
 }
 
 /******************************************************************************/
