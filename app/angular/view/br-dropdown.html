@@ -1,8 +1,17 @@
-<div class="dropdownButton" data-ng-class="{'active': opened}"> <!-- Add/Remove class .active to show/hide submenu -->
-	<span class="mainHeaderItem" ng-click="show()"> <i class="fa fa-cog"></i> </span>
-	<ul class="dropDownList" >
+<li class="dropdown">
+	<a
+		href="#"
+		class="dropdown-toggle"
+		data-toggle="dropdown"
+		role="button"
+		aria-haspopup="true"
+		aria-expanded="false"
+	>
+		<i class="fa fa-cog"></i>
+	</a>
+	<ul class="dropdown-menu dropdown-menu-right">
 		<li data-ng-repeat="item in list">
-			<a class="dropDownItem" ng-click="doAction(item)">{{item.text}}</a>
+			<a href="#" ng-click="doAction(item)">{{item.text}}</a>
 		</li>
-	</ul><!-- End .dropDownList -->
-</div><!-- End .dropdown -->
+	</ul>
+</li>
