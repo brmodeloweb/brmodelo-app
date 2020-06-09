@@ -25,8 +25,32 @@ const login = async ({username, password, sessionId}) => {
   });
 }
 
+const create = async ({username, password, mail}) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await UserRepository.findOne({"login": mail});
+
+      if(user != null) {
+        reject({"code": "USER_ERROR_ALREADY_EXISTS"});
+      }
+
+      const createdUser = await UserRepository.create({
+        login: mail,
+        name: username,
+        password: encriptor.Crypto(password, mail)
+      });
+    
+      resolve(createdUser);
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+  });
+}
+
 const userService = {
-  login
+  login,
+  create
 };
 
 module.exports = userService;
