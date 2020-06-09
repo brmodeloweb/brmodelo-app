@@ -12,12 +12,14 @@
 		data-ng-controller="listController as ctrl"
 		ng-init="initList()"
 	>
-		<header class="contentHeader">
-			<div class="wrapper">
-				<h2 class="headerText">Modelagens</h2>
-				<a class="br-button headerButton" data-ng-click="ctrl.newModel()">Nova Modelagem</a>
-			</div><!-- End .wrapper -->
-		</header><!-- End .contentHeader -->
+		<header class="container">
+			<div class="page-header clearfix">
+				<h2 class="h2 pull-left">Modelagens</h2>
+				<aside class="header-actions pull-right">
+					<a class="br-button" data-ng-click="ctrl.newModel()">Nova Modelagem</a>
+				</aside>
+			</div><!-- End .page-header -->
+		</header><!-- End .container -->
 
 		<div class="container projectsList">
 			<div class="table-responsive">
