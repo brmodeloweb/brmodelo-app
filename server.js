@@ -18,8 +18,8 @@ app.use(morgan("dev"))
 app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 app.use(express.static("./app"))
-app.use(express.static("./build"))
-app.use(express.static("./node_modules"))
+app.use(express.static("./app/assets"))
+app.use(express.static("./app/assets/node_modules"))
 app.use(responseTime())
 app.use(session({resave: true, saveUninitialized: true, secret: "SOMERANDOMSECRETHERE", cookie: { maxAge: 60000 }}))
 app.use(errorhandler())
@@ -36,9 +36,13 @@ mongoose.set("debug", true)
 mongoose.connect(mongoport, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
  if (err) throw err
   app.listen(port, function () {
-    console.log(`--------------------------------------------------
-Application running on http://localhost:${port}
-MongoDB running on ${mongoport}
---------------------------------------------------`)
+    console.log(`
+---------------------------------------------------
+--------------- APPLICATION RUNNING ---------------
+---------------------------------------------------
+App: http://localhost:${port}
+MongoDB: ${mongoport}
+---------------------------------------------------
+    `)
   })
 })
