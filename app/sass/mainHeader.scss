@@ -1,90 +1,25 @@
-.mainHeader {
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0;
-	border-bottom: 1px solid rgba(0,0,0, 0.2);
-	background-color: #efefef;
-	z-index: 50;
-	user-select: none;
+///////////////////////////////////////////////////////////////////////////////
+// .navbar-brand
+///////////////////////////////////////////////////////////////////////////////
+.navbar-default .navbar-brand {color: #3d9970;}
+
+///////////////////////////////////////////////////////////////////////////////
+// purelly icon nav
+///////////////////////////////////////////////////////////////////////////////
+.nav-icons .fa {
+	font-size: 1.5em;
 }
 
-.mainHeader .logo {
-	float: left;
-	border-right: 1px solid rgba(#000, 0.2);
-	cursor: pointer;
+///////////////////////////////////////////////////////////////////////////////
+// toolbar with icons
+///////////////////////////////////////////////////////////////////////////////
+.tool-icons {
+	width: 100%;
+	border-bottom: 1px solid #e7e7e7;
 }
 
-.mainHeader .logo strong {
-	display: block;
-	font-size: 24px;
-	padding: 10px;
-	color: #3D9970;
-}
-
-/******************************************************************************/
-/* .mainNav */
-/******************************************************************************/
-.mainNav {
-	float: left;
-	min-width: 500px;
-}
-.mainNav .mainHeaderItem {float: left;}
-.mainNav .mainHeaderItem {border-right: 1px solid rgba(#000, 0.2);}
-
-/******************************************************************************/
-/* .mainHeaderItem */
-/******************************************************************************/
-.mainHeaderItem {
-	display: block;
+.tool-icons .fa {
 	font-size: 1.2em;
-	font-weight: 200;
-	padding: 15px;
-	cursor: pointer;
-	color: rgba(0,0,0, 0.8);
-}
-
-.mainHeaderItem:hover,
-.mainHeaderItem.active {
-	text-decoration: none;
-	background: linear-gradient(to bottom,
-								rgba(255,255,255, 1) 0%,
-								rgba(229,229,229, 1) 100%);
-}
-
-/******************************************************************************/
-/* .userActions */
-/******************************************************************************/
-.userActions {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	border-left: 1px solid rgba(#000, 0.2);
-}
-
-.userActions .dropdownButton {float: right;}
-
-.userActions .dropDownList {
-	list-style: none;
-	background-color: #efefef;
-}
-
-.userActions .dropDownItem {
-	display: block;
-	min-width: 200px;
-	padding: 20px;
-	font-size: 1.1em;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-	border-left: 1px solid rgba(0, 0, 0, 0.2);
-	color: rgba(0,0,0, 0.8);
-	background-color: #efefef;
-}
-
-.userActions .dropDownItem:hover {
-	background: linear-gradient(to bottom,
-								rgba(255,255,255, 1) 0%,
-								rgba(229,229,229, 1) 100%);
 }
 
 /******************************************************************************/

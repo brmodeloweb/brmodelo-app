@@ -36,20 +36,10 @@ a,
 /******************************************************************************/
 /* .mainContent */
 /******************************************************************************/
-.mainContent {padding-top: 47px;}
-.modelsList .mainContent {padding-top: calc(47px + 40px);}
-
-.workspaceConceptual .mainContent,
-.workspaceLogic .mainContent {
-	padding-top: calc(47px + 20px);
-//	margin-left: 126px;
-
-	height:100%;
-	width:100%;
-	overflow-y: auto;
-	overflow-x: auto;
+.mainContent {
+	padding-top: 50px;
+	height: 100%;
 }
-
 
 /******************************************************************************/
 /* .header-actions */
@@ -68,33 +58,49 @@ a,
 }
 
 /******************************************************************************/
-/* .componentsList */
+/* .stencil-lis */
 /******************************************************************************/
-.componentsList {
+.stencil-list {
 	position: fixed;
-	top: 46px;
+	top: 50px;
 	bottom: 0;
 	left: 0;
-	width: 126px;
-	border-right: 1px solid rgba(#000, 0.2);
-	background-color: #efefef;
+	width: 150px;
+	border-right: 1px solid #e7e7e7;;
+	background-color: #f8f8f8;
 	user-select: none;
 }
 
-.componentsList .stencil {border: none;}
-.componentsList .stencil .elements {background-color: transparent;}
+.stencil-list .stencil {
+	float: none;
+	width: 125px;
+	margin: 16px auto 0 auto;
+	border: none;
+}
+
+.stencil-list .stencil .elements {background-color: transparent;}
 
 /******************************************************************************/
-/* .modelContent */
+/* .model-area */
 /******************************************************************************/
-.modelContent {
+.model-area {
 	position: absolute;
-	top: 48px;
+	top: 50px;
 	right: 0;
 	bottom: 0;
-	left: 127px;
+	left: 150px;
 	overflow: hidden;
 	box-sizing: border-box;
+}
+
+.model-area .page-header {
+	padding: 0 15px;
+	margin-top: 18px;
+	margin-bottom: 0;
+}
+
+.model-area .page-header .header-actions {
+	margin-top: 0;
 }
 
 /******************************************************************************/
@@ -103,12 +109,13 @@ a,
 .model-properties {
 	position: fixed;
 	z-index: 10;
-	top: 46px;
-	right: -165px;
+	top: 108px;
+	right: -224px;
 	bottom: 0;
-	width: 210px;
-	border-left: 1px solid rgba(0, 0, 0, 0.2);
-	background-color: #efefef;
+	width: 240px;
+	border-top: 1px solid #e7e7e7;
+	border-left: 1px solid #e7e7e7;
+	background-color: #f8f8f8;
 	transition: 0.3s ease-in-out right;
 }
 
@@ -119,20 +126,20 @@ a,
 	height: 30px;
 	width: 30px;
 	position: absolute;
-	top: 20px;
+	top: 8px;
 	left: -30px;
 	text-align: center;
-	border: 1px solid rgba(0, 0, 0, 0.2);
+	border: 1px solid #e7e7e7;
 	border-radius: 3px 0 0 3px;
-	background-color: #efefef;
+	background-color: #f8f8f8;
 	cursor: pointer;
 }
 
-.angle-double-icon {
+.action .angle-double-icon {
 	position: relative;
 	top: 3px;
-	font-size: 1.7em;
-	color: rgba(0, 0, 0, 0.3);
+	font-size: 1.5em;
+	color: rgb(119, 119, 119);
 	font-weight: bold;
 }
 

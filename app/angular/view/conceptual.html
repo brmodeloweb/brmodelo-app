@@ -4,41 +4,25 @@
 	data-ng-init="initView()"
 >
 
-	<header class="mainHeader cf">
-		<h1 class="logo" data-ui-sref="main">
-			<strong>brModelo</strong>
-		</h1><!-- End .logo -->
-		<aside class="modelOptions cf">
-			<div class="modelName">
-				<input
-					class="modelTitleItem fieldInput"
-					type="text"
-					data-ng-model="model.name"
-				/>
-				<span class="fa fa-pencil inputPencil"></span>
-			</div><!-- End .modelName -->
-			<div class="modelViewiewOptions">
-				<a data-ng-click="undoModel()"><i class="fa fa-reply fa-lg"></i></a>
-				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i></a>
-				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
-				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
-				<a data-ng-click="print()"><i class="fa fa-print fa-lg"></i></a>
-				<a class="br-button" data-ng-click="saveModel()">Salvar</a>
-				<a class="br-button" data-ng-click="convertModel()">Gerar modelagem lógica</a>
-				<!-- Zoom, Undo, etc,etc -->
-			</div><!-- End .modelViewiewOptions -->
-		</aside><!-- End .modelOptions -->
+	<header class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-header">
+			<strong class="navbar-brand" data-ui-sref="main">BR Modelo</strong>
+		</div><!-- End .navbar-header -->
 
-		<aside class="userActions cf" ng-controller="optionsController">
-			<brdropdown title="Options" list="menuItens"> </brdropdown>
-		</aside><!-- End .userActions -->
-		<img src="assets/img/loading-dots.gif" class="br-loader" ng-class="{'loading': loading}">
+		<ul class="nav navbar-nav nav-icons pull-right" ng-controller="optionsController">
+			<brdropdown title="Options" list="menuItens"></brdropdown>
+		</ul>
+
+		<img
+			src="assets/img/loading-dots.gif"
+			alt="Loading"
+			class="br-loader"
+			ng-class="{'loading': loading}"
+		/>
+
 	</header>
 
 	<div class="mainContent">
-		<header class="contentHeader vhide">
-			<h2>Modelo conceitual de ????</h2>
-		</header>
 
 		<aside class="feedback">
 			<div class="message success sd" data-ng-class="{'hide': !feedback.showing}">
@@ -46,30 +30,27 @@
 			</div><!-- End .message -->
 		</aside><!-- End #feedback -->
 
-		<div class="conceptualModel">
-			<section class="componentsList" id="stencil-holder">
-				<header class="vhide">
-					<h3>Models list</h3>
-				</header><!-- List of models used by the user -->
-			</section><!-- End .componentsList -->
+		<section class="stencil-list" id="stencil-holder">
+			<!-- Insert elemes to be used in model constrution -->
+		</section>
 
-			<section id="content" class="modelContent"></section>
+		<section id="content" class="model-area">
+			<div class="page-header clearfix">
+				<h2 class="h4 pull-left">Modelo conceitual de: {{model.name}}</h2>
+				<aside class="header-actions pull-right">
+					<a class="br-button" data-ng-click="saveModel()">Salvar</a>
+				</aside>
+			</div>
+			<ul class="nav navbar-nav tool-icons">
+				<li><a data-ng-click="undoModel()" title="Desfazer"><i class="fa fa-reply"></i></a></li>
+				<li><a data-ng-click="redoModel()" title="Refazer"><i class="fa fa-share"></i></a></li>
+				<li><a data-ng-click="zoomIn()" title="Zoom +"><i class="fa fa-search-plus"></i></a></li>
+				<li><a data-ng-click="zoomOut()" title="Zoom -"><i class="fa fa-search-minus"></i></a></li>
+				<li><a data-ng-click="generateSQL()" title="Gerar SQL"><i class="fa fa-database" aria-hidden="true"></i></a></li>
 
-			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
-				<span class="action" data-ng-click="changeVisible()">
-					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
-				</span><!-- </button> -->
-					<div class="propertiesContent">
-					<div class="field" ng-show="(entitySelected == 'ENTITY') || (entitySelected == 'Attribute') || (entitySelected == 'RELATIONSHIP') || (entitySelected == 'KEY')" >
-						<label class="fieldLabel">Nome</label>
-						<input
-							class="fieldInput"
-							type="text"
-							data-ng-model="selectedElement.value"
-							ng-change="applyChanges()"
-						/>
-					</div><!-- End .field -->
-					<!-- When an element is selected, it's properties are showed here. -->
+			</ul>
+		</section>
+
 		<aside class="model-properties" data-ng-class="{'active': editionVisible}">
 
 			<span class="action" data-ng-click="changeVisible()">
