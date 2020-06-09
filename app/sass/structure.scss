@@ -98,9 +98,9 @@ a,
 }
 
 /******************************************************************************/
-/* .modelProperties */
+/* .model-properties */
 /******************************************************************************/
-.modelProperties {
+.model-properties {
 	position: fixed;
 	z-index: 10;
 	top: 46px;
@@ -112,9 +112,9 @@ a,
 	transition: 0.3s ease-in-out right;
 }
 
-.modelProperties.active {right: 0;}
+.model-properties.active {right: 0;}
 
-.modelProperties .action {
+.model-properties .action {
 	display: block;
 	height: 30px;
 	width: 30px;
@@ -136,7 +136,7 @@ a,
 	font-weight: bold;
 }
 
-.propertiesContent {
+.properties-content {
 	position: absolute;
 	top: 0;
 	right: 0;
