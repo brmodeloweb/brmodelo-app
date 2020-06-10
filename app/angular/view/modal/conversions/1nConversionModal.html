@@ -3,32 +3,37 @@
 </div>
 
 <div class="modal-body">
-
+	<p> O que deseja fazer com relacionamento <strong>{{params.relationType}}</strong> entre as tabelas {{params.tableNames}}? </p>
 	<form class="form-horizontal" role="form" name="modelForm">
-		<div class="form-group">
-      <p class="modal-message"> O que deseja fazer com relacionamento <strong>{{params.relationType}}</strong> entre as tabelas {{params.tableNames}}? </p>
-			<!-- <label for="name" class="col-sm-3 control-label">Título</label> -->
+		<div class="radio">
+			<label for="optionsRadios1">
+				<input
+					id="optionsRadios1"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					value="add_attributes"
+					class="withinput"
+					checked
+				/>
+				Criar coluna na tabela de <strong>menor</strong> cardinalidade?
+			</label>
 		</div>
 
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="userOption" value="add_attributes" class="withinput" checked>
-        Criar coluna na tabela de <strong>menor</strong> cardinalidade?
-      </label>
-
-
-    </div>
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="userOption" value="new_table">
-        Criar nova tabela <strong>{{params.relationName}}</strong>?
-      </label>
-    </div>
-
-		<div class="modal-footer">
-			<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
+		<div class="radio">
+			<label for="optionsRadios2">
+				<input
+					id="optionsRadios2"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					value="new_table"
+				/>
+				Criar nova tabela <strong>{{params.relationName}}</strong>?
+			</label>
 		</div>
-
 	</form>
-
+</div>
+<div class="modal-footer">
+	<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
 </div>

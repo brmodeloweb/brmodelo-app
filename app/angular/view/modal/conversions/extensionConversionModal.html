@@ -3,38 +3,52 @@
 </div>
 
 <div class="modal-body">
+	<p> O que deseja fazer com a herança partindo da tabela <b>{{params.rootName}}</b>? </p>
 
 	<form class="form-horizontal" role="form" name="modelForm">
-		<div class="form-group">
-      <p class="modal-message"> O que deseja fazer com a herança partindo da tabela <b>{{params.rootName}}</b>? </p>
-			<!-- <label for="name" class="col-sm-3 control-label">Título</label> -->
+
+		<div class="radio">
+			<label for="optionsRadios1">
+				<input
+					id="optionsRadios1"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					value="all_tables"
+					checked
+				/>
+				Uso de uma tabela para cada entidade
+			</label>
 		</div>
 
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="userOption" value="all_tables" checked>
-        Uso de uma tabela para cada entidade
-      </label>
-    </div>
-
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="userOption" value="one_table">
-        Uso de uma única tabela para toda hierarquia
-      </label>
-    </div>
-
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="userOption" value="children_tables">
-        Uso de uma tabela apenas para entidade(s) especializada(s)
-      </label>
-    </div>
-
-		<div class="modal-footer">
-			<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
+		<div class="radio">
+			<label for="optionsRadios2">
+				<input
+					id="optionsRadios2"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					value="one_table"
+				/>
+				Uso de uma única tabela para toda hierarquia
+			</label>
 		</div>
 
+		<div class="radio">
+			<label for="optionsRadios3">
+				<input
+					id="optionsRadios3"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					value="children_tables"
+				/>
+				Uso de uma tabela apenas para entidade(s) especializada(s)
+			</label>
+		</div>
 	</form>
+</div>
 
+<div class="modal-footer">
+	<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
 </div>
