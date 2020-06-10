@@ -5,6 +5,10 @@
 	background-color: #efefef;
 }
 
+.modal-title {
+	color: #3D9970;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // New model modal
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,11 +18,6 @@
 
 .modelselect .nice-select.open .list {
 		min-width: 260px;
-}
-
-.modaltitle{
-	color: #3D9970;
-	font-size: 18px;
 }
 
 .modal-message{
