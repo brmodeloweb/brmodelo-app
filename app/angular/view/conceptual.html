@@ -36,10 +36,10 @@
 				</div>
 				<ul class="nav navbar-nav tool-icons">
 					<li><a data-ng-click="undoModel()" title="Desfazer"><i class="fa fa-reply"></i></a></li>
-					<li><a data-ng-click="redoModel()" title="Refazer"><i class="fa fa-share"></i></a></li>
+					<li class="divider"><a data-ng-click="redoModel()" title="Refazer"><i class="fa fa-share"></i></a></li>
 					<li><a data-ng-click="zoomIn()" title="Zoom +"><i class="fa fa-search-plus"></i></a></li>
-					<li><a data-ng-click="zoomOut()" title="Zoom -"><i class="fa fa-search-minus"></i></a></li>
-					<li><a data-ng-click="generateSQL()" title="Gerar SQL"><i class="fa fa-database" aria-hidden="true"></i></a></li>
+					<li class="divider"><a data-ng-click="zoomOut()" title="Zoom -"><i class="fa fa-search-minus"></i></a></li>
+					<li class="divider"><a data-ng-click="generateSQL()" title="Gerar SQL"><i class="fa fa-database" aria-hidden="true"></i></a></li>
 				</ul>
 				<aside class="feedback">
 					<div class="message success sd" data-ng-class="{'hide': !feedback.showing}">
