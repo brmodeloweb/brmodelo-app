@@ -10,7 +10,7 @@
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// New model modal
+// modelselect (In use??)
 ///////////////////////////////////////////////////////////////////////////////
 .modelselect .nice-select {
 	min-width: 260px;
@@ -19,36 +19,6 @@
 .modelselect .nice-select.open .list {
 		min-width: 260px;
 }
-
-.modal-input {
-	display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-}
-
-.modal-input:focus {
-	outline: none;
-	border-color: #3D9970;
-	box-shadow: 0 0 10px #3D9970;
-}
-
-
-.modal-input.error {
-	color: rgba(red, 0.8);
-	border-color: rgba(red, 0.8);
-	background-color: rgba(red, 0.1);
-	box-shadow: 1px 1px 1px rgba(#fff, 1) inset;
-}
-
-.modal-input.error:focus {box-shadow: 1px 1px 1px rgba(#fff, 1) inset;}
-.modal-input.error:placeholder {color: rgba(red, 0.6);}
 
 .radio > label {
 	margin-bottom: 5px;
