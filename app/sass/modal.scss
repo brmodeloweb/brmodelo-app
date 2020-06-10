@@ -19,29 +19,3 @@
 .modelselect .nice-select.open .list {
 		min-width: 260px;
 }
-
-.radio > label {
-	margin-bottom: 5px;
-	font-size: 15px;
-	font-family: 'Fira Sans', sans-serif;
-	font-weight: 300;
-}
-
-.radio > label > input[type="radio"] {
-	font-size: 14px;
-	margin-top: 0;
-}
-
-.radio > label > input[type="radio"].withinput {
-	margin-top: 3px;
-}
-
-.radio > label > input[type="number"] {
-	width: 40px;
-	height: 22px;
-	display: inline;
-	padding: 3px;
-	font-size: 15px;
-	text-align: center;
-	background-color: rgba(255, 255, 255, 0.2);
-}
