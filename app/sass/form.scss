@@ -278,8 +278,22 @@ button {
 ////////////////////////////////////////////////////////////////////////////////
 .form-control:focus {
 	outline: none;
-	border-color: #3d9970;
-	box-shadow: 0 0 -3px 10px #3d9970;
+	border-color: #3D9970;
+	box-shadow: 1px 1px 0 #3D9970, -1px 3px 0 #3D9970;
+}
+
+.form-control.error {
+	color: rgba(red, 0.8);
+	border-color: rgba(red, 0.8);
+	background-color: rgba(red, 0.07);
+}
+
+.form-control.error:focus {
+	box-shadow: 1px 1px 0 rgba(red, 0.8), -1px 3px 0 rgba(red, 0.8);
+}
+
+.form-control.error::placeholder {
+	color: rgba(red, 1);
 }
 
 .checkbox input {
