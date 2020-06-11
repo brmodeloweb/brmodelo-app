@@ -90,7 +90,7 @@ a,
 
 .workspace-header .page-header {
 	padding: 0 15px;
-	margin-top: 18px;
+	margin-top: 8px;
 	margin-bottom: 0;
 }
 
@@ -104,7 +104,7 @@ a,
 .model-properties {
 	position: fixed;
 	z-index: 10;
-	top: 108px;
+	top: 98px;
 	right: -224px;
 	bottom: 0;
 	width: 240px;
@@ -118,11 +118,11 @@ a,
 
 .model-properties .action {
 	display: block;
-	height: 30px;
-	width: 30px;
+	height: 25px;
+	width: 25px;
 	position: absolute;
-	top: 8px;
-	left: -30px;
+	top: 4px;
+	left: -25px;
 	text-align: center;
 	border: 1px solid #e7e7e7;
 	border-radius: 3px 0 0 3px;
@@ -133,7 +133,7 @@ a,
 .action .angle-double-icon {
 	position: relative;
 	top: 3px;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	color: rgb(119, 119, 119);
 	font-weight: bold;
 }
