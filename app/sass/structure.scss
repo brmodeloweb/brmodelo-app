@@ -183,45 +183,28 @@ a,
 ////////////////////////////////////////////////////////////////////////////////
 // .temp
 ////////////////////////////////////////////////////////////////////////////////
-.joint-paper {
-//	background-color: blue;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .paperScroller
+// .paper-scroller
 ////////////////////////////////////////////////////////////////////////////////
 .paper-scroller {
 	position: relative;
 	width: 100%;
-	height: 100%;
+	min-height: 100%;
 	overflow: scroll;
 }
 
-.paper-scroller > .paper-scroller-background {
-	margin: 0;
-	position: relative;
-	display: inline-block;
-}
-
 .paper-scroller .joint-paper {
-	margin: 0;
 	position: absolute;
-	display: inline-block;
+	// background-color: purple; // Uncomment to debugging purposes
 }
 
-.paper-scroller .joint-paper>svg {
+.paper-scroller .joint-paper > svg {
 	display: block;
 }
 
 .paper-scroller[data-cursor=grab] {
-	cursor: all-scroll;
-	cursor: -webkit-grab;
-	cursor: -moz-grab;
 	cursor: grab;
 }
 
 .paper-scroller[data-cursor=grab].is-panning {
-	cursor: -webkit-grabbing;
-	cursor: -moz-grabbing;
 	cursor: grabbing;
 }
