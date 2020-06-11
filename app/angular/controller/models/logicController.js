@@ -210,6 +210,10 @@ angular.module('myapp')
 		LogicService.zoomOut();
 	}
 
+	$scope.changeVisible = function(){
+		$scope.editionVisible = !$scope.editionVisible;
+	}
+
 	$scope.generateSQL = function(){
 		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson());
 
