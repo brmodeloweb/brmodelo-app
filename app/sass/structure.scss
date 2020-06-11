@@ -192,10 +192,9 @@ a,
 ////////////////////////////////////////////////////////////////////////////////
 .paper-scroller {
 	position: relative;
-	overflow: scroll;
-	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
+	overflow: scroll;
 }
 
 .paper-scroller > .paper-scroller-background {
