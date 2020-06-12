@@ -73,7 +73,7 @@ button {
 
 .columnsList .addColumn {
 	position: absolute;
-	top: -2px;
+	top: 0;
 	right: 0;
 	font-size: 1.4em;
 	color: rgba(green, 0.8);
@@ -84,13 +84,12 @@ button {
 
 .columnItem {
 	position: relative;
-	padding: 10px;
-	border: 1px solid rgba(#000, 0.3);
-	background: rgba(#fff, 0.2);
-	margin-bottom: 15px;
+	padding: 8px 8px 4px 8px;
+	border: 1px solid #e7e7e7;
+	border-radius: 4px;
+	background: rgba(#fff, 0.4);
+	margin-bottom: 16px;
 }
-
-.columnItem:hover{ border-color: rgba(#000, 0.9);}
 
 .columnItem > label {
 	display: block;
@@ -112,6 +111,7 @@ button {
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	font-size: 1.2em;
 	color: rgba(#000, 0.5);
 	cursor: pointer;
 }
@@ -123,7 +123,6 @@ button {
 .columnItem .fa:hover {color: rgba(#000, 1);}
 
 .columnItem .actions {
-	margin-bottom: 12px;
 	border-top: 1px solid rgba(#000, 0.3);
 	padding-top: 10px;
 }
@@ -149,11 +148,6 @@ button {
 .columnItem .fieldInput {
 	padding: 1px 10px;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// .columnDetails
-////////////////////////////////////////////////////////////////////////////////
-.columnDetails .fieldInput {margin-bottom: 10px;}
 
 ////////////////////////////////////////////////////////////////////////////////
 // .actions
