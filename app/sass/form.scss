@@ -131,16 +131,13 @@ button {
 .specialInput {
 	display: block;
 	width: 100%;
-	padding: 5px 10px;
+	padding: 5px 0;
 	border: 1px solid transparent;
 	border-bottom-color: #3D9970;
 	font-family: 'Roboto', sans-serif;
 	font-size: 14pt;
 	line-height: 1.2em;
 	color: #503c28;
-	-webkit-box-sizing: content-box !important;
-	-moz-box-sizing: content-box !important;
-	box-sizing: content-box !important;
 }
 
 .specialInput:focus {
@@ -160,10 +157,11 @@ button {
 // Radioboxes customization
 ///////////////////////////////////////////////////////////////////////////////
 .radio > label {
-	margin-bottom: 5px;
+	line-height: 0.8em;
 	font-size: 15px;
 	font-family: 'Fira Sans', sans-serif;
 	font-weight: 300;
+	margin-bottom: 5px;
 }
 
 .radio > label > input[type="radio"] {
