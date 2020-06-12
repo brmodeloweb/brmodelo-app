@@ -1,31 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-// .button.block
-////////////////////////////////////////////////////////////////////////////////
-.button.block {
-	display: block;
-	width: 100%;
-	padding: 12px;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .dropdownButton
-////////////////////////////////////////////////////////////////////////////////
-.dropdownButton {position: relative;}
-
-.dropdownButton .dropDownList {
-	display: none;
-	position: absolute;
-	top: calc(100% + 2px);
-	right: 0;
-	z-index: 10;
-}
-
-.dropdownButton.active .dropDownList {display: block;}
-
-.dropDownList .dropDownItem {white-space: nowrap;}
-.dropDownList .dropDownItem:hover {text-decoration: none;}
-
-////////////////////////////////////////////////////////////////////////////////
 // .br-button
 ////////////////////////////////////////////////////////////////////////////////
 .br-button {
@@ -64,62 +37,4 @@
 	pointer-events: none;
 	color: #c0c0c0;
 	background-color: #ddd;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .checkboxFive
-////////////////////////////////////////////////////////////////////////////////
-.checkboxFive {
-	width: 25px;
-	position: relative;
-}
-
-.checkboxFive label {
-	cursor: pointer;
-	position: absolute;
-	width: 25px;
-	height: 22px;
-	top: 0;
-	left: 0;
-	background: #eee;
-	border:1px solid #ddd;
-}
-
-.checkboxFive label:after {
-	opacity: 0.1;
-	content: '';
-	position: absolute;
-	width: 9px;
-	height: 5px;
-	background: transparent;
-	top: 6px;
-	left: 7px;
-	border: 3px solid #333;
-	border-top: none;
-	border-right: none;
-	transform: rotate(-45deg);
-}
-
-// Create the hover event of the tick
-.checkboxFive label:hover::after {opacity: 0.5;}
-
-// Create the checkbox state for the tick
-.checkboxFive input[type=checkbox]:checked + label:after {opacity: 1;}
-
-.check-label{
-	margin-left: 30px;
-	cursor: pointer;
-	margin-top: 1px;
-}
-
-input[type="checkbox"] {
-	margin: -1px 0 0;
-	margin-top: 0px \9; // IE8-9
-	line-height: normal;
-}
-
-input[type="radio"] {
-	margin: -1px 0 0;
-	margin-top: 0px \9; // IE8-9
-	line-height: normal;
 }
