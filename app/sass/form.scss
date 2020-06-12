@@ -155,43 +155,9 @@ button {
 	border-bottom-color: #fc5858;
 }
 
-/*********************************************************************/
-// .box
-/*********************************************************************/
-.box {
-	position: relative;
-	max-width: 450px;
-	padding: 102px 20px 20px 20px;
-	margin: 0 auto;
-}
-
-.box header {
-	z-index: 10;
-	position: absolute;
-	top: 20px;
-	left: -10px;
-	right: -10px;
-	padding: 12px;
-}
-
-.box header h1 {
-	text-align: center;
-	font-size: 3em;
-	font-weight: bold;
-	font-family: "Lato", sans-serif;
-	font-size: 35px;
-	line-height: 1.2em;
-	color: gray;
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.loginFeeback{
-	max-width: 400px;
-	margin: auto;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
-// Radioboxes customization (??)
+// Radioboxes customization
 ///////////////////////////////////////////////////////////////////////////////
 .radio > label {
 	margin-bottom: 5px;
@@ -218,7 +184,6 @@ button {
 	text-align: center;
 	background-color: rgba(255, 255, 255, 0.2);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Bootstrap fixes
