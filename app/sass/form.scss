@@ -48,22 +48,6 @@ button {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .check
-////////////////////////////////////////////////////////////////////////////////
-.check {margin-bottom: 5px;}
-.check label {margin-left: 5px;}
-
-////////////////////////////////////////////////////////////////////////////////
-/* .check.optional */
-////////////////////////////////////////////////////////////////////////////////
-.check.optional {
-	margin-top: 10px;
-	margin-bottom: 0;
-	border-top: 1px solid rgba(#000, 0.3);
-	padding-top: 10px;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // .columnsList
 ////////////////////////////////////////////////////////////////////////////////
 .columnsList {
@@ -105,8 +89,9 @@ button {
 
 .columnItem .dropdown-tmp-item {
 	line-height: 10px;
-	padding: 10px 0px;
+	padding: 8px 4px;
 }
+
 .columnItem .fa {
 	position: absolute;
 	top: 10px;
@@ -123,7 +108,7 @@ button {
 .columnItem .fa:hover {color: rgba(#000, 1);}
 
 .columnItem .actions {
-	border-top: 1px solid rgba(#000, 0.3);
+	border-top: 1px solid #e7e7e7;
 	padding-top: 10px;
 }
 
@@ -137,22 +122,8 @@ button {
 	margin-left: 8px;
 }
 
-.actions .fa.add {
-	color: rgba(green, 0.8);
-}
-
-.actions .fa.cancel {
-	color: rgba(red, 0.8);
-}
-
-.columnItem .fieldInput {
-	padding: 1px 10px;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .actions
-////////////////////////////////////////////////////////////////////////////////
-.actions .button:not(:last-child) {margin-bottom: 10px;}
+.columnItem .actions .add {color: rgba(green, 0.8);}
+.columnItem .actions .cancel {color: rgba(red, 0.8);}
 
 ////////////////////////////////////////////////////////////////////////////////
 // .specialInput
@@ -192,11 +163,6 @@ button {
 	max-width: 450px;
 	padding: 102px 20px 20px 20px;
 	margin: 0 auto;
-	font-family: "Lato", sans-serif;
-	font-size: 10px;
-	line-height: 1.2em;
-	color: rgba(0, 0, 0, 0.8);
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .box header {
@@ -218,41 +184,6 @@ button {
 	color: gray;
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
 }
-
-.box h2 {
-	z-index: 1;
-	position: absolute;
-	top: 80px;
-	left: 20px;
-	right: 20px;
-	text-align: center;
-	padding: 10px;
-}
-
-.box.login h2,
-.box.newUser h2,
-.box.forgotPassword h2 {font-size: 1.5em;}
-
-.box.newUser > form,
-.box.forgotPassword form {margin-top: 20px;}
-
-.box.login .field,
-.box.newUser .field,
-.box.forgotPassword .field {margin-bottom: 20px;}
-
-.box.login .field input,
-.box.newUser .field input,
-.box.forgotPassword .field input {
-	display: block;
-	width: 390px;
-	font-size: 1.5em;
-	height: 35px;
-	padding: 5px;
-}
-
-.box.login .actions button,
-.box.newUser .actions button,
-.box.forgotPassword .actions button {float: right;}
 
 .loginFeeback{
 	max-width: 400px;
