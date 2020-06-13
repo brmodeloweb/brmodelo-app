@@ -121,7 +121,7 @@ a,
 	height: 25px;
 	width: 25px;
 	position: absolute;
-	top: 4px;
+	top: 3px;
 	left: -25px;
 	text-align: center;
 	border: 1px solid #e7e7e7;
@@ -176,6 +176,8 @@ a,
 
 .paper-scroller .joint-paper {
 	position: absolute;
+	border: 1px solid #e7e7e7;
+	box-shadow: 0 0 20px rgba(0,0,0, 0.1);
 	// background-color: purple; // Uncomment to debugging purposes
 }
 
