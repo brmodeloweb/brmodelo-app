@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "gulp"
+    "start": "gulp",
+    "test": "jest"
   },
   "dependencies": {
     "angular": "^1.8.0",
@@ -38,6 +39,8 @@
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp-sourcemaps": "^2.6.5",
+    "jest": "^26.0.1",
+    "mockingoose": "^2.13.2"
   }
 }
