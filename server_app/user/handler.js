@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const userService = require("./service");
+const userValitor = require("./validator");
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -10,25 +11,23 @@ const userLogin = async(req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const sessionId = req.sessionID;
-    
-    if(username == "") {
-      res.status(422).send("Missig username");
+
+    const validation = userValitor.validateLoginParams({username, password});
+
+    if(!validation.valid) {
+      return res.status(422).send(validation.message);
     }
-  
-    if(password == "") {
-      res.status(422).send("Missig password")
-    }
-  
+      
     const userSession = await userService.login({username, password, sessionId});
   
     if (userSession == null) {
       return res.status(404).send("User not found");
     }
   
-    res.status(200).json(userSession);
+    return res.status(200).json(userSession);
   } catch (error) {
     console.error(error);
-    res.status(500).send("There's an erro while to treat your request, try again later");
+    return res.status(500).send("There's an error while treating your login request");
   }
 }
 
@@ -38,28 +37,21 @@ const userCreate = async(req, res) => {
     const mail = req.body.email;
     const password = req.body.password;
 
-    if(username == "") {
-      res.status(422).send("Missig username");
-    }
-  
-    if(mail == "") {
-      res.status(422).send("Missig mail")
-    }
+    const validation = userValitor.validateLoginParams({username, mail, password});
 
-    if(password == "") {
-      res.status(422).send("Missig password")
+    if(!validation.valid) {
+      return res.status(422).send(validation.message);
     }
   
     const createdUser = await userService.create({username, mail, password});
 
-    res.status(200).json(createdUser);
-    
+    return res.status(200).json(createdUser);
   } catch (error) {
     console.error(error);
     if(error.code == 'USER_ERROR_ALREADY_EXISTS') {
-      res.status(409).send("User alredy exists")
+      return res.status(409).send("User alredy exists")
     }
-    res.status(500).send("There's an error while treating your request, try again later");
+    return res.status(500).send("There's an error while treating your sign-up request");
   }
 }
 
