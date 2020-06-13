@@ -10,14 +10,14 @@ const login = async ({username, password, sessionId}) => {
       });
     
       if(userDocument != null) {
-        resolve({
+        return resolve({
           "sessionId": sessionId,
           "userId": userDocument.id,
           "userName": userDocument.name
         });
       }
 
-      resolve(null);
+      return resolve(null);
     } catch (error) {
       console.error(error);
       reject(error);
@@ -31,7 +31,7 @@ const create = async ({username, password, mail}) => {
       const user = await UserRepository.findOne({"login": mail});
 
       if(user != null) {
-        reject({"code": "USER_ERROR_ALREADY_EXISTS"});
+        return reject({"code": "USER_ERROR_ALREADY_EXISTS"});
       }
 
       const createdUser = await UserRepository.create({
@@ -40,7 +40,7 @@ const create = async ({username, password, mail}) => {
         password: encriptor.Crypto(password, mail)
       });
     
-      resolve(createdUser);
+      return resolve(createdUser);
     } catch (error) {
       console.error(error);
       reject(error);
