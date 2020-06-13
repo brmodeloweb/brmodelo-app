@@ -38,5 +38,3 @@ describe('validateSignUpParams test', () => {
     expect(validation.valid).toBeTruthy();
   });
 });
-
-
