@@ -2,9 +2,11 @@
 // MODULES / DROPDOWN - OLD
 ////////////////////////////////////////////////////////////////////////////////
 .dropdown-tmp {
-  position: relative;
-		width: 100%;
+     position: relative;
+    width: 100%;
 }
+
+.dropdown-tmp:focus {outline: none;}
 
 .dropdown-tmp > * {
   display: none;
@@ -26,6 +28,10 @@
 .dropdown-tmp-trigger {
     border: 1px solid rgb(204, 204, 204);
     border-radius: 3px;
+}
+
+.expanded .dropdown-tmp-trigger {
+    border-color: #3d9970;
 }
 
 .dropdown-tmp-trigger > button {
@@ -140,10 +146,6 @@
   display: block;
 }
 
-.dropdown-tmp-btn .dropdown-tmp-list {
-  margin-top: 3px;
-}
-
 .dropdown-tmp-item > * {
   padding: 5px 0;
 }
@@ -252,7 +254,7 @@
 .dropdown-tmp-list,
 .dropdown-tmp-text {
   background: white;
-  border: solid 1px;
+  border: solid 1px #3d9970;
   border-radius: 2px;
 }
 
@@ -260,11 +262,12 @@
 .dropdown-tmp-body,
 .dropdown-tmp-list {
   display: none;
-	width: 100%;
   position: absolute;
-  top: 32px;
+  top: calc(100% - 1px);
   left: 0;
-  padding: 10px 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .tools .dropdown-body, .tools .dropdown-list, .tools
@@ -376,5 +379,6 @@
 
 .dropdown-item:hover,
 .dropdown-tmp-item:hover {
-  background: grey;
+    color: #fff;
+    background: #3d9970;
 }
