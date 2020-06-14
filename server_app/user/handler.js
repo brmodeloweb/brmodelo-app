@@ -37,7 +37,9 @@ const userCreate = async(req, res) => {
     const mail = req.body.email;
     const password = req.body.password;
 
-    const validation = userValitor.validateLoginParams({username, mail, password});
+    const validation = userValitor.validateSignUpParams({username, mail, password});
+
+    console.log(validation);
 
     if(!validation.valid) {
       return res.status(422).send(validation.message);
