@@ -24,8 +24,9 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-live-server": "0.0.31",
     "jquery": "^2.2.4",
-    "mongoose": "^5.9.18",
+    "jquery-nice-select": "^1.1.0",
     "mongodb": "~3.5.8",
+    "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
@@ -41,6 +42,7 @@
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "jest": "^26.0.1",
-    "mockingoose": "^2.13.2"
+    "mockingoose": "^2.13.2",
+    "supertest": "^4.0.2"
   }
 }
