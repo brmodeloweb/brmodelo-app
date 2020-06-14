@@ -1,15 +1,33 @@
 @media print {
 
+	////////////////////////////////////////////////////////////////////////////
+	// Hide not relevant interface when printing
+	////////////////////////////////////////////////////////////////////////////
+	.stencil,
+	.main-header,
+	.stencil-list,
+	.workspace-header,
+	.model-properties {
+		display: none;
+	}
 
-    //@page {size: landscape}
+	////////////////////////////////////////////////////////////////////////////
+	// Prepare printing area
+	////////////////////////////////////////////////////////////////////////////
+	.model-area {
+		position: static;
+	}
 
-    .printarea, .modelWorkspace {
-        position: absolute;
-        left: 0px;
-        top: 0px;
-    }
+	.mainContent,
+	.paper-scroller {
+		padding: 0 !important;
+		margin: 0 !important;
+	}
 
-    .stencil, .inspector, .toolbar, .mainHeader, .componentsList {
-        display: none;
-    }
+	.paper-scroller .joint-paper {
+		position: static;
+		height: 100vh;
+		border-color: transparent;
+		box-shadow: 0 0 0 transparent;
+	}
 }
