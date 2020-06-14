@@ -39,6 +39,9 @@
     text-align: left;
 }
 
+.dropdown-tmp-trigger > button:focus P
+    outline: none;
+
 .dropdown-tmp-trigger:after {
     border-bottom: 2px solid #999;
     border-right: 2px solid #999;
