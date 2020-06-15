@@ -1,6 +1,6 @@
-/******************************************************************************/
-/* Font declaration */
-/******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Font declaration
+////////////////////////////////////////////////////////////////////////////////
 label,
 input,
 textarea,
@@ -10,62 +10,16 @@ button {
 	color: inherit;
 }
 
-/******************************************************************************/
-/* .field */
-/******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// .field
+////////////////////////////////////////////////////////////////////////////////
 .field {position: relative;}
 .field:not(:last-child) {margin-bottom: 25px;}
 
-.fieldLabel,
-.fieldInput {
-	display: block;
-	width: 100%;
-}
 
-.fieldLabel {
-	font-size: 1.2em;
-	font-weight: 400;
-	text-transform: uppercase;
-	margin-bottom: 5px;
-}
-
-.fieldInput {
-	transition: 0.3s ease all;
-	position: relative;
-	font-size: 1.1em;
-	padding: 10px;
-	border: 1px solid rgba(#000, 0.4);
-	border-radius: 2px;
-	background-color: rgba(#fff, 0.5);
-}
-
-.fieldInput:focus {
-	border-color: rgba(#000, 0.8);
-	color: rgba(#000, 0.8);
-	background-color: rgba(#fff, 1);
-	box-shadow: 0px 1px 1px transparent,
-				1px 1px 1px rgba(#fff, 1) inset;
-}
-
-/******************************************************************************/
-/* .check */
-/******************************************************************************/
-.check {margin-bottom: 5px;}
-.check label {margin-left: 5px;}
-
-/******************************************************************************/
-/* .check.optional */
-/******************************************************************************/
-.check.optional {
-	margin-top: 10px;
-	margin-bottom: 0;
-	border-top: 1px solid rgba(#000, 0.3);
-	padding-top: 10px;
-}
-
-/******************************************************************************/
-/* .columnsList */
-/******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// .columnsList
+////////////////////////////////////////////////////////////////////////////////
 .columnsList {
 	position: relative;
 	margin-bottom: 25px;
@@ -73,7 +27,7 @@ button {
 
 .columnsList .addColumn {
 	position: absolute;
-	top: -2px;
+	top: 0;
 	right: 0;
 	font-size: 1.4em;
 	color: rgba(green, 0.8);
@@ -84,13 +38,12 @@ button {
 
 .columnItem {
 	position: relative;
-	padding: 10px;
-	border: 1px solid rgba(#000, 0.3);
-	background: rgba(#fff, 0.2);
-	margin-bottom: 15px;
+	padding: 8px 8px 4px 8px;
+	border: 1px solid #e7e7e7;
+	border-radius: 4px;
+	background: rgba(#fff, 0.4);
+	margin-bottom: 16px;
 }
-
-.columnItem:hover{ border-color: rgba(#000, 0.9);}
 
 .columnItem > label {
 	display: block;
@@ -104,22 +57,16 @@ button {
 	 margin-bottom: 5px;
 }
 
-.columnItem .specialElement {
-	margin-bottom: 10px;
-}
-
-.columnItem .specialElement .btn {
-	padding: 2px 12px;
-}
-
 .columnItem .dropdown-tmp-item {
 	line-height: 10px;
-	padding: 10px 0px;
+	padding: 8px 4px;
 }
+
 .columnItem .fa {
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	font-size: 1.2em;
 	color: rgba(#000, 0.5);
 	cursor: pointer;
 }
@@ -131,8 +78,7 @@ button {
 .columnItem .fa:hover {color: rgba(#000, 1);}
 
 .columnItem .actions {
-	margin-bottom: 12px;
-	border-top: 1px solid rgba(#000, 0.3);
+	border-top: 1px solid #e7e7e7;
 	padding-top: 10px;
 }
 
@@ -146,44 +92,22 @@ button {
 	margin-left: 8px;
 }
 
-.actions .fa.add {
-	color: rgba(green, 0.8);
-}
+.columnItem .actions .add {color: rgba(green, 0.8);}
+.columnItem .actions .cancel {color: rgba(red, 0.8);}
 
-.actions .fa.cancel {
-	color: rgba(red, 0.8);
-}
-
-.columnItem .fieldInput {
-	padding: 1px 10px;
-}
-
-/******************************************************************************/
-/* .columnDetails */
-/******************************************************************************/
-.columnDetails .fieldInput {margin-bottom: 10px;}
-
-/******************************************************************************/
-/* .actions */
-/******************************************************************************/
-.actions .button:not(:last-child) {margin-bottom: 10px;}
-
-/******************************************************************************/
-/* .specialInput */
-/******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// .specialInput
+////////////////////////////////////////////////////////////////////////////////
 .specialInput {
 	display: block;
 	width: 100%;
-	padding: 5px 10px;
+	padding: 5px 0;
 	border: 1px solid transparent;
 	border-bottom-color: #3D9970;
 	font-family: 'Roboto', sans-serif;
 	font-size: 14pt;
 	line-height: 1.2em;
 	color: #503c28;
-	-webkit-box-sizing: content-box !important;
-	-moz-box-sizing: content-box !important;
-	box-sizing: content-box !important;
 }
 
 .specialInput:focus {
@@ -198,77 +122,56 @@ button {
 	border-bottom-color: #fc5858;
 }
 
-/*********************************************************************/
-/* .box */
-/*********************************************************************/
-.box {
-	position: relative;
-	max-width: 450px;
-	padding: 102px 20px 20px 20px;
-	margin: 0 auto;
-	font-family: "Lato", sans-serif;
-	font-size: 10px;
-	line-height: 1.2em;
-	color: rgba(0, 0, 0, 0.8);
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+
+///////////////////////////////////////////////////////////////////////////////
+// Radioboxes customization
+///////////////////////////////////////////////////////////////////////////////
+.radio > label {
+	line-height: 0.8em;
+	font-size: 15px;
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 300;
+	margin-bottom: 5px;
 }
 
-.box header {
-	z-index: 10;
-	position: absolute;
-	top: 20px;
-	left: -10px;
-	right: -10px;
-	padding: 12px;
+.radio > label > input[type="radio"] {
+	font-size: 14px;
+	margin-top: 0;
 }
 
-.box header h1 {
+.radio > label > input[type="radio"].withinput {
+	margin-top: 3px;
+}
+
+.radio > label > input[type="number"] {
+	width: 40px;
+	height: 22px;
+	display: inline;
+	padding: 3px;
+	font-size: 15px;
 	text-align: center;
-	font-size: 3em;
-	font-weight: bold;
-	font-family: "Lato", sans-serif;
-	font-size: 35px;
-	line-height: 1.2em;
-	color: gray;
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
-.box h2 {
-	z-index: 1;
-	position: absolute;
-	top: 80px;
-	left: 20px;
-	right: 20px;
-	text-align: center;
-	padding: 10px;
+////////////////////////////////////////////////////////////////////////////////
+// Bootstrap fixes
+////////////////////////////////////////////////////////////////////////////////
+.form-control:focus {
+	outline: none;
+	border-color: #3D9970;
+	box-shadow: 1px 1px 0 #3D9970, -1px 3px 0 #3D9970;
 }
 
-.box.login h2,
-.box.newUser h2,
-.box.forgotPassword h2 {font-size: 1.5em;}
-
-.box.newUser > form,
-.box.forgotPassword form {margin-top: 20px;}
-
-.box.login .field,
-.box.newUser .field,
-.box.forgotPassword .field {margin-bottom: 20px;}
-
-.box.login .field input,
-.box.newUser .field input,
-.box.forgotPassword .field input {
-	display: block;
-	width: 390px;
-	font-size: 1.5em;
-	height: 35px;
-	padding: 5px;
+.form-control.error {
+	color: rgba(red, 0.8);
+	border-color: rgba(red, 0.8);
+	background-color: rgba(red, 0.07);
 }
 
-.box.login .actions button,
-.box.newUser .actions button,
-.box.forgotPassword .actions button {float: right;}
+.form-control.error:focus {
+	box-shadow: 1px 1px 0 rgba(red, 0.8), -1px 3px 0 rgba(red, 0.8);
+}
 
-.loginFeeback{
-	max-width: 400px;
-	margin: auto;
+.form-control.error::placeholder {
+	color: rgba(red, 1);
 }

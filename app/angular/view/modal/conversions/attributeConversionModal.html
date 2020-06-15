@@ -1,34 +1,41 @@
-<div class="modal-header addmodel">
-	<h1 class="modaltitle">Assistente de conversão -> Atributo multivalorado</h1>
+<div class="modal-header">
+	<h3 class="modal-title">Assistente de conversão: Atributo multivalorado</h3>
 </div>
 
-<div class="modal-body addmodel">
+<div class="modal-body">
+	<p> O que deseja fazer com atributo multivalorado <strong>"{{params.attribute}}"</strong>  da tabela <strong>"{{params.tableName}}"</strong> ? </p>
 
 	<form class="form-horizontal" role="form" name="modelForm">
-		<div class="form-group">
-      <p class="modal-message"> O que deseja fazer com atributo multivalorado <strong>"{{params.attribute}}"</strong>  da tabela <strong>"{{params.tableName}}"</strong> ? </p>
-			<!-- <label for="name" class="col-sm-3 control-label">Título</label> -->
+		<div class="radio">
+			<label for="optionsRadios1">
+				<input
+					id="optionsRadios1"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					alue="add_attributes"
+					class="withinput"
+					checked
+				/>
+				Incluir n= <input type="number" ng-model="qt"/> atributos
+			</label>
 		</div>
 
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="userOption" value="add_attributes" class="withinput" checked>
-        Incluir n=<input type="number" class="fieldInput" ng-model="qt"/> atributos
-      </label>
-
-
-    </div>
-    <div class="radio">
-      <label>
-        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="userOption" value="new_table">
-        Criar nova tabela <strong>{{params.attribute}}</strong>?
-      </label>
-    </div>
-
-		<div class="modal-footer">
-			<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
+		<div class="radio">
+			<label for="optionsRadios2">
+				<input
+					id="optionsRadios2"
+					type="radio"
+					name="optionsRadios"
+					ng-model="userOption"
+					value="new_table"
+				/>
+				Criar nova tabela <strong>{{params.attribute}}</strong>?
+			</label>
 		</div>
-
 	</form>
+</div>
 
+<div class="modal-footer">
+	<button type="button" class="br-button" ng-click="go(optionsRadios)">Avançar</button>
 </div>

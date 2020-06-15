@@ -79,9 +79,6 @@ function copyToAssets() {
 	const files = [
 		//Jquery
 		"node_modules/jquery/dist/**/*",
-		// Jquery Nice Select
-		"node_modules/jquery-nice-select/css/**/*",
-		"node_modules/jquery-nice-select/js/**/*",
 		// AngularJS
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",

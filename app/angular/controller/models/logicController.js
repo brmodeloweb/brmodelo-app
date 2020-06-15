@@ -30,6 +30,10 @@ angular.module('myapp')
 		type: "success"
 	}
 
+	$scope.print = function(){
+		window.print();
+	}
+
 	$scope.initView = function(){
 		$scope.showLoading(true);
 		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser, self.stopLoading, $stateParams.conversionId);
@@ -208,6 +212,10 @@ angular.module('myapp')
 
 	$scope.zoomOut = function(){
 		LogicService.zoomOut();
+	}
+
+	$scope.changeVisible = function(){
+		$scope.editionVisible = !$scope.editionVisible;
 	}
 
 	$scope.generateSQL = function(){
