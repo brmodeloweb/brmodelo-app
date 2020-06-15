@@ -12,7 +12,7 @@
     "angular-ui-router": "^1.0.26",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
-    "bootstrap": "^3.4.1",
+    "bootstrap": "^4.5.0",
     "del": "^3.0.0",
     "ejs": "^2.7.4",
     "errorhandler": "^1.5.1",
