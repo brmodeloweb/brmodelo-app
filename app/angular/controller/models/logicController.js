@@ -1,13 +1,15 @@
 angular.module('myapp')
 			 .controller("logicController",
-				function($scope,
-								 $rootScope,
-								 $stateParams,
-								 ModelAPI,
-								 LogicService,
-								 $uibModal,
-								 $state,
-								 SqlGeneratorService) {
+				function(
+					$scope,
+					$rootScope,
+					$stateParams,
+					ModelAPI,
+					LogicService,
+					$uibModal,
+					$state,
+					SqlGeneratorService
+				) {
 
 	var self = this;
 
