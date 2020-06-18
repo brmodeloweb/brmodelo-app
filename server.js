@@ -29,7 +29,7 @@ let routes  = require("./server_app/routes")(app)
 
 let port = Number(process.env.PORT || 3000)
 
-let mongoport = process.env.PROD_MONGODB || "mongodb://brmodelouser:brmodelo123456@ds011409.mlab.com:11409/brmodelodb"
+let mongoport = process.env.PROD_MONGODB || "mongodb://localhost:27017/brmodeloDB"
 // https://mlab.com/
 
 mongoose.set("debug", true)
