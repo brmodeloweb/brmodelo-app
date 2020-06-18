@@ -5,5 +5,7 @@ charset = utf-8
 end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = false
+indent_style = tab
+
 [*.{md, markdown}]
 trim_trailing_whitespace = false
