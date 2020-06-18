@@ -7,5 +7,9 @@ trim_trailing_whitespace = true
 insert_final_newline = false
 indent_style = tab
 
+[{package.json}]
+indent_style = space
+indent_size = 2
+
 [*.{md, markdown}]
 trim_trailing_whitespace = false
