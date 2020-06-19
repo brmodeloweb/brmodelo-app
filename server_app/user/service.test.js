@@ -32,7 +32,11 @@ describe("login", () => {
   });
   
   test('should return null when login not found', async () => {
+<<<<<<< HEAD
     const userParam = {username: 'user@mail.com', password: "123456"};
+=======
+    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+>>>>>>> b7cbfe13ed4e543fa5edb8b6e9afd44f6043dae8
   
     mockingoose(UserRepository).toReturn(null, 'findOne');
   
@@ -42,7 +46,11 @@ describe("login", () => {
   });
   
   test('should catch error when service fires it', async () => {
+<<<<<<< HEAD
     const userParam = {username: 'user@mail.com', password: "123456"};
+=======
+    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+>>>>>>> b7cbfe13ed4e543fa5edb8b6e9afd44f6043dae8
   
     mockingoose(UserRepository).toReturn(new Error("find error"), 'findOne');
   
@@ -56,7 +64,11 @@ describe("login", () => {
 describe("create", () => {
 
   test('should toThrow error when user already exists', async () => {
+<<<<<<< HEAD
     const userParam = {username: 'name', password: "123456", mail:"user@mail.com"};
+=======
+    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+>>>>>>> b7cbfe13ed4e543fa5edb8b6e9afd44f6043dae8
   
     const docResponse = {
       _id: '507f191e810c19729de860ea',
