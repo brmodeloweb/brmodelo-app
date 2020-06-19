@@ -10,7 +10,7 @@ afterEach(() => {
 describe("login", () => {
 
   test('should return user when login params match', async () => {
-    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+    const userParam = {username: 'user@mail.com', password: "123456"};
   
     const docResponse = {
       _id: '507f191e810c19729de860ea',
@@ -24,7 +24,6 @@ describe("login", () => {
     const userSession = await userService.login(userParam);
   
     const expectedResponse = {
-      "sessionId": "123456",
       "userId": "507f191e810c19729de860ea",
       "userName": "name"
     }
@@ -33,7 +32,7 @@ describe("login", () => {
   });
   
   test('should return null when login not found', async () => {
-    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+    const userParam = {username: 'user@mail.com', password: "123456"};
   
     mockingoose(UserRepository).toReturn(null, 'findOne');
   
@@ -43,7 +42,7 @@ describe("login", () => {
   });
   
   test('should catch error when service fires it', async () => {
-    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+    const userParam = {username: 'user@mail.com', password: "123456"};
   
     mockingoose(UserRepository).toReturn(new Error("find error"), 'findOne');
   
@@ -57,7 +56,7 @@ describe("login", () => {
 describe("create", () => {
 
   test('should toThrow error when user already exists', async () => {
-    const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
+    const userParam = {username: 'name', password: "123456", mail:"user@mail.com"};
   
     const docResponse = {
       _id: '507f191e810c19729de860ea',

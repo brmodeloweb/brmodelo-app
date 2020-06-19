@@ -1,7 +1,7 @@
 const UserRepository = require("./model");
 const encriptor = require("../helpers");
 
-const login = async ({username, password, sessionId}) => {
+const login = async ({username, password}) => {
   return new Promise(async (resolve, reject) => {
     try {
       const userDocument = await UserRepository.findOne({
@@ -11,7 +11,6 @@ const login = async ({username, password, sessionId}) => {
     
       if(userDocument != null) {
         return resolve({
-          "sessionId": sessionId,
           "userId": userDocument.id,
           "userName": userDocument.name
         });

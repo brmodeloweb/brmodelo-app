@@ -18,13 +18,13 @@ const userLogin = async(req, res) => {
       return res.status(422).send(validation.message);
     }
       
-    const userSession = await userService.login({username, password, sessionId});
+    const user = await userService.login({username, password});
   
-    if (userSession == null) {
+    if (user == null) {
       return res.status(404).send("User not found");
     }
   
-    return res.status(200).json(userSession);
+    return res.status(200).json({...user, "sessionId": sessionId});
   } catch (error) {
     console.error(error);
     return res.status(500).send("There's an error while treating your login request");
