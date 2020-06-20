@@ -2,14 +2,11 @@ angular.module('myapp')
 			 .controller("conceptualController",
 				function(
 					$scope,
-					$http,
-					$window,
 					$state,
 					$rootScope,
 					$stateParams,
 					ConceptualFactory,
 					ConceptualService,
-					ConversorService,
 					ModelAPI,
 					$timeout
 				){
@@ -169,7 +166,6 @@ angular.module('myapp')
 		var entity = $scope.selectedElement.element.model;
 
 		if(entity.attributes.composed) {
-		//	if(!cs.hasAttributeNeighbors(entity, $scope.graph.getNeighbors(entity))){
 				var attr1 = ConceptualFactory.createAttribute();
 				attr1.attributes.attrs.text.text = "attr1";
 				attr1.attributes.position.x = entity.attributes.position.x + 50;
@@ -183,7 +179,6 @@ angular.module('myapp')
 				attr2.attributes.position.y = entity.attributes.position.y - 20 ;
 				$scope.graph.addCell(attr2);
 				createLink(entity, attr2);
-	//		}
 		} else {
 			var neighbors = $scope.graph.getNeighbors(entity)
 			for (var i = 0; i < neighbors.length; i++) {
@@ -206,7 +201,6 @@ angular.module('myapp')
 			$scope.model.id   = resp.data[0]._id;
 			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
 			$scope.showLoading(false);
-	//		$scope.paperScroller.centerContent();
 		});
 	}
 
@@ -273,7 +267,6 @@ angular.module('myapp')
 		$scope.model.model = JSON.stringify($scope.graph);
 
 		ModelAPI.updateModel($scope.model).then(function(res){
-			// call feedback here
 			$scope.showFeedback("Salvo com sucesso!", true);
 			console.log("saved");
 		});
@@ -330,17 +323,14 @@ angular.module('myapp')
 			$scope.entitySelected = "KEY";
 		}
 
-		console.log(cellView.model);
 		if(cs.isRelationship(cellView.model) && cellView.model.attributes.type=="erd.Relationship") {
 			$scope.entitySelected = "RELATIONSHIP";
 		}
 
 		$scope.$apply();
-
 	}
 
 	var createLink = function(elm1, elm2) {
-		console.log("createLink");
 		var myLink = new joint.shapes.erd.Line({
 			source: {
 				id: elm1.id
@@ -403,14 +393,11 @@ angular.module('myapp')
 				} else {
 					if (cs.isEntity(source)) {
 						source.attributes.isExtended = true;
-						console.log(target);
 					} else {
 						target.attributes.isExtended = true;
-						console.log(source);
 					}
 					return true;
 				}
-
 		}
 
 		if(cs.isAttribute(source) && cs.isAttribute(target)){
@@ -448,9 +435,6 @@ angular.module('myapp')
 						return false;
 					}
 
-					// 	if(source.attributes.supertype != 'Entity'){
-					// 		return false;
-					// 	}
 				return true;
 			}
 		}
@@ -473,7 +457,6 @@ angular.module('myapp')
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
-		console.log("Returnig true");
 		return true;
 	}
 
@@ -506,19 +489,12 @@ angular.module('myapp')
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
 		$scope.paper = new joint.dia.Paper({
-		//	el: $('#content'),
-			//width: 1000,
-			//height: 1000,
 			width: $('#content').width(),
 			height: $('#content').height(),
 			gridSize: 10,
 			drawGrid: true,
 			model: $scope.graph,
-			//linkPinning: false,
-			//markAvailable: true,
-			//restrictTranslate: true,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
-			// multiLinks: false
 		});
 
 		var $app = $('#content');
@@ -531,29 +507,9 @@ angular.module('myapp')
 
 		$app.append($scope.paperScroller.render().el);
 
-		$(window).resize(function() {
-			var canvas = $('#content');
-			console.log("#content");
-			console.log(canvas.width());
-			console.log(canvas.height());
-
-			var paper = $('.paper-scroller');
-			console.log(".paper-scroller");
-			console.log(paper.width());
-			console.log(paper.height());
-
-			var jointpaper = $('.joint-paper');
-			console.log(".joint-theme-default.joint-paper");
-			console.log(jointpaper.width());
-			console.log(jointpaper.height());
-			console.log(jointpaper);
-			//$scope.paper.setDimensions(canvas.width(), canvas.height());
-		});
-
 		var stencil = new joint.ui.Stencil({
 			graph: $scope.graph,
 			paper: $scope.paper
-		//	scaleClones: true
 		});
 
 		$('#stencil-holder').append(stencil.render().el);
@@ -568,16 +524,7 @@ angular.module('myapp')
 			ConceptualFactory.createComposedAttribute()
 		]);
 
-		// paperScroller.$el.css({
-		// 		width: $('#paper-holder').width(),
-		// 		height: $('#paper-holder').height()
-		// 		width: 500,
-		// 		height: 500
-		// });
-
 		$scope.conectElements = function(cellView, x, y) {
-
-			console.log("connect elements: ", cellView);
 
 			var elementBelow = $scope.graph.get('cells').find(function(cell) {
 					if (cellView.model.attributes.parent != null) return false;
@@ -594,8 +541,6 @@ angular.module('myapp')
 
 			// If the two elements are connected already, don't
 			// connect them again (this is application specific though).
-			console.log("conectElements", elementBelow);
-
 			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) &&
 					!cs.isAssociative(elementBelow) &&
 					!cs.isComposedAttribute(elementBelow)) {
@@ -658,14 +603,6 @@ angular.module('myapp')
 					createLink(base, attr2);
 
 				}, 100);
-
-			//	$scope.graph.addCell(base);
-			//	createLink(entity, attr1);
-
-
-
-				// $scope.graph.addCell(block);
-				// $scope.graph.addCell(auto);
 
 			}
 
