@@ -49,7 +49,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 		});
 
 		$stateProvider.state('logic', {
-			url: '/logic/[{modelid},{conversionId}]',
+			url: '/logic/{references:json}',
 			templateUrl: 'angular/view/logic.html',
 			data: {
 				requireLogin: true

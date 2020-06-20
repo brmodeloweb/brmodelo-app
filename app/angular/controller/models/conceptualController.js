@@ -268,7 +268,6 @@ angular.module('myapp')
 
 		ModelAPI.updateModel($scope.model).then(function(res){
 			$scope.showFeedback("Salvo com sucesso!", true);
-			console.log("saved");
 		});
 	}
 
@@ -282,7 +281,7 @@ angular.module('myapp')
 		};
 
 		ModelAPI.saveModel(model).then(function(newModel){
-			window.open($state.href('logic', {'modelid': newModel._id, 'conversionId': $scope.model.id}),  '_blank');
+			window.open($state.href('logic', {references: {'modelid': newModel._id, 'conversionId': $scope.model.id}}),  '_blank');
 		});
 
 	}
