@@ -26,17 +26,6 @@ angular.module('myapp').factory('LogicFactory', function(){
 			}
 		}
 	});
-
-		// var obj = {
-		// 	"name": "id",
-		// 	"type": "Integer",
-		// 	"PK": true,
-		// 	"FK": false,
-		// 	"tableOrigin": null
-		// }
-		//
-		// table.addAttribute(obj);
-
 		return table;
 	}
 
