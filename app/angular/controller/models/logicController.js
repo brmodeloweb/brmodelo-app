@@ -36,7 +36,6 @@ angular.module('myapp')
 
 	$scope.initView = function(){
 		$scope.showLoading(true);
-		console.log($stateParams);
 		LogicService.buildWorkspace($stateParams.references.modelid, $rootScope.loggeduser, self.stopLoading, $stateParams.references.conversionId);
 	}
 

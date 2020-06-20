@@ -273,7 +273,6 @@ angular.module('myapp')
 		ModelAPI.updateModel($scope.model).then(function(res){
 			// call feedback here
 			$scope.showFeedback("Salvo com sucesso!", true);
-			console.log("saved");
 		});
 	}
 
@@ -328,7 +327,6 @@ angular.module('myapp')
 			$scope.entitySelected = "KEY";
 		}
 
-		console.log(cellView.model);
 		if(cs.isRelationship(cellView.model) && cellView.model.attributes.type=="erd.Relationship") {
 			$scope.entitySelected = "RELATIONSHIP";
 		}
@@ -338,7 +336,6 @@ angular.module('myapp')
 	}
 
 	var createLink = function(elm1, elm2) {
-		console.log("createLink");
 		var myLink = new joint.shapes.erd.Line({
 			source: {
 				id: elm1.id
@@ -401,10 +398,8 @@ angular.module('myapp')
 				} else {
 					if (cs.isEntity(source)) {
 						source.attributes.isExtended = true;
-						console.log(target);
 					} else {
 						target.attributes.isExtended = true;
-						console.log(source);
 					}
 					return true;
 				}
@@ -471,7 +466,6 @@ angular.module('myapp')
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
-		console.log("Returnig true");
 		return true;
 	}
 
@@ -575,8 +569,6 @@ angular.module('myapp')
 
 		$scope.conectElements = function(cellView, x, y) {
 
-			console.log("connect elements: ", cellView);
-
 			var elementBelow = $scope.graph.get('cells').find(function(cell) {
 					if (cellView.model.attributes.parent != null) return false;
 					if (cell instanceof joint.dia.Link) return false; // Not interested in links
@@ -592,8 +584,6 @@ angular.module('myapp')
 
 			// If the two elements are connected already, don't
 			// connect them again (this is application specific though).
-			console.log("conectElements", elementBelow);
-
 			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) &&
 					!cs.isAssociative(elementBelow) &&
 					!cs.isComposedAttribute(elementBelow)) {
