@@ -1,0 +1,21 @@
+<div class="modal-header">
+	<h3 class="modal-title">Renomear modelagem</h3>
+</div>
+
+<div class="modal-body">
+	<div class="form-group">
+		<label for="rename-model">
+			<input
+				type="text"
+				id="rename-model"
+				data-ng-model="model.name"
+			>
+			Renomear
+		</label>
+	</div>
+</div>
+
+<div class="modal-footer">
+	<button class="br-button yellow" type="button" ng-click="cancel()">Cancelar</button>
+	<button class="br-button" type="button" ng-click="save(name)">Renomear</button>
+</div>

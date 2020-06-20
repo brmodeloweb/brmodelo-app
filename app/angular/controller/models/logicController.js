@@ -1,13 +1,15 @@
 angular.module('myapp')
 			 .controller("logicController",
-				function($scope,
-								 $rootScope,
-								 $stateParams,
-								 ModelAPI,
-								 LogicService,
-								 $uibModal,
-								 $state,
-								 SqlGeneratorService) {
+				function(
+					$scope,
+					$rootScope,
+					$stateParams,
+					ModelAPI,
+					LogicService,
+					$uibModal,
+					$state,
+					SqlGeneratorService
+				) {
 
 	var self = this;
 
@@ -28,6 +30,10 @@ angular.module('myapp')
 		message: "",
 		showing: false,
 		type: "success"
+	}
+
+	$scope.print = function(){
+		window.print();
 	}
 
 	$scope.initView = function(){
@@ -208,6 +214,10 @@ angular.module('myapp')
 
 	$scope.zoomOut = function(){
 		LogicService.zoomOut();
+	}
+
+	$scope.changeVisible = function(){
+		$scope.editionVisible = !$scope.editionVisible;
 	}
 
 	$scope.generateSQL = function(){

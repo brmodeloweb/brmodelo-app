@@ -4,32 +4,14 @@
 	data-ng-init="initView()"
 >
 
-	<header class="mainHeader cf">
-		<h1 class="logo" data-ui-sref="main">
-			<strong>brModelo</strong>
-		</h1><!-- End .logo -->
-		<aside class="modelOptions cf">
-			<div class="modelName">
-				<input
-					class="modelTitleItem fieldInput"
-					type="text"
-					data-ng-model="model.name"
-				/>
-				<span class="fa fa-pencil inputPencil"></span>
-			</div><!-- End .modelName -->
-			<div class="modelViewiewOptions">
-				<a data-ng-click="undoModel()"><i class="fa fa-reply fa-lg"></i></a>
-				<a data-ng-click="redoModel()"><i class="fa fa-share fa-lg"></i></a>
-				<a data-ng-click="zoomIn()"><i class="fa fa-search-plus fa-lg"></i></a>
-				<a data-ng-click="zoomOut()"><i class="fa fa-search-minus fa-lg"></i></a>
-				<a class="br-button" data-ng-click="saveModel()">Salvar</a>
-				<a class="br-button" data-ng-click="generateSQL()" disabled>Gerar sql</a>
-			</div><!-- End .modelViewiewOptions -->
-		</aside><!-- End .modelOptions -->
+	<header class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-header">
+			<strong class="navbar-brand" data-ui-sref="main">BR Modelo</strong>
+		</div><!-- End .navbar-header -->
 
-		<aside class="userActions cf" ng-controller="optionsController">
-			<brdropdown title="Options" list="menuItens"> </brdropdown>
-		</aside><!-- End .userActions -->
+		<ul class="nav navbar-nav nav-icons pull-right" ng-controller="optionsController">
+			<brdropdown title="Options" list="menuItens"></brdropdown>
+		</ul>
 
 		<img
 			src="assets/img/loading-dots.gif"
@@ -40,135 +22,214 @@
 	</header>
 
 	<section class="mainContent">
+		<section class="stencil-list" id="stencil-holder">
+			<!-- Insert elemes to be used in model constrution -->
+		</section>
 
-		<aside class="feedback">
-			<div class="message {{feedback.type}} sd" data-ng-class="{'hide': !feedback.showing}">
-				<p>{{ feedback.message }}</p>
-			</div><!-- End .message -->
-		</aside><!-- End #feedback -->
+		<section id="content" class="model-area">
+			<header class="workspace-header">
+				<div class="page-header clearfix">
+					<h2 class="h4 pull-left">Modelo lógico de: {{model.name}}</h2>
+					<aside class="header-actions pull-right">
+						<a class="br-button" data-ng-click="saveModel()">Salvar</a>
+					</aside>
+				</div>
+				<ul class="nav navbar-nav tool-icons">
+					<li><a data-ng-click="undoModel()" title="Desfazer"><i class="fa fa-reply"></i></a></li>
+					<li class="divider"><a data-ng-click="redoModel()" title="Refazer"><i class="fa fa-share"></i></a></li>
+					<li><a data-ng-click="zoomIn()" title="Zoom +"><i class="fa fa-search-plus"></i></a></li>
+					<li class="divider"><a data-ng-click="zoomOut()" title="Zoom -"><i class="fa fa-search-minus"></i></a></li>
+					<li class="divider"><a data-ng-click="generateSQL()" title="Gerar SQL"><i class="fa fa-database"></i></a></li>
+					<li class="divider"><a data-ng-click="print()" title="Imprimir"><i class="fa fa-print"></i></a></li>
+				</ul>
+				<aside class="feedback">
+					<div class="message success sd" data-ng-class="{'hide': !feedback.showing}">
+						<p>{{ feedback.message }}</p>
+					</div><!-- End .message -->
+				</aside><!-- End #feedback -->
+			</header><!-- End .workspace-header -->
 
-		<div class="logicModel">
+			<aside class="model-properties" data-ng-class="{'active': editionVisible}">
 
-			<section id="stencil-holder" class="componentsList">
-				<header class="vhide">
-					<h2>Models list</h2>
-				</header><!-- List of models used by the user -->
-			</section><!-- End .componentsList -->
-
-			<div id="content" class="modelContent"> </div>
-
-			<aside class="modelProperties" data-ng-class="{'active': editionVisible}">
-				<span class="action" data-ng-click="editionVisible = !editionVisible">
+				<span class="action" data-ng-click="changeVisible()">
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 				</span>
-				<div class="propertiesContent">
-					<div class="fields" ng-show="selectedElement != null">
 
-						<div class="field">
-							<label class="fieldLabel">Nome</label>
-							<input
-								class="fieldInput"
-								type="text"
-								ng-model="selectedName"
-								ng-change="changeName()"
-							/>
-						</div><!-- End .field -->
-						<div class="columnsList">
-							<label class="fieldLabel">Colunas</label>
+				<div class="properties-content" ng-show="selectedElement != null">
+
+					<div class="form-group">
+						<label for="entry-name">Nome</label>
+						<input
+							id="entry-name"
+							type="text"
+							class="form-control"
+							ng-model="selectedName"
+							ng-change="changeName()"
+						/>
+					</div><!-- End .form-group -->
+
+					<section class="columnsList">
+						<header class="clearfix">
+							<label>Colunas</label>
 							<i class="fa fa-plus-circle addColumn" aria-hidden="true" ng-click="showAddColumn(true)"></i>
+						</header>
 
-								<div class="columnDetails columnItem" ng-show="addColumnVisible">
+						<div class="columnItem" ng-show="addColumnVisible">
+							<div class="form-group">
+								<label for="column-name">Nome</label>
+								<input
+									id="entry-name"
+									type="text"
+									class="form-control"
+									ng-model="addColumnModel.name"
+								/>
+							</div>
 
-									<label class="titleLabel">NOME</label>
-									<input class="fieldInput" type="text" ng-model="addColumnModel.name"/>
+							<div class="form-group clearfix">
+								<label for="column-kind">Tipo</label>
+								<br-select-dropdown
+									options="['VARCHAR', 'STRING', 'INTEGER']"
+									selected="{'value': 'INTEGER'}"
+									on-select-action="selectAddType"
+								></br-select-dropdown>
+							</div>
 
-									<label class="titleLabel">TIPO</label>
-									<br-select-dropdown options="['VARCHAR', 'STRING', 'INTEGER']" selected="{'value': 'INTEGER'}" on-select-action="selectAddType"> </br-select-dropdown>
+							<div class="checkbox">
+								<label for="c1">
+									<input
+										id="c1"
+										type="checkbox"
+										ng-model="addColumnModel.PK"
+									/>PK
+								</label>
+							</div>
 
-									<div class="check">
-										<input type="checkbox" id="c1" ng-model="addColumnModel.PK"/>
-										<label for="c1">PK</label>
-									</div>
+							<div class="checkbox">
+								<label for="c2">
+									<input
+										id="c2"
+										type="checkbox"
+										ng-model="addColumnModel.FK"
+									/>FK
+								</label>
+							</div>
 
-									<div class="check">
-										<input type="checkbox" id="c2" ng-model="addColumnModel.FK"/>
-										<label for="c2">FK</label>
-									</div>
+							<div class="form-group clearfix">
+								<label for="column-kind">Origem</label>
+								<br-select-dropdown
+									options="tableNames"
+									selected="{'value': 'ORIGEM'}"
+									on-select-action="selectAddTableOrigin"
+									ng-disabled="true"
+								></br-select-dropdown>
+							</div>
 
-									<div class="dropdownElement">
-										<br-select-dropdown options="tableNames" selected="{'value': 'ORIGEM'}" on-select-action="selectAddTableOrigin" ng-disabled="true"> </br-select-dropdown>
-									</div>
+							<div class="actions clearfix">
+								<i class="fa fa-check-circle add" aria-hidden="true" ng-click="addColumn(addColumnModel)"></i>
+								<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="showAddColumn(false)"></i>
+							</div>
+						</div><!-- End .columnItem -->
 
-									<div class="actions">
-										<i class="fa fa-check-circle add" aria-hidden="true" ng-click="addColumn(addColumnModel)"></i>
-										<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="showAddColumn(false)"></i>
-									</div><!-- End . -->
+						<div class="columnItem" ng-repeat="column in columns track by $index">
+							<label
+								draggable="true"
+								ng-click="editionColumnMode(column, $index)"
+								ng-show="!column.expanded"
+							>{{column.name}}</label>
+							<i
+								class="fa fa-trash"
+								aria-hidden="true"
+								ng-click="deleteColumn(column, $index); $event.stopPropagation();"
+							></i>
 
-								</div><!-- End .columnDetails -->
+							<div class="columnDetails" ng-show="column.expanded">
+								<div class="form-group">
+									<label for="">Nome</label>
+									<input
+										id=""
+										type="text"
+										class="form-control"
+										ng-model="editColumnModel.name"
+									/>
+								</div>
 
-								<div class="columnItem" ng-repeat="column in columns track by $index">
-									<label draggable="true" ng-click="editionColumnMode(column, $index)" ng-show="!column.expanded"> {{column.name}}</label>
-									<i
-										class="fa fa-trash"
-										aria-hidden="true"
-										ng-click="deleteColumn(column, $index); $event.stopPropagation();"
-									></i>
-									<div class="columnDetails" ng-show="column.expanded">
-										<label class="titleLabel">NOME</label>
-										<input class="fieldInput" type="text" ng-model="editColumnModel.name"/>
-										<label class="titleLabel">TIPO</label>
-										<br-select-dropdown options="['DATE', 'FLOAT', 'VARCHAR(n)', 'CHAR(n)', 'INT']" selected="{'value': column.type }" on-select-action="selectEditType"> </br-select-dropdown>
-										<div class="check">
-											<input type="checkbox" id="c1" ng-model="editColumnModel.PK"/>
-											<label for="c1">PK</label>
-										</div>
-										<div class="check">
-											<input type="checkbox" id="c2" ng-model="editColumnModel.FK"/>
-											<label for="c2">FK</label>
-										</div>
-										<div class="dropdownElement">
-											<br-select-dropdown options="tableNames" selected="{'value': 'ORIGEM'}" on-select-action="selectAddTableOrigin" ng-disabled="true"> </br-select-dropdown>
-										</div>
-										<div class="actions">
-											<i class="fa fa-check-circle add" aria-hidden="true" ng-click="editColumn(column, editColumnModel, $index); expanded=!expanded;"></i>
-											<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="column.expanded=!column.expanded"></i>
-										</div><!-- End . -->
-									</div><!-- End .columnDetails -->
-								</div><!-- End .columnItem -->
+								<div class="form-group clearfix">
+									<label for="">Nome</label>
+									<br-select-dropdown
+										options="['DATE', 'FLOAT', 'VARCHAR(n)', 'CHAR(n)', 'INT']"
+										selected="{'value': column.type }"
+										on-select-action="selectEditType"
+									></br-select-dropdown>
+								</div>
 
-						</div><!-- End .columnsList -->
-					</div><!-- End .fields -->
+								<div class="checkbox">
+									<label for="c1">
+										<input
+											id="c1"
+											type="checkbox"
+											ng-model="editColumnModel.PK"
+										/>PK
+									</label>
+								</div>
 
-					<div class="fields" ng-show="selectedLink != null">
+								<div class="checkbox">
+									<label for="c2">
+										<input
+											id="c2"
+											type="checkbox"
+											ng-model="editColumnModel.FK"
+										/>FK
+									</label>
+								</div>
 
-						<div class="field">
-								<label class="fieldLabel">Cardinalidade</label>
-								<div
-									class="dropdown-tmp dropdown-tmp-btn"
-									broption=""
-									tabindex="0"
-								>
-									<div class="dropdown-tmp-trigger">
-										<button class="btn ng-binding">{{selectedLink.a.card}}</button>
-									</div><!--/dropdown-tmp-trigger-->
-									<ul class="dropdown-tmp-list" style="min-width: 140px;">
-										<li class="dropdown-tmp-item" ng-click="updateCardA('(0, 1)')">
-											<span>(0, 1)</span>
-										</li>
-										<li class="dropdown-tmp-item" ng-click="updateCardA('(0, n)')">
-											<span>(0, n)</span>
-										</li>
-										<li class="dropdown-tmp-item" ng-click="updateCardA('(1, 1)')">
-											<span>(1, 1)</span>
-										</li>
-										<li class="dropdown-tmp-item" ng-click="updateCardA('(1, n)')">
-											<span>(1, n)</span>
-										</li>
-									</ul><!--/dropdown-tmp-list-->
-								</div><!-- End .field -->
-						</div><!-- End .field -->
+								<div class="form-group clearfix">
+									<label for="">Origem</label>
+									<br-select-dropdown
+										options="tableNames"
+										selected="{'value': 'ORIGEM'}"
+										on-select-action="selectAddTableOrigin"
+										ng-disabled="true"
+									></br-select-dropdown>
+								</div>
 
-							<label class="fieldLabel">Cardinalidade</label>
+								<div class="actions clearfix">
+									<i class="fa fa-check-circle add" aria-hidden="true" ng-click="editColumn(column, editColumnModel, $index); expanded=!expanded;"></i>
+									<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="column.expanded=!column.expanded"></i>
+								</div>
+							</div><!-- End .columnDetails -->
+						</div><!-- End .columnItem -->
+					</section><!-- End .columnsList -->
+
+					<div ng-show="selectedLink != null">
+						<div class="form-group">
+							<label>Cardinalidade</label>
+							<div
+								class="dropdown-tmp dropdown-tmp-btn"
+								broption=""
+								tabindex="0"
+							>
+								<div class="dropdown-tmp-trigger">
+									<button class="btn ng-binding">{{selectedLink.a.card}}</button>
+								</div>
+								<ul class="dropdown-tmp-list" style="min-width: 140px;">
+									<li class="dropdown-tmp-item" ng-click="updateCardA('(0, 1)')">
+										<span>(0, 1)</span>
+									</li>
+									<li class="dropdown-tmp-item" ng-click="updateCardA('(0, n)')">
+										<span>(0, n)</span>
+									</li>
+									<li class="dropdown-tmp-item" ng-click="updateCardA('(1, 1)')">
+										<span>(1, 1)</span>
+									</li>
+									<li class="dropdown-tmp-item" ng-click="updateCardA('(1, n)')">
+										<span>(1, n)</span>
+									</li>
+								</ul>
+							</div>
+						</div><!-- End .form-group -->
+
+						<div class="form-group">
+							<label for=" ">Cardinalidade</label>
 							<div
 								class="dropdown-tmp dropdown-tmp-btn"
 								broption=""
@@ -176,7 +237,7 @@
 							>
 								<div class="dropdown-tmp-trigger">
 									<button class="btn ng-binding">{{selectedLink.b.card}}</button>
-								</div><!--/dropdown-tmp-trigger-->
+								</div>
 								<ul class="dropdown-tmp-list" style="min-width: 140px;">
 									<li class="dropdown-tmp-item" ng-click="updateCardB('(0, 1)')">
 										<span>(0, 1)</span>
@@ -190,16 +251,13 @@
 									<li class="dropdown-tmp-item" ng-click="updateCardB('(1, n)')">
 										<span>(1, n)</span>
 									</li>
-								</ul><!--/dropdown-tmp-list-->
-							</div><!-- End .field -->
-						</div><!-- End .field -->
+								</ul>
+							</div>
+						</div>
+					</div>
 
-				</div> <!-- End .fields -->
-
-
-				</div><!-- End .propertiesContent -->
-			</aside><!-- End .modelProperties -->
-		</div>	<!-- End .logicModel -->
-
+				</div><!-- End .properties-content -->
+			</aside><!-- End .model-properties -->
+		</section><!-- End .model-area -->
 	</section><!-- End .mainContent -->
 </section><!-- End .view -->

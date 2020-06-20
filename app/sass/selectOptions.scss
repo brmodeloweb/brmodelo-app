@@ -1,10 +1,12 @@
-/* =================================================================================== */
-/* MODULES / DROPDOWN - OLD */
-/* =================================================================================== */
+////////////////////////////////////////////////////////////////////////////////
+// MODULES / DROPDOWN - OLD
+////////////////////////////////////////////////////////////////////////////////
 .dropdown-tmp {
-  position: relative;
-		width: 100%;
+     position: relative;
+    width: 100%;
 }
+
+.dropdown-tmp:focus {outline: none;}
 
 .dropdown-tmp > * {
   display: none;
@@ -23,8 +25,22 @@
     background: #fff;
 }
 
+.dropdown-tmp-trigger {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+}
+
+.expanded .dropdown-tmp-trigger {
+    border-color: #3d9970;
+}
+
 .dropdown-tmp-trigger > button {
-	width: 100%;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-tmp-trigger > button:focus {
+    outline: none;
 }
 
 .dropdown-tmp-trigger:after {
@@ -103,7 +119,7 @@
 }
 
 .dropdown-tmp-item {
-	text-align: center;
+  text-align: left;
   line-height: 26px;
   padding: 0 10px;
   cursor: pointer;
@@ -132,10 +148,6 @@
 .dropdown-tmp-text .dropdown-tmp-trigger a,
 .dropdown-tmp-btn .dropdown-tmp-trigger .btn {
   display: block;
-}
-
-.dropdown-tmp-btn .dropdown-tmp-list {
-  margin-top: 3px;
 }
 
 .dropdown-tmp-item > * {
@@ -186,9 +198,9 @@
   margin-top: 2px;
 }
 
-/* =================================================================================== */
-/* DROPDOWN */
-/* =================================================================================== */
+////////////////////////////////////////////////////////////////////////////////
+// DROPDOWN
+////////////////////////////////////////////////////////////////////////////////
 .dropdown,
 .dropdown-tmp {
   position: relative;
@@ -246,7 +258,7 @@
 .dropdown-tmp-list,
 .dropdown-tmp-text {
   background: white;
-  border: solid 1px;
+  border: solid 1px #3d9970;
   border-radius: 2px;
 }
 
@@ -254,11 +266,12 @@
 .dropdown-tmp-body,
 .dropdown-tmp-list {
   display: none;
-	width: 100%;
   position: absolute;
-  top: 32px;
+  top: calc(100% - 1px);
   left: 0;
-  padding: 10px 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .tools .dropdown-body, .tools .dropdown-list, .tools
@@ -370,19 +383,6 @@
 
 .dropdown-item:hover,
 .dropdown-tmp-item:hover {
-  background: grey;
+    color: #fff;
+    background: #3d9970;
 }
-
-.specialElement {
-  margin-bottom: 25px;
-}
-
-// .dropdown-item > *,
-// .dropdown-tmp-item > * {
-//   float: left;
-// }
-//
-// .dropdown-item > * + *,
-// .dropdown-tmp-item > * + * {
-//   margin-left: 10px;
-// }

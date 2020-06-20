@@ -1,238 +1,40 @@
-/******************************************************************************/
-/* .buttons */
-/******************************************************************************/
-.button {
-	position: relative;
-	display: inline-block;
-	font-size: 1em;
-	font-weight: 300;
-	text-align: center;
-	text-transform: uppercase;
-	padding: 5px 10px;
-	border: 1px solid rgba(0,0,0, 0.2);
-	border-radius: 2px;
-	margin: 0;
-	background: linear-gradient(to bottom,
-								rgba(255,255,255, 0.6) 0%,
-								rgba(229,229,229, 0.6) 100%);
-}
-
-.button:hover {
-	text-decoration: none;
-	background: linear-gradient(to bottom,
-								rgba(229,229,229, 0.6) 0%,
-								rgba(255,255,255, 0.6) 100%);
-}
-
-.button:active {
-	top: 2px;
-	background: linear-gradient(to bottom,
-								rgba(229,229,229, 0.6) 0%,
-								rgba(255,255,255, 0.6) 100%);
-	box-shadow: 0px 1px 1px transparent;
-}
-
-/******************************************************************************/
-/* .button.style1 */
-/******************************************************************************/
-.button.style1 {
-	color: rgba(green, 0.8);
-	border-color: rgba(green, 1);
-	background: linear-gradient(to bottom,
-								rgba(210,255,82,0.6) 0%,
-								rgba(145,232,66, 0.6) 100%);
-}
-
-.button.style1:hover {
-	background: linear-gradient(to bottom,
-								rgba(145,232,66, 0.6) 0%,
-								rgba(210,255,82, 0.6) 100%);
-}
-
-/******************************************************************************/
-/* .button.style2 */
-/******************************************************************************/
-.button.style2 {
-	color: rgba(#19285B, 1); //blue
-	border-color: rgba(#19285B, 0.8);
-	background: linear-gradient(to bottom,
-								rgba(122,188,255, 0.6) 0%,
-								rgba(96,171,248, 0.6) 44%,
-								rgba(64,150,238, 0.6) 100%);
-}
-
-.button.style2:hover {
-	background: linear-gradient(to bottom,
-								rgba(64,150,238, 0.6) 0%,
-								rgba(96,171,248, 0.6) 44%,
-								rgba(122,188,255, 0.6) 100%);
-}
-
-/******************************************************************************/
-/* .button.style3 */
-/******************************************************************************/
-.button.style3 {
-	color: rgba(#fff, 1);
-	border-color: rgba(red, 0.8);
-	background: linear-gradient(to bottom,
-								rgba(#f38630, 0.8) 0%,
-								rgba(#fa6900, 0.8) 100%);
-}
-
-.button.style3:hover {
-	background: linear-gradient(to bottom,
-								rgba(#fa6900, 0.8) 0%,
-								rgba(#f38630, 0.8) 100%);
-}
-
-/******************************************************************************/
-/* .button.style4 */
-/******************************************************************************/
-.button.style4 {
-	color: rgba(#fff, 1);
-	border-color: rgba(red, 0.8);
-	background: linear-gradient(to bottom,
-								rgba(#02b3e4, 0.8) 0%,
-								rgba(#fa6900, 0.8) 100%);
-}
-
-.button.style4:hover {
-	background: linear-gradient(to bottom,
-								rgba(#fa6900, 0.8) 0%,
-								rgba(#f38630, 0.8) 100%);
-}
-
-/******************************************************************************/
-/* .button.style5 */
-/******************************************************************************/
-.button.style5 {
-	background-color: #3D9970;
-	color: rgba(green, 0.8);
-	border-color: rgba(green, 1);
-}
-/******************************************************************************/
-/* .button.block */
-/******************************************************************************/
-.button.block {
-	display: block;
-	width: 100%;
-	padding: 12px;
-}
-
-/******************************************************************************/
-/* .dropdownButton */
-/******************************************************************************/
-.dropdownButton {position: relative;}
-
-.dropdownButton .dropDownList {
-	display: none;
-	position: absolute;
-	top: calc(100% + 2px);
-	right: 0;
-	z-index: 10;
-}
-
-.dropdownButton.active .dropDownList {display: block;}
-
-.dropDownList .dropDownItem {white-space: nowrap;}
-.dropDownList .dropDownItem:hover {text-decoration: none;}
-
-/******************************************************************************/
-/* .tton */
-/******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// .br-button
+////////////////////////////////////////////////////////////////////////////////
 .br-button {
-	font-size: 0.8rem;
-	padding: 0.7rem 1.1rem 0.5rem;
-	text-transform: uppercase;
-	border: 1px solid #3D9970;
+	display: inline-block;
+	cursor: pointer;
+	font-size: 1em;
+	padding: 4px 8px;
+	border: 1px solid #3d9970;
+	border-radius: 2px;
+	margin: 0 4px 0 0;
 	color: #3D9970;
 	font-weight: 400;
-	border-radius: 2px;
+	text-transform: uppercase;
 	background-color: transparent;
 	transition: all 0.25s ease;
-	margin: 0.25rem 0.5rem;
-	z-index: 1;
 }
 
 .br-button:hover {
-	color: #FFF;
+	color: #fff;
+	background: #3d9970;
 	text-decoration: none;
-	cursor: pointer;
-	background: #3D9970;
 }
 
 .br-button.yellow {
-	border: 1px solid #DD7C58;
-	color: #DD7C58;
+	border-color: #dd7c58;
+	color: #dd7c58;
 }
 
 .br-button.yellow:hover {
-	background: #DD7C58;
-	color: #FFF;
+	background: #dd7c58;
+	color: #fff;
 }
 
 .br-button.btn-disable {
 	cursor: not-allowed;
 	pointer-events: none;
- /*Button disabled - CSS color class*/
 	color: #c0c0c0;
-	background-color: #dddddd;
-}
-
-/******************************************************************************/
-/* .checkboxFive */
-/******************************************************************************/
-.checkboxFive {
-	width: 25px;
-	position: relative;
-}
-
-.checkboxFive label {
-	cursor: pointer;
-	position: absolute;
-	width: 25px;
-	height: 22px;
-	top: 0;
-	left: 0;
-	background: #eee;
-	border:1px solid #ddd;
-}
-
-.checkboxFive label:after {
-	opacity: 0.1;
-	content: '';
-	position: absolute;
-	width: 9px;
-	height: 5px;
-	background: transparent;
-	top: 6px;
-	left: 7px;
-	border: 3px solid #333;
-	border-top: none;
-	border-right: none;
-	transform: rotate(-45deg);
-}
-
-/* Create the hover event of the tick */
-.checkboxFive label:hover::after {opacity: 0.5;}
-
-/* Create the checkbox state for the tick */
-.checkboxFive input[type=checkbox]:checked + label:after {opacity: 1;}
-
-.check-label{
-	margin-left: 30px;
-	cursor: pointer;
-	margin-top: 1px;
-}
-
-input[type="checkbox"] {
-	margin: -1px 0 0;
-	margin-top: 0px \9; // IE8-9
-	line-height: normal;
-}
-
-input[type="radio"] {
-	margin: -1px 0 0;
-	margin-top: 0px \9; // IE8-9
-	line-height: normal;
+	background-color: #ddd;
 }

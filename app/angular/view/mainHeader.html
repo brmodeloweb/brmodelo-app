@@ -1,17 +1,16 @@
-<h1 class="logo">
-	<strong>brModelo</strong>
-</h1><!-- End .logo -->
-<nav class="mainNav">
-	<!-- <a class="mainHeaderItem" data-ui-sref="main">Workspace</a> -->
-</nav><!-- End .mainNav -->
+<div class="container">
+	<div class="navbar-header pull-left">
+		<strong class="navbar-brand">BR Modelo</strong>
+	</div><!-- End .navbar-header -->
 
-<aside class="userActions cf" ng-controller="optionsController">
-	<brdropdown title="Options" list="menuItens"> </brdropdown>
-</aside><!-- End .userActions -->
+	<ul class="nav navbar-nav pull-right nav-icons" ng-controller="optionsController">
+		<brdropdown title="Options" list="menuItens"></brdropdown>
+	</ul>
 
-<img
-	src="assets/img/loading-dots.gif"
-	alt="Loading"
-	class="br-loader"
-	ng-class="{'loading': loading}"
-/>
+	<img
+		src="assets/img/loading-dots.gif"
+		alt="Loading"
+		class="br-loader"
+		ng-class="{'loading': loading}"
+	/>
+</div>
