@@ -24,7 +24,6 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-live-server": "0.0.31",
     "jquery": "^2.2.4",
-    "jquery-nice-select": "^1.1.0",
     "mongodb": "~3.5.8",
     "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
