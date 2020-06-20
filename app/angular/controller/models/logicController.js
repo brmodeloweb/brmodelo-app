@@ -36,7 +36,8 @@ angular.module('myapp')
 
 	$scope.initView = function(){
 		$scope.showLoading(true);
-		LogicService.buildWorkspace($stateParams.modelid, $rootScope.loggeduser, self.stopLoading, $stateParams.conversionId);
+		console.log($stateParams);
+		LogicService.buildWorkspace($stateParams.references.modelid, $rootScope.loggeduser, self.stopLoading, $stateParams.references.conversionId);
 	}
 
 	self.closeAllColumns = function(){

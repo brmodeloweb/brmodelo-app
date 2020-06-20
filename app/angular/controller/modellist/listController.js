@@ -14,6 +14,9 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 	}
 
 	self.openModel = function(model) {
+		if(model.type === "logic") {
+			return $state.go("logic", {"references": {'modelid': model._id, 'conversionId': ""}});	
+		}
 		$state.go(model.type, {
 			'modelid': model._id
 		});
