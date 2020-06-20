@@ -1,16 +1,18 @@
 angular.module('myapp')
 			 .controller("conceptualController",
-				function($scope,
-								 $http,
-								 $window,
-								 $state,
-								 $rootScope,
-								 $stateParams,
-								 ConceptualFactory,
-								 ConceptualService,
-								 ConversorService,
-								 ModelAPI,
-							 	$timeout) {
+				function(
+					$scope,
+					$http,
+					$window,
+					$state,
+					$rootScope,
+					$stateParams,
+					ConceptualFactory,
+					ConceptualService,
+					ConversorService,
+					ModelAPI,
+					$timeout
+				){
 
 	var cs = ConceptualService;
 
@@ -521,16 +523,16 @@ angular.module('myapp')
 
 		var $app = $('#content');
 
-    $scope.paperScroller = new joint.ui.PaperScroller({
+		$scope.paperScroller = new joint.ui.PaperScroller({
 			paper: $scope.paper,
 			cursor: 'grab',
 			autoResizePaper: true
-    });
+		});
 
 		$app.append($scope.paperScroller.render().el);
 
 		$(window).resize(function() {
-    	var canvas = $('#content');
+			var canvas = $('#content');
 			console.log("#content");
 			console.log(canvas.width());
 			console.log(canvas.height());
@@ -545,7 +547,7 @@ angular.module('myapp')
 			console.log(jointpaper.width());
 			console.log(jointpaper.height());
 			console.log(jointpaper);
-    //	$scope.paper.setDimensions(canvas.width(), canvas.height());
+			//$scope.paper.setDimensions(canvas.width(), canvas.height());
 		});
 
 		var stencil = new joint.ui.Stencil({
@@ -674,28 +676,26 @@ angular.module('myapp')
 					$scope.conectElements(cellView, x, y);
 				}
 			}
-	  });
+		});
 
 		$scope.graph.on('change:position', function(cell) {
 
-	    var parentId = cell.get('parent');
-	    if (!parentId) return;
+		var parentId = cell.get('parent');
+		if (!parentId) return;
 
-	    var parent = $scope.graph.getCell(parentId);
-	    var parentBbox = parent.getBBox();
-	    var cellBbox = cell.getBBox();
+		var parent = $scope.graph.getCell(parentId);
+		var parentBbox = parent.getBBox();
+		var cellBbox = cell.getBBox();
 
-	    if (parentBbox.containsPoint(cellBbox.origin()) &&
-	        parentBbox.containsPoint(cellBbox.topRight()) &&
-	        parentBbox.containsPoint(cellBbox.corner()) &&
-	        parentBbox.containsPoint(cellBbox.bottomLeft())) {
-
-	        // All the four corners of the child are inside
-	        // the parent area.
-	        return;
-	    }
-	    // Revert the child position.
-	    cell.set('position', cell.previous('position'));
+		if (parentBbox.containsPoint(cellBbox.origin()) &&
+			parentBbox.containsPoint(cellBbox.topRight()) &&
+			parentBbox.containsPoint(cellBbox.corner()) &&
+			parentBbox.containsPoint(cellBbox.bottomLeft())) {
+				// All the four corners of the child are inside the parent area.
+				return;
+			}
+			// Revert the child position.
+			cell.set('position', cell.previous('position'));
 		});
 
 
@@ -781,7 +781,7 @@ angular.module('myapp')
 			var target = $scope.graph.getCell(cellView.model.get('target').id);
 
 			if((cs.isRelationship(source) || cs.isRelationship(target)) &&
-			   (cs.isEntity(source) || cs.isEntity(target))) {
+				(cs.isEntity(source) || cs.isEntity(target))) {
 
 				if(cellView.model.attributes.labels != null){
 					$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
@@ -798,11 +798,8 @@ angular.module('myapp')
 				$scope.$apply();
 			}
 
-    });
+	});
 
 	}
 
 });
-
-// .link-tools .tool-remove { display: none }
-// .link-tools .tool-options { display: none }

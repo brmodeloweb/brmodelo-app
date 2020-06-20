@@ -1,13 +1,11 @@
 <div
-  class="dropdown-tmp dropdown-tmp-btn"
-  tabindex="0"
+	class="dropdown-tmp dropdown-tmp-btn"
+	tabindex="0"
 >
-  <div class="dropdown-tmp-trigger">
-    <button class="btn ng-binding" ng-click="toggle()">{{selectedOption}}</button>
-  </div><!--/dropdown-tmp-trigger-->
-  <ul class="dropdown-tmp-list" style="min-width: 140px;">
-    <li class="dropdown-tmp-item" ng-click="selectOption(option)" ng-repeat="option in options">
-      <span>{{option}}</span>
-    </li>
-  </ul><!--/dropdown-tmp-list-->
+	<div class="dropdown-tmp-trigger">
+		<button class="btn ng-binding" ng-click="toggle()">{{selectedOption}}</button>
+	</div><!--/dropdown-tmp-trigger-->
+	<ul class="dropdown-tmp-list" style="min-width: 140px;">
+		<li class="dropdown-tmp-item" ng-click="selectOption(option)" ng-repeat="option in options"><span>{{option}}</span></li>
+	</ul><!--/dropdown-tmp-list-->
 </div><!-- End .dropdown-tmp -->

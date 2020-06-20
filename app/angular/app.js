@@ -1,7 +1,9 @@
-var app = angular.module('myapp', ['ui.router',
-																	 'ui.bootstrap',
-																	 'ngCookies',
-																 	 'textAngular']);
+var app = angular.module('myapp', [
+	'ui.router',
+	'ui.bootstrap',
+	'ngCookies',
+	'textAngular'
+]);
 
 app.config(['$urlRouterProvider', '$stateProvider',
 
@@ -67,7 +69,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 ]);
 
 app.run(function($transitions, $rootScope, AuthService, $state) {
-  $transitions.onStart({}, function(trans) {
+	$transitions.onStart({}, function(trans) {
 		var requireLogin = trans.to().data.requireLogin
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
@@ -76,7 +78,7 @@ app.run(function($transitions, $rootScope, AuthService, $state) {
 				$state.go('login');
 			}
 		}
-  });
+	});
 })
 
 app.config(function() {

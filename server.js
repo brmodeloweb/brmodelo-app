@@ -9,15 +9,15 @@ let mongoport = process.env.PROD_MONGODB || "mongodb://localhost:27017/brmodeloD
 
 mongoose.set("debug", true)
 mongoose.connect(mongoport, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
- if (err) throw err
-  app.listen(port, function () {
-    console.log(`
+	if (err) throw err
+		app.listen(port, function () {
+			console.log(`
 ---------------------------------------------------
 --------------- APPLICATION RUNNING ---------------
 ---------------------------------------------------
 App: http://localhost:${port}
 MongoDB: ${mongoport}
 ---------------------------------------------------
-    `)
-  })
+		`)
+	})
 })
