@@ -1,1 +1,0 @@
-exports.Model = require('./model')
