@@ -27,6 +27,17 @@
         "design",
         "projectManagement"
       ]
+    },
+    {
+      "login": "feekosta",
+      "name": "Felipe de Souza da Costa",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13004903?v=4",
+      "profile": "https://about.me/feekosta",
+      "contributions": [
+        "code",
+        "infra",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
