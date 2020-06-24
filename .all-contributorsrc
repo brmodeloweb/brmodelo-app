@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "miltonbsn",
+      "name": "Milton Bittencourt de Souza Neto",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/881231?v=4",
+      "profile": "https://github.com/miltonbsn",
+      "contributions": [
+        "code",
+        "test",
+        "bug",
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "brmodelo-app",
+  "projectOwner": "brmodeloweb",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
