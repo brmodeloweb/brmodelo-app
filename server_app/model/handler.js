@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const modelService = require("./service");
+const modelValidator = require("./validator");
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -19,8 +20,7 @@ const listAll = async (req, res) => {
 const getById = async (req, res) => {
 	try {
 		let modelId = req.query.modelId;
-		let userId = req.query.userId;
-		const model = await modelService.getById({ userId, modelId });
+		const model = await modelService.getById(modelId);
 		res.send(model);
 	} catch (error) {
 		console.error(error);
@@ -50,7 +50,7 @@ const save = async (req, res) => {
 
 const edit = async (req, res) => {
 	try {
-		const modelId = req.params.id;
+		const modelId = req.params.modelId;
 		const newModel = req.body.model;
 		const editedModel = await modelService.edit(modelId, newModel);
 		res.send(editedModel);
