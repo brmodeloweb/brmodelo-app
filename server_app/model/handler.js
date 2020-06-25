@@ -37,6 +37,12 @@ const save = async (req, res) => {
 		const model = req.body.model;
 		const userId = req.body.user;
 
+		const validation = modelValidator.modelValidator({name, type, model, userId});
+
+    if(!validation.valid) {
+      return res.status(422).send(validation.message);
+    }
+
 		const newModel = await modelService.save({ name, type, model, userId });
 
 		res.send(newModel);
