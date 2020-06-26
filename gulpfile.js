@@ -109,7 +109,7 @@ function copyToAssets() {
 // Local server
 ////////////////////////////////////////////////////////////////////////////////
 function server() {
-	let server = gls.new("./server.js")
+	let server = gls.new("./src/server")
 	server.start()
 }
 

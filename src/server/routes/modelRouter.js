@@ -1,15 +1,13 @@
 let express = require("express")
-let mongoose = require("mongoose")
 let bodyParser = require("body-parser")
-let ModelSchema = mongoose.model("Model").schema
+const Model = require("../models/model");
+
 let modelRouter = express.Router()
-mongoose.Promise = require("bluebird")
 
 modelRouter.use(bodyParser.json())
 
 modelRouter.route("/")
 .get(function(req,res,next){
-	let Model = mongoose.model("Model", ModelSchema)
 	let userId = req.query.userId
 	Model.find({"who": userId}, function(err, models) {
 		res.send(models)
@@ -22,7 +20,6 @@ modelRouter.route("/")
 	let _model = req.body.model
 	let _user = req.body.user
 
-	let Model = mongoose.model("Model", ModelSchema)
 	let model = new Model({
 		who: _user,
 		type: _type,
@@ -44,7 +41,6 @@ modelRouter.route("/:modelId")
 	//res.end("Will send details of the dish: " + req.params.modelId +" to you!")
 	let modelId = req.query.modelId
 	let userId = req.query.userId
-	let Model = mongoose.model("Model", ModelSchema)
 	Model.find({"who": userId, "_id": modelId}, function(err, model){
 		if(err)
 			console.log(err)
@@ -54,7 +50,6 @@ modelRouter.route("/:modelId")
 })
 
 .put(function(req, res, next){
-	let Model = mongoose.model("Model", ModelSchema)
 	Model.findOne({"_id": req.body.id}, function(err, model){
 		if(err)
 			console.log(err)
@@ -69,7 +64,6 @@ modelRouter.route("/:modelId")
 })
 
 .delete(function(req, res, next){
-	let Model = mongoose.model("Model", ModelSchema)
 	Model.find({"_id": req.query.modelId}).remove(function (err) {
 		if (err) {
 			console.log(err)
