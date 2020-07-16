@@ -48,6 +48,19 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 		});
 	};
 
+	self.renameModel = function(model) {
+		var modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/renameModelModal.html',
+			controller:  'RenameModelModalController'
+		});
+
+		modalInstance.result.then(function(name) {
+			console.log(model);
+			//self.doDelete(model);
+		});
+	};
+
 	self.doDelete = function(model) {
 		$scope.showLoading(true);
 		ModelAPI.deleteModel(model._id).then(function (resp) {
