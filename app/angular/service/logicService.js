@@ -170,10 +170,11 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 
 		if(modelid != null && modelid != "") {
 			ModelAPI.getModel(modelid, userId).then(function(resp){
-				ls.model.name = resp.data[0].name;
-				ls.model.type = resp.data[0].type;
-				ls.model.id   = resp.data[0]._id;
-				ls.graph.fromJSON(JSON.parse(resp.data[0].model));
+				ls.model.name = resp.data.name;
+				ls.model.type = resp.data.type;
+				ls.model.id   = resp.data._id;
+				const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+				ls.graph.fromJSON(jsonModel);
 				callback();
 
 				if(conversionId != null && conversionId != "" && modelid != "") {

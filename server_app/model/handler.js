@@ -34,8 +34,14 @@ const save = async (req, res) => {
 	try {
 		const name = req.body.name;
 		const type = req.body.type;
-		const model = req.body.model;
 		const userId = req.body.user;
+		let model = {};
+		
+		try {
+			model = (typeof req.body.model === "string") ? JSON.parse(req.body.model) : req.body.model;
+		} catch {
+			model = "";
+		}
 
 		const validation = modelValidator.validateSaveParams({
 			name,
@@ -91,7 +97,7 @@ const rename = async (req, res) => {
 		const modelId = req.params.id;
 		const newName = req.body.name;
 		const editedModel = await modelService.edit(modelId, newName);
-		res.send(editedModel);
+		res.status(200).send(editedModel);
 	} catch (error) {
 		console.error(error);
 		return res

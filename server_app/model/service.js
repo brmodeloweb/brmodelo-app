@@ -18,7 +18,7 @@ const listAll = async (userId) => {
 const getById = async (modelId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const model = await modelRepository.find({ _id: modelId });
+			const model = await modelRepository.findOne({ _id: modelId });
 			return resolve(model);
 		} catch (error) {
 			console.error(error);
