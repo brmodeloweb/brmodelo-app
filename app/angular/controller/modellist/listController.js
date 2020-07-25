@@ -55,9 +55,13 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 			controller:  'RenameModelModalController'
 		});
 
-		modalInstance.result.then(function(name) {
-			console.log(model);
-			//self.doDelete(model);
+		modalInstance.result.then(function(newName) {
+			ModelAPI.renameModel(model._id, newName).then(function (resp) {
+				if (resp.status === 200){
+					model.name = newName;
+				}
+				$scope.showLoading(false);
+			});
 		});
 	};
 

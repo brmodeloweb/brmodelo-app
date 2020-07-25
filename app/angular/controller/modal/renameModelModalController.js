@@ -1,17 +1,17 @@
 const controller = ($scope, $uibModalInstance) => {
-	this.submitted = false;
+	$scope.submitted = false;
 
-	this.save = (newName) => {
+	$scope.rename = (newName) => {
 		$scope.submitted = true;
 		if(newName != null && newName != ""){
 			$uibModalInstance.close(newName);
 		}
 	}
 
-	this.cancel = () => {
+	$scope.cancel = () => {
+		console.log("cancel!");
 		$uibModalInstance.dismiss('cancel');
 	};
-
 }
 
 angular.module('myapp').controller('RenameModelModalController', controller);

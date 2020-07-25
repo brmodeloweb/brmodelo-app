@@ -94,9 +94,9 @@ const remove = async (req, res) => {
 
 const rename = async (req, res) => {
 	try {
-		const modelId = req.params.id;
+		const modelId = req.params.modelId;
 		const newName = req.body.name;
-		const editedModel = await modelService.edit(modelId, newName);
+		const editedModel = await modelService.rename(modelId, newName);
 		res.status(200).send(editedModel);
 	} catch (error) {
 		console.error(error);

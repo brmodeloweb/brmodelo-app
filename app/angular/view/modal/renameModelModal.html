@@ -9,7 +9,7 @@
 			<div class="col-sm-7">
 				<input 
 					class="form-control"
-					ng-class="{'error': (name == null || name == '') && ctrl.submitted}"
+					ng-class="{'error': (name == null || name == '') && submitted}"
 					type="text" 
 					id="rename-model" 
 					data-ng-model="name"
@@ -22,6 +22,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="br-button yellow" type="button" ng-click="ctrl.cancel()">Cancelar</button>
-	<button class="br-button" type="button" ng-click="ctrl.save(name)">Renomear</button>
+	<button class="br-button yellow" type="button" ng-click="cancel()">Cancelar</button>
+	<button class="br-button" type="button" ng-click="rename(name)">Renomear</button>
 </div>
