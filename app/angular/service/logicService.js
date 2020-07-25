@@ -170,16 +170,18 @@ angular.module('myapp').factory('LogicService', function($rootScope, ModelAPI, L
 
 		if(modelid != null && modelid != "") {
 			ModelAPI.getModel(modelid, userId).then(function(resp){
-				ls.model.name = resp.data[0].name;
-				ls.model.type = resp.data[0].type;
-				ls.model.id   = resp.data[0]._id;
-				ls.graph.fromJSON(JSON.parse(resp.data[0].model));
+				ls.model.name = resp.data.name;
+				ls.model.type = resp.data.type;
+				ls.model.id   = resp.data._id;
+				const logicJsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+				ls.graph.fromJSON(logicJsonModel);
 				callback();
 
 				if(conversionId != null && conversionId != "" && modelid != "") {
 					ModelAPI.getModel(conversionId, userId).then(function(resp) {
-						var graph = new joint.dia.Graph;
-						var promise = ConversorService.toLogic(graph.fromJSON(JSON.parse(resp.data[0].model)), ls);
+						const graph = new joint.dia.Graph;
+						const conceptualJsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+						const promise = ConversorService.toLogic(graph.fromJSON(conceptualJsonModel), ls);
 						promise.then(function(tables){
 						//	ls.updateModel();
 						});

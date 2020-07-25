@@ -196,10 +196,11 @@ angular.module('myapp')
 		$scope.showLoading(true);
 
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
-			$scope.model.name = resp.data[0].name;
-			$scope.model.type = resp.data[0].type;
-			$scope.model.id   = resp.data[0]._id;
-			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
+			$scope.model.name = resp.data.name;
+			$scope.model.type = resp.data.type;
+			$scope.model.id   = resp.data._id;
+			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+			$scope.graph.fromJSON(jsonModel);
 			$scope.showLoading(false);
 		});
 	}
