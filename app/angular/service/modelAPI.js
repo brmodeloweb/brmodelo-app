@@ -43,11 +43,20 @@ angular.module("myapp").factory("ModelAPI", function ($http) {
 			});
 	};
 
+	_renameModel = function (_modelId, newName) {
+		return $http
+			.put(`/models/${_modelId}/rename`, {"name": newName})
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
 	return {
 		saveModel: _saveModel,
 		getAllModels: _getAllModels,
 		getModel: _getModel,
 		updateModel: _updateModel,
 		deleteModel: _deleteModel,
+		renameModel: _renameModel
 	};
 });
