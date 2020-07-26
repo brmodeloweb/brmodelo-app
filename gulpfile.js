@@ -97,7 +97,9 @@ function copyToAssets() {
 		"node_modules/font-awesome/css/**/*",
 		"node_modules/font-awesome/fonts/**/*",
 		// Sweet-Feedback
-		"node_modules/sweet-feedback/**/*"
+		"node_modules/sweet-feedback/**/*",
+		// Joint
+		"node_modules/jointjs/dist/**/*",
 	];
 
 	return gulp

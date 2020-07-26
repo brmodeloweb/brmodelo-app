@@ -14,9 +14,14 @@ angular.module('myapp').factory('LogicFactory', function(){
 				stroke: '#000',
 				'stroke-width': 0.5,
 			},
-			'.uml-class-attrs-rect, .uml-class-methods-rect': {
+			'.uml-class-attrs-rect': {
 				fill: '#fff',
-				stroke: '#000000',
+				stroke: '#000',
+				'stroke-width': 0.5
+			},
+			'.uml-class-methods-rect': {
+				fill: '#fff',
+				stroke: '#000',
 				'stroke-width': 0.5
 			},
 			'.uml-class-attrs-text': {
