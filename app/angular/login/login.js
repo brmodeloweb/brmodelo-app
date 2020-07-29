@@ -1,4 +1,4 @@
-const LoginController = (AuthService, $state) => {
+const LoginController = function (AuthService, $state) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.credentials = {};
