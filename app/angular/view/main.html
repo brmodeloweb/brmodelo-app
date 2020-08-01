@@ -40,7 +40,7 @@
 							<td ng-click="ctrl.openModel(model)">{{ctrl.getAuthorName(model.who)}}</td>
 							<td ng-click="ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
-								<i title="Renomear" class="fa fa-pencil" aria-hidden="true"></i>
+								<i title="Renomear" class="fa fa-pencil" aria-hidden="true" ng-click="ctrl.renameModel(model)"></i>
 								<i title="Apagar" class="fa fa-trash" aria-hidden="true" ng-click="ctrl.deleteModel(model)"></i>
 							</td>
 						</tr>
