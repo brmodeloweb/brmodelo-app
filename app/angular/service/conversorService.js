@@ -29,23 +29,23 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var cell_associatives = [];
 				var cell_extensions = [];
 
-				var all = modelGraph.toJSON().cells;
+				var all = modelGraph.attributes.cells.models;
 
 				for (element of all){
 
-					if(element.type === 'erd.Entity') {
+					if(element.attributes.type === 'erd.Entity') {
 						cell_tables.push(element);
 					}
 
-					if(element.type === 'erd.Relationship') {
+					if(element.attributes.type === 'erd.Relationship') {
 						cell_relations.push(element);
 					}
 
-					if(element.type === 'erd.BlockAssociative'){
+					if(element.attributes.type === 'erd.BlockAssociative'){
 						cell_associatives.push(element);
 					}
 
-					if(element.type === 'erd.ISA'){
+					if(element.attributes.type === 'erd.ISA'){
 						cell_extensions.push(element);
 					}
 
@@ -252,7 +252,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			});
 		}
 
-		buildTables = function(tables) {
+		buildTables = function(tables) {  
 			return $q(function(resolve){
 
 				(function iterate(){
@@ -261,7 +261,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					} else {
 							var element = tables.shift();
 							if(element != null) {
-								var promise = buildTable(element, modelGraph.getNeighbors(element));
+								const vizinhos = modelGraph.getNeighbors(element);
+								var promise = buildTable(element, vizinhos);
 								promise.then(function(editedTable) {
 									var newTable = ls.insertTable(editedTable);
 									entityTableMap.set(element.id, newTable);
@@ -433,9 +434,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		buildTable = function(element, neighbors) {
 			return $q(function(resolve, reject) {
 
-				var name = element.attrs.text.text;
-				var x = element.position.x;
-				var y = element.position.y;
+				var name = element.attributes.attrs.text.text;
+				var x = element.attributes.position.x;
+				var y = element.attributes.position.y;
 				var table = createTableObject(name, x, y);
 
 				buildAttributes(table, neighbors, element).then(function(resp){
@@ -615,9 +616,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		createTableFromRelation = function(relation, allPKs){
 			return $q(function(resolve){
-				var name = relation.attrs.text.text;
-				var x = relation.position.x;
-				var y = relation.position.y;
+				var name = relation.attributes.attrs.text.text;
+				var x = relation.attributes.position.x;
+				var y = relation.attributes.position.y;
 
 				var table = createTableObject(name, x, y);
 
@@ -633,7 +634,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 					var entityNeighbors = getEntityNeighbors(relation);
 					for (entity of entityNeighbors) {
-						var column = createFKColumn(entity.attributes);
+						var column = createFKColumn(entity);
 						if(!hasPrimaryKey){
 							column.PK = true;
 							if(!allPKs){
@@ -649,9 +650,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		createTableFrom1NRelation = function(relation, links){
 			return $q(function(resolve){
-				var name = relation.attrs.text.text;
-				var x = relation.position.x;
-				var y = relation.position.y;
+				var name = relation.attributes.attrs.text.text;
+				var x = relation.attributes.position.x;
+				var y = relation.attributes.position.y;
 
 				var table = createTableObject(name, x, y);
 
@@ -675,7 +676,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					}
 
 					for (entity of entityNeighbors) {
-						var column = createFKColumn(entity.attributes);
+						var column = createFKColumn(entity);
 							if((entity.id == sideN.attributes.source.id) || (entity.id == sideN.attributes.target.id)){
 								column.PK = true;
 							}
@@ -739,7 +740,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						controller:  'AttributeModalController',
 						resolve: {
 							params: function () {
-								return {'relationName': relation.attrs.text.text,
+								return {'relationName': relation.attributes.attrs.text.text,
 												'relationType': buildRelationDescriotion(links),
 												'tableNames': getTableNames(relation)
 												};
@@ -774,7 +775,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						controller:  'AttributeModalController',
 						resolve: {
 							params: function () {
-								return {'relationName': relation.attrs.text.text,
+								return {'relationName': relation.attributes.attrs.text.text,
 												'relationType': buildRelationDescriotion(links),
 												'tableNames': getTableNames(relation)
 												};
@@ -804,7 +805,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							controller:  'AttributeModalController',
 							resolve: {
 								params: function () {
-									return {'relationName': relation.attrs.text.text,
+									return {'relationName': relation.attributes.attrs.text.text,
 													'relationType': buildRelationDescriotion(links),
 													'tableNames': getTableNames(relation)
 													};
@@ -846,8 +847,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		joinTablesFromRelation = function(relation){
 			return $q(function(resolve){
 
-				var x = relation.position.x;
-				var y = relation.position.y;
+				var x = relation.attributes.position.x;
+				var y = relation.attributes.position.y;
 
 				var neighbors = modelGraph.getNeighbors(relation);
 
@@ -881,7 +882,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		createFKColumn = function(entity) {
 			var pks = getPKs(entity);
-			var attName = "id" + entity.attrs.text.text;
+			var attName = "id" + entity.attributes.attrs.text.text;
 			if(pks.length > 0) {
 				attName = pks[0].attributes.attrs.text.text;
 			}
