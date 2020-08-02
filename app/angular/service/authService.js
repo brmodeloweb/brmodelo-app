@@ -3,7 +3,7 @@ angular.module('myapp').factory('AuthService', function($http, $cookies) {
 
 	authService.login = function(credentials) {
 		return $http
-			.post('/users/login', credentials)
+			.post('/auth/login', credentials)
 			.then(function(res) {
 				var user = res.data;
 				var today = new Date();

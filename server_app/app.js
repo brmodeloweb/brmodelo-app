@@ -34,9 +34,11 @@ app.use(errorhandler());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");
+const authHandler = require("./auth/handler");
 
 app.use("/users", userHandler);
 app.use("/models", modelHandler);
+app.use("/auth", authHandler);
 
 app.get("/", (_, res) => {
 	res.render("index.html");

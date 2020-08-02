@@ -1,22 +1,14 @@
 const UserRepository = require("./model");
 const encriptor = require("../helpers");
 
-const login = async ({username, password}) => {
+const find = async ({username, password}) => {
   return new Promise(async (resolve, reject) => {
     try {
       const userDocument = await UserRepository.findOne({
         "login": username,
         "password": encriptor.Crypto(password, username),
       });
-    
-      if(userDocument != null) {
-        return resolve({
-          "userId": userDocument.id,
-          "userName": userDocument.name
-        });
-      }
-
-      return resolve(null);
+      return resolve(userDocument);
     } catch (error) {
       console.error(error);
       reject(error);
@@ -48,7 +40,7 @@ const create = async ({username, password, mail}) => {
 }
 
 const userService = {
-  login,
+  find,
   create
 };
 
