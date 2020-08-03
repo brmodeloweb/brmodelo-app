@@ -10,7 +10,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 	function($urlRouterProvider, $stateProvider) {
 		$stateProvider.state('login', {
 			url: '/',
-			templateUrl: 'angular/view/login.html',
+			template: '<login></login>',
 			data: {
 				requireLogin: false
 			}
