@@ -194,7 +194,6 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		}
 
 		treatExtensionAll = function(extension) {
-			console.log(extension.parentId);
 			return $q(function(resolve){
 				var childrens = [];
 				var root = {};
