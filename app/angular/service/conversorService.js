@@ -119,7 +119,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		getExtensionRootName = function(extension) {
 			for (neighbor of getEntityNeighbors(extension)){
-				if(extension.parentId == neighbor.id){
+				if(extension.attributes.parentId == neighbor.id){
 					return neighbor.attributes.attrs.text.text;
 				}
 			}
@@ -139,7 +139,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var childrens = [];
 				var root = {};
 				for (neighbor of getEntityNeighbors(extension)){
-					if(extension.parentId != neighbor.id){
+					if(extension.attributes.parentId != neighbor.id){
 						childrens.push(neighbor);
 					} else {
 						root = neighbor;
@@ -194,11 +194,12 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		}
 
 		treatExtensionAll = function(extension) {
+			console.log(extension.parentId);
 			return $q(function(resolve){
 				var childrens = [];
 				var root = {};
 				for (neighbor of getEntityNeighbors(extension)){
-					if(extension.parentId != neighbor.id){
+					if(extension.attributes.parentId != neighbor.id){
 						childrens.push(neighbor);
 					} else {
 						root = neighbor;
@@ -831,7 +832,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		connectTables = function(source, target){
 			var obj = {
-				"name": "id"+ source.attributes.name,
+				"name": "id" + source.attributes.name,
 				"type": "Integer",
 				"PK": false,
 				"FK": true,
