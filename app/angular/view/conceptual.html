@@ -5,13 +5,17 @@
 >
 
 	<header class="navbar navbar-default navbar-fixed-top">
-		<div class="navbar-header">
-			<strong class="navbar-brand" data-ui-sref="main">BR Modelo</strong>
-		</div><!-- End .navbar-header -->
-
-		<ul class="nav navbar-nav nav-icons pull-right" ng-controller="optionsController">
-			<brdropdown title="Options" list="menuItens"></brdropdown>
+		<ul class="nav navbar-nav pull-left">
+			<li>
+				<a class="back-button" href="#" data-ui-sref="main">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+				</a>
+			</li>
 		</ul>
+
+		<div class="navbar-header">
+			<strong class="navbar-brand">BR Modelo</strong>
+		</div>
 
 		<img
 			src="assets/img/loading-dots.gif"
