@@ -259,12 +259,11 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					if(tables.length == 0){
 						resolve();
 					} else {
-							var element = tables.shift();
+							let element = tables.shift();
 							if(element != null) {
-								const vizinhos = modelGraph.getNeighbors(element);
-								var promise = buildTable(element, vizinhos);
+								let promise = buildTable(element, modelGraph.getNeighbors(element));
 								promise.then(function(editedTable) {
-									var newTable = ls.insertTable(editedTable);
+									let newTable = ls.insertTable(editedTable);
 									entityTableMap.set(element.id, newTable);
 									iterate();
 								});
