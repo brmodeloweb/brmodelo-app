@@ -1,0 +1,35 @@
+////////////////////////////////////////////////////////////////////////////////
+// .modelWorkspace .navbar
+////////////////////////////////////////////////////////////////////////////////
+.modelWorkspace .navbar {
+	width: 200px;
+	border-right: 1px solid #e7e7e7
+}
+
+.modelWorkspace .navbar .back-button {
+	font-size: 1.2em;
+	color: #3d9970;
+	padding-top: 16px;
+	padding-bottom: 17px;
+}
+
+.modelWorkspace .navbar .back-button:hover {
+	color: #3d9970;
+	background-color: #e1e1e1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .modelWorkspace .mainContent
+////////////////////////////////////////////////////////////////////////////////
+.modelWorkspace .mainContent {
+	padding-top: 0;
+}
+
+.modelWorkspace .model-area {
+	top: 0;
+}
+
+.modelWorkspace .workspace-header .page-header {
+	margin-top: 10px;
+}
+
