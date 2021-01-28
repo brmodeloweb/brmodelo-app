@@ -37,12 +37,6 @@ const save = async (req, res) => {
 		const userId = req.body.user; 
 		const model = req.body.model;
 		
-		// try {
-		// 	model = (typeof req.body.model === "string") ? JSON.parse(req.body.model) : req.body.model;
-		// } catch {
-		// 	model = "";
-		// }
-
 		const validation = modelValidator.validateSaveParams({
 			name,
 			type,
