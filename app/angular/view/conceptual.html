@@ -5,13 +5,17 @@
 >
 
 	<header class="navbar navbar-default navbar-fixed-top">
-		<div class="navbar-header">
-			<strong class="navbar-brand" data-ui-sref="main">BR Modelo</strong>
-		</div><!-- End .navbar-header -->
-
-		<ul class="nav navbar-nav nav-icons pull-right" ng-controller="optionsController">
-			<brdropdown title="Options" list="menuItens"></brdropdown>
+		<ul class="nav navbar-nav pull-left">
+			<li>
+				<a class="back-button" href="#" data-ui-sref="main">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+				</a>
+			</li>
 		</ul>
+
+		<div class="navbar-header">
+			<strong class="navbar-brand">BR Modelo</strong>
+		</div>
 
 		<img
 			src="assets/img/loading-dots.gif"
@@ -131,7 +135,7 @@
 							<li class="dropdown-tmp-item" ng-click="updateAttributeCard('(1, n)')">
 								<span>(1, n)</span>
 							</li>
-						</ul><
+						</ul>
 					</div>
 				</div><!-- End .form-group -->
 
@@ -180,19 +184,23 @@
 						<input
 							id="entry-role"
 							type="text"
+							class="form-control"
 							data-ng-model="roleSelected"
 							ng-change="applyRoleChange()"
 						/>
 					</div><!-- End .form-group -->
 
 					<div class="form-group">
-						<label for="weak">Fraca</label>
-						<input
-							id="weak"
-							type="text"
-							ng-model="selectedElement.element.model.attributes.weak"
-							ng-click="setWeak()"
-						/>
+						<div class="checkbox">
+							<label for="weak">
+								<input
+									id="weak"
+									type="checkbox"
+									ng-model="selectedElement.element.model.attributes.weak"
+									ng-click="setWeak()"
+								/> Fraca
+							</label>
+						</div>
 					</div><!-- End .form-group -->
 
 					<div class="form-group">

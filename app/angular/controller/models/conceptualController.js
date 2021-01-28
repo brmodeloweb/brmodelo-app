@@ -700,7 +700,7 @@ angular.module('myapp')
 		});
 
 		$scope.setWeak = function(){
-			if($scope.selectedElement.element.model.attributes.weak){
+			if(!$scope.selectedElement.element.model.attributes.weak){
 				$scope.selectedElement.element.model.attributes.attrs = {
 								'.connection': { stroke: 'black', 'stroke-width': 3}
 							};
