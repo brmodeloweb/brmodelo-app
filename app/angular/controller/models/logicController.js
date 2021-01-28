@@ -7,8 +7,8 @@ angular.module('myapp')
 					ModelAPI,
 					LogicService,
 					$uibModal,
-					$state,
-					SqlGeneratorService
+					SqlGeneratorService,
+					$state
 				) {
 
 	var self = this;
@@ -240,6 +240,32 @@ angular.module('myapp')
 			});
 		});
 
+	}
+
+	$scope.duplicateModel = function() {
+		let modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/duplicateModelModal.html',
+			controller:  'DuplicateModelModalController',
+			resolve: {
+				params: function () {
+					return {'suggestedName': `${$scope.model.name} (cópia)`};
+				}
+			}
+		});
+		modalInstance.result.then(function (newName) {
+			const duplicatedModel = {
+				"id": '',
+				"name": newName,
+				"type": $scope.model.type,
+				"model": JSON.stringify(LogicService.graph),
+				"user": $scope.model.user
+			}
+			ModelAPI.saveModel(duplicatedModel).then(function(newModel){
+				$scope.showFeedback("Duplicado com sucesso!", true);
+				window.open($state.href('logic', {references: {'modelid': newModel._id}}));
+			});
+		});
 	}
 
 });
