@@ -34,14 +34,14 @@ const save = async (req, res) => {
 	try {
 		const name = req.body.name;
 		const type = req.body.type;
-		const userId = req.body.user;
-		let model = {};
+		const userId = req.body.user; 
+		const model = req.body.model;
 		
-		try {
-			model = (typeof req.body.model === "string") ? JSON.parse(req.body.model) : req.body.model;
-		} catch {
-			model = "";
-		}
+		// try {
+		// 	model = (typeof req.body.model === "string") ? JSON.parse(req.body.model) : req.body.model;
+		// } catch {
+		// 	model = "";
+		// }
 
 		const validation = modelValidator.validateSaveParams({
 			name,
