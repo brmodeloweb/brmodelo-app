@@ -42,6 +42,6 @@ const LoginController = function (AuthService, $state) {
 };
 
 angular.module("myapp").component("login", {
-	templateUrl: "angular/login/login.html",
+	template: require("./login.html"),
 	controller: LoginController,
 });
