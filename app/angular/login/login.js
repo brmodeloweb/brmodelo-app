@@ -12,8 +12,7 @@ const LoginController = function (AuthService, $state) {
 		ctrl.feedback.showing = true;
 	};
 
-	const handleLoginError = (error) => {
-		console.error(error);
+	const handleLoginError = () => {
 		ctrl.loading = false;
 		showError("Login ou senha incorretos");
 	};
