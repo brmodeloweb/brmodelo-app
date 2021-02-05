@@ -40,14 +40,6 @@ const validateSaveParams = ({ name, type, model, userId }) => {
 		return new ValidationResponse(false, MESSAGES.WRONG_TYPE_TYPE);
 	}
 
-	if (model == null || !Object.keys(model).length > 0) {
-		return new ValidationResponse(false, MESSAGES.MISSING_MODEL);
-	}
-
-	if (!(typeof model === "object" || type instanceof Object)) {
-		return new ValidationResponse(false, MESSAGES.WRONG_MODEL_TYPE);
-	}
-
 	if (isNull(userId)) {
 		return new ValidationResponse(false, MESSAGES.MISSING_USER);
 	}
