@@ -8,7 +8,8 @@ angular.module('myapp')
 					ConceptualFactory,
 					ConceptualService,
 					ModelAPI,
-					$timeout
+					$timeout,
+					$uibModal
 				){
 
 	var cs = ConceptualService;
@@ -200,6 +201,7 @@ angular.module('myapp')
 			$scope.model.type = resp.data.type;
 			$scope.model.id   = resp.data._id;
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+			$scope.model.model = jsonModel
 			$scope.graph.fromJSON(jsonModel);
 			$scope.showLoading(false);
 		});
@@ -698,6 +700,32 @@ angular.module('myapp')
 			$scope.$apply();
 
 		});
+
+		$scope.duplicateModel = function() {
+			let modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'angular/view/modal/duplicateModelModal.html',
+				controller:  'DuplicateModelModalController',
+				resolve: {
+					params: function () {
+						return {'suggestedName': `${$scope.model.name} (cópia)`};
+					}
+				}
+			});
+			modalInstance.result.then(function (newName) {
+				const duplicatedModel = {
+					"id": '',
+					"name": newName,
+					"type": $scope.model.type,
+					"model": JSON.stringify($scope.graph),
+					"user": $scope.model.user
+				}
+				ModelAPI.saveModel(duplicatedModel).then(function(newModel){
+					$scope.showFeedback("Duplicado com sucesso!", true);
+					window.open($state.href('conceptual', {'modelid': newModel._id}));
+				});
+			});
+		}
 
 		$scope.setWeak = function(){
 			if(!$scope.selectedElement.element.model.attributes.weak){

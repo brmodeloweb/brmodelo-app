@@ -49,9 +49,9 @@ const userCreate = async(req, res) => {
   } catch (error) {
     console.error(error);
     if(error.code == 'USER_ERROR_ALREADY_EXISTS') {
-      return res.status(409).send("User alredy exists")
+      return res.status(409).send("Usuário já existente!")
     }
-    return res.status(500).send("There's an error while treating your sign-up request");
+    return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
   }
 }
 
