@@ -1,75 +1,61 @@
-<header class="public-header clearfix">
-		<div class="actions">
-			<button class="br-button yellow" data-ui-sref="login">Voltar</button>
-		</div>
-		<img
-			src="assets/img/loading-dots.gif"
-			alt="Loading"
-			class="br-loader"
-			ng-class="{'loading': $ctrl.loading}"
-		/>
-</header>
-
-<section class="public-body">
-	<div class="container">
-
-		<aside class="feedback">
-			<div class="message error sd loginFeeback" data-ng-class="{'hide': !$ctrl.feedback.showing}">
-				<p>{{ $ctrl.feedback.message }}</p>
-			</div>
-		</aside><!-- End #feedback -->
-
+<div class="container">
+	<img
+		src="assets/img/loading-dots.gif"
+		alt="Loading"
+		class="br-loader"
+		ng-class="{'loading': $ctrl.loading}"
+	/>
+	<section class="register-page">
 		<header class="public-logo">
 			<h1>Criar conta</h1>
 		</header>
-
-		<form class="cf" name="registerForm" ng-submit="$ctrl.submitForm(registerForm.$valid)" novalidate>
-			<div class="field" ng-class="{'error': registerForm.name.$invalid && (!registerForm.name.$pristine || $ctrl.submitted)}" >
-				<label for="name" class="vhide">Nome</label>
+		<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+			<p>{{ $ctrl.feedback.message }}</p>
+		</div>
+		<form class="register-form" ng-submit="$ctrl.submitForm(registerForm.$valid)" novalidate>
+			<div class="form-group" ng-class="{'error': registerForm.name.$invalid && (!registerForm.name.$pristine || $ctrl.submitted)}" >
+				<label for="exampleInputEmail1">Nome</label>
 				<input
-					id="name"
-					class="specialInput"
-					type="text"
-					placeholder="Nome"
+					type="name"
 					name="name"
+					class="form-control input-lg"
+					id="name"
+					placeholder="Nome"
+					autocomplete="off"
+					required
 					ng-model="$ctrl.credentials.username"
-					autocomplete="off"
-					required
 				/>
-			</div><!-- End .field -->
-
-			<div class="field" data-ng-class="{'error': registerForm.email.$invalid && (!registerForm.email.$pristine || $ctrl.submitted)}">
-				<label for="mail" class="vhide">Email</label>
+			</div>
+			<div class="form-group" data-ng-class="{'error': registerForm.email.$invalid && (!registerForm.email.$pristine || $ctrl.submitted)}">
+				<label for="exampleInputEmail1">Email</label>
 				<input
-					id="mail"
-					class="specialInput"
-					type="text"
-					placeholder="Email"
+					type="mail"
 					name="email"
+					class="form-control input-lg"
+					id="userEmail"
+					placeholder="Email"
+					autocomplete="off"
+					required
 					data-ng-model="$ctrl.credentials.email"
-					autocomplete="off"
-					required
 				/>
-			</div><!-- End .field -->
-
-			<div class="field" data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || $ctrl.submitted)}">
-				<label for="password" class="vhide">Password</label>
+			</div>
+			<div class="form-group" data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || $ctrl.submitted)}">
+				<label for="exampleInputPassword1">Password</label>
 				<input
-					id="password"
-					class="specialInput"
 					type="password"
-					placeholder="Senha"
 					name="password"
-					data-ng-model="$ctrl.credentials.password"
+					class="form-control input-lg"
+					id="userPassword"
+					placeholder="Password"
 					autocomplete="off"
 					required
+					data-ng-model="$ctrl.credentials.password"
 				/>
-			</div><!-- End .field -->
-
-			<div class="actions">
-				<button type="submit" class="br-button">Registrar</button>
-			</div><!-- End .actions -->
-		</form><!-- End .loginForm -->
-
-	</div><!-- End .container -->
-</section><!-- End .public-body -->
+			</div>
+			<button type="submit" class="br-button btn-block">Criar conta</button>
+		</form>
+		<aside class="new-account">
+			<a href="#" data-ui-sref="login">voltar</a>
+		<aside>
+	</section>
+</div>

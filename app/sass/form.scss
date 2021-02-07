@@ -95,34 +95,6 @@ button {
 .columnItem .actions .add {color: rgba(green, 0.8);}
 .columnItem .actions .cancel {color: rgba(red, 0.8);}
 
-////////////////////////////////////////////////////////////////////////////////
-// .specialInput
-////////////////////////////////////////////////////////////////////////////////
-.specialInput {
-	display: block;
-	width: 100%;
-	padding: 5px 0;
-	border: 1px solid transparent;
-	border-bottom-color: #3D9970;
-	font-family: 'Roboto', sans-serif;
-	font-size: 14pt;
-	line-height: 1.2em;
-	color: #503c28;
-}
-
-.specialInput:focus {
-	border-bottom-width: 2px;
-	color: #503c28;
-	margin-bottom: -1px;
-}
-
-.error > .specialInput,
-.error ::-webkit-input-placeholder {
-	color: #fc5858;
-	border-bottom-color: #fc5858;
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // Radioboxes customization
 ///////////////////////////////////////////////////////////////////////////////
