@@ -13,8 +13,8 @@
 		<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
 			<p>{{ $ctrl.feedback.message }}</p>
 		</div>
-		<form class="login-form" ng-submit="$ctrl.submitForm(loginForm.$valid)">
-			<div class="form-group" data-ng-class="{'error': loginForm.email.$invalid && (!loginForm.email.$pristine || $ctrl.submitted)}">
+		<form class="login-form" name="loginForm" ng-submit="$ctrl.submitForm(loginForm.$valid)" novalidate>
+			<div class="form-group">
 				<label for="exampleInputEmail1">Email</label>
 				<input
 					type="email"
@@ -25,9 +25,10 @@
 					autocomplete="off"
 					required
 					ng-model="$ctrl.credentials.username"
+					data-ng-class="{'error': loginForm.email.$invalid && (!loginForm.email.$pristine || $ctrl.submitted)}"
 				/>
 			</div>
-			<div class="form-group" data-ng-class="{'error': loginForm.password.$invalid && (!loginForm.password.$pristine || $ctrl.submitted)}">
+			<div class="form-group">
 				<label for="exampleInputPassword1">Password</label>
 				<input
 					type="password"
@@ -38,6 +39,7 @@
 					autocomplete="off"
 					required
 					ng-model="$ctrl.credentials.password"
+					data-ng-class="{'error': loginForm.password.$invalid && (!loginForm.password.$pristine || $ctrl.submitted)}"
 				/>
 			</div>
 			<button type="submit" class="br-button btn-block">Login</button>
