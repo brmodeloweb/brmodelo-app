@@ -146,10 +146,17 @@ input[type="submit"]:focus {
 ////////////////////////////////////////////////////////////////////////////////
 // Bootstrap fixes
 ////////////////////////////////////////////////////////////////////////////////
+.form-control {
+	box-shadow: 0 0 0 #3D9970,
+				0 0 0 #3D9970;
+	transition: box-shadow 0.2s
+}
+
 .form-control:focus {
 	outline: none;
 	border-color: #3D9970;
-	box-shadow: 1px 1px 0 #3D9970, -1px 3px 0 #3D9970;
+	box-shadow: 1px 1px 0 #3D9970,
+				-1px 3px 0 #3D9970;
 }
 
 .form-control.error {
