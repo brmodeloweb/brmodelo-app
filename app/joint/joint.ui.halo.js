@@ -107,7 +107,7 @@ joint.ui.Halo = Backbone.View.extend({
         this.listenTo(this.options.graph, "all", this.update), 
         this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove), 
         this.listenTo(this.options.paper, "scale translate", this.update), 
-        //this.listenTo(this.options.cellView.model, "remove", this.remove), 
+        this.listenTo(this.options.cellView.model, "remove", this.remove), 
         $(document.body).on("mousemove touchmove", this.pointermove), 
         $(document).on("mouseup touchend", this.pointerup), 
         this.options.paper.$el.append(this.$el),
