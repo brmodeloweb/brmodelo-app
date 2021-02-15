@@ -98,17 +98,20 @@ joint.ui.Halo = Backbone.View.extend({
         smoothLinks: void 0
     },
     initialize: function(a) {
-        // this.options = _.extend({}, _.result(this, "options"), a || {}), _.defaults(this.options, {
-        //     paper: this.options.cellView.paper,
-        //     graph: this.options.cellView.paper.model
-        // }), _.bindAll(this, "pointermove", "pointerup", "render", "update", "remove"), this.options.clearAll && joint.ui.Halo.clear(this.options.paper), this.listenTo(this.options.graph, "reset", this.remove), this.listenTo(this.options.graph, "all", this.update), this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove), this.listenTo(this.options.paper, "scale translate", this.update), this.listenTo(this.options.cellView.model, "remove", this.remove), $(document.body).on("mousemove touchmove", this.pointermove), $(document).on("mouseup touchend", this.pointerup), this.handles = [], _.each(this.options.handles, this.addHandle, this)
-
         this.options = _.extend({}, _.result(this, "options"), a || {}), _.defaults(this.options, {
             paper: this.options.cellView.paper,
             graph: this.options.cellView.paper.model
-        }), _.bindAll(this, "pointermove", "pointerup", "render", "update", "remove"), joint.ui.Halo.clear(this.options.paper), this.handles = [], _.each(this.options.handles, this.addHandle, this), this.listenTo(this.options.graph, "reset", this.remove), this.listenTo(this.options.graph, "all", this.update), this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove), this.listenTo(this.options.paper, "scale translate", this.update), $(document.body).on("mousemove touchmove", this.pointermove), $(document).on("mouseup touchend", this.pointerup), this.options.paper.$el.append(this.$el)
-
-
+        }), _.bindAll(this, "pointermove", "pointerup", "render", "update", "remove"), 
+        joint.ui.Halo.clear(this.options.paper), 
+        this.listenTo(this.options.graph, "reset", this.remove), 
+        this.listenTo(this.options.graph, "all", this.update), 
+        this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove), 
+        this.listenTo(this.options.paper, "scale translate", this.update), 
+        this.listenTo(this.options.cellView.model, "remove", this.remove), 
+        $(document.body).on("mousemove touchmove", this.pointermove), 
+        $(document).on("mouseup touchend", this.pointerup), 
+        this.options.paper.$el.append(this.$el),
+        this.handles = [], _.each(this.options.handles, this.addHandle, this)
     },
     render: function() {
         var a = this.options;
@@ -385,7 +388,6 @@ joint.ui.Halo = Backbone.View.extend({
         Backbone.View.prototype.remove.apply(this, arguments), $(document.body).off("mousemove touchmove", this.pointermove), $(document).off("mouseup touchend", this.pointerup)
     },
     removeElement: function(a) {
-        console.log("REMOVE ELEMENT");
         this.options.cellView.model.remove()
     },
     unlinkElement: function(a) {
