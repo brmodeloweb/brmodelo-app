@@ -1,8 +1,34 @@
-const app = angular.module("myapp", [
+import angular from "angular";
+import "angular-ui-router";
+import "angular-ui-bootstrap";
+import "angular-cookies";
+import "textangular";
+
+import "../sass/app.scss";
+import "../sass/atomic.scss";
+import "../sass/buttons.scss";
+import "../sass/feedback.scss";
+import "../sass/form.scss";
+import "../sass/joint-custom.scss";
+import "../sass/mainHeader.scss";
+import "../sass/modal.scss";
+import "../sass/modelWorkspace.scss";
+import "../sass/print.scss";
+import "../sass/public.scss";
+import "../sass/selectOptions.scss";
+import "../sass/sql.scss";
+import "../sass/structure.scss";
+import "../sass/tables.scss";
+
+import loginComponent from "./login/login";
+
+console.log("loginComponent", loginComponent);
+
+const app = angular.module("app", [
 	"ui.router",
 	"ui.bootstrap",
-	"ngCookies",
-	"textAngular",
+	"ngCookies" /** textangular */,
+	loginComponent,
 ]);
 
 app.config([
@@ -69,24 +95,3 @@ app.config([
 		$urlRouterProvider.otherwise("/");
 	},
 ]);
-
-app.run(function ($transitions, $rootScope, AuthService, $state) {
-	$transitions.onStart({}, function (trans) {
-		const { requireLogin } = trans.to().data;
-		if (requireLogin) {
-			if (AuthService.isAuthenticated()) {
-				$rootScope.loggeduser = AuthService.loggeduser;
-			} else {
-				$state.go("login");
-			}
-		}
-	});
-});
-
-app.config(function () {
-	angular.lowercase = function (text) {
-		return typeof text === "string" ? text.toLowerCase() : text;
-	};
-});
-
-app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];
