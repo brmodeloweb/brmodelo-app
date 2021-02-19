@@ -20,7 +20,7 @@ app.config([
 
 		$stateProvider.state("register", {
 			url: "/register",
-			templateUrl: "angular/view/register.html",
+			template: "<signup></signup>",
 			data: {
 				requireLogin: false,
 			},

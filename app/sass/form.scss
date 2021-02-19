@@ -11,6 +11,24 @@ button {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Form elements outline
+////////////////////////////////////////////////////////////////////////////////
+button,
+input[type="button"],
+input[type="submit"] {
+	transition: box-shadow 0.2s ease;
+}
+
+
+button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus {
+	outline: 0;
+	box-shadow: 0 0 0 2px rgba(#fff, 1),
+				0 0 0 8px rgba(#3d9970, 0.4);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // .field
 ////////////////////////////////////////////////////////////////////////////////
 .field {position: relative;}
@@ -95,34 +113,6 @@ button {
 .columnItem .actions .add {color: rgba(green, 0.8);}
 .columnItem .actions .cancel {color: rgba(red, 0.8);}
 
-////////////////////////////////////////////////////////////////////////////////
-// .specialInput
-////////////////////////////////////////////////////////////////////////////////
-.specialInput {
-	display: block;
-	width: 100%;
-	padding: 5px 0;
-	border: 1px solid transparent;
-	border-bottom-color: #3D9970;
-	font-family: 'Roboto', sans-serif;
-	font-size: 14pt;
-	line-height: 1.2em;
-	color: #503c28;
-}
-
-.specialInput:focus {
-	border-bottom-width: 2px;
-	color: #503c28;
-	margin-bottom: -1px;
-}
-
-.error > .specialInput,
-.error ::-webkit-input-placeholder {
-	color: #fc5858;
-	border-bottom-color: #fc5858;
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // Radioboxes customization
 ///////////////////////////////////////////////////////////////////////////////
@@ -156,10 +146,17 @@ button {
 ////////////////////////////////////////////////////////////////////////////////
 // Bootstrap fixes
 ////////////////////////////////////////////////////////////////////////////////
+.form-control {
+	box-shadow: 0 0 0 #3D9970,
+				0 0 0 #3D9970;
+	transition: box-shadow 0.2s
+}
+
 .form-control:focus {
 	outline: none;
 	border-color: #3D9970;
-	box-shadow: 1px 1px 0 #3D9970, -1px 3px 0 #3D9970;
+	box-shadow: 1px 1px 0 #3D9970,
+				-1px 3px 0 #3D9970;
 }
 
 .form-control.error {
