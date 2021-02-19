@@ -1,8 +1,9 @@
 import angular from "angular";
+import newModelModalController from "../controller/modal/newModelModalController";
 import authService from "../service/authService";
 import template from "./login.html";
 
-const LoginController = function (AuthService, $state) {
+const LoginController = function (AuthService, $state, $uibModal) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.credentials = {};
@@ -37,9 +38,23 @@ const LoginController = function (AuthService, $state) {
 			showError("Preencha os campos em vermelho");
 		}
 	};
+
+	ctrl.openModal = () => {
+		var modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/newModelModal.html',
+			controller:  'ModelModalController'
+		});
+
+		modalInstance.result.then(function (model) {
+			ModelAPI.saveModel(model).then(function(newModel){
+				self.openModel(newModel);
+			});
+		});
+	}
 };
 
-export default angular.module("app.login", [authService]).component("login", {
+export default angular.module("app.login", [authService, newModelModalController]).component("login", {
 	template,
 	controller: LoginController,
 }).name;

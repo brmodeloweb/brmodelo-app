@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+		"start:gulp": "gulp",
     "start": "webpack-dev-server --hot --progress --colors --inline",
     "build": "webpack"
   },

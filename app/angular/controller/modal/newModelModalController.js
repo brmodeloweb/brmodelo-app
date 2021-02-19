@@ -1,4 +1,4 @@
-var app = angular.module('myapp');
+var app = angular.module('app.modelModalController', []);
 
 app.controller('ModelModalController', function($scope, $uibModalInstance, $rootScope){
 
@@ -30,3 +30,5 @@ app.controller('ModelModalController', function($scope, $uibModalInstance, $root
 	}
 
 });
+
+export default app.name;

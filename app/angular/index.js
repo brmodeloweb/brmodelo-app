@@ -1,34 +1,28 @@
 import angular from "angular";
+
 import "angular-ui-router";
 import "angular-ui-bootstrap";
 import "angular-cookies";
 import "textangular";
+import "jquery/dist/jquery.min";
 
 import "../sass/app.scss";
-import "../sass/atomic.scss";
-import "../sass/buttons.scss";
-import "../sass/feedback.scss";
-import "../sass/form.scss";
-import "../sass/joint-custom.scss";
-import "../sass/mainHeader.scss";
-import "../sass/modal.scss";
-import "../sass/modelWorkspace.scss";
-import "../sass/print.scss";
-import "../sass/public.scss";
-import "../sass/selectOptions.scss";
-import "../sass/sql.scss";
-import "../sass/structure.scss";
-import "../sass/tables.scss";
+import "bootstrap/dist/css/bootstrap.css";
+import "../joint/joint.ui.halo.css";
+import "../joint/joint.ui.selectionView.css";
+import "../joint/joint.ui.stencil.css";
 
 import loginComponent from "./login/login";
-
-console.log("loginComponent", loginComponent);
+import signupComponent from "./signup/signup";
+import authService from "./service/authService";
 
 const app = angular.module("app", [
 	"ui.router",
 	"ui.bootstrap",
 	"ngCookies" /** textangular */,
 	loginComponent,
+	signupComponent,
+	authService,
 ]);
 
 app.config([
@@ -46,7 +40,7 @@ app.config([
 
 		$stateProvider.state("register", {
 			url: "/register",
-			templateUrl: "angular/view/register.html",
+			template: "<signup></signup>",
 			data: {
 				requireLogin: false,
 			},
@@ -95,3 +89,25 @@ app.config([
 		$urlRouterProvider.otherwise("/");
 	},
 ]);
+
+
+app.run(function ($transitions, $rootScope, AuthService, $state) {
+	$transitions.onStart({}, function (trans) {
+		const { requireLogin } = trans.to().data;
+		if (requireLogin) {
+			if (AuthService.isAuthenticated()) {
+				$rootScope.loggeduser = AuthService.loggeduser;
+			} else {
+				$state.go("login");
+			}
+		}
+	});
+});
+
+app.config(function () {
+	angular.lowercase = function (text) {
+		return typeof text === "string" ? text.toLowerCase() : text;
+	};
+});
+
+app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];

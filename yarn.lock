@@ -7024,7 +7024,7 @@ jointjs@^3.2.0:
     jquery "~3.5.1"
     lodash "~4.17.20"
 
-jquery@~3.5.1:
+jquery@^3.3.29, jquery@~3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
