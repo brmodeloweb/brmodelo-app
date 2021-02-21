@@ -86,4 +86,31 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 		return AuthService.loggeduserName;
 	}
 
+	self.duplicateModel = function(model) {
+		let modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/duplicateModelModal.html',
+			controller:  'DuplicateModelModalController',
+			resolve: {
+				params: function () {
+					return {'suggestedName': `${model.name} (cópia)`};
+				}
+			}
+		});
+		modalInstance.result.then(function (newName) {
+			$scope.showLoading(true);
+			const duplicatedModel = {
+				"id": '',
+				"name": newName,
+				"type": model.type,
+				"model": model.model,
+				"user": model.who
+			}
+			ModelAPI.saveModel(duplicatedModel).then(function(newModel){
+				self.models.push(newModel);
+				$scope.showLoading(false);
+			});
+		});
+	}
+
 });

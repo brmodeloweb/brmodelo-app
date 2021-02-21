@@ -1,8 +1,28 @@
-const app = angular.module("myapp", [
+import angular from "angular";
+
+import "angular-ui-router";
+import "angular-ui-bootstrap";
+import "angular-cookies";
+import "textangular";
+import "jquery/dist/jquery.min";
+
+import "../sass/app.scss";
+import "bootstrap/dist/css/bootstrap.css";
+import "../joint/joint.ui.halo.css";
+import "../joint/joint.ui.selectionView.css";
+import "../joint/joint.ui.stencil.css";
+
+import loginComponent from "./login/login";
+import signupComponent from "./signup/signup";
+import authService from "./service/authService";
+
+const app = angular.module("app", [
 	"ui.router",
 	"ui.bootstrap",
-	"ngCookies",
-	"textAngular",
+	"ngCookies" /** textangular */,
+	loginComponent,
+	signupComponent,
+	authService,
 ]);
 
 app.config([
@@ -69,6 +89,7 @@ app.config([
 		$urlRouterProvider.otherwise("/");
 	},
 ]);
+
 
 app.run(function ($transitions, $rootScope, AuthService, $state) {
 	$transitions.onStart({}, function (trans) {

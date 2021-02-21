@@ -1,27 +1,36 @@
 ////////////////////////////////////////////////////////////////////////////////
-// .public-header
+// body (public)
 ////////////////////////////////////////////////////////////////////////////////
-.public-header {
-	padding: 16px;
-}
+.public {
+	height: 100%;
+	background-image: url(../img/wave01.svg),
+					  url(../img/wave02.svg),
+					  url(../img/wave03.svg);
+	background-repeat: repeat-x;
+	background-position: left bottom;
 
-.public-header .actions {
-	float: right;
 }
-
 ////////////////////////////////////////////////////////////////////////////////
-// .public-body
+// .login-form / .register-page
 ////////////////////////////////////////////////////////////////////////////////
-.public-body .container {
+.login-page,
+.register-page {
 	position: relative;
-	max-width: 500px;
+	width: 375px;
+	padding: 48px 24px 24px 24px;
+	border: 1px solid #e7e7e7;
+	margin: 150px auto 0 auto;
+	background-color: #f8f8f8;
+	box-shadow: 0 0 20px rgba(0,0,0, 0.1)
 }
 
-.public-body .feedback {
-	position: absolute;
-	top: 0;
-	right: 15px;
-	left: 15px;
+////////////////////////////////////////////////////////////////////////////////
+// .login-form / .register-form
+////////////////////////////////////////////////////////////////////////////////
+.login-form .br-button,
+.register-form .br-button {
+	padding: 10px 16px;
+	font-size: 18px;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,15 +38,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 .public-logo {
 	display: flex;
-	vertical-align: middle;
+	align-items: center;
 	justify-content: center;
-	margin: 72px auto 48px auto;
+	margin-bottom: 24px;
 }
 
 .public-logo > img {
-	margin-right: 12px;
+	margin-right: 8px;
 }
 
 .public-logo > h1 {
+	color: #3d9970;
 	margin: 0;
+	font-weight: 700;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .public-logo
+////////////////////////////////////////////////////////////////////////////////
+.new-account {
+	margin-top: 12px;
+	text-align: center;
+	font-size: 1.2em;
 }

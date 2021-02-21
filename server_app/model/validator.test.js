@@ -36,7 +36,7 @@ describe("validateSaveModelParams test", () => {
 		expect(validation.message).toBe(modelValidator.getMessages().MISSING_TYPE);
 	});
 
-	test("should fail when has a wrong type", () => {
+	test("should fail when model does not have a type", () => {
 		const validation = modelValidator.validateSaveParams({
 			name: "Teste",
 			type: 5,
@@ -44,37 +44,6 @@ describe("validateSaveModelParams test", () => {
 		expect(validation.valid).toBeFalsy();
 		expect(validation.message).toBe(
 			modelValidator.getMessages().WRONG_TYPE_TYPE
-		);
-	});
-
-	test("should fail when model is missing", () => {
-		const validation = modelValidator.validateSaveParams({
-			name: "Teste",
-			type: "conceltual",
-		});
-		expect(validation.valid).toBeFalsy();
-		expect(validation.message).toBe(modelValidator.getMessages().MISSING_MODEL);
-	});
-
-	test("should fail when model is empty", () => {
-		const validation = modelValidator.validateSaveParams({
-			name: "Teste",
-			type: "conceltual",
-			model: {},
-		});
-		expect(validation.valid).toBeFalsy();
-		expect(validation.message).toBe(modelValidator.getMessages().MISSING_MODEL);
-	});
-
-	test("should fail when model a wrong type", () => {
-		const validation = modelValidator.validateSaveParams({
-			name: "Teste",
-			type: "conceptual",
-			model: "teste",
-		});
-		expect(validation.valid).toBeFalsy();
-		expect(validation.message).toBe(
-			modelValidator.getMessages().WRONG_MODEL_TYPE
 		);
 	});
 
@@ -99,7 +68,7 @@ describe("validateSaveModelParams test", () => {
 		expect(validation.message).toBe(modelValidator.getMessages().MISSING_USER);
 	});
 
-	test("should fail when model a wrong type", () => {
+	test("should fail when userID has a wrong type", () => {
 		const validation = modelValidator.validateSaveParams({
 			name: "Teste",
 			type: "conceptual",

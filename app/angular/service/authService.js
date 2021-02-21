@@ -1,41 +1,43 @@
-angular.module('myapp').factory('AuthService', function($http, $cookies) {
-	var authService = {};
+import angular from "angular";
 
-	authService.login = function(credentials) {
-		return $http
-			.post('/users/login', credentials)
-			.then(function(res) {
-				var user = res.data;
-				var today = new Date();
-				var expired = new Date(today);
-				expired.setDate(today.getDate() + 1);
-				$cookies.put('sessionId', user.sessionId, {expires: expired});
-				$cookies.put('userId', user.userId, {expires: expired});
-				$cookies.put('userName', user.userName, {expires: expired});
-				return user;
-			});
+const authService = function ($http, $cookies) {
+	const service = {};
+
+	service.login = function (credentials) {
+		return $http.post("http://localhost:3000/users/login", credentials).then(function (res) {
+			const user = res.data;
+			const today = new Date();
+			const expired = new Date(today);
+			expired.setDate(today.getDate() + 1);
+			$cookies.put("sessionId", user.sessionId, { expires: expired });
+			$cookies.put("userId", user.userId, { expires: expired });
+			$cookies.put("userName", user.userName, { expires: expired });
+			return user;
+		});
 	};
 
-	authService.logout = function() {
-		$cookies.remove('sessionId');
-		$cookies.remove('userId');
-		$cookies.remove('userName');
+	service.logout = function () {
+		$cookies.remove("sessionId");
+		$cookies.remove("userId");
+		$cookies.remove("userName");
 	};
 
-	authService.register = function(credentials) {
-		return $http
-			.post('/users/create', credentials)
-			.then(function(res) {
-				//implement resp here!!
-			});
+	service.register = function (credentials) {
+		return $http.post("http://localhost:3000/users/create", credentials).then(function (res) {
+			// implement resp here!!
+		});
 	};
 
-	authService.isAuthenticated = function() {
-		var userId = $cookies.get('userId');
-		authService.loggeduser = userId;
-		authService.loggeduserName = $cookies.get('userName');
+	service.isAuthenticated = function () {
+		const userId = $cookies.get("userId");
+		service.loggeduser = userId;
+		service.loggeduserName = $cookies.get("userName");
 		return !!userId;
 	};
 
-	return authService;
-});
+	return service;
+};
+
+export default angular
+	.module("app.authService", [])
+	.factory("AuthService", authService).name;
