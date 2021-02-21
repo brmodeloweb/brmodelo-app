@@ -67,7 +67,7 @@ const SignupController = function ($state, AuthService) {
 	};
 };
 
-export default angular.module("app.signup", []).component("signup", {
+export default angular.module("app.signup", [authService]).component("signup", {
 	template,
 	controller: SignupController,
 }).name;
