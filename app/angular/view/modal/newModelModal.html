@@ -23,17 +23,10 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label">Tipo</label>
 			<div class="col-sm-7 modelselect">
-				<div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
-					<div class="dropdown-tmp-trigger">
-						<button class="btn ng-binding">{{selected}}</button>
-					</div>
-					<ul class="dropdown-tmp-list" style="min-width: 140px;">
-						<li class="dropdown-tmp-item" ng-click="selected = 'Conceitual'"><span>Conceitual</span></li>
-						<li class="dropdown-tmp-item" ng-click="selected = 'Lógico'"><span>Lógico</span></li>
-					</ul>
-				</div>
+				<dropdown on-select="doSelectType(selected)" selected="typeSelected" options="[{name: 'Conceitual', type: 'conceptual'}, {name: 'Lógico', type: 'logic'}]"></dropdown>
 			</div>
 		</div>
+
 	</form>
 </div>
 
