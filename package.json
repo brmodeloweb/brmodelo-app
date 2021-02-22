@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-		"start:gulp": "gulp",
+    "start:gulp": "gulp",
     "start": "webpack-dev-server --hot --progress --colors --inline",
     "build": "webpack"
   },
@@ -21,6 +21,7 @@
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.4.1",
+    "cors": "^2.8.5",
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
     "ejs": "^3.1.3",
@@ -38,12 +39,12 @@
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "jointjs": "^3.2.0",
+    "jquery": "^3.3.29",
     "mongodb": "~3.5.8",
     "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
     "response-time": "^2.3.2",
     "sweet-feedback": "^1.0.1",
-    "jquery": "^3.3.29",
     "textangular": "^1.5.16",
     "webpack": "^4.46.0"
   },
