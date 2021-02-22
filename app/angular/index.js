@@ -6,11 +6,11 @@ import "angular-cookies";
 import "textangular";
 import "jquery/dist/jquery.min";
 
-import "../sass/app.scss";
 import "bootstrap/dist/css/bootstrap.css";
-import "../joint/joint.ui.halo.css";
-import "../joint/joint.ui.selectionView.css";
-import "../joint/joint.ui.stencil.css";
+import "../sass/app.scss";
+// import "../joint/joint.ui.halo.css";
+// import "../joint/joint.ui.selectionView.css";
+// import "../joint/joint.ui.stencil.css";
 
 import loginComponent from "./login/login";
 import signupComponent from "./signup/signup";
