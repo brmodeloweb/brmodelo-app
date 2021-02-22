@@ -1,0 +1,8 @@
+<div class="dropdown-tmp dropdown-tmp-btn" ng-class="{expanded: $ctrl.open}">
+	<div class="dropdown-tmp-trigger" ng-click="$ctrl.toggle(true)">
+		<button class="btn ng-binding">{{$ctrl.selected.name}}</button>
+	</div>
+	<ul class="dropdown-tmp-list" style="min-width: 140px;">
+		<li ng-repeat="option in $ctrl.options" class="dropdown-tmp-item" ng-click="$ctrl.select(option)"><span>{{option.name}}</span></li>
+	</ul>
+</div>
