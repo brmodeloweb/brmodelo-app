@@ -4,6 +4,7 @@ const errorhandler = require("errorhandler");
 const morgan = require("morgan");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const ejs = require("ejs");
 const path = require("path");
 
@@ -22,6 +23,7 @@ app.use(express.static(appPath));
 app.use(express.static(`${appPath}/assets`));
 app.use(express.static(`${appPath}/assets/node_modules`));
 app.use(responseTime());
+app.use(cors());
 app.use(
 	session({
 		resave: true,

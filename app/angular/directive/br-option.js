@@ -1,4 +1,4 @@
-angular.module("myapp").directive('broption', function ($timeout) {
+const directive = angular.module("app", []).directive('broption', function ($timeout) {
 
 	return function(scope, elem, attr, ctrl) {
 
@@ -36,3 +36,5 @@ angular.module("myapp").directive('broption', function ($timeout) {
 		});
 	};
 });
+
+export default directive.name

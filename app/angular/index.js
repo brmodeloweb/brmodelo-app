@@ -14,7 +14,10 @@ import "../joint/joint.ui.stencil.css";
 
 import loginComponent from "./login/login";
 import signupComponent from "./signup/signup";
+import workspaceComponent from "./workspace/workspace";
 import authService from "./service/authService";
+import modelService from "./service/modelAPI";
+import dropdownComponent from "./components/dropdown";
 
 const app = angular.module("app", [
 	"ui.router",
@@ -22,7 +25,10 @@ const app = angular.module("app", [
 	"ngCookies" /** textangular */,
 	loginComponent,
 	signupComponent,
+	workspaceComponent,
 	authService,
+	modelService,
+	dropdownComponent
 ]);
 
 app.config([
@@ -46,17 +52,9 @@ app.config([
 			},
 		});
 
-		$stateProvider.state("workspace", {
-			url: "/workspace",
-			templateUrl: "angular/view/workspace.html",
-			data: {
-				requireLogin: true,
-			},
-		});
-
 		$stateProvider.state("main", {
 			url: "/main",
-			templateUrl: "angular/view/main.html",
+			template: "<workspace></workspace>",
 			data: {
 				requireLogin: true,
 			},
