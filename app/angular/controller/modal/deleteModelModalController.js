@@ -1,15 +1,13 @@
-var app = angular.module('myapp');
+var app = angular.module("app.deleteModalController", []);
 
-app.controller('DeleteModalController', function($scope, $uibModalInstance, $rootScope){
-
-	var self = this;
-
-	$scope.save = function(doDelete) {
+app.controller("DeleteModalController", function ($scope, $uibModalInstance) {
+	$scope.save = function (doDelete) {
 		$uibModalInstance.close(doDelete);
 	};
 
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss("cancel");
 	};
-
 });
+
+export default app.name;

@@ -1,34 +1,31 @@
-var app = angular.module('app.modelModalController', []);
+var app = angular.module("app.modelModalController", []);
 
-app.controller('ModelModalController', function($scope, $uibModalInstance, $rootScope){
+app.controller(
+	"ModelModalController",
+	function ($scope, $uibModalInstance, $rootScope) {
+		$scope.typeSelected = { name: "Conceitual", type: "conceptual" };
+		$scope.submitted = false;
 
-	$scope.selected = 'Conceitual';
-	$scope.submitted = false;
-	var self = this;
-
-	$scope.save = function(modelname) {
-		$scope.submitted = true;
-		if(modelname != null && modelname != ""){
-			newmodel = {};
-			newmodel.name = modelname;
-			newmodel.user = $rootScope.loggeduser;
-			newmodel.type = self.getType();
-			newmodel.model = '{"cells":[]}';
-			$uibModalInstance.close(newmodel);
+		$scope.doSelectType = function(newSelectedType) {
+			$scope.typeSelected = newSelectedType;
 		}
-	};
 
-	$scope.cancel = function() {
-		$uibModalInstance.dismiss('cancel');
-	};
+		$scope.save = function (modelname) {
+			$scope.submitted = true;
+			if (modelname != null && modelname != "") {
+				const newmodel = {};
+				newmodel.name = modelname;
+				newmodel.user = $rootScope.loggeduser;
+				newmodel.type = $scope.typeSelected.type;
+				newmodel.model = '{"cells":[]}';
+				$uibModalInstance.close(newmodel);
+			}
+		};
 
-	self.getType = function(){
-		if($scope.selected == 'Conceitual'){
-			return 'conceptual';
-		}
-		return 'logic';
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss("cancel");
+		};
 	}
-
-});
+);
 
 export default app.name;
