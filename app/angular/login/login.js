@@ -1,6 +1,9 @@
 import angular from "angular";
+import ReactButton from "../../react/components/Button";
 import authService from "../service/authService";
 import template from "./login.html";
+
+console.log("ReactButton", ReactButton)
 
 const LoginController = function (AuthService, $state) {
 	const ctrl = this;
@@ -45,7 +48,7 @@ const LoginController = function (AuthService, $state) {
 
 };
 
-export default angular.module("app.login", [authService]).component("login", {
+export default angular.module("app.login", [authService, ReactButton]).component("login", {
 	template,
 	controller: LoginController,
 }).name;
