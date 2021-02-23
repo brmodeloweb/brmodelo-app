@@ -8,7 +8,7 @@ module.exports = {
 		path: `${__dirname}/app/dist`,
 		filename: "bundle.js",
 	},
-	devtool: 'inline-source-map',
+	devtool: "inline-source-map",
 	devServer: {
 		contentBase: path.join(__dirname, "app"),
 		compress: true,
@@ -19,12 +19,15 @@ module.exports = {
 			filename: `bundle.css`,
 		}),
 	],
+	resolve: {
+		extensions: ['.js', '.jsx'],
+	},
 	module: {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
-				use: ['babel-loader']
+				use: ["babel-loader"],
 			},
 			{
 				test: /\.html$/i,
