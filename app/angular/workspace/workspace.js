@@ -2,7 +2,10 @@ import angular from "angular";
 import authService from "../service/authService";
 import modelAPI from "../service/modelAPI";
 import template from "./workspace.html";
-import newModelModalController from "../controller/modal/newModelModalController";
+import modelCreateComponent from "../components/createModelModal";
+import modelDuplicatorComponent from "../components/duplicateModelModal";
+import modelDeleterComponent from "../components/deleteModelModal";
+import modelRenameComponent from "../components/renameModelModal";
 
 const ListController = function (
 	$state,
@@ -132,7 +135,10 @@ export default angular
 		'ui.bootstrap',
 		authService,
 		modelAPI,
-		newModelModalController,
+		modelCreateComponent,
+		modelDuplicatorComponent,
+		modelDeleterComponent,
+		modelRenameComponent
 	])
 	.component("workspace", {
 		template,

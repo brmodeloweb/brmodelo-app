@@ -19,10 +19,6 @@ import workspaceComponent from "./workspace/workspace";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
-import modelDuplicatorComponent from "./components/duplicateModelModal";
-import modelDeleterComponent from "./components/deleteModelModal";
-import modelRenameComponent from "./components/renameModelModal";
-import modelCreateComponent from "./components/createModelModal";
 
 const app = angular.module("app", [
 	"ui.router",
@@ -34,10 +30,6 @@ const app = angular.module("app", [
 	authService,
 	modelService,
 	dropdownComponent,
-	modelDuplicatorComponent,
-	modelDeleterComponent,
-	modelRenameComponent,
-	modelCreateComponent
 ]);
 
 app.config([
