@@ -92,7 +92,7 @@ const ListController = function (
 		const modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: "angular/view/modal/renameModelModal.html",
-			controller: renameModelModalControllers,
+			controller: "RenameModelModalController",
 		});
 		modalInstance.result.then((newName) => {
 			ModelAPI.renameModel(model._id, newName).then((resp) => {
@@ -107,13 +107,12 @@ const ListController = function (
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			templateUrl: "angular/view/modal/duplicateModelModal.html",
-			controller: duplicateModelModalController,
-			resolve: {
-				params: () => {
-					return { suggestedName: `${model.name} (cópia)` };
-				},
+			template: '<model-duplicator-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></model-duplicator-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.suggestedName = `${model.name} (cópia)`;
 			},
+			controllerAs: '$ctrl',
 		});
 		modalInstance.result.then((newName) => {
 			showLoading(true);
@@ -134,6 +133,7 @@ const ListController = function (
 
 export default angular
 	.module("app.workspace", [
+		'ui.bootstrap',
 		authService,
 		modelAPI,
 		newModelModalController,
