@@ -2,9 +2,6 @@ import angular from "angular";
 import authService from "../service/authService";
 import modelAPI from "../service/modelAPI";
 import template from "./workspace.html";
-import deleteModelModalController from "../controller/modal/deleteModelModalController";
-import duplicateModelModalController from "../controller/modal/duplicateModelModalController";
-import renameModelModalController from "../controller/modal/renameModelModalController";
 import newModelModalController from "../controller/modal/newModelModalController";
 
 const ListController = function (
@@ -58,7 +55,6 @@ const ListController = function (
 	ctrl.$onInit = () => {
 		showLoading(true);
 		ModelAPI.getAllModels($rootScope.loggeduser).then((models) => {
-			console.log(models);
 			ctrl.models = [...mapListData(models.data)];
 			showLoading(false);
 		});
@@ -67,34 +63,24 @@ const ListController = function (
 	ctrl.newModel = () => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			templateUrl: "angular/view/modal/newModelModal.html",
-			controller: "ModelModalController",
+			template: '<create-model-modal close="$close(result)" dismiss="$dismiss()"></create-model-modal>',
 		});
 		modalInstance.result.then((model) => {
+			showLoading(true);
 			ModelAPI.saveModel(model).then((newModel) => {
 				openModel(newModel);
+				showLoading(false);
 			});
-		});
-	};
-
-	ctrl.deleteModel = (model) => {
-		const modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "angular/view/modal/deleteModelModal.html",
-			controller: "DeleteModalController",
-		});
-		modalInstance.result.then(() => {
-			doDelete(model);
 		});
 	};
 
 	ctrl.renameModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			templateUrl: "angular/view/modal/renameModelModal.html",
-			controller: "RenameModelModalController",
+			template: '<rename-model-modal close="$close(result)" dismiss="$dismiss(newName)"></rename-model-modal>',
 		});
 		modalInstance.result.then((newName) => {
+			showLoading(true);
 			ModelAPI.renameModel(model._id, newName).then((resp) => {
 				if (resp.status === 200) {
 					model.name = newName;
@@ -104,10 +90,20 @@ const ListController = function (
 		});
 	};
 
+	ctrl.deleteModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: '<delete-model-modal close="$close(result)" dismiss="$dismiss(reason)"></delete-model-modal>',
+		});
+		modalInstance.result.then(() => {
+			doDelete(model);
+		});
+	};
+
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			template: '<model-duplicator-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></model-duplicator-modal>',
+			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
 			controller: function() {
 				const $ctrl = this;
 				$ctrl.suggestedName = `${model.name} (cópia)`;
@@ -137,9 +133,6 @@ export default angular
 		authService,
 		modelAPI,
 		newModelModalController,
-		deleteModelModalController,
-		duplicateModelModalController,
-		renameModelModalController,
 	])
 	.component("workspace", {
 		template,
