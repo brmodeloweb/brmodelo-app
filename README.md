@@ -10,20 +10,23 @@
 #### Dependencies
 
 To run this application you'll need:
+
 - [Node.js](https://nodejs.org/)
+- [yarn](https://yarnpkg.com/)
 - [MongoDB](https://www.mongodb.com/)
 
 #### Setup
 
 1. Create database directory: `sudo mkdir -p /data/db`
 1. Change database folder ownership to your user: `sudo chown YOUR_USER_NAME:users -R /data/db`
-1. Install dependencies: `npm install`
+1. Install dependencies: `yarn install`
 
 #### Running application
 
 1. Start database: `mongod`
-1. Start application: `npm start`
-1. Access it: [http://localhost:3000/](http://localhost:3000/)
+1. Build project: `yarn build`
+1. Start application: `yarn start`
+1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
 #### Production environments
 
