@@ -6,6 +6,7 @@ import modelCreateComponent from "../components/createModelModal";
 import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
+//import pageHeaderComponent from "../header/header";
 
 const ListController = function (
 	$state,
