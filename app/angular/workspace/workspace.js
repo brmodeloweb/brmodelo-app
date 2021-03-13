@@ -6,7 +6,6 @@ import modelCreateComponent from "../components/createModelModal";
 import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
-//import pageHeaderComponent from "../header/header";
 
 const ListController = function (
 	$state,
@@ -45,7 +44,16 @@ const ListController = function (
 		});
 	};
 
-	const openModel = (model) => {
+	ctrl.$onInit = () => {
+		showLoading(true);
+		ModelAPI.getAllModels($rootScope.loggeduser).then((models) => {
+			ctrl.models = [...mapListData(models.data)];
+			showLoading(false);
+		});
+	};
+
+	ctrl.openModel = (model) => {
+		console.log(model);
 		if (model.type === "logic") {
 			return $state.go("logic", {
 				references: { modelid: model._id, conversionId: "" },
@@ -53,14 +61,6 @@ const ListController = function (
 		}
 		$state.go(model.type, {
 			modelid: model._id,
-		});
-	};
-
-	ctrl.$onInit = () => {
-		showLoading(true);
-		ModelAPI.getAllModels($rootScope.loggeduser).then((models) => {
-			ctrl.models = [...mapListData(models.data)];
-			showLoading(false);
 		});
 	};
 

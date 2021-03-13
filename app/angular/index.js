@@ -4,21 +4,31 @@ import "angular-ui-router";
 import "angular-ui-bootstrap";
 import "angular-cookies";
 import "textangular";
-import "jquery/dist/jquery.min";
 
+//import "jquery";
+
+
+// console.log(joint);
+// console.log(angular);
+// console.log($);
+
+import "jointjs"
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../sass/app.scss";
-// import "../joint/joint.ui.halo.css";
-// import "../joint/joint.ui.selectionView.css";
-// import "../joint/joint.ui.stencil.css";
+
+import "../joint/joint.ui.halo.css";
+import "../joint/joint.ui.selectionView.css";
+import "../joint/joint.ui.stencil.css";
 
 import loginComponent from "./login/login";
 import signupComponent from "./signup/signup";
 import workspaceComponent from "./workspace/workspace";
+import conceptualComponent from "./conceptual/conceptual";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
+import shapeFactory from "./service/shapeFactory";
 
 const app = angular.module("app", [
 	"ui.router",
@@ -30,6 +40,8 @@ const app = angular.module("app", [
 	authService,
 	modelService,
 	dropdownComponent,
+	conceptualComponent,
+	shapeFactory
 ]);
 
 app.config([
@@ -63,7 +75,7 @@ app.config([
 
 		$stateProvider.state("conceptual", {
 			url: "/conceptual/{modelid}",
-			templateUrl: "angular/view/conceptual.html",
+			template: "<editor-conceptual></editor-conceptual>",
 			data: {
 				requireLogin: true,
 			},
