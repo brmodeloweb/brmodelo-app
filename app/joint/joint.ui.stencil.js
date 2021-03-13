@@ -1,6 +1,6 @@
 import $ from "jquery";
-import _ from "lodash";
-import backbone from "backbone"
+import _ from "underscore";
+import "backbone";
 import * as joint from "jointjs";
 
 var Handlebars = {};
@@ -261,18 +261,21 @@ var Handlebars = {};
             this.papers.__default__ = d
         }
 
-        const onDrag = this.onDragStart;
-
-        _.each(this.papers, function (a) {
-            backbone.listenTo(a, "cell:pointerdown", onDrag)
-        }, this)
-
-        return this._graphDrag = new joint.dia.Graph, this._paperDrag = new joint.dia.Paper({
+        this._graphDrag = new joint.dia.Graph, this._paperDrag = new joint.dia.Paper({
             el: this.$(".stencil-paper-drag"),
             width: 1,
             height: 1,
             model: this._graphDrag
-        })
+        });
+
+        const ctrl = this;
+
+        _.each(this.papers, function (a) {
+            this.listenTo(a, "cell:pointerdown", this.onDragStart)
+        }, this)
+
+        return this;
+
     },
     load: function (a, b) {
         var c = this.graphs[b || "__default__"];
@@ -290,8 +293,8 @@ var Handlebars = {};
     },
     onDragStart: function (a, b) {
         this.$el.addClass("dragging"), this._paperDrag.$el.addClass("dragging"), $(document.body).append(this._paperDrag.$el), this._clone = a.model.clone(), this._cloneBbox = a.getBBox();
-        var c = 5,
-            d = g.point(this._cloneBbox.x - this._clone.get("position").x, this._cloneBbox.y - this._clone.get("position").y);
+        var c = 5;
+        var d = g.point(this._cloneBbox.x - this._clone.get("position").x, this._cloneBbox.y - this._clone.get("position").y);
         this._clone.set("position", {
             x: -d.x + c,
             y: -d.y + c

@@ -46,12 +46,7 @@ const ConceptualController = function (
 		const stencil = new joint.ui.Stencil({
 			graph: ctrl.graph,
 			paper: ctrl.paper,
-			width: 200,
-			height: 300
 		});
-
-		console.log(stencil.render());
-		console.log(stencil.render().el);
 
 		$('#stencil-holder').append(stencil.render().el);
 
