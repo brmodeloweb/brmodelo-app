@@ -282,7 +282,6 @@ var Handlebars = {};
         if (!c) throw new Error("Stencil: group " + b + " does not exist.");
         c.resetCells(a);
         var d = this.options.height;
-        console.log(this.options);
         b && this.options.groups[b] && (d = this.options.groups[b].height), d || this.papers[b || "__default__"].fitToContent(1, 1, this.options.paperPadding || 10)
     },
     getGraph: function (a) {
@@ -294,7 +293,7 @@ var Handlebars = {};
     onDragStart: function (a, b) {
         this.$el.addClass("dragging"), this._paperDrag.$el.addClass("dragging"), $(document.body).append(this._paperDrag.$el), this._clone = a.model.clone(), this._cloneBbox = a.getBBox();
         var c = 5;
-        var d = g.point(this._cloneBbox.x - this._clone.get("position").x, this._cloneBbox.y - this._clone.get("position").y);
+        var d = joint.g.point(this._cloneBbox.x - this._clone.get("position").x, this._cloneBbox.y - this._clone.get("position").y);
         this._clone.set("position", {
             x: -d.x + c,
             y: -d.y + c
@@ -323,24 +322,24 @@ var Handlebars = {};
             f = d.$el.offset(),
             h = document.body.scrollTop || document.documentElement.scrollTop,
             i = document.body.scrollLeft || document.documentElement.scrollLeft,
-            j = g.rect(f.left + parseInt(d.$el.css("border-left-width"), 10) - i, f.top + parseInt(d.$el.css("border-top-width"), 10) - h, d.$el.innerWidth(), d.$el.innerHeight()),
+            j = joint.g.rect(f.left + parseInt(d.$el.css("border-left-width"), 10) - i, f.top + parseInt(d.$el.css("border-top-width"), 10) - h, d.$el.innerWidth(), d.$el.innerHeight()),
             k = d.svg.createSVGPoint();
         if (k.x = a.clientX, k.y = a.clientY, j.containsPoint(k)) {
-            var l = V("rect", {
+            var l = joint.V("rect", {
                 width: d.options.width,
                 height: d.options.height,
                 x: 0,
                 y: 0,
                 opacity: 0
             });
-            V(d.svg).prepend(l);
+            joint.V(d.svg).prepend(l);
             var m = $(d.svg).offset();
             l.remove(), k.x += i - m.left, k.y += h - m.top;
             var n = k.matrixTransform(d.viewport.getCTM().inverse()),
                 o = b.getBBox();
             n.x += o.x - c.width / 2, n.y += o.y - c.height / 2, b.set("position", {
-                x: g.snapToGrid(n.x, d.options.gridSize),
-                y: g.snapToGrid(n.y, d.options.gridSize)
+                x: joint.g.snapToGrid(n.x, d.options.gridSize),
+                y: joint.g.snapToGrid(n.y, d.options.gridSize)
             }), b.unset("z"), e.addCell(b, {
                 stencil: this.cid
             })
@@ -359,7 +358,7 @@ var Handlebars = {};
                             });
                             return f
                         });
-                    return V(f.el).toggleClass("unmatched", !g), g
+                    return joint.V(f.el).toggleClass("unmatched", !g), g
                 }, this),
                     h = !_.isEmpty(g),
                     i = (new joint.dia.Graph).resetCells(g);

@@ -35,7 +35,7 @@ joint.ui.PaperScroller = Backbone.View.extend({
 		},
 		toLocalPoint: function(a, b) {
 				var c = this.options.paper.viewport.getCTM();
-				return a += this.el.scrollLeft - this.padding.paddingLeft - c.e, a /= c.a, b += this.el.scrollTop - this.padding.paddingTop - c.f, b /= c.d, g.point(a, b)
+				return a += this.el.scrollLeft - this.padding.paddingLeft - c.e, a /= c.a, b += this.el.scrollTop - this.padding.paddingTop - c.f, b /= c.d, joint.g.point(a, b)
 		},
 		adjustPaper: function() {
 				this._center = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2);
@@ -111,7 +111,7 @@ joint.ui.PaperScroller = Backbone.View.extend({
 				a = a || {};
 				var b = this.options.paper,
 						c = _.clone(b.options.origin);
-				return a.fittingBBox = a.fittingBBox || _.extend({}, g.point(c), {
+				return a.fittingBBox = a.fittingBBox || _.extend({}, joint.g.point(c), {
 						width: this.$el.width() + this.padding.paddingLeft,
 						height: this.$el.height() + this.padding.paddingTop
 				}), this.beforePaperManipulation(), b.scaleContentToFit(a), b.setOrigin(c.x, c.y), this.adjustPaper().centerContent(), this.afterPaperManipulation(), this

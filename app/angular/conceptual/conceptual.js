@@ -14,49 +14,54 @@ import template from "./conceptual.html"
 
 import shapeFactory from "../service/shapeFactory";
 
-// import elementFactory from "../service/conceptualFactory"
-
-const ConceptualController = function (
+const controller = function (
 	ShapeFactory
 ) {
 
 	const ctrl = this;
+	const configs = {
+		graph: {},
+		paper: {},
+		paperScroller: {}
+	}
 
 	const buildWorkspace = () => {
-		ctrl.graph = new joint.dia.Graph;
+		configs.graph = new joint.dia.Graph;
 		const content = $('#content');
 
-		ctrl.paper = new joint.dia.Paper({
+		configs.paper = new joint.dia.Paper({
 			width: content.width(),
 			height: content.height(),
 			gridSize: 10,
 			drawGrid: true,
-			model: ctrl.graph,
+			model: configs.graph,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
 		});
 
-		ctrl.paperScroller = new joint.ui.PaperScroller({
-			paper: ctrl.paper,
+		configs.paperScroller = new joint.ui.PaperScroller({
+			paper: configs.paper,
 			cursor: 'grab',
 			autoResizePaper: true
 		});
 
-		content.append(ctrl.paperScroller.render().el);
+		content.append(configs.paperScroller.render().el);
 
 		const stencil = new joint.ui.Stencil({
-			graph: ctrl.graph,
-			paper: ctrl.paper,
+			graph: configs.graph,
+			paper: configs.paper,
 		});
 
 		$('#stencil-holder').append(stencil.render().el);
 
 		stencil.load([
 			ShapeFactory.createAttribute(),
+			ShapeFactory.createEntity(),
+			ShapeFactory.createAttribute(),
 			ShapeFactory.createIsa(),
 			ShapeFactory.createRelationship(),
 			ShapeFactory.createKey(),
-			// ConceptualFactory.createAssociative(),
-			// ConceptualFactory.createComposedAttribute()
+			// ShapeFactory.createAssociative(),
+			// ShapeFactory.createComposedAttribute()
 		]);
 
 	}
@@ -73,5 +78,5 @@ export default angular
 	])
 	.component("editorConceptual", {
 		template,
-		controller: ConceptualController,
+		controller,
 	}).name;
