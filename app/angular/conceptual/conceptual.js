@@ -16,8 +16,12 @@ import template from "./conceptual.html";
 
 import shapeFactory from "../service/shapeFactory";
 
-const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope) {
+const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $timeout) {
 	const ctrl = this;
+	ctrl.feedback = {
+		message: "",
+		showing: false
+	}
 	const configs = {
 		graph: {},
 		paper: {},
@@ -31,6 +35,22 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope) {
 			user: $rootScope.loggeduser
 		}
 	};
+
+	ctrl.showFeedback = (show, newMessage) => {
+		$timeout(() => {
+			ctrl.feedback.showing = show;
+			ctrl.feedback.message = newMessage;
+		});
+		// $rootScope.$digest();
+		// console.log(ctrl.feedback);
+	}
+
+	ctrl.saveModel = () => {
+		configs.model.model = JSON.stringify(configs.graph);
+		ModelAPI.updateModel(configs.model).then(function(res){
+			ctrl.showFeedback(true, "Salvo com sucesso!");
+		});
+	}
 
 	ctrl.print = () => {
 		window.print();
@@ -60,6 +80,12 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope) {
 		ctrl.modelName = loadedModel.name;
 	}
 
+	const registerPaperEvents = (paper) => {
+		paper.on('blank:pointerdown', function(evt, x, y) {
+			ctrl.showFeedback(false, "");
+		});
+	}
+
 	const buildWorkspace = () => {
 		configs.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
 
@@ -76,6 +102,8 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope) {
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
 			cellViewNamespace: joint.shapes
 		});
+
+		registerPaperEvents(configs.paper);
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,

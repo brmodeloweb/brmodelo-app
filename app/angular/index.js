@@ -4,6 +4,7 @@ import "angular-ui-router";
 import "angular-ui-bootstrap";
 import "angular-cookies";
 import "textangular";
+import "sweet-feedback/css/sweetfeedback.css";
 
 //import "jquery";
 

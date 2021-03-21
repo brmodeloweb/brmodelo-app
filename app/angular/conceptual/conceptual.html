@@ -32,7 +32,7 @@
 				<div class="page-header clearfix">
 					<h2 class="h4 pull-left">Modelo conceitual de: {{$ctrl.modelName}}</h2>
 					<aside class="header-actions pull-right">
-						<a class="br-button" data-ng-click="saveModel()">Salvar</a>
+						<a class="br-button" data-ng-click="$ctrl.saveModel()">Salvar</a>
 					</aside>
 				</div>
 				<ul class="nav navbar-nav tool-icons">
@@ -72,12 +72,12 @@
 						></a>
 					</li>
 				</ul>
-				<aside class="feedback">
+				<aside class="feedback" ng-click="$ctrl.showFeedback(false)">
 					<div
 						class="message success sd"
-						data-ng-class="{'hide': !feedback.showing}"
+						data-ng-class="{'hide': !$ctrl.feedback.showing}"
 					>
-						<p>{{ feedback.message }}</p>
+						<p>{{ $ctrl.feedback.message }}</p>
 					</div>
 					<!-- End .message -->
 				</aside>
