@@ -37,22 +37,22 @@
 				</div>
 				<ul class="nav navbar-nav tool-icons">
 					<li>
-						<a data-ng-click="undoModel()" title="Desfazer"
+						<a data-ng-click="$ctrl.undoModel()" title="Desfazer"
 							><i class="fa fa-reply"></i
 						></a>
 					</li>
 					<li class="divider">
-						<a data-ng-click="redoModel()" title="Refazer"
+						<a data-ng-click="$ctrl.redoModel()" title="Refazer"
 							><i class="fa fa-share"></i
 						></a>
 					</li>
 					<li>
-						<a data-ng-click="zoomIn()" title="Zoom +"
+						<a data-ng-click="$ctrl.zoomIn()" title="Zoom +"
 							><i class="fa fa-search-plus"></i
 						></a>
 					</li>
 					<li class="divider">
-						<a data-ng-click="zoomOut()" title="Zoom -"
+						<a data-ng-click="$ctrl.zoomOut()" title="Zoom -"
 							><i class="fa fa-search-minus"></i
 						></a>
 					</li>
@@ -67,7 +67,7 @@
 						></a>
 					</li>
 					<li class="divider">
-						<a data-ng-click="print()" title="Imprimir"
+						<a data-ng-click="$ctrl.print()" title="Imprimir"
 							><i class="fa fa-print"></i
 						></a>
 					</li>

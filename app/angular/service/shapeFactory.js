@@ -1,115 +1,263 @@
 import angular from "angular";
 import * as joint from "jointjs";
 
-const shapeFactory = function() {
+const shapeFactory = function () {
 	const erd = joint.shapes.erd;
 
-	const _createEntity = function () {
-		return new erd.Entity({
-			position: {
-				x: 25,
-				y: 10,
-			},
-			size: {
-				width: 80,
-				height: 40,
-			},
-			attrs: {
-				text: {
-					text: "Entidade",
+	const createEntity = (customConfig) => {
+		const entity = joint.dia.Element.extend({
+			markup:
+				'<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+			defaults: _.defaultsDeep(
+				{
+					type: "erd.Entity",
+					supertype: "Entity",
+					isExtended: false,
+					autorelationship: false,
+					size: { width: 80, height: 40 },
+					attrs: {
+						".outer": {
+							fill: "#FFFFFF",
+							stroke: "black",
+							"stroke-width": 1,
+							points: "100,0 100,60 0,60 0,0",
+						},
+						".inner": {
+							fill: "#2ECC71",
+							stroke: "#27AE60",
+							"stroke-width": 1,
+							points: "95,5 95,55 5,55 5,5",
+							display: "none",
+						},
+						text: {
+							text: "Entity",
+							"font-family": "Arial",
+							"font-size": 14,
+							ref: ".outer",
+							"ref-x": 0.5,
+							"ref-y": 0.5,
+							"x-alignment": "middle",
+							"y-alignment": "middle",
+						},
+					},
 				},
-				".outer": {
-					fill: "#FFFFFF",
-					stroke: "black",
-				},
-			},
+				joint.dia.Element.prototype.defaults
+			),
 		});
+		return new entity(customConfig);
 	};
 
-	const _createIsa = function () {
-		return new erd.ISA({
-			position: {
-				x: 40,
-				y: 70,
-			},
-			size: {
-				width: 50,
-				height: 40,
-			},
+	const createRelationship = (customConfig) => {
+		const relationship = joint.dia.Element.extend({
+			markup:
+				'<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+			defaults: _.defaultsDeep(
+				{
+					type: "erd.Relationship",
+					supertype: "Relationship",
+					autorelationship: false,
+					size: { width: 85, height: 45 },
+					attrs: {
+						".outer": {
+							fill: "#FFFFFF",
+							stroke: "black",
+							"stroke-width": 1,
+							points: "40,0 80,40 40,80 0,40",
+						},
+						".inner": {
+							fill: "#3498DB",
+							stroke: "#2980B9",
+							"stroke-width": 1,
+							points: "40,5 75,40 40,75 5,40",
+							display: "none",
+						},
+						text: {
+							text: "Rel",
+							"font-family": "Arial",
+							"font-size": 12,
+							ref: ".outer",
+							"ref-x": 0.5,
+							"ref-y": 0.5,
+							"x-alignment": "middle",
+							"y-alignment": "middle",
+						},
+					},
+				},
+				joint.dia.Element.prototype.defaults
+			),
 		});
+		return new relationship(customConfig);
 	};
 
-	const _createRelationship = function () {
-		return new erd.Relationship({
-			position: {
-				x: 25,
-				y: 130,
-			},
-			size: {
-				width: 85,
-				height: 45,
-			},
-			attrs: {
-				text: {
-					text: "Rel",
+	const createIsa = (customConfig) => {
+		const isa = joint.dia.Element.extend({
+			markup:
+				'<g class="rotatable"><g class="scalable"><polygon class="poly"/></g><text/></g>',
+			defaults: _.defaultsDeep(
+				{
+					type: "erd.ISA",
+					supertype: "Inheritance",
+					parentId: null,
+					size: { width: 50, height: 40 },
+					attrs: {
+						polygon: {
+							//25,0 15,50 35,50
+							points: "25,0 0,50 50,50",
+							fill: "#FFFFFF",
+							stroke: "black",
+							"stroke-width": 1,
+						},
+						text: {
+							text: "(t,c)",
+							ref: ".poly",
+							"ref-x": 0.9,
+							"ref-y": 0.3,
+						},
+					},
 				},
-				".outer": {
-					fill: "#FFFFFF",
-					stroke: "black",
-				},
-			},
+				joint.dia.Element.prototype.defaults
+			),
 		});
+		return new isa(customConfig);
 	};
 
-	const _createAssociative = function () {
-		return new erd.Associative({
-			position: {
-				x: 15,
-				y: 185,
-			},
-			size: {
-				width: 100,
-				height: 50,
-			},
-			attrs: {
-				".outer": {
-					fill: "#FFFFFF",
-					stroke: "black",
-				},
-				".inner": {
-					fill: "transparent",
-					stroke: "black",
-				},
-			},
+	const createAssociative = (customConfig) => {
+		const associative = joint.dia.Element.extend({
+			markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+			defaults: _.defaultsDeep({
+					type: 'erd.Associative',
+					supertype: 'Relationship',
+					isExtended: false,
+					autorelationship: false,
+					weak: false,
+					size: { width: 100, height: 50 },
+					attrs: {
+							'.outer': {
+									fill: '#FFFFFF', 
+									stroke: 'black', 
+									'stroke-width': 1,
+									points: '50,5 95,30 50,55 5,30',
+							},
+							'.inner': {
+									fill: 'transparent', 
+									stroke: 'black', 
+									'stroke-width': 1,
+									points: '100,0 100,60 0,60 0,0'
+							},
+							text: {
+									text: 'Auto',
+									'font-family': 'Arial', 'font-size': 12,
+									ref: '.outer', 'ref-x': .5, 'ref-y': .5,
+									'x-alignment': 'middle', 'y-alignment': 'middle'
+							}
+					}
+			}, joint.dia.Element.prototype.defaults)
 		});
+		return new associative(customConfig)
 	};
 
-	const _createAttribute = function () {
-		return new erd.Attribute({
-			position: {
-				x: 65,
-				y: 265,
-			},
-			attrs: {
-				text: {
-					text: "Atributo",
+	const createAttribute = (customConfig) => {
+		const attribute = joint.dia.Element.extend({
+			markup:
+				'<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
+			defaults: _.defaultsDeep(
+				{
+					type: "erd.Attribute",
+					supertype: "Attribute",
+					cardinality: "(1, 1)",
+					multivalued: false,
+					composed: false,
+					size: {
+						width: 15,
+						height: 15,
+					},
+					attrs: {
+						ellipse: {
+							stroke: "black",
+							"stroke-width": 1,
+							transform: "translate(0, 15)",
+							opacity: 0.6,
+						},
+						".outer": {
+							cy: 0,
+							rx: 30,
+							ry: 15,
+							fill: "white",
+						},
+						".inner": {
+							cx: 10,
+							cy: 25,
+							rx: 45,
+							ry: 20,
+							fill: "black",
+							display: "none",
+						},
+						text: {
+							text: "Atributo",
+							ref: ".outer",
+							"ref-x": 0.5,
+							"ref-y": -8,
+							"x-alignment": "middle",
+							"y-alignment": "middle",
+						},
+					},
 				},
-			},
+				joint.dia.Element.prototype.defaults
+			),
 		});
+		return new attribute(customConfig);
 	};
 
-	const _createKey = function () {
-		return new erd.Key({
-			position: {
-				x: 65,
-				y: 305,
-			},
-			attrs: {
-				text: {
-					text: "Chave",
+	const createKey = (customConfig) => {
+		const key = joint.dia.Element.extend({
+			markup:
+				'<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
+			defaults: _.defaultsDeep(
+				{
+					type: "erd.Key",
+					supertype: "Key",
+					cardinality: "(1, 1)",
+					multivalued: false,
+					composed: false,
+					size: {
+						width: 15,
+						height: 15,
+					},
+					attrs: {
+						ellipse: {
+							stroke: "black",
+							"stroke-width": 2,
+							transform: "translate(0, 15)",
+							opacity: 0.6,
+						},
+						".outer": {
+							cy: 0,
+							rx: 30,
+							ry: 15,
+							fill: "black",
+						},
+						".inner": {
+							cx: 10,
+							cy: 25,
+							rx: 45,
+							ry: 20,
+							fill: "black",
+							display: "none",
+						},
+						text: {
+							text: "Chave",
+							ref: ".outer",
+							"ref-x": 0.5,
+							"ref-y": -8,
+							"x-alignment": "middle",
+							"y-alignment": "middle",
+						},
+					},
 				},
-			},
+				joint.dia.Element.prototype.defaults
+			),
 		});
+		return new key(customConfig);
 	};
 
 	const _createBlockAssociative = function () {
@@ -127,7 +275,7 @@ const shapeFactory = function() {
 		});
 	};
 
-	const _createComposedAttribute = function () {
+	const createComposedAttribute = function () {
 		return new erd.ComposedAttribute({
 			size: {
 				width: 60,
@@ -143,15 +291,32 @@ const shapeFactory = function() {
 		});
 	};
 
+	const createLink = (customConfig) => {
+		const link = joint.dia.Link.extend({
+			defaults: { type: "erd.Link" },
+			weak: false,
+			role: "",
+			attrs: {
+				".marker-target": {
+					d: "M 10 0 L 0 5 L 10 10 z",
+					fill: "#34495e",
+					stroke: "#2c3e50",
+				},
+				".connection": { stroke: "#2c3e50" },
+			},
+		});
+		return new link(customConfig);
+	};
+
 	return {
-		createEntity: _createEntity,
-		createAttribute: _createAttribute,
-		createIsa: _createIsa,
-		createRelationship: _createRelationship,
-		createKey: _createKey,
-		createAssociative: _createAssociative,
-		createBlockAssociative: _createBlockAssociative,
-		createComposedAttribute: _createComposedAttribute,
+		createEntity,
+		createAttribute,
+		createIsa,
+		createRelationship,
+		createKey,
+		createLink,
+		createAssociative,
+		//createComposedAttribute: _createComposedAttribute,
 	};
 };
 

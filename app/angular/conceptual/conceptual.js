@@ -1,4 +1,4 @@
-import "backbone"
+import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs";
@@ -6,28 +6,49 @@ import "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
-
 import "../../joint/br-scroller";
+import "../../joint/joint.dia.command";
 
 import angular from "angular";
-import template from "./conceptual.html"
+import template from "./conceptual.html";
 
 import shapeFactory from "../service/shapeFactory";
 
-const controller = function (
-	ShapeFactory
-) {
-
+const controller = function (ShapeFactory) {
 	const ctrl = this;
 	const configs = {
 		graph: {},
 		paper: {},
-		paperScroller: {}
+		paperScroller: {},
+		commandManager: {}
+	};
+
+	ctrl.print = function(){
+		window.print();
+	}
+
+	ctrl.undoModel = function(){
+		configs.commandManager.undo();
+	}
+
+	ctrl.redoModel = function(){
+		configs.commandManager.redo();
+	}
+
+	ctrl.zoomIn = function(){
+		configs.paperScroller.zoom(0.2, { max: 2 });
+	}
+
+	ctrl.zoomOut = function(){
+		configs.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
 	const buildWorkspace = () => {
-		configs.graph = new joint.dia.Graph;
-		const content = $('#content');
+		configs.graph = new joint.dia.Graph();
+
+		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
+
+		const content = $("#content");
 
 		configs.paper = new joint.dia.Paper({
 			width: content.width(),
@@ -35,13 +56,13 @@ const controller = function (
 			gridSize: 10,
 			drawGrid: true,
 			model: configs.graph,
-			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
+			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
 		});
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,
-			cursor: 'grab',
-			autoResizePaper: true
+			cursor: "grab",
+			autoResizePaper: true,
 		});
 
 		content.append(configs.paperScroller.render().el);
@@ -51,31 +72,26 @@ const controller = function (
 			paper: configs.paper,
 		});
 
-		$('#stencil-holder').append(stencil.render().el);
+		$("#stencil-holder").append(stencil.render().el);
 
 		stencil.load([
-			ShapeFactory.createAttribute(),
-			ShapeFactory.createEntity(),
-			ShapeFactory.createAttribute(),
-			ShapeFactory.createIsa(),
-			ShapeFactory.createRelationship(),
-			ShapeFactory.createKey(),
-			// ShapeFactory.createAssociative(),
+			ShapeFactory.createEntity({position: {x: 25, y: 10}}),
+			ShapeFactory.createIsa({position: {x: 40, y: 70}}),
+			ShapeFactory.createRelationship({position: {x: 25, y: 130}}),
+			ShapeFactory.createAssociative({position: {x: 15, y: 185}}), 
+			ShapeFactory.createAttribute({position: {x: 65, y: 265}}),
+			ShapeFactory.createKey({position: {x: 65, y: 305}}),
 			// ShapeFactory.createComposedAttribute()
 		]);
-
-	}
+	};
 
 	ctrl.$postLink = () => {
 		buildWorkspace();
 	};
-
 };
 
 export default angular
-	.module("app.workspace.conceptual", [
-		shapeFactory
-	])
+	.module("app.workspace.conceptual", [shapeFactory])
 	.component("editorConceptual", {
 		template,
 		controller,
