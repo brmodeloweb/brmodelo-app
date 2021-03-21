@@ -8,43 +8,60 @@ import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
+import shapes from "../../joint/shapes";
+joint.shapes.erd = shapes;
 
 import angular from "angular";
 import template from "./conceptual.html";
 
 import shapeFactory from "../service/shapeFactory";
 
-const controller = function (ShapeFactory) {
+const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope) {
 	const ctrl = this;
 	const configs = {
 		graph: {},
 		paper: {},
 		paperScroller: {},
-		commandManager: {}
+		commandManager: {},
+		model: {
+			id: '',
+			name: '',
+			type: 'conceptual',
+			model: '',
+			user: $rootScope.loggeduser
+		}
 	};
 
-	ctrl.print = function(){
+	ctrl.print = () => {
 		window.print();
 	}
 
-	ctrl.undoModel = function(){
+	ctrl.undoModel = () => {
 		configs.commandManager.undo();
 	}
 
-	ctrl.redoModel = function(){
+	ctrl.redoModel = () => {
 		configs.commandManager.redo();
 	}
 
-	ctrl.zoomIn = function(){
+	ctrl.zoomIn = () => {
 		configs.paperScroller.zoom(0.2, { max: 2 });
 	}
 
-	ctrl.zoomOut = function(){
+	ctrl.zoomOut = () => {
 		configs.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
+	const setModel = (loadedModel) => {
+		configs.model.model = loadedModel;
+		configs.model.name = loadedModel.name;
+		configs.model.type = loadedModel.type;
+		configs.model.id = loadedModel._id;
+		ctrl.modelName = loadedModel.name;
+	}
+
 	const buildWorkspace = () => {
-		configs.graph = new joint.dia.Graph();
+		configs.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
 
 		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
 
@@ -57,6 +74,7 @@ const controller = function (ShapeFactory) {
 			drawGrid: true,
 			model: configs.graph,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
+			cellViewNamespace: joint.shapes
 		});
 
 		configs.paperScroller = new joint.ui.PaperScroller({
@@ -75,12 +93,12 @@ const controller = function (ShapeFactory) {
 		$("#stencil-holder").append(stencil.render().el);
 
 		stencil.load([
-			ShapeFactory.createEntity({position: {x: 25, y: 10}}),
-			ShapeFactory.createIsa({position: {x: 40, y: 70}}),
-			ShapeFactory.createRelationship({position: {x: 25, y: 130}}),
-			ShapeFactory.createAssociative({position: {x: 15, y: 185}}), 
-			ShapeFactory.createAttribute({position: {x: 65, y: 265}}),
-			ShapeFactory.createKey({position: {x: 65, y: 305}}),
+			ShapeFactory.createEntity({ position: { x: 25, y: 10 } }),
+			ShapeFactory.createIsa({ position: { x: 40, y: 70 } }),
+			ShapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
+			ShapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
+			ShapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
+			ShapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			// ShapeFactory.createComposedAttribute()
 		]);
 	};
@@ -88,6 +106,14 @@ const controller = function (ShapeFactory) {
 	ctrl.$postLink = () => {
 		buildWorkspace();
 	};
+
+	ctrl.$onInit = () => {
+		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
+			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+			setModel(resp.data);
+			configs.graph.fromJSON(jsonModel);
+		});
+	}
 };
 
 export default angular
