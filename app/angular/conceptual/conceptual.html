@@ -13,13 +13,13 @@
 		<div class="navbar-header">
 			<strong class="navbar-brand">BR Modelo</strong>
 		</div>
-<!-- 
+
 		<img
-			src="assets/img/loading-dots.gif"
+			src="../../img/loading-dots.gif"
 			alt="Loading"
 			class="br-loader"
-			ng-class="{'loading': loading}"
-		/> -->
+			ng-class="{'loading': $ctrl.loading}"
+		/> 
 	</header>
 
 	<div class="mainContent">
@@ -30,7 +30,7 @@
 		<section id="content" class="model-area">
 			<header class="workspace-header">
 				<div class="page-header clearfix">
-					<h2 class="h4 pull-left">Modelo conceitual de: {{$ctrl.modelName}}</h2>
+					<h2 class="h4 pull-left">Modelo conceitual de: {{$ctrl.model.name}}</h2>
 					<aside class="header-actions pull-right">
 						<a class="br-button" data-ng-click="$ctrl.saveModel()">Salvar</a>
 					</aside>
@@ -57,7 +57,7 @@
 						></a>
 					</li>
 					<li>
-						<a data-ng-click="duplicateModel()" title="Duplicar modelo"
+						<a data-ng-click="$ctrl.duplicateModel($ctrl.model)" title="Duplicar modelo"
 							><i class="fa fa-files-o"></i
 						></a>
 					</li>
@@ -72,7 +72,7 @@
 						></a>
 					</li>
 				</ul>
-				<aside class="feedback" ng-click="$ctrl.showFeedback(false)">
+				<aside class="feedback">
 					<div
 						class="message success sd"
 						data-ng-class="{'hide': !$ctrl.feedback.showing}"

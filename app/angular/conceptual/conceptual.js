@@ -16,39 +16,48 @@ import template from "./conceptual.html";
 
 import shapeFactory from "../service/shapeFactory";
 
-const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $timeout) {
+import modelDuplicatorComponent from "../components/duplicateModelModal";
+
+const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
 	ctrl.feedback = {
 		message: "",
 		showing: false
+	}
+	ctrl.loading = true;
+	ctrl.model = {
+		id: '',
+		name: '',
+		type: 'conceptual',
+		model: '',
+		user: $rootScope.loggeduser
 	}
 	const configs = {
 		graph: {},
 		paper: {},
 		paperScroller: {},
 		commandManager: {},
-		model: {
-			id: '',
-			name: '',
-			type: 'conceptual',
-			model: '',
-			user: $rootScope.loggeduser
-		}
 	};
+
+	ctrl.setLoading = (show) => {
+		$timeout(() => {
+			ctrl.loading = show;
+		});
+	}
 
 	ctrl.showFeedback = (show, newMessage) => {
 		$timeout(() => {
 			ctrl.feedback.showing = show;
 			ctrl.feedback.message = newMessage;
 		});
-		// $rootScope.$digest();
-		// console.log(ctrl.feedback);
 	}
 
 	ctrl.saveModel = () => {
-		configs.model.model = JSON.stringify(configs.graph);
-		ModelAPI.updateModel(configs.model).then(function(res){
+		ctrl.setLoading(true);
+		ctrl.model.model = JSON.stringify(configs.graph);
+		ModelAPI.updateModel(ctrl.model).then(function(res){
 			ctrl.showFeedback(true, "Salvo com sucesso!");
+			ctrl.setLoading(false);
 		});
 	}
 
@@ -72,18 +81,202 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 		configs.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
-	const setModel = (loadedModel) => {
-		configs.model.model = loadedModel;
-		configs.model.name = loadedModel.name;
-		configs.model.type = loadedModel.type;
-		configs.model.id = loadedModel._id;
-		ctrl.modelName = loadedModel.name;
-	}
+	ctrl.duplicateModel = (model) => {
+		console.log(model);
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.suggestedName = `${model.name} (cópia)`;
+			},
+			controllerAs: '$ctrl',
+		});
+		modalInstance.result.then((newName) => {
+			ctrl.setLoading(true);
+			const duplicatedModel = {
+				id: "",
+				name: newName,
+				type: model.type,
+				model: model.model,
+				user: model.who,
+			};
+			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
+				window.open($state.href('conceptual', {'modelid': newModel._id}));
+				ctrl.showFeedback(true, "Duplicado com sucesso!");
+				ctrl.setLoading(false);
+			});
+		});
+	};
 
 	const registerPaperEvents = (paper) => {
 		paper.on('blank:pointerdown', function(evt, x, y) {
 			ctrl.showFeedback(false, "");
+			// if (evt.shiftKey) {
+			// 	selectionView.startSelecting(evt);
+			// } else {
+			// 	$scope.paperScroller.startPanning;
+			// }
+			// $scope.applyChanges();
+			// $scope.showFeedback("",false);
+			// $scope.selectedElement = {
+			// 	element: {},
+			// 	value: ""
+			// };
+			// $scope.roleSelected = "";
+			// $scope.entitySelected = 'NONE';
+			// $scope.$apply();
 		});
+
+		paper.on('link:options', function (cellView, evt, x, y) {
+			// var source = $scope.graph.getCell(cellView.model.get('source').id);
+			// var target = $scope.graph.getCell(cellView.model.get('target').id);
+			// if((cs.isRelationship(source) || cs.isRelationship(target)) &&
+			// 	(cs.isEntity(source) || cs.isEntity(target))) {
+			// 	if(cellView.model.attributes.labels != null){
+			// 		$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
+			// 		$scope.roleSelected = "";
+			// 		if(cellView.model.attributes.labels[1] != null) {
+			// 			$scope.roleSelected = cellView.model.attributes.labels[1].attrs.text.text;
+			// 		}
+			// 	}
+			// 	$scope.entitySelected = "LINK";
+			// 	$scope.selectedElement.element = cellView;
+			// 	$scope.$apply();
+			// }
+		});
+
+		paper.on('cell:pointerup', function(cellView, evt, x, y) {
+			// if (cellView.model instanceof joint.dia.Link) return;
+			// $scope.onSelectElement(cellView);
+			// //conect elementos ao jogar em cima
+			// if(x != null && y != null){
+			// 	$scope.conectElements(cellView, x, y)
+			// }
+			// var halo = new joint.ui.Halo({
+			// 	cellView: cellView,
+			// 	boxContent: false
+			// });
+			// halo.on('action:link:add', function(link) {
+			// 	onLink(link);
+			// });
+			// halo.on('action:removeElement:pointerdown', function(link) {
+			// 	console.log("removing....");
+			// });
+			// if (cs.isAttribute(cellView.model) || cs.isExtension(cellView.model)) {
+			// 	halo.removeHandle('resize');
+			// }
+			// halo.removeHandle('clone');
+			// halo.removeHandle('fork');
+			// halo.removeHandle('rotate');
+			// halo.render();
+		});
+	}
+
+	const registerGraphEvents = (graph) => {
+		graph.on('change:position', function(cell) {
+
+			// var parentId = cell.get('parent');
+			// if (!parentId) return;
+	
+			// var parent = $scope.graph.getCell(parentId);
+			// var parentBbox = parent.getBBox();
+			// var cellBbox = cell.getBBox();
+	
+			// if (parentBbox.containsPoint(cellBbox.origin()) &&
+			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
+			// 	parentBbox.containsPoint(cellBbox.corner()) &&
+			// 	parentBbox.containsPoint(cellBbox.bottomLeft())) {
+			// 		// All the four corners of the child are inside the parent area.
+			// 		return;
+			// 	}
+			// 	// Revert the child position.
+			// 	cell.set('position', cell.previous('position'));
+		});
+
+		graph.on('add', function(cell) {
+
+			// Connectando elementos ao realizar drop
+		// 	var cellView = $scope.paper.findViewByModel(cell);
+		// 	if (cellView.model instanceof joint.dia.Link) return;
+
+		// 	if(cs.isAssociative(cellView.model)) {
+
+		// 		var block = ConceptualFactory.createBlockAssociative();
+		// 		block.attributes.position.x = cellView.model.attributes.position.x;
+		// 		block.attributes.position.y = cellView.model.attributes.position.y;
+
+		// 		var auto = ConceptualFactory.createRelationship();
+		// 		auto.attributes.position.x = block.attributes.position.x + 6;
+		// 		auto.attributes.position.y = block.attributes.position.y + 2;
+
+		// 		cellView.model.remove();
+		// 		$scope.graph.removeCells(cellView);
+		// 		$scope.graph.addCell(block);
+		// 		$scope.graph.addCell(auto);
+
+		// 		block.embed(auto);
+		// 	}
+
+		// 	if(cs.isComposedAttribute(cellView.model)) {
+
+		// 		var x = cellView.model.attributes.position.x;
+		// 		var y = cellView.model.attributes.position.y;
+		// 		cellView.model.remove();
+
+		// 		$timeout(function(){
+		// 			var base = ConceptualFactory.createAttribute();
+		// 			base.attributes.position.x = x + 15;
+		// 			base.attributes.position.y = y + 15;
+		// 			base.attributes.composed = true;
+		// 			$scope.graph.addCell(base);
+
+		// 			var attr1 = ConceptualFactory.createAttribute();
+		// 			attr1.attributes.attrs.text.text = "attr1";
+		// 			attr1.attributes.position.x = base.attributes.position.x + 50;
+		// 			attr1.attributes.position.y = base.attributes.position.y + 20;
+		// 			$scope.graph.addCell(attr1);
+		// 			createLink(base, attr1);
+
+		// 			var attr2 = ConceptualFactory.createAttribute();
+		// 			attr2.attributes.attrs.text.text = "attr2";
+		// 			attr2.attributes.position.x = base.attributes.position.x + 50;
+		// 			attr2.attributes.position.y = base.attributes.position.y - 20 ;
+		// 			$scope.graph.addCell(attr2);
+		// 			createLink(base, attr2);
+
+		// 		}, 100);
+
+		// 	}
+
+		// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
+		// 		var x = cellView.model.attributes.position.x;
+		// 		var y = cellView.model.attributes.position.y;
+		// 		if(x != null && y != null){
+		// 			$scope.conectElements(cellView, x, y);
+		// 		}
+		// 	}
+		});
+
+		graph.on('change:position', function(cell) {
+			// var parentId = cell.get('parent');
+			// if (!parentId) return;
+	
+			// var parent = $scope.graph.getCell(parentId);
+			// var parentBbox = parent.getBBox();
+			// var cellBbox = cell.getBBox();
+	
+			// if (parentBbox.containsPoint(cellBbox.origin()) &&
+			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
+			// 	parentBbox.containsPoint(cellBbox.corner()) &&
+			// 	parentBbox.containsPoint(cellBbox.bottomLeft())) {
+			// 		// All the four corners of the child are inside the parent area.
+			// 		return;
+			// 	}
+			// 	// Revert the child position.
+			// 	cell.set('position', cell.previous('position'));
+		});
+
 	}
 
 	const buildWorkspace = () => {
@@ -136,16 +329,19 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 	};
 
 	ctrl.$onInit = () => {
+		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
-			setModel(resp.data);
+			ctrl.model = resp.data;
+			ctrl.model.model = jsonModel;
 			configs.graph.fromJSON(jsonModel);
+			ctrl.setLoading(false);
 		});
 	}
 };
 
 export default angular
-	.module("app.workspace.conceptual", [shapeFactory])
+	.module("app.workspace.conceptual", [shapeFactory, modelDuplicatorComponent])
 	.component("editorConceptual", {
 		template,
 		controller,
