@@ -55,7 +55,7 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 	ctrl.saveModel = () => {
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
-		ModelAPI.updateModel(ctrl.model).then(function(res){
+		ModelAPI.updateModel(ctrl.model).then(function (res) {
 			ctrl.showFeedback(true, "Salvo com sucesso!");
 			ctrl.setLoading(false);
 		});
@@ -82,11 +82,10 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 	}
 
 	ctrl.duplicateModel = (model) => {
-		console.log(model);
 		const modalInstance = $uibModal.open({
 			animation: true,
 			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
-			controller: function() {
+			controller: function () {
 				const $ctrl = this;
 				$ctrl.suggestedName = `${model.name} (cópia)`;
 			},
@@ -102,15 +101,28 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 				user: model.who,
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
-				window.open($state.href('conceptual', {'modelid': newModel._id}));
+				window.open($state.href('conceptual', { 'modelid': newModel._id }));
 				ctrl.showFeedback(true, "Duplicado com sucesso!");
 				ctrl.setLoading(false);
 			});
 		});
 	};
 
+	ctrl.convertModel = (conceptualModel) => {
+		const model = {
+			"name": conceptualModel.name + "_convertido",
+			"user": $rootScope.loggeduser,
+			"type": "logic",
+			"model": '{"cells":[]}'
+		};
+		ModelAPI.saveModel(model)
+			.then((newModel) => {
+				window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
+			});
+	}
+
 	const registerPaperEvents = (paper) => {
-		paper.on('blank:pointerdown', function(evt, x, y) {
+		paper.on('blank:pointerdown', function (evt, x, y) {
 			ctrl.showFeedback(false, "");
 			// if (evt.shiftKey) {
 			// 	selectionView.startSelecting(evt);
@@ -146,7 +158,7 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 			// }
 		});
 
-		paper.on('cell:pointerup', function(cellView, evt, x, y) {
+		paper.on('cell:pointerup', function (cellView, evt, x, y) {
 			// if (cellView.model instanceof joint.dia.Link) return;
 			// $scope.onSelectElement(cellView);
 			// //conect elementos ao jogar em cima
@@ -174,15 +186,15 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 	}
 
 	const registerGraphEvents = (graph) => {
-		graph.on('change:position', function(cell) {
+		graph.on('change:position', function (cell) {
 
 			// var parentId = cell.get('parent');
 			// if (!parentId) return;
-	
+
 			// var parent = $scope.graph.getCell(parentId);
 			// var parentBbox = parent.getBBox();
 			// var cellBbox = cell.getBBox();
-	
+
 			// if (parentBbox.containsPoint(cellBbox.origin()) &&
 			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
 			// 	parentBbox.containsPoint(cellBbox.corner()) &&
@@ -194,78 +206,78 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 			// 	cell.set('position', cell.previous('position'));
 		});
 
-		graph.on('add', function(cell) {
+		graph.on('add', function (cell) {
 
 			// Connectando elementos ao realizar drop
-		// 	var cellView = $scope.paper.findViewByModel(cell);
-		// 	if (cellView.model instanceof joint.dia.Link) return;
+			// 	var cellView = $scope.paper.findViewByModel(cell);
+			// 	if (cellView.model instanceof joint.dia.Link) return;
 
-		// 	if(cs.isAssociative(cellView.model)) {
+			// 	if(cs.isAssociative(cellView.model)) {
 
-		// 		var block = ConceptualFactory.createBlockAssociative();
-		// 		block.attributes.position.x = cellView.model.attributes.position.x;
-		// 		block.attributes.position.y = cellView.model.attributes.position.y;
+			// 		var block = ConceptualFactory.createBlockAssociative();
+			// 		block.attributes.position.x = cellView.model.attributes.position.x;
+			// 		block.attributes.position.y = cellView.model.attributes.position.y;
 
-		// 		var auto = ConceptualFactory.createRelationship();
-		// 		auto.attributes.position.x = block.attributes.position.x + 6;
-		// 		auto.attributes.position.y = block.attributes.position.y + 2;
+			// 		var auto = ConceptualFactory.createRelationship();
+			// 		auto.attributes.position.x = block.attributes.position.x + 6;
+			// 		auto.attributes.position.y = block.attributes.position.y + 2;
 
-		// 		cellView.model.remove();
-		// 		$scope.graph.removeCells(cellView);
-		// 		$scope.graph.addCell(block);
-		// 		$scope.graph.addCell(auto);
+			// 		cellView.model.remove();
+			// 		$scope.graph.removeCells(cellView);
+			// 		$scope.graph.addCell(block);
+			// 		$scope.graph.addCell(auto);
 
-		// 		block.embed(auto);
-		// 	}
+			// 		block.embed(auto);
+			// 	}
 
-		// 	if(cs.isComposedAttribute(cellView.model)) {
+			// 	if(cs.isComposedAttribute(cellView.model)) {
 
-		// 		var x = cellView.model.attributes.position.x;
-		// 		var y = cellView.model.attributes.position.y;
-		// 		cellView.model.remove();
+			// 		var x = cellView.model.attributes.position.x;
+			// 		var y = cellView.model.attributes.position.y;
+			// 		cellView.model.remove();
 
-		// 		$timeout(function(){
-		// 			var base = ConceptualFactory.createAttribute();
-		// 			base.attributes.position.x = x + 15;
-		// 			base.attributes.position.y = y + 15;
-		// 			base.attributes.composed = true;
-		// 			$scope.graph.addCell(base);
+			// 		$timeout(function(){
+			// 			var base = ConceptualFactory.createAttribute();
+			// 			base.attributes.position.x = x + 15;
+			// 			base.attributes.position.y = y + 15;
+			// 			base.attributes.composed = true;
+			// 			$scope.graph.addCell(base);
 
-		// 			var attr1 = ConceptualFactory.createAttribute();
-		// 			attr1.attributes.attrs.text.text = "attr1";
-		// 			attr1.attributes.position.x = base.attributes.position.x + 50;
-		// 			attr1.attributes.position.y = base.attributes.position.y + 20;
-		// 			$scope.graph.addCell(attr1);
-		// 			createLink(base, attr1);
+			// 			var attr1 = ConceptualFactory.createAttribute();
+			// 			attr1.attributes.attrs.text.text = "attr1";
+			// 			attr1.attributes.position.x = base.attributes.position.x + 50;
+			// 			attr1.attributes.position.y = base.attributes.position.y + 20;
+			// 			$scope.graph.addCell(attr1);
+			// 			createLink(base, attr1);
 
-		// 			var attr2 = ConceptualFactory.createAttribute();
-		// 			attr2.attributes.attrs.text.text = "attr2";
-		// 			attr2.attributes.position.x = base.attributes.position.x + 50;
-		// 			attr2.attributes.position.y = base.attributes.position.y - 20 ;
-		// 			$scope.graph.addCell(attr2);
-		// 			createLink(base, attr2);
+			// 			var attr2 = ConceptualFactory.createAttribute();
+			// 			attr2.attributes.attrs.text.text = "attr2";
+			// 			attr2.attributes.position.x = base.attributes.position.x + 50;
+			// 			attr2.attributes.position.y = base.attributes.position.y - 20 ;
+			// 			$scope.graph.addCell(attr2);
+			// 			createLink(base, attr2);
 
-		// 		}, 100);
+			// 		}, 100);
 
-		// 	}
+			// 	}
 
-		// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
-		// 		var x = cellView.model.attributes.position.x;
-		// 		var y = cellView.model.attributes.position.y;
-		// 		if(x != null && y != null){
-		// 			$scope.conectElements(cellView, x, y);
-		// 		}
-		// 	}
+			// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
+			// 		var x = cellView.model.attributes.position.x;
+			// 		var y = cellView.model.attributes.position.y;
+			// 		if(x != null && y != null){
+			// 			$scope.conectElements(cellView, x, y);
+			// 		}
+			// 	}
 		});
 
-		graph.on('change:position', function(cell) {
+		graph.on('change:position', function (cell) {
 			// var parentId = cell.get('parent');
 			// if (!parentId) return;
-	
+
 			// var parent = $scope.graph.getCell(parentId);
 			// var parentBbox = parent.getBBox();
 			// var cellBbox = cell.getBBox();
-	
+
 			// if (parentBbox.containsPoint(cellBbox.origin()) &&
 			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
 			// 	parentBbox.containsPoint(cellBbox.corner()) &&
@@ -338,6 +350,7 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 			ctrl.setLoading(false);
 		});
 	}
+
 };
 
 export default angular
