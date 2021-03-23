@@ -1,33 +1,5 @@
 angular.module('myapp').factory('ConceptualService', function(){
 
-		_isEntity = function(element) {
-			return element.attributes.supertype === 'Entity';
-		};
-
-		_isAttribute = function(element) {
-			return element.attributes.supertype === 'Attribute';
-		};
-
-		_isExtension = function(element) {
-			return element.attributes.supertype === 'Inheritance';
-		};
-
-		_isRelationship = function(element) {
-			return element.attributes.supertype === 'Relationship'
-		};
-
-		_isAssociative = function(element) {
-			return element.attributes.type === 'erd.Associative'
-		};
-
-		_isKey = function(element) {
-			return element.attributes.supertype === 'Key';
-		};
-
-		_isComposedAttribute = function(element) {
-			return element.attributes.type === 'erd.ComposedAttribute';
-		};
-
 		_updateExtension = function(elements, text) {
 			for (var i = 0; i < elements.length; i++) {
 				if (_isExtension(elements[i])) {
@@ -69,18 +41,10 @@ angular.module('myapp').factory('ConceptualService', function(){
 		}
 
 	return {
-		isEntity : _isEntity,
-		isAttribute : _isAttribute,
-		isExtension : _isExtension,
-	 	isRelationship : _isRelationship,
 		getAutoRelationship : _getAutoRelationship,
-		isAssociative: _isAssociative,
 		updateExtension : _updateExtension,
 		getExtensionTxt: _getExtensionTxt,
-		isKey: _isKey,
-		isComposedAttribute : _isComposedAttribute,
 		hasAttributeNeighbors: _hasAttributeNeighbors,
-
 	}
 
 });

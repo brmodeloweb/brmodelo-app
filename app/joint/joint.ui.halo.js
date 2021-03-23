@@ -1,3 +1,8 @@
+import $ from "jquery";
+import _ from "underscore";
+import "backbone";
+import * as joint from "jointjs";
+
 joint.ui.Halo = Backbone.View.extend({
     PIE_INNER_RADIUS: 20,
     PIE_OUTER_RADIUS: 50,
@@ -174,14 +179,14 @@ joint.ui.Halo = Backbone.View.extend({
                 var d = this.PIE_OUTER_RADIUS,
                     e = this.PIE_INNER_RADIUS,
                     f = (d + e) / 2,
-                    h = g.point(d, d),
-                    i = g.toRad(this.options.pieSliceAngle),
-                    j = b * i + g.toRad(this.options.pieStartAngleOffset),
+                    h = joint.g.point(d, d),
+                    i = joint.g.toRad(this.options.pieSliceAngle),
+                    j = b * i + joint.g.toRad(this.options.pieStartAngleOffset),
                     k = j + i,
                     l = V.createSlicePathData(e, d, j, k),
                     m = V("svg").addClass("slice-svg"),
                     n = V("path").attr("d", l).addClass("slice"),
-                    o = g.point.fromPolar(f, -j - i / 2, h),
+                    o = joint.g.point.fromPolar(f, -j - i / 2, h),
                     p = this.options.pieIconSize,
                     q = V("image").attr(o).addClass("slice-icon");
                 q.attr({
@@ -307,17 +312,17 @@ joint.ui.Halo = Backbone.View.extend({
         }), this._cloneView = c.findView(b.paper), this._cloneView.pointerdown(a, this._clientX, this._clientY)
     },
     startResizing: function(a) {
-        this.options.graph.trigger("batch:start"), this._flip = [1, 0, 0, 1, 1, 0, 0, 1][Math.floor(g.normalizeAngle(this.options.cellView.model.get("angle")) / 45)]
+        this.options.graph.trigger("batch:start"), this._flip = [1, 0, 0, 1, 1, 0, 0, 1][Math.floor(joint.g.normalizeAngle(this.options.cellView.model.get("angle")) / 45)]
     },
     startRotating: function(a) {
         this.options.graph.trigger("batch:start");
         var b = this.options.cellView.model.getBBox().center(),
-            c = g.normalizeAngle(this.options.cellView.model.get("angle")),
+            c = joint.g.normalizeAngle(this.options.cellView.model.get("angle")),
             d = this.options.paper.snapToGrid({
                 x: a.clientX,
                 y: a.clientY
             });
-        this._center = b, this._rotationStartAngle = c || 0, this._clientStartAngle = g.point(d).theta(b)
+        this._center = b, this._rotationStartAngle = c || 0, this._clientStartAngle = joint.g.point(d).theta(b)
     },
     doResize: function(a, b, c) {
         var d = this.options.cellView.model.get("size"),
@@ -332,8 +337,8 @@ joint.ui.Halo = Backbone.View.extend({
                 x: a.clientX,
                 y: a.clientY
             }),
-            c = this._clientStartAngle - g.point(b).theta(this._center),
-            d = g.snapToGrid(this._rotationStartAngle + c, this.options.rotateAngleGrid);
+            c = this._clientStartAngle - joint.g.point(b).theta(this._center),
+            d = joint.g.snapToGrid(this._rotationStartAngle + c, this.options.rotateAngleGrid);
         this.options.cellView.model.rotate(d, !0)
     },
     doClone: function(a) {
@@ -413,7 +418,7 @@ joint.ui.Halo = Backbone.View.extend({
     makeLoopLink: function(a) {
         var b, c, d = this.options.loopLinkWidth,
             e = this.options.paper.options,
-            f = g.rect({
+            f = joint.g.rect({
                 x: 0,
                 y: 0,
                 width: e.width,
@@ -426,18 +431,18 @@ joint.ui.Halo = Backbone.View.extend({
                     j = 0;
                 switch (a) {
                     case "top":
-                        e = g.point(h.x + h.width / 2, h.y - d), i = d / 2;
+                        e = joint.g.point(h.x + h.width / 2, h.y - d), i = d / 2;
                         break;
                     case "bottom":
-                        e = g.point(h.x + h.width / 2, h.y + h.height + d), i = d / 2;
+                        e = joint.g.point(h.x + h.width / 2, h.y + h.height + d), i = d / 2;
                         break;
                     case "left":
-                        e = g.point(h.x - d, h.y + h.height / 2), j = d / 2;
+                        e = joint.g.point(h.x - d, h.y + h.height / 2), j = d / 2;
                         break;
                     case "right":
-                        e = g.point(h.x + h.width + d, h.y + h.height / 2), j = d / 2
+                        e = joint.g.point(h.x + h.width + d, h.y + h.height / 2), j = d / 2
                 }
-                return b = g.point(e).offset(-i, -j), c = g.point(e).offset(i, j), f.containsPoint(b) && f.containsPoint(c)
+                return b = joint.g.point(e).offset(-i, -j), c = joint.g.point(e).offset(i, j), f.containsPoint(b) && f.containsPoint(c)
             }, this);
         j && a.set("vertices", [b, c])
     }

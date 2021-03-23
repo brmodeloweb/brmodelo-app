@@ -6,6 +6,8 @@ import "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
+import "../../joint/joint.ui.halo.css";
+import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 import shapes from "../../joint/shapes";
@@ -141,6 +143,7 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 		});
 
 		paper.on('link:options', function (cellView, evt, x, y) {
+			console.log('link:options');
 			// var source = $scope.graph.getCell(cellView.model.get('source').id);
 			// var target = $scope.graph.getCell(cellView.model.get('target').id);
 			// if((cs.isRelationship(source) || cs.isRelationship(target)) &&
@@ -158,30 +161,26 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 			// }
 		});
 
-		paper.on('cell:pointerup', function (cellView, evt, x, y) {
-			// if (cellView.model instanceof joint.dia.Link) return;
+		paper.on('element:pointerup', (cellView, evt, x, y) => {
 			// $scope.onSelectElement(cellView);
-			// //conect elementos ao jogar em cima
 			// if(x != null && y != null){
 			// 	$scope.conectElements(cellView, x, y)
 			// }
-			// var halo = new joint.ui.Halo({
-			// 	cellView: cellView,
-			// 	boxContent: false
-			// });
-			// halo.on('action:link:add', function(link) {
-			// 	onLink(link);
-			// });
-			// halo.on('action:removeElement:pointerdown', function(link) {
-			// 	console.log("removing....");
-			// });
-			// if (cs.isAttribute(cellView.model) || cs.isExtension(cellView.model)) {
-			// 	halo.removeHandle('resize');
-			// }
-			// halo.removeHandle('clone');
-			// halo.removeHandle('fork');
-			// halo.removeHandle('rotate');
-			// halo.render();
+			const halo = new joint.ui.Halo({
+				cellView: cellView,
+				boxContent: false
+			});
+			halo.on('action:link:add', function(link) {
+				console.log("action:link:add");
+				//onLink(link);
+			});
+			if (ShapeFactory.isAttribute(cellView.model) || ShapeFactory.isExtension(cellView.model)) {
+				halo.removeHandle('resize');
+			}
+			halo.removeHandle('clone');
+			halo.removeHandle('fork');
+			halo.removeHandle('rotate');
+			halo.render();
 		});
 	}
 

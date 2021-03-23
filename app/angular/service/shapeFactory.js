@@ -62,6 +62,34 @@ const shapeFactory = function () {
 		return new shapes.Link(customConfig);
 	};
 
+	const isEntity = (element) => {
+		return element.attributes.supertype === 'Entity';
+	};
+
+	const isAttribute = (element) => {
+		return element.attributes.supertype === 'Attribute';
+	};
+
+	const isExtension = (element) => {
+		return element.attributes.supertype === 'Inheritance';
+	};
+
+	const isRelationship = (element) => {
+		return element.attributes.supertype === 'Relationship'
+	};
+
+	const isAssociative = (element) => {
+		return element.attributes.type === 'erd.Associative'
+	};
+
+	const isKey = (element) => {
+		return element.attributes.supertype === 'Key';
+	};
+
+	const isComposedAttribute = (element) => {
+		return element.attributes.type === 'erd.ComposedAttribute';
+	};
+
 	return {
 		createEntity,
 		createAttribute,
@@ -71,6 +99,13 @@ const shapeFactory = function () {
 		createLink,
 		createAssociative,
 		//createComposedAttribute: _createComposedAttribute,
+		isEntity, 
+		isAttribute,
+		isExtension,
+		isRelationship,
+		isAssociative,
+		isKey, 
+		isComposedAttribute
 	};
 };
 
