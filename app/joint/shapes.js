@@ -1,4 +1,5 @@
 import * as joint from "jointjs";
+import _ from "lodash";
 
 const erd = joint.shapes.erd;
 

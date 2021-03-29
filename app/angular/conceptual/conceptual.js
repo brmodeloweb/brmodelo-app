@@ -16,11 +16,13 @@ joint.shapes.erd = shapes;
 import angular from "angular";
 import template from "./conceptual.html";
 
-import shapeFactory from "../service/shapeFactory";
-
 import modelDuplicatorComponent from "../components/duplicateModelModal";
 
-const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
+import Factory from "./factory";
+import Validator from "./validator";
+import Linker from "./linker";
+
+const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
 	ctrl.feedback = {
 		message: "",
@@ -170,13 +172,15 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 				cellView: cellView,
 				boxContent: false
 			});
+
 			halo.on('action:link:add', function(link) {
-				console.log("action:link:add");
-				//onLink(link);
+				ctrl.shapeLinker.onLink(link);
 			});
-			if (ShapeFactory.isAttribute(cellView.model) || ShapeFactory.isExtension(cellView.model)) {
+
+			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
 				halo.removeHandle('resize');
 			}
+			
 			halo.removeHandle('clone');
 			halo.removeHandle('fork');
 			halo.removeHandle('rotate');
@@ -325,12 +329,12 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 		$("#stencil-holder").append(stencil.render().el);
 
 		stencil.load([
-			ShapeFactory.createEntity({ position: { x: 25, y: 10 } }),
-			ShapeFactory.createIsa({ position: { x: 40, y: 70 } }),
-			ShapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
-			ShapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
-			ShapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
-			ShapeFactory.createKey({ position: { x: 65, y: 305 } }),
+			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
+			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
+			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
+			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
+			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
+			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			// ShapeFactory.createComposedAttribute()
 		]);
 	};
@@ -340,6 +344,9 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 	};
 
 	ctrl.$onInit = () => {
+		ctrl.shapeFactory = new Factory(joint.shapes);
+		ctrl.shapeValidator = new Validator();
+		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
@@ -353,7 +360,7 @@ const controller = function (ShapeFactory, ModelAPI, $stateParams, $rootScope, $
 };
 
 export default angular
-	.module("app.workspace.conceptual", [shapeFactory, modelDuplicatorComponent])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent])
 	.component("editorConceptual", {
 		template,
 		controller,
