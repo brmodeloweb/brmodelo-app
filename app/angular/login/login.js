@@ -5,7 +5,7 @@ import template from "./login.html";
 
 console.log("ReactButton", ReactButton)
 
-const LoginController = function (AuthService, $state) {
+const LoginController = function (AuthService, $state, $translate) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.credentials = {};
@@ -34,6 +34,10 @@ const LoginController = function (AuthService, $state) {
 		AuthService.login(ctrl.credentials)
 			.then(handleLoginSuccess)
 			.catch(handleLoginError);
+	};
+
+	ctrl.changeLanguage = langKey => {
+		$translate.use(langKey);
 	};
 
 	ctrl.submitForm = (validForm) => {
