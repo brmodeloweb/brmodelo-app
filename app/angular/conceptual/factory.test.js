@@ -47,4 +47,20 @@ describe('factory', () => {
     expect(entity.attributes.composed).toBeFalsy();
   });
 
+  test("It should create a Key", async () => {
+    const entity = factory.createKey({ "position": position });
+    
+    expect(entity.attributes.type).toBe("erd.Key");
+    expect(entity.attributes.supertype).toBe("Key");
+    expect(entity.attributes.multivalued).toBeFalsy();
+    expect(entity.attributes.composed).toBeFalsy();
+  });
+
+  test("It should create a Link", async () => {
+    const entity = factory.createLink();
+
+    expect(entity.attributes.type).toBe("erd.Link");
+    expect(entity.attributes.weak).toBeFalsy();
+  });
+
 });
