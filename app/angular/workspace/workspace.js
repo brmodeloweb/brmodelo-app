@@ -72,7 +72,7 @@ const ListController = function (
 		modalInstance.result.then((model) => {
 			showLoading(true);
 			ModelAPI.saveModel(model).then((newModel) => {
-				openModel(newModel);
+				ctrl.openModel(newModel);
 				showLoading(false);
 			});
 		});

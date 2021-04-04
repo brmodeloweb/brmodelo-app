@@ -351,6 +351,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
 			ctrl.model = resp.data;
+			ctrl.model.id = resp.data._id;
 			ctrl.model.model = jsonModel;
 			configs.graph.fromJSON(jsonModel);
 			ctrl.setLoading(false);
