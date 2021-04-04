@@ -157,6 +157,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			// if(x != null && y != null){
 			// 	$scope.conectElements(cellView, x, y)
 			// }
+			configs.selectionView.cancelSelection();
+
 			const halo = new joint.ui.Halo({
 				cellView: cellView,
 				boxContent: false
@@ -199,6 +201,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		graph.on('add', function (cell) {
+
+			configs.selectionView.cancelSelection();
 
 			// Connectando elementos ao realizar drop
 			// 	var cellView = $scope.paper.findViewByModel(cell);
@@ -286,6 +290,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	const buildWorkspace = () => {
 		configs.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
 
+		registerGraphEvents(configs.graph);
+
 		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
 
 		const content = $("#content");
@@ -302,8 +308,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		registerPaperEvents(configs.paper);
 
-		const selection = new Backbone.Collection;
-		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph , model: selection });
+		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph , model: new Backbone.Collection });
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,
