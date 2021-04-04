@@ -84,6 +84,8 @@ export default class Linker {
     if (this.validator.isAttribute(source) && this.validator.isAttribute(target)) {
       return "Attribute-Attribute";
     }
+
+    return "Invalid-Connection";
   }
 
   onLink = (link) => {
@@ -119,11 +121,13 @@ export default class Linker {
       return false;
     }
 
-    if ((this.validator.isExtension(source) && !this.validator.isEntity(target)) || (this.validator.isExtension(target) && !this.validator.isEntity(source))) {
+    const connectionType = this.getConnectionType(source, target);
+
+    if(connectionType === "Invalid-Connection") {
       return false;
     }
 
-    if (this.getConnectionType(source, target) == "Entity-Attribute") {
+    if (connectionType === "Entity-Attribute") {
       let attribute;
       let parent;
 
@@ -144,45 +148,6 @@ export default class Linker {
         return this.validator.isAttribute(connection) || connection.id == parent.id;
       });
     }
-
-    if (source.attributes.supertype === target.attributes.supertype) {
-      switch (this.getConnectionType(source, target)) {
-        case "Entity-Entity":
-        case "Attribute-Attribute":
-          return true;
-      }
-      return false;
-    }
-
-    // if ((this.helper.isEntity(source) && this.helper.isExtension(target)) || (this.helper.isEntity(target) && this.helper.isExtension(source))) {
-
-    // 			if (cs.isEntity(source)) {
-    // 				if(target.attributes.parentId == null){
-    // 					target.attributes.parentId = source.id;
-    // 				}
-    // 			} else {
-    // 				if(source.attributes.parentId == null){
-    // 					source.attributes.parentId = target.id;
-    // 				}
-    // 			}
-
-    // 		if(target.attributes.isExtended || source.attributes.isExtended) {
-    // 		//	return false;
-    // 		} else {
-    // 			if (cs.isEntity(source)) {
-    // 				source.attributes.isExtended = true;
-    // 			} else {
-    // 				target.attributes.isExtended = true;
-    // 			}
-    // 			return true;
-    // 		}
-    // }
-
-    // if(cs.isAttribute(source) && cs.isAttribute(target)){
-    // 	if($scope.graph.getNeighbors(source).length > 1) {
-    // 		source.attributes.composed = true;
-    // 		return true;
-    // 	}
 
     return true;
   }
