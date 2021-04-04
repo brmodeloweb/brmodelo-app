@@ -6,6 +6,8 @@ import "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
+import "../../joint/joint.ui.selectionView";
+import "../../joint/joint.ui.selectionView.css";
 import "../../joint/joint.ui.halo.css";
 import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
@@ -128,20 +130,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	const registerPaperEvents = (paper) => {
 		paper.on('blank:pointerdown', function (evt, x, y) {
 			ctrl.showFeedback(false, "");
-			// if (evt.shiftKey) {
-			// 	selectionView.startSelecting(evt);
-			// } else {
-			// 	$scope.paperScroller.startPanning;
-			// }
-			// $scope.applyChanges();
-			// $scope.showFeedback("",false);
-			// $scope.selectedElement = {
-			// 	element: {},
-			// 	value: ""
-			// };
-			// $scope.roleSelected = "";
-			// $scope.entitySelected = 'NONE';
-			// $scope.$apply();
+			configs.selectionView.startSelecting(evt);
 		});
 
 		paper.on('link:options', function (cellView, evt, x, y) {
@@ -312,6 +301,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		registerPaperEvents(configs.paper);
+
+		const selection = new Backbone.Collection;
+		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph , model: selection });
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,

@@ -15,7 +15,8 @@ file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
    position: absolute;
    background-color: #3D9970;
    opacity: .3;
-   border: 2px dashed #3D9970;
+   border: 2px solid #245a42;
+   border-radius: 3px;
    overflow: visible;
 }
 
