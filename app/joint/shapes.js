@@ -82,7 +82,7 @@ erd.Relationship = joint.dia.Element.extend({
   ),
 });
 
-erd.Isa = joint.dia.Element.extend({
+erd.ISA = joint.dia.Element.extend({
   markup:
     '<g class="rotatable"><g class="scalable"><polygon class="poly"/></g><text/></g>',
   defaults: _.defaultsDeep(

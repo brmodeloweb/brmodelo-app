@@ -350,7 +350,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.model = resp.data;
 			ctrl.model.id = resp.data._id;
 			ctrl.model.model = jsonModel;
+			console.log(jsonModel);
 			configs.graph.fromJSON(jsonModel);
+			console.log(configs.graph);
 			ctrl.setLoading(false);
 		});
 	}

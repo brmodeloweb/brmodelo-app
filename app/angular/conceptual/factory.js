@@ -13,7 +13,7 @@ export default class Factory {
 	};
 
 	createIsa = (customConfig) => {
-		return new this.shapes.erd.Isa(customConfig);
+		return new this.shapes.erd.ISA(customConfig);
 	};
 
 	createAssociative = (customConfig) => {
