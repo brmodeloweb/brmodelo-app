@@ -71,10 +71,10 @@
 	justify-content: center;
 	width: 100%;
 	margin-top: 40px;
+}
 
-	.country-flag:first-of-type {
-		margin-right: 10px;
-	}
+.public-footer .country-flag:not(:first-of-type) {
+	margin-left: 10px;
 }
 
 .country-flag {
