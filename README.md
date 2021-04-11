@@ -27,7 +27,7 @@ To run this application you'll need:
 
 #### Production environments
 
-1. Stable: [https://www.brmodeloweb.com](https://brmodelo-stage.herokuapp.com/)
+1. Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
 1. Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
 
 ## Contributors ✨
