@@ -191,38 +191,6 @@ angular.module('myapp')
 
 	}
 
-	$scope.initView = function(){
-		buildWorkspace();
-
-		$scope.showLoading(true);
-
-		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
-			$scope.model.name = resp.data.name;
-			$scope.model.type = resp.data.type;
-			$scope.model.id   = resp.data._id;
-			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
-			$scope.model.model = jsonModel
-			$scope.graph.fromJSON(jsonModel);
-			$scope.showLoading(false);
-		});
-	}
-
-	$scope.undoModel = function(){
-		$scope.commandManager.undo();
-	}
-
-	$scope.redoModel = function(){
-		$scope.commandManager.redo();
-	}
-
-	$scope.zoomIn = function(){
-		$scope.paperScroller.zoom(0.2, { max: 2 });
-	}
-
-	$scope.zoomOut = function(){
-		$scope.paperScroller.zoom(-0.2, { min: 0.2 });
-	}
-
 	$scope.applyChanges = function() {
 		if($scope.selectedElement.element != null &&
 			$scope.selectedElement.element.model != null &&
@@ -258,35 +226,8 @@ angular.module('myapp')
 		}
 	}
 
-	$scope.changeVisible = function(){
-		$scope.editionVisible = !$scope.editionVisible;
-	}
-
 	$scope.changeDropdownVisible = function(){
 		$scope.dropdownVisible = !$scope.dropdownVisible;
-	}
-
-	$scope.saveModel = function() {
-		$scope.model.model = JSON.stringify($scope.graph);
-
-		ModelAPI.updateModel($scope.model).then(function(res){
-			$scope.showFeedback("Salvo com sucesso!", true);
-		});
-	}
-
-	$scope.convertModel = function() {
-
-		var model = {
-			"name": $scope.model.name+"_convertido",
-			"user": $rootScope.loggeduser,
-			"type": "logic",
-			"model": '{"cells":[]}'
-		};
-
-		ModelAPI.saveModel(model).then(function(newModel){
-			window.open($state.href('logic', {references: {'modelid': newModel._id, 'conversionId': $scope.model.id}}),  '_blank');
-		});
-
 	}
 
 	$scope.onSelectElement = function(cellView) {
@@ -332,200 +273,7 @@ angular.module('myapp')
 		$scope.$apply();
 	}
 
-	var createLink = function(elm1, elm2) {
-		var myLink = new joint.shapes.erd.Line({
-			source: {
-				id: elm1.id
-			},
-			target: {
-				id: elm2.id
-			}
-		});
-		myLink.addTo($scope.graph);
-		onLink(myLink);
-
-		return myLink;
-	};
-
-	$scope.isValidConnection = function (source, target, link) {
-
-		if (!link.get('source').id || !link.get('target').id) {
-				return false;
-		}
-
-		if (cs.isEntity(source) && cs.isEntity(target)) {
-
-			var x1 = source.attributes.position.x;
-			var y1 = source.attributes.position.y;
-			var x2 = target.attributes.position.x;
-			var y2 = target.attributes.position.y;
-
-			var x = (x1 + x2) / 2;
-			var y = (y1 + y2) / 2;
-			var isa = ConceptualFactory.createRelationship();
-
-			link.remove();
-
-			isa.attributes.position.x = x;
-			isa.attributes.position.y = y;
-
-			$scope.graph.addCell(isa);
-
-			createLink(source, isa);
-			createLink(target, isa);
-
-			return true;
-		}
-
-		if ((cs.isEntity(source) && cs.isExtension(target)) ||
-				(cs.isEntity(target) && cs.isExtension(source))) {
-
-					if (cs.isEntity(source)) {
-						if(target.attributes.parentId == null){
-							target.attributes.parentId = source.id;
-						}
-					} else {
-						if(source.attributes.parentId == null){
-							source.attributes.parentId = target.id;
-						}
-					}
-
-				if(target.attributes.isExtended || source.attributes.isExtended) {
-				//	return false;
-				} else {
-					if (cs.isEntity(source)) {
-						source.attributes.isExtended = true;
-					} else {
-						target.attributes.isExtended = true;
-					}
-					return true;
-				}
-		}
-
-		if(cs.isAttribute(source) && cs.isAttribute(target)){
-			if($scope.graph.getNeighbors(source).length > 1) {
-				source.attributes.composed = true;
-				return true;
-			}
-
-			if($scope.graph.getNeighbors(target).length > 1) {
-				target.attributes.composed = true;
-				return true;
-			}
-
-			if(source.attributes.composed || target.attributes.composed){
-				return true;
-			}
-
-			return false;
-		}
-
-		if(cs.isAttribute(source) || cs.isAttribute(target)) {
-			if(cs.isExtension(source) || cs.isExtension(target)){
-				return false;
-			} else {
-
-					if(cs.isEntity(source) || cs.isEntity(target)){
-						return true;
-					}
-
-					if(cs.isAttribute(source) && $scope.graph.getNeighbors(source).length > 1) {
-						return false;
-					}
-
-					if(cs.isAttribute(target) && $scope.graph.getNeighbors(target).length > 1) {
-						return false;
-					}
-
-				return true;
-			}
-		}
-
-		if(cs.isRelationship(source) || cs.isRelationship(target)){
-
-			// if(cs.isRelationship(source) && source.attributes.autorelationship){
-			// 	return false;
-			// }
-			//
-			// if(cs.isRelationship(target) && target.attributes.autorelationship){
-			// 	return false;
-			// }
-			//
-			// if(cs.isAssociative(target) || cs.isAssociative(source)){
-			// 	return true;
-			// }
-		}
-
-		if(source.attributes.supertype === target.attributes.supertype)
-			return false;
-
-		return true;
-	}
-
-	function onLink(link) {
-
-		var source = $scope.graph.getCell(link.get('source').id);
-		var target = $scope.graph.getCell(link.get('target').id);
-
-		if(!$scope.isValidConnection(source, target, link)){
-			link.remove();
-		}
-
-		if((source.attributes.supertype === 'Relationship' ||
-			 target.attributes.supertype === 'Relationship') &&
-		   (cs.isEntity(source) || cs.isEntity(target))) {
-
-			 var pos = 0.3;
-
-			 if(cs.isEntity(target)){
-				 pos = 0.7;
-			 }
-
-			 link.label(0, { position: pos, attrs: { text: { text: '(0, n)'}}});
-
-		}
-	}
-
 	function buildWorkspace(){
-		$scope.graph = new joint.dia.Graph;
-		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
-
-		$scope.paper = new joint.dia.Paper({
-			width: $('#content').width(),
-			height: $('#content').height(),
-			gridSize: 10,
-			drawGrid: true,
-			model: $scope.graph,
-			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
-		});
-
-		var $app = $('#content');
-
-		$scope.paperScroller = new joint.ui.PaperScroller({
-			paper: $scope.paper,
-			cursor: 'grab',
-			autoResizePaper: true
-		});
-
-		$app.append($scope.paperScroller.render().el);
-
-		var stencil = new joint.ui.Stencil({
-			graph: $scope.graph,
-			paper: $scope.paper
-		});
-
-		$('#stencil-holder').append(stencil.render().el);
-
-		stencil.load([
-			ConceptualFactory.createEntity(),
-			ConceptualFactory.createAttribute(),
-			ConceptualFactory.createIsa(),
-			ConceptualFactory.createRelationship(),
-			ConceptualFactory.createKey(),
-			ConceptualFactory.createAssociative(),
-			ConceptualFactory.createComposedAttribute()
-		]);
-
 		$scope.conectElements = function(cellView, x, y) {
 
 			var elementBelow = $scope.graph.get('cells').find(function(cell) {
@@ -637,11 +385,6 @@ angular.module('myapp')
 			cell.set('position', cell.previous('position'));
 		});
 
-
-		$scope.graph.on('remove', function(cell) {
-			console.log('New cell with id ' + cell.id + ' removed to the graph.');
-		})
-
 		var selection = new Backbone.Collection;
 		var selectionView = new joint.ui.SelectionView({ paper: $scope.paper, graph: $scope.graph , model: selection });
 
@@ -664,27 +407,6 @@ angular.module('myapp')
 				$scope.conectElements(cellView, x, y)
 			}
 
-			var halo = new joint.ui.Halo({
-				cellView: cellView,
-				boxContent: false
-			});
-
-			halo.on('action:link:add', function(link) {
-				onLink(link);
-			});
-
-			halo.on('action:removeElement:pointerdown', function(link) {
-				console.log("removing....");
-			});
-
-			if (cs.isAttribute(cellView.model) || cs.isExtension(cellView.model)) {
-				halo.removeHandle('resize');
-			}
-
-			halo.removeHandle('clone');
-			halo.removeHandle('fork');
-			halo.removeHandle('rotate');
-			halo.render();
 		});
 
 		$scope.paper.on('blank:pointerdown', function(evt, x, y) {

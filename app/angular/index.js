@@ -26,6 +26,7 @@ import loginComponent from "./login/login";
 import signupComponent from "./signup/signup";
 import workspaceComponent from "./workspace/workspace";
 import conceptualComponent from "./conceptual/conceptual";
+import sidebarControlConceptual from "./conceptual/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
@@ -42,6 +43,7 @@ const app = angular.module("app", [
 	modelService,
 	dropdownComponent,
 	conceptualComponent,
+	sidebarControlConceptual,
 	shapeFactory
 ]);
 

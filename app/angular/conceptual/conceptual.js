@@ -24,6 +24,8 @@ import Factory from "./factory";
 import Validator from "./validator";
 import Linker from "./linker";
 
+import sidebarControl from "./sidebarControl";
+
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
 	ctrl.feedback = {
