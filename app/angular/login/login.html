@@ -16,13 +16,13 @@
 			</div>
 			<form class="login-form" name="loginForm" ng-submit="$ctrl.submitForm(loginForm.$valid)" novalidate>
 				<div class="form-group">
-					<label for="exampleInputEmail1">Email</label>
+					<label for="exampleInputEmail1">{{ 'Email' | translate }}</label>
 					<input
 						type="email"
 						name="email"
 						class="form-control input-lg"
 						id="userEmail"
-						placeholder="Email"
+						placeholder="{{ 'Email' | translate }}"
 						autocomplete="off"
 						required
 						ng-model="$ctrl.credentials.username"
@@ -30,24 +30,29 @@
 					/>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
+					<label for="exampleInputPassword1">{{ 'Password' | translate }}</label>
 					<input
 						type="password"
 						name="password"
 						class="form-control input-lg"
 						id="userPassword"
-						placeholder="Password"
+						placeholder="{{ 'Password' | translate }}"
 						autocomplete="off"
 						required
 						ng-model="$ctrl.credentials.password"
 						data-ng-class="{'error': loginForm.password.$invalid && (!loginForm.password.$pristine || $ctrl.submitted)}"
 					/>
 				</div>
-				<react-button type="'submit'" label="'Login'"></react-button>
+				<react-button type="'submit'" label="'Login' | translate"></react-button>
 			</form>
 			<aside class="new-account">
-				<a href="#" data-ui-sref="register">Criar conta</a>
+				<a href="#" data-ui-sref="register">{{ 'Create account' | translate }}</a>
 			<aside>
 		</section>
+
+		<footer class="public-footer">
+			<img ng-click="$ctrl.changeLanguage('pt_BR')" class="country-flag" src="../../assets/img/br-flag.svg" alt="Brazil flag" />
+			<img ng-click="$ctrl.changeLanguage('en')" class="country-flag" src="../../assets/img/us-flag.svg" alt="United States flag" />
+		</footer>
 	</div>
 </div>
