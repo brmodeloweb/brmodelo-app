@@ -3,6 +3,7 @@ import angular from "angular";
 import "angular-ui-router";
 import "angular-ui-bootstrap";
 import "angular-cookies";
+import "angular-translate";
 import "textangular";
 import "sweet-feedback/css/sweetfeedback.css";
 
@@ -32,9 +33,13 @@ import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
 import shapeFactory from "./service/shapeFactory";
 
+import pt_BR from "../i18n/languages/pt_BR";
+import en from "../i18n/languages/en";
+
 const app = angular.module("app", [
 	"ui.router",
 	"ui.bootstrap",
+	"pascalprecht.translate",
 	"ngCookies" /** textangular */,
 	loginComponent,
 	signupComponent,
@@ -46,6 +51,14 @@ const app = angular.module("app", [
 	sidebarControlConceptual,
 	shapeFactory
 ]);
+
+app.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('en', en);
+
+  $translateProvider.translations('pt_BR', pt_BR);
+
+  $translateProvider.preferredLanguage('pt_BR');
+}]);
 
 app.config([
 	"$urlRouterProvider",

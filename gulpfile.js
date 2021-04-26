@@ -86,6 +86,8 @@ function copyToAssets() {
 		// Angular Cookies
 		"node_modules/angular-cookies/angular-cookies.min.js",
 		"node_modules/angular-cookies/angular-cookies.min.js.map",
+		// Angular translate
+		"node_modules/angular-translate/dist/angular-translate.min.js",
 		// TextAngular
 		"node_modules/textangular/dist/**/*",
 		// Bootstrap + Augular UI Bootstrap
