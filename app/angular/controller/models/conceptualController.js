@@ -1,16 +1,6 @@
 angular.module('myapp')
 			 .controller("conceptualController",
-				function(
-					$scope,
-					$state,
-					$rootScope,
-					$stateParams,
-					ConceptualFactory,
-					ConceptualService,
-					ModelAPI,
-					$timeout,
-					$uibModal
-				){
+				function(){
 
 	var cs = ConceptualService;
 
@@ -40,20 +30,6 @@ angular.module('myapp')
 		element: {},
 		value: ""
 	};
-
-	$scope.feedback = {
-		message: "",
-		showing: false
-	}
-
-	$scope.showFeedback =  function(newMessage, show){
-		$scope.feedback.message = newMessage;
-		$scope.feedback.showing = show;
-	}
-
-	$scope.print = function(){
-		window.print();
-	}
 
 	$scope.call = function(selected) {
 
@@ -383,17 +359,6 @@ angular.module('myapp')
 			}
 			// Revert the child position.
 			cell.set('position', cell.previous('position'));
-		});
-
-		var selection = new Backbone.Collection;
-		var selectionView = new joint.ui.SelectionView({ paper: $scope.paper, graph: $scope.graph , model: selection });
-
-		$scope.paper.on('blank:pointerdown', function(evt) {
-			if (evt.shiftKey) {
-				selectionView.startSelecting(evt);
-			} else {
-				$scope.paperScroller.startPanning;
-			}
 		});
 
 		$scope.paper.on('cell:pointerup', function(cellView, evt, x, y) {
