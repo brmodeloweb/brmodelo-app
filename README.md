@@ -1,6 +1,6 @@
 # brModeloWeb
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
@@ -27,7 +27,7 @@ To run this application you'll need:
 
 #### Production environments
 
-1. Stable: [https://www.brmodeloweb.com](https://brmodelo-stage.herokuapp.com/)
+1. Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
 1. Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
 
 ## Contributors ✨
@@ -39,14 +39,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/miltonbsn"><img src="https://avatars2.githubusercontent.com/u/881231?v=4" width="100px;" alt=""/><br /><sub><b>Milton Bittencourt de Souza Neto</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=miltonbsn" title="Code">💻</a> <a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=miltonbsn" title="Tests">⚠️</a> <a href="https://github.com/brmodeloweb/brmodelo-app/issues?q=author%3Amiltonbsn" title="Bug reports">🐛</a> <a href="#maintenance-miltonbsn" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="http://id.etc.br"><img src="https://avatars3.githubusercontent.com/u/301545?v=4" width="100px;" alt=""/><br /><sub><b>Idmar Ramos Junior (Id)</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=idmarjr" title="Code">💻</a> <a href="#design-idmarjr" title="Design">🎨</a> <a href="#projectManagement-idmarjr" title="Project Management">📆</a></td>
-    <td align="center"><a href="https://about.me/feekosta"><img src="https://avatars3.githubusercontent.com/u/13004903?v=4" width="100px;" alt=""/><br /><sub><b>Felipe de Souza da Costa</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=feekosta" title="Code">💻</a> <a href="#infra-feekosta" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/brmodeloweb/brmodelo-app/pulls?q=is%3Apr+reviewed-by%3Afeekosta" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/miltonbsn"><img src="https://avatars2.githubusercontent.com/u/881231?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Milton Bittencourt de Souza Neto</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=miltonbsn" title="Code">💻</a> <a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=miltonbsn" title="Tests">⚠️</a> <a href="https://github.com/brmodeloweb/brmodelo-app/issues?q=author%3Amiltonbsn" title="Bug reports">🐛</a> <a href="#maintenance-miltonbsn" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://id.etc.br"><img src="https://avatars3.githubusercontent.com/u/301545?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Idmar Ramos Junior (Id)</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=idmarjr" title="Code">💻</a> <a href="#design-idmarjr" title="Design">🎨</a> <a href="#projectManagement-idmarjr" title="Project Management">📆</a> <a href="#maintenance-idmarjr" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://about.me/feekosta"><img src="https://avatars3.githubusercontent.com/u/13004903?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Felipe de Souza da Costa</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=feekosta" title="Code">💻</a> <a href="#infra-feekosta" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/brmodeloweb/brmodelo-app/pulls?q=is%3Apr+reviewed-by%3Afeekosta" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/oicramps"><img src="https://avatars.githubusercontent.com/u/7519115?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Márcio Santos</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=oicramps" title="Code">💻</a> <a href="https://github.com/brmodeloweb/brmodelo-app/pulls?q=is%3Apr+reviewed-by%3Aoicramps" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/telmo-trooper/"><img src="https://avatars.githubusercontent.com/u/9438853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Telmo "Trooper"</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=telmotrooper" title="Code">💻</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-enable -->
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
