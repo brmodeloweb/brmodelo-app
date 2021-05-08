@@ -38,3 +38,21 @@
 	color: #c0c0c0;
 	background-color: #ddd;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// .br-help
+////////////////////////////////////////////////////////////////////////////////
+
+.br-help {
+	size: 15px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px; 
+	opacity: 0.7;
+}
+
+.br-help:hover {
+	color: #3d9970;
+	text-decoration: none;
+	opacity: 1;
+}
