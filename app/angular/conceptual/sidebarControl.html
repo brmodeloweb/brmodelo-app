@@ -1,0 +1,181 @@
+<aside class="model-properties" data-ng-class="{'active': $ctrl.visible}">
+
+  <span class="action" data-ng-click="$ctrl.changeVisible()">
+    <i class="fa angle-double-icon" data-ng-class="!$ctrl.visible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+  </span>
+
+  <div class="properties-content">
+
+    <div
+      class="form-group"
+      ng-show="(entitySelected == 'ENTITY') || (entitySelected == 'Attribute') || (entitySelected == 'RELATIONSHIP') || (entitySelected == 'KEY')"
+    >
+      <label for="entry-name">Nome</label>
+      <input
+        id="entry-name"
+        type="text"
+        class="form-control"
+        data-ng-model="selectedElement.value"
+        ng-change="applyChanges()"
+      />
+    </div><!-- End .form-group -->
+
+    <div class="form-group clearfix" ng-show="entitySelected == 'ENTITY'">
+      <label for="specialization">Especializar</label>
+      <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
+        <div class="dropdown-tmp-trigger">
+          <button class="btn ng-binding">{{extensionSelected}}</button>
+        </div><!--/dropdown-tmp-trigger-->
+        <ul class="dropdown-tmp-list" >
+          <li class="dropdown-tmp-item" ng-click="call('(t, d)')">
+            <span>(t, d)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="call('(t, c)')">
+            <span>(t, c)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="call('(p, d)')">
+            <span>(p, d)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="call('(p, c)')">
+            <span>(p, c)</span>
+          </li>
+        </ul>
+      </div>
+    </div><!-- End .form-group -->
+
+    <div ng-show="entitySelected == 'ENTITY'">
+      <div class="checkbox">
+        <label for="auto-relationed">
+          <input
+            id="auto-relationed"
+            type="checkbox"
+            ng-model="selectedElement.element.model.attributes.autorelationship"
+            ng-change="autoRelationshipChange()"
+          > Auto-relacionada
+        </label>
+      </div>
+    </div>
+
+    <div
+      class="form-group clearfix"
+      ng-show="entitySelected == 'Attribute'"
+    >
+      <label for="cardinality">Cardinalidade</label>
+      <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
+        <div class="dropdown-tmp-trigger">
+          <button class="btn ng-binding">{{attributeCardSelected}}</button>
+        </div><!--/dropdown-tmp-trigger-->
+        <ul class="dropdown-tmp-list" style="min-width: 140px;">
+          <li class="dropdown-tmp-item" ng-click="updateAttributeCard('(0, 1)')">
+            <span>(0, 1)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="updateAttributeCard('(0, n)')">
+            <span>(0, n)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="updateAttributeCard('(1, 1)')">
+            <span>(1, 1)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="updateAttributeCard('(1, n)')">
+            <span>(1, n)</span>
+          </li>
+        </ul>
+      </div>
+    </div><!-- End .form-group -->
+
+    <div ng-show="entitySelected == 'Attribute'">
+      <div class="checkbox">
+        <label for="compound">
+          <input
+            id="compound"
+            type="checkbox"
+            ng-model="selectedElement.element.model.attributes.composed"
+            ng-change="composedChange()"
+          > Composto
+        </label>
+      </div>
+    </div>
+
+    <div
+      class="form-group clearfix"
+      ng-show="entitySelected == 'EXTENSION'"
+    >
+      <label for="">Editar</label>
+      <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
+        <div class="dropdown-tmp-trigger">
+          <button class="btn ng-binding">{{extensionSelected}}</button>
+        </div><!--/dropdown-tmp-trigger-->
+        <ul class="dropdown-tmp-list" style="min-width: 140px;">
+          <li class="dropdown-tmp-item" ng-click="updateExtension('(t, d)')">
+            <span>(t, d)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="updateExtension('(t, c)')">
+            <span>(t, c)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="updateExtension('(p, d)')">
+            <span>(p, d)</span>
+          </li>
+          <li class="dropdown-tmp-item" ng-click="updateExtension('(p, c)')">
+            <span>(p, c)</span>
+          </li>
+        </ul>
+      </div>
+    </div><!-- End .form-group -->
+
+    <div ng-show="entitySelected == 'LINK'">
+      <div class="form-group">
+        <label for="entry-role">Papel</label>
+        <input
+          id="entry-role"
+          type="text"
+          class="form-control"
+          data-ng-model="roleSelected"
+          ng-change="applyRoleChange()"
+        />
+      </div><!-- End .form-group -->
+
+      <div class="form-group">
+        <div class="checkbox">
+          <label for="weak">
+            <input
+              id="weak"
+              type="checkbox"
+              ng-model="selectedElement.element.model.attributes.weak"
+              ng-click="setWeak()"
+            /> Fraca
+          </label>
+        </div>
+      </div><!-- End .form-group -->
+
+      <div class="form-group">
+        <label for="cardinality">Cardinalidade</label>
+        <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
+          <div class="dropdown-tmp-trigger">
+            <button class="btn ng-binding">{{cardSelected}}</button>
+          </div><!--/dropdown-tmp-trigger-->
+          <ul class="dropdown-tmp-list" style="min-width: 140px;">
+            <li class="dropdown-tmp-item" ng-click="updateCard('(0, 1)')">
+              <span>(0, 1)</span>
+            </li>
+            <li class="dropdown-tmp-item" ng-click="updateCard('(0, n)')">
+              <span>(0, n)</span>
+            </li>
+            <li class="dropdown-tmp-item" ng-click="updateCard('(1, 1)')">
+              <span>(1, 1)</span>
+            </li>
+            <li class="dropdown-tmp-item" ng-click="updateCard('(1, n)')">
+              <span>(1, n)</span>
+            </li>
+          </ul>
+        </div>
+      </div><!-- End .form-group -->
+    </div>
+
+    <div
+      class="form-group"
+      ng-show="entitySelected == 'RELATIONSHIP'"
+    >
+      <a ng-click="createAssociative()"> Transformar Associativa </a>
+    </div><!-- End .form-group -->
+
+  </div><!-- End .properties-content -->
+</aside><!-- End .model-properties -->

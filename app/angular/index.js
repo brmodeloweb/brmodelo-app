@@ -28,6 +28,7 @@ import signupComponent from "./signup/signup";
 import workspaceComponent from "./workspace/workspace";
 import conceptualComponent from "./conceptual/conceptual";
 import logicComponent from "./logic/logic";
+import sidebarControlConceptual from "./conceptual/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
@@ -53,7 +54,9 @@ const app = angular.module("app", [
 	dropdownComponent,
 	conceptualComponent,
 	shapeFactory,
-	logicFactory
+	logicFactory,
+	sidebarControlConceptual,
+	shapeFactory
 ]);
 
 app.config(['$translateProvider', function ($translateProvider) {
