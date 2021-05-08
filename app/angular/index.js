@@ -27,10 +27,13 @@ import loginComponent from "./login/login";
 import signupComponent from "./signup/signup";
 import workspaceComponent from "./workspace/workspace";
 import conceptualComponent from "./conceptual/conceptual";
+import logicComponent from "./logic/logic";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
 import shapeFactory from "./service/shapeFactory";
+import logicService from "./service/logicService";
+import logicFactory from "./service/logicFactory";
 
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
@@ -43,11 +46,14 @@ const app = angular.module("app", [
 	loginComponent,
 	signupComponent,
 	workspaceComponent,
+	logicComponent,
 	authService,
 	modelService,
+	logicService,
 	dropdownComponent,
 	conceptualComponent,
-	shapeFactory
+	shapeFactory,
+	logicFactory
 ]);
 
 app.config(['$translateProvider', function ($translateProvider) {
@@ -90,6 +96,14 @@ app.config([
 		$stateProvider.state("conceptual", {
 			url: "/conceptual/{modelid}",
 			template: "<editor-conceptual></editor-conceptual>",
+			data: {
+				requireLogin: true,
+			},
+		});
+
+		$stateProvider.state("logicx", {
+			url: "/logicx/{references:json}",
+			template: "<editor-logic></editor-logic>",
 			data: {
 				requireLogin: true,
 			},

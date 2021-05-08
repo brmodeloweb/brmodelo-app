@@ -1,4 +1,4 @@
-angular.module('myapp').factory('ConversorService', function(ConceptualService, $uibModal, $q, $log){
+angular.module('myapp').factory('ConversorService', function(ConceptualService, $uibModal, $q){
 
 		var modelGraph;
 		var cs = ConceptualService;

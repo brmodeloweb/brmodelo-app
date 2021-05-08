@@ -1,8 +1,12 @@
-angular.module('myapp').factory('LogicFactory', function(){
+import angular from "angular";
+
+import * as joint from "jointjs";
+
+const logicFactory = () => {
 
 	var logic = joint.shapes.uml;
 
-	_createTable = function() {
+	const _createTable = function() {
 		var table = new logic.Class({
 		position: { x:12  , y: 15 },
 		size: { width: 100, height: 100 },
@@ -38,4 +42,8 @@ angular.module('myapp').factory('LogicFactory', function(){
 		createTable : _createTable
 	}
 
-});
+}
+
+export default angular
+	.module("app.LogicFactory", [])
+	.factory("LogicFactory", logicFactory).name;
