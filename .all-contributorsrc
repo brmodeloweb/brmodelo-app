@@ -25,7 +25,8 @@
       "contributions": [
         "code",
         "design",
-        "projectManagement"
+        "projectManagement",
+        "maintenance"
       ]
     },
     {
@@ -37,6 +38,25 @@
         "code",
         "infra",
         "review"
+      ]
+    },
+    {
+      "login": "oicramps",
+      "name": "Márcio Santos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7519115?v=4",
+      "profile": "https://github.com/oicramps",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "telmotrooper",
+      "name": "Telmo \"Trooper\"",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9438853?v=4",
+      "profile": "https://www.linkedin.com/in/telmo-trooper/",
+      "contributions": [
+        "code"
       ]
     }
   ],
