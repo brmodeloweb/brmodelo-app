@@ -33,7 +33,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 	ls.selectedLink = {};
 
 	ls.buildWorkspace = function (modelid, userId, callback, conversionId) {
-		ls.graph = new joint.dia.Graph;
+		ls.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
 		ls.paper = new joint.dia.Paper({
 			width: $('#content').width(),
 			height: $('#content').height(),
@@ -182,6 +182,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 		if (count > 0) {
 			model.set('name', name + count);
 			ls.checkAndEditTableName(model);
+			$rootScope.$broadcast('element:update', ls.paper.findViewByModel(model));
 		}
 	}
 
@@ -282,6 +283,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 		}
 
 		target.addAttribute(obj);
+		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 	}
 
 	ls.clearSelectedElement = function () {
@@ -310,6 +312,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 	ls.editName = function (newName) {
 		if (newName != null && newName != "") {
 			ls.selectedElement.model.set('name', newName);
+			$rootScope.$broadcast('element:update', ls.selectedElement);
 		}
 	}
 
@@ -365,6 +368,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 			column.tableOrigin.idLink = myLink.id;
 		}
 		ls.selectedElement.model.addAttribute(column);
+		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
 	ls.undo = function () {
