@@ -1,10 +1,10 @@
 export default class Factory {
 
-  constructor(shapes) {
-    this.shapes = shapes;
-  }
+	constructor(shapes) {
+		this.shapes = shapes;
+	}
 
-  createEntity = (customConfig) => {
+	createEntity = (customConfig) => {
 		return new this.shapes.erd.Entity(customConfig);
 	};
 
@@ -28,7 +28,7 @@ export default class Factory {
 		return new this.shapes.erd.Key(customConfig);
 	};
 
-  createLink = (customConfig) => {
+	createLink = (customConfig) => {
 		return new this.shapes.erd.Link(customConfig);
 	};
 
