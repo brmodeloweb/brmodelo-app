@@ -7,13 +7,6 @@ import "angular-translate";
 import "textangular";
 import "sweet-feedback/css/sweetfeedback.css";
 
-//import "jquery";
-
-
-// console.log(joint);
-// console.log(angular);
-// console.log($);
-
 import "jointjs"
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -104,17 +97,9 @@ app.config([
 			},
 		});
 
-		$stateProvider.state("logicx", {
-			url: "/logicx/{references:json}",
-			template: "<editor-logic></editor-logic>",
-			data: {
-				requireLogin: true,
-			},
-		});
-
 		$stateProvider.state("logic", {
 			url: "/logic/{references:json}",
-			templateUrl: "angular/view/logic.html",
+			template: "<editor-logic></editor-logic>",
 			data: {
 				requireLogin: true,
 			},
