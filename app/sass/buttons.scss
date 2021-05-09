@@ -44,15 +44,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 .br-help {
-	size: 15px;
 	position: fixed;
-	bottom: 20px;
-	right: 20px; 
-	opacity: 0.7;
+	z-index: 10;
+	bottom: 24px;
+	right: 24px;
+	font-size: 2em;
+	text-decoration: none;
+	transition: 0.1s ease-in-out transform
+}
+
+.br-help:visited {
+	color: #3d9970;
 }
 
 .br-help:hover {
-	color: #3d9970;
-	text-decoration: none;
-	opacity: 1;
+	transform: rotate(35deg)
 }
