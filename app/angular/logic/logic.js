@@ -74,28 +74,47 @@ const controller = function (
 	});
 
 	$rootScope.$on('element:select', function (event, element) {
-		ctrl.selectedLink = null;
-		ctrl.selectedElement = element;
-		if (element != null) {
-			ctrl.selectedName = element.attributes.name;
-		}
+		$timeout(() => {
+			ctrl.selectedLink = null;
+			ctrl.selectedElement = element;
+			if (element != null) {
+				ctrl.selectedName = element.attributes.name;
+			}
+		});
 	});
 
 	$rootScope.$on('columns:select', function (event, columns) {
-		ctrl.addColumnVisible = false;
-		ctrl.columns = [];
-		if(columns != null) {
-			for (var i = 0; i < columns.length; i++) {
-				columns[i].expanded = false;
-				ctrl.columns.push(columns[i]);
+		$timeout(() => {
+			ctrl.addColumnVisible = false;
+			ctrl.columns = [];
+			if(columns != null) {
+				for (var i = 0; i < columns.length; i++) {
+					columns[i].expanded = false;
+					ctrl.columns.push(columns[i]);
+				}
+				ctrl.columns = columns;
 			}
-			ctrl.columns = columns;
-		}
+		});
+	});
+
+	$rootScope.$on('element:update', function (event, element) {
+		$timeout(() => {
+			console.log(element);
+			if(element != null && element.update != null) {
+				element.update();
+			}
+			if(element != null && element.updateRectangles != null) {
+				debugger
+				element.updateRectangles();
+			}
+		});
 	});
 
 	$rootScope.$on('link:select', function (event, selectedLink) {
-		ctrl.selectedElement = null;
-		ctrl.selectedLink = selectedLink;
+		$timeout(() => {
+			ctrl.selectedElement = null;
+			ctrl.selectedLink = selectedLink;
+		});
 	});
 
 	ctrl.updateCardA = function (card) {
@@ -119,7 +138,7 @@ const controller = function (
 	ctrl.editionColumnMode = function (column) {
 		ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
 
-		self.closeAllColumns();
+		ctrl.closeAllColumns();
 
 		column.expanded = true;
 		//LogicService.editColumn($index);
@@ -140,10 +159,11 @@ const controller = function (
 
 		LogicService.editColumn($index, editedColumn);
 
-		self.closeAllColumns();
+		ctrl.closeAllColumns();
 	}
 
 	ctrl.addColumn = function (column) {
+		console.log(column);
 		if (column.name == "") {
 			ctrl.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
 			return;
@@ -153,21 +173,21 @@ const controller = function (
 			ctrl.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
 			return;
 		} else {
-			column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);
+			column.tableOrigin.idOrigin = ctrl.mapTables.get(column.tableOrigin.idName);
 		}
 
 		LogicService.addColumn(column);
-		ctrl.addColumnModel = self.newColumnObject();
+		ctrl.addColumnModel = ctrl.newColumnObject();
 		ctrl.addColumnVisible = false;
 	}
 
 	ctrl.showAddColumn = function (show) {
 		ctrl.addColumnVisible = show;
-		ctrl.addColumnModel = self.newColumnObject();
+		ctrl.addColumnModel = ctrl.newColumnObject();
 
 		ctrl.tableNames = [];
-		self.mapTables = LogicService.getTablesMap();
-		for (var key of self.mapTables.keys()) {
+		ctrl.mapTables = LogicService.getTablesMap();
+		for (var key of ctrl.mapTables.keys()) {
 			ctrl.tableNames.push(key);
 		}
 	}
@@ -188,7 +208,7 @@ const controller = function (
 		ctrl.addColumnModel.tableOrigin.idName = originName;
 	}
 
-	self.newColumnObject = function () {
+	ctrl.newColumnObject = function () {
 		return {
 			"FK": false,
 			"PK": false,
@@ -202,8 +222,8 @@ const controller = function (
 		};
 	}
 
-	ctrl.addColumnModel = self.newColumnObject();
-	ctrl.editColumnModel = self.newColumnObject();
+	ctrl.addColumnModel = ctrl.newColumnObject();
+	ctrl.editColumnModel = ctrl.newColumnObject();
 
 	ctrl.undoModel = function () {
 		LogicService.undo();
