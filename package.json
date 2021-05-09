@@ -40,7 +40,7 @@
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jointjs": "^3.2.0",
+    "jointjs": "3.3.0",
     "jquery": "^3.3.29",
     "mongodb": "~3.5.8",
     "mongoose": "^5.9.18",
