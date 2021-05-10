@@ -102,6 +102,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 					if (object.FK && object.tableOrigin.idOrigin == source.id) {
 						//target.attributes.attributes.splice(i, 1);
 						target.deleteColumn(i);
+						$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 						break;
 					}
 				}
@@ -326,6 +327,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 		} else {
 			ls.selectedElement.model.deleteColumn(index);
 		}
+
+		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
 	ls.editColumn = function (index, editedColumn) {
@@ -339,6 +342,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 		//  	ls.selectedElement.model.attributes.objects[index].name = name;
 
 		ls.selectedElement.model.editColumn(index, name, editedColumn);
+		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
 	ls.addColumn = function (column) {

@@ -42,7 +42,7 @@ const controller = function (
 	}
 
 	ctrl.closeAllColumns = function () {
-		for (var i = 0; i < $scope.columns.length; i++) {
+		for (var i = 0; i < ctrl.columns.length; i++) {
 			ctrl.columns[i].expanded = false;
 		}
 	}
@@ -99,13 +99,11 @@ const controller = function (
 
 	$rootScope.$on('element:update', function (event, element) {
 		$timeout(() => {
-			console.log(element);
 			if(element != null && element.update != null) {
 				element.update();
 			}
-			if(element != null && element.updateRectangles != null) {
-				debugger
-				element.updateRectangles();
+			if(element != null && element.resize != null) {
+				element.resize();
 			}
 		});
 	});
@@ -163,7 +161,6 @@ const controller = function (
 	}
 
 	ctrl.addColumn = function (column) {
-		console.log(column);
 		if (column.name == "") {
 			ctrl.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
 			return;

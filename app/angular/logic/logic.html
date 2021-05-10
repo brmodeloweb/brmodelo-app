@@ -136,15 +136,15 @@
 							<label
 								draggable="true"
 								ng-click="$ctrl.editionColumnMode(column, $index)"
-								ng-show="!$ctrl.column.expanded"
-							>{{$ctrl.column.name}}</label>
+								ng-show="!column.expanded"
+							>{{column.name}}</label>
 							<i
 								class="fa fa-trash"
 								aria-hidden="true"
 								ng-click="$ctrl.deleteColumn(column, $index); $event.stopPropagation();"
 							></i>
 
-							<div class="columnDetails" ng-show="$ctrl.column.expanded">
+							<div class="columnDetails" ng-show="column.expanded">
 								<div class="form-group">
 									<label for="">Nome</label>
 									<input
@@ -195,7 +195,7 @@
 								</div>
 
 								<div class="actions clearfix">
-									<i class="fa fa-check-circle add" aria-hidden="true" ng-click="$ctrl.editColumn(column, editColumnModel, $index); $ctrl.expanded=!$ctrl.expanded;"></i>
+									<i class="fa fa-check-circle add" aria-hidden="true" ng-click="$ctrl.editColumn(column, $ctrl.editColumnModel, $index); $ctrl.expanded=!$ctrl.expanded;"></i>
 									<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="$ctrl.column.expanded=!$ctrl.column.expanded"></i>
 								</div>
 							</div><!-- End .columnDetails -->
