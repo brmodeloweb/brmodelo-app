@@ -88,13 +88,13 @@
 							</div>
 
 							<div class="form-group clearfix">
-								<label for="column-kind">Tipo</label>
-								<br-select-dropdown
-									options="['VARCHAR', 'STRING', 'INTEGER']"
-									selected="{'value': 'INTEGER'}"
-									on-select-action="selectAddType"
-								></br-select-dropdown>
-							</div>
+								<label for="">Tipo</label>
+									<dropdown 
+										on-select="$ctrl.selectAddType(selected)" 
+										selected="{name: 'INT', type: 'ORIGEM'}" 
+										options="[{name: 'DATE', type: 'DATE'}, {name: 'FLOAT', type: 'FLOAT'}, {name: 'VARCHAR(n)', type: 'VARCHAR(n)'}, {name: 'CHAR(n)', type: 'CHAR(n)'},  {name: 'INT', type: 'INT'}]">
+									</dropdown>
+							</div>		
 
 							<div class="checkbox">
 								<label for="c1">
@@ -117,13 +117,12 @@
 							</div>
 
 							<div class="form-group clearfix">
-								<label for="column-kind">Origem</label>
-								<br-select-dropdown
-									options="$ctrl.tableNames"
-									selected="{'value': 'ORIGEM'}"
-									on-select-action="$ctrl.selectAddTableOrigin"
-									ng-disabled="true"
-								></br-select-dropdown>
+								<label for="">Origem</label>
+									<dropdown 
+										on-select="$ctrl.selectAddTableOrigin(selected)" 
+										selected="{name: 'ORIGEM', type: 'ORIGEM'}" 
+										options="$ctrl.tableNames">
+									</dropdown>
 							</div>
 
 							<div class="actions clearfix">
@@ -156,12 +155,12 @@
 								</div>
 
 								<div class="form-group clearfix">
-									<label for="">Nome</label>
-									<br-select-dropdown
-										options="['DATE', 'FLOAT', 'VARCHAR(n)', 'CHAR(n)', 'INT']"
-										selected="{'value': column.type }"
-										on-select-action="$ctrl.selectEditType"
-									></br-select-dropdown>
+									<label for="">Tipo</label>
+										<dropdown 
+											on-select="$ctrl.selectEditType(selected)" 
+											selected="{name: column.type, type: column.type}" 
+											options="[{name: 'DATE', type: 'DATE'}, {name: 'FLOAT', type: 'FLOAT'}, {name: 'VARCHAR(n)', type: 'VARCHAR(n)'}, {name: 'CHAR(n)', type: 'CHAR(n)'},  {name: 'INT', type: 'INT'}]">
+										</dropdown>
 								</div>
 
 								<div class="checkbox">
@@ -186,17 +185,16 @@
 
 								<div class="form-group clearfix">
 									<label for="">Origem</label>
-									<br-select-dropdown
-										options="$ctrl.tableNames"
-										selected="{'value': 'ORIGEM'}"
-										on-select-action="$ctrl.selectAddTableOrigin"
-										ng-disabled="true"
-									></br-select-dropdown>
+										<dropdown 
+											on-select="$ctrl.selectAddTableOrigin(selected)" 
+											selected="{name: 'ORIGEM', type: 'ORIGEM'}" 
+											options="$ctrl.tableNames">
+										</dropdown>
 								</div>
 
 								<div class="actions clearfix">
 									<i class="fa fa-check-circle add" aria-hidden="true" ng-click="$ctrl.editColumn(column, $ctrl.editColumnModel, $index); $ctrl.expanded=!$ctrl.expanded;"></i>
-									<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="$ctrl.column.expanded=!$ctrl.column.expanded"></i>
+									<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="column.expanded=!column.expanded"></i>
 								</div>
 							</div><!-- End .columnDetails -->
 						</div><!-- End .columnItem -->

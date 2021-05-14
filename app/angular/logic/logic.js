@@ -185,24 +185,26 @@ const controller = function (
 		ctrl.tableNames = [];
 		ctrl.mapTables = LogicService.getTablesMap();
 		for (var key of ctrl.mapTables.keys()) {
-			ctrl.tableNames.push(key);
+			ctrl.tableNames.push({"name": key, "type": key});
 		}
 	}
 
-	ctrl.selectAddType = function (type) {
+	ctrl.selectAddType = function (selected) {
 		if (!ctrl.addColumnModel.PK && !ctrl.addColumnModel.FK) {
-			ctrl.addColumnModel.type = type;
+			ctrl.addColumnModel.type = selected.type;
 		} else {
-			ctrl.addColumnModel.type = "INTEGER";
+			ctrl.addColumnModel.type = "INT";
 		}
 	}
 
-	ctrl.selectEditType = function (type) {
-		ctrl.editColumnModel.type = type;
+	ctrl.selectEditType = function (selected) {
+		if (!ctrl.editColumnModel.PK && !ctrl.editColumnModel.FK) {
+			ctrl.editColumnModel.type = selected.type;
+		} 
 	}
 
-	ctrl.selectAddTableOrigin = function (originName) {
-		ctrl.addColumnModel.tableOrigin.idName = originName;
+	ctrl.selectAddTableOrigin = function (selected) {
+		ctrl.addColumnModel.tableOrigin.idName = selected.name;
 	}
 
 	ctrl.newColumnObject = function () {
@@ -215,7 +217,7 @@ const controller = function (
 				"idLink": null,
 				"idName": ""
 			},
-			"type": "INTEGER"
+			"type": "INT"
 		};
 	}
 
