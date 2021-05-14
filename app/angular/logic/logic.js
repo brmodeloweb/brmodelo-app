@@ -264,31 +264,32 @@ const controller = function (
 
 	}
 
-	ctrl.duplicateModel = function () {
-		let modalInstance = $uibModal.open({
+	ctrl.duplicateModel = () => {
+		const modalInstance = $uibModal.open({
 			animation: true,
-			templateUrl: 'angular/view/modal/duplicateModelModal.html',
-			controller: 'DuplicateModelModalController',
-			resolve: {
-				params: function () {
-					return { 'suggestedName': `${ctrl.model.name} (cópia)` };
-				}
-			}
+			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
+			controller: function () {
+				const $ctrl = this;
+				$ctrl.suggestedName = `${ctrl.model.name} (cópia)`;
+			},
+			controllerAs: '$ctrl',
 		});
-		modalInstance.result.then(function (newName) {
+		modalInstance.result.then((newName) => {
+			ctrl.setLoading(true);
 			const duplicatedModel = {
-				"id": '',
-				"name": newName,
-				"type": ctrl.model.type,
-				"model": JSON.stringify(LogicService.graph),
-				"user": ctrl.model.user
-			}
-			ModelAPI.saveModel(duplicatedModel).then(function (newModel) {
-				ctrl.showFeedback("Duplicado com sucesso!", true);
+				id: "",
+				name: newName,
+				type: ctrl.model.type,
+				model: JSON.stringify(LogicService.graph),
+				user: ctrl.model.user,
+			};
+			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
 				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+				ctrl.showFeedback("Duplicado com sucesso!", true);
+				ctrl.setLoading(false);
 			});
 		});
-	}
+	};
 
 };
 
