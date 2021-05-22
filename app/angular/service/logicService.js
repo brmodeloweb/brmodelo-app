@@ -4,6 +4,8 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs";
+import shapes from "../../joint/shapes";
+joint.shapes.erd = shapes;
 import "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
@@ -15,7 +17,9 @@ import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
-const logicService = ($rootScope, ModelAPI, LogicFactory) => {
+import conversorService from "../service/conversorService"
+
+const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
 	var ls = {};
 
 	ls.model = {
@@ -200,9 +204,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 
 				if (conversionId != null && conversionId != "" && modelid != "") {
 					ModelAPI.getModel(conversionId, userId).then(function (resp) {
-						const graph = new joint.dia.Graph;
+						const graph =new joint.dia.Graph({}, { cellNamespace: joint.shapes });
 						const conceptualJsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
-						const promise = ConversorService.toLogic(graph.fromJSON(conceptualJsonModel), ls);
+						const promise = LogicConversorService.toLogic(graph.fromJSON(conceptualJsonModel), ls);
 						promise.then(function (tables) {
 							//	ls.updateModel();
 						});
@@ -417,5 +421,5 @@ const logicService = ($rootScope, ModelAPI, LogicFactory) => {
 }
 
 export default angular
-	.module("app.LogicService", [])
+	.module("app.LogicService", [conversorService])
 	.factory("LogicService", logicService).name;

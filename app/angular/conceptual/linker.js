@@ -45,6 +45,7 @@ export default class Linker {
       pos = 0.7;
     }
     link.label(0, { position: pos, attrs: { text: { text: '(0, n)' } } });
+    link.attributes.type = "erd.Link";
   }
 
   connectEntityExtension = (source, target, link) => {
