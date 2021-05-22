@@ -261,39 +261,6 @@ const controller = function (
 			},
 			controllerAs: '$ctrl',
 		});
-		// modalInstance.result.then((newName) => {
-		// 	ctrl.setLoading(true);
-		// 	const duplicatedModel = {
-		// 		id: "",
-		// 		name: newName,
-		// 		type: ctrl.model.type,
-		// 		model: JSON.stringify(LogicService.graph),
-		// 		user: ctrl.model.user,
-		// 	};
-		// 	ModelAPI.saveModel(duplicatedModel).then((newModel) => {
-		// 		window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-		// 		ctrl.showFeedback("Duplicado com sucesso!", true);
-		// 		ctrl.setLoading(false);
-		// 	});
-		// });
-
-		// var modalInstance = $uibModal.open({
-		// 	animation: true,
-		// 	templateUrl: 'angular/view/modal/sqlGeneratorModal.html',
-		// 	controller: 'SqlGeneratorModalController',
-		// 	resolve: {
-		// 		params: function () {
-		// 			return { 'sql': sql };
-		// 		}
-		// 	}
-		// });
-
-		// modalInstance.result.then(function (model) {
-		// 	ModelAPI.saveModel(model).then(function (newModel) {
-		// 		self.openModel(newModel);
-		// 	});
-		// });
-
 	}
 
 	ctrl.duplicateModel = () => {

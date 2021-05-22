@@ -28,7 +28,6 @@ import dropdownComponent from "./components/dropdown";
 import shapeFactory from "./service/shapeFactory";
 import logicService from "./service/logicService";
 import logicFactory from "./service/logicFactory";
-//import sqlGeneratorService from "./service/sqlGeneratorService";
 
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
