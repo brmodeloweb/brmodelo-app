@@ -1,5 +1,7 @@
 import angular from "angular";
 import template from "./logic.html";
+import sqlGeneratorService from "../service/sqlGeneratorService"
+import sqlGeneratorModal from "../components/sqlGeneratorModal";
 
 const controller = function (
 	$rootScope,
@@ -8,7 +10,8 @@ const controller = function (
 	LogicService,
 	$uibModal,
 	$state,
-	$timeout
+	$timeout,
+	SqlGeneratorService
 ) {
 
 	const ctrl = this;
@@ -245,7 +248,34 @@ const controller = function (
 	}
 
 	ctrl.generateSQL = function () {
-		// var sql = SqlGeneratorService.generate(LogicService.buildTablesJson());
+		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson());
+
+		console.log(sql);
+
+		$uibModal.open({
+			animation: true,
+			template: '<sql-generator-modal sql="$ctrl.sql" close="$close(result)" dismiss="$dismiss(reason)"></sql-generator-modal>',
+			controller: function () {
+				const $ctrl = this;
+				$ctrl.sql = sql;
+			},
+			controllerAs: '$ctrl',
+		});
+		// modalInstance.result.then((newName) => {
+		// 	ctrl.setLoading(true);
+		// 	const duplicatedModel = {
+		// 		id: "",
+		// 		name: newName,
+		// 		type: ctrl.model.type,
+		// 		model: JSON.stringify(LogicService.graph),
+		// 		user: ctrl.model.user,
+		// 	};
+		// 	ModelAPI.saveModel(duplicatedModel).then((newModel) => {
+		// 		window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+		// 		ctrl.showFeedback("Duplicado com sucesso!", true);
+		// 		ctrl.setLoading(false);
+		// 	});
+		// });
 
 		// var modalInstance = $uibModal.open({
 		// 	animation: true,
@@ -296,7 +326,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal])
 	.component("editorLogic", {
 		template,
 		controller,

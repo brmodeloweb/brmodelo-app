@@ -17,7 +17,6 @@ const Controller = function ($rootScope) {
 	};
 
 	$ctrl.save = function (modelname) {
-		console.log(modelname);
 		$ctrl.submitted = true;
 		if (modelname != null && modelname != "") {
 			const newmodel = {
