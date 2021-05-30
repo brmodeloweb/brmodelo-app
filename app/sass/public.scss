@@ -54,10 +54,17 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .public-logo
+// .account-options
 ////////////////////////////////////////////////////////////////////////////////
-.new-account {
+.account-options {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	margin-top: 12px;
 	text-align: center;
 	font-size: 1.2em;
+}
+
+.br-button.register {
+	padding: 10px 16px;
 }
