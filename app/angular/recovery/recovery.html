@@ -13,7 +13,7 @@
 			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
 				<p>{{ $ctrl.feedback.message }}</p>
 			</div>
-			<form class="recovery-form" name="recovery" ng-submit="$ctrl.submitForm(recoveryForm.$valid)" novalidate>
+			<form class="recovery-form" name="recoveryForm" ng-submit="$ctrl.submitForm(recoveryForm.$valid)" novalidate>
 				<div class="form-group">
 					<label for="exampleInputEmail1">Email</label>
 					<input
@@ -24,8 +24,8 @@
 						placeholder="Email"
 						autocomplete="off"
 						required
-						ng-model="$ctrl.credentials.username"
-						ng-class="{'error': registerForm.name.$invalid && (!recoveryForm.name.$pristine || $ctrl.submitted)}"
+						ng-model="$ctrl.mail"
+						ng-class="{'error': recoveryForm.name.$invalid && (!recoveryForm.name.$pristine || $ctrl.submitted)}"
 					/>
 				</div>
 				<button type="submit" class="br-button btn-block">Recuperar</button>

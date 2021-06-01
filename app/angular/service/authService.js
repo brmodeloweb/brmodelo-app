@@ -37,5 +37,11 @@ angular.module('myapp').factory('AuthService', function($http, $cookies) {
 		return !!userId;
 	};
 
+	authService.recovery = (email) => {
+		console.log(email);
+		return $http
+			.post('/users/recovery', {email});
+	};
+
 	return authService;
 });
