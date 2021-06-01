@@ -55,6 +55,25 @@ const userCreate = async(req, res) => {
   }
 }
 
+const userRecovery = async(req, res) => {
+  try {
+    console.log("opa");
+    const email = req.body.email;
+    console.log(email);
+  
+    const createdUser = await userService.recovery(email);
+
+    return res.status(200).json(createdUser);
+  } catch (error) {
+    console.error(error);
+    if(error.code == 'USER_DO_NOT_EXISTS') {
+      return res.status(409).send("Usuário não existente!")
+    }
+    return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
+  }
+}
+
 module.exports = router
   .post("/create", userCreate)
-  .post("/login", userLogin);
+  .post("/login", userLogin)
+  .post("/recovery", userRecovery);

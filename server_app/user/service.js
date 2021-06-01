@@ -47,9 +47,38 @@ const create = async ({username, password, mail}) => {
   });
 }
 
+const recovery = async (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await UserRepository.findOne({"login": email});
+
+      if(user == null) {
+        return reject({"code": "USER_DO_NOT_EXISTS"});
+      }
+
+      const recoveryCode = Math.floor(Math.random() * 10000000000) + 1; ;
+
+      const update = await UserRepository.updateOne(
+				{ login: email },
+				{ $set: { recoveryCode: recoveryCode } }
+			);
+    
+			if (update.ok) {
+				return resolve(update);
+			}
+
+			return reject();
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+  });
+}
+
 const userService = {
   login,
-  create
+  create,
+  recovery
 };
 
 module.exports = userService;
