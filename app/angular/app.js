@@ -32,6 +32,14 @@ app.config(['$urlRouterProvider', '$stateProvider',
 			}
 		});
 
+		$stateProvider.state('reset', {
+			url: '/reset/{mail}/{code}',
+			template: '<reset-password></reset-password>',
+			data: {
+				requireLogin: false
+			}
+		});
+
 		$stateProvider.state('workspace', {
 			url: '/workspace',
 			templateUrl: 'angular/view/workspace.html',

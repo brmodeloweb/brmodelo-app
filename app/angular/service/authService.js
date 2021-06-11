@@ -38,9 +38,20 @@ angular.module('myapp').factory('AuthService', function($http, $cookies) {
 	};
 
 	authService.recovery = (email) => {
-		console.log(email);
 		return $http
 			.post('/users/recovery', {email});
+	};
+
+	authService.validateRecovery = (mail, code) => {
+		return $http
+			.get('/users/recovery/validate', {
+				params: { mail, code},
+			});
+	};
+
+	authService.resetPassword = (mail, code, newPassword) => {
+		return $http
+			.post('/users/reset', {mail, code, newPassword});
 	};
 
 	return authService;
