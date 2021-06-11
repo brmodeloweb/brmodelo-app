@@ -10,39 +10,41 @@
 			<header class="public-logo">
 				<h1>Redefinir senha</h1>
 			</header>
-			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+			<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success'}">
 				<p>{{ $ctrl.feedback.message }}</p>
 			</div>
-			<form class="reset-form" name="recovery" ng-submit="$ctrl.submitForm(recoveryForm.$valid)" novalidate>
+			<form class="reset-form" name="resetForm" ng-submit="$ctrl.submitForm(resetForm.$valid, $ctrl.credentials.password, $ctrl.credentials.repeatPassword)" novalidate>
 				<div class="form-group">
 					<label for="newPassword">Password</label>
 					<input
 						type="password"
-						name="password"
+						name="newPassword"
 						class="form-control input-lg"
 						id="newPassword"
 						placeholder="Password"
 						autocomplete="off"
 						required
+						ng-disabled="!$ctrl.validation.validCode"
 						data-ng-model="$ctrl.credentials.password"
-						data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || $ctrl.submitted)}"
+						data-ng-class="{'error': resetForm.newPassword.$invalid && (!resetForm.newPassword.$pristine || $ctrl.submitted)}"
 					/>
 				</div>
 				<div class="form-group">
-					<label for="repeatPassword">Conformar password</label>
+					<label for="repeatPassword">Confirmar password</label>
 					<input
 						type="password"
-						name="password"
+						name="repeatPassword"
 						class="form-control input-lg"
 						id="repeatPassword"
 						placeholder="Password"
 						autocomplete="off"
 						required
-						data-ng-model="$ctrl.credentials.password"
-						data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || $ctrl.submitted)}"
+						ng-disabled="!$ctrl.validation.validCode"
+						data-ng-model="$ctrl.credentials.repeatPassword"
+						data-ng-class="{'error': resetForm.repeatPassword.$invalid && (!resetForm.repeatPassword.$pristine || $ctrl.submitted)}"
 					/>
 				</div>
-				<button type="submit" class="br-button btn-block">Salvar</button>
+				<button type="submit" ng-disabled="!$ctrl.validation.validCode" class="br-button btn-block">Salvar</button>
 			</form>
 			<aside class="account-options">
 				<a href="#" tabindex="1" data-ui-sref="login">Ir para login</a>
