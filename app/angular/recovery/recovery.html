@@ -10,7 +10,7 @@
 			<header class="public-logo">
 				<h1>Recuperar senha</h1>
 			</header>
-			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+			<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success'}">
 				<p>{{ $ctrl.feedback.message }}</p>
 			</div>
 			<form class="recovery-form" name="recoveryForm" ng-submit="$ctrl.submitForm(recoveryForm.$valid)" novalidate>

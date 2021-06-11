@@ -5,21 +5,27 @@ const RecoveryController = function (AuthService) {
 	ctrl.feedback = {
 		message: "",
 		showing: false,
+		type: "error"
 	};
 
-	const showFeedback = (newMessage) => {
+	const showFeedback = (newMessage, type = "error") => {
 		ctrl.feedback.message = newMessage;
 		ctrl.feedback.showing = true;
+		ctrl.feedback.type = type;
 	};
 
-	const handleError = () => {
+	const handleError = (error) => {
 		ctrl.loading = false;
-		showFeedback("Esse email ainda não está cadastrado.");
+		if(error.status == 400) {
+			showFeedback("Esse email ainda não está cadastrado.");
+		} else {
+			showFeedback("Ops, tivemos um erro interno, por favor tente novamente mais tarde...");
+		}
 	};
 
 	const handleSuccess = () => {
 		ctrl.loading = false;
-		showFeedback(`Um email com instruções foi enviado para ${ctrl.mail}`);
+		showFeedback(`Um email com instruções foi enviado para ${ctrl.mail}`, "success");
 	};
 
 	const doRecover = () => {
