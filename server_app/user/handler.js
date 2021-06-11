@@ -57,18 +57,39 @@ const userCreate = async(req, res) => {
 
 const userRecovery = async(req, res) => {
   try {
-    console.log("opa");
-    const email = req.body.email;
-    console.log(email);
-  
-    const createdUser = await userService.recovery(email);
-
-    return res.status(200).json(createdUser);
+    const email = req.body.email; 
+    const recoveredUser = await userService.recovery(email);
+    return res.status(202).json(recoveredUser);
   } catch (error) {
     console.error(error);
     if(error.code == 'USER_DO_NOT_EXISTS') {
-      return res.status(409).send("Usuário não existente!")
+      return res.status(400).send("Usuário não existente!")
     }
+    return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
+  }
+}
+
+const userRecoveryValidate = async(req, res) => {
+  try {
+    const mail = req.query.mail; 
+    const code = req.query.code; 
+    const isValid = await userService.isValidRecovery(mail, code);
+    return res.status(200).json({valid: isValid});
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
+  }
+}
+
+const resetPassword = async(req, res) => {
+  try {
+    const mail = req.body.mail; 
+    const code = req.body.code; 
+    const newPassword = req.body.newPassword; 
+    const isValid = await userService.resetPassword(mail, code, newPassword);
+    return res.status(200).json({valid: isValid});
+  } catch (error) {
+    console.error(error);
     return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
   }
 }
@@ -76,4 +97,6 @@ const userRecovery = async(req, res) => {
 module.exports = router
   .post("/create", userCreate)
   .post("/login", userLogin)
-  .post("/recovery", userRecovery);
+  .post("/recovery", userRecovery)
+  .post("/reset", resetPassword)
+  .get("/recovery/validate", userRecoveryValidate);
