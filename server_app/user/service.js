@@ -1,5 +1,6 @@
 const UserRepository = require("./model");
 const encriptor = require("../helpers");
+const mailSender = require("../mail/sender");
 
 const login = async ({ username, password }) => {
   return new Promise(async (resolve, reject) => {
@@ -64,6 +65,16 @@ const recovery = async (email) => {
       );
 
       if (recoveredUser.ok) {
+        mailSender.recovery(email, recoveryCode)
+          .then(response => {
+            console.log(response);
+            return resolve(recoveredUser)
+          })
+          .catch(error => {
+            console.log(error);
+            return reject(error);
+          })
+
         return resolve(recoveredUser);
       }
 

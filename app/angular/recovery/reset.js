@@ -57,7 +57,6 @@ const ResetPasswordController = function (AuthService, $stateParams, $timeout, $
 	ctrl.submitForm = (validForm, newPassword, repeatedPassword) => {
 		ctrl.submitted = true;
 		ctrl.feedback.showing = false;
-		console.log(validForm);
 		if (validForm) {
 			if(newPassword != repeatedPassword) {
 				showFeedback("A senha deve ser a mesma nos dois campos");
@@ -76,11 +75,11 @@ const ResetPasswordController = function (AuthService, $stateParams, $timeout, $
 		const code = $stateParams.code;
 		const mail = $stateParams.mail;
 		try {
-			const response = await AuthService.validateRecovery(mail, code);
 			setLoading(true);
+			const response = await AuthService.validateRecovery(mail, code);
+			setLoading(false);
 			if (response.data.valid) {
 				setValidation(true);
-				setLoading(false);
 			} else {
 				showFeedback("Código de recuperação de senha é inválido, solicite a recuperação de senha novamente!");
 			}
