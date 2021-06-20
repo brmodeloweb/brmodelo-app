@@ -1,6 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
 	context: `${__dirname}/app`,
@@ -23,6 +24,13 @@ module.exports = {
 			filename: `bundle.css`,
 		}),
 	],
+	optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ],
+  },
 	resolve: {
 		extensions: [".js", ".jsx"],
 	},
@@ -46,28 +54,10 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
-			},
-			{
 				test: /\.(sa|sc|c)ss$/,
 				use: [
-					{
-						loader: MiniCssExtractPlugin.loader,
-					},
-					{
-						loader: "css-loader",
-					},
-					{
-						loader: "postcss-loader",
-					},
-					{
-						loader: "sass-loader",
-						options: {
-							implementation: require("sass"),
-						},
-					},
-				],
+					'style-loader', 'css-loader', 'postcss-loader', 'sass-loader',
+				]
 			},
 			{
 				test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,

@@ -6,22 +6,30 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const ejs = require("ejs");
-const path = require("path");
 
 let app = express();
 
-// Where to find the view files
-const viewsPath = path.join(__dirname, "../views");
-app.set("views", viewsPath);
+if (process.env.NODE_ENV === 'production') {
+	const webpack = require('webpack');
+	const config = require('../webpack.config.js');
+	const compiler = webpack(config);
+	
+	const webpackDevMiddleware = require('webpack-dev-middleware');
+	const webpackHotMiddleware = require('webpack-hot-middleware');
+	
+	app.use(webpackDevMiddleware(compiler, {
+			publicPath: config.output.publicPath,
+		})
+	)
+	
+	app.use(webpackHotMiddleware(compiler))
+};
+
 app.engine("html", ejs.renderFile);
 
 app.use(morgan("dev"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-const appPath = path.join(__dirname, "../app");
-app.use(express.static(appPath));
-app.use(express.static(`${appPath}/assets`));
-app.use(express.static(`${appPath}/assets/node_modules`));
 app.use(responseTime());
 app.use(cors());
 app.use(
