@@ -14,12 +14,14 @@
 // .login-form / .register-page
 ////////////////////////////////////////////////////////////////////////////////
 .login-page,
-.register-page {
+.register-page,
+.recovery-page,
+.reset-page {
 	position: relative;
 	width: 375px;
 	padding: 48px 24px 24px 24px;
 	border: 1px solid #e7e7e7;
-	margin: 150px auto 0 auto;
+	margin: 60px auto 0 auto;
 	background-color: #f8f8f8;
 	box-shadow: 0 0 20px rgba(0,0,0, 0.1)
 }
@@ -28,7 +30,9 @@
 // .login-form / .register-form
 ////////////////////////////////////////////////////////////////////////////////
 .login-form .br-button,
-.register-form .br-button {
+.register-form .br-button,
+.recovery-form .br-button,
+.reset-form .br-button {
 	padding: 10px 16px;
 	font-size: 18px;
 }
@@ -54,10 +58,17 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .public-logo
+// .account-options
 ////////////////////////////////////////////////////////////////////////////////
-.new-account {
+.account-options {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	margin-top: 12px;
 	text-align: center;
 	font-size: 1.2em;
+}
+
+.br-button.register {
+	padding: 10px 16px;
 }

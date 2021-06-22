@@ -1,0 +1,41 @@
+<div class="public">
+	<div class="container">
+		<img
+			src="assets/img/loading-dots.gif"
+			alt="Loading"
+			class="br-loader"
+			ng-class="{'loading': $ctrl.loading}"
+		/>
+		<section class="recovery-page">
+			<header class="public-logo">
+				<h1>Recuperar senha</h1>
+			</header>
+			<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success'}">
+				<p>{{ $ctrl.feedback.message }}</p>
+			</div>
+			<form class="recovery-form" name="recoveryForm" ng-submit="$ctrl.submitForm(recoveryForm.$valid)" novalidate>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Email</label>
+					<input
+						type="name"
+						name="name"
+						class="form-control input-lg"
+						id="name"
+						placeholder="Email"
+						autocomplete="off"
+						required
+						ng-model="$ctrl.mail"
+						ng-class="{'error': recoveryForm.name.$invalid && (!recoveryForm.name.$pristine || $ctrl.submitted)}"
+					/>
+				</div>
+				<button type="submit" class="br-button btn-block">Recuperar</button>
+			</form>
+			<aside class="account-options">
+				<a href="#" tabindex="1" data-ui-sref="login">voltar</a>
+			<aside>
+		</section>
+	</div>
+	<a class="br-help" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+		<i class="fa fa-bug" aria-hidden="true"></i>
+	</a>
+</div>
