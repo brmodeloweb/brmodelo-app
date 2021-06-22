@@ -128,7 +128,7 @@ app.config([
 			},
 			lazyLoad($transition$) {
 				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
-				return import("./conceptual/conceptual.js").then((mod) =>
+				return import("./logic/logic.js").then((mod) =>
 					$ocLazyLoad.inject(mod.default)
 				);
 			},
