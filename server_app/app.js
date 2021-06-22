@@ -15,14 +15,14 @@ if (process.env.NODE_ENV === 'production') {
 	const compiler = webpack(config);
 	
 	const webpackDevMiddleware = require('webpack-dev-middleware');
-	const webpackHotMiddleware = require('webpack-hot-middleware');
+	//const webpackHotMiddleware = require('webpack-hot-middleware');
 	
 	app.use(webpackDevMiddleware(compiler, {
 			publicPath: config.output.publicPath,
 		})
 	)
 	
-	app.use(webpackHotMiddleware(compiler))
+	//app.use(webpackHotMiddleware(compiler))
 };
 
 app.engine("html", ejs.renderFile);
