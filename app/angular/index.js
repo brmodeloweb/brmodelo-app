@@ -7,7 +7,7 @@ import "angular-translate";
 import "textangular";
 import "sweet-feedback/css/sweetfeedback.css";
 
-import "jointjs"
+import "jointjs";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../sass/app.scss";
@@ -15,12 +15,10 @@ import "../sass/app.scss";
 import "../joint/joint.ui.halo.css";
 import "../joint/joint.ui.selectionView.css";
 import "../joint/joint.ui.stencil.css";
+import "oclazyload";
 
-import loginComponent from "./login/login";
-import signupComponent from "./signup/signup";
-import workspaceComponent from "./workspace/workspace";
-import conceptualComponent from "./conceptual/conceptual";
-import logicComponent from "./logic/logic";
+import { Visualizer } from "@uirouter/visualizer";
+
 import sidebarControlConceptual from "./conceptual/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
@@ -38,29 +36,28 @@ const app = angular.module("app", [
 	"ui.bootstrap",
 	"pascalprecht.translate",
 	"ngCookies" /** textangular */,
-	loginComponent,
-	signupComponent,
-	workspaceComponent,
-	logicComponent,
+	"oc.lazyLoad",
 	authService,
 	modelService,
 	logicService,
 	dropdownComponent,
-	conceptualComponent,
 	shapeFactory,
 	logicFactory,
 	sidebarControlConceptual,
 	shapeFactory,
-	dropdownIconComponent
+	dropdownIconComponent,
 ]);
 
-app.config(['$translateProvider', function ($translateProvider) {
-  $translateProvider.translations('en', en);
+app.config([
+	"$translateProvider",
+	function ($translateProvider) {
+		$translateProvider.translations("en", en);
 
-  $translateProvider.translations('pt_BR', pt_BR);
+		$translateProvider.translations("pt_BR", pt_BR);
 
-  $translateProvider.preferredLanguage('pt_BR');
-}]);
+		$translateProvider.preferredLanguage("pt_BR");
+	},
+]);
 
 app.config([
 	"$urlRouterProvider",
@@ -69,41 +66,71 @@ app.config([
 	function ($urlRouterProvider, $stateProvider) {
 		$stateProvider.state("login", {
 			url: "/",
-			template: "<login></login>",
+			component: "login",
 			data: {
 				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./login/login.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("register", {
 			url: "/register",
-			template: "<signup></signup>",
+			component: "signup",
 			data: {
 				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./signup/signup.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("main", {
 			url: "/main",
-			template: "<workspace></workspace>",
+			component: "workspace",
 			data: {
 				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./workspace/workspace.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("conceptual", {
 			url: "/conceptual/{modelid}",
-			template: "<editor-conceptual></editor-conceptual>",
+			component: "editorConceptual",
 			data: {
 				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./conceptual/conceptual.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("logic", {
 			url: "/logic/{references:json}",
-			template: "<editor-logic></editor-logic>",
+			component: "editorLogic",
 			data: {
 				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./conceptual/conceptual.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
@@ -119,8 +146,9 @@ app.config([
 	},
 ]);
 
+app.run(function ($transitions, $rootScope, AuthService, $state, $uiRouter) {
+	$uiRouter.plugin(Visualizer);
 
-app.run(function ($transitions, $rootScope, AuthService, $state) {
 	$transitions.onStart({}, function (trans) {
 		const { requireLogin } = trans.to().data;
 		if (requireLogin) {
@@ -138,5 +166,7 @@ app.config(function () {
 		return typeof text === "string" ? text.toLowerCase() : text;
 	};
 });
+
+app.config;
 
 app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];

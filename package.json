@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.29",
+    "@uirouter/visualizer": "^7.2.1",
     "angular": "^1.8.0",
     "angular-cookies": "^1.8.0",
     "angular-translate": "^2.18.3",
@@ -46,6 +47,7 @@
     "mongodb": "~3.5.8",
     "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
+    "oclazyload": "^1.1.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
