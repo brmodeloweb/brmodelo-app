@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start:gulp": "gulp",
-    "start": "webpack-dev-server --hot --progress --colors --inline",
-    "build": "NODE_ENV=production node server.js",
+    "start": "node server.js",
+    "build": "webpack",
     "backend": "node server.js"
   },
   "engines": {
