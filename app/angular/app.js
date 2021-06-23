@@ -24,6 +24,22 @@ app.config(['$urlRouterProvider', '$stateProvider',
 			}
 		});
 
+		$stateProvider.state('recovery', {
+			url: '/recovery',
+			template: '<recovery></recovery>',
+			data: {
+				requireLogin: false
+			}
+		});
+
+		$stateProvider.state('reset', {
+			url: '/reset/{mail}/{code}',
+			template: '<reset-password></reset-password>',
+			data: {
+				requireLogin: false
+			}
+		});
+
 		$stateProvider.state('workspace', {
 			url: '/workspace',
 			templateUrl: 'angular/view/workspace.html',
