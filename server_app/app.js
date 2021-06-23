@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const path = require("path");
+const cors = require("cors");
 
 let app = express();
 
@@ -29,6 +30,7 @@ app.use(
 	})
 );
 app.use(errorhandler());
+app.use(cors());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");

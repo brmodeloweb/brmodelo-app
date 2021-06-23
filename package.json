@@ -5,6 +5,7 @@
   "scripts": {
     "start:gulp": "gulp",
     "start": "node server.js",
+    "frontend": "webpack-dev-server --hot --progress --colors --inline",
     "build": "webpack",
     "backend": "node server.js"
   },

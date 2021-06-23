@@ -1,10 +1,11 @@
 import angular from "angular";
+import { BASE_URL } from "../../utils/baseUrl";
 
 const authService = function ($http, $cookies) {
 	const service = {};
 
 	service.login = function (credentials) {
-		return $http.post("http://localhost:3000/users/login", credentials).then(function (res) {
+		return $http.post(`${BASE_URL}/users/login`, credentials).then(function (res) {
 			const user = res.data;
 			const today = new Date();
 			const expired = new Date(today);
@@ -23,7 +24,7 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.register = function (credentials) {
-		return $http.post("http://localhost:3000/users/create", credentials).then(function (res) {
+		return $http.post(`${BASE_URL}/users/create`, credentials).then(function (res) {
 			// implement resp here!!
 		});
 	};

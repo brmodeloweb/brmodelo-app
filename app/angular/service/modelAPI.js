@@ -1,6 +1,6 @@
 import angular from "angular";
 
-const BASE_URL = "http://localhost:3000"
+import { BASE_URL } from "../../utils/baseUrl";
 
 const authService = ($http) => {
 	const _saveModel = function (model) {
