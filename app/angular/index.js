@@ -17,8 +17,6 @@ import "../joint/joint.ui.selectionView.css";
 import "../joint/joint.ui.stencil.css";
 import "oclazyload";
 
-import { Visualizer } from "@uirouter/visualizer";
-
 import sidebarControlConceptual from "./conceptual/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
@@ -146,9 +144,7 @@ app.config([
 	},
 ]);
 
-app.run(function ($transitions, $rootScope, AuthService, $state, $uiRouter) {
-	$uiRouter.plugin(Visualizer);
-
+app.run(function ($transitions, $rootScope, AuthService, $state) {
 	$transitions.onStart({}, function (trans) {
 		const { requireLogin } = trans.to().data;
 		if (requireLogin) {

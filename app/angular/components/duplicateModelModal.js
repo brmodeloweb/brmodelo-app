@@ -1,9 +1,9 @@
 import angular from "angular";
-import template from "./duplicatemodelmodal.html";
+import template from "./duplicateModelModal.html";
 
 const app = angular.module("app.duplicateModelModalController", []);
 
-const Controller = function() {
+const Controller = function () {
 	const $ctrl = this;
 	$ctrl.submitted = false;
 
@@ -25,10 +25,10 @@ const Controller = function() {
 			reason: "cancel",
 		});
 	};
-}
+};
 
 export default app.component("duplicateModelModal", {
-	template: template,
+	template,
 	bindings: {
 		close: "&",
 		dismiss: "&",
