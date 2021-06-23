@@ -5,7 +5,6 @@
   "scripts": {
     "start:gulp": "gulp",
     "start": "webpack-dev-server --hot --progress --colors --inline",
-    "build": "NODE_ENV=production node server.js",
     "backend": "node server.js"
   },
   "engines": {
