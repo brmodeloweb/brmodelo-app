@@ -1,5 +1,5 @@
 import angular from "angular";
-import template from "./duplicatemodelmodal.html";
+import template from "./duplicateModelModal.html";
 
 const app = angular.module("app.duplicateModelModalController", []);
 

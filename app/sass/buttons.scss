@@ -39,10 +39,37 @@
 	background-color: #ddd;
 }
 
+// .btn-alt
 ////////////////////////////////////////////////////////////////////////////////
-// .br-icon-button
+.btn-alt {
+	background-color: #3d9970;
+	color: #fff;
+	text-transform: none;
+}
+
+.btn-alt:hover {
+	background-color: transparent;
+	color: #3d9970;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .br-help
 ////////////////////////////////////////////////////////////////////////////////
 
+.br-help {
+	position: fixed;
+	z-index: 10;
+	bottom: 24px;
+	right: 24px;
+	font-size: 2em;
+	text-decoration: none;
+	transition: 0.1s ease-in-out transform
+}
 
+.br-help:visited {
+	color: #3d9970;
+}
 
-
+.br-help:hover {
+	transform: rotate(35deg)
+}

@@ -3,8 +3,10 @@ import angular from "angular";
 const authService = function ($http, $cookies) {
 	const service = {};
 
+	const BASE_URL = "http://localhost:3000"
+
 	service.login = function (credentials) {
-		return $http.post("http://localhost:3000/users/login", credentials).then(function (res) {
+		return $http.post(`${BASE_URL}/users/login`, credentials).then(function (res) {
 			const user = res.data;
 			const today = new Date();
 			const expired = new Date(today);
@@ -23,7 +25,7 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.register = function (credentials) {
-		return $http.post("http://localhost:3000/users/create", credentials).then(function (res) {
+		return $http.post(`${BASE_URL}/users/create`, credentials).then(function (res) {
 			// implement resp here!!
 		});
 	};
@@ -33,6 +35,23 @@ const authService = function ($http, $cookies) {
 		service.loggeduser = userId;
 		service.loggeduserName = $cookies.get("userName");
 		return !!userId;
+	};
+
+	service.recovery = (email) => {
+		return $http
+			.post(`${BASE_URL}/users/recovery`, {email});
+	};
+
+	service.validateRecovery = (mail, code) => {
+		return $http
+			.get(`${BASE_URL}/users/recovery/validate`, {
+				params: { mail, code},
+			});
+	};
+
+	service.resetPassword = (mail, code, newPassword) => {
+		return $http
+			.post(`${BASE_URL}/users/reset`, {mail, code, newPassword});
 	};
 
 	return service;

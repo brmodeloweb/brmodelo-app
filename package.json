@@ -42,6 +42,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "jointjs": "3.3.0",
     "jquery": "^3.3.29",
+    "mailgun.js": "^3.4.0",
     "mongodb": "~3.5.8",
     "mongoose": "^5.9.18",
     "morgan": "^1.10.0",

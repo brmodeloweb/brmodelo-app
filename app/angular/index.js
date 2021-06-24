@@ -29,6 +29,8 @@ import dropdownIconComponent from "./components/dropdownIcon";
 import shapeFactory from "./service/shapeFactory";
 import logicService from "./service/logicService";
 import logicFactory from "./service/logicFactory";
+import recoveryComponent from "./recovery/recovery";
+import resetComponent from "./recovery/reset";
 
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
@@ -40,6 +42,8 @@ const app = angular.module("app", [
 	"ngCookies" /** textangular */,
 	loginComponent,
 	signupComponent,
+	recoveryComponent,
+	resetComponent,
 	workspaceComponent,
 	logicComponent,
 	authService,
@@ -51,7 +55,7 @@ const app = angular.module("app", [
 	logicFactory,
 	sidebarControlConceptual,
 	shapeFactory,
-	dropdownIconComponent
+	dropdownIconComponent,
 ]);
 
 app.config(['$translateProvider', function ($translateProvider) {
@@ -81,6 +85,22 @@ app.config([
 			data: {
 				requireLogin: false,
 			},
+		});
+
+		$stateProvider.state('recovery', {
+			url: '/recovery',
+			template: '<recovery></recovery>',
+			data: {
+				requireLogin: false
+			}
+		});
+
+		$stateProvider.state('reset', {
+			url: '/reset/{mail}/{code}',
+			template: '<reset-password></reset-password>',
+			data: {
+				requireLogin: false
+			}
 		});
 
 		$stateProvider.state("main", {

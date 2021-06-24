@@ -86,13 +86,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 .br-loader {
 	position: fixed;
-	top: 58px;
+	top: 30px;
 	left: 50%;
 	margin-left: -20px;
 	display: none;
 }
-
-.br-loader.loading {display: block;}
 
 ///////////////////////////////////////////////////////////////////////////////
 // .nav-icons dropdown-icon
@@ -116,3 +114,4 @@
 	text-decoration: none;
 	box-shadow: none;
 }
+.br-loader.loading {display: block;}
