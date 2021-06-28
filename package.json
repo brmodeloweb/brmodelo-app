@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start:gulp": "gulp",
     "start": "node server.js",
     "start:frontend": "webpack-dev-server --hot --progress --colors --inline",
     "build": "webpack"
@@ -32,15 +31,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "font-awesome": "^4.7.0",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-live-server": "0.0.31",
-    "gulp-newer": "^1.4.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5",
     "jointjs": "3.3.0",
     "jquery": "^3.3.29",
     "mailgun.js": "^3.4.0",
@@ -90,8 +80,6 @@
     "supertest": "^4.0.2",
     "url-loader": "^4.1.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-middleware": "^5.0.0",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-dev-server": "^3.11.2"
   }
 }
