@@ -8,7 +8,7 @@
 				<strong class="navbar-brand">BR Modelo Web</strong>
 			</div><!-- End .navbar-header -->
 			<div class="nav navbar-nav pull-right nav-icons">
-				<dropdown-icon title="Options" options="[{name: 'Sair', type: 'Sair'}]"></dropdown-icon>
+				<dropdown-icon title="Options" options="[{name: 'Sair', type: 'Sair'}]" on-select=$ctrl.logout()></dropdown-icon>
 			</div><!-- End .navbar-header -->
 		</div>
 	</header>
@@ -59,6 +59,10 @@
 				</table>
 			</div><!-- End .table-responsive -->
 		</div><!-- End .container.projectsList -->
+
+		<a class="br-help" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+			<i class="fa fa-bug" aria-hidden="true"></i>
+		</a>
 
 	</section><!-- End .mainContent -->
 </section><!-- End .view -->

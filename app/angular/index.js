@@ -90,6 +90,34 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("recovery", {
+			url: "/recovery",
+			component: "recovery",
+			data: {
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./recovery/recovery.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
+		$stateProvider.state("reset", {
+			url: "/reset/{mail}/{code}",
+			component: "resetPassword",
+			data: {
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./recovery/reset.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$stateProvider.state("main", {
 			url: "/main",
 			component: "workspace",

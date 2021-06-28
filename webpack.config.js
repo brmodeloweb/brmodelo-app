@@ -58,7 +58,23 @@ module.exports = {
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
-				use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+				use: [
+					{
+						loader: 'style-loader',
+					},
+					{
+						loader: "css-loader",
+					},
+					{
+						loader: "postcss-loader",
+					},
+					{
+						loader: "sass-loader",
+						options: {
+							implementation: require("sass"),
+						},
+					},
+				],
 			},
 			{
 				test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,

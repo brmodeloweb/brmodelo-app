@@ -4,6 +4,8 @@ import { BASE_URL } from "../../utils/baseUrl";
 const authService = function ($http, $cookies) {
 	const service = {};
 
+	const BASE_URL = "http://localhost:3000"
+
 	service.login = function (credentials) {
 		return $http.post(`${BASE_URL}/users/login`, credentials).then(function (res) {
 			const user = res.data;
@@ -34,6 +36,23 @@ const authService = function ($http, $cookies) {
 		service.loggeduser = userId;
 		service.loggeduserName = $cookies.get("userName");
 		return !!userId;
+	};
+
+	service.recovery = (email) => {
+		return $http
+			.post(`${BASE_URL}/users/recovery`, {email});
+	};
+
+	service.validateRecovery = (mail, code) => {
+		return $http
+			.get(`${BASE_URL}/users/recovery/validate`, {
+				params: { mail, code},
+			});
+	};
+
+	service.resetPassword = (mail, code, newPassword) => {
+		return $http
+			.post(`${BASE_URL}/users/reset`, {mail, code, newPassword});
 	};
 
 	return service;

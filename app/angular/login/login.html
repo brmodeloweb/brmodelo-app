@@ -45,8 +45,12 @@
 				</div>
 				<react-button type="'submit'" label="'Login' | translate"></react-button>
 			</form>
-			<aside class="new-account">
-				<a href="#" data-ui-sref="register">{{ 'Create account' | translate }}</a>
+			<aside class="account-options">
+				<div class="recovery-password">
+					<a href="#" data-ui-sref="recovery">Recuperar senha</a>
+				</div>
+				<hr class="separator"/>
+				<a class="register br-button btn-block btn-alt" href="#" data-ui-sref="register">Criar conta</a>
 			<aside>
 		</section>
 
@@ -55,4 +59,7 @@
 			<img ng-click="$ctrl.changeLanguage('en')" class="country-flag" src="../../img/us-flag.svg" alt="United States flag" />
 		</footer>
 	</div>
+	<a class="br-help" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+		<i class="fa fa-bug" aria-hidden="true"></i>
+	</a>
 </div>

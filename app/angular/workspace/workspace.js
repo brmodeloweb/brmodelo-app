@@ -104,6 +104,11 @@ const ListController = function (
 		});
 	};
 
+	ctrl.logout = () => {
+		AuthService.logout();
+		$state.go("login");
+	}
+
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
