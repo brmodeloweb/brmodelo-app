@@ -1,4 +1,5 @@
 import angular from "angular";
+import { BASE_URL } from "../../utils/baseUrl";
 
 const authService = function ($http, $cookies) {
 	const service = {};

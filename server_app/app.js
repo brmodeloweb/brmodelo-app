@@ -4,9 +4,9 @@ const errorhandler = require("errorhandler");
 const morgan = require("morgan");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const ejs = require("ejs");
 const path = require("path");
+const cors = require("cors");
 
 let app = express();
 
@@ -19,11 +19,8 @@ app.use(morgan("dev"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 const appPath = path.join(__dirname, "../app");
-app.use(express.static(appPath));
-app.use(express.static(`${appPath}/assets`));
-app.use(express.static(`${appPath}/assets/node_modules`));
+app.use(express.static(`${appPath}/dist`));
 app.use(responseTime());
-app.use(cors());
 app.use(
 	session({
 		resave: true,
@@ -33,6 +30,7 @@ app.use(
 	})
 );
 app.use(errorhandler());
+app.use(cors());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");

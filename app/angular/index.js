@@ -7,7 +7,7 @@ import "angular-translate";
 import "textangular";
 import "sweet-feedback/css/sweetfeedback.css";
 
-import "jointjs"
+import "jointjs";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../sass/app.scss";
@@ -15,12 +15,8 @@ import "../sass/app.scss";
 import "../joint/joint.ui.halo.css";
 import "../joint/joint.ui.selectionView.css";
 import "../joint/joint.ui.stencil.css";
+import "oclazyload";
 
-import loginComponent from "./login/login";
-import signupComponent from "./signup/signup";
-import workspaceComponent from "./workspace/workspace";
-import conceptualComponent from "./conceptual/conceptual";
-import logicComponent from "./logic/logic";
 import sidebarControlConceptual from "./conceptual/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
@@ -29,8 +25,6 @@ import dropdownIconComponent from "./components/dropdownIcon";
 import shapeFactory from "./service/shapeFactory";
 import logicService from "./service/logicService";
 import logicFactory from "./service/logicFactory";
-import recoveryComponent from "./recovery/recovery";
-import resetComponent from "./recovery/reset";
 
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
@@ -40,17 +34,11 @@ const app = angular.module("app", [
 	"ui.bootstrap",
 	"pascalprecht.translate",
 	"ngCookies" /** textangular */,
-	loginComponent,
-	signupComponent,
-	recoveryComponent,
-	resetComponent,
-	workspaceComponent,
-	logicComponent,
+	"oc.lazyLoad",
 	authService,
 	modelService,
 	logicService,
 	dropdownComponent,
-	conceptualComponent,
 	shapeFactory,
 	logicFactory,
 	sidebarControlConceptual,
@@ -58,13 +46,16 @@ const app = angular.module("app", [
 	dropdownIconComponent,
 ]);
 
-app.config(['$translateProvider', function ($translateProvider) {
-  $translateProvider.translations('en', en);
+app.config([
+	"$translateProvider",
+	function ($translateProvider) {
+		$translateProvider.translations("en", en);
 
-  $translateProvider.translations('pt_BR', pt_BR);
+		$translateProvider.translations("pt_BR", pt_BR);
 
-  $translateProvider.preferredLanguage('pt_BR');
-}]);
+		$translateProvider.preferredLanguage("pt_BR");
+	},
+]);
 
 app.config([
 	"$urlRouterProvider",
@@ -73,57 +64,99 @@ app.config([
 	function ($urlRouterProvider, $stateProvider) {
 		$stateProvider.state("login", {
 			url: "/",
-			template: "<login></login>",
+			component: "login",
 			data: {
 				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./login/login.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("register", {
 			url: "/register",
-			template: "<signup></signup>",
+			component: "signup",
 			data: {
 				requireLogin: false,
 			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./signup/signup.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
 		});
 
-		$stateProvider.state('recovery', {
-			url: '/recovery',
-			template: '<recovery></recovery>',
+		$stateProvider.state("recovery", {
+			url: "/recovery",
+			component: "recovery",
 			data: {
-				requireLogin: false
-			}
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./recovery/recovery.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
 		});
 
-		$stateProvider.state('reset', {
-			url: '/reset/{mail}/{code}',
-			template: '<reset-password></reset-password>',
+		$stateProvider.state("reset", {
+			url: "/reset/{mail}/{code}",
+			component: "resetPassword",
 			data: {
-				requireLogin: false
-			}
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./recovery/reset.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
 		});
 
 		$stateProvider.state("main", {
 			url: "/main",
-			template: "<workspace></workspace>",
+			component: "workspace",
 			data: {
 				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./workspace/workspace.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("conceptual", {
 			url: "/conceptual/{modelid}",
-			template: "<editor-conceptual></editor-conceptual>",
+			component: "editorConceptual",
 			data: {
 				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./conceptual/conceptual.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
 		$stateProvider.state("logic", {
 			url: "/logic/{references:json}",
-			template: "<editor-logic></editor-logic>",
+			component: "editorLogic",
 			data: {
 				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./logic/logic.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
@@ -138,7 +171,6 @@ app.config([
 		$urlRouterProvider.otherwise("/");
 	},
 ]);
-
 
 app.run(function ($transitions, $rootScope, AuthService, $state) {
 	$transitions.onStart({}, function (trans) {
@@ -158,5 +190,7 @@ app.config(function () {
 		return typeof text === "string" ? text.toLowerCase() : text;
 	};
 });
+
+app.config;
 
 app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];

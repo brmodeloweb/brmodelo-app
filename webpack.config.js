@@ -1,6 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 	context: `${__dirname}/app`,
@@ -23,6 +24,16 @@ module.exports = {
 			filename: `bundle.css`,
 		}),
 	],
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				parallel: true,
+			}),
+		],
+		splitChunks: {
+			chunks: "all",
+		},
+	},
 	resolve: {
 		extensions: [".js", ".jsx"],
 	},

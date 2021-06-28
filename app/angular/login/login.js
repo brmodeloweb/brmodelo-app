@@ -3,8 +3,6 @@ import ReactButton from "../../react/components/Button";
 import authService from "../service/authService";
 import template from "./login.html";
 
-console.log("ReactButton", ReactButton)
-
 const LoginController = function (AuthService, $state, $translate) {
 	const ctrl = this;
 	ctrl.submitted = false;
@@ -36,7 +34,7 @@ const LoginController = function (AuthService, $state, $translate) {
 			.catch(handleLoginError);
 	};
 
-	ctrl.changeLanguage = langKey => {
+	ctrl.changeLanguage = (langKey) => {
 		$translate.use(langKey);
 	};
 
@@ -49,10 +47,11 @@ const LoginController = function (AuthService, $state, $translate) {
 			showError("Preencha os campos em vermelho");
 		}
 	};
-
 };
 
-export default angular.module("app.login", [authService, ReactButton]).component("login", {
-	template,
-	controller: LoginController,
-}).name;
+export default angular
+	.module("app.login", [authService, ReactButton])
+	.component("login", {
+		template,
+		controller: LoginController,
+	}).name;
