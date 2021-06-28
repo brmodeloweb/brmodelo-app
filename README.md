@@ -24,8 +24,8 @@ To run this application you'll need:
 #### Running application
 
 1. Start database: `mongod`
-1. Build project: `yarn build`
-1. Start application: `yarn start`
+1. Start frontend: `yarn start:frontend`
+1. Start server: `yarn start`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
 #### Production environments
