@@ -57,6 +57,17 @@ app.config([
 	},
 ]);
 
+app.config(['$httpProvider', ($httpProvider) => {
+	$httpProvider.interceptors.push($q => ({
+	 	"request": (config) => {
+			const apiUrl = process.env.API_URL || "http://localhost:3000"
+			config.url = `${apiUrl}${config.url}`
+
+			return config;
+		 }
+	}))
+}]);
+
 app.config([
 	"$urlRouterProvider",
 	"$stateProvider",
@@ -190,7 +201,5 @@ app.config(function () {
 		return typeof text === "string" ? text.toLowerCase() : text;
 	};
 });
-
-app.config;
 
 app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];

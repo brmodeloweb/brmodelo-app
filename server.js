@@ -4,7 +4,7 @@ mongoose.Promise = require("bluebird");
 const app = require("./server_app/app");
 
 const port = Number(process.env.PORT || 3000);
-const apiUrl = process.env.API_URL || "http://localhost";
+const apiUrl = process.env.API_URL || `http://localhost:${port}`;
 const mongoUrl = process.env.PROD_MONGODB || process.env.MONGODB_URL;
 const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -23,7 +23,7 @@ mongoose.connect(
 			--------------- APPLICATION RUNNING ---------------
 			---------------------------------------------------
 
-			App: ${apiUrl}:${port}
+			App: ${apiUrl}
 			${databaseInfo}
 			---------------------------------------------------
 		`);
