@@ -2,6 +2,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
 	context: `${__dirname}/app`,
@@ -17,6 +18,7 @@ module.exports = {
 		port: 9000,
 	},
 	plugins: [
+		new Dotenv(),
 		new HtmlWebpackPlugin({
 			template: "index.html",
 		}),
@@ -60,7 +62,7 @@ module.exports = {
 				test: /\.(sa|sc|c)ss$/,
 				use: [
 					{
-						loader: 'style-loader',
+						loader: "style-loader",
 					},
 					{
 						loader: "css-loader",
