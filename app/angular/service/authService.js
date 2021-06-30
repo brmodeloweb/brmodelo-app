@@ -4,7 +4,7 @@ const authService = function ($http, $cookies) {
 	const service = {};
 
 	service.login = function (credentials) {
-		return $http.post(`/users/login`, credentials).then(function (res) {
+		return $http.post("/users/login", credentials).then(function (res) {
 			const user = res.data;
 			const today = new Date();
 			const expired = new Date(today);
@@ -23,7 +23,7 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.register = function (credentials) {
-		return $http.post(`/users/create`, credentials).then(function (res) {
+		return $http.post("/users/create", credentials).then(function (res) {
 			// implement resp here!!
 		});
 	};
@@ -36,17 +36,17 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.recovery = (email) => {
-		return $http.post(`/users/recovery`, { email });
+		return $http.post("/users/recovery", { email });
 	};
 
 	service.validateRecovery = (mail, code) => {
-		return $http.get(`/users/recovery/validate`, {
+		return $http.get("/users/recovery/validate", {
 			params: { mail, code },
 		});
 	};
 
 	service.resetPassword = (mail, code, newPassword) => {
-		return $http.post(`/users/reset`, { mail, code, newPassword });
+		return $http.post("/users/reset", { mail, code, newPassword });
 	};
 
 	return service;
