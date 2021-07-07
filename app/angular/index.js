@@ -60,9 +60,11 @@ app.config([
 app.config(['$httpProvider', ($httpProvider) => {
 	$httpProvider.interceptors.push($q => ({
 	 	"request": (config) => {
+			const regex = /.*\.(html)/;
+			if (config.url.match(regex)) return config;
 			const apiUrl = process.env.API_URL || "http://localhost:3000"
 			config.url = `${apiUrl}${config.url}`
-
+			
 			return config;
 		 }
 	}))
