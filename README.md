@@ -26,7 +26,7 @@ To run this application you'll need:
 1. Start database: `mongod`
 1. Duplicate `.env.example` and rename it to `.env`
 1. Start frontend: `yarn start:frontend`
-1. Start server: `yarn start`
+1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
 #### Production environments
