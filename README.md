@@ -15,16 +15,16 @@ To run this application you'll need:
 - [yarn](https://yarnpkg.com/)
 - [MongoDB](https://www.mongodb.com/)
 
-#### Setup
+#### One time database setup
 
 1. Create database directory: `sudo mkdir -p /data/db`
 1. Change database folder ownership to your user: `sudo chown YOUR_USER_NAME:users -R /data/db`
-1. Install dependencies: `yarn install`
 
 #### Running application
 
+1. Install dependencies: `yarn install`
 1. Start database: `mongod`
-1. Create a `.env` file based on the `.env.example` to configure environment variables
+1. Duplicate `.env.example` and rename it to `.env`
 1. Start frontend: `yarn start:frontend`
 1. Start server: `yarn start`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
