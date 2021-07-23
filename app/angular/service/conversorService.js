@@ -488,7 +488,6 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				'type': "",
 				'quantity': 0
 			}
-			console.log(links);
 			for (link of filterConnections(links)) {
 				if(link.attributes.labels != null){
 					var card = link.attributes.labels[0].attrs.text.text;
