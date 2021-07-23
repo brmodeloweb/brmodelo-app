@@ -488,6 +488,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				'type': "",
 				'quantity': 0
 			}
+			console.log(links);
 			for (link of filterConnections(links)) {
 				if(link.attributes.labels != null){
 					var card = link.attributes.labels[0].attrs.text.text;
@@ -901,7 +902,20 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		}
 
 		filterConnections = function(links) {
-			return links.filter(link => link.attributes.type == "erd.Line");
+			return links.filter(link => {
+				if(link.attributes.type == "erd.Line") {
+					return true;
+				}
+				if(link.attributes.type == "link" && 
+					link.attributes.labels[0] != null && 
+					link.attributes.labels[0].attrs != null && 
+					link.attributes.labels[0].attrs.text != null &&
+					link.attributes.labels[0].attrs.text.text != null ) {
+					const type = link.attributes.labels[0].attrs.text.text;
+					return (type == "(0, n)" || type == "(0, 1)" || type == "(1, 1)" || type == "(1, n)");
+				}
+				return false;
+			});
 		}
 
 	return {
