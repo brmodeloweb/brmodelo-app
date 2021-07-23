@@ -906,6 +906,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					return true;
 				}
 				if(link.attributes.type == "link" && 
+					link.attributes.labels != null && 
 					link.attributes.labels[0] != null && 
 					link.attributes.labels[0].attrs != null && 
 					link.attributes.labels[0].attrs.text != null &&
