@@ -73,17 +73,11 @@
 					</li>
 				</ul>
 				<aside class="feedback">
-					<div
-						class="message success sd"
-						data-ng-class="{'hide': !$ctrl.feedback.showing}"
-					>
+					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
 						<p>{{ $ctrl.feedback.message }}</p>
 					</div>
-					<!-- End .message -->
 				</aside>
-				<!-- End #feedback -->
-			</header>
-			<!-- End .workspace-header -->
+			</header><!-- End .workspace-header -->
 		</section>
 
 	  <sidebar-control-conceptual></sidebar-control-conceptual>

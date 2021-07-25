@@ -48,10 +48,10 @@
 					<li class="divider"><a data-ng-click="print()" title="Imprimir"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
-					<div class="message success sd" data-ng-class="{'hide': !feedback.showing}">
+					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !feedback.showing}">
 						<p>{{ feedback.message }}</p>
-					</div><!-- End .message -->
-				</aside><!-- End #feedback -->
+					</div>
+				</aside>
 			</header><!-- End .workspace-header -->
 		</section>
 

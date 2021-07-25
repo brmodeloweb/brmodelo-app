@@ -45,10 +45,10 @@
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="Imprimir"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
-					<div class="message success sd" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
 						<p>{{ $ctrl.feedback.message }}</p>
-					</div><!-- End .message -->
-				</aside><!-- End #feedback -->
+					</div>
+				</aside>
 			</header><!-- End .workspace-header -->
 
 			<aside class="model-properties" data-ng-class="{'active': $ctrl.editionVisible}">
