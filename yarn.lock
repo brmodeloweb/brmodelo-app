@@ -9067,11 +9067,6 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-sweet-feedback@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/sweet-feedback/-/sweet-feedback-1.0.1.tgz#520bde0ab9bedeecd5f59b0d4cfd12d1fa4c6057"
-  integrity sha1-UgveCrm+3uzV9ZsNTP0S0fpMYFc=
-
 symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"

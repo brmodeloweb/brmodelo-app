@@ -5,7 +5,6 @@ import "angular-ui-bootstrap";
 import "angular-cookies";
 import "angular-translate";
 import "textangular";
-import "sweet-feedback/css/sweetfeedback.css";
 
 import "jointjs";
 import "bootstrap/dist/css/bootstrap.css";
@@ -64,7 +63,7 @@ app.config(['$httpProvider', ($httpProvider) => {
 			if (config.url.match(regex)) return config;
 			const apiUrl = process.env.API_URL || "http://localhost:3000"
 			config.url = `${apiUrl}${config.url}`
-			
+
 			return config;
 		 }
 	}))
