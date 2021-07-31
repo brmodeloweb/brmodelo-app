@@ -58,6 +58,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "ArthurMota9",
+      "name": "Arthur Mota",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25749372?v=4",
+      "profile": "https://www.linkedin.com/in/arthurmota/",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
