@@ -31,7 +31,7 @@ angular.module('myapp')
 		user: $rootScope.loggeduser
 	}
 
-	$scope.editionVisible = false;
+	$scope.editionVisible = true;
 	$scope.dropdownVisible = false;
 	$scope.shouldShow = false;
 	$scope.isElementSelected = false;

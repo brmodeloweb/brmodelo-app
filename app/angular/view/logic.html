@@ -59,6 +59,10 @@
 					<i class="fa angle-double-icon" data-ng-class="!editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 				</span>
 
+				<div class="model-properties__empty-state" ng-show="!selectedElement">
+					<span>Nenhum elemento selecionado.</span>
+				</div>
+
 				<div class="properties-content" ng-show="selectedElement != null">
 
 					<div class="form-group">

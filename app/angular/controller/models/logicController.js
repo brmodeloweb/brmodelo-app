@@ -17,7 +17,7 @@ angular.module('myapp')
 	$scope.selectedName = "";
 	$scope.selectedElement = null;
 	$scope.columns = [];
-	$scope.editionVisible = false;
+	$scope.editionVisible = true;
 	$scope.tableNames = [];
 	self.mapTables = {};
 
