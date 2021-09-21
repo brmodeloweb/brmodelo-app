@@ -162,6 +162,16 @@ a,
 	overflow-y: scroll;
 }
 
+.properties-content .empty-state {
+	text-align: center;
+	color: #3d9970;
+	vertical-align: middle;
+	border: 1px solid #3d9970;
+	border-radius: 2px;
+	padding: 10px;
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // .editionColumn
 ////////////////////////////////////////////////////////////////////////////////

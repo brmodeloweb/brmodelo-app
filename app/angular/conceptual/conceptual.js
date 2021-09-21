@@ -155,6 +155,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
+			console.log(cellView);
 			// $scope.onSelectElement(cellView);
 			// if(x != null && y != null){
 			// 	$scope.conectElements(cellView, x, y)

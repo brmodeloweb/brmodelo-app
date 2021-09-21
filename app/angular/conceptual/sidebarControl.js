@@ -1,12 +1,32 @@
 import angular from "angular";
 import template from "./sidebarControl.html";
 
-const controller = function () {
-  const ctrl = this;
-  ctrl.visible = false;
+const configurator = () => {
 
-  ctrl.changeVisible = () => {
-    ctrl.visible = !ctrl.visible;
+  const configuration = {
+    "emptyState": true
+  }
+
+  const selelect = (element) => {
+
+  }
+
+  return {
+    configuration
+  }
+}
+
+
+const controller = function () {
+  const $ctrl = this;
+  $ctrl.visible = true;
+
+  $ctrl.$onInit = () => {
+    $ctrl.configuration = configurator().configuration;
+  }
+
+  $ctrl.changeVisible = () => {
+    $ctrl.visible = !ctrl.visible;
   }
 
 }
