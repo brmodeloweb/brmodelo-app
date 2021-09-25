@@ -1,34 +1,34 @@
-# brModeloWeb
+# [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
 
+![Hero shot](https://raw.githubusercontent.com/brmodeloweb/brmodelo-site/master/img/hero-shot.png)
 > Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-#### Dependencies
+### Dependencies
 
 To run this application you'll need:
 - [Node.js](https://nodejs.org/)
 - [MongoDB](https://www.mongodb.com/)
 
-#### Setup
+### Setup
 
 1. Create database directory: `sudo mkdir -p /data/db`
 1. Change database folder ownership to your user: `sudo chown YOUR_USER_NAME:users -R /data/db`
 1. Install dependencies: `npm install`
 
-#### Running application
-
+### Run
 1. Start database: `mongod`
 1. Start application: `npm start`
 1. Access it: [http://localhost:3000/](http://localhost:3000/)
 
-#### Production environments
+### Production environments
 
-1. Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
-1. Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
+- Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
+- Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
 
 ## Contributors ✨
 
