@@ -463,17 +463,15 @@ angular.module('myapp')
 	}
 
 	function onLink(link) {
-
 		var source = $scope.graph.getCell(link.get('source').id);
 		var target = $scope.graph.getCell(link.get('target').id);
 
 		if(!$scope.isValidConnection(source, target, link)){
 			link.remove();
+			return;
 		}
 
-		if((source.attributes.supertype === 'Relationship' ||
-			 target.attributes.supertype === 'Relationship') &&
-		   (cs.isEntity(source) || cs.isEntity(target))) {
+		if((source.attributes.supertype === 'Relationship' || target.attributes.supertype === 'Relationship') &&(cs.isEntity(source) || cs.isEntity(target))) {
 
 			 var pos = 0.3;
 
