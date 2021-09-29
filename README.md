@@ -25,6 +25,13 @@ To run this application you'll need:
 1. Start application: `npm start`
 1. Access it: [http://localhost:3000/](http://localhost:3000/)
 
+### Running with Docker
+
+If you already have docker installed you can skip the [Setup](#setup) and [Run](#run) steps above with:
+
+`docker-compose up`
+
+
 ### Production environments
 
 - Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
