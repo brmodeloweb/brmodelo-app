@@ -9,14 +9,14 @@
 
     <div class="form-group" ng-show="$ctrl.configuration.emptyState">
       <div class="empty-state">
-        <label for="entry-name">Selecione um elemento para começar a edição</label>
+        <label for="entry-name">Selecione um elemento para editar</label>
       </div>
     </div><!-- End .form-group -->
 
     <div class="form-group"
-      ng-show="(entitySelected == 'ENTITY') || (entitySelected == 'Attribute') || (entitySelected == 'RELATIONSHIP') || (entitySelected == 'KEY')">
+      ng-show="($ctrl.configuration.entity)">
       <label for="entry-name">Nome</label>
-      <input id="entry-name" type="text" class="form-control" data-ng-model="selectedElement.value" ng-change="applyChanges()" />
+      <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
     </div><!-- End .form-group -->
 
     <div class="form-group clearfix" ng-show="entitySelected == 'ENTITY'">

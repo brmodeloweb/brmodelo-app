@@ -4,7 +4,7 @@ mongoose.Promise = require("bluebird");
 const app = require("./server_app/app");
 
 const port = Number(process.env.PORT);
-const apiUrl = `${process.env.API_URL}:${port}`;
+const apiUrl = `${process.env.API_URL}`;
 const mongoUrl = process.env.PROD_MONGODB || process.env.MONGODB_LOCAL_URL || process.env.MONGO_URI;
 const isDevelopment = process.env.NODE_ENV === "development";
 

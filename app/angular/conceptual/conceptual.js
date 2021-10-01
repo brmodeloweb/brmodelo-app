@@ -24,8 +24,6 @@ import Factory from "./factory";
 import Validator from "./validator";
 import Linker from "./linker";
 
-import sidebarControl from "./sidebarControl";
-
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
 	ctrl.feedback = {
@@ -40,6 +38,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		model: '',
 		user: $rootScope.loggeduser
 	}
+	ctrl.selectedElement = {};
 	const configs = {
 		graph: {},
 		paper: {},
@@ -129,10 +128,43 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			});
 	}
 
+	ctrl.onSelectElement = (cellView) => {
+		if(cellView != null) {
+			$timeout(() => {
+				ctrl.selectedElement = {
+					value: cellView.model.attributes.attrs.text.text,
+					type: cellView.model.attributes.supertype,
+					element: cellView
+				}	
+			});
+			return
+		} 
+
+		$timeout(() => {
+			ctrl.selectedElement = {
+				value: "",
+				type: "blank",
+				element: null
+			}	
+		});
+	}
+
+	ctrl.onUpdate = (event) => {
+		switch (event.type) {
+			case 'name':
+				$timeout(() => {
+					ctrl.selectedElement.element.model.attributes.attrs.text.text = event.value;
+					ctrl.selectedElement.element.update();
+				});
+				break;
+		}
+	}
+
 	const registerPaperEvents = (paper) => {
 		paper.on('blank:pointerdown', function (evt, x, y) {
 			ctrl.showFeedback(false, "");
 			configs.selectionView.startSelecting(evt);
+			ctrl.onSelectElement(null);
 		});
 
 		paper.on('link:options', function (cellView, evt, x, y) {
@@ -155,8 +187,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
-			console.log(cellView);
-			// $scope.onSelectElement(cellView);
+			ctrl.onSelectElement(cellView);
 			// if(x != null && y != null){
 			// 	$scope.conectElements(cellView, x, y)
 			// }
@@ -269,25 +300,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			// 	}
 		});
 
-		graph.on('change:position', function (cell) {
-			// var parentId = cell.get('parent');
-			// if (!parentId) return;
-
-			// var parent = $scope.graph.getCell(parentId);
-			// var parentBbox = parent.getBBox();
-			// var cellBbox = cell.getBBox();
-
-			// if (parentBbox.containsPoint(cellBbox.origin()) &&
-			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
-			// 	parentBbox.containsPoint(cellBbox.corner()) &&
-			// 	parentBbox.containsPoint(cellBbox.bottomLeft())) {
-			// 		// All the four corners of the child are inside the parent area.
-			// 		return;
-			// 	}
-			// 	// Revert the child position.
-			// 	cell.set('position', cell.previous('position'));
-		});
-
 	}
 
 	const buildWorkspace = () => {
@@ -353,9 +365,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.model = resp.data;
 			ctrl.model.id = resp.data._id;
 			ctrl.model.model = jsonModel;
-			console.log(jsonModel);
 			configs.graph.fromJSON(jsonModel);
-			console.log(configs.graph);
 			ctrl.setLoading(false);
 		});
 	}
