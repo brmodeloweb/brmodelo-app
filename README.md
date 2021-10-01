@@ -1,13 +1,14 @@
-# brModeloWeb
+# [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
 
+![Hero shot](https://raw.githubusercontent.com/brmodeloweb/brmodelo-site/master/img/hero-shot.png)
 > Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-#### Dependencies
+### Dependencies
 
 To run this application you'll need:
 
@@ -29,10 +30,17 @@ To run this application you'll need:
 1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
-#### Production environments
+### Running with Docker
 
-1. Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
-1. Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
+If you already have docker installed you can skip the [Setup](#setup) and [Run](#run) steps above with:
+
+1. to start: `docker-compose up`
+1. to finish: `docker-compose down`
+
+### Production environments
+
+- Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
+- Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
 
 ## Contributors ✨
 
@@ -49,6 +57,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/oicramps"><img src="https://avatars.githubusercontent.com/u/7519115?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Márcio Santos</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=oicramps" title="Code">💻</a> <a href="https://github.com/brmodeloweb/brmodelo-app/pulls?q=is%3Apr+reviewed-by%3Aoicramps" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/telmo-trooper/"><img src="https://avatars.githubusercontent.com/u/9438853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Telmo "Trooper"</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=telmotrooper" title="Code">💻</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/arthurmota/"><img src="https://avatars.githubusercontent.com/u/25749372?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Arthur Mota</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=ArthurMota9" title="Code">💻</a> <a href="https://github.com/brmodeloweb/brmodelo-app/pulls?q=is%3Apr+reviewed-by%3AArthurMota9" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/joaomfiumari"><img src="https://avatars.githubusercontent.com/u/7141759?v=4?s=100" width="100px;" alt=""/><br /><sub><b>joaomfiumari</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=joaomfiumari" title="Code">💻</a> <a href="#infra-joaomfiumari" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
