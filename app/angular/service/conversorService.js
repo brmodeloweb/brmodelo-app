@@ -910,7 +910,21 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 	}
 
 	const filterConnections = function (links) {
-		return links.filter(link => link.attributes.type == "erd.Link");
+		return links.filter(link => {
+			if (link.attributes.type == "erd.Line") {
+				return true;
+			}
+			if (link.attributes.type == "link" &&
+				link.attributes.labels != null &&
+				link.attributes.labels[0] != null &&
+				link.attributes.labels[0].attrs != null &&
+				link.attributes.labels[0].attrs.text != null &&
+				link.attributes.labels[0].attrs.text.text != null) {
+				const type = link.attributes.labels[0].attrs.text.text;
+				return (type == "(0, n)" || type == "(0, 1)" || type == "(1, 1)" || type == "(1, n)");
+			}
+			return false;
+		});
 	}
 
 	return {

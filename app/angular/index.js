@@ -63,7 +63,6 @@ app.config(['$httpProvider', ($httpProvider) => {
 			if (config.url.match(regex)) return config;
 			const apiUrl = process.env.API_URL || "http://localhost:3000"
 			config.url = `${apiUrl}${config.url}`
-
 			return config;
 		 }
 	}))
