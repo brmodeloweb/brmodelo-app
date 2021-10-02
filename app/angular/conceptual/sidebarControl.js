@@ -8,6 +8,8 @@ const configurator = () => {
     "entity": false,
     "relationship": false,
     "extension": false,
+    "attribute": false,
+    "key": false
   }
 
   const emptyState = () => {
@@ -16,10 +18,26 @@ const configurator = () => {
   }
 
   const select = (element) => {
-    if(element.type == "Entity") {
-      configuration.entity = true;
-      return configuration;
+    switch (element.type) {
+      case "Entity":
+        configuration.entity = true;
+        return configuration;
+      case "Attribute":
+        configuration.attribute = true;
+        return configuration;
+      case "Key":
+        configuration.key = true;
+        return configuration;
+      case "Relationship":
+        configuration.relationship = true;
+        return configuration;
+      case "Inheritance":
+        configuration.extension = true;
+        return configuration;
+      default:
+        break;
     }
+
     return emptyState();
   }
 
@@ -39,18 +57,28 @@ const controller = function () {
     $ctrl.configuration = configurator().emptyState();
   }
 
-  $ctrl.updateName = function(newName) { 
-    if(newName != "") {
-      $ctrl.onUpdate({"event": {
-        "type": "name",
-        "value":  newName
-      }});
+  $ctrl.updateName = function (newName) {
+    if (newName != "") {
+      $ctrl.onUpdate({
+        "event": {
+          "type": "name",
+          "value": newName
+        }
+      });
     }
   }
 
-  $ctrl.$onChanges = function(changes) { 
-    if(changes.selected != null && changes.selected.currentValue != null) {
-      console.log(changes);
+  $ctrl.extendEntity = function (selected) {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "extention",
+        "value": selected.type
+      }
+    });
+  }
+
+  $ctrl.$onChanges = function (changes) {
+    if (changes.selected != null && changes.selected.currentValue != null) {
       $ctrl.configuration = configurator().select(changes.selected.currentValue);
       $ctrl.selectedElement = changes.selected.currentValue;
     }
@@ -63,12 +91,12 @@ const controller = function () {
 }
 
 export default angular
-	.module("app.workspace.conceptual.sidebar", [])
-	.component("sidebarControlConceptual", {
-		template,
-		controller,
+  .module("app.workspace.conceptual.sidebar", [])
+  .component("sidebarControlConceptual", {
+    template,
+    controller,
     bindings: {
       selected: "<",
       onUpdate: "&",
     },
-	}).name;
+  }).name;
