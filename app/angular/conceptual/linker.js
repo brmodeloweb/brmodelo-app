@@ -150,6 +150,15 @@ export default class Linker {
       });
     }
 
+    if (connectionType === "Entity-Extension") {
+      let entity = this.validator.isEntity(source) ? source : target;
+      const neighbors = entity.graph.getNeighbors(entity);
+      const extentions = neighbors.filter(neighbor => this.validator.isExtension(neighbor));
+      if(extentions.length > 1) {
+        return false;
+      }
+    }
+
     return true;
   }
 
