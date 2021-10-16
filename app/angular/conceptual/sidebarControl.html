@@ -14,7 +14,6 @@
     </div><!-- End .form-group -->
 
     <div class="form-group" ng-if="($ctrl.configuration.entity)">
-
       <div class="form-group">
         <label for="entry-name">Nome</label>
         <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
@@ -27,6 +26,13 @@
             selected="{name: 'Selecione', type: 'empty'}"
             options="[{name: '(t, d)', type: '(t, d)'}, {name: '(t, c)', type: '(t, c)'}, {name: '(p, d)', type: '(p, d)'}, {name: '(p, c)', type: '(p, c)'}]">
           </dropdown>
+      </div>
+
+      <div class="form-group">
+        <label for="">Auto relacionamento</label>
+        <div>
+          <a class="br-button" ng-click="$ctrl.addAutoRelationship()">Adicionar</a>        
+        </div>
       </div>
 
     </div><!-- End .form-group -->

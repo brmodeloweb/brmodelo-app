@@ -88,6 +88,14 @@ const controller = function () {
     $ctrl.visible = !$ctrl.visible;
   }
 
+  $ctrl.addAutoRelationship = () => {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "addAutoRelationship"
+      }
+    });
+  }
+
 }
 
 export default angular

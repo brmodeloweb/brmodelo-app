@@ -174,6 +174,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					ctrl.selectedElement.element.update();
 				});
 				break;
+			case 'addAutoRelationship':
+				$timeout(() => {
+					ctrl.shapeLinker.addAutoRelationship(ctrl.selectedElement);
+				});
+				break;
 		}
 	}
 
