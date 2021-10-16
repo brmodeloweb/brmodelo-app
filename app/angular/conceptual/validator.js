@@ -2,7 +2,7 @@ export default class Validator {
 
   constructor() {}
 
-  isEntity = (element) => {
+  	isEntity = (element) => {
 		return element.attributes.supertype === 'Entity';
 	};
 
@@ -18,7 +18,7 @@ export default class Validator {
 		return element.attributes.supertype === 'Relationship'
 	};
 
-  isAssociative = (element) => {
+  	isAssociative = (element) => {
 		return element.attributes.type === 'erd.Associative'
 	};
 

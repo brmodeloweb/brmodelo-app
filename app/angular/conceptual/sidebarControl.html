@@ -7,19 +7,63 @@
 
   <div class="properties-content">
 
-    <div class="form-group" ng-show="$ctrl.configuration.emptyState">
+    <div class="form-group" ng-if="$ctrl.configuration.emptyState">
       <div class="empty-state">
         <label for="entry-name">Selecione um elemento para editar</label>
       </div>
     </div><!-- End .form-group -->
 
-    <div class="form-group"
-      ng-show="($ctrl.configuration.entity)">
+    <div class="form-group" ng-if="($ctrl.configuration.entity)">
+      <div class="form-group">
+        <label for="entry-name">Nome</label>
+        <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+      </div><!-- End .form-group -->
+
+      <div class="form-group clearfix">
+        <label for="">Especializar</label>
+          <dropdown
+            on-select="$ctrl.extendEntity(selected)"
+            selected="{name: 'Selecione', type: 'empty'}"
+            options="[{name: '(t, d)', type: '(t, d)'}, {name: '(t, c)', type: '(t, c)'}, {name: '(p, d)', type: '(p, d)'}, {name: '(p, c)', type: '(p, c)'}]">
+          </dropdown>
+      </div>
+
+      <div class="form-group">
+        <label for="">Auto relacionamento</label>
+        <div>
+          <a class="br-button" ng-click="$ctrl.addAutoRelationship()">Adicionar</a>        
+        </div>
+      </div>
+
+    </div><!-- End .form-group -->
+
+    <div class="form-group" ng-if="($ctrl.configuration.extension)">
+      <div class="form-group clearfix">
+        <label for="">Editar</label>
+          <dropdown
+            on-select="$ctrl.updateName(selected.type)"
+            selected="{name: $ctrl.selectedElement.value, type: $ctrl.selectedElement.value}"
+            options="[{name: '(t, d)', type: '(t, d)'}, {name: '(t, c)', type: '(t, c)'}, {name: '(p, d)', type: '(p, d)'}, {name: '(p, c)', type: '(p, c)'}]">
+          </dropdown>
+      </div>
+    </div><!-- End .form-group -->
+
+    <div class="form-group" ng-if="($ctrl.configuration.attribute)">
       <label for="entry-name">Nome</label>
       <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
     </div><!-- End .form-group -->
 
-    <div class="form-group clearfix" ng-show="entitySelected == 'ENTITY'">
+    <div class="form-group" ng-if="($ctrl.configuration.key)">
+      <label for="entry-name">Nome</label>
+      <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+    </div><!-- End .form-group -->
+
+    <div class="form-group" ng-if="($ctrl.configuration.relationship)">
+      <label for="entry-name">Nome</label>
+      <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+    </div><!-- End .form-group -->
+
+    <div class="form-group clearfix" ng-if="entitySelected == 'ENTITY'">
       <label for="specialization">Especializar</label>
       <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
         <div class="dropdown-tmp-trigger">

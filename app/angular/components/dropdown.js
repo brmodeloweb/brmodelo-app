@@ -24,6 +24,7 @@ const dropDownController = function ($element, $timeout) {
 			}
 		});
 	};
+
 };
 
 export default angular.module("app.dropdown", []).component("dropdown", {

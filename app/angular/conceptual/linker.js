@@ -1,4 +1,3 @@
-
 export default class Linker {
 
   constructor(shapeFactory, shapeValidator) {
@@ -46,6 +45,30 @@ export default class Linker {
     }
     link.label(0, { position: pos, attrs: { text: { text: '(0, n)' } } });
     link.attributes.type = "erd.Link";
+  }
+
+  addAutoRelationship = (entityView) => {
+    const entity = entityView.element.model;
+    const rel = this.factory.createRelationship();
+
+    rel.attributes.position.x = entity.attributes.position.x + 150;
+    rel.attributes.position.y = entity.attributes.position.y;
+
+    const graph = entity.graph;
+
+    graph.addCell(rel);
+
+    var link1 = this.createLink(entity, rel, graph);
+    link1.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y - 10 }]);
+    link1.label(0, { position: 0.3, attrs: { text: { text: '(0, n)' } } });
+    link1.attributes.type = "erd.Link";
+
+    var link2 = this.createLink(entity, rel, graph);
+    link2.set('vertices', [{ x: entity.attributes.position.x + 120, y: entity.attributes.position.y + 60 }]);
+    link2.label(0, { position: 0.3, attrs: { text: { text: '(0, n)' } } });
+    link2.attributes.type = "erd.Link";
+
+    rel.attributes.autorelationship = true;
   }
 
   connectEntityExtension = (source, target, link) => {
@@ -124,7 +147,7 @@ export default class Linker {
 
     const connectionType = this.getConnectionType(source, target);
 
-    if(connectionType === "Invalid-Connection") {
+    if (connectionType === "Invalid-Connection") {
       return false;
     }
 
@@ -132,7 +155,7 @@ export default class Linker {
       let attribute;
       let parent;
 
-      if(this.validator.isAttribute(source)) {
+      if (this.validator.isAttribute(source)) {
         attribute = source;
         parent = target;
       } else {
@@ -141,13 +164,22 @@ export default class Linker {
       }
 
       const neighbors = attribute.graph.getNeighbors(attribute);
-      if(neighbors.length == 1) {
+      if (neighbors.length == 1) {
         return true;
       }
 
       return neighbors.every(connection => {
         return this.validator.isAttribute(connection) || connection.id == parent.id;
       });
+    }
+
+    if (connectionType === "Entity-Extension") {
+      let entity = this.validator.isEntity(source) ? source : target;
+      const neighbors = entity.graph.getNeighbors(entity);
+      const extentions = neighbors.filter(neighbor => this.validator.isExtension(neighbor));
+      if (extentions.length > 1) {
+        return false;
+      }
     }
 
     return true;

@@ -23,6 +23,7 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import Factory from "./factory";
 import Validator from "./validator";
 import Linker from "./linker";
+import EntityExtensor from "./entityExtensor";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
@@ -155,6 +156,27 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				$timeout(() => {
 					ctrl.selectedElement.element.model.attributes.attrs.text.text = event.value;
 					ctrl.selectedElement.element.update();
+				});
+				break;
+			case 'extention':
+				$timeout(() => {
+					if(ctrl.selectedElement.element.model.attributes.isExtended) {
+						ctrl.entityExtensor.updateExtension(ctrl.selectedElement.element, event.value);
+						ctrl.selectedElement.element.update();
+					} else {
+						ctrl.entityExtensor.createExtension(ctrl.selectedElement.element, event.value);
+					}
+				});
+				break;
+			case 'editExtention':
+				$timeout(() => {
+					ctrl.selectedElement.element.model.attributes.attrs.text.text = event.value;
+					ctrl.selectedElement.element.update();
+				});
+				break;
+			case 'addAutoRelationship':
+				$timeout(() => {
+					ctrl.shapeLinker.addAutoRelationship(ctrl.selectedElement);
 				});
 				break;
 		}
@@ -359,6 +381,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.shapeFactory = new Factory(joint.shapes);
 		ctrl.shapeValidator = new Validator();
 		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
+		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
