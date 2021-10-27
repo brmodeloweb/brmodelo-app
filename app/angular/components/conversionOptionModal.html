@@ -3,25 +3,16 @@
 </div>
 
 <div class="modal-body">
-
 	<p> {{$ctrl.summary}} </p>
-
 	<form class="form-horizontal" role="form" name="modelForm">
 		<div class="radio" ng-repeat="option in $ctrl.options">
 			<label>
-				<input
-					id="$ctrl.option.value"
-					type="radio"
-					name="optionsRadios"
-					ng-model="$ctrl.selectedValue"
-					ng-value="option"
-					ng-init="$index==0?($ctrl.selectedValue=option):''"
-				/>
+				<input id="$ctrl.option.value" type="radio" name="optionsRadios" ng-model="$ctrl.selectedValue"
+					ng-value="option" ng-init="$index==0?($ctrl.selectedValue=option):''" />
 				{{ option.label }}
 			</label>
 		</div>
 	</form>
-
 </div>
 
 <div class="modal-footer">

@@ -1,6 +1,5 @@
 import angular from "angular";
 import conceptualService from "../service/conceptualService"
-
 import conversionOptionModal from "../components/conversionOptionModal";
 
 const logicConversorService = (ConceptualService, $uibModal, $q) => {
@@ -92,12 +91,12 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 						template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 						controller: function () {
 							const $ctrl = this;
-							$ctrl.title = `Assistente de conversão - Especialização`;							
+							$ctrl.title = `Assistente de conversão - Especialização`;
 							$ctrl.summary = `O que deseja fazer com a herança partindo da tabela ${getExtensionRootName(extension)}?`;
 							$ctrl.options = [
-								{"label": "Uso de uma tabela para cada entidade", "value": "all_tables"},
-								{"label": "Uso de uma única tabela para toda hierarquia", "value": "one_table"},
-								{"label": "Uso de uma tabela apenas para entidade(s) especializada(s)", "value": "children_tables"}
+								{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
+								{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
+								{ "label": "Uso de uma tabela apenas para entidade(s) especializada(s)", "value": "children_tables" }
 							]
 						},
 						controllerAs: '$ctrl',
