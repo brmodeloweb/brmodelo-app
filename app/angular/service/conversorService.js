@@ -1,6 +1,8 @@
 import angular from "angular";
 import conceptualService from "../service/conceptualService"
 
+import conversionOptionModal from "../components/conversionOptionModal";
+
 const logicConversorService = (ConceptualService, $uibModal, $q) => {
 
 	var modelGraph;
@@ -76,39 +78,44 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	};
 
-	const buildExtensions = function (extensions) {
-		return $q(function (resolve) {
+	const buildExtensions = (extensions) => {
+		return new Promise((resolve) => {
 			(function iterate() {
 				if (extensions.length == 0) {
 					resolve();
 				} else {
-					var extension = extensions.shift();
-					var modalInstance = $uibModal.open({
+					const extension = extensions.shift();
+					const modalInstance = $uibModal.open({
 						backdrop: 'static',
 						keyboard: false,
 						animation: true,
-						templateUrl: 'angular/view/modal/conversions/extensionConversionModal.html',
-						controller: 'ExtensionModalController',
-						resolve: {
-							params: function () {
-								return { 'rootName': getExtensionRootName(extension) };
-							}
-						}
+						template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+						controller: function () {
+							const $ctrl = this;
+							$ctrl.title = `Assistente de conversão - Especialização`;							
+							$ctrl.summary = `O que deseja fazer com a herança partindo da tabela ${getExtensionRootName(extension)}?`;
+							$ctrl.options = [
+								{"label": "Uso de uma tabela para cada entidade", "value": "all_tables"},
+								{"label": "Uso de uma única tabela para toda hierarquia", "value": "one_table"},
+								{"label": "Uso de uma tabela apenas para entidade(s) especializada(s)", "value": "children_tables"}
+							]
+						},
+						controllerAs: '$ctrl',
 					});
-					modalInstance.result.then(function (resp) {
-						switch (resp) {
+					modalInstance.result.then((response) => {
+						switch (response.value) {
 							case "all_tables":
-								treatExtensionAll(extension).then(function () {
+								treatExtensionAll(extension).then(() => {
 									iterate();
 								});
 								break;
 							case "one_table":
-								treatExtensionOne_table(extension).then(function () {
+								treatExtensionOne_table(extension).then(() => {
 									iterate();
 								});
 								break;
 							case "children_tables":
-								treatExtensionChildrensOnly(extension).then(function () {
+								treatExtensionChildrensOnly(extension).then(() => {
 									iterate();
 								});
 								break;
@@ -935,5 +942,5 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 };
 
 export default angular
-	.module("app.LogicConversorService", [conceptualService])
+	.module("app.LogicConversorService", [conceptualService, conversionOptionModal])
 	.factory("LogicConversorService", logicConversorService).name;
