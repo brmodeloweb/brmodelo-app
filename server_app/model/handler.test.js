@@ -47,3 +47,7 @@ describe("Test list all /models", () => {
 		expect(response.statusCode).toBe(200);
 	});
 });
+
+describe("Test export /models", () => {
+	test("It should send 200 when model is exported", async () => {});
+});

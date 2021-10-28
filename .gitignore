@@ -25,3 +25,4 @@ package-lock.json
 app/css
 app/assets
 data/
+.env

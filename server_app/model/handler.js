@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const modelService = require("./service");
 const modelValidator = require("./validator");
+const { decrypt } = require("../helpers/crypto");
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -34,9 +35,9 @@ const save = async (req, res) => {
 	try {
 		const name = req.body.name;
 		const type = req.body.type;
-		const userId = req.body.user; 
+		const userId = req.body.user;
 		const model = req.body.model;
-		
+
 		const validation = modelValidator.validateSaveParams({
 			name,
 			type,
@@ -100,10 +101,29 @@ const rename = async (req, res) => {
 	}
 };
 
+const exportModel = async (req, res) => {
+	try {
+		const { modelId } = req.params;
+		const model = await modelService.exportModel(modelId);
+		res.writeHead(200, {
+			"Content-Type": "application/octet-stream",
+			"Content-Disposition": `attachment; filename=${modelId}.brm`,
+			"Content-Length": model.length,
+		});
+		return res.end(model);
+	} catch (error) {
+		console.error(error);
+		return res
+			.status(500)
+			.send("There's an error while treating export your model request");
+	}
+};
+
 module.exports = router
 	.get("/", listAll)
 	.post("/", save)
 	.get("/:modelId", getById)
 	.put("/:modelId", edit)
 	.delete("/:modelId", remove)
-	.put("/:modelId/rename", rename);
+	.put("/:modelId/rename", rename)
+	.get("/:modelId/export", exportModel);
