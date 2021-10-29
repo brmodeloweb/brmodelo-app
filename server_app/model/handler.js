@@ -119,6 +119,17 @@ const exportModel = async (req, res) => {
 	}
 };
 
+const importModel = async (req, res) => {
+	try {
+		return res.status(200).json(JSON.parse(decrypt(req.body)));
+	} catch (error) {
+		console.error(error);
+		return res
+			.status(500)
+			.send("There's an error while treating import your model request");
+	}
+};
+
 module.exports = router
 	.get("/", listAll)
 	.post("/", save)
@@ -126,4 +137,5 @@ module.exports = router
 	.put("/:modelId", edit)
 	.delete("/:modelId", remove)
 	.put("/:modelId/rename", rename)
-	.get("/:modelId/export", exportModel);
+	.get("/:modelId/export", exportModel)
+	.post("/import", importModel);
