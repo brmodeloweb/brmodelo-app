@@ -6,7 +6,8 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const path = require("path");
-const getRawBody = require('raw-body');
+const { uploadMiddleware } = require("./middleware/middleware");
+
 require("dotenv").config();
 
 let app = express();
@@ -20,24 +21,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-app.use(function (req, res, next) {
-	if (req.headers["content-type"] === "application/octet-stream") {
-		getRawBody(
-			req,
-			{
-				length: req.headers["content-length"],
-				encoding: req.charset,
-			},
-			(err, string) => {
-				if (err) return next(err);
-				req.body = string;
-				next();
-			}
-		);
-	} else {
-		next();
-	}
-});
+app.use(uploadMiddleware);
 const appPath = path.join(__dirname, "../app");
 app.use(express.static(appPath));
 app.use(express.static(`${appPath}/assets`));
@@ -55,6 +39,7 @@ app.use(errorhandler());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");
+
 
 app.use("/users", userHandler);
 app.use("/models", modelHandler);

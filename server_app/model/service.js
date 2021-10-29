@@ -100,7 +100,10 @@ const exportModel = async (modelId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await getById(modelId);
-			return resolve(encrypt(JSON.stringify(model)));
+			return resolve({
+				name: model.name.replace(/[^a-zA-Z0-9]/g, ""),
+				data: encrypt(JSON.stringify(model)),
+			});
 		} catch (error) {
 			console.error(error);
 			return reject(error);

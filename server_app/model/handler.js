@@ -104,13 +104,13 @@ const rename = async (req, res) => {
 const exportModel = async (req, res) => {
 	try {
 		const { modelId } = req.params;
-		const model = await modelService.exportModel(modelId);
+		const { name, data } = await modelService.exportModel(modelId);
 		res.writeHead(200, {
 			"Content-Type": "application/octet-stream",
-			"Content-Disposition": `attachment; filename=${modelId}.brm`,
-			"Content-Length": model.length,
+			"Content-Disposition": `attachment; filename=${name}.brm`,
+			"Content-Length": data.length,
 		});
-		return res.end(model);
+		return res.end(data);
 	} catch (error) {
 		console.error(error);
 		return res
