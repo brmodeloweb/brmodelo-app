@@ -261,71 +261,58 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const buildTables = function (tables) {
-		return $q(function (resolve) {
-
+	const buildTables = (tables) => {
+		return new Promise((resolve) => {
 			(function iterate() {
 				if (tables.length == 0) {
 					resolve();
 				} else {
-					let element = tables.shift();
+					const element = tables.shift();
 					if (element != null) {
-						let promise = buildTable(element, modelGraph.getNeighbors(element));
-						promise.then(function (editedTable) {
-							let newTable = ls.insertTable(editedTable);
+						const promise = buildTable(element, modelGraph.getNeighbors(element));
+						promise.then((editedTable) => {
+							const newTable = ls.insertTable(editedTable);
 							entityTableMap.set(element.id, newTable);
 							iterate();
 						});
 					}
 				}
 			})();
-
 		});
 	}
 
-	const buildRelations = function (relations) {
-
-		return $q(function (resolve) {
-
+	const buildRelations = (relations) => {
+		return new Promise((resolve) => {
 			(function iterate() {
-
 				if (relations.length == 0) {
-
 					resolve();
-
 				} else {
-
-					var relation = relations.shift();
-
-					var links = modelGraph.getConnectedLinks(relation);
-
-					var relationType = getRelationType(links);
-
+					const relation = relations.shift();
+					const links = modelGraph.getConnectedLinks(relation);
+					const relationType = getRelationType(links);
 					if (relationType.quantity > 2) {
-
 						createTableFromRelation(relation, true).then(function () {
 							iterate();
 						});
-
 					} else {
 						switch (relationType.type) {
 							case "nn":
-								treatNNcase(relation, links).then(function () {
+								treatNNcase(relation, links).then(() => {
 									iterate();
 								});
 								break;
 							case "1n":
-								treatN1case(relation, links).then(function () {
+								treatN1case(relation, links).then(() => {
 									iterate();
 								});
 								break;
 							case "n1":
-								treatN1case(relation, links).then(function () {
+								treatN1case(relation, links).then(() => {
 									iterate();
 								});
 								break;
 							case "11":
-								treat11case(relation, links).then(function () {
+								treat11case(relation, links).then(() => {
 									iterate();
 								});
 								break;
@@ -333,13 +320,9 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 								iterate();
 						}
 					}
-
 				}
-
 			})();
-
 		});
-
 	}
 
 	const buildAttributes = function (table, neighbors, entityReference) {
@@ -729,15 +712,15 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const treatNNcase = function (relation, links) {
-		return $q(function (resolve) {
-			var optionality = getRelationOptionality(links);
+	const treatNNcase = (relation, links) => {
+		return new Promise((resolve) => {
+			const optionality = getRelationOptionality(links);
 			if (optionality == "11" || optionality == "00") {
-				createTableFromRelation(relation, true).then(function () {
+				createTableFromRelation(relation, true).then(() => {
 					resolve();
 				});
 			} else {
-				createTableFromRelation(relation, false).then(function () {
+				createTableFromRelation(relation, false).then(() => {
 					resolve();
 				});
 			}
@@ -917,15 +900,15 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 
 	const filterConnections = function (links) {
 		return links.filter(link => {
-			if (link.attributes.type == "erd.Line") {
+			if(link.attributes.type == "erd.Line") {
 				return true;
 			}
-			if (link.attributes.type == "link" &&
-				link.attributes.labels != null &&
-				link.attributes.labels[0] != null &&
-				link.attributes.labels[0].attrs != null &&
+			if((link.attributes.type == "link" || link.attributes.type == "erd.Link") && 
+				link.attributes.labels != null && 
+				link.attributes.labels[0] != null && 
+				link.attributes.labels[0].attrs != null && 
 				link.attributes.labels[0].attrs.text != null &&
-				link.attributes.labels[0].attrs.text.text != null) {
+				link.attributes.labels[0].attrs.text.text != null ) {
 				const type = link.attributes.labels[0].attrs.text.text;
 				return (type == "(0, n)" || type == "(0, 1)" || type == "(1, 1)" || type == "(1, n)");
 			}
