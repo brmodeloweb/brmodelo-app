@@ -5,14 +5,17 @@
 >
 
 	<header class="navbar navbar-default navbar-fixed-top">
-		<div class="navbar-header">
-			<strong class="navbar-brand" data-ui-sref="main">BR Modelo</strong>
-		</div><!-- End .navbar-header -->
-
-		<ul class="nav navbar-nav nav-icons pull-right" ng-controller="optionsController">
-			<brdropdown title="Options" list="menuItens"></brdropdown>
+		<ul class="nav navbar-nav pull-left">
+			<li>
+				<a class="back-button" href="#" data-ui-sref="main">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+				</a>
+			</li>
 		</ul>
 
+		<div class="navbar-header">
+			<strong class="navbar-brand" >BR Modelo</strong>
+		</div>
 		<img
 			src="assets/img/loading-dots.gif"
 			alt="Loading"
@@ -39,6 +42,7 @@
 					<li class="divider"><a data-ng-click="redoModel()" title="Refazer"><i class="fa fa-share"></i></a></li>
 					<li><a data-ng-click="zoomIn()" title="Zoom +"><i class="fa fa-search-plus"></i></a></li>
 					<li class="divider"><a data-ng-click="zoomOut()" title="Zoom -"><i class="fa fa-search-minus"></i></a></li>
+					<li><a data-ng-click="duplicateModel()" title="Duplicar modelo"><i class="fa fa-files-o"></i></a></li>
 					<li class="divider"><a data-ng-click="generateSQL()" title="Gerar SQL"><i class="fa fa-database"></i></a></li>
 					<li class="divider"><a data-ng-click="print()" title="Imprimir"><i class="fa fa-print"></i></a></li>
 				</ul>
@@ -259,5 +263,10 @@
 				</div><!-- End .properties-content -->
 			</aside><!-- End .model-properties -->
 		</section><!-- End .model-area -->
+
+		<a class="br-help" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+			<i class="fa fa-bug" aria-hidden="true"></i>
+		</a>
+
 	</section><!-- End .mainContent -->
 </section><!-- End .view -->

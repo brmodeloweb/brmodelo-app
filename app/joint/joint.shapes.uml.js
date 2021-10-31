@@ -25,9 +25,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
          attrs: {
              rect: { 'width': 200 },
 
-             '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#3498db' },
-             '.uml-class-attrs-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
-             '.uml-class-methods-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
+             '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': '#3498db' },
+             '.uml-class-attrs-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': '#fff' },
+             '.uml-class-methods-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': '#fff' },
 
              '.uml-class-name-text': {
                  'ref': '.uml-class-name-rect', 'ref-y': .5, 'ref-x': .5, 'text-anchor': 'middle', 'y-alignment': 'middle', 'font-weight': 'bold',

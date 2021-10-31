@@ -1,0 +1,60 @@
+<div class="public">
+	<div class="container">
+		<img
+			src="assets/img/loading-dots.gif"
+			alt="Loading"
+			class="br-loader"
+			ng-class="{'loading': $ctrl.loading}"
+		/>
+		<section class="login-page">
+			<header class="public-logo">
+				<img src="../assets/img/brmodelo-logo-square.svg" alt="Smiley face" height="42" width="42" />
+				<h1>BR Modelo</h1>
+			</header>
+			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+				<p>{{ $ctrl.feedback.message }}</p>
+			</div>
+			<form class="login-form" name="loginForm" ng-submit="$ctrl.submitForm(loginForm.$valid)" novalidate>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Email</label>
+					<input
+						type="email"
+						name="email"
+						class="form-control input-lg"
+						id="userEmail"
+						placeholder="Email"
+						autocomplete="off"
+						required
+						ng-model="$ctrl.credentials.username"
+						data-ng-class="{'error': loginForm.email.$invalid && (!loginForm.email.$pristine || $ctrl.submitted)}"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Password</label>
+					<input
+						type="password"
+						name="password"
+						class="form-control input-lg"
+						id="userPassword"
+						placeholder="Password"
+						autocomplete="off"
+						required
+						ng-model="$ctrl.credentials.password"
+						data-ng-class="{'error': loginForm.password.$invalid && (!loginForm.password.$pristine || $ctrl.submitted)}"
+					/>
+				</div>
+				<button type="submit" class="br-button btn-block">Login</button>
+			</form>
+			<aside class="account-options">
+				<div class="recovery-password">
+					<a href="#" data-ui-sref="recovery">Recuperar senha</a>
+				</div>
+				<hr class="separator"/>
+				<a class="register br-button btn-block btn-alt" href="#" data-ui-sref="register">Criar conta</a>
+			<aside>
+		</section>
+	</div>
+	<a class="br-help" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+		<i class="fa fa-bug" aria-hidden="true"></i>
+	</a>
+</div>

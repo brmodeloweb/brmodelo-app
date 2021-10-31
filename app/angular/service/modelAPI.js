@@ -1,52 +1,62 @@
-angular.module('myapp').factory('ModelAPI', function($http){
+angular.module("myapp").factory("ModelAPI", function ($http) {
+	_saveModel = function (model) {
+		return $http.post("/models", model).then(function (newModel) {
+			return newModel.data;
+		});
+	};
 
-	_saveModel = function(model){
+	_getAllModels = function (_userId) {
 		return $http
-			.post('/models', model)
-			.then(function(newModel){
-				return newModel.data;
-			});
-	}
-
-	_getAllModels = function(_userId){
-		return $http
-			.get('/models', {
-				params: {'userId': _userId}
-			}).then(function(res){
+			.get("/models", {
+				params: { userId: _userId },
+			})
+			.then(function (res) {
 				return res;
 			});
-	}
+	};
 
-	_updateModel = function(model){
+	_updateModel = function (model) {
 		return $http
-			.put('/models/:modelId', model).then(function(res){
+			.put(`/models/${model.id}`, model)
+			.then(function (res) {
 				console.log(res);
 			});
-	}
+	};
 
-	_getModel = function(_modelId, _userId){
+	_getModel = function (_modelId, _userId) {
 		return $http
-			.get('/models/:modelId', {
-    		params: {'userId': _userId, 'modelId': _modelId}
-			}).then(function(resp){
+			.get("/models/:modelId", {
+				params: { userId: _userId, modelId: _modelId },
+			})
+			.then(function (resp) {
 				return resp;
 			});
-	}
+	};
 
-	_deleteModel = function(_modelId){
-		return $http.delete('/models/:modelId', {
-			params: {'modelId': _modelId}
-		}).then(function(resp){
-			return resp;
-		});
-	}
+	_deleteModel = function (_modelId) {
+		return $http
+			.delete("/models/:modelId", {
+				params: { modelId: _modelId },
+			})
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
+	_renameModel = function (_modelId, newName) {
+		return $http
+			.put(`/models/${_modelId}/rename`, {"name": newName})
+			.then(function (resp) {
+				return resp;
+			});
+	};
 
 	return {
-		saveModel : _saveModel,
-		getAllModels : _getAllModels,
-		getModel : _getModel,
-		updateModel : _updateModel,
-		deleteModel : _deleteModel
-	}
-
+		saveModel: _saveModel,
+		getAllModels: _getAllModels,
+		getModel: _getModel,
+		updateModel: _updateModel,
+		deleteModel: _deleteModel,
+		renameModel: _renameModel
+	};
 });

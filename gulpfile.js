@@ -77,8 +77,6 @@ function imagesOptimize() {
 ////////////////////////////////////////////////////////////////////////////////
 function copyToAssets() {
 	const files = [
-		//Jquery
-		"node_modules/jquery/dist/**/*",
 		// AngularJS
 		"node_modules/angular/angular.min.js",
 		"node_modules/angular/angular.min.js.map",
@@ -97,7 +95,12 @@ function copyToAssets() {
 		"node_modules/font-awesome/css/**/*",
 		"node_modules/font-awesome/fonts/**/*",
 		// Sweet-Feedback
-		"node_modules/sweet-feedback/**/*"
+		"node_modules/sweet-feedback/**/*",
+		// Joint
+		"node_modules/jointjs/dist/**/*",
+		// Jquery
+		"node_modules/jquery/dist/jquery.min.js",
+		//"node_modules/jointjs/node_modules/jquery/dist/jquery.min.js",
 	];
 
 	return gulp

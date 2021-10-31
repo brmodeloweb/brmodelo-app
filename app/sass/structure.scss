@@ -8,7 +8,15 @@ html {box-sizing: border-box;}
 *:after {box-sizing: inherit;}
 
 ////////////////////////////////////////////////////////////////////////////////
-// .General styles
+// .separator
+////////////////////////////////////////////////////////////////////////////////
+.separator {
+	width: 100%;
+	border-color: #cecece;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// General styles
 ////////////////////////////////////////////////////////////////////////////////
 body {
 	font-family: 'Fira Sans', sans-serif;
@@ -56,7 +64,7 @@ a,
 	top: 50px;
 	bottom: 0;
 	left: 0;
-	width: 150px;
+	width: 200px;
 	border-right: 1px solid #e7e7e7;;
 	background-color: #f8f8f8;
 	user-select: none;
@@ -79,7 +87,7 @@ a,
 	top: 50px;
 	right: 0;
 	bottom: 0;
-	left: 150px;
+	left: 200px;
 	overflow: hidden;
 	box-sizing: border-box;
 }
@@ -104,7 +112,7 @@ a,
 .model-properties {
 	position: fixed;
 	z-index: 10;
-	top: 98px;
+	top: 85px;
 	right: -224px;
 	bottom: 0;
 	width: 240px;

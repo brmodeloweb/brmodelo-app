@@ -14,6 +14,9 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 	}
 
 	self.openModel = function(model) {
+		if(model.type === "logic") {
+			return $state.go("logic", {"references": {'modelid': model._id, 'conversionId': ""}});	
+		}
 		$state.go(model.type, {
 			'modelid': model._id
 		});
@@ -45,6 +48,23 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 		});
 	};
 
+	self.renameModel = function(model) {
+		var modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/renameModelModal.html',
+			controller:  'RenameModelModalController'
+		});
+
+		modalInstance.result.then(function(newName) {
+			ModelAPI.renameModel(model._id, newName).then(function (resp) {
+				if (resp.status === 200){
+					model.name = newName;
+				}
+				$scope.showLoading(false);
+			});
+		});
+	};
+
 	self.doDelete = function(model) {
 		$scope.showLoading(true);
 		ModelAPI.deleteModel(model._id).then(function (resp) {
@@ -64,6 +84,33 @@ app.controller('listController', function($scope, $state, ModelAPI, $rootScope, 
 
 	self.getAuthorName = function(type) {
 		return AuthService.loggeduserName;
+	}
+
+	self.duplicateModel = function(model) {
+		let modalInstance = $uibModal.open({
+			animation: true,
+			templateUrl: 'angular/view/modal/duplicateModelModal.html',
+			controller:  'DuplicateModelModalController',
+			resolve: {
+				params: function () {
+					return {'suggestedName': `${model.name} (cópia)`};
+				}
+			}
+		});
+		modalInstance.result.then(function (newName) {
+			$scope.showLoading(true);
+			const duplicatedModel = {
+				"id": '',
+				"name": newName,
+				"type": model.type,
+				"model": model.model,
+				"user": model.who
+			}
+			ModelAPI.saveModel(duplicatedModel).then(function(newModel){
+				self.models.push(newModel);
+				$scope.showLoading(false);
+			});
+		});
 	}
 
 });

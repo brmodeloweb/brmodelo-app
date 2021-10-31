@@ -9,7 +9,7 @@
 	<!-- Joint -->
 	<script src="joint/lodash.min.js"></script>
 	<script src="joint/backbone-min.js"></script>
-	<script src="joint/joint.js"></script>
+	<script src="jointjs/dist/joint.min.js"></script>
 	<script src="joint/joint.ui.stencil.js"></script>
 	<script src="joint/joint.ui.halo.js"></script>
 	<script src="joint/joint.dia.command.js"></script>
@@ -17,7 +17,7 @@
 	<script src="joint/joint.shapes.uml.js"></script>
 	<script src="joint/br-scroller.js"></script>
 	<script src="joint/joint.ui.selectionView.js"></script>
-	<link rel="stylesheet" href="joint/joint.css" />
+	<link rel="stylesheet" href="jointjs/dist/joint.css" />
 	<link rel="stylesheet" href="joint/joint.ui.halo.css" />
 	<link rel="stylesheet" href="joint/joint.ui.stencil.css" />
 	<link rel="stylesheet" href="joint/joint.ui.selectionView.css" />
@@ -57,21 +57,26 @@
 	<script src="angular/app.js"></script>
 	<script src="angular/session.js"></script>
 
-	<!-- Contorllers -->
+	<!-- Controllers -->
 	<script src="angular/controller/mainController.js"></script>
 	<script src="angular/controller/models/conceptualController.js"></script>
 	<script src="angular/controller/models/logicController.js"></script>
-	<script src="angular/controller/login/loginController.js"></script>
-	<script src="angular/controller/register/registerController.js"></script>
 	<script src="angular/controller/modellist/listController.js"></script>
 	<script src="angular/controller/optionsController.js"></script>
 	<script src="angular/controller/modal/newModelModalController.js"></script>
 	<script src="angular/controller/modal/deleteModelModalController.js"></script>
 	<script src="angular/controller/modal/renameModelModalController.js"></script>
+	<script src="angular/controller/modal/duplicateModelModalController.js"></script>
 	<script src="angular/controller/modal/sqlGeneratorModalController.js"></script>
 	<script src="angular/controller/sqlController.js"></script>
 	<script src="angular/controller/modal/conversions/attributeModalController.js"></script>
 	<script src="angular/controller/modal/conversions/extensionModalController.js"></script>
+
+	<!-- Components -->
+	<script src="angular/login/login.js"></script>
+	<script src="angular/signup/signup.js"></script>
+	<script src="angular/recovery/recovery.js"></script>
+	<script src="angular/recovery/reset.js"></script>
 
 	<!-- Services -->
 	<script src="angular/service/authService.js"></script>
@@ -96,6 +101,15 @@
 		angular.element(document).ready(function () {
 			var $injector = angular.bootstrap(document, ["myapp"])
 		})
+	</script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQ9Z9PV306"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-NQ9Z9PV306');
 	</script>
 </head>
 <body>

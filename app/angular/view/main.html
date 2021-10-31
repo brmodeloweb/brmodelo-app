@@ -40,7 +40,8 @@
 							<td ng-click="ctrl.openModel(model)">{{ctrl.getAuthorName(model.who)}}</td>
 							<td ng-click="ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
-								<i title="Renomear" class="fa fa-pencil" aria-hidden="true"></i>
+								<i title="Renomear modelo" class="fa fa-pencil" aria-hidden="true" ng-click="ctrl.renameModel(model)"></i>
+								<i title="Duplicar modelo" class="fa fa-files-o" aria-hidden="true" ng-click="ctrl.duplicateModel(model)"></i>
 								<i title="Apagar" class="fa fa-trash" aria-hidden="true" ng-click="ctrl.deleteModel(model)"></i>
 							</td>
 						</tr>
@@ -48,6 +49,10 @@
 				</table>
 			</div><!-- End .table-responsive -->
 		</div><!-- End .container.projectsList -->
+
+		<a class="br-help" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+			<i class="fa fa-bug" aria-hidden="true"></i>
+		</a>
 
 	</section><!-- End .mainContent -->
 </section><!-- End .view -->

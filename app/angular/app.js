@@ -1,14 +1,16 @@
-var app = angular.module('myapp', ['ui.router',
-																	 'ui.bootstrap',
-																	 'ngCookies',
-																 	 'textAngular']);
+var app = angular.module('myapp', [
+	'ui.router',
+	'ui.bootstrap',
+	'ngCookies',
+	'textAngular'
+]);
 
 app.config(['$urlRouterProvider', '$stateProvider',
 
 	function($urlRouterProvider, $stateProvider) {
 		$stateProvider.state('login', {
 			url: '/',
-			templateUrl: 'angular/view/login.html',
+			template: '<login></login>',
 			data: {
 				requireLogin: false
 			}
@@ -16,7 +18,23 @@ app.config(['$urlRouterProvider', '$stateProvider',
 
 		$stateProvider.state('register', {
 			url: '/register',
-			templateUrl: 'angular/view/register.html',
+			template: '<signup></signup>',
+			data: {
+				requireLogin: false
+			}
+		});
+
+		$stateProvider.state('recovery', {
+			url: '/recovery',
+			template: '<recovery></recovery>',
+			data: {
+				requireLogin: false
+			}
+		});
+
+		$stateProvider.state('reset', {
+			url: '/reset/{mail}/{code}',
+			template: '<reset-password></reset-password>',
 			data: {
 				requireLogin: false
 			}
@@ -47,7 +65,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 		});
 
 		$stateProvider.state('logic', {
-			url: '/logic/[{modelid},{conversionId}]',
+			url: '/logic/{references:json}',
 			templateUrl: 'angular/view/logic.html',
 			data: {
 				requireLogin: true
@@ -67,7 +85,7 @@ app.config(['$urlRouterProvider', '$stateProvider',
 ]);
 
 app.run(function($transitions, $rootScope, AuthService, $state) {
-  $transitions.onStart({}, function(trans) {
+	$transitions.onStart({}, function(trans) {
 		var requireLogin = trans.to().data.requireLogin
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
@@ -76,7 +94,7 @@ app.run(function($transitions, $rootScope, AuthService, $state) {
 				$state.go('login');
 			}
 		}
-  });
+	});
 })
 
 app.config(function() {

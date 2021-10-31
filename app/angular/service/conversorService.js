@@ -29,23 +29,23 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var cell_associatives = [];
 				var cell_extensions = [];
 
-				var all = modelGraph.toJSON().cells;
+				var all = modelGraph.attributes.cells.models;
 
 				for (element of all){
 
-					if(element.type === 'erd.Entity') {
+					if(element.attributes.type === 'erd.Entity') {
 						cell_tables.push(element);
 					}
 
-					if(element.type === 'erd.Relationship') {
+					if(element.attributes.type === 'erd.Relationship') {
 						cell_relations.push(element);
 					}
 
-					if(element.type === 'erd.BlockAssociative'){
+					if(element.attributes.type === 'erd.BlockAssociative'){
 						cell_associatives.push(element);
 					}
 
-					if(element.type === 'erd.ISA'){
+					if(element.attributes.type === 'erd.ISA'){
 						cell_extensions.push(element);
 					}
 
@@ -119,7 +119,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		getExtensionRootName = function(extension) {
 			for (neighbor of getEntityNeighbors(extension)){
-				if(extension.parentId == neighbor.id){
+				if(extension.attributes.parentId == neighbor.id){
 					return neighbor.attributes.attrs.text.text;
 				}
 			}
@@ -139,7 +139,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var childrens = [];
 				var root = {};
 				for (neighbor of getEntityNeighbors(extension)){
-					if(extension.parentId != neighbor.id){
+					if(extension.attributes.parentId != neighbor.id){
 						childrens.push(neighbor);
 					} else {
 						root = neighbor;
@@ -198,7 +198,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				var childrens = [];
 				var root = {};
 				for (neighbor of getEntityNeighbors(extension)){
-					if(extension.parentId != neighbor.id){
+					if(extension.attributes.parentId != neighbor.id){
 						childrens.push(neighbor);
 					} else {
 						root = neighbor;
@@ -252,18 +252,18 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			});
 		}
 
-		buildTables = function(tables) {
+		buildTables = function(tables) {  
 			return $q(function(resolve){
 
 				(function iterate(){
 					if(tables.length == 0){
 						resolve();
 					} else {
-							var element = tables.shift();
+							let element = tables.shift();
 							if(element != null) {
-								var promise = buildTable(element, modelGraph.getNeighbors(element));
+								let promise = buildTable(element, modelGraph.getNeighbors(element));
 								promise.then(function(editedTable) {
-									var newTable = ls.insertTable(editedTable);
+									let newTable = ls.insertTable(editedTable);
 									entityTableMap.set(element.id, newTable);
 									iterate();
 								});
@@ -433,9 +433,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		buildTable = function(element, neighbors) {
 			return $q(function(resolve, reject) {
 
-				var name = element.attrs.text.text;
-				var x = element.position.x;
-				var y = element.position.y;
+				var name = element.attributes.attrs.text.text;
+				var x = element.attributes.position.x;
+				var y = element.attributes.position.y;
 				var table = createTableObject(name, x, y);
 
 				buildAttributes(table, neighbors, element).then(function(resp){
@@ -488,7 +488,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 				'type': "",
 				'quantity': 0
 			}
-			for (link of links) {
+			for (link of filterConnections(links)) {
 				if(link.attributes.labels != null){
 					var card = link.attributes.labels[0].attrs.text.text;
 					obj.type = obj.type + card[4];
@@ -500,7 +500,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		getRelationOptionality = function(links) {
 			var optionality = "";
-			for (link of links) {
+			for (link of filterConnections(links)) {
 				if(link.attributes.labels != null){
 					var card = link.attributes.labels[0].attrs.text.text;
 					optionality = optionality + card[1];
@@ -510,7 +510,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		}
 
 		isN1Optional = function(links){
-			for (link of links) {
+			for (link of filterConnections(links)) {
 				if(link.attributes.labels != null && link.attributes.labels[0].attrs.text.text == '(0, 1)'){
 					return true;
 				}
@@ -519,11 +519,13 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		}
 
 		is01Optional = function(links){
-			return links[0].attributes.labels[0].attrs.text.text == '(0, 1)' && links[1].attributes.labels[0].attrs.text.text == '(0, 1)';
+			const connections = filterConnections(links);
+			return connections[0].attributes.labels[0].attrs.text.text == '(0, 1)' && connections[1].attributes.labels[0].attrs.text.text == '(0, 1)';
 		}
 
 		buildRelationDescriotion = function(links){
-			return links[0].attributes.labels[0].attrs.text.text + " < - > " + links[1].attributes.labels[0].attrs.text.text;
+			const connections = filterConnections(links);
+			return connections[0].attributes.labels[0].attrs.text.text + " < - > " + connections[1].attributes.labels[0].attrs.text.text;
 		}
 
 		getTableNames = function(relation){
@@ -615,9 +617,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		createTableFromRelation = function(relation, allPKs){
 			return $q(function(resolve){
-				var name = relation.attrs.text.text;
-				var x = relation.position.x;
-				var y = relation.position.y;
+				var name = relation.attributes.attrs.text.text;
+				var x = relation.attributes.position.x;
+				var y = relation.attributes.position.y;
 
 				var table = createTableObject(name, x, y);
 
@@ -633,7 +635,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 					var entityNeighbors = getEntityNeighbors(relation);
 					for (entity of entityNeighbors) {
-						var column = createFKColumn(entity.attributes);
+						var column = createFKColumn(entity);
 						if(!hasPrimaryKey){
 							column.PK = true;
 							if(!allPKs){
@@ -649,9 +651,9 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		createTableFrom1NRelation = function(relation, links){
 			return $q(function(resolve){
-				var name = relation.attrs.text.text;
-				var x = relation.position.x;
-				var y = relation.position.y;
+				var name = relation.attributes.attrs.text.text;
+				var x = relation.attributes.position.x;
+				var y = relation.attributes.position.y;
 
 				var table = createTableObject(name, x, y);
 
@@ -668,14 +670,14 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 					var sideN = {};
 
-					for (link of links) {
+					for (link of filterConnections(links)) {
 						if(link.attributes.labels[0].attrs.text.text[4] == 'n'){
 							sideN = link;
 						}
 					}
 
 					for (entity of entityNeighbors) {
-						var column = createFKColumn(entity.attributes);
+						var column = createFKColumn(entity);
 							if((entity.id == sideN.attributes.source.id) || (entity.id == sideN.attributes.target.id)){
 								column.PK = true;
 							}
@@ -690,7 +692,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 			return $q(function(resolve){
 				var attributes = getAttributes(relation);
 				var pks = getPKs(relation);
-				var table2 = getTableType_2(links, relation);
+				var table2 = getTableType_2(filterConnections(links), relation);
 				ls.selectedElement = ls.paper.findViewByModel(table2);
 				for (att of attributes) {
 					var pi = {
@@ -708,7 +710,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					}
 					ls.addColumn(pi);
 				}
-				var table1 = getTableType_1(links, relation);
+				var table1 = getTableType_1(filterConnections(links), relation);
 				entityTableMap.set(relation.id, table1);
 				connectTables(table1, table2);
 				resolve();
@@ -717,8 +719,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		treatNNcase = function(relation, links){
 			return $q(function(resolve){
-				var optionality =getRelationOptionality(links);
-				if(optionality=="11" || optionality=="00"){
+				var optionality = getRelationOptionality(links);
+				if(optionality == "11" || optionality == "00"){
 					createTableFromRelation(relation, true).then(function(){
 						resolve();
 					});
@@ -739,7 +741,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						controller:  'AttributeModalController',
 						resolve: {
 							params: function () {
-								return {'relationName': relation.attrs.text.text,
+								return {'relationName': relation.attributes.attrs.text.text,
 												'relationType': buildRelationDescriotion(links),
 												'tableNames': getTableNames(relation)
 												};
@@ -774,7 +776,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 						controller:  'AttributeModalController',
 						resolve: {
 							params: function () {
-								return {'relationName': relation.attrs.text.text,
+								return {'relationName': relation.attributes.attrs.text.text,
 												'relationType': buildRelationDescriotion(links),
 												'tableNames': getTableNames(relation)
 												};
@@ -804,7 +806,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 							controller:  'AttributeModalController',
 							resolve: {
 								params: function () {
-									return {'relationName': relation.attrs.text.text,
+									return {'relationName': relation.attributes.attrs.text.text,
 													'relationType': buildRelationDescriotion(links),
 													'tableNames': getTableNames(relation)
 													};
@@ -830,7 +832,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		connectTables = function(source, target){
 			var obj = {
-				"name": "id"+ source.attributes.name,
+				"name": "id" + source.attributes.name,
 				"type": "Integer",
 				"PK": false,
 				"FK": true,
@@ -846,8 +848,8 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 		joinTablesFromRelation = function(relation){
 			return $q(function(resolve){
 
-				var x = relation.position.x;
-				var y = relation.position.y;
+				var x = relation.attributes.position.x;
+				var y = relation.attributes.position.y;
 
 				var neighbors = modelGraph.getNeighbors(relation);
 
@@ -881,7 +883,7 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 
 		createFKColumn = function(entity) {
 			var pks = getPKs(entity);
-			var attName = "id" + entity.attrs.text.text;
+			var attName = "id" + entity.attributes.attrs.text.text;
 			if(pks.length > 0) {
 				attName = pks[0].attributes.attrs.text.text;
 			}
@@ -896,6 +898,10 @@ angular.module('myapp').factory('ConversorService', function(ConceptualService, 
 					}
 			}
 			return obj;
+		}
+
+		filterConnections = function(links) {
+			return links.filter(link => link.attributes.type == "erd.Line");
 		}
 
 	return {

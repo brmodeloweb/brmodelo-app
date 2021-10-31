@@ -1,16 +1,16 @@
 angular.module('myapp')
 			 .controller("conceptualController",
-				function($scope,
-								 $http,
-								 $window,
-								 $state,
-								 $rootScope,
-								 $stateParams,
-								 ConceptualFactory,
-								 ConceptualService,
-								 ConversorService,
-								 ModelAPI,
-							 	$timeout) {
+				function(
+					$scope,
+					$state,
+					$rootScope,
+					$stateParams,
+					ConceptualFactory,
+					ConceptualService,
+					ModelAPI,
+					$timeout,
+					$uibModal
+				){
 
 	var cs = ConceptualService;
 
@@ -167,7 +167,6 @@ angular.module('myapp')
 		var entity = $scope.selectedElement.element.model;
 
 		if(entity.attributes.composed) {
-		//	if(!cs.hasAttributeNeighbors(entity, $scope.graph.getNeighbors(entity))){
 				var attr1 = ConceptualFactory.createAttribute();
 				attr1.attributes.attrs.text.text = "attr1";
 				attr1.attributes.position.x = entity.attributes.position.x + 50;
@@ -181,7 +180,6 @@ angular.module('myapp')
 				attr2.attributes.position.y = entity.attributes.position.y - 20 ;
 				$scope.graph.addCell(attr2);
 				createLink(entity, attr2);
-	//		}
 		} else {
 			var neighbors = $scope.graph.getNeighbors(entity)
 			for (var i = 0; i < neighbors.length; i++) {
@@ -199,12 +197,13 @@ angular.module('myapp')
 		$scope.showLoading(true);
 
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then(function(resp){
-			$scope.model.name = resp.data[0].name;
-			$scope.model.type = resp.data[0].type;
-			$scope.model.id   = resp.data[0]._id;
-			$scope.graph.fromJSON(JSON.parse(resp.data[0].model));
+			$scope.model.name = resp.data.name;
+			$scope.model.type = resp.data.type;
+			$scope.model.id   = resp.data._id;
+			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+			$scope.model.model = jsonModel
+			$scope.graph.fromJSON(jsonModel);
 			$scope.showLoading(false);
-	//		$scope.paperScroller.centerContent();
 		});
 	}
 
@@ -271,9 +270,7 @@ angular.module('myapp')
 		$scope.model.model = JSON.stringify($scope.graph);
 
 		ModelAPI.updateModel($scope.model).then(function(res){
-			// call feedback here
 			$scope.showFeedback("Salvo com sucesso!", true);
-			console.log("saved");
 		});
 	}
 
@@ -287,7 +284,7 @@ angular.module('myapp')
 		};
 
 		ModelAPI.saveModel(model).then(function(newModel){
-			window.open($state.href('logic', {'modelid': newModel._id, 'conversionId': $scope.model.id}),  '_blank');
+			window.open($state.href('logic', {references: {'modelid': newModel._id, 'conversionId': $scope.model.id}}),  '_blank');
 		});
 
 	}
@@ -328,17 +325,14 @@ angular.module('myapp')
 			$scope.entitySelected = "KEY";
 		}
 
-		console.log(cellView.model);
 		if(cs.isRelationship(cellView.model) && cellView.model.attributes.type=="erd.Relationship") {
 			$scope.entitySelected = "RELATIONSHIP";
 		}
 
 		$scope.$apply();
-
 	}
 
 	var createLink = function(elm1, elm2) {
-		console.log("createLink");
 		var myLink = new joint.shapes.erd.Line({
 			source: {
 				id: elm1.id
@@ -401,14 +395,11 @@ angular.module('myapp')
 				} else {
 					if (cs.isEntity(source)) {
 						source.attributes.isExtended = true;
-						console.log(target);
 					} else {
 						target.attributes.isExtended = true;
-						console.log(source);
 					}
 					return true;
 				}
-
 		}
 
 		if(cs.isAttribute(source) && cs.isAttribute(target)){
@@ -446,9 +437,6 @@ angular.module('myapp')
 						return false;
 					}
 
-					// 	if(source.attributes.supertype != 'Entity'){
-					// 		return false;
-					// 	}
 				return true;
 			}
 		}
@@ -471,22 +459,19 @@ angular.module('myapp')
 		if(source.attributes.supertype === target.attributes.supertype)
 			return false;
 
-		console.log("Returnig true");
 		return true;
 	}
 
 	function onLink(link) {
-
 		var source = $scope.graph.getCell(link.get('source').id);
 		var target = $scope.graph.getCell(link.get('target').id);
 
 		if(!$scope.isValidConnection(source, target, link)){
 			link.remove();
+			return;
 		}
 
-		if((source.attributes.supertype === 'Relationship' ||
-			 target.attributes.supertype === 'Relationship') &&
-		   (cs.isEntity(source) || cs.isEntity(target))) {
+		if((source.attributes.supertype === 'Relationship' || target.attributes.supertype === 'Relationship') &&(cs.isEntity(source) || cs.isEntity(target))) {
 
 			 var pos = 0.3;
 
@@ -504,54 +489,27 @@ angular.module('myapp')
 		$scope.commandManager = new joint.dia.CommandManager({ graph: $scope.graph });
 
 		$scope.paper = new joint.dia.Paper({
-		//	el: $('#content'),
-			//width: 1000,
-			//height: 1000,
 			width: $('#content').width(),
 			height: $('#content').height(),
 			gridSize: 10,
 			drawGrid: true,
 			model: $scope.graph,
-			//linkPinning: false,
-			//markAvailable: true,
-			//restrictTranslate: true,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint
-			// multiLinks: false
 		});
 
 		var $app = $('#content');
 
-    $scope.paperScroller = new joint.ui.PaperScroller({
+		$scope.paperScroller = new joint.ui.PaperScroller({
 			paper: $scope.paper,
 			cursor: 'grab',
 			autoResizePaper: true
-    });
+		});
 
 		$app.append($scope.paperScroller.render().el);
-
-		$(window).resize(function() {
-    	var canvas = $('#content');
-			console.log("#content");
-			console.log(canvas.width());
-			console.log(canvas.height());
-
-			var paper = $('.paper-scroller');
-			console.log(".paper-scroller");
-			console.log(paper.width());
-			console.log(paper.height());
-
-			var jointpaper = $('.joint-paper');
-			console.log(".joint-theme-default.joint-paper");
-			console.log(jointpaper.width());
-			console.log(jointpaper.height());
-			console.log(jointpaper);
-    //	$scope.paper.setDimensions(canvas.width(), canvas.height());
-		});
 
 		var stencil = new joint.ui.Stencil({
 			graph: $scope.graph,
 			paper: $scope.paper
-		//	scaleClones: true
 		});
 
 		$('#stencil-holder').append(stencil.render().el);
@@ -566,16 +524,7 @@ angular.module('myapp')
 			ConceptualFactory.createComposedAttribute()
 		]);
 
-		// paperScroller.$el.css({
-		// 		width: $('#paper-holder').width(),
-		// 		height: $('#paper-holder').height()
-		// 		width: 500,
-		// 		height: 500
-		// });
-
 		$scope.conectElements = function(cellView, x, y) {
-
-			console.log("connect elements: ", cellView);
 
 			var elementBelow = $scope.graph.get('cells').find(function(cell) {
 					if (cellView.model.attributes.parent != null) return false;
@@ -592,8 +541,6 @@ angular.module('myapp')
 
 			// If the two elements are connected already, don't
 			// connect them again (this is application specific though).
-			console.log("conectElements", elementBelow);
-
 			if (elementBelow && !_.contains($scope.graph.getNeighbors(elementBelow), cellView.model) &&
 					!cs.isAssociative(elementBelow) &&
 					!cs.isComposedAttribute(elementBelow)) {
@@ -657,14 +604,6 @@ angular.module('myapp')
 
 				}, 100);
 
-			//	$scope.graph.addCell(base);
-			//	createLink(entity, attr1);
-
-
-
-				// $scope.graph.addCell(block);
-				// $scope.graph.addCell(auto);
-
 			}
 
 			if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
@@ -674,28 +613,26 @@ angular.module('myapp')
 					$scope.conectElements(cellView, x, y);
 				}
 			}
-	  });
+		});
 
 		$scope.graph.on('change:position', function(cell) {
 
-	    var parentId = cell.get('parent');
-	    if (!parentId) return;
+		var parentId = cell.get('parent');
+		if (!parentId) return;
 
-	    var parent = $scope.graph.getCell(parentId);
-	    var parentBbox = parent.getBBox();
-	    var cellBbox = cell.getBBox();
+		var parent = $scope.graph.getCell(parentId);
+		var parentBbox = parent.getBBox();
+		var cellBbox = cell.getBBox();
 
-	    if (parentBbox.containsPoint(cellBbox.origin()) &&
-	        parentBbox.containsPoint(cellBbox.topRight()) &&
-	        parentBbox.containsPoint(cellBbox.corner()) &&
-	        parentBbox.containsPoint(cellBbox.bottomLeft())) {
-
-	        // All the four corners of the child are inside
-	        // the parent area.
-	        return;
-	    }
-	    // Revert the child position.
-	    cell.set('position', cell.previous('position'));
+		if (parentBbox.containsPoint(cellBbox.origin()) &&
+			parentBbox.containsPoint(cellBbox.topRight()) &&
+			parentBbox.containsPoint(cellBbox.corner()) &&
+			parentBbox.containsPoint(cellBbox.bottomLeft())) {
+				// All the four corners of the child are inside the parent area.
+				return;
+			}
+			// Revert the child position.
+			cell.set('position', cell.previous('position'));
 		});
 
 
@@ -762,8 +699,34 @@ angular.module('myapp')
 
 		});
 
+		$scope.duplicateModel = function() {
+			let modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'angular/view/modal/duplicateModelModal.html',
+				controller:  'DuplicateModelModalController',
+				resolve: {
+					params: function () {
+						return {'suggestedName': `${$scope.model.name} (cópia)`};
+					}
+				}
+			});
+			modalInstance.result.then(function (newName) {
+				const duplicatedModel = {
+					"id": '',
+					"name": newName,
+					"type": $scope.model.type,
+					"model": JSON.stringify($scope.graph),
+					"user": $scope.model.user
+				}
+				ModelAPI.saveModel(duplicatedModel).then(function(newModel){
+					$scope.showFeedback("Duplicado com sucesso!", true);
+					window.open($state.href('conceptual', {'modelid': newModel._id}));
+				});
+			});
+		}
+
 		$scope.setWeak = function(){
-			if($scope.selectedElement.element.model.attributes.weak){
+			if(!$scope.selectedElement.element.model.attributes.weak){
 				$scope.selectedElement.element.model.attributes.attrs = {
 								'.connection': { stroke: 'black', 'stroke-width': 3}
 							};
@@ -781,7 +744,7 @@ angular.module('myapp')
 			var target = $scope.graph.getCell(cellView.model.get('target').id);
 
 			if((cs.isRelationship(source) || cs.isRelationship(target)) &&
-			   (cs.isEntity(source) || cs.isEntity(target))) {
+				(cs.isEntity(source) || cs.isEntity(target))) {
 
 				if(cellView.model.attributes.labels != null){
 					$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
@@ -798,11 +761,8 @@ angular.module('myapp')
 				$scope.$apply();
 			}
 
-    });
+	});
 
 	}
 
 });
-
-// .link-tools .tool-remove { display: none }
-// .link-tools .tool-options { display: none }
