@@ -34,6 +34,31 @@
           <a class="br-button" ng-click="$ctrl.addAutoRelationship()">Adicionar</a>        
         </div>
       </div>
+    </div><!-- End .form-group -->
+
+    <div class="form-group" ng-if="($ctrl.configuration.link)">
+      <div class="form-group clearfix">
+        <label for="">Cardinalidade</label>
+          <dropdown
+            on-select="$ctrl.updateCardinality(selected)"
+            selected="{name: $ctrl.selectedElement.value.cardinality, type: $ctrl.selectedElement.value.cardinality}"
+            options="[{name: '(0, n)', type: '(0, n)'}, {name: '(0, 1)', type: '(0, 1)'}, {name: '(1, 1)', type: '(1, 1)'}, {name: '(1, n)', type: '(1, n)'}]">
+          </dropdown>
+      </div>
+      
+      <div class="form-group">
+        <label for="entry-name">Papel</label>
+        <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value.role" ng-change="$ctrl.updateLinkRole($ctrl.selectedElement.value.role)" />
+      </div><!-- End .form-group -->
+
+      <div class="form-group">
+        <div class="checkbox">
+          <label for="weak">
+            <input id="weak" type="checkbox" ng-model="$ctrl.selectedElement.value.weak"
+              ng-click="$ctrl.updateLinkWeak(!$ctrl.selectedElement.value.weak)" /> Fraca
+          </label>
+        </div>
+      </div><!-- End .form-group -->
 
     </div><!-- End .form-group -->
 
@@ -61,30 +86,6 @@
     <div class="form-group" ng-if="($ctrl.configuration.relationship)">
       <label for="entry-name">Nome</label>
       <input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value" ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
-    </div><!-- End .form-group -->
-
-    <div class="form-group clearfix" ng-if="entitySelected == 'ENTITY'">
-      <label for="specialization">Especializar</label>
-      <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
-        <div class="dropdown-tmp-trigger">
-          <button class="btn ng-binding">{{extensionSelected}}</button>
-        </div>
-        <!--/dropdown-tmp-trigger-->
-        <ul class="dropdown-tmp-list">
-          <li class="dropdown-tmp-item" ng-click="call('(t, d)')">
-            <span>(t, d)</span>
-          </li>
-          <li class="dropdown-tmp-item" ng-click="call('(t, c)')">
-            <span>(t, c)</span>
-          </li>
-          <li class="dropdown-tmp-item" ng-click="call('(p, d)')">
-            <span>(p, d)</span>
-          </li>
-          <li class="dropdown-tmp-item" ng-click="call('(p, c)')">
-            <span>(p, c)</span>
-          </li>
-        </ul>
-      </div>
     </div><!-- End .form-group -->
 
     <div ng-show="entitySelected == 'ENTITY'">
@@ -130,31 +131,7 @@
       </div>
     </div>
 
-    <div class="form-group clearfix" ng-show="entitySelected == 'EXTENSION'">
-      <label for="">Editar</label>
-      <div class="dropdown-tmp dropdown-tmp-btn" broption="" tabindex="0">
-        <div class="dropdown-tmp-trigger">
-          <button class="btn ng-binding">{{extensionSelected}}</button>
-        </div>
-        <!--/dropdown-tmp-trigger-->
-        <ul class="dropdown-tmp-list" style="min-width: 140px;">
-          <li class="dropdown-tmp-item" ng-click="updateExtension('(t, d)')">
-            <span>(t, d)</span>
-          </li>
-          <li class="dropdown-tmp-item" ng-click="updateExtension('(t, c)')">
-            <span>(t, c)</span>
-          </li>
-          <li class="dropdown-tmp-item" ng-click="updateExtension('(p, d)')">
-            <span>(p, d)</span>
-          </li>
-          <li class="dropdown-tmp-item" ng-click="updateExtension('(p, c)')">
-            <span>(p, c)</span>
-          </li>
-        </ul>
-      </div>
-    </div><!-- End .form-group -->
-
-    <div ng-show="entitySelected == 'LINK'">
+    <div ng-if="($ctrl.configuration.connection)">
       <div class="form-group">
         <label for="entry-role">Papel</label>
         <input id="entry-role" type="text" class="form-control" data-ng-model="roleSelected"

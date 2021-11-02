@@ -242,17 +242,12 @@ erd.Key = joint.dia.Element.extend({
 });
 
 erd.Link = joint.dia.Link.extend({
-  defaults: { type: "erd.Link" },
-  weak: false,
-  role: "",
-  attrs: {
-    ".marker-target": {
-      d: "M 10 0 L 0 5 L 10 10 z",
-      fill: "#34495e",
-      stroke: "#2c3e50",
-    },
-    ".connection": { stroke: "#2c3e50" },
-  },
+  defaults: { 
+    type: "erd.Link",
+    supertype: "Link",
+    weak: false,
+    role: "",
+  }
 });
 
 export default erd;
