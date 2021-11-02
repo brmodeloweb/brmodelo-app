@@ -297,24 +297,16 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 					} else {
 						switch (relationType.type) {
 							case "nn":
-								treatNNcase(relation, links).then(() => {
-									iterate();
-								});
+								treatNNcase(relation, links).then(() => iterate());
 								break;
 							case "1n":
-								treatN1case(relation, links).then(() => {
-									iterate();
-								});
+								treatN1case(relation, links).then(() => iterate());
 								break;
 							case "n1":
-								treatN1case(relation, links).then(() => {
-									iterate();
-								});
+								treatN1case(relation, links).then(() => iterate());
 								break;
 							case "11":
-								treat11case(relation, links).then(() => {
-									iterate();
-								});
+								treat11case(relation, links).then(() => iterate());
 								break;
 							default:
 								iterate();
@@ -518,7 +510,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		return connections[0].attributes.labels[0].attrs.text.text == '(0, 1)' && connections[1].attributes.labels[0].attrs.text.text == '(0, 1)';
 	}
 
-	const buildRelationDescriotion = function (links) {
+	const buildRelationDescription = function (links) {
 		const connections = filterConnections(links);
 		return connections[0].attributes.labels[0].attrs.text.text + " < - > " + connections[1].attributes.labels[0].attrs.text.text;
 	}
@@ -545,13 +537,8 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 	}
 
 	const getAttributes = function (relation) {
-		var entities = [];
-		for (element of modelGraph.getNeighbors(relation)) {
-			if (element.attributes.type === 'erd.Attribute') {
-				entities.push(element);
-			}
-		}
-		return entities;
+		return modelGraph.getNeighbors(relation)
+			.filter(element => element.attributes.type === 'erd.Attribute');
 	}
 
 	const getEntityNeighbors = function (relation) {
@@ -645,25 +632,20 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 	}
 
 	const createTableFrom1NRelation = function (relation, links) {
-		return $q(function (resolve) {
-			var name = relation.attributes.attrs.text.text;
-			var x = relation.attributes.position.x;
-			var y = relation.attributes.position.y;
+		return new Promise((resolve) => {
+			const name = relation.attributes.attrs.text.text;
+			const x = relation.attributes.position.x;
+			const y = relation.attributes.position.y;
 
-			var table = createTableObject(name, x, y);
+			const table = createTableObject(name, x, y);
+			const neighbors = modelGraph.getNeighbors(relation);
 
-			var neighbors = modelGraph.getNeighbors(relation);
-
-			buildAttributes(table, neighbors).then(function (table) {
-				var newTable = ls.insertTable(table);
-
+			buildAttributes(table, neighbors).then((table) => {
+				const newTable = ls.insertTable(table);
 				entityTableMap.set(relation.id, newTable);
-
 				ls.selectedElement = ls.paper.findViewByModel(newTable);
-
-				var entityNeighbors = getEntityNeighbors(relation);
-
-				var sideN = {};
+				const entityNeighbors = getEntityNeighbors(relation);
+				let sideN = {};
 
 				for (const link of filterConnections(links)) {
 					if (link.attributes.labels[0].attrs.text.text[4] == 'n') {
@@ -672,12 +654,13 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 				}
 
 				for (const entity of entityNeighbors) {
-					var column = createFKColumn(entity);
+					const column = createFKColumn(entity);
 					if ((entity.id == sideN.attributes.source.id) || (entity.id == sideN.attributes.target.id)) {
 						column.PK = true;
 					}
 					ls.addColumn(column);
 				}
+
 				resolve();
 			});
 		});
@@ -728,37 +711,37 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 	}
 
 	const treatN1case = function (relation, links) {
-		return $q(function (resolve) {
+		return new Promise((resolve) => {
 			if (isN1Optional(links)) {
-				var modalInstance = $uibModal.open({
+				const modalInstance = $uibModal.open({
+					backdrop: 'static',
+					keyboard: false,
 					animation: true,
-					templateUrl: 'angular/view/modal/conversions/1nConversionModal.html',
-					controller: 'AttributeModalController',
-					resolve: {
-						params: function () {
-							return {
-								'relationName': relation.attributes.attrs.text.text,
-								'relationType': buildRelationDescriotion(links),
-								'tableNames': getTableNames(relation)
-							};
-						}
-					}
+					template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+					controller: function () {
+						const $ctrl = this;
+						$ctrl.title = `Assistente de conversão - Relacionamento (1, n)`;
+						$ctrl.summary = `O que deseja fazer com o relacionamento ${buildRelationDescription(links)} entre as tabelas ${getTableNames(relation)}?`;
+						$ctrl.options = [
+							{ "label": "Criar uma coluna na tabela de menor cardinalidade", "value": "new_column" },
+							{ "label": "Criar nova tabela", "value": "new_table" },
+						]
+					},
+					controllerAs: '$ctrl',
 				});
-				modalInstance.result.then(function (resp) {
-					if (resp == "new_table") {
-						createTableFrom1NRelation(relation, links).then(function () {
-							resolve();
-						});
-					} else {
-						createColumnFromRelation(relation, links).then(function () {
-							resolve();
-						});
+				modalInstance.result.then((response) => {
+					switch (response.value) {
+						case "new_table":
+							createTableFrom1NRelation(relation, links).then(() => resolve());
+							break;
+						case "new_column":
+							createColumnFromRelation(relation, links).then(() => resolve());
+							break;
+						default:
 					}
 				});
 			} else {
-				createColumnFromRelation(relation, links).then(function () {
-					resolve();
-				});
+				createColumnFromRelation(relation, links).then(() => resolve());
 			}
 		});
 	}
@@ -774,7 +757,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 						params: function () {
 							return {
 								'relationName': relation.attributes.attrs.text.text,
-								'relationType': buildRelationDescriotion(links),
+								'relationType': buildRelationDescription(links),
 								'tableNames': getTableNames(relation)
 							};
 						}
@@ -805,7 +788,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 							params: function () {
 								return {
 									'relationName': relation.attributes.attrs.text.text,
-									'relationType': buildRelationDescriotion(links),
+									'relationType': buildRelationDescription(links),
 									'tableNames': getTableNames(relation)
 								};
 							}
