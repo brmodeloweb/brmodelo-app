@@ -130,23 +130,23 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.onSelectElement = (cellView) => {
-		if(cellView != null) {
+		if (cellView != null) {
 			$timeout(() => {
 				ctrl.selectedElement = {
-					value: cellView.model.attributes.attrs.text.text,
+					value: cellView.model.attributes?.attrs?.text?.text,
 					type: cellView.model.attributes.supertype,
 					element: cellView
-				}	
+				}
 			});
 			return
-		} 
+		}
 
 		$timeout(() => {
 			ctrl.selectedElement = {
 				value: "",
 				type: "blank",
 				element: null
-			}	
+			}
 		});
 	}
 
@@ -160,7 +160,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				break;
 			case 'extention':
 				$timeout(() => {
-					if(ctrl.selectedElement.element.model.attributes.isExtended) {
+					if (ctrl.selectedElement.element.model.attributes.isExtended) {
 						ctrl.entityExtensor.updateExtension(ctrl.selectedElement.element, event.value);
 						ctrl.selectedElement.element.update();
 					} else {
@@ -179,6 +179,39 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					ctrl.shapeLinker.addAutoRelationship(ctrl.selectedElement);
 				});
 				break;
+			case 'link.cardinality':
+				$timeout(() => {
+					ctrl.selectedElement.element.model.label(0,
+						{
+							position: 0.3,
+							attrs: { text: { text: event.value } }
+						});
+				});
+				break;
+			case 'link.role':
+				$timeout(() => {
+					ctrl.selectedElement.element.model.label(1,
+						{
+							position: 0.7,
+							attrs: { text: { text: event.value } }
+						});
+				});
+				break;
+			case 'link.weak':
+				$timeout(() => {
+					if (event.value) {
+						ctrl.selectedElement.element.model.attributes.attrs = {
+							'.connection': { stroke: 'black', 'stroke-width': 3 }
+						};
+					} else {
+						ctrl.selectedElement.element.model.attributes.attrs = {
+							'.connection': { stroke: 'black', 'stroke-width': 1 }
+						};
+					}
+					ctrl.selectedElement.element.model.attributes.weak = event.value;
+					ctrl.selectedElement.element.update();
+				});
+				break;
 		}
 	}
 
@@ -189,23 +222,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.onSelectElement(null);
 		});
 
-		paper.on('link:options', function (cellView, evt, x, y) {
-			console.log('link:options');
-			// var source = $scope.graph.getCell(cellView.model.get('source').id);
-			// var target = $scope.graph.getCell(cellView.model.get('target').id);
-			// if((cs.isRelationship(source) || cs.isRelationship(target)) &&
-			// 	(cs.isEntity(source) || cs.isEntity(target))) {
-			// 	if(cellView.model.attributes.labels != null){
-			// 		$scope.cardSelected = cellView.model.attributes.labels[0].attrs.text.text;
-			// 		$scope.roleSelected = "";
-			// 		if(cellView.model.attributes.labels[1] != null) {
-			// 			$scope.roleSelected = cellView.model.attributes.labels[1].attrs.text.text;
-			// 		}
-			// 	}
-			// 	$scope.entitySelected = "LINK";
-			// 	$scope.selectedElement.element = cellView;
-			// 	$scope.$apply();
-			// }
+		paper.on('link:options', (cellView) => {
+			ctrl.onSelectElement(cellView);
 		});
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
@@ -220,14 +238,14 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				boxContent: false
 			});
 
-			halo.on('action:link:add', function(link) {
+			halo.on('action:link:add', function (link) {
 				ctrl.shapeLinker.onLink(link);
 			});
 
 			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
 				halo.removeHandle('resize');
 			}
-			
+
 			halo.removeHandle('clone');
 			halo.removeHandle('fork');
 			halo.removeHandle('rotate');
@@ -345,7 +363,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		registerPaperEvents(configs.paper);
 
-		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph , model: new Backbone.Collection });
+		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,

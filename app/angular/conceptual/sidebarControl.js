@@ -9,7 +9,8 @@ const configurator = () => {
     "relationship": false,
     "extension": false,
     "attribute": false,
-    "key": false
+    "connection": false,
+    "link": false
   }
 
   const emptyState = () => {
@@ -34,6 +35,9 @@ const configurator = () => {
       case "Inheritance":
         configuration.extension = true;
         return configuration;
+      case "Link":
+        configuration.link = true;
+        return configuration;
       default:
         break;
     }
@@ -57,7 +61,7 @@ const controller = function () {
     $ctrl.configuration = configurator().emptyState();
   }
 
-  $ctrl.updateName = function (newName) {
+  $ctrl.updateName = (newName) => {
     if (newName != "") {
       $ctrl.onUpdate({
         "event": {
@@ -68,7 +72,7 @@ const controller = function () {
     }
   }
 
-  $ctrl.extendEntity = function (selected) {
+  $ctrl.extendEntity = (selected) => {
     $ctrl.onUpdate({
       "event": {
         "type": "extention",
@@ -77,10 +81,49 @@ const controller = function () {
     });
   }
 
-  $ctrl.$onChanges = function (changes) {
+  $ctrl.updateCardinality = (selected) => {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "link.cardinality",
+        "value": selected.type
+      }
+    });
+  }
+
+  $ctrl.updateLinkRole = (selected) => {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "link.role",
+        "value": selected
+      }
+    });
+  }
+
+  $ctrl.updateLinkWeak = (selected) => {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "link.weak",
+        "value": selected
+      }
+    });
+  }
+
+  const customSelector = (selected) => {
+    if (selected.currentValue.type === "Link") {
+      const attributes = selected.currentValue.element.model.attributes;
+      selected.currentValue.value = {
+        "weak": attributes.weak,
+        "role": attributes.role,
+        "cardinality": attributes.labels[0].attrs.text.text
+      }
+    }
+    return selected.currentValue;
+  }
+
+  $ctrl.$onChanges = (changes) => {
     if (changes.selected != null && changes.selected.currentValue != null) {
       $ctrl.configuration = configurator().select(changes.selected.currentValue);
-      $ctrl.selectedElement = changes.selected.currentValue;
+      $ctrl.selectedElement = customSelector(changes.selected);
     }
   }
 
