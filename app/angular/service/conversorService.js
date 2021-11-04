@@ -667,28 +667,21 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 	}
 
 	const createColumnFromRelation = function (relation, links) {
-		return $q(function (resolve) {
-			var attributes = getAttributes(relation);
-			var pks = getPKs(relation);
-			var table2 = getTableType_2(filterConnections(links), relation);
+		return new Promise((resolve) => {
+			const attributes = getAttributes(relation);
+			const pks = getPKs(relation);
+			const table2 = getTableType_2(filterConnections(links), relation);
 			ls.selectedElement = ls.paper.findViewByModel(table2);
-			for (const att of attributes) {
-				var pi = {
-					"name": att.attributes.attrs.text.text,
-					"PK": false,
+			const elements = [...attributes, ...pks];
+			elements.forEach(element => {
+				const column = {
+					"name": element.attributes.attrs.text.text,
+					"PK": element.attributes.supertype === "Key",
 					"FK": false
 				}
-				ls.addColumn(pi);
-			}
-			for (const pk of pks) {
-				var pi = {
-					"name": pk.attributes.attrs.text.text,
-					"PK": true,
-					"FK": false
-				}
-				ls.addColumn(pi);
-			}
-			var table1 = getTableType_1(filterConnections(links), relation);
+				ls.addColumn(column);
+			})
+			const table1 = getTableType_1(filterConnections(links), relation);
 			entityTableMap.set(relation.id, table1);
 			connectTables(table1, table2);
 			resolve();
@@ -699,13 +692,9 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		return new Promise((resolve) => {
 			const optionality = getRelationOptionality(links);
 			if (optionality == "11" || optionality == "00") {
-				createTableFromRelation(relation, true).then(() => {
-					resolve();
-				});
+				createTableFromRelation(relation, true).then(() => resolve());
 			} else {
-				createTableFromRelation(relation, false).then(() => {
-					resolve();
-				});
+				createTableFromRelation(relation, false).then(() => resolve());
 			}
 		});
 	}
@@ -738,6 +727,8 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 							createColumnFromRelation(relation, links).then(() => resolve());
 							break;
 						default:
+							resolve();
+							break;
 					}
 				});
 			} else {
@@ -746,64 +737,67 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const treat11case = function (relation, links) {
-		return $q(function (resolve) {
+	const treat11case = (relation, links) => {
+		return new Promise((resolve) => {
 			if (is01Optional(links)) {
-				var modalInstance = $uibModal.open({
+				const modalInstance = $uibModal.open({
+					backdrop: 'static',
+					keyboard: false,
 					animation: true,
-					templateUrl: 'angular/view/modal/conversions/1nConversionModal.html',
-					controller: 'AttributeModalController',
-					resolve: {
-						params: function () {
-							return {
-								'relationName': relation.attributes.attrs.text.text,
-								'relationType': buildRelationDescription(links),
-								'tableNames': getTableNames(relation)
-							};
-						}
-					}
+					template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+					controller: function () {
+						const $ctrl = this;
+						$ctrl.title = `Assistente de conversão - Relacionamento (1, 1)`;
+						$ctrl.summary = `O que deseja fazer com o relacionamento ${buildRelationDescription(links)} entre as tabelas ${getTableNames(relation)}?`;
+						$ctrl.options = [
+							{ "label": "Criar uma coluna na tabela de menor cardinalidade", "value": "new_column" },
+							{ "label": "Criar nova tabela", "value": "new_table" },
+						]
+					},
+					controllerAs: '$ctrl',
 				});
-				modalInstance.result.then(function (resp) {
-					if (resp == "new_table") {
-						createTableFromRelation(relation, false).then(function () {
-							resolve();
-						});
-					} else {
-						createColumnFromRelation(relation, links).then(function () {
-							resolve();
-						});
+				modalInstance.result.then((response) => {
+					switch (response.value) {
+						case "new_column":
+							createColumnFromRelation(relation, links).then(() => resolve());
+							break;
+						case "new_table":
+							createTableFromRelation(relation, false).then(() => resolve());
+							break;
+						default:
+							break;
 					}
 				});
 			} else {
 				if (isAutoRelationship(relation)) {
-					createColumnFromRelation(relation, links).then(function () {
-						resolve();
-					});
+					createColumnFromRelation(relation, links).then(() => resolve());
 				} else {
-					var modalInstance = $uibModal.open({
+					const modalInstance = $uibModal.open({
+						backdrop: 'static',
+						keyboard: false,
 						animation: true,
-						templateUrl: 'angular/view/modal/conversions/11ConversionModal.html',
-						controller: 'AttributeModalController',
-						resolve: {
-							params: function () {
-								return {
-									'relationName': relation.attributes.attrs.text.text,
-									'relationType': buildRelationDescription(links),
-									'tableNames': getTableNames(relation)
-								};
-							}
-						}
+						template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+						controller: function () {
+							const $ctrl = this;
+							$ctrl.title = `Assistente de conversão - Relacionamento (1, n)`;
+							$ctrl.summary = `O que deseja fazer com o relacionamento ${buildRelationDescription(links)} entre as tabelas ${getTableNames(relation)}?`;
+							$ctrl.options = [
+								{ "label": "Criar uma coluna na tabela de menor cardinalidade", "value": "new_column" },
+								{ "label": "Unir tabelas", "value": "join_tables" }
+							]
+						},
+						controllerAs: '$ctrl',
 					});
-					modalInstance.result.then(function (resp) {
-						//arrumar isso aqui!!
-						if (resp == "new_table") {
-							joinTablesFromRelation(relation).then(function () {
-								resolve();
-							});
-						} else {
-							createColumnFromRelation(relation, links).then(function () {
-								resolve();
-							});
+					modalInstance.result.then((response) => {
+						switch (response.value) {
+							case "new_column":
+								createColumnFromRelation(relation, links).then(() => resolve());
+								break;
+							case "join_tables":
+								joinTablesFromRelation(relation).then(() => resolve());
+								break;
+							default:
+								break;
 						}
 					});
 				}
@@ -826,36 +820,36 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		ls.addColumn(obj);
 	}
 
-	const joinTablesFromRelation = function (relation) {
-		return $q(function (resolve) {
+	const joinTablesFromRelation = (relation) => {
+		return new Promise((resolve) => {
+			const x = relation.attributes.position.x;
+			const y = relation.attributes.position.y;
+			const neighbors = modelGraph.getNeighbors(relation);
+			const entities = getEntityNeighbors(relation);
 
-			var x = relation.attributes.position.x;
-			var y = relation.attributes.position.y;
+			entities.forEach(entity => {
+				neighbors.push(...modelGraph.getNeighbors(entity));
+			})
 
-			var neighbors = modelGraph.getNeighbors(relation);
+			const newName = entities.reduce((data, entity) => {
+				const entityName = entity.attributes.attrs.text.text;
+				if(data === "") {
+					return `${entityName}`
+				}
+				return `${data}_${entityName}`
+			}, "")
 
-			var entities = getEntityNeighbors(relation);
+			const table = createTableObject(newName, x, y);
 
-			var name = "";
-
-			for (const entity of entities) {
-				name += entity.attributes.attrs.text.text + "_";
-
-				neighbors.push.apply(neighbors, modelGraph.getNeighbors(entity));
-			}
-
-			var table = createTableObject(name, x, y);
-
-			buildAttributes(table, neighbors).then(function (table) {
-				var newTable = ls.insertTable(table);
+			buildAttributes(table, neighbors).then((table) => {
+				const newTable = ls.insertTable(table);
 				entityTableMap.set(relation.id, newTable);
-
 				ls.selectedElement = ls.paper.findViewByModel(newTable);
 
-				for (const entity of entities) {
+				entities.forEach(entity => {
 					entityTableMap.get(entity.id).remove();
 					entityTableMap.set(entity.id, newTable);
-				}
+				});
 
 				resolve();
 			});
