@@ -105,6 +105,10 @@ export default class Linker {
       return "Entity-Key";
     }
 
+    if ((this.validator.isRelationship(source) || this.validator.isRelationship(target)) && (this.validator.isAttribute(source) || this.validator.isAttribute(target))) {
+      return "Relationship-Attribute";
+    }
+
     if (this.validator.isAttribute(source) && this.validator.isAttribute(target)) {
       return "Attribute-Attribute";
     }
