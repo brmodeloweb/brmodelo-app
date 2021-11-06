@@ -109,6 +109,10 @@ export default class Linker {
       return "Relationship-Attribute";
     }
 
+    if ((this.validator.isRelationship(source) || this.validator.isRelationship(target)) && (this.validator.isKey(source) || this.validator.isKey(target))) {
+      return "Relationship-Key";
+    }
+
     if (this.validator.isAttribute(source) && this.validator.isAttribute(target)) {
       return "Attribute-Attribute";
     }

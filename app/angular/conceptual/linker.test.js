@@ -63,6 +63,20 @@ describe("Test getConnectionType", () => {
     expect(connectionType).toBe("Invalid-Connection");
   });
 
+  test("It should return an Relationship-Attribute type", () => {
+    const source = factory.createAttribute();
+    const target = factory.createRelationship();
+    expect(linker.getConnectionType(source, target)).toBe("Relationship-Attribute");
+    expect(linker.getConnectionType(target, source)).toBe("Relationship-Attribute");
+  });
+
+  test("It should return an Relationship-Key type", () => {
+    const source = factory.createRelationship();
+    const target = factory.createKey();
+    expect(linker.getConnectionType(source, target)).toBe("Relationship-Key");
+    expect(linker.getConnectionType(target, source)).toBe("Relationship-Key");
+  });
+
 });
 
 describe("Test isValidConnection", () => {
@@ -89,12 +103,44 @@ describe("Test isValidConnection", () => {
   test("It should allow valid connections", () => {
     expect(linker.isValidConnection(factory.createEntity(), factory.createKey())).toBeTruthy();
     expect(linker.isValidConnection(factory.createEntity(), factory.createRelationship())).toBeTruthy();
-    expect(linker.isValidConnection(factory.createEntity(), factory.createIsa())).toBeTruthy();
     expect(linker.isValidConnection(factory.createEntity(), factory.createEntity())).toBeTruthy();
     expect(linker.isValidConnection(factory.createAttribute(), factory.createAttribute())).toBeTruthy();
   });
 
-  test("It should allow Attribute-Attribute connection when it is connected only to an Entity", () => {
+  test("It should allow Entity-Extension", () => {
+    const entity = factory.createEntity();
+    const isa1 = factory.createIsa();
+    
+    const mockedGraph = {
+      getNeighbors: () => {
+        return [isa1];
+      } 
+    }
+
+    entity.graph = mockedGraph;
+
+    expect(linker.isValidConnection(entity, isa1)).toBeTruthy();
+    expect(linker.isValidConnection(isa1, entity )).toBeTruthy();
+  });
+
+  test("It should not allow Entity-Extension entity is already extended", () => {
+    const entity = factory.createEntity();
+    const isa1 = factory.createIsa();
+    const isa2 = factory.createIsa();
+    
+    const mockedGraph = {
+      getNeighbors: () => {
+        return [isa1, isa2];
+      } 
+    }
+
+    entity.graph = mockedGraph;
+
+    expect(linker.isValidConnection(entity, isa1)).toBeFalsy();
+    expect(linker.isValidConnection(isa1, entity)).toBeFalsy();
+  });
+
+  test("It should allow Entity-Attribute connection when it is connected only to an Entity", () => {
     const entity = factory.createEntity();
     const attribute = factory.createAttribute();
     
@@ -109,7 +155,7 @@ describe("Test isValidConnection", () => {
     expect(linker.isValidConnection(factory.createEntity(), attribute)).toBeTruthy();
   });
 
-  test("It should allow Attribute-Attribute connection when it is connected only to an Entity and another attributes", () => {
+  test("It should allow Entity-Attribute connection when it is connected only to an Entity and another attributes", () => {
     const entity = factory.createEntity();
     const attribute = factory.createAttribute();
     
