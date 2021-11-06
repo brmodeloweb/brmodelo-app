@@ -1,5 +1,5 @@
 const userService = require("./service");
-const mockingoose = require('mockingoose').default;
+const mockingoose = require('mockingoose');
 
 const UserRepository = require("./model");
 

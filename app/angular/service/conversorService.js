@@ -2,7 +2,7 @@ import angular from "angular";
 import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
 
-const logicConversorService = (ConceptualService, $uibModal, $q) => {
+const logicConversorService = (ConceptualService, $uibModal) => {
 
 	var modelGraph;
 	var cs = ConceptualService;
@@ -13,67 +13,50 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 
 	var tables = [];
 
-	const _startConversion = function () {
-		_toLogic(conversion);
-	}
+	const _startConversion = () => _toLogic(conversion);
 
-	const _toLogic = function (graph, logicService) {
+	const _toLogic = (graph, logicService) => {
 
 		ls = logicService;
 
-		return $q(function (resolve, reject) {
+		return new Promise((resolve, reject) => {
 
 			tables = [];
 
 			modelGraph = graph;
 			conversion = graph;
 
-			var cell_tables = [];
-			var cell_relations = [];
-			var cell_associatives = [];
-			var cell_extensions = [];
+			const cell_tables = [];
+			const cell_relations = [];
+			const cell_associatives = [];
+			const cell_extensions = [];
 
-			var all = modelGraph.attributes.cells.models;
+			const allElements = modelGraph.attributes.cells.models;
 
-			for (const element of all) {
-
-				if (element.attributes.type === 'erd.Entity') {
-					cell_tables.push(element);
+			allElements.forEach(element => {
+				switch (element.attributes.type) {
+					case 'erd.Entity':
+						cell_tables.push(element);
+						break;
+					case 'erd.Relationship':
+						cell_relations.push(element);
+						break;
+					case 'erd.BlockAssociative':
+						cell_associatives.push(element);
+						break;
+					case 'erd.ISA':
+						cell_extensions.push(element);
+						break;
+					default:
+						break;
 				}
+			})
 
-				if (element.attributes.type === 'erd.Relationship') {
-					cell_relations.push(element);
-				}
-
-				if (element.attributes.type === 'erd.BlockAssociative') {
-					cell_associatives.push(element);
-				}
-
-				if (element.attributes.type === 'erd.ISA') {
-					cell_extensions.push(element);
-				}
-
-			}
-
-			buildTables(cell_tables).then(function () {
-
-				buildExtensions(cell_extensions).then(function () {
-
-					buildRelations(cell_relations).then(function () {
-
-						buildAssociatives(cell_associatives).then(function () {
-
-							resolve(tables);
-
-						});
-
-					});
-
-				});
-
-			});
-
-
+			buildTables(cell_tables)
+				.then(() => buildExtensions(cell_extensions)
+				.then(() => buildRelations(cell_relations)
+				.then(() => buildAssociatives(cell_associatives)
+				.then(() => resolve(tables)))));
 		});
 	};
 
@@ -126,7 +109,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const getExtensionRootName = function (extension) {
+	const getExtensionRootName = (extension) => {
 		for (const neighbor of getEntityNeighbors(extension)) {
 			if (extension.attributes.parentId == neighbor.id) {
 				return neighbor.attributes.attrs.text.text;
@@ -135,16 +118,16 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		return "";
 	}
 
-	const treatExtensionOne_table = function (extension) {
-		return $q(function (resolve) {
+	const treatExtensionOne_table = (extension) => {
+		return new Promise((resolve) => {
 			joinTablesFromRelation(extension).then(function () {
 				resolve();
 			});
 		});
 	}
 
-	const treatExtensionChildrensOnly = function (extension) {
-		return $q(function (resolve) {
+	const treatExtensionChildrensOnly = (extension) => {
+		return new Promise((resolve) => {
 			var childrens = [];
 			var root = {};
 			for (const neighbor of getEntityNeighbors(extension)) {
@@ -168,17 +151,13 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 						}
 					}
 				});
-				modalInstance.result.then(function (resp) {
+				modalInstance.result.then((resp) => {
 					switch (resp) {
 						case "all_tables":
-							treatExtensionAll(extension).then(function () {
-								resolve();
-							});
+							treatExtensionAll(extension).then(() => resolve());
 							break;
 						case "one_table":
-							treatExtensionOne_table(extension).then(function () {
-								resolve();
-							});
+							treatExtensionOne_table(extension).then(() => resolve());
 							break;
 						default:
 					}
@@ -202,8 +181,8 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const treatExtensionAll = function (extension) {
-		return $q(function (resolve) {
+	const treatExtensionAll = (extension) => {
+		return new Promise((resolve) => {
 			var childrens = [];
 			var root = {};
 			for (const neighbor of getEntityNeighbors(extension)) {
@@ -220,8 +199,8 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const buildAssociatives = function (associatives) {
-		return $q(function (resolve) {
+	const buildAssociatives = (associatives) => {
+		return new Promise((resolve) => {
 			(function iterate() {
 				if (associatives.length == 0) {
 					resolve();
@@ -328,7 +307,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 			}
 		}
 
-		return $q(function (resolve, neighbors) {
+		return new Promise((resolve, neighbors) => {
 
 			(function iterate() {
 
@@ -416,18 +395,13 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		});
 	}
 
-	const buildTable = function (element, neighbors) {
-		return $q(function (resolve, reject) {
-
-			var name = element.attributes.attrs.text.text;
-			var x = element.attributes.position.x;
-			var y = element.attributes.position.y;
-			var table = createTableObject(name, x, y);
-
-			buildAttributes(table, neighbors, element).then(function (resp) {
-				resolve(resp);
-			});
-
+	const buildTable = (element, neighbors) => {
+		return new Promise((resolve) => {
+			const name = element.attributes.attrs.text.text;
+			const x = element.attributes.position.x;
+			const y = element.attributes.position.y;
+			const table = createTableObject(name, x, y);
+			buildAttributes(table, neighbors, element).then((resp) => resolve(resp));
 		});
 	}
 
@@ -469,20 +443,20 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		return table;
 	}
 
-	const getRelationType = function (links) {
-		var obj = {
+	const getRelationType = (links) => {
+		const retationType = {
 			'type': "",
 			'quantity': 0
 		}
 		const conections = filterConnections(links);
 		conections.forEach(link => {
 			if (link.attributes.labels != null) {
-				var card = link.attributes.labels[0].attrs.text.text;
-				obj.type = obj.type + card[4];
-				obj.quantity += 1;
+				const card = link.attributes.labels[0].attrs.text.text;
+				retationType.type = retationType.type + card[4];
+				retationType.quantity += 1;
 			}
 		});
-		return obj;
+		return retationType;
 	}
 
 	const getRelationOptionality = function (links) {
@@ -526,7 +500,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		return tableNames;
 	}
 
-	const isAutoRelationship = function (relation) {
+	const isAutoRelationship = (relation) => {
 		var entities = [];
 		for (const element of modelGraph.getNeighbors(relation)) {
 			if (element.attributes.type === 'erd.Entity') {
@@ -536,32 +510,22 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		return (entities.length == 1) && entities[0].attributes.autorelationship;
 	}
 
-	const getAttributes = function (relation) {
+	const getAttributes = (relation) => {
 		return modelGraph.getNeighbors(relation)
 			.filter(element => element.attributes.type === 'erd.Attribute');
 	}
 
-	const getEntityNeighbors = function (relation) {
-		var entities = [];
-		for (const element of modelGraph.getNeighbors(relation)) {
-			if (element.attributes.type === 'erd.Entity') {
-				entities.push(element);
-			}
-		}
-		return entities;
+	const getEntityNeighbors = (relation) => {
+		return modelGraph.getNeighbors(relation)
+			.filter(element => element.attributes.type === 'erd.Entity');
 	}
 
-	const getEntityOrRelationNeighbors = function (relation) {
-		var entities = [];
-		for (const element of modelGraph.getNeighbors(relation)) {
-			if (element.attributes.type === 'erd.Entity' || element.attributes.type === 'erd.Relationship') {
-				entities.push(element);
-			}
-		}
-		return entities;
+	const getEntityOrRelationNeighbors = (relation) => {
+		return modelGraph.getNeighbors(relation)
+			.filter(element => element.attributes.type === 'erd.Entity' || element.attributes.type === 'erd.Relationship');
 	}
 
-	const getTableType_1 = function (links, relation) {
+	const getTableType_1 = (links, relation) => {
 		var link = links[0];
 		var card = link.attributes.labels[0].attrs.text.text;
 		if (card != "(1, 1)" && card != "(0, 1)") {
@@ -574,7 +538,7 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		}
 	}
 
-	const getTableType_2 = function (links, relation) {
+	const getTableType_2 = (links, relation) => {
 		var link = links[0];
 		var card = link.attributes.labels[0].attrs.text.text;
 		if (card == "(1, 1)" || card == "(0, 1)") {
@@ -587,18 +551,13 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 		}
 	}
 
-	const getPKs = function (relation) {
-		var entities = [];
-		for (const element of modelGraph.getNeighbors(relation)) {
-			if (element.attributes.type === 'erd.Key') {
-				entities.push(element);
-			}
-		}
-		return entities;
+	const getPKs = (relation) => {
+		return modelGraph.getNeighbors(relation)
+			.filter(element => element.attributes.type === 'erd.Key');
 	}
 
-	const createTableFromRelation = function (relation, allPKs) {
-		return $q(function (resolve) {
+	const createTableFromRelation = (relation, allPKs) => {
+		return new Promise((resolve) => {
 			var name = relation.attributes.attrs.text.text;
 			var x = relation.attributes.position.x;
 			var y = relation.attributes.position.y;
@@ -857,12 +816,12 @@ const logicConversorService = (ConceptualService, $uibModal, $q) => {
 	}
 
 	const createFKColumn = function (entity) {
-		var pks = getPKs(entity);
-		var attName = "id" + entity.attributes.attrs.text.text;
+		const pks = getPKs(entity);
+		let attName = "id" + entity.attributes.attrs.text.text;
 		if (pks.length > 0) {
 			attName = pks[0].attributes.attrs.text.text;
 		}
-		var obj = {
+		const obj = {
 			"name": attName,
 			"type": "Integer",
 			"PK": false,
