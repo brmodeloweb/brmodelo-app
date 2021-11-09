@@ -1,7 +1,4 @@
-<section
-	class="view modelWorkspace workspaceLogic"
->
-
+<section class="view modelWorkspace workspaceLogic">
 	<header class="navbar navbar-default navbar-fixed-top">
 		<ul class="nav navbar-nav pull-left">
 			<li>
@@ -96,6 +93,16 @@
 									</dropdown>
 							</div>
 
+							<div class="form-group">
+								<label for="default">Default</label>
+								<input
+									id="default"
+									type="text"
+									class="form-control"
+									ng-model="$ctrl.addColumnModel.defaultValue"
+								/>
+							</div>
+
 							<div class="checkbox">
 								<label for="c1">
 									<input
@@ -116,7 +123,37 @@
 								</label>
 							</div>
 
-							<div class="form-group clearfix">
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
+								<label for="c3">
+									<input
+										id="c3"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.NOT_NULL"
+									/>NOT NULL
+								</label>
+							</div>
+
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
+								<label for="c4">
+									<input
+										id="c4"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.UNIQUE"
+									/>UNIQUE
+								</label>
+							</div>
+
+							<div class="checkbox">
+								<label for="c5">
+									<input
+										id="c5"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.AUTO_INCREMENT"
+									/>AUTO INCREMENT
+								</label>
+							</div>
+
+							<div class="form-group clearfix" ng-show="$ctrl.addColumnModel.FK">
 								<label for="">Origem</label>
 									<dropdown
 										on-select="$ctrl.selectAddTableOrigin(selected)"
@@ -163,10 +200,20 @@
 										</dropdown>
 								</div>
 
+								<div class="form-group" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.FK">
+									<label for="edit-default">Default</label>
+									<input
+										id="edit-default"
+										type="text"
+										class="form-control"
+										ng-model="$ctrl.editColumnModel.defaultValue"
+									/>
+								</div>
+
 								<div class="checkbox">
-									<label for="c1">
+									<label for="edit-pk">
 										<input
-											id="c1"
+											id="edit-pk"
 											type="checkbox"
 											ng-model="$ctrl.editColumnModel.PK"
 										/>PK
@@ -174,16 +221,46 @@
 								</div>
 
 								<div class="checkbox">
-									<label for="c2">
+									<label for="edit-fk">
 										<input
-											id="c2"
+											id="edit-fk"
 											type="checkbox"
 											ng-model="$ctrl.editColumnModel.FK"
 										/>FK
 									</label>
 								</div>
 
-								<div class="form-group clearfix">
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK">
+									<label for="edit-not-null">
+										<input
+											id="edit-not-null"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.NOT_NULL"
+										/>NOT NULL
+									</label>
+								</div>
+	
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.default">
+									<label for="edit-unique">
+										<input
+											id="edit-unique"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.UNIQUE"
+										/>UNIQUE
+									</label>
+								</div>
+
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.default && !$ctrl.editColumnModel.FK">
+									<label for="edit-auto-increment">
+										<input
+											id="edit-auto-increment"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.AUTO_INCREMENT"
+										/>AUTO INCREMENT
+									</label>
+								</div>
+
+								<div class="form-group clearfix" ng-show="$ctrl.editColumnModel.FK">
 									<label for="">Origem</label>
 										<dropdown
 											on-select="$ctrl.selectAddTableOrigin(selected)"
