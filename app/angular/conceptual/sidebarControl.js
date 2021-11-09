@@ -107,6 +107,24 @@ const controller = function () {
       }
     });
   }
+  
+  $ctrl.updateAttributeCardinality = (selected) => {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "attribute.cardinality",
+        "value": selected.type
+      }
+    });
+  }
+
+  $ctrl.updateAttributeName = (newName) => {
+    $ctrl.onUpdate({
+      "event": {
+        "type": "attribute.name",
+        "value": newName
+      }
+    });
+  }
 
   const customSelector = (selected) => {
     if (selected.currentValue.type === "Link") {
@@ -115,6 +133,15 @@ const controller = function () {
         "weak": attributes.weak,
         "role": attributes.role,
         "cardinality": attributes.labels[0].attrs.text.text
+      }
+    }
+    if (selected.currentValue.type === "Attribute") {
+      const attributes = selected.currentValue.element.model.attributes;
+      
+      selected.currentValue.value = {
+        "name": attributes.attrs.text.text.replace(/ *\([^)]*\) */g, ""),
+        "cardinality": attributes.cardinality,
+        "composed": attributes.composed
       }
     }
     return selected.currentValue;
