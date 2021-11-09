@@ -212,6 +212,33 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					ctrl.selectedElement.element.update();
 				});
 				break;
+			case 'attribute.cardinality':
+				$timeout(() => {
+					const newCardinality = event.value;
+					let currentText = ctrl.selectedElement.value.name;
+
+					if(newCardinality != '(1, 1)'){
+						currentText = currentText + " " + newCardinality;
+					}
+
+					ctrl.selectedElement.element.model.attributes.attrs.text.text = currentText;
+					ctrl.selectedElement.element.model.attributes.cardinality = newCardinality;
+					ctrl.selectedElement.element.update();
+				});
+				break;
+			case 'attribute.name':
+				$timeout(() => {
+					let newName = event.value;
+					const currentCardinality = ctrl.selectedElement.value.cardinality;
+					
+					if(currentCardinality != '(1, 1)'){
+						newName = newName + " " + currentCardinality;
+					}
+
+					ctrl.selectedElement.element.model.attributes.attrs.text.text = newName;
+					ctrl.selectedElement.element.update();
+				});
+				break;
 		}
 	}
 
