@@ -172,3 +172,7 @@ input[type="submit"]:focus {
 .form-control.error::placeholder {
 	color: rgba(red, 1);
 }
+
+textarea {
+	resize: vertical;
+}
