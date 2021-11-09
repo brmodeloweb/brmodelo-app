@@ -52,5 +52,5 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: development
+          FILTER_REGEX_EXCLUDE: .*(app/joint|\.css|\.scss).*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILTER_REGEX_EXCLUDE: /\*\.s?css/
