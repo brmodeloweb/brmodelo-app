@@ -2,6 +2,7 @@ import angular from "angular";
 import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService"
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
+import { buildColumn } from "../service/columnService";
 
 const controller = function (
 	$rootScope,
@@ -211,17 +212,7 @@ const controller = function (
 	}
 
 	ctrl.newColumnObject = function () {
-		return {
-			"FK": false,
-			"PK": false,
-			"name": "",
-			"tableOrigin": {
-				"idOrigin": null,
-				"idLink": null,
-				"idName": ""
-			},
-			"type": "INT"
-		};
+		return buildColumn();
 	}
 
 	ctrl.addColumnModel = ctrl.newColumnObject();
@@ -249,8 +240,6 @@ const controller = function (
 
 	ctrl.generateSQL = function () {
 		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson());
-
-		console.log(sql);
 
 		$uibModal.open({
 			animation: true,

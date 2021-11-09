@@ -18,6 +18,7 @@ import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
 import conversorService from "../service/conversorService"
+import { buildColumn } from "./columnService";
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
 	var ls = {};
@@ -232,16 +233,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var columns = table.columns;
 
 		for (var j = 0; j < columns.length; j++) {
-			var obj = {
-				"name": columns[j].name,
-				"type": "Integer",
-				"PK": columns[j].PK,
-				"FK": false,
-				"tableOrigin": {
-					"idOrigin": "",
-					"idLink": ""
-				}
-			}
+			const obj = buildColumn({
+				name: columns[j].name,
+				PK: columns[j].PK,
+			});
 			newTable.addAttribute(obj);
 		}
 		ls.graph.addCell(newTable);
@@ -275,17 +270,12 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 		var originName = source.attributes.name;
 		var idOrigin = source.attributes.id;
-
-		var obj = {
-			"name": "id" + originName,
-			"type": "Integer",
-			"PK": false,
-			"FK": true,
-			"tableOrigin": {
-				"idOrigin": idOrigin,
-				"idLink": link.id
-			}
-		}
+		const obj = buildColumn({
+			name: "id" + originName,
+			FK: true,
+			idOrigin,
+			idLink: link.id,
+		});
 
 		target.addAttribute(obj);
 		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
