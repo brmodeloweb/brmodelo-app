@@ -297,6 +297,26 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		})
 	}
 
+	ctrl.makeComposedAttribute = (model) => {
+		$timeout(() => {
+			const posX = model.attributes.position.x;
+			const posY = model.attributes.position.y;
+			const base = ctrl.shapeFactory.createAttribute({ "position": { x: posX, y: posY }});
+			base.attributes.composed = true;
+
+			const attr1 = ctrl.shapeFactory.createAttribute({ "position": { x: posX + 50, y: posY + 20 }});
+			attr1.attributes.attrs.text.text = "attr1";
+
+			const attr2 = ctrl.shapeFactory.createAttribute({ "position": { x: posX + 50, y: posY - 20 }});
+			attr2.attributes.attrs.text.text = "attr2";
+
+			configs.graph.addCells([base, attr1, attr2]);
+			ctrl.shapeLinker.createLink(base, attr1, configs.graph);
+			ctrl.shapeLinker.createLink(base, attr2, configs.graph);
+			model.remove();
+		}, 100)
+	}
+
 	const registerPaperEvents = (paper) => {
 		paper.on('blank:pointerdown', function (evt, x, y) {
 			ctrl.showFeedback(false, "");
@@ -358,6 +378,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				ctrl.makeAssociative(model);
 			}
 
+			if(ctrl.shapeValidator.isComposedAttribute(model)) {
+				ctrl.makeComposedAttribute(model);
+			}
+
 			// 	if(cs.isComposedAttribute(cellView.model)) {
 
 			// 		var x = cellView.model.attributes.position.x;
@@ -365,25 +389,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			// 		cellView.model.remove();
 
 			// 		$timeout(function(){
-			// 			var base = ConceptualFactory.createAttribute();
-			// 			base.attributes.position.x = x + 15;
-			// 			base.attributes.position.y = y + 15;
-			// 			base.attributes.composed = true;
-			// 			$scope.graph.addCell(base);
 
-			// 			var attr1 = ConceptualFactory.createAttribute();
-			// 			attr1.attributes.attrs.text.text = "attr1";
-			// 			attr1.attributes.position.x = base.attributes.position.x + 50;
-			// 			attr1.attributes.position.y = base.attributes.position.y + 20;
-			// 			$scope.graph.addCell(attr1);
-			// 			createLink(base, attr1);
-
-			// 			var attr2 = ConceptualFactory.createAttribute();
-			// 			attr2.attributes.attrs.text.text = "attr2";
-			// 			attr2.attributes.position.x = base.attributes.position.x + 50;
-			// 			attr2.attributes.position.y = base.attributes.position.y - 20 ;
-			// 			$scope.graph.addCell(attr2);
-			// 			createLink(base, attr2);
 
 			// 		}, 100);
 
