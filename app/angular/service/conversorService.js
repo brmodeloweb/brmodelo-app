@@ -2,6 +2,7 @@ import angular from "angular";
 import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
 import conversionAttributeModal from "../components/conversionAttributeModal";
+import Column from "./Column";
 
 const logicConversorService = (ConceptualService, $uibModal) => {
 
@@ -163,13 +164,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 				const rootAttributes = [...getPKs(root), ...getAttributes(root)];
 				for (const children of childrens) {
 					for (const attribute of rootAttributes) {
-						var pi = {
-							"name": attribute.attributes.attrs.text.text,
-							"PK": attribute.attributes.type === 'erd.Key',
-							"FK": false
-						}
+						const column = new Column({
+							name: attribute.attributes.attrs.text.text,
+							PK: attribute.attributes.type === 'erd.Key',
+						});
 						ls.selectedElement = ls.paper.findViewByModel(entityTableMap.get(children.id));
-						ls.addColumn(pi);
+						ls.addColumn(column);
 					}
 				}
 				entityTableMap.get(root.id).remove();
@@ -205,12 +205,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					if (tableRelation != null) {
 
 						for (const attribute of new_attributes) {
-							var pi = {
-								"name": attribute.attributes.attrs.text.text,
-								"PK": false,
-								"FK": false
-							}
-							tableRelation.addAttribute(pi);
+							const column = new Column({
+								name: attribute.attributes.attrs.text.text
+							});
+							tableRelation.addAttribute(column);
 						}
 
 						var relationTables = getEntityOrRelationNeighbors(element);
@@ -330,11 +328,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 										const newTable = entityTableMap.get(entityReference.id);
 										ls.selectedElement = ls.paper.findViewByModel(newTable);
 										[...Array(response.quantity)].forEach((_, index) => {
-											ls.addColumn({
-												"name": `${attName}${index}`,
-												"PK": attribute.attributes.type === 'erd.Key',
-												"FK": false
-											});
+											const column = new Column({
+												name: `${attName}${index}`,
+												PK: attribute.attributes.type === 'erd.Key',
+											})
+											ls.addColumn(column);
 										});
 										break;
 									default:
@@ -343,10 +341,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 							});
 							iterate();
 						} else {
-							var column = {
-								"name": attribute.attributes.attrs.text.text,
-								"PK": attribute.attributes.type === 'erd.Key'
-							}
+							const column = new Column({
+								name: attribute.attributes.attrs.text.text,
+								PK: attribute.attributes.type === 'erd.Key'
+							});
 							table.columns.push(column);
 							iterate();
 						}
@@ -375,12 +373,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		const y = reference.attributes.position.y - 100;
 		const table = createTableObject(name, x, y);
 
-		const column = {
-			"name": "nome",
-			"PK": true,
-			"FK": false,
-			"type": "VARCHAR"
-		}
+		var column = new Column({
+			name: "nome",
+			PK: true,
+			type: "VARCHAR",
+		});
 
 		table.columns.push(column);
 		const newTable = ls.insertTable(table);
@@ -591,11 +588,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 			ls.selectedElement = ls.paper.findViewByModel(table2);
 			const elements = [...attributes, ...pks];
 			elements.forEach(element => {
-				const column = {
-					"name": element.attributes.attrs.text.text,
-					"PK": element.attributes.supertype === "Key",
-					"FK": false
-				}
+				const column = new Column({
+					name: element.attributes.attrs.text.text,
+					PK: element.attributes.supertype === "Key",
+				});
 				ls.addColumn(column);
 			})
 			const table1 = getTableType_1(filterConnections(links), relation);
@@ -723,18 +719,13 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 	}
 
 	const connectTables = (source, target) => {
-		var obj = {
-			"name": "id" + source.attributes.name,
-			"type": "Integer",
-			"PK": false,
-			"FK": true,
-			"tableOrigin": {
-				"idOrigin": source.id,
-				"idLink": ""
-			}
-		}
+		const column = new Column({
+			name: "id" + source.attributes.name,
+			FK: true,
+			idOrigin: source.id,
+		});
 		ls.selectedElement = ls.paper.findViewByModel(target);
-		ls.addColumn(obj);
+		ls.addColumn(column);
 	}
 
 	const joinTablesFromRelation = (relation) => {
@@ -779,17 +770,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		if (pks.length > 0) {
 			attName = pks[0].attributes.attrs.text.text;
 		}
-		const obj = {
-			"name": attName,
-			"type": "Integer",
-			"PK": false,
-			"FK": true,
-			"tableOrigin": {
-				"idOrigin": entityTableMap.get(entity.id).id,
-				"idLink": ""
-			}
-		}
-		return obj;
+		
+		return new Column({
+			name: attName,
+			FK: true,
+			idOrigin: entityTableMap.get(entity.id).id,
+		});
 	}
 
 	const filterConnections = (links) => {

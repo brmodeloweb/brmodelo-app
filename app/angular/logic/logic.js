@@ -3,6 +3,7 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService"
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import Column from "../service/Column";
 
 const controller = function (
 	$rootScope,
@@ -212,17 +213,7 @@ const controller = function (
 	}
 
 	ctrl.newColumnObject = function () {
-		return {
-			"FK": false,
-			"PK": false,
-			"name": "",
-			"tableOrigin": {
-				"idOrigin": null,
-				"idLink": null,
-				"idName": ""
-			},
-			"type": "INT"
-		};
+		return new Column();
 	}
 
 	ctrl.addColumnModel = ctrl.newColumnObject();
