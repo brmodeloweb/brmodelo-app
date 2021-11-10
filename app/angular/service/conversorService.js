@@ -1,6 +1,7 @@
 import angular from "angular";
 import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
+import conversionAttributeModal from "../components/conversionAttributeModal";
 
 const logicConversorService = (ConceptualService, $uibModal) => {
 
@@ -285,82 +286,62 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 	}
 
 	const buildAttributes = function (table, neighbors, entityReference) {
-
-		var attributes = [];
-		var parents = new Map();
-
-		for (const element of neighbors) {
-			if (element.attributes.type === 'erd.Attribute' || element.attributes.type === 'erd.Key') {
-				attributes.push(element);
-			}
-		}
-
-		return new Promise((resolve, neighbors) => {
-
+		const parents = new Map();
+		const attributes = neighbors.filter(neighbor => neighbor.attributes.type === 'erd.Attribute'|| neighbor.attributes.type === 'erd.Key');
+		return new Promise((resolve) => {
 			(function iterate() {
-
-				var attribute = attributes.shift();
-
+				const attribute = attributes.shift();
 				if (attribute != null) {
-
 					if (attribute.attributes.composed) {
-
 						parents.set(attribute.id, attribute);
-						var filhos = modelGraph.getNeighbors(attribute);
-
-						for (const filho of filhos) {
+						const filhos = modelGraph.getNeighbors(attribute);
+						filhos.forEach(filho => {
 							if (cs.isAttribute(filho) && parents.get(filho.id) == null) {
 								attributes.push(filho);
 							}
-						}
-
+						});
 						iterate();
-
 					} else {
-
-						var cardinality = attribute.attributes.cardinality;
+						const cardinality = attribute.attributes.cardinality;
+						const attName = attribute.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
 						if (cardinality == "(0, n)" || cardinality == "(1, n)") {
-
-							var attname = attribute.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
-
-							var modalInstance = $uibModal.open({
+							const modalInstance = $uibModal.open({
+								backdrop: 'static',
+								keyboard: false,
 								animation: true,
-								templateUrl: 'angular/view/modal/conversions/attributeConversionModal.html',
-								controller: 'AttributeModalController',
-								resolve: {
-									params: function () {
-										return {
-											'attribute': attname,
-											'tableName': table.name
-										};
-									}
+								template: '<conversion-attribute-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-attribute-modal>',
+								controller: function () {
+									const $ctrl = this;
+									$ctrl.title = `Assistente de conversão: Atributo multivalorado`;
+									$ctrl.summary = `O que deseja fazer com atributo multivalorado ${attName} da tabela ${table.name} ?`;
+									$ctrl.options = [
+										{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
+										{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
+									]
+								},
+								controllerAs: '$ctrl',
+							});
+							modalInstance.result.then((response) => {
+								switch (response.value) {
+									case "new_table":
+										createTableFromAttribute(tables, attribute, entityReference);
+										break;
+									case "new_column":
+										const newTable = entityTableMap.get(entityReference.id);
+										ls.selectedElement = ls.paper.findViewByModel(newTable);
+										[...Array(response.quantity)].forEach((_, index) => {
+											ls.addColumn({
+												"name": `${attName}${index}`,
+												"PK": attribute.attributes.type === 'erd.Key',
+												"FK": false
+											});
+										});
+										break;
+									default:
+										break;
 								}
 							});
-							modalInstance.result.then(function (resp) {
-								if (resp == "new_table") {
-
-									createTableFromAttribute(tables, attribute, entityReference);
-
-								} else {
-
-									var newTable = entityTableMap.get(entityReference.id);
-
-									ls.selectedElement = ls.paper.findViewByModel(newTable);
-
-									for (var i = 0; i < resp; i++) {
-										var pi = {
-											"name": attname + i,
-											"PK": attribute.attributes.type === 'erd.Key',
-											"FK": false
-										}
-										ls.addColumn(pi);
-									}
-								}
-
-							});
-
 							iterate();
-
 						} else {
 							var column = {
 								"name": attribute.attributes.attrs.text.text,
@@ -369,17 +350,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 							table.columns.push(column);
 							iterate();
 						}
-
 					}
-
 				}
-
 				if (attributes.length == 0) {
 					resolve(table);
 				}
-
 			})();
-
 		});
 	}
 
@@ -394,16 +370,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 	}
 
 	const createTableFromAttribute = (tables, reference, entityReference) => {
-		var name = reference.attributes.attrs.text.text;
+		const name = reference.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
+		const x = reference.attributes.position.x;
+		const y = reference.attributes.position.y - 100;
+		const table = createTableObject(name, x, y);
 
-		name = name.replace(/ *\([^)]*\) */g, "");
-
-		var x = reference.attributes.position.x;
-		var y = reference.attributes.position.y - 100;
-
-		var table = createTableObject(name, x, y);
-
-		var column = {
+		const column = {
 			"name": "nome",
 			"PK": true,
 			"FK": false,
@@ -411,10 +383,8 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		}
 
 		table.columns.push(column);
-		var newTable = ls.insertTable(table);
-
+		const newTable = ls.insertTable(table);
 		ls.selectedElement = ls.paper.findViewByModel(newTable);
-
 		ls.addColumn(createFKColumn(entityReference));
 	}
 
@@ -848,5 +818,5 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 };
 
 export default angular
-	.module("app.LogicConversorService", [conceptualService, conversionOptionModal])
+	.module("app.LogicConversorService", [conceptualService, conversionOptionModal, conversionAttributeModal])
 	.factory("LogicConversorService", logicConversorService).name;
