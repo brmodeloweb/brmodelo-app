@@ -1,4 +1,5 @@
 const modelRepository = require("./model");
+const { encrypt } = require("../helpers/crypto");
 
 const listAll = async (userId) => {
 	return new Promise(async (resolve, reject) => {
@@ -95,6 +96,21 @@ const remove = async (modelId) => {
 	});
 };
 
+const exportModel = async (modelId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await getById(modelId);
+			return resolve({
+				name: model.name.replace(/[^a-zA-Z0-9]/g, ""),
+				data: encrypt(JSON.stringify(model)),
+			});
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
 const modelService = {
 	listAll,
 	getById,
@@ -102,6 +118,7 @@ const modelService = {
 	edit,
 	remove,
 	rename,
+	exportModel,
 };
 
 module.exports = modelService;
