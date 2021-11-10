@@ -18,7 +18,7 @@ import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
 import conversorService from "../service/conversorService"
-import { buildColumn } from "./columnService";
+import Column from "./Column";
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
 	var ls = {};
@@ -233,11 +233,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var columns = table.columns;
 
 		for (var j = 0; j < columns.length; j++) {
-			const obj = buildColumn({
+			const column = new Column({
 				name: columns[j].name,
 				PK: columns[j].PK,
 			});
-			newTable.addAttribute(obj);
+			newTable.addAttribute(column.build());
 		}
 		ls.graph.addCell(newTable);
 
@@ -270,14 +270,14 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 		var originName = source.attributes.name;
 		var idOrigin = source.attributes.id;
-		const obj = buildColumn({
+		const column = new Column({
 			name: "id" + originName,
 			FK: true,
 			idOrigin,
 			idLink: link.id,
 		});
 
-		target.addAttribute(obj);
+		target.addAttribute(column);
 		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 	}
 

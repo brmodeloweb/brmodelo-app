@@ -1,7 +1,7 @@
 import angular from "angular";
 import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
-import { buildColumn } from "./columnService";
+import Column from "./Column";
 
 const logicConversorService = (ConceptualService, $uibModal) => {
 
@@ -169,7 +169,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 				new_attributes.push.apply(new_attributes, getAttributes(root));
 				for (const children of childrens) {
 					for (const attribute of new_attributes) {
-						const column = buildColumn({
+						const column = new Column({
 							name: attribute.attributes.attrs.text.text,
 							PK: attribute.attributes.type === 'erd.Key',
 						});
@@ -216,7 +216,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					if (tableRelation != null) {
 
 						for (const attribute of new_attributes) {
-							const column = buildColumn({
+							const column = new Column({
 								name: attribute.attributes.attrs.text.text
 							});
 							tableRelation.addAttribute(column);
@@ -355,7 +355,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 									ls.selectedElement = ls.paper.findViewByModel(newTable);
 
 									for (var i = 0; i < resp; i++) {
-										const column = buildColumn({
+										const column = new Column({
 											name: attname + i,
 											PK: attribute.attributes.type === 'erd.Key',
 										});
@@ -368,7 +368,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 							iterate();
 
 						} else {
-							const column = buildColumn({
+							const column = new Column({
 								name: attribute.attributes.attrs.text.text,
 								PK: attribute.attributes.type === 'erd.Key'
 							});
@@ -409,7 +409,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 
 		var table = createTableObject(name, x, y);
 
-		var column = buildColumn({
+		var column = new Column({
 			name: "nome",
 			PK: true,
 			type: "VARCHAR",
@@ -626,7 +626,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 			ls.selectedElement = ls.paper.findViewByModel(table2);
 			const elements = [...attributes, ...pks];
 			elements.forEach(element => {
-				const column = buildColumn({
+				const column = new Column({
 					name: element.attributes.attrs.text.text,
 					PK: element.attributes.supertype === "Key",
 				});
@@ -757,13 +757,13 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 	}
 
 	const connectTables = function (source, target) {
-		const obj = buildColumn({
+		const column = new Column({
 			name: "id" + source.attributes.name,
 			FK: true,
 			idOrigin: source.id,
 		});
 		ls.selectedElement = ls.paper.findViewByModel(target);
-		ls.addColumn(obj);
+		ls.addColumn(column);
 	}
 
 	const joinTablesFromRelation = (relation) => {
@@ -809,7 +809,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 			attName = pks[0].attributes.attrs.text.text;
 		}
 		
-		return buildColumn({
+		return new Column({
 			name: attName,
 			FK: true,
 			idOrigin: entityTableMap.get(entity.id).id,

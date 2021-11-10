@@ -2,7 +2,7 @@ import angular from "angular";
 import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService"
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
-import { buildColumn } from "../service/columnService";
+import Column from "../service/Column";
 
 const controller = function (
 	$rootScope,
@@ -212,7 +212,7 @@ const controller = function (
 	}
 
 	ctrl.newColumnObject = function () {
-		return buildColumn();
+		return new Column();
 	}
 
 	ctrl.addColumnModel = ctrl.newColumnObject();
