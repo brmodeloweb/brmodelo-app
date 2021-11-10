@@ -107,7 +107,7 @@ const controller = function () {
       }
     });
   }
-  
+
   $ctrl.updateAttributeCardinality = (selected) => {
     $ctrl.onUpdate({
       "event": {
@@ -126,6 +126,14 @@ const controller = function () {
     });
   }
 
+	$ctrl.transformAssociative = () => {
+		$ctrl.onUpdate({
+      "event": {
+        "type": "relationship.associative",
+      }
+    });
+	}
+
   const customSelector = (selected) => {
     if (selected.currentValue.type === "Link") {
       const attributes = selected.currentValue.element.model.attributes;
@@ -137,7 +145,7 @@ const controller = function () {
     }
     if (selected.currentValue.type === "Attribute") {
       const attributes = selected.currentValue.element.model.attributes;
-      
+
       selected.currentValue.value = {
         "name": attributes.attrs.text.text.replace(/ *\([^)]*\) */g, ""),
         "cardinality": attributes.cardinality,

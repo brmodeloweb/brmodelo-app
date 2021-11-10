@@ -230,13 +230,28 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				$timeout(() => {
 					let newName = event.value;
 					const currentCardinality = ctrl.selectedElement.value.cardinality;
-					
+
 					if(currentCardinality != '(1, 1)'){
 						newName = newName + " " + currentCardinality;
 					}
 
 					ctrl.selectedElement.element.model.attributes.attrs.text.text = newName;
 					ctrl.selectedElement.element.update();
+				});
+				break;
+			case 'relationship.associative':
+				$timeout(() => {
+					const relationship = ctrl.selectedElement.element.model;
+					if(relationship.attributes.parent == null){
+						const posX = relationship.attributes.position.x;
+						const posY = relationship.attributes.position.y;
+						const block = ctrl.shapeFactory.createBlockAssociative({ "position": { x: posX - 6, y: posY - 2 }});
+
+						configs.graph.addCell(block);
+
+						block.embed(relationship);
+						relationship.toFront();
+					}
 				});
 				break;
 		}
