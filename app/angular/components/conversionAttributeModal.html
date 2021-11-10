@@ -1,0 +1,27 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{$ctrl.title}}</h3>
+</div>
+
+<div class="modal-body">
+	<p> {{$ctrl.summary}} </p>
+
+	<form class="form-horizontal" role="form" name="modelForm">
+		<div class="radio">
+			<label>
+				<input id="new_column" type="radio" name="optionsRadios" ng-model="$ctrl.selectedValue" value="new_column"
+					class="withinput" ng-checked="true" />
+				Incluir n= <input type="number" min="1" ng-model="$ctrl.qt" /> atributos
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input id="new_table" type="radio" name="optionsRadios" ng-model="$ctrl.selectedValue" value="new_table" />
+				Criar nova tabela <strong>{{params.attribute}}</strong>?
+			</label>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="br-button" ng-click="$ctrl.forward($ctrl.selectedValue)">Avançar</button>
+</div>
