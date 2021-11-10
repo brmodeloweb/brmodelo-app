@@ -445,7 +445,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
 			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
-			// ShapeFactory.createComposedAttribute()
+			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
 		]);
 	};
 
