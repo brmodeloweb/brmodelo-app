@@ -239,6 +239,32 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					ctrl.selectedElement.element.update();
 				});
 				break;
+			case 'attribute.composed':
+				$timeout(() => {
+					const newValue = event.value;
+					const root = ctrl.selectedElement.element.model;
+					if(newValue) {
+							const rootX = root.attributes.position.x;
+							const rootY = root.attributes.position.y;
+
+							const attr1 = ctrl.shapeFactory.createAttribute({ "position": { x: rootX + 50, y: rootY + 20 }});
+							attr1.attributes.attrs.text.text = "attr1";
+
+							configs.graph.addCell(attr1);
+							ctrl.shapeLinker.createLink(root, attr1, configs.graph);
+
+							const attr2 = ctrl.shapeFactory.createAttribute({ "position": { x: rootX + 50, y: rootY - 20 }});
+							attr2.attributes.attrs.text.text = "attr2";
+
+							configs.graph.addCell(attr2);
+							ctrl.shapeLinker.createLink(root, attr2, configs.graph);
+					} else {
+						configs.graph.getNeighbors(root)
+							.filter(neighbor => ctrl.shapeValidator.isAttribute(neighbor))
+							.forEach(neighbor => neighbor.remove());
+					}
+				});
+				break;
 			case 'relationship.associative':
 				$timeout(() => {
 					const relationship = ctrl.selectedElement.element.model;
