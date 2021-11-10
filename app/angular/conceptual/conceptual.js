@@ -242,6 +242,20 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		}
 	}
 
+	ctrl.makeAssociative = (model) => {
+		const posX = model.attributes.position.x;
+		const posY = model.attributes.position.y;
+		const block = ctrl.shapeFactory.createBlockAssociative({ "position": { x: posX, y: posY }});
+		const auto = ctrl.shapeFactory.createRelationship({ position: { x: posX + 6, y: posY + 2 }});
+
+		block.embed(auto);
+		configs.graph.addCells([block, auto]);
+
+		$timeout(() => {
+			model.remove();
+		})
+	}
+
 	const registerPaperEvents = (paper) => {
 		paper.on('blank:pointerdown', function (evt, x, y) {
 			ctrl.showFeedback(false, "");
@@ -282,50 +296,26 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	const registerGraphEvents = (graph) => {
 		graph.on('change:position', function (cell) {
-
-			// var parentId = cell.get('parent');
-			// if (!parentId) return;
-
-			// var parent = $scope.graph.getCell(parentId);
-			// var parentBbox = parent.getBBox();
-			// var cellBbox = cell.getBBox();
-
-			// if (parentBbox.containsPoint(cellBbox.origin()) &&
-			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
-			// 	parentBbox.containsPoint(cellBbox.corner()) &&
-			// 	parentBbox.containsPoint(cellBbox.bottomLeft())) {
-			// 		// All the four corners of the child are inside the parent area.
-			// 		return;
-			// 	}
-			// 	// Revert the child position.
-			// 	cell.set('position', cell.previous('position'));
+			const parentId = cell.get('parent');
+			if (!parentId) return;
+			const parent = configs.graph.getCell(parentId);
+			const parentBbox = parent.getBBox();
+			const cellBbox = cell.getBBox();
+			if (parentBbox.containsPoint(cellBbox.origin()) &&
+				parentBbox.containsPoint(cellBbox.topRight()) &&
+				parentBbox.containsPoint(cellBbox.corner()) &&
+				parentBbox.containsPoint(cellBbox.bottomLeft())) {
+					return;
+				}
+			cell.set('position', cell.previous('position'));
 		});
 
-		graph.on('add', function (cell) {
+		graph.on('add', (model) => {
+			if (model instanceof joint.dia.Link) return;
 
-			configs.selectionView.cancelSelection();
-
-			// Connectando elementos ao realizar drop
-			// 	var cellView = $scope.paper.findViewByModel(cell);
-			// 	if (cellView.model instanceof joint.dia.Link) return;
-
-			// 	if(cs.isAssociative(cellView.model)) {
-
-			// 		var block = ConceptualFactory.createBlockAssociative();
-			// 		block.attributes.position.x = cellView.model.attributes.position.x;
-			// 		block.attributes.position.y = cellView.model.attributes.position.y;
-
-			// 		var auto = ConceptualFactory.createRelationship();
-			// 		auto.attributes.position.x = block.attributes.position.x + 6;
-			// 		auto.attributes.position.y = block.attributes.position.y + 2;
-
-			// 		cellView.model.remove();
-			// 		$scope.graph.removeCells(cellView);
-			// 		$scope.graph.addCell(block);
-			// 		$scope.graph.addCell(auto);
-
-			// 		block.embed(auto);
-			// 	}
+			if(ctrl.shapeValidator.isAssociative(model)) {
+				ctrl.makeAssociative(model);
+			}
 
 			// 	if(cs.isComposedAttribute(cellView.model)) {
 

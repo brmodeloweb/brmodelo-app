@@ -143,6 +143,21 @@ erd.Associative = joint.dia.Element.extend({
   }, joint.dia.Element.prototype.defaults)
 });
 
+erd.BlockAssociative = joint.dia.Element.extend({
+  markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
+  defaults: _.defaultsDeep({
+      type: 'erd.BlockAssociative',
+      supertype: 'Entity',
+      size: { width: 100, height: 50 },
+      attrs: {
+          '.outer': {
+              fill: 'white', stroke: 'black',
+              points: '100,0 100,60 0,60 0,0'
+          }
+      }
+  }, joint.dia.Element.prototype.defaults)
+});
+
 erd.Attribute = joint.dia.Element.extend({
   markup:
     '<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',

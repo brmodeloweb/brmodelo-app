@@ -32,4 +32,8 @@ export default class Factory {
 		return new this.shapes.erd.Link(customConfig);
 	};
 
+	createBlockAssociative = (customConfig) => {
+		return new this.shapes.erd.BlockAssociative(customConfig);
+	};
+
 }
