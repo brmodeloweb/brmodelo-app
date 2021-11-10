@@ -2,6 +2,7 @@ import angular from "angular";
 import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
 import Column from "./Column";
+import conversionAttributeModal from "../components/conversionAttributeModal";
 
 const logicConversorService = (ConceptualService, $uibModal) => {
 
@@ -88,19 +89,13 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					modalInstance.result.then((response) => {
 						switch (response.value) {
 							case "all_tables":
-								treatExtensionAll(extension).then(() => {
-									iterate();
-								});
+								treatExtensionAll(extension).then(() => iterate());
 								break;
 							case "one_table":
-								treatExtensionOne_table(extension).then(() => {
-									iterate();
-								});
+								treatExtensionOneTable(extension).then(() => iterate());
 								break;
 							case "children_tables":
-								treatExtensionChildrensOnly(extension).then(() => {
-									iterate();
-								});
+								treatExtensionChildrensOnly(extension).then(() => iterate());
 								break;
 							default:
 						}
@@ -119,11 +114,9 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		return "";
 	}
 
-	const treatExtensionOne_table = (extension) => {
+	const treatExtensionOneTable = (extension) => {
 		return new Promise((resolve) => {
-			joinTablesFromRelation(extension).then(function () {
-				resolve();
-			});
+			joinTablesFromRelation(extension).then(() => resolve());
 		});
 	}
 
@@ -140,42 +133,46 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 			}
 
 			if (getEntityOrRelationNeighbors(root).length > 0) {
-				var modalInstance = $uibModal.open({
+				const modalInstance = $uibModal.open({
 					backdrop: 'static',
 					keyboard: false,
 					animation: true,
-					templateUrl: 'angular/view/modal/conversions/alertExtensionConversionModal.html',
-					controller: 'ExtensionModalController',
-					resolve: {
-						params: function () {
-							return { 'rootName': getExtensionRootName(extension) };
-						}
-					}
+					template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+					controller: function () {
+						const $ctrl = this;
+						$ctrl.title = `Atenção - Assistente de conversão - Especialização`;
+						$ctrl.summary = `Não foi possível realizar essa conversão pois a tabela ${getExtensionRootName(extension)} possui outras conexões. Escolha outra opção`;
+						$ctrl.options = [
+							{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
+							{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
+						]
+					},
+					controllerAs: '$ctrl',
 				});
-				modalInstance.result.then((resp) => {
-					switch (resp) {
+				modalInstance.result.then((response) => {
+					switch (response.value) {
 						case "all_tables":
 							treatExtensionAll(extension).then(() => resolve());
 							break;
 						case "one_table":
-							treatExtensionOne_table(extension).then(() => resolve());
+							treatExtensionOneTable(extension).then(() => resolve());
 							break;
 						default:
 					}
 				});
 			} else {
-				var new_attributes = [];
-				new_attributes.push.apply(new_attributes, getPKs(root));
-				new_attributes.push.apply(new_attributes, getAttributes(root));
+				const rootAttributes = [...getPKs(root), ...getAttributes(root)];
 				for (const children of childrens) {
-					for (const attribute of new_attributes) {
+					for (const attribute of rootAttributes) {
 						const column = new Column({
 							name: attribute.attributes.attrs.text.text,
 							PK: attribute.attributes.type === 'erd.Key',
 						});
-						entityTableMap.get(children.id).addAttribute(column);
+						ls.selectedElement = ls.paper.findViewByModel(entityTableMap.get(children.id));
+						ls.addColumn(column);
 					}
 				}
+				entityTableMap.get(root.id).remove();
 				resolve();
 			}
 		});
@@ -183,18 +180,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 
 	const treatExtensionAll = (extension) => {
 		return new Promise((resolve) => {
-			var childrens = [];
-			var root = {};
-			for (const neighbor of getEntityNeighbors(extension)) {
-				if (extension.attributes.parentId != neighbor.id) {
-					childrens.push(neighbor);
-				} else {
-					root = neighbor;
-				}
-			}
-			for (const children of childrens) {
-				connectTables(entityTableMap.get(root.id), entityTableMap.get(children.id));
-			}
+			const neighbors = getEntityNeighbors(extension);
+			const childrens = neighbors.filter(neighbor => extension.attributes.parentId != neighbor.id);
+			const root = neighbors.find(neighbor => extension.attributes.parentId == neighbor.id);
+			childrens.forEach(children => connectTables(entityTableMap.get(root.id), entityTableMap.get(children.id)));
 			resolve();
 		});
 	}
@@ -295,78 +284,62 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 	}
 
 	const buildAttributes = function (table, neighbors, entityReference) {
-
-		var attributes = [];
-		var parents = new Map();
-
-		for (const element of neighbors) {
-			if (element.attributes.type === 'erd.Attribute' || element.attributes.type === 'erd.Key') {
-				attributes.push(element);
-			}
-		}
-
-		return new Promise((resolve, neighbors) => {
-
+		const parents = new Map();
+		const attributes = neighbors.filter(neighbor => neighbor.attributes.type === 'erd.Attribute'|| neighbor.attributes.type === 'erd.Key');
+		return new Promise((resolve) => {
 			(function iterate() {
-
-				var attribute = attributes.shift();
-
+				const attribute = attributes.shift();
 				if (attribute != null) {
-
 					if (attribute.attributes.composed) {
-
 						parents.set(attribute.id, attribute);
-						var filhos = modelGraph.getNeighbors(attribute);
-
-						for (const filho of filhos) {
+						const filhos = modelGraph.getNeighbors(attribute);
+						filhos.forEach(filho => {
 							if (cs.isAttribute(filho) && parents.get(filho.id) == null) {
 								attributes.push(filho);
 							}
-						}
-
+						});
 						iterate();
-
 					} else {
-
-						var cardinality = attribute.attributes.cardinality;
+						const cardinality = attribute.attributes.cardinality;
+						const attName = attribute.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
 						if (cardinality == "(0, n)" || cardinality == "(1, n)") {
-
-							var attname = attribute.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
-
-							var modalInstance = $uibModal.open({
+							const modalInstance = $uibModal.open({
+								backdrop: 'static',
+								keyboard: false,
 								animation: true,
-								templateUrl: 'angular/view/modal/conversions/attributeConversionModal.html',
-								controller: 'AttributeModalController',
-								resolve: {
-									params: function () {
-										return {
-											'attribute': attname,
-											'tableName': table.name
-										};
-									}
-								}
+								template: '<conversion-attribute-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-attribute-modal>',
+								controller: function () {
+									const $ctrl = this;
+									$ctrl.title = `Assistente de conversão: Atributo multivalorado`;
+									$ctrl.summary = `O que deseja fazer com atributo multivalorado ${attName} da tabela ${table.name} ?`;
+									$ctrl.options = [
+										{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
+										{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
+									]
+								},
+								controllerAs: '$ctrl',
 							});
-							modalInstance.result.then(function (resp) {
-								if (resp == "new_table") {
-									createTableFromAttribute(tables, attribute, entityReference);
-								} else {
-
-									var newTable = entityTableMap.get(entityReference.id);
-									ls.selectedElement = ls.paper.findViewByModel(newTable);
-
-									for (var i = 0; i < resp; i++) {
-										const column = new Column({
-											name: attname + i,
-											PK: attribute.attributes.type === 'erd.Key',
+							modalInstance.result.then((response) => {
+								switch (response.value) {
+									case "new_table":
+										createTableFromAttribute(tables, attribute, entityReference);
+										break;
+									case "new_column":
+										const newTable = entityTableMap.get(entityReference.id);
+										ls.selectedElement = ls.paper.findViewByModel(newTable);
+										[...Array(response.quantity)].forEach((_, index) => {
+											const column = new Column({
+												name: `${attName}${index}`,
+												PK: attribute.attributes.type === 'erd.Key',
+											});
+											ls.addColumn(column);
 										});
-										ls.addColumn(column);
-									}
+										break;
+									default:
+										break;
 								}
-
 							});
-
 							iterate();
-
 						} else {
 							const column = new Column({
 								name: attribute.attributes.attrs.text.text,
@@ -375,17 +348,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 							table.columns.push(column);
 							iterate();
 						}
-
 					}
-
 				}
-
 				if (attributes.length == 0) {
 					resolve(table);
 				}
-
 			})();
-
 		});
 	}
 
@@ -399,15 +367,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const createTableFromAttribute = function (tables, reference, entityReference) {
-		var name = reference.attributes.attrs.text.text;
-
-		name = name.replace(/ *\([^)]*\) */g, "");
-
-		var x = reference.attributes.position.x;
-		var y = reference.attributes.position.y - 100;
-
-		var table = createTableObject(name, x, y);
+	const createTableFromAttribute = (tables, reference, entityReference) => {
+		const name = reference.attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
+		const x = reference.attributes.position.x;
+		const y = reference.attributes.position.y - 100;
+		const table = createTableObject(name, x, y);
 
 		var column = new Column({
 			name: "nome",
@@ -416,14 +380,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 
 		table.columns.push(column);
-		var newTable = ls.insertTable(table);
-
+		const newTable = ls.insertTable(table);
 		ls.selectedElement = ls.paper.findViewByModel(newTable);
-
 		ls.addColumn(createFKColumn(entityReference));
 	}
 
-	const createTableObject = function (name, x, y) {
+	const createTableObject = (name, x, y) => {
 		var table = {
 			"name": name,
 			"columns": [],
@@ -452,7 +414,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		return retationType;
 	}
 
-	const getRelationOptionality = function (links) {
+	const getRelationOptionality = (links) => {
 		var optionality = "";
 		for (const link of filterConnections(links)) {
 			if (link.attributes.labels != null) {
@@ -463,7 +425,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		return optionality;
 	}
 
-	const isN1Optional = function (links) {
+	const isN1Optional = (links) => {
 		for (const link of filterConnections(links)) {
 			if (link.attributes.labels != null && link.attributes.labels[0].attrs.text.text == '(0, 1)') {
 				return true;
@@ -472,12 +434,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		return false;
 	}
 
-	const is01Optional = function (links) {
+	const is01Optional = (links) => {
 		const connections = filterConnections(links);
 		return connections[0].attributes.labels[0].attrs.text.text == '(0, 1)' && connections[1].attributes.labels[0].attrs.text.text == '(0, 1)';
 	}
 
-	const buildRelationDescription = function (links) {
+	const buildRelationDescription = (links) => {
 		const connections = filterConnections(links);
 		return connections[0].attributes.labels[0].attrs.text.text + " < - > " + connections[1].attributes.labels[0].attrs.text.text;
 	}
@@ -583,7 +545,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const createTableFrom1NRelation = function (relation, links) {
+	const createTableFrom1NRelation = (relation, links) => {
 		return new Promise((resolve) => {
 			const name = relation.attributes.attrs.text.text;
 			const x = relation.attributes.position.x;
@@ -618,7 +580,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const createColumnFromRelation = function (relation, links) {
+	const createColumnFromRelation = (relation, links) => {
 		return new Promise((resolve) => {
 			const attributes = getAttributes(relation);
 			const pks = getPKs(relation);
@@ -650,7 +612,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const treatN1case = function (relation, links) {
+	const treatN1case = (relation, links) => {
 		return new Promise((resolve) => {
 			if (isN1Optional(links)) {
 				const modalInstance = $uibModal.open({
@@ -756,11 +718,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const connectTables = function (source, target) {
-		const column = new Column({
-			name: "id" + source.attributes.name,
-			FK: true,
-			idOrigin: source.id,
+	const connectTables = (source, target) => {
+		var column = new Column({
+			name: "nome",
+			PK: true,
+			type: "VARCHAR",
 		});
 		ls.selectedElement = ls.paper.findViewByModel(target);
 		ls.addColumn(column);
@@ -802,7 +764,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const createFKColumn = function (entity) {
+	const createFKColumn = (entity) => {
 		const pks = getPKs(entity);
 		let attName = "id" + entity.attributes.attrs.text.text;
 		if (pks.length > 0) {
@@ -816,7 +778,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		});
 	}
 
-	const filterConnections = function (links) {
+	const filterConnections = (links) => {
 		return links.filter(link => {
 			if (link.attributes.type == "erd.Line") {
 				return true;
@@ -842,5 +804,5 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 };
 
 export default angular
-	.module("app.LogicConversorService", [conceptualService, conversionOptionModal])
+	.module("app.LogicConversorService", [conceptualService, conversionOptionModal, conversionAttributeModal])
 	.factory("LogicConversorService", logicConversorService).name;

@@ -212,7 +212,63 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					ctrl.selectedElement.element.update();
 				});
 				break;
+			case 'attribute.cardinality':
+				$timeout(() => {
+					const newCardinality = event.value;
+					let currentText = ctrl.selectedElement.value.name;
+
+					if(newCardinality != '(1, 1)'){
+						currentText = currentText + " " + newCardinality;
+					}
+
+					ctrl.selectedElement.element.model.attributes.attrs.text.text = currentText;
+					ctrl.selectedElement.element.model.attributes.cardinality = newCardinality;
+					ctrl.selectedElement.element.update();
+				});
+				break;
+			case 'attribute.name':
+				$timeout(() => {
+					let newName = event.value;
+					const currentCardinality = ctrl.selectedElement.value.cardinality;
+
+					if(currentCardinality != '(1, 1)'){
+						newName = newName + " " + currentCardinality;
+					}
+
+					ctrl.selectedElement.element.model.attributes.attrs.text.text = newName;
+					ctrl.selectedElement.element.update();
+				});
+				break;
+			case 'relationship.associative':
+				$timeout(() => {
+					const relationship = ctrl.selectedElement.element.model;
+					if(relationship.attributes.parent == null){
+						const posX = relationship.attributes.position.x;
+						const posY = relationship.attributes.position.y;
+						const block = ctrl.shapeFactory.createBlockAssociative({ "position": { x: posX - 6, y: posY - 2 }});
+
+						configs.graph.addCell(block);
+
+						block.embed(relationship);
+						relationship.toFront();
+					}
+				});
+				break;
 		}
+	}
+
+	ctrl.makeAssociative = (model) => {
+		const posX = model.attributes.position.x;
+		const posY = model.attributes.position.y;
+		const block = ctrl.shapeFactory.createBlockAssociative({ "position": { x: posX, y: posY }});
+		const auto = ctrl.shapeFactory.createRelationship({ position: { x: posX + 6, y: posY + 2 }});
+
+		block.embed(auto);
+		configs.graph.addCells([block, auto]);
+
+		$timeout(() => {
+			model.remove();
+		})
 	}
 
 	const registerPaperEvents = (paper) => {
@@ -255,50 +311,26 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	const registerGraphEvents = (graph) => {
 		graph.on('change:position', function (cell) {
-
-			// var parentId = cell.get('parent');
-			// if (!parentId) return;
-
-			// var parent = $scope.graph.getCell(parentId);
-			// var parentBbox = parent.getBBox();
-			// var cellBbox = cell.getBBox();
-
-			// if (parentBbox.containsPoint(cellBbox.origin()) &&
-			// 	parentBbox.containsPoint(cellBbox.topRight()) &&
-			// 	parentBbox.containsPoint(cellBbox.corner()) &&
-			// 	parentBbox.containsPoint(cellBbox.bottomLeft())) {
-			// 		// All the four corners of the child are inside the parent area.
-			// 		return;
-			// 	}
-			// 	// Revert the child position.
-			// 	cell.set('position', cell.previous('position'));
+			const parentId = cell.get('parent');
+			if (!parentId) return;
+			const parent = configs.graph.getCell(parentId);
+			const parentBbox = parent.getBBox();
+			const cellBbox = cell.getBBox();
+			if (parentBbox.containsPoint(cellBbox.origin()) &&
+				parentBbox.containsPoint(cellBbox.topRight()) &&
+				parentBbox.containsPoint(cellBbox.corner()) &&
+				parentBbox.containsPoint(cellBbox.bottomLeft())) {
+					return;
+				}
+			cell.set('position', cell.previous('position'));
 		});
 
-		graph.on('add', function (cell) {
+		graph.on('add', (model) => {
+			if (model instanceof joint.dia.Link) return;
 
-			configs.selectionView.cancelSelection();
-
-			// Connectando elementos ao realizar drop
-			// 	var cellView = $scope.paper.findViewByModel(cell);
-			// 	if (cellView.model instanceof joint.dia.Link) return;
-
-			// 	if(cs.isAssociative(cellView.model)) {
-
-			// 		var block = ConceptualFactory.createBlockAssociative();
-			// 		block.attributes.position.x = cellView.model.attributes.position.x;
-			// 		block.attributes.position.y = cellView.model.attributes.position.y;
-
-			// 		var auto = ConceptualFactory.createRelationship();
-			// 		auto.attributes.position.x = block.attributes.position.x + 6;
-			// 		auto.attributes.position.y = block.attributes.position.y + 2;
-
-			// 		cellView.model.remove();
-			// 		$scope.graph.removeCells(cellView);
-			// 		$scope.graph.addCell(block);
-			// 		$scope.graph.addCell(auto);
-
-			// 		block.embed(auto);
-			// 	}
+			if(ctrl.shapeValidator.isAssociative(model)) {
+				ctrl.makeAssociative(model);
+			}
 
 			// 	if(cs.isComposedAttribute(cellView.model)) {
 
