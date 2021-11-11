@@ -81,7 +81,7 @@ export default class Linker {
 
   connectAttributeAttribute = (source, target) => {
     source.attributes.composed = true;
-    target.attributes.composed = true;
+    target.attributes.composed = false;
   }
 
   getConnectionType = (source, target) => {

@@ -257,7 +257,7 @@ erd.Key = joint.dia.Element.extend({
 });
 
 erd.Link = joint.dia.Link.extend({
-  defaults: { 
+  defaults: {
     type: "erd.Link",
     supertype: "Link",
     weak: false,
@@ -265,20 +265,17 @@ erd.Link = joint.dia.Link.extend({
   }
 });
 
+erd.ComposedAttribute = joint.shapes.basic.Generic.extend({
+	markup: '<g class="rotatable"><g class="scalable"><rect/></g><image/><text/></g>',
+	defaults: joint.util.deepSupplement({
+			type: 'erd.ComposedAttribute',
+			size: { width: 60, height: 40 },
+			attrs: {
+					'rect': { fill: 'transparent', stroke: 'transparent', width: 50, height: 30 },
+					'image': { "xlink:href": "/img/composto-01.png" },
+			}
+	}, joint.shapes.basic.Generic.prototype.defaults)
+});
+
 export default erd;
 
-  // const createComposedAttribute = function () {
-//   return new erd.ComposedAttribute({
-//     size: {
-//       width: 60,
-//       height: 60,
-//     },
-//     position: {
-//       x: 20,
-//       y: 320,
-//     },
-//     attrs: {
-//       image: { "xlink:href": "../../assets/img/composto-01.png" },
-//     },
-//   });
-// };

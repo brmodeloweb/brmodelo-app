@@ -58,7 +58,6 @@
 					</label>
 				</div>
 			</div><!-- End .form-group -->
-
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.extension)">
@@ -84,6 +83,16 @@
 					options="[{name: '(0, n)', type: '(0, n)'}, {name: '(0, 1)', type: '(0, 1)'}, {name: '(1, 1)', type: '(1, 1)'}, {name: '(1, n)', type: '(1, n)'}]">
 				</dropdown>
 			</div>
+			<div class="checkbox">
+				<label for="compound">
+					<input
+						id="compound"
+						type="checkbox"
+						ng-model="$ctrl.selectedElement.value.composed"
+						ng-change="$ctrl.swapComposed($ctrl.selectedElement.value.composed)"
+					> Composto
+				</label>
+			</div>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.key)">
@@ -106,7 +115,6 @@
 				</div>
 			</div>
 		</div>
-
 
 	</div><!-- End .properties-content -->
 </aside><!-- End .model-properties -->

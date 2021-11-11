@@ -36,4 +36,8 @@ export default class Factory {
 		return new this.shapes.erd.BlockAssociative(customConfig);
 	};
 
+	createComposedAttribute = (customConfig) => {
+		return new this.shapes.erd.ComposedAttribute(customConfig);
+	};
+
 }

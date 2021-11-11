@@ -239,6 +239,32 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					ctrl.selectedElement.element.update();
 				});
 				break;
+			case 'attribute.composed':
+				$timeout(() => {
+					const newValue = event.value;
+					const root = ctrl.selectedElement.element.model;
+					if(newValue) {
+							const rootX = root.attributes.position.x;
+							const rootY = root.attributes.position.y;
+
+							const attr1 = ctrl.shapeFactory.createAttribute({ "position": { x: rootX + 50, y: rootY + 20 }});
+							attr1.attributes.attrs.text.text = "attr1";
+
+							configs.graph.addCell(attr1);
+							ctrl.shapeLinker.createLink(root, attr1, configs.graph);
+
+							const attr2 = ctrl.shapeFactory.createAttribute({ "position": { x: rootX + 50, y: rootY - 20 }});
+							attr2.attributes.attrs.text.text = "attr2";
+
+							configs.graph.addCell(attr2);
+							ctrl.shapeLinker.createLink(root, attr2, configs.graph);
+					} else {
+						configs.graph.getNeighbors(root)
+							.filter(neighbor => ctrl.shapeValidator.isAttribute(neighbor))
+							.forEach(neighbor => neighbor.remove());
+					}
+				});
+				break;
 			case 'relationship.associative':
 				$timeout(() => {
 					const relationship = ctrl.selectedElement.element.model;
@@ -269,6 +295,26 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		$timeout(() => {
 			model.remove();
 		})
+	}
+
+	ctrl.makeComposedAttribute = (model) => {
+		$timeout(() => {
+			const posX = model.attributes.position.x;
+			const posY = model.attributes.position.y;
+			const base = ctrl.shapeFactory.createAttribute({ "position": { x: posX, y: posY }});
+			base.attributes.composed = true;
+
+			const attr1 = ctrl.shapeFactory.createAttribute({ "position": { x: posX + 50, y: posY + 20 }});
+			attr1.attributes.attrs.text.text = "attr1";
+
+			const attr2 = ctrl.shapeFactory.createAttribute({ "position": { x: posX + 50, y: posY - 20 }});
+			attr2.attributes.attrs.text.text = "attr2";
+
+			configs.graph.addCells([base, attr1, attr2]);
+			ctrl.shapeLinker.createLink(base, attr1, configs.graph);
+			ctrl.shapeLinker.createLink(base, attr2, configs.graph);
+			model.remove();
+		}, 100)
 	}
 
 	const registerPaperEvents = (paper) => {
@@ -332,6 +378,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				ctrl.makeAssociative(model);
 			}
 
+			if(ctrl.shapeValidator.isComposedAttribute(model)) {
+				ctrl.makeComposedAttribute(model);
+			}
+
 			// 	if(cs.isComposedAttribute(cellView.model)) {
 
 			// 		var x = cellView.model.attributes.position.x;
@@ -339,25 +389,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			// 		cellView.model.remove();
 
 			// 		$timeout(function(){
-			// 			var base = ConceptualFactory.createAttribute();
-			// 			base.attributes.position.x = x + 15;
-			// 			base.attributes.position.y = y + 15;
-			// 			base.attributes.composed = true;
-			// 			$scope.graph.addCell(base);
 
-			// 			var attr1 = ConceptualFactory.createAttribute();
-			// 			attr1.attributes.attrs.text.text = "attr1";
-			// 			attr1.attributes.position.x = base.attributes.position.x + 50;
-			// 			attr1.attributes.position.y = base.attributes.position.y + 20;
-			// 			$scope.graph.addCell(attr1);
-			// 			createLink(base, attr1);
-
-			// 			var attr2 = ConceptualFactory.createAttribute();
-			// 			attr2.attributes.attrs.text.text = "attr2";
-			// 			attr2.attributes.position.x = base.attributes.position.x + 50;
-			// 			attr2.attributes.position.y = base.attributes.position.y - 20 ;
-			// 			$scope.graph.addCell(attr2);
-			// 			createLink(base, attr2);
 
 			// 		}, 100);
 
@@ -419,7 +451,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
 			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
-			// ShapeFactory.createComposedAttribute()
+			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
 		]);
 	};
 

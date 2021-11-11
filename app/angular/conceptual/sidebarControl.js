@@ -126,6 +126,15 @@ const controller = function () {
 		});
 	}
 
+	$ctrl.swapComposed = (value) => {
+		$ctrl.onUpdate({
+			"event": {
+				"type": "attribute.composed",
+				"value": value
+			}
+		});
+	}
+
 	$ctrl.transformAssociative = () => {
 		$ctrl.onUpdate({
 			"event": {
