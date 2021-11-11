@@ -41,7 +41,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.paper = new joint.dia.Paper({
 			width: $('#content').width(),
 			height: $('#content').height(),
-			gridSize: 1,
+			gridSize: 10,
+			drawGrid: true,
 			model: ls.graph
 		});
 		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });

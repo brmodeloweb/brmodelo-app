@@ -2,6 +2,7 @@ import angular from "angular";
 import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService"
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
+import duplicateModelModal from "../components/duplicateModelModal";
 
 const controller = function (
 	$rootScope,
@@ -203,7 +204,7 @@ const controller = function (
 	ctrl.selectEditType = function (selected) {
 		if (!ctrl.editColumnModel.PK && !ctrl.editColumnModel.FK) {
 			ctrl.editColumnModel.type = selected.type;
-		} 
+		}
 	}
 
 	ctrl.selectAddTableOrigin = function (selected) {
@@ -293,7 +294,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal])
 	.component("editorLogic", {
 		template,
 		controller,
