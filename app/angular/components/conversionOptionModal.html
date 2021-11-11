@@ -1,0 +1,20 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{$ctrl.title}}</h3>
+</div>
+
+<div class="modal-body">
+	<p> {{$ctrl.summary}} </p>
+	<form class="form-horizontal" role="form" name="modelForm">
+		<div class="radio" ng-repeat="option in $ctrl.options">
+			<label>
+				<input id="$ctrl.option.value" type="radio" name="optionsRadios" ng-model="$ctrl.selectedValue"
+					ng-value="option" ng-init="$index==0?($ctrl.selectedValue=option):''" />
+				{{ option.label }}
+			</label>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="br-button" ng-click="$ctrl.forward($ctrl.selectedValue)">Avançar</button>
+</div>

@@ -1,4 +1,8 @@
-const RecoveryController = function (AuthService) {
+import angular from "angular";
+import template from "./recovery.html";
+import AuthService from "../service/authService"
+
+const controller = function (AuthService) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.mail = "";
@@ -46,7 +50,10 @@ const RecoveryController = function (AuthService) {
 	};
 };
 
-angular.module("myapp").component("recovery", {
-	templateUrl: "angular/recovery/recovery.html",
-	controller: RecoveryController,
-});
+
+export default angular
+	.module("app.recovery", [AuthService])
+	.component("recovery", {
+		template,
+		controller,
+	}).name;

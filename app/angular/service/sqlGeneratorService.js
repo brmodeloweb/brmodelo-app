@@ -1,9 +1,11 @@
-angular.module('myapp').factory('SqlGeneratorService', function() {
+import angular from "angular";
+
+const sqlGeneratorService = () => {
 
 	var pending = {};
 	var createdMap = {};
 
-	_generate = function (model) {
+	const _generate = function (model) {
 
 		pending = new Map();
 		createdMap = new Map();
@@ -11,23 +13,23 @@ angular.module('myapp').factory('SqlGeneratorService', function() {
 		var sql = "";
 		var keys = model.keys();
 
-		for (key of keys) {
+		for (const key of keys) {
 			var table = model.get(key);
 			sql += createTable(key, table);
 			createdMap.set(key, table);
 		}
 
 		var pendingKeys = pending.keys();
-		for (key of pendingKeys) {
+		for (const key of pendingKeys) {
 			var table = model.get(key);
 			sql += createAlterTable(key, table);
 		}
 		return sql;
 	}
 
-	createAlterTable = function(key, table){
+	const createAlterTable = function(key, table){
 		var alter = "";
-		for (column of table.columns) {
+		for (const column of table.columns) {
 			if(column.FK){
 				var originTable = createdMap.get(column.tableOrigin.idOrigin).name;
 				alter += "ALTER TABLE " + table.name + " ADD FOREIGN KEY(" + cleanString(column.name) + ") REFERENCES " + originTable + " ("+ cleanString(column.name) + ")\n";
@@ -36,10 +38,10 @@ angular.module('myapp').factory('SqlGeneratorService', function() {
 		return alter;
 	}
 
-	createTable = function(key, table){
+	const createTable = function(key, table){
 		var create = "CREATE TABLE " + table.name + " \n";
 		create += "( \n";
-		for (column of table.columns) {
+		for (const column of table.columns) {
 			var alreadyCreated = createdMap.get(key);
 
 			create += " " + cleanString(column.name) + " " + column.type;
@@ -56,7 +58,7 @@ angular.module('myapp').factory('SqlGeneratorService', function() {
 		return create;
 	}
 
-	cleanString = function(name){
+	const cleanString = function(name){
 		var newName = name.replace(": PK", "");
 		newName = newName.replace(": FK", "");
 		return newName;
@@ -66,4 +68,8 @@ angular.module('myapp').factory('SqlGeneratorService', function() {
 		generate : _generate
 	}
 
-});
+}
+
+export default angular
+	.module("app.SqlGeneratorService", [])
+	.factory("SqlGeneratorService", sqlGeneratorService).name;

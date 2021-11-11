@@ -1,23 +1,32 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 mongoose.Promise = require("bluebird");
 const app = require("./server_app/app");
 
-let port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT);
+const apiUrl = `${process.env.API_URL}`;
+const mongoUrl = process.env.PROD_MONGODB || process.env.MONGODB_LOCAL_URL || process.env.MONGO_URI;
+const isDevelopment = process.env.NODE_ENV === "development";
 
-let mongoport = process.env.PROD_MONGODB || process.env.MONGO_URI || "mongodb://localhost:27017/brmodeloDB"
-// https://mlab.com/
+mongoose.set("debug", true);
+mongoose.connect(
+	mongoUrl,
+	{ useNewUrlParser: true, useUnifiedTopology: true },
+	function (err) {
+		if (err) throw err;
 
-mongoose.set("debug", true)
-mongoose.connect(mongoport, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
-	if (err) throw err
+		const databaseInfo = isDevelopment ? `Database: ${mongoUrl}\n` : "";
+
 		app.listen(port, function () {
 			console.log(`
----------------------------------------------------
---------------- APPLICATION RUNNING ---------------
----------------------------------------------------
-App: http://localhost:${port}
-MongoDB: ${mongoport}
----------------------------------------------------
-		`)
-	})
-})
+			---------------------------------------------------
+			--------------- APPLICATION RUNNING ---------------
+			---------------------------------------------------
+
+			App: ${apiUrl}
+			${databaseInfo}
+			---------------------------------------------------
+		`);
+		});
+	}
+);

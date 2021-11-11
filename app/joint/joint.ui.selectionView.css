@@ -10,28 +10,33 @@ This Source Code Form is subject to the terms of the JointJS+ License
 file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
  or from the JointJS+ archive as was distributed by client IO. See the LICENSE file.*/
 
-
 .selection {
    position: absolute;
-   background-color: #3D9970;
-   opacity: .3;
-   border: 2px dashed #3D9970;
+   border: 2px solid #3d9970;
+   border-radius: 3px;
    overflow: visible;
+   background-color: rgba(61, 153, 112, 0.2);
+}
+
+.selected .selection-wrapper {
+   position: absolute;
+   transform: scale(1.3);
+   border: 2px solid #3d9970;
+   border-radius: 3px;
 }
 
 .selection.selected {
-   background-color: transparent;
-   border: none;
-   opacity: 1;
-   cursor: move;
    position: static;
    height: 0 !important;
-   /* Position the selection rectangle static so that the selection-boxe are contained within
-     the paper container (which is supposed to be positioned relative). The height 0 !important
-     makes sure the selection rectangle is not-visible, only the selection-boxes inside it (thanks to overflow: visible). */
+   border: none;
+   background-color: transparent;
+   /* Position the selection rectangle static so that the selection-boxe are contained within the paper container (which is supposed to be positioned relative). The height 0 !important makes sure the selection rectangle is not-visible, only the selection-boxes inside it (thanks to overflow: visible). */
 }
 
 .selection-box {
    position: absolute;
-   border: 1px solid #3D9970;
+   border-radius: 2px;
+   border: 1px dashed #3d9970;
+   transform: scale(1.15);
+   cursor: move;
 }

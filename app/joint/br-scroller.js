@@ -1,3 +1,6 @@
+import $ from "jquery";
+import * as joint from "jointjs";
+
 joint.ui.PaperScroller = Backbone.View.extend({
 		className: "paper-scroller",
 		events: {
@@ -16,7 +19,7 @@ joint.ui.PaperScroller = Backbone.View.extend({
 		initialize: function(a) {
 				_.bindAll(this, "startPanning", "stopPanning", "pan"), this.options = _.extend({}, _.result(this, "options"), a || {});
 				var b = this.options.paper,
-						c = V(b.viewport).scale();
+						c = joint.V(b.viewport).scale();
 				this._sx = c.sx, this._sy = c.sy, _.isUndefined(this.options.baseWidth) && (this.options.baseWidth = b.options.width), _.isUndefined(this.options.baseHeight) && (this.options.baseHeight = b.options.height), this.$el.append(b.el), this.addPadding(), this.listenTo(b, "scale", this.onScale), this.listenTo(b, "resize", this.onResize), this.options.autoResizePaper && this.listenTo(b.model, "change add remove reset", this.adjustPaper)
 		},
 		onResize: function() {
@@ -33,7 +36,7 @@ joint.ui.PaperScroller = Backbone.View.extend({
 		},
 		toLocalPoint: function(a, b) {
 				var c = this.options.paper.viewport.getCTM();
-				return a += this.el.scrollLeft - this.padding.paddingLeft - c.e, a /= c.a, b += this.el.scrollTop - this.padding.paddingTop - c.f, b /= c.d, g.point(a, b)
+				return a += this.el.scrollLeft - this.padding.paddingLeft - c.e, a /= c.a, b += this.el.scrollTop - this.padding.paddingTop - c.f, b /= c.d, joint.g.point(a, b)
 		},
 		adjustPaper: function() {
 				this._center = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2);
@@ -77,7 +80,7 @@ joint.ui.PaperScroller = Backbone.View.extend({
 				return this.addPadding(Math.max(k, 0), Math.max(l, 0), Math.max(m, 0), Math.max(n, 0)), this.el.scrollLeft = a - i + c.e + this.padding.paddingLeft, this.el.scrollTop = b - j + c.f + this.padding.paddingTop, this
 		},
 		centerContent: function() {
-				var a = V(this.options.paper.viewport).bbox(!0, this.options.paper.svg);
+				var a = joint.V(this.options.paper.viewport).bbox(!0, this.options.paper.svg);
 				return this.center(a.x + a.width / 2, a.y + a.height / 2), this
 		},
 		addPadding: function(a, b, c, d) {
@@ -109,7 +112,7 @@ joint.ui.PaperScroller = Backbone.View.extend({
 				a = a || {};
 				var b = this.options.paper,
 						c = _.clone(b.options.origin);
-				return a.fittingBBox = a.fittingBBox || _.extend({}, g.point(c), {
+				return a.fittingBBox = a.fittingBBox || _.extend({}, joint.g.point(c), {
 						width: this.$el.width() + this.padding.paddingLeft,
 						height: this.$el.height() + this.padding.paddingTop
 				}), this.beforePaperManipulation(), b.scaleContentToFit(a), b.setOrigin(c.x, c.y), this.adjustPaper().centerContent(), this.afterPaperManipulation(), this

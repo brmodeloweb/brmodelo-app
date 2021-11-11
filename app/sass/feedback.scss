@@ -3,9 +3,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 .workspace-header .feedback {
 	position: absolute;
-	top: 100%;
-	left: 0;
-	width: calc(100% - 16px);
+	top: calc(100% + 12px);
+	left: 12px;
+	width: calc(100% - 64px);
 	z-index: 1;
 }
 

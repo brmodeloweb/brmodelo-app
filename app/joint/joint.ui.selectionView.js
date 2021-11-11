@@ -1,3 +1,8 @@
+import $ from "jquery";
+import _ from "underscore";
+import "backbone";
+import * as joint from "jointjs";
+
 joint.ui.SelectionView = Backbone.View.extend({
     options: {
         paper: void 0,
@@ -69,7 +74,7 @@ joint.ui.SelectionView = Backbone.View.extend({
     },
     startTranslatingSelection: function(a) {
         a.stopPropagation(), a = joint.util.normalizeEvent(a), this._action = "translating", this.options.graph.trigger("batch:start");
-        var b = this.options.paper.snapToGrid(g.point(a.clientX, a.clientY));
+        var b = this.options.paper.snapToGrid(joint.g.point(a.clientX, a.clientY));
         this._snappedClientX = b.x, this._snappedClientY = b.y, this.trigger("selection-box:pointerdown", a)
     },
     startSelecting: function(a) {
@@ -101,7 +106,7 @@ joint.ui.SelectionView = Backbone.View.extend({
                 });
                 break;
             case "translating":
-                var f = this.options.paper.snapToGrid(g.point(a.clientX, a.clientY)),
+                var f = this.options.paper.snapToGrid(joint.g.point(a.clientX, a.clientY)),
                     h = f.x,
                     i = f.y;
                 if (b = h - this._snappedClientX, c = i - this._snappedClientY, b || c) {
@@ -121,7 +126,7 @@ joint.ui.SelectionView = Backbone.View.extend({
                             }
                         }, this), this.boxesUpdated) this.model.length > 1 && this.updateSelectionBoxes();
                     else {
-                        var k = V(this.options.paper.viewport).scale();
+                        var k = joint.V(this.options.paper.viewport).scale();
                         this.$el.children(".selection-box").add(this.$selectionWrapper).css({
                             left: "+=" + b * k.sx,
                             top: "+=" + c * k.sy
@@ -143,11 +148,11 @@ joint.ui.SelectionView = Backbone.View.extend({
                     c = this.$el.width(),
                     d = this.$el.height(),
                     e = this.options.paper,
-                    f = V(e.viewport).toLocalPoint(b.left, b.top);
+                    f = joint.V(e.viewport).toLocalPoint(b.left, b.top);
                 f.x -= window.pageXOffset, f.y -= window.pageYOffset;
-                var h = V(e.viewport).scale();
+                var h = joint.V(e.viewport).scale();
                 c /= h.sx, d /= h.sy;
-                var i = g.rect(f.x, f.y, c, d),
+                var i = joint.g.rect(f.x, f.y, c, d),
                     j = this.options.useModelGeometry ? _.filter(_.map(e.model.findModelsInArea(i), e.findViewByModel, e)) : e.findViewsInArea(i),
                     k = this.options.filter;
                 _.isArray(k) ? j = _.reject(j, function(a) {
@@ -279,20 +284,20 @@ joint.ui.SelectionView = Backbone.View.extend({
             var c = $(a.target).offset();
             a.offsetX = a.pageX - c.left, a.offsetY = a.pageY - c.top
         }
-        this._rotationStart = g.point(a.offsetX + a.target.parentNode.offsetLeft, a.offsetY + a.target.parentNode.offsetTop + a.target.parentNode.offsetHeight), this._rotationStartAngle = {}, this.model.each(function(a) {
+        this._rotationStart = joint.g.point(a.offsetX + a.target.parentNode.offsetLeft, a.offsetY + a.target.parentNode.offsetTop + a.target.parentNode.offsetHeight), this._rotationStartAngle = {}, this.model.each(function(a) {
             this._rotationStartAngle[a.id] = a.get("angle") || 0
         }, this)
     },
     doRotate: function(a, b, c, d, e) {
-        var f = g.point(this._rotationStart).offset(d, e),
+        var f = joint.g.point(this._rotationStart).offset(d, e),
             h = f.distance(this._center),
             i = this._center.distance(this._rotationStart),
             j = this._rotationStart.distance(f),
             k = (this._center.x - this._rotationStart.x) * (f.y - this._rotationStart.y) - (this._center.y - this._rotationStart.y) * (f.x - this._rotationStart.x),
             l = Math.acos((h * h + i * i - j * j) / (2 * h * i));
         0 >= k && (l = -l);
-        var m = -g.toDeg(l);
-        m = g.snapToGrid(m, 15), this.model.each(function(a) {
+        var m = -joint.g.toDeg(l);
+        m = joint.g.snapToGrid(m, 15), this.model.each(function(a) {
             a.rotate(m + this._rotationStartAngle[a.id], !0, this._center)
         }, this)
     },

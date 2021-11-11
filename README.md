@@ -11,26 +11,31 @@
 ### Dependencies
 
 To run this application you'll need:
+
 - [Node.js](https://nodejs.org/)
+- [yarn](https://yarnpkg.com/)
 - [MongoDB](https://www.mongodb.com/)
 
-### Setup
+#### One time database setup
 
 1. Create database directory: `sudo mkdir -p /data/db`
 1. Change database folder ownership to your user: `sudo chown YOUR_USER_NAME:users -R /data/db`
-1. Install dependencies: `npm install`
 
-### Run
+#### Running application
+
+1. Install dependencies: `yarn install`
 1. Start database: `mongod`
-1. Start application: `npm start`
-1. Access it: [http://localhost:3000/](http://localhost:3000/)
+1. Duplicate `.env.example` and rename it to `.env`
+1. Start frontend: `yarn start:frontend`
+1. Start server: `yarn start:dev`
+1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
 ### Running with Docker
 
 If you already have docker installed you can skip the [Setup](#setup) and [Run](#run) steps above with:
 
-`docker-compose up`
-
+1. to start: `docker-compose up`
+1. to finish: `docker-compose down`
 
 ### Production environments
 

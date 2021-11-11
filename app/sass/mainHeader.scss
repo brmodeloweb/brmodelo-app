@@ -92,4 +92,26 @@
 	display: none;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// .nav-icons dropdown-icon
+///////////////////////////////////////////////////////////////////////////////
+.nav-icons > dropdown-icon > .dropdown > .dropdown-menu {
+	margin-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.nav-icons > dropdown-icon > .dropdown > button {
+	color: #777;
+	background-color:transparent;
+	border: 0;
+	padding: 15px;
+}
+
+.nav-icons > dropdown-icon > .dropdown > button:focus {
+	color: #555;
+	background-color: #e7e7e7;
+	text-decoration: none;
+	box-shadow: none;
+}
 .br-loader.loading {display: block;}

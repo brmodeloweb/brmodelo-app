@@ -1,3 +1,5 @@
+import * as joint from "jointjs";
+
 joint.dia.CommandManager = Backbone.Model.extend({
 		defaults: {
 				cmdBeforeAdd: null,
@@ -41,7 +43,16 @@ joint.dia.CommandManager = Backbone.Model.extend({
 						} else e = this.createCommand({
 								batch: !1
 						});
-						if ("add" === a || "remove" === a) return e.action = a, e.data.id = b.id, e.data.type = b.attributes.type, e.data.attributes = _.merge({}, b.toJSON()), e.options = d || {}, void this.push(e);
+						if ("add" === a || "remove" === a) {
+							e.action = a; 
+							e.data.id = b.id;
+							e.data.type = b.attributes.type;
+							e.data.attributes = _.merge({}, b.toJSON()); 
+							e.options = d || {};  
+							e.data.view = b;
+							this.push(e);
+							return e;
+						}
 						var g = a.substr(this.PREFIX_LENGTH);
 						e.batch && e.action || (e.action = a, e.data.id = b.id, e.data.type = b.attributes.type, e.data.previous[g] = _.clone(b.previous(g)), e.options = d || {}), e.data.next[g] = _.clone(b.get(g)), this.push(e)
 				}
@@ -106,7 +117,7 @@ joint.dia.CommandManager = Backbone.Model.extend({
 										f.remove(c);
 										break;
 								case "remove":
-										this.graph.addCell(e.data.attributes, c);
+										this.graph.addCell(e.data.view, c);
 										break;
 								default:
 										var g = e.action.substr(this.PREFIX_LENGTH);
@@ -126,7 +137,7 @@ joint.dia.CommandManager = Backbone.Model.extend({
 								f = this.graph.getCell(e.data.id);
 						switch (e.action) {
 								case "add":
-										this.graph.addCell(e.data.attributes, c);
+										this.graph.addCell(e.data.view, c);
 										break;
 								case "remove":
 										f.remove(c);

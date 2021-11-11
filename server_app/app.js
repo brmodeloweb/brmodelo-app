@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const path = require("path");
+const cors = require("cors");
 const { uploadMiddleware } = require("./middleware/middleware");
 
 require("dotenv").config();
@@ -23,9 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.use(uploadMiddleware);
 const appPath = path.join(__dirname, "../app");
-app.use(express.static(appPath));
-app.use(express.static(`${appPath}/assets`));
-app.use(express.static(`${appPath}/assets/node_modules`));
+app.use(express.static(`${appPath}/dist`));
 app.use(responseTime());
 app.use(
 	session({
@@ -36,6 +35,7 @@ app.use(
 	})
 );
 app.use(errorhandler());
+app.use(cors());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");

@@ -1,4 +1,9 @@
-const LoginController = function (AuthService, $state) {
+import angular from "angular";
+import ReactButton from "../../react/components/Button";
+import authService from "../service/authService";
+import template from "./login.html";
+
+const LoginController = function (AuthService, $state, $translate) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.credentials = {};
@@ -29,6 +34,10 @@ const LoginController = function (AuthService, $state) {
 			.catch(handleLoginError);
 	};
 
+	ctrl.changeLanguage = (langKey) => {
+		$translate.use(langKey);
+	};
+
 	ctrl.submitForm = (validForm) => {
 		ctrl.submitted = true;
 		ctrl.feedback.showing = false;
@@ -40,7 +49,9 @@ const LoginController = function (AuthService, $state) {
 	};
 };
 
-angular.module("myapp").component("login", {
-	templateUrl: "angular/login/login.html",
-	controller: LoginController,
-});
+export default angular
+	.module("app.login", [authService, ReactButton])
+	.component("login", {
+		template,
+		controller: LoginController,
+	}).name;

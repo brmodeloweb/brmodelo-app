@@ -1,4 +1,8 @@
-const ResetPasswordController = function (AuthService, $stateParams, $timeout, $state) {
+import angular from "angular";
+import template from "./reset.html";
+import AuthService from "../service/authService"
+
+const controller = function (AuthService, $stateParams, $timeout, $state) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.mail = "";
@@ -58,7 +62,7 @@ const ResetPasswordController = function (AuthService, $stateParams, $timeout, $
 		ctrl.submitted = true;
 		ctrl.feedback.showing = false;
 		if (validForm) {
-			if(newPassword != repeatedPassword) {
+			if (newPassword != repeatedPassword) {
 				showFeedback("A senha deve ser a mesma nos dois campos");
 			} else if (newPassword.length < 6) {
 				showFeedback("Senha deve conter mais que 6 dígitos");
@@ -70,27 +74,30 @@ const ResetPasswordController = function (AuthService, $stateParams, $timeout, $
 		}
 	};
 
-	ctrl.$onInit = async () => {
+	ctrl.$onInit = () => {
 		setLoading(true);
 		const code = $stateParams.code;
 		const mail = $stateParams.mail;
-		try {
-			setLoading(true);
-			const response = await AuthService.validateRecovery(mail, code);
-			setLoading(false);
-			if (response.data.valid) {
-				setValidation(true);
-			} else {
+		setLoading(true);
+		AuthService.validateRecovery(mail, code)
+			.then((response) => {
+				setLoading(false);
+				if (response.data.valid) {
+					setValidation(true);
+				} else {
+					showFeedback("Código de recuperação de senha é inválido, solicite a recuperação de senha novamente!");
+				}
+			}).catch((error) => {
+				setLoading(false);
 				showFeedback("Código de recuperação de senha é inválido, solicite a recuperação de senha novamente!");
-			}
-		} catch (error) {
-			showFeedback("Código de recuperação de senha é inválido, solicite a recuperação de senha novamente!");
-		}
+			});
 	}
 
 };
 
-angular.module("myapp").component("resetPassword", {
-	templateUrl: "angular/recovery/reset.html",
-	controller: ResetPasswordController,
-});
+export default angular
+	.module("app.reset", [AuthService])
+	.component("resetPassword", {
+		template,
+		controller,
+	}).name;

@@ -1,3 +1,7 @@
+import angular from "angular";
+import authService from "../service/authService";
+import template from "./signup.html";
+
 const SignupController = function ($state, AuthService) {
 	const ctrl = this;
 	ctrl.submitted = false;
@@ -63,7 +67,7 @@ const SignupController = function ($state, AuthService) {
 	};
 };
 
-angular.module("myapp").component("signup", {
-	templateUrl: "angular/signup/signup.html",
+export default angular.module("app.signup", [authService]).component("signup", {
+	template,
 	controller: SignupController,
-});
+}).name;

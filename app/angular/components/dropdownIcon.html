@@ -1,0 +1,10 @@
+<div class="dropdown" ng-class="{open: $ctrl.open}">
+	<button ng-click="$ctrl.toggle(!$ctrl.open)">
+		<i class="fa fa-cog"></i>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-right">
+		<li ng-repeat="option in $ctrl.options" ng-click="$ctrl.select(option)">
+			<a>{{option.name}}</a>
+		</li>
+	</ul>
+</div>

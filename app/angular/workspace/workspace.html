@@ -1,0 +1,68 @@
+<section class="view modelsList">
+
+	<header
+		class="navbar navbar-default navbar-fixed-top"
+	>
+		<div class="container">
+			<div class="navbar-header pull-left">
+				<strong class="navbar-brand">BR Modelo Web</strong>
+			</div><!-- End .navbar-header -->
+			<div class="nav navbar-nav pull-right nav-icons">
+				<dropdown-icon title="Options" options="[{name: 'Sair', type: 'Sair'}]" on-select=$ctrl.logout()></dropdown-icon>
+			</div><!-- End .navbar-header -->
+		</div>
+	</header>
+
+	<section
+		class="mainContent"
+	>
+		<header class="container">
+			<div class="page-header clearfix">
+				<h2 class="h2 pull-left">Modelagens</h2>
+				<aside class="header-actions pull-right">
+					<a class="br-button" data-ng-click="$ctrl.newModel()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nova Modelagem</a>
+				</aside>
+			</div><!-- End .page-header -->
+		</header><!-- End .container -->
+
+		<div class="container projectsList">
+				<img
+				src="../../img/loading-dots.gif"
+				alt="Loading"
+				class="br-loader"
+				ng-class="{'loading': $ctrl.loading}"
+			/>
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th><strong>Tipo</strong></th>
+							<th><strong>Nome</strong></th>
+							<th><strong>Autor</strong></th>
+							<th><strong>Criação</strong></th>
+							<th colspan="1"><strong class="vhide actions-cell">Actions</strong></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="model in $ctrl.models" class="listLine">
+							<td ng-click="$ctrl.openModel(model)">{{model.typeName}}</td>
+							<td ng-click="$ctrl.openModel(model)">{{model.name}}</td>
+							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
+							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
+							<td class="actions-cell">
+								<i title="Renomear modelo" class="fa fa-pencil" aria-hidden="true" ng-click="$ctrl.renameModel(model)"></i>
+								<i title="Duplicar modelo" class="fa fa-files-o" aria-hidden="true" ng-click="$ctrl.duplicateModel(model)"></i>
+								<i title="Apagar" class="fa fa-trash" aria-hidden="true" ng-click="$ctrl.deleteModel(model)"></i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div><!-- End .table-responsive -->
+		</div><!-- End .container.projectsList -->
+
+		<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+			<i class="fa fa-bug" aria-hidden="true"></i>
+		</a>
+
+	</section><!-- End .mainContent -->
+</section><!-- End .view -->
