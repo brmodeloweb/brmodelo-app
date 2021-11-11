@@ -45,6 +45,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react2angular": "^4.0.6",
+    "raw-body": "^2.4.1",
     "response-time": "^2.3.2",
     "textangular": "^1.5.16",
     "underscore": "^1.12.0",
