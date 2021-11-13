@@ -1,4 +1,4 @@
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 
 joint.dia.CommandManager = Backbone.Model.extend({
 		defaults: {
@@ -44,11 +44,11 @@ joint.dia.CommandManager = Backbone.Model.extend({
 								batch: !1
 						});
 						if ("add" === a || "remove" === a) {
-							e.action = a; 
+							e.action = a;
 							e.data.id = b.id;
 							e.data.type = b.attributes.type;
-							e.data.attributes = _.merge({}, b.toJSON()); 
-							e.options = d || {};  
+							e.data.attributes = _.merge({}, b.toJSON());
+							e.options = d || {};
 							e.data.view = b;
 							this.push(e);
 							return e;

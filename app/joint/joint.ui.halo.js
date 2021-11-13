@@ -1,7 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import "backbone";
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 
 joint.ui.Halo = Backbone.View.extend({
     PIE_INNER_RADIUS: 20,
@@ -106,15 +106,15 @@ joint.ui.Halo = Backbone.View.extend({
         this.options = _.extend({}, _.result(this, "options"), a || {}), _.defaults(this.options, {
             paper: this.options.cellView.paper,
             graph: this.options.cellView.paper.model
-        }), _.bindAll(this, "pointermove", "pointerup", "render", "update", "remove"), 
-        joint.ui.Halo.clear(this.options.paper), 
-        this.listenTo(this.options.graph, "reset", this.remove), 
-        this.listenTo(this.options.graph, "all", this.update), 
-        this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove), 
-        this.listenTo(this.options.paper, "scale translate", this.update), 
-        this.listenTo(this.options.cellView.model, "remove", this.remove), 
-        $(document.body).on("mousemove touchmove", this.pointermove), 
-        $(document).on("mouseup touchend", this.pointerup), 
+        }), _.bindAll(this, "pointermove", "pointerup", "render", "update", "remove"),
+        joint.ui.Halo.clear(this.options.paper),
+        this.listenTo(this.options.graph, "reset", this.remove),
+        this.listenTo(this.options.graph, "all", this.update),
+        this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove),
+        this.listenTo(this.options.paper, "scale translate", this.update),
+        this.listenTo(this.options.cellView.model, "remove", this.remove),
+        $(document.body).on("mousemove touchmove", this.pointermove),
+        $(document).on("mouseup touchend", this.pointerup),
         this.options.paper.$el.append(this.$el),
         this.handles = [], _.each(this.options.handles, this.addHandle, this)
     },
