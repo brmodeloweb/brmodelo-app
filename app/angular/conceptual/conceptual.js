@@ -16,8 +16,7 @@ import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
 /*
- * This line prevent a sideEffect issue in jointjs library. 
- * This sideEffect config make webpack ignore joint css imports
+ * This line prevent a sideEffect issue in jointjs library that make webpack ignore joint css imports
  * See more: https://github.com/webpack/webpack/issues/8814
  */
 console.log(jointCss)
