@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	context: `${__dirname}/app`,
@@ -21,10 +22,16 @@ module.exports = {
 		new Dotenv({ systemvars: true }),
 		new HtmlWebpackPlugin({
 			template: "index.html",
+			favicon: `${__dirname}/app/favicon.ico`
 		}),
 		new MiniCssExtractPlugin({
 			filename: `bundle.css`,
 		}),
+		new CopyPlugin({
+			patterns: [
+				{ from: `${__dirname}/app/img`, to: `${__dirname}/app/dist/img`}
+			]
+		})
 	],
 	optimization: {
 		minimizer: [
