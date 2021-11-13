@@ -1,9 +1,9 @@
 import angular from "angular";
 import template from "./conversionOptionModal.html";
 
-const app = angular.module("app.createModelModal", []);
+const app = angular.module("app.ConversionOptionModal", []);
 
-const Controller = function ($rootScope) {
+const Controller = function () {
 	const $ctrl = this;
 
 	$ctrl.forward = function (selectedOption) {

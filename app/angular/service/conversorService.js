@@ -72,7 +72,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 						backdrop: 'static',
 						keyboard: false,
 						animation: true,
-						template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+						template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 						controller: function () {
 							const $ctrl = this;
 							$ctrl.title = `Assistente de conversão - Especialização`;
@@ -136,7 +136,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					backdrop: 'static',
 					keyboard: false,
 					animation: true,
-					template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+					template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 					controller: function () {
 						const $ctrl = this;
 						$ctrl.title = `Atenção - Assistente de conversão - Especialização`;
@@ -623,7 +623,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					backdrop: 'static',
 					keyboard: false,
 					animation: true,
-					template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+					template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 					controller: function () {
 						const $ctrl = this;
 						$ctrl.title = `Assistente de conversão - Relacionamento (1, n)`;
@@ -661,7 +661,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					backdrop: 'static',
 					keyboard: false,
 					animation: true,
-					template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+					template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 					controller: function () {
 						const $ctrl = this;
 						$ctrl.title = `Assistente de conversão - Relacionamento (1, 1)`;
@@ -693,7 +693,7 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 						backdrop: 'static',
 						keyboard: false,
 						animation: true,
-						template: '<conversion-option-modal suggested-name="$ctrl.suggestedName" title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
+						template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 						controller: function () {
 							const $ctrl = this;
 							$ctrl.title = `Assistente de conversão - Relacionamento (1, n)`;
