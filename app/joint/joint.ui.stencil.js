@@ -1,7 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import "backbone";
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 
 var Handlebars = {};
 ! function (a, b) {
@@ -178,12 +178,12 @@ var Handlebars = {};
             throw new a.Exception("The partial " + d + " could not be compiled when running in runtime-only mode")
         }
     }, a.template = a.VM.template
-}(Handlebars), 
-    joint.templates = joint.templates || {}, 
-    joint.templates.stencil = joint.templates.stencil || {}, 
+}(Handlebars),
+    joint.templates = joint.templates || {},
+    joint.templates.stencil = joint.templates.stencil || {},
     joint.templates.stencil["elements.html"] = Handlebars.template(function (a, b, c, d, e) {
         return this.compilerInfo = [4, ">= 1.0.0"], c = this.merge(c, a.helpers), e = e || {}, '<div class="elements"></div>\n'
-    }), 
+    }),
     joint.templates.stencil["group.html"] = Handlebars.template(function (a, b, c, d, e) {
     this.compilerInfo = [4, ">= 1.0.0"], c = this.merge(c, a.helpers), e = e || {};
     var f, g = "",
@@ -209,19 +209,19 @@ var Handlebars = {};
         height: 500
     },
     initialize: function (a) {
-        this.options = _.extend({}, _.result(this, "options"), a || {}), 
-        this.graphs = {}, 
-        this.papers = {}, 
-        this.$groups = {}, 
-        _.bindAll(this, "onDrag", "onDragEnd"), 
+        this.options = _.extend({}, _.result(this, "options"), a || {}),
+        this.graphs = {},
+        this.papers = {},
+        this.$groups = {},
+        _.bindAll(this, "onDrag", "onDragEnd"),
         $(document.body).on({
             "mousemove.stencil touchmove.stencil": this.onDrag,
             "mouseup.stencil touchend.stencil": this.onDragEnd
-        }), 
+        }),
         this.onSearch = _.debounce(this.onSearch, 126)
     },
     render: function () {
-        this.$el.html(joint.templates.stencil["stencil.html"](this.template)); 
+        this.$el.html(joint.templates.stencil["stencil.html"](this.template));
         this.$content = this.$(".content");
         this.options.search && this.$el.addClass("searchable").prepend(joint.templates.stencil["search.html"]());
         var a = {

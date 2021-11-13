@@ -3,7 +3,7 @@ import angular from "angular";
 import "backbone";
 import $ from "jquery";
 
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 import "jointjs/dist/joint.min.css";
