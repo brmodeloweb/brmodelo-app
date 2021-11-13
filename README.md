@@ -45,7 +45,7 @@ Run `yarn test` to run Cypress tests in headless mode.
 
 Or, run `yarn cy:open` to open the test runner for running tests in interactive mode.
 
-> **Note:** For the tests to work, you will have to copy the `cypress.env.example.json` file as `cypress.env.json` (included on `.gitignore`) and update the `user` and `password` with your credentials.
+> **Note:** For the tests to work, you will have to copy the `cypress.env.example.json` file as `cypress.env.json` (included on `.gitignore`) and update the `user` and `password` with valid credentials.
 
 ### Production environments
 
