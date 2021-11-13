@@ -6,7 +6,9 @@
     "start": "node server.js",
     "start:dev": "export NODE_ENV=development && nodemon server.js",
     "start:frontend": "export NODE_ENV=development && webpack-dev-server --hot --progress --colors --inline",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "yarn cypress run",
+    "cy:open": "yarn cypress open"
   },
   "engines": {
     "node": "^12.20.0",
@@ -42,10 +44,10 @@
     "morgan": "^1.10.0",
     "oclazyload": "^1.1.0",
     "prop-types": "^15.7.2",
+    "raw-body": "^2.4.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react2angular": "^4.0.6",
-    "raw-body": "^2.4.1",
     "response-time": "^2.3.2",
     "textangular": "^1.5.16",
     "underscore": "^1.12.0",
@@ -63,6 +65,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-angularjs-annotate": "^0.10.0",
     "css-loader": "^5.0.2",
+    "cypress": "^9.0.0",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",

@@ -37,6 +37,14 @@ If you already have docker installed you can skip the [Setup](#setup) and [Run](
 1. to start: `docker-compose up`
 1. to finish: `docker-compose down`
 
+### Tests
+
+Run `yarn test` to run Cypress tests in headless mode.
+
+Or, run `yarn cy:open` to open the test runner for running tests in interactive mode.
+
+> **Note:** For the tests to work, you will have to copy the `cypress.env.example.json` file as `cypress.env.json` (included on `.gitignore`) and update the `user` and `password` with your credentials.
+
 ### Production environments
 
 - Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
