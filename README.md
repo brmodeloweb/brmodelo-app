@@ -39,6 +39,8 @@ If you already have docker installed you can skip the [Setup](#setup) and [Run](
 
 ### Tests
 
+With the database, backend, and frontend up-and-running:
+
 Run `yarn test` to run Cypress tests in headless mode.
 
 Or, run `yarn cy:open` to open the test runner for running tests in interactive mode.
