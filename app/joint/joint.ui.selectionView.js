@@ -1,7 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import "backbone";
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 
 joint.ui.SelectionView = Backbone.View.extend({
     options: {

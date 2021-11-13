@@ -34,7 +34,7 @@
     "express-session": "^1.17.1",
     "font-awesome": "^4.7.0",
     "form-data": "^4.0.0",
-    "jointjs": "3.3.0",
+    "jointjs": "3.4.2",
     "jquery": "^3.3.29",
     "mailgun.js": "^3.4.0",
     "mongodb": "~3.5.8",

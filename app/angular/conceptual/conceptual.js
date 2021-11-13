@@ -1,7 +1,7 @@
 import "backbone";
 import $ from "jquery";
 
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 import "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";

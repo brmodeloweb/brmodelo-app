@@ -1,6 +1,6 @@
 import angular from "angular";
 
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 import "jointjs/dist/joint.min.css";
 
 import tables from "../../joint/table";

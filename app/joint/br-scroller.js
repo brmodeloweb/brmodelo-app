@@ -1,5 +1,5 @@
 import $ from "jquery";
-import * as joint from "jointjs";
+import * as joint from "jointjs/dist/joint";
 
 joint.ui.PaperScroller = Backbone.View.extend({
 		className: "paper-scroller",
