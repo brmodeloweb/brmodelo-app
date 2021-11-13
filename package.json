@@ -6,7 +6,9 @@
     "start": "node server.js",
     "start:dev": "export NODE_ENV=development && nodemon server.js",
     "start:frontend": "export NODE_ENV=development && webpack-dev-server --hot --progress --colors --inline",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "yarn cypress run",
+    "cy:open": "yarn cypress open"
   },
   "engines": {
     "node": "^12.20.0",
@@ -64,6 +66,7 @@
     "babel-plugin-angularjs-annotate": "^0.10.0",
     "copy-webpack-plugin": "6.4.0",
     "css-loader": "^5.0.2",
+    "cypress": "^9.0.0",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
