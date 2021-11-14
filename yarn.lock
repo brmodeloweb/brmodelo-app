@@ -4758,6 +4758,11 @@ homedir-polyfill@^1.0.1:
   dependencies:
     parse-passwd "^1.0.0"
 
+hotkeys-js@^3.8.7:
+  version "3.8.7"
+  resolved "https://registry.yarnpkg.com/hotkeys-js/-/hotkeys-js-3.8.7.tgz#c16cab978b53d7242f860ca3932e976b92399981"
+  integrity sha512-ckAx3EkUr5XjDwjEHDorHxRO2Kb7z6Z2Sxul4MbBkN8Nho7XDslQsgMJT+CiJ5Z4TgRxxvKHEpuLE3imzqy4Lg==
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -5967,10 +5972,10 @@ jest@^27.2.5:
     import-local "^3.0.2"
     jest-cli "^27.3.1"
 
-jointjs@3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/jointjs/-/jointjs-3.4.2.tgz#fd81ba83bd605a75e875eccf98ef528db3a10933"
-  integrity sha512-iw/mOu+y2AD3lhCAQ5RloaRJH/oIWD6rtfGJ1BvhnaF6fn2Wfec/so64LTl5rwCP1IL9cQEMIuh3eth43UwwIw==
+jointjs@3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/jointjs/-/jointjs-3.4.4.tgz#aa520c20ffddaaef5765355c12766bffbdbf755f"
+  integrity sha512-X4eBjO7P8Uxi06+V2hgvF1PCNWGbz6jSYPIbFgnJ4sSYL8dbgPWOA7+LNA8QXswTP9EIHsHhoh03HLiHqKkjWA==
   dependencies:
     backbone "~1.4.0"
     dagre "~0.8.5"

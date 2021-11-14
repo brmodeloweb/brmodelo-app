@@ -25,6 +25,8 @@ import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 
+import hotkeys from 'hotkeys-js';
+
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
 	ctrl.feedback = {
@@ -317,11 +319,35 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		}, 100)
 	}
 
+
+
 	const registerPaperEvents = (paper) => {
+		let spacePressed = false;
+
+		paper.$document.on('keydown', (keyboardEvent) => {
+			if (keyboardEvent.code === "Space" && !event.repeat) {
+				spacePressed = true;
+			}
+			keyboardEvent.preventDefault();
+		});
+
+		paper.$document.on('keyup', (keyboardEvent) => {
+			if (keyboardEvent.code === "Space" && !keyboardEvent.repeat) {
+				spacePressed = false;
+			}
+			keyboardEvent.preventDefault();
+		});
+
 		paper.on('blank:pointerdown', function (evt, x, y) {
 			ctrl.showFeedback(false, "");
-			configs.selectionView.startSelecting(evt);
 			ctrl.onSelectElement(null);
+			configs.selectionView.cancelSelection();
+
+			if( !spacePressed ){
+				configs.selectionView.startSelecting(evt);
+			} else {
+				configs.paperScroller.startPanning(evt);
+			}
 		});
 
 		paper.on('link:options', (cellView) => {
@@ -353,6 +379,36 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			halo.removeHandle('rotate');
 			halo.render();
 		});
+	}
+
+	const registerShortcuts = () => {
+
+		hotkeys('command+s, ctrl+s', () => {
+			console.log("loggiong");
+			ctrl.saveModel();
+			return false;
+		});
+
+		hotkeys('command+z, ctrl+z', () => {
+			configs.commandManager.undo();
+			return false;
+		});
+
+		hotkeys('command+y, ctrl+y', () => {
+			configs.commandManager.undo();
+			return false;
+		});
+
+		hotkeys('shift+z+=, zz-z=+=', () => {
+			configs.paperScroller.zoom(0.1, { max: 2 });
+			return false;
+		});
+
+		hotkeys('shift+z+-, z+-', () => {
+			configs.paperScroller.zoom(-0.1, { min: 0.2 });
+			return false;
+		});
+
 	}
 
 	const registerGraphEvents = (graph) => {
@@ -434,7 +490,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			cursor: "grab",
 			autoResizePaper: true,
 		});
-
 		content.append(configs.paperScroller.render().el);
 
 		const stencil = new joint.ui.Stencil({
@@ -453,6 +508,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
 		]);
+
+		registerShortcuts();
 	};
 
 	ctrl.$postLink = () => {
