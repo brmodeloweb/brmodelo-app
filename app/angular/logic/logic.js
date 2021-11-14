@@ -103,12 +103,19 @@ const controller = function (
 
 	$rootScope.$on('element:update', function (event, element) {
 		$timeout(() => {
+			console.log(element);
 			if(element != null && element.update != null) {
 				element.update();
 			}
 			if(element != null && element.resize != null) {
 				element.resize();
 			}
+		});
+	});
+
+	$rootScope.$on('model:saved', () => {
+		$timeout(() => {
+			ctrl.showFeedback("Salvo com sucesso!", true, "success");
 		});
 	});
 
@@ -290,6 +297,10 @@ const controller = function (
 			});
 		});
 	};
+
+	ctrl.$onDestroy = () => {
+		LogicService.unbindAll();
+	}
 
 };
 

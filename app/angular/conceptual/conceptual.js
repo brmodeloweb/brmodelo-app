@@ -24,10 +24,7 @@ import Factory from "./factory";
 import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
-
 import KeyboardController from "../components/keyboardController";
-
-import hotkeys from 'hotkeys-js';
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
@@ -49,7 +46,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		graph: {},
 		paper: {},
 		paperScroller: {},
-		commandManager: {}
+		commandManager: {},
+		keyboardController: null,
 	};
 
 	ctrl.setLoading = (show) => {
@@ -135,6 +133,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.unselectAll = () => {
+		console.log("conceptual unselectAll");
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
 		configs.selectionView.cancelSelection();
@@ -491,6 +490,19 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			configs.graph.fromJSON(jsonModel);
 			ctrl.setLoading(false);
 		});
+	}
+
+	ctrl.$onDestroy = () => {
+		ctrl.shapeFactory = null;
+		ctrl.shapeValidator = null;
+		ctrl.shapeLinker = null;
+		ctrl.entityExtensor = null;
+		configs.graph = null;
+		configs.paper = null;
+		configs.paperScroller = null;
+		configs.commandManager = null;
+		configs.keyboardController.unbindAll();
+		configs.keyboardController = null;
 	}
 
 };

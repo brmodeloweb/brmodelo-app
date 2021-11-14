@@ -17,6 +17,7 @@ import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
+import KeyboardController from "../components/keyboardController";
 import conversorService from "../service/conversorService"
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
@@ -34,6 +35,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		"name": ''
 	};
 
+	ls.selectedHalo = null;
+
 	ls.selectedLink = {};
 
 	ls.buildWorkspace = function (modelid, userId, callback, conversionId) {
@@ -48,6 +51,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
 
 		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
+
+		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -77,6 +82,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.applyComponentSelection();
 		ls.applyGraphEvents();
 		ls.applyDeleteLinkAction();
+		ls.registerShortcuts();
 
 		ls.loadModel(modelid, userId, callback, conversionId);
 
@@ -144,42 +150,25 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		]);
 	}
 
-	ls.applyComponentSelection = function () {
+	ls.applyComponentSelection = () => {
 		ls.paper.on('cell:pointerup', function (cellView, evt, x, y) {
 			if (cellView.model instanceof joint.dia.Link) return;
 			ls.onSelectElement(cellView);
 		});
 
-		ls.paper.on('blank:pointerdown', function (evt, x, y) {
+		ls.paper.on('blank:pointerdown', (evt) => {
 			if (ls.selectedElement != null && ls.selectedElement.model != null) {
 				ls.checkAndEditTableName(ls.selectedElement.model);
 				ls.selectedElement.unhighlight();
 			}
+
 			ls.clearSelectedElement();
-			let spacePressed = false;
 
-			ls.paper.$document.on('keydown', (keyboardEvent) => {
-				if (keyboardEvent.code === "Space" && !keyboardEvent.repeat) {
-					spacePressed = true;
-				}
-				keyboardEvent.preventDefault();
-			});
-
-			ls.paper.$document.on('keyup', (keyboardEvent) => {
-				if (keyboardEvent.code === "Space" && !keyboardEvent.repeat) {
-					spacePressed = false;
-				}
-				keyboardEvent.preventDefault();
-			});
-
-			ls.paper.on('blank:pointerdown', (evt) => {
-				//ctrl.unselectAll();
-				if( !spacePressed ){
-					ls.selectionView.startSelecting(evt);
-				} else {
-					ls.paperScroller.startPanning(evt);
-				}
-			});
+			if(!ls.keyboardController.spacePressed){
+				ls.selectionView.startSelecting(evt);
+			} else {
+				ls.paperScroller.startPanning(evt);
+			}
 		});
 	}
 
@@ -194,6 +183,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		halo.on('action:removeElement:pointerdown', function (link) {
 			console.log("removing....");
 		});
+		ls.selectedHalo = halo;
 		halo.removeHandle('clone');
 		halo.removeHandle('fork');
 		halo.removeHandle('rotate');
@@ -318,7 +308,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.clearSelectedElement = function () {
+		if(ls.selectedHalo != null) {
+			ls.selectedHalo.remove();
+			ls.selectedHalo = null;
+		}
+		if (ls.selectedElement != null && ls.selectedElement.model != null) {
+			ls.selectedElement.unhighlight();
+		}
 		ls.selectedElement = {};
+		ls.selectionView.cancelSelection();
 		$rootScope.$broadcast('element:select', null);
 		$rootScope.$broadcast('link:select', null);
 		$rootScope.$broadcast('columns:select', []);
@@ -421,6 +419,18 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
+	ls.registerShortcuts = () => {
+		ls.keyboardController.registerHandler("undo", () => ls.undo());
+		ls.keyboardController.registerHandler("redo", () => ls.redo());
+		ls.keyboardController.registerHandler("zoomIn", () => ls.zoomIn());
+		ls.keyboardController.registerHandler("zoomOut", () => ls.zoomOut());
+		ls.keyboardController.registerHandler("esc", () => ls.clearSelectedElement());
+		ls.keyboardController.registerHandler("save", () => {
+			ls.updateModel();
+			$rootScope.$broadcast('model:saved')
+		});
+	}
+
 	ls.getTablesMap = function () {
 		var map = new Map();
 		var elements = ls.graph.getElements();
@@ -441,6 +451,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			map.set(elements[i].id, obj);
 		}
 		return map;
+	}
+
+	ls.unbindAll = () => {
+		ls.keyboardController.unbindAll()
 	}
 
 	return ls;

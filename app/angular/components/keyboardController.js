@@ -11,7 +11,7 @@ export default class KeyboardController {
 	}
 
 	#registerSpaceEvents() {
-		this.document.on('keydown', (keyboardEvent) => {
+		const x = this.document.on('keydown', (keyboardEvent) => {
 			if (keyboardEvent.code === "Space" && !keyboardEvent.originalEvent.repeat) {
 				this.spacePressed = true;
 			}
@@ -27,6 +27,8 @@ export default class KeyboardController {
 	}
 
 	#registerShortcutEvents() {
+		hotkeys.unbind();
+
 		hotkeys('command+s, ctrl+s', () => {
 			this.shortcutHandlers.get("save").forEach(action => action());
 			return false;
@@ -65,6 +67,12 @@ export default class KeyboardController {
 	registerHandler(eventName, action) {
 		const currentActions = this.shortcutHandlers.has(eventName) ? this.shortcutHandlers.get(eventName) : [];
 		this.shortcutHandlers.set(eventName, [action, ...currentActions])
+	}
+
+	unbindAll() {
+		this.document.off("keydown");
+		this.document.off("keyup");
+		hotkeys.unbind();
 	}
 
 };
