@@ -112,9 +112,9 @@
 							</div>
 
 							<div class="checkbox">
-								<label for="c1">
+								<label for="add-pk">
 									<input
-										id="c1"
+										id="add-pk"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.PK"
 									/>PK
@@ -122,9 +122,9 @@
 							</div>
 
 							<div class="checkbox">
-								<label for="c2">
+								<label for="add-fk">
 									<input
-										id="c2"
+										id="add-fk"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.FK"
 									/>FK
@@ -132,9 +132,9 @@
 							</div>
 
 							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
-								<label for="c3">
+								<label for="add-not-null">
 									<input
-										id="c3"
+										id="add-not-null"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.NOT_NULL"
 									/>NOT NULL
@@ -142,9 +142,9 @@
 							</div>
 
 							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
-								<label for="c4">
+								<label for="add-unique">
 									<input
-										id="c4"
+										id="add-unique"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.UNIQUE"
 									/>UNIQUE
@@ -152,9 +152,9 @@
 							</div>
 
 							<div class="checkbox">
-								<label for="c5">
+								<label for="add-auto-increment">
 									<input
-										id="c5"
+										id="add-auto-increment"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.AUTO_INCREMENT"
 									/>AUTO INCREMENT
