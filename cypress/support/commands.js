@@ -28,15 +28,10 @@ Cypress.Commands.add('login', (
   user = Cypress.env('user'),
   password = Cypress.env('password')
 ) => {
-  cy.visit('/')
-
   cy.get('#userEmail')
     .type(user)
   cy.get('#userPassword')
     .type(password, { log: false })
   cy.contains('button', 'Entrar')
     .click()
-
-  cy.url()
-    .should('be.equal', `${Cypress.config('baseUrl')}/#!/main`)
 })
