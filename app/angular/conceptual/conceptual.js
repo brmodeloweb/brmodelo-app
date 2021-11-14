@@ -25,6 +25,8 @@ import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 
+import KeyboardController from "../components/keyboardController";
+
 import hotkeys from 'hotkeys-js';
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
@@ -42,11 +44,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		user: $rootScope.loggeduser
 	}
 	ctrl.selectedElement = {};
+	ctrl.selectedHalo = {};
 	const configs = {
 		graph: {},
 		paper: {},
 		paperScroller: {},
-		commandManager: {},
+		commandManager: {}
 	};
 
 	ctrl.setLoading = (show) => {
@@ -84,11 +87,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.zoomIn = () => {
-		configs.paperScroller.zoom(0.2, { max: 2 });
+		configs.paperScroller.zoom(0.1, { max: 2 });
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(-0.2, { min: 0.2 });
+		configs.paperScroller.zoom(-0.1, { min: 0.2 });
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -129,6 +132,16 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			.then((newModel) => {
 				window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
 			});
+	}
+
+	ctrl.unselectAll = () => {
+		ctrl.showFeedback(false, "");
+		ctrl.onSelectElement(null);
+		configs.selectionView.cancelSelection();
+		if(configs.selectedHalo) {
+			configs.selectedHalo.remove();
+			configs.selectedHalo = null;
+		}
 	}
 
 	ctrl.onSelectElement = (cellView) => {
@@ -319,31 +332,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		}, 100)
 	}
 
-
-
 	const registerPaperEvents = (paper) => {
-		let spacePressed = false;
-
-		paper.$document.on('keydown', (keyboardEvent) => {
-			if (keyboardEvent.code === "Space" && !event.repeat) {
-				spacePressed = true;
-			}
-			keyboardEvent.preventDefault();
-		});
-
-		paper.$document.on('keyup', (keyboardEvent) => {
-			if (keyboardEvent.code === "Space" && !keyboardEvent.repeat) {
-				spacePressed = false;
-			}
-			keyboardEvent.preventDefault();
-		});
-
-		paper.on('blank:pointerdown', function (evt, x, y) {
-			ctrl.showFeedback(false, "");
-			ctrl.onSelectElement(null);
-			configs.selectionView.cancelSelection();
-
-			if( !spacePressed ){
+		paper.on('blank:pointerdown', (evt) => {
+			ctrl.unselectAll();
+			if(!configs.keyboardController.spacePressed){
 				configs.selectionView.startSelecting(evt);
 			} else {
 				configs.paperScroller.startPanning(evt);
@@ -366,6 +358,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				boxContent: false
 			});
 
+			configs.selectedHalo = halo;
 			halo.on('action:link:add', function (link) {
 				ctrl.shapeLinker.onLink(link);
 			});
@@ -382,33 +375,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const registerShortcuts = () => {
-
-		hotkeys('command+s, ctrl+s', () => {
-			console.log("loggiong");
-			ctrl.saveModel();
-			return false;
-		});
-
-		hotkeys('command+z, ctrl+z', () => {
-			configs.commandManager.undo();
-			return false;
-		});
-
-		hotkeys('command+y, ctrl+y', () => {
-			configs.commandManager.undo();
-			return false;
-		});
-
-		hotkeys('shift+z+=, zz-z=+=', () => {
-			configs.paperScroller.zoom(0.1, { max: 2 });
-			return false;
-		});
-
-		hotkeys('shift+z+-, z+-', () => {
-			configs.paperScroller.zoom(-0.1, { min: 0.2 });
-			return false;
-		});
-
+		configs.keyboardController.registerHandler("save", () => ctrl.saveModel());
+		configs.keyboardController.registerHandler("undo", () => ctrl.undoModel());
+		configs.keyboardController.registerHandler("redo", () => ctrl.redoModel());
+		configs.keyboardController.registerHandler("zoomIn", () => ctrl.zoomIn());
+		configs.keyboardController.registerHandler("zoomOut", () => ctrl.zoomOut());
+		configs.keyboardController.registerHandler("esc", () => ctrl.unselectAll());
 	}
 
 	const registerGraphEvents = (graph) => {
@@ -437,19 +409,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(ctrl.shapeValidator.isComposedAttribute(model)) {
 				ctrl.makeComposedAttribute(model);
 			}
-
-			// 	if(cs.isComposedAttribute(cellView.model)) {
-
-			// 		var x = cellView.model.attributes.position.x;
-			// 		var y = cellView.model.attributes.position.y;
-			// 		cellView.model.remove();
-
-			// 		$timeout(function(){
-
-
-			// 		}, 100);
-
-			// 	}
 
 			// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
 			// 		var x = cellView.model.attributes.position.x;
@@ -481,13 +440,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			cellViewNamespace: joint.shapes
 		});
 
+		configs.keyboardController = new KeyboardController(configs.paper.$document);
+
 		registerPaperEvents(configs.paper);
 
 		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,
-			cursor: "grab",
+			cursor: "grabbing",
 			autoResizePaper: true,
 		});
 		content.append(configs.paperScroller.render().el);

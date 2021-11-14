@@ -47,6 +47,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		});
 		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
 
+		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
+
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
 			var source = ls.graph.getCell(link.model.get('source').id);
@@ -128,7 +130,6 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			paper: ls.paper,
 			cursor: 'grab'
 		});
-		ls.paper.on('blank:pointerdown', ls.paperScroller.startPanning);
 		$app.append(ls.paperScroller.render().el);
 	}
 
@@ -155,6 +156,30 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 				ls.selectedElement.unhighlight();
 			}
 			ls.clearSelectedElement();
+			let spacePressed = false;
+
+			ls.paper.$document.on('keydown', (keyboardEvent) => {
+				if (keyboardEvent.code === "Space" && !keyboardEvent.repeat) {
+					spacePressed = true;
+				}
+				keyboardEvent.preventDefault();
+			});
+
+			ls.paper.$document.on('keyup', (keyboardEvent) => {
+				if (keyboardEvent.code === "Space" && !keyboardEvent.repeat) {
+					spacePressed = false;
+				}
+				keyboardEvent.preventDefault();
+			});
+
+			ls.paper.on('blank:pointerdown', (evt) => {
+				//ctrl.unselectAll();
+				if( !spacePressed ){
+					ls.selectionView.startSelecting(evt);
+				} else {
+					ls.paperScroller.startPanning(evt);
+				}
+			});
 		});
 	}
 
