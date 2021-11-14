@@ -2,7 +2,6 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
-import jointCss from "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
@@ -14,12 +13,6 @@ import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
-
-/*
- * This line prevent a sideEffect issue in jointjs library that make webpack ignore joint css imports
- * See more: https://github.com/webpack/webpack/issues/8814
- */
-console.log(jointCss)
 
 import angular from "angular";
 import template from "./conceptual.html";

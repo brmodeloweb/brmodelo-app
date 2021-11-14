@@ -7,6 +7,7 @@ import "angular-translate";
 import "textangular";
 
 import "jointjs";
+import jointCss from "jointjs/dist/joint.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../sass/app.scss";
@@ -27,6 +28,12 @@ import logicFactory from "./service/logicFactory";
 
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
+
+/*
+ * This line prevent a sideEffect issue in jointjs library that make webpack ignore joint css imports
+ * See more: https://github.com/webpack/webpack/issues/8814
+ */
+console.log(jointCss)
 
 const app = angular.module("app", [
 	"ui.router",
