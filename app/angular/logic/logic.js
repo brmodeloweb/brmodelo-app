@@ -103,7 +103,6 @@ const controller = function (
 
 	$rootScope.$on('element:update', function (event, element) {
 		$timeout(() => {
-			console.log(element);
 			if(element != null && element.update != null) {
 				element.update();
 			}
