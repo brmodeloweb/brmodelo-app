@@ -24,7 +24,7 @@ import Factory from "./factory";
 import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
-import KeyboardController from "../components/keyboardController";
+import KeyboardController, { types } from "../components/keyboardController";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
 	const ctrl = this;
@@ -374,12 +374,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const registerShortcuts = () => {
-		configs.keyboardController.registerHandler("save", () => ctrl.saveModel());
-		configs.keyboardController.registerHandler("undo", () => ctrl.undoModel());
-		configs.keyboardController.registerHandler("redo", () => ctrl.redoModel());
-		configs.keyboardController.registerHandler("zoomIn", () => ctrl.zoomIn());
-		configs.keyboardController.registerHandler("zoomOut", () => ctrl.zoomOut());
-		configs.keyboardController.registerHandler("esc", () => ctrl.unselectAll());
+		configs.keyboardController.registerHandler(types.SAVE, () => ctrl.saveModel());
+		configs.keyboardController.registerHandler(types.UNDO, () => ctrl.undoModel());
+		configs.keyboardController.registerHandler(types.REDO, () => ctrl.redoModel());
+		configs.keyboardController.registerHandler(types.ZOOM_IN, () => ctrl.zoomIn());
+		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
+		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
 	}
 
 	const registerGraphEvents = (graph) => {

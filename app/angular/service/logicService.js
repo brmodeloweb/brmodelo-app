@@ -17,7 +17,7 @@ import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
-import KeyboardController from "../components/keyboardController";
+import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
@@ -420,12 +420,12 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.registerShortcuts = () => {
-		ls.keyboardController.registerHandler("undo", () => ls.undo());
-		ls.keyboardController.registerHandler("redo", () => ls.redo());
-		ls.keyboardController.registerHandler("zoomIn", () => ls.zoomIn());
-		ls.keyboardController.registerHandler("zoomOut", () => ls.zoomOut());
-		ls.keyboardController.registerHandler("esc", () => ls.clearSelectedElement());
-		ls.keyboardController.registerHandler("save", () => {
+		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
+		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
+		ls.keyboardController.registerHandler(types.ZOOM_IN, () => ls.zoomIn());
+		ls.keyboardController.registerHandler(types.ZOOM_OUT, () => ls.zoomOut());
+		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
+		ls.keyboardController.registerHandler(types.SAVE, () => {
 			ls.updateModel();
 			$rootScope.$broadcast('model:saved')
 		});
