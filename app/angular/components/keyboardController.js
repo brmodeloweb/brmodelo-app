@@ -1,7 +1,15 @@
 import hotkeys from 'hotkeys-js';
 
-export default class KeyboardController {
+export const types = {
+	SAVE: 'save',
+	UNDO: 'undo',
+	REDO: 'redo',
+	ZOOM_IN: 'zoomIn',
+	ZOOM_OUT: 'zoomOut',
+	ESC: 'esc',
+}
 
+export default class KeyboardController {
 	constructor(document) {
 		this.document = document;
 		this.spacePressed = false;
@@ -29,39 +37,27 @@ export default class KeyboardController {
 	#registerShortcutEvents() {
 		hotkeys.unbind();
 
-		hotkeys('command+s, ctrl+s', () => {
-			this.shortcutHandlers.get("save").forEach(action => action());
-			return false;
-		});
-
-		hotkeys('command+z, ctrl+z', () => {
-			this.shortcutHandlers.get("undo").forEach(action => action());
-			return false;
-		});
-
-		hotkeys('command+shift+z, ctrl+shift+z', () => {
-			this.shortcutHandlers.get("redo").forEach(action => action());
-			return false;
-		});
-
-		hotkeys('shift+z+=, z+=', () => {
-			this.shortcutHandlers.get("zoomIn").forEach(action => action());
-			return false;
-		});
-
-		hotkeys('shift+z+-, z+-', () => {
-			this.shortcutHandlers.get("zoomOut").forEach(action => action());
-			return false;
-		});
-
-		hotkeys('esc', () => {
-			this.shortcutHandlers.get("esc").forEach(action => action());
-			return false;
-		});
+		this.hotkeyConfigs.forEach(({ key, eventName }) => {
+			hotkeys(key, () => {
+				this.shortcutHandlers.get(eventName).forEach(action => action());
+				return false;
+			});
+		})
 	}
 
 	get isSpacePressed() {
 		return this.spacePressed;
+	}
+
+	get hotkeyConfigs() {
+		return [
+			{ key: 'command+s, ctrl+s', eventName: types.SAVE },
+			{ key: 'command+z, ctrl+z', eventName: types.UNDO },
+			{ key: 'command+shift+z, ctrl+shift+z', eventName: types.REDO },
+			{ key: 'shift+z+=, z+=', eventName: types.ZOOM_IN },
+			{ key: 'shift+z+-, z+-', eventName: types.ZOOM_OUT },
+			{ key: 'esc', eventName: types.ESC },
+		];
 	}
 
 	registerHandler(eventName, action) {
@@ -74,5 +70,4 @@ export default class KeyboardController {
 		this.document.off("keyup");
 		hotkeys.unbind();
 	}
-
 };
