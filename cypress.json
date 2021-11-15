@@ -1,4 +1,5 @@
 {
+  "apiUrl": "http://localhost:3000",
   "experimentalSessionSupport": true,
   "baseUrl": "http://localhost:9000",
   "fixturesFolder": false,
