@@ -1,4 +1,5 @@
 {
+  "experimentalSessionSupport": true,
   "baseUrl": "http://localhost:9000",
   "fixturesFolder": false,
   "pluginsFile": false

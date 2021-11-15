@@ -26,12 +26,22 @@
 
 Cypress.Commands.add('login', (
   user = Cypress.env('user'),
-  password = Cypress.env('password')
+  password = Cypress.env('password'),
+  { cacheSession = true } = {}
 ) => {
-  cy.get('#userEmail')
-    .type(user)
-  cy.get('#userPassword')
-    .type(password, { log: false })
-  cy.contains('button', 'Entrar')
-    .click()
+  const fillLoginFormAndSubmit = () => {
+    cy.visit('/')
+    cy.get('#userEmail')
+      .type(user)
+    cy.get('#userPassword')
+      .type(password, { log: false })
+    cy.contains('button', 'Entrar')
+      .click()
+  }
+
+  if (cacheSession) {
+    cy.session([user], fillLoginFormAndSubmit)
+  } else {
+    fillLoginFormAndSubmit()
+  }
 })
