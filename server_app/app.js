@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const path = require("path");
 const cors = require("cors");
-const { uploadMiddleware } = require("./middleware/middleware");
 
 require("dotenv").config();
 
@@ -22,7 +21,6 @@ app.use(morgan("dev"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-app.use(uploadMiddleware);
 const appPath = path.join(__dirname, "../app");
 app.use(express.static(`${appPath}/dist`));
 app.use(responseTime());

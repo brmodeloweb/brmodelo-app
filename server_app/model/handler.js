@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 const modelService = require("./service");
 const modelValidator = require("./validator");
 const { decrypt } = require("../helpers/crypto");
 
 const router = express.Router();
 router.use(bodyParser.json());
+router.use(fileUpload());
 
 const listAll = async (req, res) => {
 	try {
@@ -121,7 +123,23 @@ const exportModel = async (req, res) => {
 
 const importModel = async (req, res) => {
 	try {
-		return res.status(200).json(JSON.parse(decrypt(req.body)));
+		if (!req.files) {
+			return res.status(400).send("No file uploaded");
+		}
+		const file = req.files.model;
+		const { name, type, model } = JSON.parse(decrypt(file.data));
+		const userId = req.headers["x-user-id"]; // TODO Change this when implementing authentication via jwt
+		const validation = modelValidator.validateSaveParams({
+			name,
+			type,
+			model,
+			userId,
+		});
+		if (!validation.valid) {
+			return res.status(422).send(validation.message);
+		}
+		const newModel = await modelService.save({ name, type, model, userId });
+		return res.status(200).json(newModel);
 	} catch (error) {
 		console.error(error);
 		return res
