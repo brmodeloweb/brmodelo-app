@@ -18,8 +18,8 @@ const authService = ($http) => {
 	};
 
 	const _updateModel = function (model) {
-		return $http.put(`/models/${model.id}`, model).then(function (res) {
-			console.log(res);
+		return $http.put(`/models/${model.id}`, model).then(function(res) {
+			return resp;
 		});
 	};
 

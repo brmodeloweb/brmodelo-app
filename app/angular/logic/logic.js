@@ -112,6 +112,12 @@ const controller = function (
 		});
 	});
 
+	$rootScope.$on('model:saved', () => {
+		$timeout(() => {
+			ctrl.showFeedback("Salvo com sucesso!", true, "success");
+		});
+	});
+
 	$rootScope.$on('link:select', function (event, selectedLink) {
 		$timeout(() => {
 			ctrl.selectedElement = null;
@@ -290,6 +296,10 @@ const controller = function (
 			});
 		});
 	};
+
+	ctrl.$onDestroy = () => {
+		LogicService.unbindAll();
+	}
 
 };
 
