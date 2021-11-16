@@ -36,6 +36,7 @@ const save = async ({ name, type, model, userId }) => {
 				type: type,
 				model: model,
 				name: name,
+				updated: Date.now()
 			});
 			return resolve(createdModel);
 		} catch (error) {
@@ -50,7 +51,7 @@ const edit = async (modelId, model) => {
 		try {
 			const response = await modelRepository.updateOne(
 				{ _id: modelId },
-				{ $set: { model: model } }
+				{ $set: { model: model, updated: Date.now() } }
 			);
 			if (response.ok) {
 				return resolve(response);
@@ -68,7 +69,7 @@ const rename = async (modelId, newName) => {
 		try {
 			const response = await modelRepository.updateOne(
 				{ _id: modelId },
-				{ $set: { name: newName } }
+				{ $set: { name: newName, updated: Date.now() } }
 			);
 			if (response.ok) {
 				return resolve(response);
