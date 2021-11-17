@@ -1,9 +1,9 @@
 describe('Models', () => {
   beforeEach(() => {
-    cy.intercept('get', '/models?userId=*').as('getUserModels')
+    cy.intercept('GET', '/models?userId=*').as('getUserModels')
     cy.login()
     cy.visit('/#!/main')
-    cy.cleanUpUserModels()
+    cy.cleanUpUserModelsAndReoload()
     cy.contains('a', 'Nova Modelagem').click()
     cy.get('create-model-modal').should('be.visible')
   })
@@ -41,7 +41,7 @@ describe('Models', () => {
   })
 })
 
-Cypress.Commands.add('cleanUpUserModels', () => {
+Cypress.Commands.add('cleanUpUserModelsAndReoload', () => {
   cy.wait('@getUserModels').then(userModels => {
     cy.request('GET', userModels.response.url).then(userModelsResponse => {
       userModelsResponse.body.forEach(model => {

@@ -10,7 +10,7 @@ describe('Login', () => {
   const { user, password, useCachedSession } = userLoginData
 
   it('logs in successfully', () => {
-    cy.intercept('get', '/models?userId=*').as('getUserModels')
+    cy.intercept('GET', '/models?userId=*').as('getUserModels')
 
     cy.login(user, password, useCachedSession)
 
