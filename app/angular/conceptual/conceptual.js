@@ -44,7 +44,10 @@ const controller = function (
 	preventExitService
 ) {
 	const ctrl = this;
-	ctrl.modelState = {};
+	ctrl.modelState = {
+		isDirty: false,
+		updatedAt: new Date(),
+	};
 	ctrl.feedback = {
 		message: "",
 		showing: false,
@@ -68,7 +71,6 @@ const controller = function (
 	};
 
 	const setIsDirty = (isDirty) => {
-		console.log("isDirty", isDirty);
 		ctrl.modelState.isDirty = isDirty;
 	};
 
@@ -563,10 +565,6 @@ const controller = function (
 			ctrl.shapeValidator,
 			ctrl.shapeLinker
 		);
-		ctrl.modelState = {
-			isDirty: false,
-			updatedAt: new Date(),
-		};
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
@@ -625,7 +623,7 @@ const controller = function (
 	console.log('$transitions', $transitions)
 
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
-	$transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl));
+	$transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
 	$transitions.onExit({}, preventExitService.cleanup(ctrl))
 	ctrl.$OnDestroy = preventExitService.cleanup(ctrl)
 };
@@ -633,8 +631,7 @@ const controller = function (
 export default angular
 	.module("app.workspace.conceptual", [
 		modelDuplicatorComponent,
-		confirmationModal,
-		preventExitService
+		preventExitServiceModule
 	])
 	.component("editorConceptual", {
 		template,

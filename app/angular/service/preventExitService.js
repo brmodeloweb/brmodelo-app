@@ -1,4 +1,5 @@
 import angular from "angular";
+import confirmationModal from "../components/confirmationModal";
 
 const preventExitService = ($uibModal) => {
 	const __handleBeforeUnload = (scope) => (event) => {
@@ -6,8 +7,8 @@ const preventExitService = ($uibModal) => {
 		event.stopPropagation();
 	};
 
-	const __handleTransitionStart = (scope) => async (trans) => {
-		if (trans.from().name === "conceptual" && scope.modelState.isDirty) {
+	const __handleTransitionStart = (scope, name) => async (trans) => {
+		if (trans.from().name === name && scope.modelState.isDirty) {
 			const modalInstance = $uibModal.open({
 				animation: true,
 				component: "confirmationModal",
@@ -42,5 +43,5 @@ const preventExitService = ($uibModal) => {
 };
 
 export default angular
-	.module("app.preventExit", [])
+	.module("app.preventExit", [confirmationModal])
 	.factory("preventExitService", preventExitService).name;
