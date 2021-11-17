@@ -54,8 +54,8 @@ export default class KeyboardController {
 			{ key: 'command+s, ctrl+s', eventName: types.SAVE },
 			{ key: 'command+z, ctrl+z', eventName: types.UNDO },
 			{ key: 'command+shift+z, ctrl+shift+z', eventName: types.REDO },
-			{ key: 'shift+z+=, z+=', eventName: types.ZOOM_IN },
-			{ key: 'shift+z+-, z+-', eventName: types.ZOOM_OUT },
+			{ key: 'z+=', eventName: types.ZOOM_IN },
+			{ key: 'z+-', eventName: types.ZOOM_OUT },
 			{ key: 'esc', eventName: types.ESC },
 		];
 	}
