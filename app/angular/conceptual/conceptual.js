@@ -1,8 +1,6 @@
 import "backbone";
 import $ from "jquery";
-
 import * as joint from "jointjs/dist/joint";
-
 import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
 import "../../joint/joint.ui.selectionView";
@@ -12,6 +10,16 @@ import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 import shapes from "../../joint/shapes";
+import jointCss from "jointjs/dist/joint.min.css";
+import angular from "angular";
+import template from "./conceptual.html";
+import modelDuplicatorComponent from "../components/duplicateModelModal";
+import Factory from "./factory";
+import Validator from "./validator";
+import Linker from "./linker";
+import EntityExtensor from "./entityExtensor";
+import KeyboardController, { types } from "../components/keyboardController";
+import preventExitServiceModule from "../service/preventExitService";
 joint.shapes.erd = shapes;
 
 /*
@@ -19,19 +27,6 @@ joint.shapes.erd = shapes;
  * See more: https://github.com/webpack/webpack/issues/8814
  */
 console.log(jointCss);
-
-import angular from "angular";
-import template from "./conceptual.html";
-
-import modelDuplicatorComponent from "../components/duplicateModelModal";
-
-import Factory from "./factory";
-import Validator from "./validator";
-import Linker from "./linker";
-import EntityExtensor from "./entityExtensor";
-import KeyboardController, { types } from "../components/keyboardController";
-import confirmationModal from "../components/confirmationModal";
-import preventExitService from "../service/preventExitService";
 
 const controller = function (
 	ModelAPI,
