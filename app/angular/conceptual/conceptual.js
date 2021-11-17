@@ -24,9 +24,11 @@ import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
+import confirmationModal from "../components/confirmationModal";
 
-const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
+const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, $window) {
 	const ctrl = this;
+	ctrl.isDirty = false
 	ctrl.feedback = {
 		message: "",
 		showing: false
@@ -49,6 +51,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		keyboardController: null,
 	};
 
+	const setIsDirty = (isDirty) => {
+		console.log("isDirty", isDirty);
+		ctrl.isDirty = isDirty;
+	};
+
 	ctrl.setLoading = (show) => {
 		$timeout(() => {
 			ctrl.loading = show;
@@ -63,6 +70,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.saveModel = () => {
+		setIsDirty(false)
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
@@ -382,6 +390,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const registerGraphEvents = (graph) => {
+
+		graph.on('change', () => {
+			setIsDirty(true)
+		})
+
+		graph.on('remove', () => {
+			setIsDirty(true)
+		})
+
 		graph.on('change:position', function (cell) {
 			const parentId = cell.get('parent');
 			if (!parentId) return;
@@ -398,6 +415,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		graph.on('add', (model) => {
+			setIsDirty(true)
 			if (model instanceof joint.dia.Link) return;
 
 			if(ctrl.shapeValidator.isAssociative(model)) {
@@ -421,7 +439,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	const buildWorkspace = () => {
 		configs.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
-
 		registerGraphEvents(configs.graph);
 
 		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
@@ -504,10 +521,47 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController = null;
 	}
 
+	$rootScope.$on(
+		"$stateChangeStart",
+		function (event, toState, toParams, fromState, fromParams) {
+			console.log('event', event)
+			event.preventDefault();
+			// transitionTo() promise will be rejected with
+			// a 'transition prevented' error
+		}
+	);
+
+	$transitions.onBefore({},async (trans) => { 
+		if(trans.from().name === 'conceptual' && ctrl.isDirty) {
+			const modalInstance = $uibModal.open({
+				animation: true,
+				component: 'confirmationModal',
+				resolve: {
+					modalData: () => ({
+						title: 'Alterações não salvas',
+						content: 'Existem alterações que ainda não foram salvas. Você tem certeza que deseja sair sem salvá-las?',
+						cancelLabel: 'Continuar aqui',
+						confirmLabel: 'Sair sem salvar'
+					})
+				}
+			});
+
+			const result = await modalInstance.result;
+			return result
+		}
+		return true
+	});
+
+	console.log('$transitions', $transitions)
+
+	ctrl.$OnDestroy = () => {
+		console.log('destroying');
+		window.onbeforeunload = null;
+	}
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, confirmationModal])
 	.component("editorConceptual", {
 		template,
 		controller,
