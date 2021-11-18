@@ -6,6 +6,7 @@ export const types = {
 	REDO: 'redo',
 	ZOOM_IN: 'zoomIn',
 	ZOOM_OUT: 'zoomOut',
+	ZOOM_NONE: 'zoomNone',
 	ESC: 'esc',
 }
 
@@ -56,6 +57,7 @@ export default class KeyboardController {
 			{ key: 'command+shift+z, ctrl+shift+z', eventName: types.REDO },
 			{ key: 'z+=', eventName: types.ZOOM_IN },
 			{ key: 'z+-', eventName: types.ZOOM_OUT },
+			{ key: 'z+0', eventName: types.ZOOM_NONE },
 			{ key: 'esc', eventName: types.ESC },
 		];
 	}
