@@ -402,7 +402,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		graph.on('change:position', function (cell) {
-			setIsDirty(true);
 			const parentId = cell.get('parent');
 			if (!parentId) return;
 			const parent = configs.graph.getCell(parentId);
