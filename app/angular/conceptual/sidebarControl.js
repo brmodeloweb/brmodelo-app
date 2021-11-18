@@ -62,6 +62,7 @@ const controller = function () {
 	}
 
 	$ctrl.updateName = (newName) => {
+		console.log("teste");
 		if (newName != "") {
 			$ctrl.onUpdate({
 				"event": {
