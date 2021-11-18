@@ -582,45 +582,12 @@ const controller = function (
 		configs.commandManager = null;
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
+		preventExitService.cleanup(ctrl)()
 	}
-
-	$rootScope.$on(
-		"$stateChangeStart",
-		function (event, toState, toParams, fromState, fromParams) {
-			console.log('event', event)
-			event.preventDefault();
-			// transitionTo() promise will be rejected with
-			// a 'transition prevented' error
-		}
-	);
-
-	$transitions.onBefore({},async (trans) => { 
-		if(trans.from().name === 'conceptual' && ctrl.isDirty) {
-			const modalInstance = $uibModal.open({
-				animation: true,
-				component: 'confirmationModal',
-				resolve: {
-					modalData: () => ({
-						title: 'Alterações não salvas',
-						content: 'Existem alterações que ainda não foram salvas. Você tem certeza que deseja sair sem salvá-las?',
-						cancelLabel: 'Continuar aqui',
-						confirmLabel: 'Sair sem salvar'
-					})
-				}
-			});
-
-			const result = await modalInstance.result;
-			return result
-		}
-		return true
-	});
-
-	console.log('$transitions', $transitions)
 
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
 	$transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
 	$transitions.onExit({}, preventExitService.cleanup(ctrl))
-	ctrl.$OnDestroy = preventExitService.cleanup(ctrl)
 };
 
 export default angular
