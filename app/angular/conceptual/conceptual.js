@@ -512,6 +512,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 	}
 
+	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
+	const onBeforeDeregister = $transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl))
+
 	ctrl.$onDestroy = () => {
 		ctrl.shapeFactory = null;
 		ctrl.shapeValidator = null;
@@ -524,12 +528,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
 		preventExitService.cleanup(ctrl)()
+		onBeforeDeregister()
+		onExitDeregister()
 	}
-
-	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
-	$transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
-	$transitions.onExit({}, preventExitService.cleanup(ctrl))
-
 };
 
 export default angular

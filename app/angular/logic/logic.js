@@ -314,17 +314,20 @@ const controller = function (
 		});
 	};
 
-	ctrl.$onDestroy = () => {
-		LogicService.unbindAll();
-		preventExitService.cleanup(ctrl)();
-	};
-
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
-	$transitions.onBefore(
-		{},
+
+	const onBeforeDeregister = $transitions.onBefore({},
 		preventExitService.handleTransitionStart(ctrl, "logic")
 	);
-	$transitions.onExit({}, preventExitService.cleanup(ctrl));
+
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl));
+
+	ctrl.$onDestroy = () => {
+		LogicService.unbindAll();
+		onBeforeDeregister();
+		preventExitService.cleanup(ctrl)();
+		onExitDeregister();
+	};
 };
 
 export default angular
