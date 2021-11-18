@@ -88,8 +88,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(-0.1, { min: 0.2 });
+		configs.paperScroller.zoom(1);
 	}
+
+	// ctrl.zoomOut = () => {
+	// 	configs.paperScroller.zoom(-0.1, { min: 0.2 });
+	// }
 
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
@@ -331,6 +335,27 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const registerPaperEvents = (paper) => {
+		var verticesTool = new joint.linkTools.Vertices();
+		var segmentsTool = new joint.linkTools.Segments();
+		var sourceArrowheadTool = new joint.linkTools.SourceArrowhead();
+		var targetArrowheadTool = new joint.linkTools.TargetArrowhead();
+		var boundaryTool = new joint.linkTools.Boundary();
+		var removeButton = new joint.linkTools.Remove();
+		var infoButton = ctrl.shapeFactory.createInfoButton();
+
+
+		var toolsView = new joint.dia.ToolsView({
+			tools: [
+				verticesTool,
+				segmentsTool,
+				sourceArrowheadTool,
+				targetArrowheadTool,
+				boundaryTool,
+				removeButton,
+				infoButton
+			]}
+		);
+
 		paper.on('blank:pointerdown', (evt) => {
 			ctrl.unselectAll();
 			if(!configs.keyboardController.spacePressed){
@@ -369,6 +394,14 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			halo.removeHandle('fork');
 			halo.removeHandle('rotate');
 			halo.render();
+		});
+
+		configs.paper.on('link:mouseenter', function(linkView) {
+			linkView.addTools(toolsView);
+		});
+
+		configs.paper.on('link:mouseleave', function(linkView) {
+			linkView.removeTools();
 		});
 	}
 

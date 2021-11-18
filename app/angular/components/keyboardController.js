@@ -19,7 +19,7 @@ export default class KeyboardController {
 	}
 
 	#registerSpaceEvents() {
-		const x = this.document.on('keydown', (keyboardEvent) => {
+		this.document.on('keydown', (keyboardEvent) => {
 			if (keyboardEvent.code === "Space" && !keyboardEvent.originalEvent.repeat) {
 				this.spacePressed = true;
 			}
