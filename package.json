@@ -55,6 +55,7 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.0.0",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.13.0",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
