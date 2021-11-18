@@ -132,7 +132,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.unselectAll = () => {
-		console.log("conceptual unselectAll");
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
 		configs.selectionView.cancelSelection();
