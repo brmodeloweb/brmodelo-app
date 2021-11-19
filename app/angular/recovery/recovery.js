@@ -2,7 +2,7 @@ import angular from "angular";
 import template from "./recovery.html";
 import AuthService from "../service/authService"
 
-const controller = function (AuthService) {
+const controller = function (AuthService, $filter) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.mail = "";
@@ -13,7 +13,7 @@ const controller = function (AuthService) {
 	};
 
 	const showFeedback = (newMessage, type = "error") => {
-		ctrl.feedback.message = newMessage;
+		ctrl.feedback.message = $filter('translate')(newMessage);
 		ctrl.feedback.showing = true;
 		ctrl.feedback.type = type;
 	};
@@ -21,15 +21,15 @@ const controller = function (AuthService) {
 	const handleError = (error) => {
 		ctrl.loading = false;
 		if(error.status == 400) {
-			showFeedback("Esse email ainda não está cadastrado.");
+			showFeedback("This email is not registered yet.");
 		} else {
-			showFeedback("Ops, tivemos um erro interno, por favor tente novamente mais tarde...");
+			showFeedback("Ops, we had an internal error, please try again later...");
 		}
 	};
 
 	const handleSuccess = () => {
 		ctrl.loading = false;
-		showFeedback(`Um email com instruções foi enviado para ${ctrl.mail}`, "success");
+		showFeedback($filter('translate')('An email with instructions has been sent to X', { email: ctrl.mail }), "success");
 	};
 
 	const doRecover = () => {
@@ -45,7 +45,7 @@ const controller = function (AuthService) {
 		if (validForm) {
 			doRecover();
 		} else {
-			showFeedback("Preencha os campos em vermelho");
+			showFeedback("Fill the fields in red");
 		}
 	};
 };

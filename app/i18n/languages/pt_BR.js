@@ -26,7 +26,7 @@ export default {
   'Duplicate model': 'Duplicar modelo',
   'Generate SQL': 'Gerar SQL',
   'Print (CTRL P)': 'Imprimir (CTRL P)',
-  'Specialize': 'Especialização',
+  'Specialize': 'Especializar',
   'Self relationship': 'Auto relacionamento',
   'Add': 'Adicionar',
   'Role': 'Papel',
@@ -73,5 +73,4 @@ export default {
   'Select source of foreign table!': 'Selecione a origem da tabela estrangeira!',
   '_converted': '_convertido',
   'X (copy)': '{{name}} (cópia)'
-
 };

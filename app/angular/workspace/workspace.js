@@ -13,6 +13,7 @@ const ListController = function (
 	$uibModal,
 	AuthService,
 	ModelAPI,
+	$filter
 ) {
 	const ctrl = this;
 	ctrl.loading = false;
@@ -25,9 +26,9 @@ const ListController = function (
 	const mapListData = (models) => {
 		return models.map((model) => {
 			if (model.type == "conceptual") {
-				model.typeName = "Conceitual";
+				model.typeName = $filter('translate')("Conceptual");
 			} else {
-				model.typeName = "Lógico";
+				model.typeName = $filter('translate')("Logical");
 			}
 			model.authorName = AuthService.loggeduserName;
 			return model;

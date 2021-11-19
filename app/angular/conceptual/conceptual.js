@@ -25,7 +25,7 @@ import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
 
-const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
+const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $filter) {
 	const ctrl = this;
 	ctrl.feedback = {
 		message: "",
@@ -58,7 +58,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.showFeedback = (show, newMessage) => {
 		$timeout(() => {
 			ctrl.feedback.showing = show;
-			ctrl.feedback.message = newMessage;
+			ctrl.feedback.message = $filter('translate')(newMessage);
 		});
 	}
 
@@ -66,7 +66,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
-			ctrl.showFeedback(true, "Salvo com sucesso!");
+			ctrl.showFeedback(true, "Saved successfully!");
 			ctrl.setLoading(false);
 		});
 	}
@@ -97,7 +97,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
 			controller: function () {
 				const $ctrl = this;
-				$ctrl.suggestedName = `${model.name} (cópia)`;
+				$ctrl.suggestedName = $filter('translate')('X (copy)', { name: model.name });
 			},
 			controllerAs: '$ctrl',
 		});
@@ -112,7 +112,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
 				window.open($state.href('conceptual', { 'modelid': newModel._id }));
-				ctrl.showFeedback(true, "Duplicado com sucesso!");
+				ctrl.showFeedback(true, "Successfully duplicated!");
 				ctrl.setLoading(false);
 			});
 		});
@@ -120,7 +120,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	ctrl.convertModel = (conceptualModel) => {
 		const model = {
-			"name": conceptualModel.name + "_convertido",
+			"name": conceptualModel.name + $filter('translate')("_converted"),
 			"user": $rootScope.loggeduser,
 			"type": "logic",
 			"model": '{"cells":[]}'
