@@ -72,5 +72,6 @@ export default {
   'Successfully duplicated!': 'Duplicado com sucesso!',
   'Select source of foreign table!': 'Selecione a origem da tabela estrangeira!',
   '_converted': '_convertido',
-  'X (copy)': '{{name}} (cópia)'
+  'X (copy)': '{{name}} (cópia)',
+  'New model name': 'Novo nome do modelo'
 };
