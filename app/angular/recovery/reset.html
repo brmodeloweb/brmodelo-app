@@ -8,14 +8,14 @@
 		/>
 		<section class="reset-page">
 			<header class="public-logo">
-				<h1>Redefinir senha</h1>
+				<h1>{{ 'Redefine password' | translate }}</h1>
 			</header>
 			<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success'}">
 				<p>{{ $ctrl.feedback.message }}</p>
 			</div>
 			<form class="reset-form" name="resetForm" ng-submit="$ctrl.submitForm(resetForm.$valid, $ctrl.credentials.password, $ctrl.credentials.repeatPassword)" novalidate>
 				<div class="form-group">
-					<label for="newPassword">Password</label>
+					<label for="newPassword">{{ 'Password' | translate }}</label>
 					<input
 						type="password"
 						name="newPassword"
@@ -30,7 +30,7 @@
 					/>
 				</div>
 				<div class="form-group">
-					<label for="repeatPassword">Confirmar password</label>
+					<label for="repeatPassword">{{ 'Confirm password' | translate }}</label>
 					<input
 						type="password"
 						name="repeatPassword"
@@ -44,16 +44,16 @@
 						data-ng-class="{'error': resetForm.repeatPassword.$invalid && (!resetForm.repeatPassword.$pristine || $ctrl.submitted)}"
 					/>
 				</div>
-				<button type="submit" ng-disabled="!$ctrl.validation.validCode" class="br-button btn-block">Salvar</button>
+				<button type="submit" ng-disabled="!$ctrl.validation.validCode" class="br-button btn-block">{{ 'Save' | translate }}</button>
 			</form>
 			<aside class="account-options">
 				<div class="navigation">
-					<a href="#" tabindex="1" data-ui-sref="login">Ir para login</a>
+					<a href="#" tabindex="1" data-ui-sref="login">{{ 'Go to login' | translate }}</a>
 				</div>
 			<aside>
 		</section>
 	</div>
-	<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+	<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="{{ 'Report bug or request functionality' | translate }}">
 		<i class="fa fa-bug" aria-hidden="true"></i>
 	</a>
 </div>

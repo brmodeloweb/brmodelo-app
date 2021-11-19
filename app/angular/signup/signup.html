@@ -8,20 +8,20 @@
 		/>
 		<section class="register-page">
 			<header class="public-logo">
-				<h1>Criar conta</h1>
+				<h1>{{ 'Create account' | translate }}</h1>
 			</header>
 			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
 				<p>{{ $ctrl.feedback.message }}</p>
 			</div>
 			<form class="register-form" name="registerForm" ng-submit="$ctrl.submitForm(registerForm.$valid)" novalidate>
 				<div class="form-group">
-					<label for="exampleInputEmail1">Nome</label>
+					<label for="exampleInputEmail1">{{ 'Name' | translate }}</label>
 					<input
 						type="name"
 						name="name"
 						class="form-control input-lg"
 						id="name"
-						placeholder="Nome"
+						placeholder="{{ 'Name' | translate }}"
 						autocomplete="off"
 						required
 						ng-model="$ctrl.credentials.username"
@@ -29,13 +29,13 @@
 					/>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputEmail1">Email</label>
+					<label for="exampleInputEmail1">{{ 'Email' | translate }}</label>
 					<input
 						type="mail"
 						name="email"
 						class="form-control input-lg"
 						id="userEmail"
-						placeholder="Email"
+						placeholder="{{ 'Email' | translate }}"
 						autocomplete="off"
 						required
 						data-ng-model="$ctrl.credentials.email"
@@ -43,29 +43,29 @@
 					/>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
+					<label for="exampleInputPassword1">{{ 'Password' | translate }}</label>
 					<input
 						type="password"
 						name="password"
 						class="form-control input-lg"
 						id="userPassword"
-						placeholder="Password"
+						placeholder="{{ 'Password' | translate }}"
 						autocomplete="off"
 						required
 						data-ng-model="$ctrl.credentials.password"
 						data-ng-class="{'error': registerForm.password.$invalid && (!registerForm.password.$pristine || $ctrl.submitted)}"
 					/>
 				</div>
-				<button type="submit" class="br-button btn-block">Criar conta</button>
+				<button type="submit" class="br-button btn-block">{{ 'Create account' | translate }}</button>
 			</form>
 			<aside class="account-options">
 				<div class="navigation">
-					<a href="#" tabindex="1" data-ui-sref="login">Voltar</a>
+					<a href="#" tabindex="1" data-ui-sref="login">{{ 'Back' | translate }}</a>
 				</div>
 			<aside>
 		</section>
 	</div>
-	<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+	<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="{{ 'Report bug or request functionality' | translate }}">
 		<i class="fa fa-bug" aria-hidden="true"></i>
 	</a>
 </div>
