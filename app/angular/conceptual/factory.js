@@ -1,5 +1,3 @@
-import * as joint from "jointjs/dist/joint";
-
 export default class Factory {
 
 	constructor(shapes) {
