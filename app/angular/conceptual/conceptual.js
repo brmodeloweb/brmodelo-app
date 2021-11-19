@@ -89,12 +89,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(1);
+		configs.paperScroller.zoom(-0.1, { min: 0.2 });
 	}
-
-	// ctrl.zoomOut = () => {
-	// 	configs.paperScroller.zoom(-0.1, { min: 0.2 });
-	// }
 
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
