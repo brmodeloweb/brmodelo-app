@@ -8,7 +8,7 @@
 				<strong class="navbar-brand">{{ 'BR Modelo Web' | translate }}</strong>
 			</div><!-- End .navbar-header -->
 			<div class="nav navbar-nav pull-right nav-icons">
-				<dropdown-icon title="Options" options="[{name: 'Sair', type: 'Sair'}]" on-select=$ctrl.logout()></dropdown-icon>
+				<dropdown-icon title="Options" options="$ctrl.dropdownOptions" on-select=$ctrl.logout()></dropdown-icon>
 			</div><!-- End .navbar-header -->
 		</div>
 	</header>

@@ -18,6 +18,9 @@ const ListController = function (
 	const ctrl = this;
 	ctrl.loading = false;
 	ctrl.models = [];
+	ctrl.dropdownOptions = [
+		{ name: $filter('translate')("Logout"), type: 'Logout' }
+	];
 
 	const showLoading = (loading) => {
 		ctrl.loading = loading;

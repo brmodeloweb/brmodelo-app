@@ -89,4 +89,5 @@ export default {
   'Create new table': 'Criar nova tabela',
   'Conversion Assistant - Relationship (1, 1)': 'Assistente de conversão - Relacionamento (1, 1)',
   'Join tables': 'Unir tabelas',
+  'Logout': 'Sair',
 };
