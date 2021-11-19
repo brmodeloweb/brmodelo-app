@@ -20,10 +20,10 @@ export default class KeyboardController {
 
 	#registerSpaceEvents() {
 		this.document.on('keydown', (keyboardEvent) => {
-			if (keyboardEvent.code === "Space" && !keyboardEvent.originalEvent.repeat) {
+			if (keyboardEvent.code === "Space") {
 				this.spacePressed = true;
+				keyboardEvent.preventDefault();
 			}
-			keyboardEvent.preventDefault();
 		});
 
 		this.document.on('keyup', (keyboardEvent) => {

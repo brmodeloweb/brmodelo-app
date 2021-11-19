@@ -119,6 +119,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 						//target.attributes.attributes.splice(i, 1);
 						target.deleteColumn(i);
 						$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
+						$rootScope.$broadcast("element:isDirty");
 						break;
 					}
 				}
@@ -129,6 +130,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	ls.applyGraphEvents = function () {
 		ls.graph.on('add', function (cell) {
 			ls.checkAndEditTableName(cell);
+			$rootScope.$broadcast("element:isDirty");
+		});
+
+		ls.graph.on('change', function (cell) {
+			$rootScope.$broadcast("element:isDirty");
 		});
 	}
 

@@ -1,15 +1,14 @@
 import * as joint from "jointjs/dist/joint";
 
-export default class toolsViewService {
-	constructor(shapeFactory) {
-		if(shapeFactory != null) {
-			this.toolsWithInfo = new joint.dia.ToolsView({tools: [...this.#createDefaultTools(), shapeFactory.createInfoButton()]});
-		}
-		this.tools = new joint.dia.ToolsView({tools: this.#createDefaultTools()})
+export default class ToolsViewService {
+	constructor() {
+		const defaultTools = this.#createDefaultTools();
+		this.toolsWithInfo = new joint.dia.ToolsView({ tools: [...defaultTools, new joint.shapes.erd.InfoButton()] });
+		this.tools = new joint.dia.ToolsView({ tools: defaultTools })
 	}
 
 	getToolsView(conectionType = "") {
-		if(conectionType === "Entity-Relationship") {
+		if (conectionType === "Entity-Relationship") {
 			return this.toolsWithInfo;
 		}
 		return this.tools;

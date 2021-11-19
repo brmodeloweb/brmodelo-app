@@ -25,9 +25,14 @@ import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
 import ToolsViewService from "../service/toolsViewService";
+import preventExitServiceModule from "../service/preventExitService";
 
-const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
+const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions,preventExitService) {
 	const ctrl = this;
+	ctrl.modelState = {
+		isDirty: false,
+		updatedAt: new Date(),
+	};
 	ctrl.feedback = {
 		message: "",
 		showing: false
@@ -50,6 +55,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		keyboardController: null,
 	};
 
+	const setIsDirty = (isDirty) => {
+		ctrl.modelState.isDirty = isDirty;
+	};
+
 	ctrl.setLoading = (show) => {
 		$timeout(() => {
 			ctrl.loading = show;
@@ -64,6 +73,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.saveModel = () => {
+		setIsDirty(false);
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
@@ -393,6 +403,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const registerGraphEvents = (graph) => {
+
+		graph.on("change", () => {
+			setIsDirty(true);
+		});
+
+		graph.on("remove", () => {
+			setIsDirty(true);
+		});
+
 		graph.on('change:position', function (cell) {
 			const parentId = cell.get('parent');
 			if (!parentId) return;
@@ -409,6 +428,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		graph.on('add', (model) => {
+			setIsDirty(true);
 			if (model instanceof joint.dia.Link) return;
 
 			if(ctrl.shapeValidator.isAssociative(model)) {
@@ -491,7 +511,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.shapeValidator = new Validator();
 		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
 		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
-		ctrl.toolsViewService = new ToolsViewService(ctrl.shapeFactory);
+		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
@@ -502,6 +522,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.setLoading(false);
 		});
 	}
+
+	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
+	const onBeforeDeregister = $transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl))
 
 	ctrl.$onDestroy = () => {
 		ctrl.shapeFactory = null;
@@ -514,12 +538,14 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.commandManager = null;
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
+		preventExitService.cleanup(ctrl)()
+		onBeforeDeregister()
+		onExitDeregister()
 	}
-
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule])
 	.component("editorConceptual", {
 		template,
 		controller,

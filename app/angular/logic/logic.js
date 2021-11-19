@@ -1,8 +1,9 @@
 import angular from "angular";
 import template from "./logic.html";
-import sqlGeneratorService from "../service/sqlGeneratorService"
+import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import preventExitServiceModule from "../service/preventExitService";
 
 const controller = function (
 	$rootScope,
@@ -12,11 +13,17 @@ const controller = function (
 	$uibModal,
 	$state,
 	$timeout,
-	SqlGeneratorService
+	SqlGeneratorService,
+	preventExitService,
+	$transitions
 ) {
 
 	const ctrl = this;
 
+	ctrl.modelState = {
+		isDirty: false,
+		updatedAt: new Date(),
+	};
 	ctrl.model = LogicService.model;
 	ctrl.selectedName = "";
 	ctrl.selectedElement = null;
@@ -40,6 +47,10 @@ const controller = function (
 		window.print();
 	}
 
+	const setIsDirty = (isDirty) => {
+		ctrl.modelState.isDirty = isDirty;
+	};
+
 	ctrl.$onInit = () => {
 		ctrl.setLoading(true);
 		LogicService.buildWorkspace($stateParams.references.modelid, $rootScope.loggeduser, ctrl.stopLoading, $stateParams.references.conversionId);
@@ -62,6 +73,7 @@ const controller = function (
 	}
 
 	ctrl.saveModel = function () {
+		setIsDirty(false);
 		LogicService.updateModel().then(function (res) {
 			ctrl.showFeedback("Salvo com sucesso!", true, "success");
 		});
@@ -124,6 +136,11 @@ const controller = function (
 			ctrl.selectedLink = selectedLink;
 		});
 	});
+
+	$rootScope.$on("element:isDirty", function () {
+		setIsDirty(true);
+	});
+
 
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
@@ -297,14 +314,24 @@ const controller = function (
 		});
 	};
 
+	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
+
+	const onBeforeDeregister = $transitions.onBefore({},
+		preventExitService.handleTransitionStart(ctrl, "logic")
+	);
+
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl));
+
 	ctrl.$onDestroy = () => {
 		LogicService.unbindAll();
-	}
-
+		onBeforeDeregister();
+		preventExitService.cleanup(ctrl)();
+		onExitDeregister();
+	};
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule])
 	.component("editorLogic", {
 		template,
 		controller,
