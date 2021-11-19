@@ -35,6 +35,7 @@ const LoginController = function (AuthService, $state, $translate, $filter) {
 	};
 
 	ctrl.changeLanguage = (langKey) => {
+		localStorage.setItem('i18n', langKey);
 		$translate.use(langKey);
 	};
 
