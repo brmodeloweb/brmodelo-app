@@ -40,8 +40,4 @@ export default class Factory {
 		return new this.shapes.erd.ComposedAttribute(customConfig);
 	};
 
-	createInfoButton = () => {
-		return new this.shapes.erd.InfoButton();
-	};
-
 }
