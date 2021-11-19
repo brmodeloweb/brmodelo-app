@@ -86,7 +86,7 @@ export default class Linker {
 
 	getConnectionTypeFromLink = (link) => {
 		const source = link.graph.getCell(link.get('source').id);
-    const target = link.graph.getCell(link.get('target').id);
+		const target = link.graph.getCell(link.get('target').id);
 		return this.getConnectionType(source, target);
 	}
 
