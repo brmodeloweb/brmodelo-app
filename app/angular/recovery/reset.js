@@ -42,7 +42,7 @@ const controller = function (AuthService, $stateParams, $timeout, $state, $filte
 	};
 
 	const handleSuccess = () => {
-		showFeedback("New password saved successfully.", "success");
+		showFeedback("The new password was successfully saved.", "success");
 		$timeout(() => {
 			setLoading(false);
 			$state.go("login");
@@ -65,7 +65,7 @@ const controller = function (AuthService, $stateParams, $timeout, $state, $filte
 			if (newPassword != repeatedPassword) {
 				showFeedback("The password must be the same in both fields.");
 			} else if (newPassword.length < 6) {
-				showFeedback("Password must contain more than 6 digits.");
+				showFeedback("The password must contain more than 6 digits.");
 			} else {
 				doReset(newPassword)
 			}

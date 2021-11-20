@@ -29,7 +29,7 @@ const controller = function (AuthService, $filter) {
 
 	const handleSuccess = () => {
 		ctrl.loading = false;
-		showFeedback($filter('translate')('An email with instructions has been sent to X', { email: ctrl.mail }), "success");
+		showFeedback($filter('translate')('An email with instructions has been sent to EMAIL', { email: ctrl.mail }), "success");
 	};
 
 	const doRecover = () => {

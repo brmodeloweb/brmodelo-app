@@ -172,7 +172,7 @@ const controller = function (
 
 	ctrl.editColumn = function (oldColumn, editedColumn, $index) {
 		if (editedColumn.name == "") {
-			ctrl.showFeedback("Column name cannot be empty!", true, "error");
+			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
 
@@ -190,12 +190,12 @@ const controller = function (
 
 	ctrl.addColumn = function (column) {
 		if (column.name == "") {
-			ctrl.showFeedback("Column name cannot be empty!", true, "error");
+			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
 
 		if (column.FK && column.tableOrigin.idName == "") {
-			ctrl.showFeedback("Select source of foreign table!", true, "error");
+			ctrl.showFeedback("Select the foreign table source!", true, "error");
 			return;
 		} else {
 			column.tableOrigin.idOrigin = ctrl.mapTables.get(column.tableOrigin.idName);

@@ -76,7 +76,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 						controller: function () {
 							const $ctrl = this;
 							$ctrl.title = $filter('translate')("Conversion Assistant - Specialization");
-							$ctrl.summary = $filter('translate')("What do you want to do with inheritance from table X?", { table: getExtensionRootName(extension) });
+							$ctrl.summary = $filter('translate')("What do you want to do with inheritance from table TABLE_NAME?", { table: getExtensionRootName(extension) });
 							$ctrl.options = [
 								{ label: $filter('translate')("Use of a table for each entity"), value: "all_tables" },
 								{ label: $filter('translate')("Use of a single table for the entire hierarchy"), value: "one_table" },
@@ -140,7 +140,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 					controller: function () {
 						const $ctrl = this;
 						$ctrl.title = $filter('translate')("Attention - Conversion Assistant - Specialization");
-						$ctrl.summary = $filter('translate')("It was not possible to perform this conversion because table X has other connections. Choose another option.", { table: getExtensionRootName(extension) });
+						$ctrl.summary = $filter('translate')("It was not possible to perform this conversion because table TABLE_NAME has other connections. Choose another option.", { table: getExtensionRootName(extension) });
 						$ctrl.options = [
 							{ label: $filter('translate')("Use of a table for each entity"), value: "all_tables" },
 							{ label: $filter('translate')("Use of a single table for the entire hierarchy"), value: "one_table" },
@@ -313,7 +313,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 								controller: function () {
 									const $ctrl = this;
 									$ctrl.title = $filter('translate')("Conversion Assistant: Multivalued Attribute");
-									$ctrl.summary = $filter('translate')("What do you want to do with multivalued attribute X of table Y?", { attribute: attName, table: table.name });
+									$ctrl.summary = $filter('translate')("What do you want to do with multivalued attribute ATTR_NAME of table TABLE_NAME?", { attribute: attName, table: table.name });
 									$ctrl.options = [
 										{ label: $filter('translate')("Use of a table for each entity"), value: "all_tables" },
 										{ label: $filter('translate')("Use of a single table for the entire hierarchy"), value: "one_table" },
@@ -627,7 +627,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 					controller: function () {
 						const $ctrl = this;
 						$ctrl.title = $filter('translate')("Conversion Assistant - Relationship (1, n)");
-						$ctrl.summary = $filter('translate')("What do you want to do with the X relationship between the Y tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
+						$ctrl.summary = $filter('translate')("What do you want to do with the RELATIONSHIP relationship between the TABLES tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
 						$ctrl.options = [
 							{ label: $filter('translate')("Create a column in the least cardinality table"), value: "new_column" },
 							{ label: $filter('translate')("Create new table"), value: "new_table" },
@@ -665,7 +665,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 					controller: function () {
 						const $ctrl = this;
 						$ctrl.title = $filter('translate')("Conversion Assistant - Relationship (1, 1)");
-						$ctrl.summary = $filter('translate')("What do you want to do with the X relationship between the Y tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
+						$ctrl.summary = $filter('translate')("What do you want to do with the RELATIONSHIP relationship between the TABLES tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
 						$ctrl.options = [
 							{ label: $filter('translate')("Create a column in the least cardinality table"), value: "new_column" },
 							{ label: $filter('translate')("Create new table"), value: "new_table" },
@@ -697,7 +697,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 						controller: function () {
 							const $ctrl = this;
 							$ctrl.title = $filter('translate')("Conversion Assistant - Relationship (1, n)");
-							$ctrl.summary = $filter('translate')("What do you want to do with the X relationship between the Y tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
+							$ctrl.summary = $filter('translate')("What do you want to do with the RELATIONSHIP relationship between the TABLES tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
 							$ctrl.options = [
 								{ label: $filter('translate')("Create a column in the least cardinality table"), value: "new_column" },
 								{ label: $filter('translate')("Join tables"), value: "join_tables" }
