@@ -419,11 +419,16 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
+	ls.zoomNone = function () {
+		ls.paperScroller.zoom();
+	}
+
 	ls.registerShortcuts = () => {
 		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
 		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
 		ls.keyboardController.registerHandler(types.ZOOM_IN, () => ls.zoomIn());
 		ls.keyboardController.registerHandler(types.ZOOM_OUT, () => ls.zoomOut());
+		ls.keyboardController.registerHandler(types.ZOOM_NONE, () => ls.zoomNone());
 		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
 		ls.keyboardController.registerHandler(types.SAVE, () => {
 			ls.updateModel();
