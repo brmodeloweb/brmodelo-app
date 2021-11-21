@@ -101,6 +101,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.paperScroller.zoom(-0.1, { min: 0.2 });
 	}
 
+	ctrl.zoomNone = () => {
+		configs.paperScroller.zoom();
+	}
+
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
@@ -387,6 +391,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController.registerHandler(types.REDO, () => ctrl.redoModel());
 		configs.keyboardController.registerHandler(types.ZOOM_IN, () => ctrl.zoomIn());
 		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
+		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
 		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
 	}
 
