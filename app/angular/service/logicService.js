@@ -19,6 +19,7 @@ import "../../joint/joint.dia.command";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
+import ToolsViewService from "../service/toolsViewService";
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
 	var ls = {};
@@ -53,6 +54,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
+
+		ls.toolsViewService = new ToolsViewService();
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -175,6 +178,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			} else {
 				ls.paperScroller.startPanning(evt);
 			}
+		});
+
+		ls.paper.on('link:mouseenter', (linkView) => {
+			const toolsView = ls.toolsViewService.getToolsView();
+			linkView.addTools(toolsView);
+		});
+
+		ls.paper.on('link:mouseleave', (linkView) => {
+			linkView.removeTools();
 		});
 	}
 
