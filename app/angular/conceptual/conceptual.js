@@ -24,7 +24,6 @@ import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
-import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
@@ -75,7 +74,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.saveModel = () => {
-		ctrl.modelState.updatedAt = new Date()
+		ctrl.modelState.updatedAt = new Date();
 		setIsDirty(false);
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
@@ -162,10 +161,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
 			$timeout(() => {
-				const elementType = cellView.model.isLink() ? "Link" : cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
 					value: cellView.model.attributes?.attrs?.text?.text,
-					type: elementType,
+					type: cellView.model.attributes.supertype,
 					element: cellView
 				}
 			});
@@ -388,16 +386,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			halo.removeHandle('rotate');
 			halo.render();
 		});
-
-		configs.paper.on('link:mouseenter', (linkView) => {
-			const conectionType = ctrl.shapeLinker.getConnectionTypeFromLink(linkView.model);
-			const toolsView = ctrl.toolsViewService.getToolsView(conectionType);
-			linkView.addTools(toolsView);
-		});
-
-		configs.paper.on('link:mouseleave', (linkView) => {
-			linkView.removeTools();
-		});
 	}
 
 	const registerShortcuts = () => {
@@ -519,7 +507,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.shapeValidator = new Validator();
 		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
 		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
-		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
