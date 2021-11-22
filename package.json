@@ -11,8 +11,8 @@
     "cy:open": "yarn cypress open"
   },
   "engines": {
-    "node": ">=14",
-    "npm": "^6.14.8"
+    "node": "16.x",
+    "npm": "6.x"
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.29",
