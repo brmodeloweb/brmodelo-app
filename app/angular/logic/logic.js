@@ -5,6 +5,7 @@ import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
 import preventExitServiceModule from "../service/preventExitService";
 import bugReportButton from "../components/bugReportButton";
+import statusBar from "../components/statusBar";
 
 const controller = function (
 	$rootScope,
@@ -351,7 +352,8 @@ export default angular
 		sqlGeneratorModal,
 		duplicateModelModal,
 		preventExitServiceModule,
-		bugReportButton
+		bugReportButton,
+		statusBar
 	])
 	.component("editorLogic", {
 		template,
