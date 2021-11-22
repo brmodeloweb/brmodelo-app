@@ -19,6 +19,7 @@ import "../../joint/joint.dia.command";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
+import ToolsViewService from "../service/toolsViewService";
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
 	var ls = {};
@@ -53,6 +54,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
+
+		ls.toolsViewService = new ToolsViewService();
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -116,6 +119,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 						//target.attributes.attributes.splice(i, 1);
 						target.deleteColumn(i);
 						$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
+						$rootScope.$broadcast("element:isDirty");
 						break;
 					}
 				}
@@ -126,6 +130,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	ls.applyGraphEvents = function () {
 		ls.graph.on('add', function (cell) {
 			ls.checkAndEditTableName(cell);
+			$rootScope.$broadcast("element:isDirty");
+		});
+
+		ls.graph.on('change', function (cell) {
+			$rootScope.$broadcast("element:isDirty");
 		});
 	}
 
@@ -169,6 +178,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			} else {
 				ls.paperScroller.startPanning(evt);
 			}
+		});
+
+		ls.paper.on('link:mouseenter', (linkView) => {
+			const toolsView = ls.toolsViewService.getToolsView();
+			linkView.addTools(toolsView);
+		});
+
+		ls.paper.on('link:mouseleave', (linkView) => {
+			linkView.removeTools();
 		});
 	}
 
@@ -419,11 +437,16 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
+	ls.zoomNone = function () {
+		ls.paperScroller.zoom();
+	}
+
 	ls.registerShortcuts = () => {
 		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
 		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
 		ls.keyboardController.registerHandler(types.ZOOM_IN, () => ls.zoomIn());
 		ls.keyboardController.registerHandler(types.ZOOM_OUT, () => ls.zoomOut());
+		ls.keyboardController.registerHandler(types.ZOOM_NONE, () => ls.zoomNone());
 		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
 		ls.keyboardController.registerHandler(types.SAVE, () => {
 			ls.updateModel();

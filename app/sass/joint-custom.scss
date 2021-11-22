@@ -1,6 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Joint customizations
 ///////////////////////////////////////////////////////////////////////////////
-.link-tools .tool-options {
-  display: block !important;
-} 
+.link-tools {
+  display: none;
+}
+
+.marker-arrowheads {
+	display: none;
+}
+
+.joint-link.joint-theme-default .marker-vertex {
+	display: none;
+}
+
+.joint-link.joint-theme-default .connection-wrap:hover {
+	display: none;
+}

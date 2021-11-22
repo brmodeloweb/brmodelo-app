@@ -22,16 +22,16 @@ module.exports = {
 		new Dotenv({ systemvars: true }),
 		new HtmlWebpackPlugin({
 			template: "index.html",
-			favicon: `${__dirname}/app/favicon.ico`
+			favicon: `${__dirname}/app/favicon.ico`,
 		}),
 		new MiniCssExtractPlugin({
 			filename: `bundle.css`,
 		}),
 		new CopyPlugin({
 			patterns: [
-				{ from: `${__dirname}/app/img`, to: `${__dirname}/app/dist/img`}
-			]
-		})
+				{ from: `${__dirname}/app/img`, to: `${__dirname}/app/dist/img` },
+			],
+		}),
 	],
 	optimization: {
 		minimizer: [

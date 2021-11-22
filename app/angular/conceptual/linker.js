@@ -84,6 +84,12 @@ export default class Linker {
     target.attributes.composed = false;
   }
 
+	getConnectionTypeFromLink = (link) => {
+		const source = link.graph.getCell(link.get('source').id);
+		const target = link.graph.getCell(link.get('target').id);
+		return this.getConnectionType(source, target);
+	}
+
   getConnectionType = (source, target) => {
     if (this.validator.isEntity(source) && this.validator.isEntity(target)) {
       return "Entity-Entity";
