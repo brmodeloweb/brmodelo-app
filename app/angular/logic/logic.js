@@ -51,10 +51,6 @@ const controller = function (
 		ctrl.modelState.isDirty = isDirty;
 	};
 
-	const setIsDirty = (isDirty) => {
-		ctrl.modelState.isDirty = isDirty;
-	};
-
 	ctrl.$onInit = () => {
 		ctrl.setLoading(true);
 		LogicService.buildWorkspace(

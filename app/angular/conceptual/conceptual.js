@@ -19,9 +19,11 @@ import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
+import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
+
 joint.shapes.erd = shapes;
 
 /*
