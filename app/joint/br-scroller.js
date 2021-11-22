@@ -106,6 +106,8 @@ joint.ui.PaperScroller = Backbone.View.extend({
 								i = g / this._sy;
 						c = b.ox - (b.ox - e.x) / h, d = b.oy - (b.oy - e.y) / i
 				}
+				f = f || 1;
+				g = g || 1;
 				return this.beforePaperManipulation(), this.options.paper.scale(f, g), this.center(c, d), this.afterPaperManipulation(), this
 		},
 		zoomToFit: function(a) {

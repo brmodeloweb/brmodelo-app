@@ -51,6 +51,10 @@ const controller = function (
 		ctrl.modelState.isDirty = isDirty;
 	};
 
+	const setIsDirty = (isDirty) => {
+		ctrl.modelState.isDirty = isDirty;
+	};
+
 	ctrl.$onInit = () => {
 		ctrl.setLoading(true);
 		LogicService.buildWorkspace(
@@ -145,6 +149,11 @@ const controller = function (
 			ctrl.selectedLink = selectedLink;
 		});
 	});
+
+	$rootScope.$on("element:isDirty", function () {
+		setIsDirty(true);
+	});
+
 
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
@@ -282,6 +291,10 @@ const controller = function (
 		LogicService.zoomOut();
 	};
 
+	ctrl.zoomNone = function () {
+		LogicService.zoomNone();
+	}
+
 	ctrl.changeVisible = function () {
 		ctrl.editionVisible = !ctrl.editionVisible;
 	};
@@ -333,28 +346,25 @@ const controller = function (
 		});
 	};
 
-	ctrl.$onDestroy = () => {
-		LogicService.unbindAll();
-		preventExitService.cleanup(ctrl)();
-	};
-
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
-	$transitions.onBefore(
-		{},
+
+	const onBeforeDeregister = $transitions.onBefore({},
 		preventExitService.handleTransitionStart(ctrl, "logic")
 	);
-	$transitions.onExit({}, preventExitService.cleanup(ctrl));
+
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl));
+
+	ctrl.$onDestroy = () => {
+		LogicService.unbindAll();
+		onBeforeDeregister();
+		preventExitService.cleanup(ctrl)();
+		onExitDeregister();
+	};
 };
 
 export default angular
-	.module("app.workspace.logic", [
-		sqlGeneratorService,
-		sqlGeneratorModal,
-		duplicateModelModal,
-		preventExitServiceModule,
-		bugReportButton,
-		statusBar
-	])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton,
+		statusBar])
 	.component("editorLogic", {
 		template,
 		controller,

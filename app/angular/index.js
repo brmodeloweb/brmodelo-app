@@ -22,7 +22,6 @@ import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
 import dropdownIconComponent from "./components/dropdownIcon";
-import shapeFactory from "./service/shapeFactory";
 import logicService from "./service/logicService";
 import logicFactory from "./service/logicFactory";
 
@@ -45,10 +44,8 @@ const app = angular.module("app", [
 	modelService,
 	logicService,
 	dropdownComponent,
-	shapeFactory,
 	logicFactory,
 	sidebarControlConceptual,
-	shapeFactory,
 	dropdownIconComponent,
 ]);
 

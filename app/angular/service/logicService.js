@@ -17,7 +17,8 @@ import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
 import KeyboardController, { types } from "../components/keyboardController";
-import conversorService from "./conversorService";
+import conversorService from "../service/conversorService"
+import ToolsViewService from "../service/toolsViewService";
 
 const logicService = (
 	$rootScope,
@@ -62,9 +63,12 @@ const logicService = (
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
-		ls.paper.on("link:options", function (link, evt, x, y) {
-			const source = ls.graph.getCell(link.model.get("source").id);
-			const target = ls.graph.getCell(link.model.get("target").id);
+		ls.toolsViewService = new ToolsViewService();
+
+		ls.paper.on('link:options', function (link, evt, x, y) {
+
+			var source = ls.graph.getCell(link.model.get('source').id);
+			var target = ls.graph.getCell(link.model.get('target').id);
 
 			const obj = {
 				a: {
@@ -118,10 +122,7 @@ const logicService = (
 					if (object.FK && object.tableOrigin.idOrigin == source.id) {
 						// target.attributes.attributes.splice(i, 1);
 						target.deleteColumn(i);
-						$rootScope.$broadcast(
-							"element:update",
-							ls.paper.findViewByModel(target)
-						);
+						$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 						$rootScope.$broadcast("element:isDirty");
 						break;
 					}
@@ -135,7 +136,8 @@ const logicService = (
 			ls.checkAndEditTableName(cell);
 			$rootScope.$broadcast("element:isDirty");
 		});
-		ls.graph.on("change", function (cell) {
+
+		ls.graph.on('change', function (cell) {
 			$rootScope.$broadcast("element:isDirty");
 		});
 	};
@@ -179,7 +181,16 @@ const logicService = (
 				ls.paperScroller.startPanning(evt);
 			}
 		});
-	};
+
+		ls.paper.on('link:mouseenter', (linkView) => {
+			const toolsView = ls.toolsViewService.getToolsView();
+			linkView.addTools(toolsView);
+		});
+
+		ls.paper.on('link:mouseleave', (linkView) => {
+			linkView.removeTools();
+		});
+	}
 
 	ls.applySelectionOptions = function (cellView) {
 		const halo = new joint.ui.Halo({
@@ -439,14 +450,17 @@ const logicService = (
 		ls.paperScroller.zoom(-0.2, { min: 0.2 });
 	};
 
+	ls.zoomNone = function () {
+		ls.paperScroller.zoom();
+	}
+
 	ls.registerShortcuts = () => {
 		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
 		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
 		ls.keyboardController.registerHandler(types.ZOOM_IN, () => ls.zoomIn());
 		ls.keyboardController.registerHandler(types.ZOOM_OUT, () => ls.zoomOut());
-		ls.keyboardController.registerHandler(types.ESC, () =>
-			ls.clearSelectedElement()
-		);
+		ls.keyboardController.registerHandler(types.ZOOM_NONE, () => ls.zoomNone());
+		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
 		ls.keyboardController.registerHandler(types.SAVE, () => {
 			ls.updateModel();
 			$rootScope.$broadcast("model:saved");

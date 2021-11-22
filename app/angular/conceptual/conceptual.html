@@ -38,8 +38,9 @@
 				<ul class="nav navbar-nav tool-icons">
 					<li><a data-ng-click="$ctrl.undoModel()" title="Desfazer (CTRL Z)"><i class="fa fa-reply"></i></a></li>
 					<li class="divider"><a data-ng-click="$ctrl.redoModel()" title="Refazer (CTRL SHIFT Z)"><i class="fa fa-share"></i></a></li>
-					<li><a data-ng-click="$ctrl.zoomIn()" title="Mais zoom (CTRL SHIFT Z +)"><i class="fa fa-search-plus"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="Menos zoom (CTRL SHIFT Z -)"><i class="fa fa-search-minus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomIn()" title="Mais zoom (Z +)"><i class="fa fa-search-plus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomNone()" title="Zoom 100% (Z 0)"><i class="fa fa-search"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="Menos zoom (Z -)"><i class="fa fa-search-minus"></i></a></li>
 					<li><a data-ng-click="$ctrl.duplicateModel($ctrl.model)" title="Duplicar modelo"><i class="fa fa-files-o"></i></a></li>
 					<li class="divider"><a data-ng-click="$ctrl.convertModel($ctrl.model)" title="Gerar modelagem lógica"><i class="fa fa-table"></i></a></li>
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="Imprimir (CTRL P)"><i class="fa fa-print"></i></a></li>

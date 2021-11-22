@@ -115,6 +115,10 @@ const controller = function (
 		configs.paperScroller.zoom(-0.1, { min: 0.2 });
 	}
 
+	ctrl.zoomNone = () => {
+		configs.paperScroller.zoom();
+	}
+
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
@@ -164,7 +168,6 @@ const controller = function (
 	};
 
 	ctrl.unselectAll = () => {
-		console.log("conceptual unselectAll");
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
 		configs.selectionView.cancelSelection();
@@ -177,11 +180,12 @@ const controller = function (
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
 			$timeout(() => {
+				const elementType = cellView.model.isLink() ? "Link" : cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
 					value: cellView.model.attributes?.attrs?.text?.text,
-					type: cellView.model.attributes.supertype,
-					element: cellView,
-				};
+					type: elementType,
+					element: cellView
+				}
 			});
 			return;
 		}
@@ -431,7 +435,17 @@ const controller = function (
 			halo.removeHandle("rotate");
 			halo.render();
 		});
-	};
+
+		configs.paper.on('link:mouseenter', (linkView) => {
+			const conectionType = ctrl.shapeLinker.getConnectionTypeFromLink(linkView.model);
+			const toolsView = ctrl.toolsViewService.getToolsView(conectionType);
+			linkView.addTools(toolsView);
+		});
+
+		configs.paper.on('link:mouseleave', (linkView) => {
+			linkView.removeTools();
+		});
+	}
 
 	const registerShortcuts = () => {
 		configs.keyboardController.registerHandler(types.SAVE, () => ctrl.saveModel());
@@ -439,6 +453,7 @@ const controller = function (
 		configs.keyboardController.registerHandler(types.REDO, () => ctrl.redoModel());
 		configs.keyboardController.registerHandler(types.ZOOM_IN, () => ctrl.zoomIn());
 		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
+		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
 		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
 	}
 
@@ -451,8 +466,8 @@ const controller = function (
 			setIsDirty(true);
 		});
 
-		graph.on("change:position", function (cell) {
-			const parentId = cell.get("parent");
+		graph.on('change:position', function (cell) {
+			const parentId = cell.get('parent');
 			if (!parentId) return;
 			const parent = configs.graph.getCell(parentId);
 			const parentBbox = parent.getBBox();
@@ -468,7 +483,7 @@ const controller = function (
 			cell.set("position", cell.previous("position"));
 		});
 
-		graph.on("add", (model) => {
+		graph.on('add', (model) => {
 			setIsDirty(true);
 			if (model instanceof joint.dia.Link) return;
 
@@ -557,11 +572,8 @@ const controller = function (
 		ctrl.shapeFactory = new Factory(joint.shapes);
 		ctrl.shapeValidator = new Validator();
 		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
-		ctrl.entityExtensor = new EntityExtensor(
-			ctrl.shapeFactory,
-			ctrl.shapeValidator,
-			ctrl.shapeLinker
-		);
+		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
+		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
@@ -572,6 +584,10 @@ const controller = function (
 			ctrl.setLoading(false);
 		});
 	}
+
+	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
+	const onBeforeDeregister = $transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl))
 
 	ctrl.$onDestroy = () => {
 		ctrl.shapeFactory = null;
@@ -585,20 +601,14 @@ const controller = function (
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
 		preventExitService.cleanup(ctrl)()
+		onBeforeDeregister()
+		onExitDeregister()
 	}
-
-	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
-	$transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
-	$transitions.onExit({}, preventExitService.cleanup(ctrl))
 };
 
 export default angular
-	.module("app.workspace.conceptual", [
-		modelDuplicatorComponent,
-		preventExitServiceModule,
-		statusBar,
-		bugReportButton
-	])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, statusBar,
+		bugReportButton])
 	.component("editorConceptual", {
 		template,
 		controller,
