@@ -50,17 +50,10 @@
 					</div>
 				</aside>
 			</header><!-- End .workspace-header -->
-			<footer>
-				<span>Batata</span>
-			</footer>
 		</section>
-
-	  <sidebar-control-conceptual selected="$ctrl.selectedElement" on-update="$ctrl.onUpdate(event)"></sidebar-control-conceptual>
-
-	<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
-		<i class="fa fa-bug" aria-hidden="true"></i>
-	</a>
-
+		<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
+	  	<sidebar-control-conceptual selected="$ctrl.selectedElement" on-update="$ctrl.onUpdate(event)"></sidebar-control-conceptual>
+		<bug-report-button></bug-report-button>
 	</div>
 	<!-- End .mainContent -->
 </section>

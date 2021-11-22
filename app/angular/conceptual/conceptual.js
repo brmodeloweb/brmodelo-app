@@ -20,6 +20,8 @@ import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
 import preventExitServiceModule from "../service/preventExitService";
+import statusBar from "../components/statusBar";
+import bugReportButton from "../components/bugReportButton";
 joint.shapes.erd = shapes;
 
 /*
@@ -593,7 +595,9 @@ const controller = function (
 export default angular
 	.module("app.workspace.conceptual", [
 		modelDuplicatorComponent,
-		preventExitServiceModule
+		preventExitServiceModule,
+		statusBar,
+		bugReportButton
 	])
 	.component("editorConceptual", {
 		template,

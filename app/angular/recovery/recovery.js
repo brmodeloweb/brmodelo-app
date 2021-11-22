@@ -1,6 +1,7 @@
 import angular from "angular";
 import template from "./recovery.html";
 import AuthService from "../service/authService"
+import bugReportButton from "../components/bugReportButton";
 
 const controller = function (AuthService) {
 	const ctrl = this;
@@ -52,7 +53,7 @@ const controller = function (AuthService) {
 
 
 export default angular
-	.module("app.recovery", [AuthService])
+	.module("app.recovery", [AuthService, bugReportButton])
 	.component("recovery", {
 		template,
 		controller,
