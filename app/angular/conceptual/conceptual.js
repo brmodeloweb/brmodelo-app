@@ -18,6 +18,8 @@ import angular from "angular";
 import template from "./conceptual.html";
 
 import modelDuplicatorComponent from "../components/duplicateModelModal";
+import statusBar from "../components/statusBar";
+import bugReportButton from "../components/bugReportButton";
 
 import Factory from "./factory";
 import Validator from "./validator";
@@ -551,7 +553,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar])
 	.component("editorConceptual", {
 		template,
 		controller,
