@@ -268,6 +268,10 @@ const controller = function (
 		LogicService.zoomOut();
 	}
 
+	ctrl.zoomNone = function () {
+		LogicService.zoomNone();
+	}
+
 	ctrl.changeVisible = function () {
 		ctrl.editionVisible = !ctrl.editionVisible;
 	}
