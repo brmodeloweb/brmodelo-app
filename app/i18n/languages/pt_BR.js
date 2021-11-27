@@ -50,7 +50,7 @@ export default {
   'Close': 'Fechar',
   'SQL': 'SQL',
   'Author': 'Autor',
-  'Created at': 'Criação',
+  'Created': 'Criação',
   'Actions': 'Ações',
   'Models': 'Modelagens',
   'New model': 'Nova modelagem',

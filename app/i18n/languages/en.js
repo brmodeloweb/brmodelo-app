@@ -51,7 +51,7 @@ export default {
   'Close': 'Close',
   'SQL': 'SQL',
   'Author': 'Author',
-  'Created at': 'Created at',
+  'Created': 'Created',
   'Actions': 'Actions',
   'Models': 'Models',
   'BR Modelo Web': 'BR Modelo Web',
