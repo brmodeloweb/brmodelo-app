@@ -141,8 +141,7 @@
 									/>NOT NULL
 								</label>
 							</div>
-
-							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK && !$ctrl.addColumnModel.defaultValue">
 								<label for="add-unique">
 									<input
 										id="add-unique"
@@ -152,7 +151,7 @@
 								</label>
 							</div>
 
-							<div class="checkbox">
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.FK && !$ctrl.addColumnModel.defaultValue">
 								<label for="add-auto-increment">
 									<input
 										id="add-auto-increment"
@@ -249,7 +248,7 @@
 									</label>
 								</div>
 	
-								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.default">
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.defaultValue">
 									<label for="edit-unique">
 										<input
 											id="edit-unique"
@@ -259,7 +258,7 @@
 									</label>
 								</div>
 
-								<div class="checkbox" ng-show="!$ctrl.editColumnModel.default && !$ctrl.editColumnModel.FK">
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.defaultValue && !$ctrl.editColumnModel.FK">
 									<label for="edit-auto-increment">
 										<input
 											id="edit-auto-increment"
