@@ -1,0 +1,104 @@
+.sidebar-panel {
+
+}
+////////////////////////////////////////////////////////////////////////////////
+// .panel-header
+////////////////////////////////////////////////////////////////////////////////
+
+.panel-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 12px;
+	margin-bottom: 1px;
+	color: #fff;
+	background-color: #3d9970;
+	cursor: pointer;
+}
+
+.panel-header:hover {
+	background-color: #1a744b;
+}
+
+.panel-header > h3 {
+	font-weight: 300;
+	font-size: 14px;
+	margin: 0;
+}
+
+.panel-header > .fa {
+	position: relative;
+	top: -2px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .panel-content
+////////////////////////////////////////////////////////////////////////////////
+.temp-hide .panel-content {padding: 0;}
+
+.panel-content {
+	padding: 8px 12px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .table-columns
+////////////////////////////////////////////////////////////////////////////////
+.table-columns {
+	list-style: none;
+	padding: 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .column-details
+////////////////////////////////////////////////////////////////////////////////
+.column-details.temp-expanded header {display: none;}
+
+.column-details {
+	padding: 12px 8px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	margin-bottom: 8px;
+}
+
+.column-details header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	;
+}
+
+.column-details .table-title {
+	margin: 0;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: monospace;
+}
+
+.column-details .relationship {
+	display: inline-block;
+	border: 1px solid #000;
+	border-radius: 2px;
+	padding:0 2px;
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+}
+
+.column-details-content .form-group {margin-bottom: 12px;}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
+.column-details-actions {
+	display: flex;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 1px solid #ddd;
+	padding-top: 12px;;
+}
+
+.column-details-actions .br-button {width: 50%;}
