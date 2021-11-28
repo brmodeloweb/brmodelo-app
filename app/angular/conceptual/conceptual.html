@@ -32,45 +32,18 @@
 				<div class="page-header clearfix">
 					<h2 class="h4 pull-left">Modelo conceitual de: {{$ctrl.model.name}}</h2>
 					<aside class="header-actions pull-right">
-						<a class="br-button" data-ng-click="$ctrl.saveModel()">Salvar</a>
+						<a class="br-button" data-ng-click="$ctrl.saveModel()" title="Salvar (CTRL S)">Salvar</a>
 					</aside>
 				</div>
 				<ul class="nav navbar-nav tool-icons">
-					<li>
-						<a data-ng-click="$ctrl.undoModel()" title="Desfazer"
-							><i class="fa fa-reply"></i
-						></a>
-					</li>
-					<li class="divider">
-						<a data-ng-click="$ctrl.redoModel()" title="Refazer"
-							><i class="fa fa-share"></i
-						></a>
-					</li>
-					<li>
-						<a data-ng-click="$ctrl.zoomIn()" title="Zoom +"
-							><i class="fa fa-search-plus"></i
-						></a>
-					</li>
-					<li class="divider">
-						<a data-ng-click="$ctrl.zoomOut()" title="Zoom -"
-							><i class="fa fa-search-minus"></i
-						></a>
-					</li>
-					<li>
-						<a data-ng-click="$ctrl.duplicateModel($ctrl.model)" title="Duplicar modelo"
-							><i class="fa fa-files-o"></i
-						></a>
-					</li>
-					<li class="divider">
-						<a data-ng-click="$ctrl.convertModel($ctrl.model)" title="Gerar modelagem lógica"
-							><i class="fa fa-table"></i
-						></a>
-					</li>
-					<li class="divider">
-						<a data-ng-click="$ctrl.print()" title="Imprimir"
-							><i class="fa fa-print"></i
-						></a>
-					</li>
+					<li><a data-ng-click="$ctrl.undoModel()" title="Desfazer (CTRL Z)"><i class="fa fa-reply"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.redoModel()" title="Refazer (CTRL SHIFT Z)"><i class="fa fa-share"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomIn()" title="Mais zoom (Z +)"><i class="fa fa-search-plus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomNone()" title="Zoom 100% (Z 0)"><i class="fa fa-search"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="Menos zoom (Z -)"><i class="fa fa-search-minus"></i></a></li>
+					<li><a data-ng-click="$ctrl.duplicateModel($ctrl.model)" title="Duplicar modelo"><i class="fa fa-files-o"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.convertModel($ctrl.model)" title="Gerar modelagem lógica"><i class="fa fa-table"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.print()" title="Imprimir (CTRL P)"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
 					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">

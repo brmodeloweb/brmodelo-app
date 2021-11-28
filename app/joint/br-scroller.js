@@ -106,6 +106,8 @@ joint.ui.PaperScroller = Backbone.View.extend({
 								i = g / this._sy;
 						c = b.ox - (b.ox - e.x) / h, d = b.oy - (b.oy - e.y) / i
 				}
+				f = f || 1;
+				g = g || 1;
 				return this.beforePaperManipulation(), this.options.paper.scale(f, g), this.center(c, d), this.afterPaperManipulation(), this
 		},
 		zoomToFit: function(a) {
@@ -118,19 +120,22 @@ joint.ui.PaperScroller = Backbone.View.extend({
 				}), this.beforePaperManipulation(), b.scaleContentToFit(a), b.setOrigin(c.x, c.y), this.adjustPaper().centerContent(), this.afterPaperManipulation(), this
 		},
 		startPanning: function(a) {
-				a = joint.util.normalizeEvent(a), this._clientX = a.clientX, this._clientY = a.clientY, $(document.body).on({
-						"mousemove.panning touchmove.panning": this.pan,
-						"mouseup.panning touchend.panning": this.stopPanning
-				})
+			$('.paper-scroller').css('cursor', 'grab');
+			a = joint.util.normalizeEvent(a), this._clientX = a.clientX, this._clientY = a.clientY, $(document.body).on({
+				"mousemove.panning touchmove.panning": this.pan,
+				"mouseup.panning touchend.panning": this.stopPanning
+			})
 		},
-		pan: function(a) {
-				a = joint.util.normalizeEvent(a);
-				var b = a.clientX - this._clientX,
-						c = a.clientY - this._clientY;
-				this.el.scrollTop -= c, this.el.scrollLeft -= b, this._clientX = a.clientX, this._clientY = a.clientY
+		pan: function (a) {
+			$('.paper-scroller').css('cursor', 'grabbing');
+			a = joint.util.normalizeEvent(a);
+			var b = a.clientX - this._clientX,
+				c = a.clientY - this._clientY;
+			this.el.scrollTop -= c, this.el.scrollLeft -= b, this._clientX = a.clientX, this._clientY = a.clientY
 		},
 		stopPanning: function() {
-				$(document.body).off(".panning")
+			$('.paper-scroller').css('cursor', 'default ');
+			$(document.body).off(".panning")
 		},
 		pointerdown: function(a) {
 				a.target == this.el && this.options.paper.pointerdown.apply(this.options.paper, arguments)

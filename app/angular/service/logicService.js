@@ -17,8 +17,10 @@ import "../../joint/joint.ui.halo";
 import "../../joint/br-scroller";
 import "../../joint/joint.dia.command";
 
+import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
 import Column from "./Column";
+import ToolsViewService from "../service/toolsViewService";
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
 	var ls = {};
@@ -35,6 +37,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		"name": ''
 	};
 
+	ls.selectedHalo = null;
+
 	ls.selectedLink = {};
 
 	ls.buildWorkspace = function (modelid, userId, callback, conversionId) {
@@ -47,6 +51,12 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			model: ls.graph
 		});
 		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
+
+		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
+
+		ls.keyboardController = new KeyboardController(ls.paper.$document);
+
+		ls.toolsViewService = new ToolsViewService();
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -76,6 +86,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.applyComponentSelection();
 		ls.applyGraphEvents();
 		ls.applyDeleteLinkAction();
+		ls.registerShortcuts();
 
 		ls.loadModel(modelid, userId, callback, conversionId);
 
@@ -109,6 +120,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 						//target.attributes.attributes.splice(i, 1);
 						target.deleteColumn(i);
 						$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
+						$rootScope.$broadcast("element:isDirty");
 						break;
 					}
 				}
@@ -119,6 +131,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	ls.applyGraphEvents = function () {
 		ls.graph.on('add', function (cell) {
 			ls.checkAndEditTableName(cell);
+			$rootScope.$broadcast("element:isDirty");
+		});
+
+		ls.graph.on('change', function (cell) {
+			$rootScope.$broadcast("element:isDirty");
 		});
 	}
 
@@ -129,7 +146,6 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			paper: ls.paper,
 			cursor: 'grab'
 		});
-		ls.paper.on('blank:pointerdown', ls.paperScroller.startPanning);
 		$app.append(ls.paperScroller.render().el);
 	}
 
@@ -144,18 +160,34 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		]);
 	}
 
-	ls.applyComponentSelection = function () {
+	ls.applyComponentSelection = () => {
 		ls.paper.on('cell:pointerup', function (cellView, evt, x, y) {
 			if (cellView.model instanceof joint.dia.Link) return;
 			ls.onSelectElement(cellView);
 		});
 
-		ls.paper.on('blank:pointerdown', function (evt, x, y) {
+		ls.paper.on('blank:pointerdown', (evt) => {
 			if (ls.selectedElement != null && ls.selectedElement.model != null) {
 				ls.checkAndEditTableName(ls.selectedElement.model);
 				ls.selectedElement.unhighlight();
 			}
+
 			ls.clearSelectedElement();
+
+			if(!ls.keyboardController.spacePressed){
+				ls.selectionView.startSelecting(evt);
+			} else {
+				ls.paperScroller.startPanning(evt);
+			}
+		});
+
+		ls.paper.on('link:mouseenter', (linkView) => {
+			const toolsView = ls.toolsViewService.getToolsView();
+			linkView.addTools(toolsView);
+		});
+
+		ls.paper.on('link:mouseleave', (linkView) => {
+			linkView.removeTools();
 		});
 	}
 
@@ -170,6 +202,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		halo.on('action:removeElement:pointerdown', function (link) {
 			console.log("removing....");
 		});
+		ls.selectedHalo = halo;
 		halo.removeHandle('clone');
 		halo.removeHandle('fork');
 		halo.removeHandle('rotate');
@@ -283,7 +316,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.clearSelectedElement = function () {
+		if(ls.selectedHalo != null) {
+			ls.selectedHalo.remove();
+			ls.selectedHalo = null;
+		}
+		if (ls.selectedElement != null && ls.selectedElement.model != null) {
+			ls.selectedElement.unhighlight();
+		}
 		ls.selectedElement = {};
+		ls.selectionView.cancelSelection();
 		$rootScope.$broadcast('element:select', null);
 		$rootScope.$broadcast('link:select', null);
 		$rootScope.$broadcast('columns:select', []);
@@ -386,6 +427,23 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.paperScroller.zoom(-0.2, { min: 0.2 });
 	}
 
+	ls.zoomNone = function () {
+		ls.paperScroller.zoom();
+	}
+
+	ls.registerShortcuts = () => {
+		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
+		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
+		ls.keyboardController.registerHandler(types.ZOOM_IN, () => ls.zoomIn());
+		ls.keyboardController.registerHandler(types.ZOOM_OUT, () => ls.zoomOut());
+		ls.keyboardController.registerHandler(types.ZOOM_NONE, () => ls.zoomNone());
+		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
+		ls.keyboardController.registerHandler(types.SAVE, () => {
+			ls.updateModel();
+			$rootScope.$broadcast('model:saved')
+		});
+	}
+
 	ls.getTablesMap = function () {
 		var map = new Map();
 		var elements = ls.graph.getElements();
@@ -406,6 +464,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			map.set(elements[i].id, obj);
 		}
 		return map;
+	}
+
+	ls.unbindAll = () => {
+		ls.keyboardController.unbindAll()
 	}
 
 	return ls;

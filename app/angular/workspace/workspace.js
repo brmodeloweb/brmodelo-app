@@ -53,7 +53,6 @@ const ListController = function (
 	};
 
 	ctrl.openModel = (model) => {
-		console.log(model);
 		if (model.type === "logic") {
 			return $state.go("logic", {
 				references: { modelid: model._id, conversionId: "" },

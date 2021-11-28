@@ -144,7 +144,8 @@ const controller = function () {
 	}
 
 	const customSelector = (selected) => {
-		if (selected.currentValue.type === "Link") {
+		const currentType = selected.currentValue.type;
+		if (currentType === "Link") {
 			const attributes = selected.currentValue.element.model.attributes;
 			selected.currentValue.value = {
 				"weak": attributes.weak,
@@ -152,9 +153,9 @@ const controller = function () {
 				"cardinality": attributes.labels[0].attrs.text.text
 			}
 		}
-		if (selected.currentValue.type === "Attribute") {
-			const attributes = selected.currentValue.element.model.attributes;
 
+		if (currentType === "Attribute") {
+			const attributes = selected.currentValue.element.model.attributes;
 			selected.currentValue.value = {
 				"name": attributes.attrs.text.text.replace(/ *\([^)]*\) */g, ""),
 				"cardinality": attributes.cardinality,

@@ -2,7 +2,6 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
-import jointCss from "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
 import "../../joint/joint.ui.stencil.css";
@@ -15,12 +14,6 @@ import "../../joint/joint.dia.command";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
-/*
- * This line prevent a sideEffect issue in jointjs library that make webpack ignore joint css imports
- * See more: https://github.com/webpack/webpack/issues/8814
- */
-console.log(jointCss)
-
 import angular from "angular";
 import template from "./conceptual.html";
 
@@ -30,9 +23,16 @@ import Factory from "./factory";
 import Validator from "./validator";
 import Linker from "./linker";
 import EntityExtensor from "./entityExtensor";
+import KeyboardController, { types } from "../components/keyboardController";
+import ToolsViewService from "../service/toolsViewService";
+import preventExitServiceModule from "../service/preventExitService";
 
-const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state) {
+const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions,preventExitService) {
 	const ctrl = this;
+	ctrl.modelState = {
+		isDirty: false,
+		updatedAt: new Date(),
+	};
 	ctrl.feedback = {
 		message: "",
 		showing: false
@@ -46,11 +46,17 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		user: $rootScope.loggeduser
 	}
 	ctrl.selectedElement = {};
+	ctrl.selectedHalo = {};
 	const configs = {
 		graph: {},
 		paper: {},
 		paperScroller: {},
 		commandManager: {},
+		keyboardController: null,
+	};
+
+	const setIsDirty = (isDirty) => {
+		ctrl.modelState.isDirty = isDirty;
 	};
 
 	ctrl.setLoading = (show) => {
@@ -67,6 +73,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.saveModel = () => {
+		setIsDirty(false);
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
@@ -88,11 +95,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.zoomIn = () => {
-		configs.paperScroller.zoom(0.2, { max: 2 });
+		configs.paperScroller.zoom(0.1, { max: 2 });
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(-0.2, { min: 0.2 });
+		configs.paperScroller.zoom(-0.1, { min: 0.2 });
+	}
+
+	ctrl.zoomNone = () => {
+		configs.paperScroller.zoom();
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -135,12 +146,23 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			});
 	}
 
+	ctrl.unselectAll = () => {
+		ctrl.showFeedback(false, "");
+		ctrl.onSelectElement(null);
+		configs.selectionView.cancelSelection();
+		if(configs.selectedHalo) {
+			configs.selectedHalo.remove();
+			configs.selectedHalo = null;
+		}
+	}
+
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
 			$timeout(() => {
+				const elementType = cellView.model.isLink() ? "Link" : cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
 					value: cellView.model.attributes?.attrs?.text?.text,
-					type: cellView.model.attributes.supertype,
+					type: elementType,
 					element: cellView
 				}
 			});
@@ -324,10 +346,13 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const registerPaperEvents = (paper) => {
-		paper.on('blank:pointerdown', function (evt, x, y) {
-			ctrl.showFeedback(false, "");
-			configs.selectionView.startSelecting(evt);
-			ctrl.onSelectElement(null);
+		paper.on('blank:pointerdown', (evt) => {
+			ctrl.unselectAll();
+			if(!configs.keyboardController.spacePressed){
+				configs.selectionView.startSelecting(evt);
+			} else {
+				configs.paperScroller.startPanning(evt);
+			}
 		});
 
 		paper.on('link:options', (cellView) => {
@@ -346,6 +371,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				boxContent: false
 			});
 
+			configs.selectedHalo = halo;
 			halo.on('action:link:add', function (link) {
 				ctrl.shapeLinker.onLink(link);
 			});
@@ -359,9 +385,38 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			halo.removeHandle('rotate');
 			halo.render();
 		});
+
+		configs.paper.on('link:mouseenter', (linkView) => {
+			const conectionType = ctrl.shapeLinker.getConnectionTypeFromLink(linkView.model);
+			const toolsView = ctrl.toolsViewService.getToolsView(conectionType);
+			linkView.addTools(toolsView);
+		});
+
+		configs.paper.on('link:mouseleave', (linkView) => {
+			linkView.removeTools();
+		});
+	}
+
+	const registerShortcuts = () => {
+		configs.keyboardController.registerHandler(types.SAVE, () => ctrl.saveModel());
+		configs.keyboardController.registerHandler(types.UNDO, () => ctrl.undoModel());
+		configs.keyboardController.registerHandler(types.REDO, () => ctrl.redoModel());
+		configs.keyboardController.registerHandler(types.ZOOM_IN, () => ctrl.zoomIn());
+		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
+		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
+		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
 	}
 
 	const registerGraphEvents = (graph) => {
+
+		graph.on("change", () => {
+			setIsDirty(true);
+		});
+
+		graph.on("remove", () => {
+			setIsDirty(true);
+		});
+
 		graph.on('change:position', function (cell) {
 			const parentId = cell.get('parent');
 			if (!parentId) return;
@@ -378,6 +433,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		graph.on('add', (model) => {
+			setIsDirty(true);
 			if (model instanceof joint.dia.Link) return;
 
 			if(ctrl.shapeValidator.isAssociative(model)) {
@@ -387,19 +443,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(ctrl.shapeValidator.isComposedAttribute(model)) {
 				ctrl.makeComposedAttribute(model);
 			}
-
-			// 	if(cs.isComposedAttribute(cellView.model)) {
-
-			// 		var x = cellView.model.attributes.position.x;
-			// 		var y = cellView.model.attributes.position.y;
-			// 		cellView.model.remove();
-
-			// 		$timeout(function(){
-
-
-			// 		}, 100);
-
-			// 	}
 
 			// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
 			// 		var x = cellView.model.attributes.position.x;
@@ -431,16 +474,17 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			cellViewNamespace: joint.shapes
 		});
 
+		configs.keyboardController = new KeyboardController(configs.paper.$document);
+
 		registerPaperEvents(configs.paper);
 
 		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
 		configs.paperScroller = new joint.ui.PaperScroller({
 			paper: configs.paper,
-			cursor: "grab",
+			cursor: "grabbing",
 			autoResizePaper: true,
 		});
-
 		content.append(configs.paperScroller.render().el);
 
 		const stencil = new joint.ui.Stencil({
@@ -459,6 +503,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
 		]);
+
+		registerShortcuts();
 	};
 
 	ctrl.$postLink = () => {
@@ -470,6 +516,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.shapeValidator = new Validator();
 		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
 		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
+		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
@@ -481,10 +528,29 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 	}
 
+	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
+	const onBeforeDeregister = $transitions.onBefore({}, preventExitService.handleTransitionStart(ctrl, "conceptual"));
+	const onExitDeregister = $transitions.onExit({}, preventExitService.cleanup(ctrl))
+
+	ctrl.$onDestroy = () => {
+		ctrl.shapeFactory = null;
+		ctrl.shapeValidator = null;
+		ctrl.shapeLinker = null;
+		ctrl.entityExtensor = null;
+		configs.graph = null;
+		configs.paper = null;
+		configs.paperScroller = null;
+		configs.commandManager = null;
+		configs.keyboardController.unbindAll();
+		configs.keyboardController = null;
+		preventExitService.cleanup(ctrl)()
+		onBeforeDeregister()
+		onExitDeregister()
+	}
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule])
 	.component("editorConceptual", {
 		template,
 		controller,

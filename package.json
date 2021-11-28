@@ -11,10 +11,11 @@
     "cy:open": "yarn cypress open"
   },
   "engines": {
-    "node": "^12.20.0",
-    "npm": "^6.14.8"
+    "node": "16.x",
+    "yarn": "1.x"
   },
   "dependencies": {
+    "@babel/runtime": "^7.16.3",
     "@uirouter/angularjs": "^1.0.29",
     "angular": "^1.8.0",
     "angular-cookies": "^1.8.0",
@@ -36,7 +37,8 @@
     "express-session": "^1.17.1",
     "font-awesome": "^4.7.0",
     "form-data": "^4.0.0",
-    "jointjs": "3.4.2",
+    "hotkeys-js": "^3.8.7",
+    "jointjs": "3.4.4",
     "jquery": "^3.3.29",
     "mailgun.js": "^3.4.0",
     "mongodb": "~3.5.8",
@@ -54,11 +56,13 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.0.0",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.13.0",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/plugin-transform-async-to-generator": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.0",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.0.0",
     "@webpack-cli/serve": "^1.2.2",
