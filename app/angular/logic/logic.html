@@ -49,10 +49,10 @@
 				</aside>
 			</header><!-- End .workspace-header -->
 
-			<aside class="model-properties" data-ng-class="{'active': !$ctrl.editionVisible}">
+			<aside class="model-properties" data-ng-class="{'active': $ctrl.editionVisible}">
 
 				<span class="action" data-ng-click="$ctrl.changeVisible()">
-					<i class="fa angle-double-icon" data-ng-class="!$ctrl.editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+					<i class="fa angle-double-icon" data-ng-class="$ctrl.editionVisible ? 'fa-angle-double-right' : 'fa-angle-double-left'"></i>
 				</span>
 
 				<div class="properties-content" ng-if="$ctrl.selectedElement == null">

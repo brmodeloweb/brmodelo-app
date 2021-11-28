@@ -29,7 +29,7 @@ const controller = function (
 	ctrl.selectedName = "";
 	ctrl.selectedElement = null;
 	ctrl.columns = [];
-	ctrl.editionVisible = false;
+	ctrl.editionVisible = true;
 	ctrl.tableNames = [];
 	ctrl.mapTables = {};
 
