@@ -132,6 +132,8 @@ const ListController = function (
 				user: model.who,
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
+				newModel.authorName = model.authorName;
+				newModel.typeName = model.typeName;
 				ctrl.models.push(newModel);
 				showLoading(false);
 			});
