@@ -3,8 +3,8 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
-import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
+import statusBar from "../components/statusBar";
 import preventExitServiceModule from "../service/preventExitService";
 
 const controller = function (
@@ -128,7 +128,6 @@ const controller = function (
 	});
 
 	$rootScope.$on('model:saved', () => {
-		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
 			ctrl.showFeedback("Salvo com sucesso!", true, "success");
 		});
@@ -271,6 +270,10 @@ const controller = function (
 		LogicService.zoomOut();
 	}
 
+	ctrl.zoomNone = function () {
+		LogicService.zoomNone();
+	}
+
 	ctrl.changeVisible = function () {
 		ctrl.editionVisible = !ctrl.editionVisible;
 	}
@@ -335,7 +338,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, statusBar, bugReportButton])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar])
 	.component("editorLogic", {
 		template,
 		controller,
