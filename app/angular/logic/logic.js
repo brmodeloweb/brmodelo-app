@@ -128,6 +128,8 @@ const controller = function (
 	});
 
 	$rootScope.$on('model:saved', () => {
+		setIsDirty(false);
+		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
 			ctrl.showFeedback("Salvo com sucesso!", true, "success");
 		});
