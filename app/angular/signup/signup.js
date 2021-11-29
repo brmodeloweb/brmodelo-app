@@ -2,7 +2,7 @@ import angular from "angular";
 import authService from "../service/authService";
 import template from "./signup.html";
 
-const SignupController = function ($state, AuthService) {
+const SignupController = function ($state, AuthService, $filter) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.loading = false;
@@ -52,7 +52,7 @@ const SignupController = function ($state, AuthService) {
 	};
 
 	const showError = (newMessage) => {
-		ctrl.feedback.message = newMessage;
+		ctrl.feedback.message = $filter('translate')(newMessage);
 		ctrl.feedback.showing = true;
 	};
 
@@ -62,7 +62,7 @@ const SignupController = function ($state, AuthService) {
 		if (validForm) {
 			doRegister();
 		} else {
-			showError("Preencha os campos em vermelho");
+			showError("Fill the fields in red");
 		}
 	};
 };

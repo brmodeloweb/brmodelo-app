@@ -1,11 +1,11 @@
 <div class="modal-header">
-	<h3 class="modal-title">Novo modelo</h3>
+	<h3 class="modal-title">{{ 'New model' | translate }}</h3>
 </div>
 
 <div class="modal-body">
 	<form class="form-horizontal" role="form" name="modelForm">
 		<div class="form-group">
-			<label for="name" class="col-sm-3 control-label">Título</label>
+			<label for="name" class="col-sm-3 control-label">{{ 'Title' | translate }}</label>
 			<div class="col-sm-7">
 				<input
 					id="name"
@@ -13,7 +13,7 @@
 					class="form-control"
 					ng-class="{'error': ($ctrl.name == null || $ctrl.name == '') && $ctrl.submitted}"
 					name="name"
-					placeholder="Nome do modelo"
+					placeholder="{{ 'Model name' | translate }}"
 					ng-model="$ctrl.name"
 					autocomplete="off"
 				/>
@@ -21,9 +21,9 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-3 control-label">Tipo</label>
+			<label class="col-sm-3 control-label">{{ 'Type' | translate }}</label>
 			<div class="col-sm-7 modelselect">
-				<dropdown on-select="$ctrl.doSelectType(selected)" selected="$ctrl.typeSelected" options="[{name: 'Conceitual', type: 'conceptual'}, {name: 'Lógico', type: 'logic'}]"></dropdown>
+				<dropdown on-select="$ctrl.doSelectType(selected)" selected="$ctrl.typeSelected" options="$ctrl.options"></dropdown>
 			</div>
 		</div>
 
@@ -31,6 +31,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="br-button yellow" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
-	<button type="button" class="br-button" ng-click="$ctrl.save($ctrl.name)">Salvar</button>
+	<button class="br-button yellow" type="button" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+	<button type="button" class="br-button" ng-click="$ctrl.save($ctrl.name)">{{ 'Save' | translate }}</button>
 </div>

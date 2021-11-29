@@ -9,35 +9,35 @@
 
 		<div class="form-group" ng-if="$ctrl.configuration.emptyState">
 			<div class="empty-state">
-				<label for="entry-name">Selecione um elemento para editar</label>
+				<label for="entry-name">{{ 'Select an element to edit' | translate }}</label>
 			</div>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.entity)">
 			<div class="form-group">
-				<label for="entry-name">Nome</label>
+				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
 					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
 			</div><!-- End .form-group -->
 
 			<div class="form-group clearfix">
-				<label for="">Especializar</label>
+				<label for="">{{ 'Specialize' | translate }}</label>
 				<dropdown on-select="$ctrl.extendEntity(selected)" selected="{name: 'Selecione', type: 'empty'}"
 					options="[{name: '(t, d)', type: '(t, d)'}, {name: '(t, c)', type: '(t, c)'}, {name: '(p, d)', type: '(p, d)'}, {name: '(p, c)', type: '(p, c)'}]">
 				</dropdown>
 			</div>
 
 			<div class="form-group">
-				<label for="">Auto relacionamento</label>
+				<label for="">{{ 'Self relationship' | translate }}</label>
 				<div>
-					<a class="br-button" ng-click="$ctrl.addAutoRelationship()">Adicionar</a>
+					<a class="br-button" ng-click="$ctrl.addAutoRelationship()">{{ 'Add' | translate }}</a>
 				</div>
 			</div>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.link)">
 			<div class="form-group clearfix">
-				<label for="">Cardinalidade</label>
+				<label for="">{{ 'Cardinality' | translate }}</label>
 				<dropdown on-select="$ctrl.updateCardinality(selected)"
 					selected="{name: $ctrl.selectedElement.value.cardinality, type: $ctrl.selectedElement.value.cardinality}"
 					options="[{name: '(0, n)', type: '(0, n)'}, {name: '(0, 1)', type: '(0, 1)'}, {name: '(1, 1)', type: '(1, 1)'}, {name: '(1, n)', type: '(1, n)'}]">
@@ -45,7 +45,7 @@
 			</div>
 
 			<div class="form-group">
-				<label for="entry-name">Papel</label>
+				<label for="entry-name">{{ 'Role' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value.role"
 					ng-change="$ctrl.updateLinkRole($ctrl.selectedElement.value.role)" />
 			</div><!-- End .form-group -->
@@ -54,7 +54,7 @@
 				<div class="checkbox">
 					<label for="weak">
 						<input id="weak" type="checkbox" ng-model="$ctrl.selectedElement.value.weak"
-							ng-click="$ctrl.updateLinkWeak(!$ctrl.selectedElement.value.weak)" /> Fraca
+							ng-click="$ctrl.updateLinkWeak(!$ctrl.selectedElement.value.weak)" />{{ 'Weak' | translate }}
 					</label>
 				</div>
 			</div><!-- End .form-group -->
@@ -62,7 +62,7 @@
 
 		<div class="form-group" ng-if="($ctrl.configuration.extension)">
 			<div class="form-group clearfix">
-				<label for="">Editar</label>
+				<label for="">{{ 'Edit' | translate }}</label>
 				<dropdown on-select="$ctrl.updateName(selected.type)"
 					selected="{name: $ctrl.selectedElement.value, type: $ctrl.selectedElement.value}"
 					options="[{name: '(t, d)', type: '(t, d)'}, {name: '(t, c)', type: '(t, c)'}, {name: '(p, d)', type: '(p, d)'}, {name: '(p, c)', type: '(p, c)'}]">
@@ -72,12 +72,12 @@
 
 		<div class="form-group" ng-if="($ctrl.configuration.attribute)">
 			<div class="form-group">
-				<label for="entry-name">Nome</label>
+				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value.name"
 					ng-change="$ctrl.updateAttributeName($ctrl.selectedElement.value.name)" />
 			</div>
 			<div class="form-group clearfix">
-				<label for="">Cardinalidade</label>
+				<label for="">{{ 'Cardinality' | translate }}</label>
 				<dropdown on-select="$ctrl.updateAttributeCardinality(selected)"
 					selected="{name: $ctrl.selectedElement.value.cardinality, type: $ctrl.selectedElement.value.cardinality}"
 					options="[{name: '(0, n)', type: '(0, n)'}, {name: '(0, 1)', type: '(0, 1)'}, {name: '(1, 1)', type: '(1, 1)'}, {name: '(1, n)', type: '(1, n)'}]">
@@ -90,28 +90,28 @@
 						type="checkbox"
 						ng-model="$ctrl.selectedElement.value.composed"
 						ng-change="$ctrl.swapComposed($ctrl.selectedElement.value.composed)"
-					> Composto
+					> {{ 'Composed' | translate }}
 				</label>
 			</div>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.key)">
-			<label for="entry-name">Nome</label>
+			<label for="entry-name">{{ 'Name' | translate }}</label>
 			<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
 				ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.relationship)">
 			<div class="form-group">
-				<label for="entry-name">Nome</label>
+				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
 					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
 			</div><!-- End .form-group -->
 
 			<div class="form-group">
-				<label for="">Entidade associativa</label>
+				<label for="">{{ 'Associative entity' | translate }}</label>
 				<div>
-					<a class="br-button" ng-click="$ctrl.transformAssociative()">Transformar</a>
+					<a class="br-button" ng-click="$ctrl.transformAssociative()">{{ 'Transform' | translate }}</a>
 				</div>
 			</div>
 		</div>

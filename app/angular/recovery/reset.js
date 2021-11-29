@@ -2,7 +2,7 @@ import angular from "angular";
 import template from "./reset.html";
 import AuthService from "../service/authService"
 
-const controller = function (AuthService, $stateParams, $timeout, $state) {
+const controller = function (AuthService, $stateParams, $timeout, $state, $filter) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.mail = "";
@@ -29,7 +29,7 @@ const controller = function (AuthService, $stateParams, $timeout, $state) {
 
 	const showFeedback = (newMessage, type = "error") => {
 		$timeout(() => {
-			ctrl.feedback.message = newMessage;
+			ctrl.feedback.message = $filter('translate')(newMessage);
 			ctrl.feedback.showing = true;
 			ctrl.feedback.type = type;
 		}, 100);
@@ -38,11 +38,11 @@ const controller = function (AuthService, $stateParams, $timeout, $state) {
 	const handleError = (error) => {
 		console.log(error);
 		ctrl.loading = false;
-		showFeedback("Esse email ainda não está cadastrado.");
+		showFeedback("This email is not registered yet.");
 	};
 
 	const handleSuccess = () => {
-		showFeedback(`Nova senha salva com sucesso.`, "success");
+		showFeedback("The new password was successfully saved.", "success");
 		$timeout(() => {
 			setLoading(false);
 			$state.go("login");
@@ -63,14 +63,14 @@ const controller = function (AuthService, $stateParams, $timeout, $state) {
 		ctrl.feedback.showing = false;
 		if (validForm) {
 			if (newPassword != repeatedPassword) {
-				showFeedback("A senha deve ser a mesma nos dois campos");
+				showFeedback("The password must be the same in both fields.");
 			} else if (newPassword.length < 6) {
-				showFeedback("Senha deve conter mais que 6 dígitos");
+				showFeedback("The password must contain more than 6 digits.");
 			} else {
 				doReset(newPassword)
 			}
 		} else {
-			showFeedback("Preencha os campos em vermelho");
+			showFeedback("Fill the fields in red");
 		}
 	};
 
@@ -85,11 +85,11 @@ const controller = function (AuthService, $stateParams, $timeout, $state) {
 				if (response.data.valid) {
 					setValidation(true);
 				} else {
-					showFeedback("Código de recuperação de senha é inválido, solicite a recuperação de senha novamente!");
+					showFeedback("Password recovery code is invalid, request password recovery again!");
 				}
 			}).catch((error) => {
 				setLoading(false);
-				showFeedback("Código de recuperação de senha é inválido, solicite a recuperação de senha novamente!");
+				showFeedback("Password recovery code is invalid, request password recovery again!");
 			});
 	}
 

@@ -5,10 +5,10 @@
 	>
 		<div class="container">
 			<div class="navbar-header pull-left">
-				<strong class="navbar-brand">BR Modelo Web</strong>
+				<strong class="navbar-brand">{{ 'BR Modelo Web' | translate }}</strong>
 			</div><!-- End .navbar-header -->
 			<div class="nav navbar-nav pull-right nav-icons">
-				<dropdown-icon title="Options" options="[{name: 'Sair', type: 'Sair'}]" on-select=$ctrl.logout()></dropdown-icon>
+				<dropdown-icon title="Options" options="$ctrl.dropdownOptions" on-select=$ctrl.logout()></dropdown-icon>
 			</div><!-- End .navbar-header -->
 		</div>
 	</header>
@@ -18,9 +18,9 @@
 	>
 		<header class="container">
 			<div class="page-header clearfix">
-				<h2 class="h2 pull-left">Modelagens</h2>
+				<h2 class="h2 pull-left">{{ 'Models' | translate }}</h2>
 				<aside class="header-actions pull-right">
-					<a class="br-button" data-ng-click="$ctrl.newModel()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nova Modelagem</a>
+					<a class="br-button" data-ng-click="$ctrl.newModel()"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ 'New model' | translate }}</a>
 				</aside>
 			</div><!-- End .page-header -->
 		</header><!-- End .container -->
@@ -36,11 +36,11 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th><strong>Tipo</strong></th>
-							<th><strong>Nome</strong></th>
-							<th><strong>Autor</strong></th>
-							<th><strong>Criação</strong></th>
-							<th colspan="1"><strong class="vhide actions-cell">Actions</strong></th>
+							<th><strong>{{ 'Type' | translate }}</strong></th>
+							<th><strong>{{ 'Name' | translate }}</strong></th>
+							<th><strong>{{ 'Author' | translate }}</strong></th>
+							<th><strong>{{ 'Created' | translate }}</strong></th>
+							<th colspan="1"><strong class="vhide actions-cell">{{ 'Actions' | translate }}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,9 +50,9 @@
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
-								<i title="Renomear modelo" class="fa fa-pencil" aria-hidden="true" ng-click="$ctrl.renameModel(model)"></i>
-								<i title="Duplicar modelo" class="fa fa-files-o" aria-hidden="true" ng-click="$ctrl.duplicateModel(model)"></i>
-								<i title="Apagar" class="fa fa-trash" aria-hidden="true" ng-click="$ctrl.deleteModel(model)"></i>
+								<i title="{{ 'Rename' | translate }}" class="fa fa-pencil" aria-hidden="true" ng-click="$ctrl.renameModel(model)"></i>
+								<i title="{{ 'Duplicate' | translate }}" class="fa fa-files-o" aria-hidden="true" ng-click="$ctrl.duplicateModel(model)"></i>
+								<i title="{{ 'Delete' | translate }}" class="fa fa-trash" aria-hidden="true" ng-click="$ctrl.deleteModel(model)"></i>
 							</td>
 						</tr>
 					</tbody>
@@ -60,7 +60,7 @@
 			</div><!-- End .table-responsive -->
 		</div><!-- End .container.projectsList -->
 
-		<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="Reportar bug ou requisitar funcionalidade">
+		<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="{{ 'Report a bug or request a feature' | translate }}">
 			<i class="fa fa-bug" aria-hidden="true"></i>
 		</a>
 

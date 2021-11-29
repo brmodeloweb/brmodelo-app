@@ -3,13 +3,18 @@ import template from "./createModelModal.html";
 
 const app = angular.module("app.createModelModal", []);
 
-const Controller = function ($rootScope) {
+const Controller = function ($rootScope, $filter) {
 	const $ctrl = this;
 	$ctrl.typeSelected = {};
 	$ctrl.submitted = false;
 
+	$ctrl.options = [
+		{ name: $filter('translate')('Conceptual'), type: 'conceptual'},
+		{ name: $filter('translate')('Logical'), type: 'logic' }
+	];
+
 	$ctrl.$onInit = () => {
-		$ctrl.typeSelected = { name: "Conceitual", type: "conceptual" };
+		$ctrl.typeSelected = { name: $filter('translate')("Conceptual"), type: "conceptual" };
 	};
 
 	$ctrl.doSelectType = function (newSelectedType) {
