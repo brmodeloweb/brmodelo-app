@@ -373,7 +373,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 		const y = reference.attributes.position.y - 100;
 		const table = createTableObject(name, x, y);
 
-		var column = new Column({
+		const column = new Column({
 			name: "nome",
 			PK: true,
 			type: "VARCHAR",
