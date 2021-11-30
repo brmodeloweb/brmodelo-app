@@ -289,7 +289,7 @@ const controller = function (
 			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
 			controller: function () {
 				const $ctrl = this;
-				$ctrl.suggestedName = `${ctrl.model.name} (cópia)`;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: ctrl.model.name });
 			},
 			controllerAs: '$ctrl',
 		});
