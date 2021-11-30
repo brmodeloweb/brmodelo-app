@@ -35,7 +35,7 @@ Cypress.Commands.add('login', (
       .type(user)
     cy.get('#userPassword')
       .type(password, { log: false })
-    cy.contains('button', 'Entrar')
+    cy.contains('button', 'Login')
       .click()
   }
 

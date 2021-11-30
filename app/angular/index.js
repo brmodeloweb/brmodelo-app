@@ -53,10 +53,9 @@ app.config([
 	"$translateProvider",
 	function ($translateProvider) {
 		$translateProvider.translations("en", en);
-
 		$translateProvider.translations("pt_BR", pt_BR);
-
-		$translateProvider.preferredLanguage("pt_BR");
+		const browserLanguage = navigator.language === "pt-BR" ? "pt_BR" : "en";
+		$translateProvider.preferredLanguage(localStorage.getItem("i18n") || browserLanguage);
 	},
 ]);
 

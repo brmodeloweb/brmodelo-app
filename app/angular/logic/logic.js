@@ -15,6 +15,7 @@ const controller = function (
 	$state,
 	$timeout,
 	SqlGeneratorService,
+	$filter,
 	preventExitService,
 	$transitions
 ) {
@@ -64,7 +65,7 @@ const controller = function (
 	}
 
 	ctrl.showFeedback = function (newMessage, show, type) {
-		ctrl.feedback.message = newMessage;
+		ctrl.feedback.message = $filter('translate')(newMessage);
 		ctrl.feedback.showing = show;
 		ctrl.feedback.type = type;
 	}
@@ -76,7 +77,7 @@ const controller = function (
 	ctrl.saveModel = function () {
 		setIsDirty(false);
 		LogicService.updateModel().then(function (res) {
-			ctrl.showFeedback("Salvo com sucesso!", true, "success");
+			ctrl.showFeedback("Saved successfully!", true, "success");
 		});
 	}
 
@@ -127,7 +128,7 @@ const controller = function (
 
 	$rootScope.$on('model:saved', () => {
 		$timeout(() => {
-			ctrl.showFeedback("Salvo com sucesso!", true, "success");
+			ctrl.showFeedback("Saved successfully!", true, "success");
 		});
 	});
 
@@ -172,7 +173,7 @@ const controller = function (
 
 	ctrl.editColumn = function (oldColumn, editedColumn, $index) {
 		if (editedColumn.name == "") {
-			ctrl.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
+			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
 
@@ -190,12 +191,12 @@ const controller = function (
 
 	ctrl.addColumn = function (column) {
 		if (column.name == "") {
-			ctrl.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
+			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
 
 		if (column.FK && column.tableOrigin.idName == "") {
-			ctrl.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
+			ctrl.showFeedback("Select the foreign table source!", true, "error");
 			return;
 		} else {
 			column.tableOrigin.idOrigin = ctrl.mapTables.get(column.tableOrigin.idName);
@@ -303,7 +304,7 @@ const controller = function (
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
 				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-				ctrl.showFeedback("Duplicado com sucesso!", true);
+				ctrl.showFeedback("Successfully duplicated!", true);
 				ctrl.setLoading(false);
 			});
 		});

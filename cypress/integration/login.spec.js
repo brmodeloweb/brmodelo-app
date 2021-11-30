@@ -17,7 +17,7 @@ describe('Login', () => {
     cy.wait('@getUserModels')
     cy.url()
       .should('be.equal', `${Cypress.config('baseUrl')}/#!/main`)
-    cy.contains('h2', 'Modelagens')
+    cy.contains('h2', 'Models')
       .should('be.visible')
   })
 
@@ -25,7 +25,7 @@ describe('Login', () => {
     it('alerts on invalid user email', () => {
       cy.login('invalid#user.com', password, useCachedSession)
 
-      cy.contains('.alert-danger', 'Preencha os campos em vermelho')
+      cy.contains('.alert-danger', 'Fill the fields in red')
         .should('be.visible')
       cy.get('#userEmail')
         .should('have.class', 'error')
@@ -36,10 +36,10 @@ describe('Login', () => {
 
     it('alerts when clicking ENTER without filling the form', () => {
       cy.visit('/')
-      cy.contains('button', 'Entrar')
+      cy.contains('button', 'Login')
         .click()
 
-      cy.contains('.alert-danger', 'Preencha os campos em vermelho')
+      cy.contains('.alert-danger', 'Fill the fields in red')
         .should('be.visible')
       cy.get('#userEmail')
         .should('have.class', 'error')
@@ -53,15 +53,27 @@ describe('Login', () => {
     it('alerts on invalid user', () => {
       cy.login('invalid@user.com', password, useCachedSession)
 
-      cy.contains('.alert-danger', 'Login ou senha incorretos')
+      cy.contains('.alert-danger', 'Incorrect login or password')
         .should('be.visible')
     })
 
     it('alerts on invalid password', () => {
       cy.login(Cypress.env('user'), 'invalid-pwd', useCachedSession)
 
-      cy.contains('.alert-danger', 'Login ou senha incorretos')
+      cy.contains('.alert-danger', 'Incorrect login or password')
         .should('be.visible')
+    })
+
+    it('change language', () => {
+      cy.visit('/')
+
+      cy.get('[alt="Brazil flag"]').click()
+      cy.contains('button', 'Entrar')
+        .should('be.visible')
+
+      cy.get('[alt="United States flag"]').click()
+      cy.contains('button', 'Login')
+        .should('be.visible') 
     })
   })
 })

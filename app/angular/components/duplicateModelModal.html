@@ -1,11 +1,11 @@
 <div class="modal-header">
-	<h3 class="modal-title">Duplicar modelo</h3>
+	<h3 class="modal-title">{{ 'Duplicate model' | translate }}</h3>
 </div>
 
 <div class="modal-body">
 	<form class="form-horizontal" role="form">
 		<div class="form-group">
-			<label for="name" class="col-sm-3 control-label">Nome</label>
+			<label for="name" class="col-sm-3 control-label">{{ 'Name' | translate }}</label>
 			<div class="col-sm-7">
 				<input
 				id="name"
@@ -13,7 +13,7 @@
 				class="form-control"
 				ng-class="{'error': ($ctrl.name == null || $ctrl.name == '') && $ctrl.submitted}"
 				name="$ctrl.name"
-				placeholder="Nome do modelo"
+				placeholder="{{ 'Model name' | translate }}"
 				ng-model="$ctrl.name"
 				autocomplete="off"
 				/>
@@ -23,6 +23,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="br-button yellow" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
-	<button class="br-button" type="button" ng-click="$ctrl.save($ctrl.name)">Salvar</button>
+	<button class="br-button yellow" type="button" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+	<button class="br-button" type="button" ng-click="$ctrl.save($ctrl.name)">{{ 'Save' | translate }}</button>
 </div>
