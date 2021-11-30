@@ -118,7 +118,7 @@ const ListController = function (
 			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
 			controller: function() {
 				const $ctrl = this;
-				$ctrl.suggestedName = `${model.name} (cópia)`;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
 			},
 			controllerAs: '$ctrl',
 		});
