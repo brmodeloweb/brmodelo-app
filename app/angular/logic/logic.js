@@ -3,6 +3,7 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import Column from "../service/Column";
 import preventExitServiceModule from "../service/preventExitService";
 
 const controller = function (
@@ -29,7 +30,7 @@ const controller = function (
 	ctrl.selectedName = "";
 	ctrl.selectedElement = null;
 	ctrl.columns = [];
-	ctrl.editionVisible = false;
+	ctrl.editionVisible = true;
 	ctrl.tableNames = [];
 	ctrl.mapTables = {};
 
@@ -236,17 +237,7 @@ const controller = function (
 	}
 
 	ctrl.newColumnObject = function () {
-		return {
-			"FK": false,
-			"PK": false,
-			"name": "",
-			"tableOrigin": {
-				"idOrigin": null,
-				"idLink": null,
-				"idName": ""
-			},
-			"type": "INT"
-		};
+		return new Column();
 	}
 
 	ctrl.addColumnModel = ctrl.newColumnObject();
