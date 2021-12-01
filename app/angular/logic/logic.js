@@ -45,6 +45,16 @@ const controller = function (
 		type: "success"
 	}
 
+	ctrl.sections = {
+		tableProperties: true,
+		columns: false,
+		views: false,
+	}
+
+	ctrl.toggleSection = (section) => {
+		ctrl.sections[section] = !ctrl.sections[section];
+	}
+
 	ctrl.print = function () {
 		window.print();
 	}

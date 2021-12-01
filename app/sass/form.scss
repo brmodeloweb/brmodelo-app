@@ -176,3 +176,7 @@ input[type="submit"]:focus {
 textarea {
 	resize: vertical;
 }
+
+input[type="checkbox"] {
+	cursor: pointer;
+}

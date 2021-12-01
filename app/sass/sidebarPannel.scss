@@ -10,11 +10,12 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	padding: 8px 12px;
+	padding: 12px;
 	margin-bottom: 1px;
 	color: #fff;
 	background-color: #3d9970;
 	cursor: pointer;
+	transition: ease .3s;
 }
 
 .panel-header:hover {
@@ -102,3 +103,5 @@
 }
 
 .column-details-actions .br-button {width: 50%;}
+
+.column-details .checkbox { margin: 4px 0; }
