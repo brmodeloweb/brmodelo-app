@@ -16,11 +16,6 @@ To run this application you'll need:
 - [Yarn](https://yarnpkg.com/)
 - [MongoDB](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
-#### One time database setup
-
-1. Create database directory: `sudo mkdir -p /data/db`
-1. Change database folder ownership to your user: `sudo chown YOUR_USER_NAME:users -R /data/db`
-
 #### Running application
 
 1. Install dependencies: `yarn install`
