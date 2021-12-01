@@ -27,7 +27,7 @@ To run this application you'll need:
 
 ### Running with Docker
 
-> *Note:* Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
+> **Note:** Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
 
 1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running 
 1. Start docker: `docker-compose up`
@@ -40,7 +40,7 @@ First, make sure you have the project up and running with database, backend, and
 
 1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
 1. Edit `cypress.env.json` adding valid user credentials (Username and password)  
-	*Note:* Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
+	> **Note:** Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
 1. To run the tests you have two options:
 	1. Run headless mode in your terminal window: `yarn test`
 	1. Run interactive mode: `yar cy:open`
