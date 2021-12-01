@@ -8,7 +8,7 @@
 ![Hero shot](https://raw.githubusercontent.com/brmodeloweb/brmodelo-site/master/img/hero-shot.png)
 > Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-### Dependencies
+## Dependencies
 
 To run this application you'll need:
 
@@ -16,7 +16,7 @@ To run this application you'll need:
 - [Yarn](https://yarnpkg.com/)
 - [MongoDB Community Edition](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
-#### Running application
+## Running application
 
 1. Install dependencies: `yarn install`
 1. Duplicate `.env.example` and rename it to `.env`
@@ -25,7 +25,7 @@ To run this application you'll need:
 1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
-### Running with Docker
+## Running with Docker
 
 > **Note:** Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
 
@@ -34,7 +34,7 @@ To run this application you'll need:
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 1. Once your done, finish docker: `docker-compose down`
 
-### Tests
+## Tests
 
 First, make sure you have the project up and running with database, backend, and frontend.
 
@@ -45,7 +45,7 @@ First, make sure you have the project up and running with database, backend, and
 	1. Run headless mode in your terminal window: `yarn test`
 	1. Run interactive mode: `yar cy:open`
 
-### Production environments
+## Production environments
 
 - Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
 - Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
