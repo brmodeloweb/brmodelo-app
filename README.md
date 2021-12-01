@@ -12,9 +12,9 @@
 
 To run this application you'll need:
 
-- [Node.js](https://nodejs.org/)
-- [yarn](https://yarnpkg.com/)
-- [MongoDB](https://www.mongodb.com/)
+- [Node.js](https://nodejs.org/) (Strongly recomended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme)
+- [Yarn](https://yarnpkg.com/)
+- [MongoDB](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
 #### One time database setup
 
