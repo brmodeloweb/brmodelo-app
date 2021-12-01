@@ -36,13 +36,14 @@ To run this application you'll need:
 
 ### Tests
 
-With the database, backend, and frontend up-and-running:
+First, make sure you have the project up and running with database, backend, and frontend.
 
-Run `yarn test` to run Cypress tests in headless mode.
-
-Or, run `yarn cy:open` to open the test runner for running tests in interactive mode.
-
-> **Note:** For the tests to work, you will have to copy the `cypress.env.example.json` file as `cypress.env.json` (included on `.gitignore`) and update the `user` and `password` with valid credentials.
+1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
+1. Edit `cypress.env.json` adding valid user credentials (Username and password)
+	*Note:* Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
+1. To run the tests you have two options:
+	1. Run headless mode in your terminal window: `yarn test`
+	1. Run interactive mode: `yar cy:open`
 
 ### Production environments
 
