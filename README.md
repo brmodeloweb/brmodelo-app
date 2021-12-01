@@ -14,13 +14,13 @@ To run this application you'll need:
 
 - [Node.js](https://nodejs.org/) (Strongly recomended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme)
 - [Yarn](https://yarnpkg.com/)
-- [MongoDB](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
+- [MongoDB Community Edition](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
 #### Running application
 
 1. Install dependencies: `yarn install`
-1. Start database: `mongod`
 1. Duplicate `.env.example` and rename it to `.env`
+1. Make sure you have MongoDB running (To know more: [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition), [Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition-as-a-windows-service) [CentOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#run-mongodb-community-edition), [Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition) or [Debian](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/#run-mongodb-community-edition)) 
 1. Start frontend: `yarn start:frontend`
 1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
