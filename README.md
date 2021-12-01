@@ -27,10 +27,12 @@ To run this application you'll need:
 
 ### Running with Docker
 
-If you already have docker installed you can skip the [Setup](#setup) and [Run](#run) steps above with:
+*Note:* Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
 
-1. to start: `docker-compose up`
-1. to finish: `docker-compose down`
+1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running 
+1. Start docker: `docker-compose up`
+1. Access it: [http://localhost:9000/](http://localhost:9000/)
+1. Once your done, finish docker: `docker-compose down`
 
 ### Tests
 
