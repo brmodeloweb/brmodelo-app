@@ -43,7 +43,7 @@ First, make sure you have the project up and running with database, backend, and
 	> **Note:** Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
 1. To run the tests you have two options:
 	1. Run headless mode in your terminal window: `yarn test`
-	1. Run interactive mode: `yar cy:open`
+	1. Run interactive mode: `yarn cy:open`
 
 ## Production environments
 
