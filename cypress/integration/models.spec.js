@@ -1,3 +1,5 @@
+/// <reference path="../support/commands.d.ts" />
+
 const { random } = require("faker");
 
 describe("Models view", () => {

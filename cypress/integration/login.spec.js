@@ -1,3 +1,5 @@
+/// <reference path="../support/commands.d.ts" />
+
 describe("Login", () => {
 	const userLoginData = {
 		user: Cypress.env("user"),
