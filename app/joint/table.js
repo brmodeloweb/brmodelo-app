@@ -27,15 +27,15 @@ uml.Class = joint.shapes.basic.Generic.extend({
 
             '.uml-class-name-text': {
                 'ref': '.uml-class-name-rect', 'ref-y': .5, 'ref-x': .5, 'text-anchor': 'middle', 'y-alignment': 'middle', 'font-weight': 'bold',
-                'fill': 'black', 'font-size': 12, 'font-family': 'Times New Roman'
+                'fill': 'black', 'font-size': 12, 'font-family': 'Fira Sans'
             },
             '.uml-class-attrs-text': {
                 'ref': '.uml-class-attrs-rect', 'ref-y': 5, 'ref-x': 5,
-                'fill': 'black', 'font-size': 12, 'font-family': 'Times New Roman'
+                'fill': 'black', 'font-size': 12, 'font-family': 'Fira Sans'
             },
             '.uml-class-methods-text': {
                 'ref': '.uml-class-methods-rect', 'ref-y': 5, 'ref-x': 5,
-                'fill': 'black', 'font-size': 12, 'font-family': 'Times New Roman'
+                'fill': 'black', 'font-size': 12, 'font-family': 'Fira Sans'
             }
         },
 

@@ -18,7 +18,6 @@ import "../joint/joint.ui.stencil.css";
 import "oclazyload";
 
 import sidebarControlConceptual from "./conceptual/sidebarControl";
-import view from "./view/view";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
@@ -48,7 +47,6 @@ const app = angular.module("app", [
 	logicFactory,
 	sidebarControlConceptual,
 	dropdownIconComponent,
-	view,
 ]);
 
 app.config([

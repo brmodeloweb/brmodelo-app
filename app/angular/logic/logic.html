@@ -43,7 +43,7 @@
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
-					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+					<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success'}">
 						<p>{{ $ctrl.feedback.message }}</p>
 					</div>
 				</aside>
@@ -98,199 +98,14 @@
 										<span class="relationship" ng-show="column.PK">PK</span>
 									</header>
 
-									<div class="columnDetails" ng-show="column.expanded">
-										<div class="form-group">
-											<label for="">{{ 'Name' | translate }}</label>
-											<input
-												id=""
-												type="text"
-												class="form-control"
-												ng-model="$ctrl.editColumnModel.name"
-											/>
-										</div>
-		
-										<div class="form-group clearfix">
-											<label for="">{{ 'Type' | translate }}</label>
-												<dropdown
-													on-select="$ctrl.selectEditType(selected)"
-													selected="{name: column.type, type: column.type}"
-													options="[{name: 'DATE', type: 'DATE'}, {name: 'FLOAT', type: 'FLOAT'}, {name: 'VARCHAR(n)', type: 'VARCHAR(n)'}, {name: 'CHAR(n)', type: 'CHAR(n)'},  {name: 'INT', type: 'INT'}]">
-												</dropdown>
-										</div>
-		
-										<div class="form-group" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.FK">
-											<label for="edit-default">{{ 'Default' | translate }}</label>
-											<input
-												id="edit-default"
-												type="text"
-												class="form-control"
-												ng-model="$ctrl.editColumnModel.defaultValue"
-											/>
-										</div>
-		
-										<div class="checkbox">
-											<label for="edit-pk">
-												<input
-													id="edit-pk"
-													type="checkbox"
-													ng-model="$ctrl.editColumnModel.PK"
-												/>{{ 'PK' | translate }}
-											</label>
-										</div>
-		
-										<div class="checkbox">
-											<label for="edit-fk">
-												<input
-													id="edit-fk"
-													type="checkbox"
-													ng-model="$ctrl.editColumnModel.FK"
-												/>{{ 'FK' | translate }}
-											</label>
-										</div>
-		
-										<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK">
-											<label for="edit-not-null">
-												<input
-													id="edit-not-null"
-													type="checkbox"
-													ng-model="$ctrl.editColumnModel.NOT_NULL"
-												/>{{ 'NOT NULL' | translate }}
-											</label>
-										</div>
-			
-										<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.defaultValue">
-											<label for="edit-unique">
-												<input
-													id="edit-unique"
-													type="checkbox"
-													ng-model="$ctrl.editColumnModel.UNIQUE"
-												/>{{ 'UNIQUE' | translate }}
-											</label>
-										</div>
-		
-										<div class="checkbox" ng-show="!$ctrl.editColumnModel.defaultValue && !$ctrl.editColumnModel.FK">
-											<label for="edit-auto-increment">
-												<input
-													id="edit-auto-increment"
-													type="checkbox"
-													ng-model="$ctrl.editColumnModel.AUTO_INCREMENT"
-												/>{{ 'AUTO INCREMENT' | translate }}
-											</label>
-										</div>
-		
-										<div class="form-group clearfix" ng-show="$ctrl.editColumnModel.FK">
-											<label for="">{{ 'Source' | translate }}</label>
-												<dropdown
-													on-select="$ctrl.selectAddTableOrigin(selected)"
-													selected="{name: 'ORIGEM', type: 'ORIGEM'}"
-													options="$ctrl.tableNames">
-												</dropdown>
-										</div>
-
-										<footer class="column-details-actions">
-											<button class="br-button" ng-click="$ctrl.editColumn(column, $ctrl.editColumnModel, $index); $ctrl.expanded=!$ctrl.expanded;">{{ 'Save' | translate }}</button>
-											<button class="br-button yellow" ng-click="column.expanded=!column.expanded">{{ 'Cancel' | translate }}</button>
-										</footer>
-									</div>
+									<column-form ng-show="column.expanded" table-names="$ctrl.tableNames" column="$ctrl.editColumnModel" save="$ctrl.editColumn" index="$index" dismiss="column.expanded = !column.expanded"></column-form>
 								</li>
 							</ul>
 
 							<div class="column-details" ng-show="$ctrl.addColumnVisible">
-								<div class="form-group">
-									<label for="column-name">{{ 'Name' | translate }}</label>
-									<input
-										id="entry-name"
-										type="text"
-										class="form-control"
-										ng-model="$ctrl.addColumnModel.name"
-									/>
-								</div>
-	
-								<div class="form-group clearfix">
-									<label for="">{{ 'Type' | translate }}</label>
-										<dropdown
-											on-select="$ctrl.selectAddType(selected)"
-											selected="{name: 'INT', type: 'ORIGEM'}"
-											options="[{name: 'DATE', type: 'DATE'}, {name: 'FLOAT', type: 'FLOAT'}, {name: 'VARCHAR(n)', type: 'VARCHAR(n)'}, {name: 'CHAR(n)', type: 'CHAR(n)'},  {name: 'INT', type: 'INT'}]">
-										</dropdown>
-								</div>
-	
-								<div class="form-group">
-									<label for="default">{{ 'Default' | translate }}</label>
-									<input
-										id="default"
-										type="text"
-										class="form-control"
-										ng-model="$ctrl.addColumnModel.defaultValue"
-									/>
-								</div>
-	
-								<div class="checkbox">
-									<label for="add-pk">
-										<input
-											id="add-pk"
-											type="checkbox"
-											ng-model="$ctrl.addColumnModel.PK"
-										/>{{ 'PK' | translate }}
-									</label>
-								</div>
-	
-								<div class="checkbox">
-									<label for="add-fk">
-										<input
-											id="add-fk"
-											type="checkbox"
-											ng-model="$ctrl.addColumnModel.FK"
-										/>{{ 'FK' | translate }}
-									</label>
-								</div>
-	
-								<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
-									<label for="add-not-null">
-										<input
-											id="add-not-null"
-											type="checkbox"
-											ng-model="$ctrl.addColumnModel.NOT_NULL"
-										/>{{ 'NOT NULL' | translate }}
-									</label>
-								</div>
-								<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK && !$ctrl.addColumnModel.defaultValue">
-									<label for="add-unique">
-										<input
-											id="add-unique"
-											type="checkbox"
-											ng-model="$ctrl.addColumnModel.UNIQUE"
-										/>{{ 'UNIQUE' | translate }}
-									</label>
-								</div>
-	
-								<div class="checkbox" ng-show="!$ctrl.addColumnModel.FK && !$ctrl.addColumnModel.defaultValue">
-									<label for="add-auto-increment">
-										<input
-											id="add-auto-increment"
-											type="checkbox"
-											ng-model="$ctrl.addColumnModel.AUTO_INCREMENT"
-										/>{{ 'AUTO INCREMENT' | translate }}
-									</label>
-								</div>
-	
-								<div class="form-group clearfix" ng-show="$ctrl.addColumnModel.FK">
-									<label for="">{{ 'Source' | translate }}</label>
-										<dropdown
-											on-select="$ctrl.selectAddTableOrigin(selected)"
-											selected="{name: 'ORIGEM', type: 'ORIGEM'}"
-											options="$ctrl.tableNames">
-										</dropdown>
-								</div>
-
-								<div class="column-details-actions">
-									<button class="br-button" ng-click="$ctrl.addColumn($ctrl.addColumnModel)">{{ 'Save' | translate }}</button>
-									<button class="br-button yellow" ng-click="$ctrl.showAddColumn(false)">{{ 'Cancel' | translate }}</button>
-								</div>
+								<column-form table-names="$ctrl.tableNames" column="$ctrl.addColumnModel" save="$ctrl.addColumn" dismiss="$ctrl.showAddColumn(false)"></column-form>
 							</div>
-
 							<button class="br-button br-button--full" ng-show="!$ctrl.addColumnVisible" ng-click="$ctrl.showAddColumn(true)">{{ 'Add new column' | translate }}</button>
-						</div>
 					</section>
 					
 					<section class="columnsList" ng-show="false">
@@ -298,8 +113,6 @@
 							<label>{{ 'Columns' | translate }}</label>
 							<i class="fa fa-plus-circle addColumn" aria-hidden="true" ng-click="$ctrl.showAddColumn(true)"></i>
 						</header>
-
-						<!-- End .columnItem -->
 
 						<div class="columnItem" ng-repeat="column in [] track by $index">
 							<label
@@ -312,103 +125,8 @@
 								aria-hidden="true"
 								ng-click="$ctrl.deleteColumn(column, $index); $event.stopPropagation();"
 							></i>
-
-							<div class="columnDetails" ng-show="column.expanded">
-								<div class="form-group">
-									<label for="">{{ 'Name' | translate }}</label>
-									<input
-										id=""
-										type="text"
-										class="form-control"
-										ng-model="$ctrl.editColumnModel.name"
-									/>
-								</div>
-
-								<div class="form-group clearfix">
-									<label for="">{{ 'Type' | translate }}</label>
-										<dropdown
-											on-select="$ctrl.selectEditType(selected)"
-											selected="{name: column.type, type: column.type}"
-											options="[{name: 'DATE', type: 'DATE'}, {name: 'FLOAT', type: 'FLOAT'}, {name: 'VARCHAR(n)', type: 'VARCHAR(n)'}, {name: 'CHAR(n)', type: 'CHAR(n)'},  {name: 'INT', type: 'INT'}]">
-										</dropdown>
-								</div>
-
-								<div class="form-group" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.FK">
-									<label for="edit-default">{{ 'Default' | translate }}</label>
-									<input
-										id="edit-default"
-										type="text"
-										class="form-control"
-										ng-model="$ctrl.editColumnModel.defaultValue"
-									/>
-								</div>
-
-								<div class="checkbox">
-									<label for="edit-pk">
-										<input
-											id="edit-pk"
-											type="checkbox"
-											ng-model="$ctrl.editColumnModel.PK"
-										/>{{ 'PK' | translate }}
-									</label>
-								</div>
-
-								<div class="checkbox">
-									<label for="edit-fk">
-										<input
-											id="edit-fk"
-											type="checkbox"
-											ng-model="$ctrl.editColumnModel.FK"
-										/>{{ 'FK' | translate }}
-									</label>
-								</div>
-
-								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK">
-									<label for="edit-not-null">
-										<input
-											id="edit-not-null"
-											type="checkbox"
-											ng-model="$ctrl.editColumnModel.NOT_NULL"
-										/>{{ 'NOT NULL' | translate }}
-									</label>
-								</div>
-	
-								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.defaultValue">
-									<label for="edit-unique">
-										<input
-											id="edit-unique"
-											type="checkbox"
-											ng-model="$ctrl.editColumnModel.UNIQUE"
-										/>{{ 'UNIQUE' | translate }}
-									</label>
-								</div>
-
-								<div class="checkbox" ng-show="!$ctrl.editColumnModel.defaultValue && !$ctrl.editColumnModel.FK">
-									<label for="edit-auto-increment">
-										<input
-											id="edit-auto-increment"
-											type="checkbox"
-											ng-model="$ctrl.editColumnModel.AUTO_INCREMENT"
-										/>{{ 'AUTO INCREMENT' | translate }}
-									</label>
-								</div>
-
-								<div class="form-group clearfix" ng-show="$ctrl.editColumnModel.FK">
-									<label for="">{{ 'Source' | translate }}</label>
-										<dropdown
-											on-select="$ctrl.selectAddTableOrigin(selected)"
-											selected="{name: 'ORIGEM', type: 'ORIGEM'}"
-											options="$ctrl.tableNames">
-										</dropdown>
-								</div>
-
-								<div class="actions clearfix">
-									<i class="fa fa-check-circle add" aria-hidden="true" ng-click="$ctrl.editColumn(column, $ctrl.editColumnModel, $index); $ctrl.expanded=!$ctrl.expanded;"></i>
-									<i class="fa fa-times-circle cancel" aria-hidden="true" ng-click="column.expanded=!column.expanded"></i>
-								</div>
-							</div><!-- End .columnDetails -->
-						</div><!-- End .columnItem -->
-					</section><!-- End .columnsList -->
+						</div>
+					</section>
 
 					<section class="sidebar-panel">
 						<header class="panel-header" ng-click="$ctrl.toggleSection('views')">

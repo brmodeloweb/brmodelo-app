@@ -5,6 +5,8 @@ import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
 import Column from "../service/Column";
 import preventExitServiceModule from "../service/preventExitService";
+import view from "../view/view";
+import columnForm from "./columnForm";
 
 const controller = function (
 	$rootScope,
@@ -53,6 +55,10 @@ const controller = function (
 
 	ctrl.toggleSection = (section) => {
 		ctrl.sections[section] = !ctrl.sections[section];
+	}
+
+	ctrl.changeVisible = function () {
+		ctrl.editionVisible = !ctrl.editionVisible;
 	}
 
 	ctrl.print = function () {
@@ -178,21 +184,13 @@ const controller = function (
 		ctrl.closeAllColumns();
 
 		column.expanded = true;
-		//LogicService.editColumn($index);
 	}
 
-	ctrl.editColumn = function (oldColumn, editedColumn, $index) {
+	ctrl.editColumn = function (editedColumn, $index) {
 		if (editedColumn.name == "") {
 			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
-
-		// if(editedColumn.FK && editedColumn.tableOrigin.idName == "") {
-		// 	 ctrl.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
-		// 	 return;
-		// } else {
-		// 	column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);
-		// }
 
 		LogicService.editColumn($index, editedColumn);
 
@@ -228,24 +226,6 @@ const controller = function (
 		}
 	}
 
-	ctrl.selectAddType = function (selected) {
-		if (!ctrl.addColumnModel.PK && !ctrl.addColumnModel.FK) {
-			ctrl.addColumnModel.type = selected.type;
-		} else {
-			ctrl.addColumnModel.type = "INT";
-		}
-	}
-
-	ctrl.selectEditType = function (selected) {
-		if (!ctrl.editColumnModel.PK && !ctrl.editColumnModel.FK) {
-			ctrl.editColumnModel.type = selected.type;
-		}
-	}
-
-	ctrl.selectAddTableOrigin = function (selected) {
-		ctrl.addColumnModel.tableOrigin.idName = selected.name;
-	}
-
 	ctrl.newColumnObject = function () {
 		return new Column();
 	}
@@ -271,10 +251,6 @@ const controller = function (
 
 	ctrl.zoomNone = function () {
 		LogicService.zoomNone();
-	}
-
-	ctrl.changeVisible = function () {
-		ctrl.editionVisible = !ctrl.editionVisible;
 	}
 
 	ctrl.generateSQL = function () {
@@ -337,7 +313,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, view, columnForm])
 	.component("editorLogic", {
 		template,
 		controller,
