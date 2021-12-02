@@ -9,7 +9,7 @@ describe("Login", () => {
 
 	const { user, password, useCachedSession } = userLoginData;
 
-	it("logs in successfully", () => {
+	it("logs in and out successfully", () => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
 
 		cy.login(user, password, useCachedSession);
@@ -17,6 +17,12 @@ describe("Login", () => {
 		cy.wait("@getUserModels");
 		cy.url().should("be.equal", `${Cypress.config("baseUrl")}/#!/main`);
 		cy.contains("h2", "Models").should("be.visible");
+
+		cy.get("[data-cy='gear-button']").click();
+		cy.contains(".dropdown-menu li", "Logout").click();
+
+		cy.url().should("be.equal", `${Cypress.config("baseUrl")}/#!/`);
+		cy.get(".login-form").should("be.visible");
 	});
 
 	it("switches languages", () => {
