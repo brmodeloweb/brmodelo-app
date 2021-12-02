@@ -1,3 +1,5 @@
+/// <reference path="../support/commands.d.ts" />
+
 describe("Model", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
