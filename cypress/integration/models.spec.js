@@ -1,81 +1,77 @@
-describe('Models', () => {
-  beforeEach(() => {
-    cy.intercept('GET', '/models?userId=*').as('getUserModels')
-    cy.login()
-    cy.visit('/#!/main')
-    cy.cleanUpUserModelsAndReoload()
-    cy.contains('a', 'Nova Modelagem').click()
-    cy.get('create-model-modal').should('be.visible')
-  })
+/// <reference path="../support/commands.d.ts" />
 
-  it('closes the "New Model" modal', () => {
-    cy.contains('button', 'Cancelar').click()
-    cy.get('create-model-modal').should('not.exist')
-  })
+const { random } = require("faker");
 
-  it('alerts when clicking SAVE without filling the title', () => {
-    cy.contains('button', 'Salvar').click()
-    cy.get('#name').should('have.class', 'error')
-  })
+describe("Models view", () => {
+	beforeEach(() => {
+		cy.intercept("GET", "/models?userId=*").as("getUserModels");
+		cy.login();
+		cy.visit("/#!/main");
+		cy.wait("@getUserModels").then((userModels) => {
+			const userId = userModels.request.url.match(/userId=([^&]*)/)[1];
 
-  context('Model creation', () => {
-    const modelTitle = 'User'
+			cy.cleanUpUserModels(userModels);
+			cy.createModelViaApi("conceptual", userId);
+		});
+		cy.reload();
+		cy.wait("@getUserModels");
+	});
 
-    beforeEach(() => cy.get('#name').type(modelTitle))
+	it("edits a model title", () => {
+		const updatedModelName = random.word();
 
-    it('creates a conceptual model', () => {
-      cy.contains('button', 'Salvar').click()
-  
-      cy.contains('h2', `Modelo conceitual de: ${modelTitle}`)
-        .should('be.visible')
-    })
-  
-    it('creates a logical model', () => {
-      // Selects the logical model and save
-      cy.get('.modelselect').click()
-      cy.contains('li span', 'Lógico').click()
-      cy.contains('button', 'Salvar').click()
-      // Asserts the model was created
-      cy.contains('h2', `Modelo lógico de: ${modelTitle}`)
-        .should('be.visible')
-      // Adds two tables, connects them, and save
-      cy.dragAndDropTableAt(200, 200)
-      cy.dragAndDropTableAt(500, 200)
-      cy.get('.paper-scroller .joint-type-uml-class')
-        .first()
-        .click()
-      cy.get('.link')
-        .drag('.paper-scroller .joint-type-uml-class:nth-child(2)')
-      cy.contains('a', 'Salvar').click()
-      // Asserts the success message is displayed
-      cy.contains('.alert-success p', 'Salvo com sucesso!')
-        .should('be.visible')
-      // Reloads the page so that the success message disapears
-      cy.reload()
-      // Asserts the tables and connection are still there
-      cy.get('.paper-scroller .joint-type-uml-class')
-        .should('have.length', 2)
-      cy.get('.connection-wrap')
-        .should('have.length', 1)
-    })
-  })
-})
+		cy.get(".fa-pencil").click({ force: true });
+		cy.get("#rename-model").type(updatedModelName);
+		cy.contains("button", "Rename").click();
+		cy.contains("tr.listLine", updatedModelName).should("be.visible");
+	});
 
-Cypress.Commands.add('cleanUpUserModelsAndReoload', () => {
-  cy.wait('@getUserModels').then(userModels => {
-    cy.request('GET', userModels.response.url).then(userModelsResponse => {
-      userModelsResponse.body.forEach(model => {
-        cy.request(
-          'DELETE',
-          `${Cypress.config('apiUrl')}/models/:modelId?modelId=${model._id}`
-        )
-      })
-    })
-  })
-  cy.reload()
-})
+	it("duplicates a model", () => {
+		cy.get(".fa-files-o").click({ force: true });
+		cy.contains("button", "Save").click();
+		cy.reload();
+		cy.get("tr.listLine")
+			.should("have.length", 2)
+			.last()
+			.should("contain", "(copy)");
+	});
 
-Cypress.Commands.add('dragAndDropTableAt', (x, y) => {
-  cy.get('.joint-type-uml-class')
-    .move({ deltaX: x, deltaY: y })
-})
+	it("deletes a model", () => {
+		cy.intercept("DELETE", "/models/**").as("deleteModels");
+		cy.get(".fa-trash").click({ force: true });
+		cy.contains("button", "Delete").click();
+		cy.wait("@deleteModels").its("response.statusCode").should("be.equal", 200);
+		cy.get("table tbody tr.listLine").should("not.exist");
+	});
+
+	it("opens and closes the modals", () => {
+		// Opens the rename model modal
+		cy.get(".fa-pencil").click({ force: true });
+		// Make sure the modal is visible and closes it
+		cy.get(".modal-dialog")
+			.as("modal")
+			.should("be.visible")
+			.find("button:contains(Cancel)")
+			.click();
+		// Make sure the modal doesn't exist in the DOM anymore
+		cy.get("@modal").should("not.exist");
+		// Opens the duplicate model modal
+		cy.get(".fa-files-o").click({ force: true });
+		// Make sure the modal is visible and closes it
+		cy.get("@modal")
+			.should("be.visible")
+			.find("button:contains(Cancel)")
+			.click();
+		// Make sure the modal doesn't exist in the DOM anymore
+		cy.get("@modal").should("not.exist");
+		// Opens the delete model modal
+		cy.get(".fa-trash").click({ force: true });
+		// Make sure the modal is visible and closes it
+		cy.get("@modal")
+			.should("be.visible")
+			.find("button:contains(Cancel)")
+			.click();
+		// Make sure the modal doesn't exist in the DOM anymore
+		cy.get("@modal").should("not.exist");
+	});
+});

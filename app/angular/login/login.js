@@ -4,7 +4,7 @@ import authService from "../service/authService";
 import bugReportButton from "../components/bugReportButton";
 import template from "./login.html";
 
-const LoginController = function (AuthService, $state, $translate) {
+const LoginController = function (AuthService, $state, $translate, $filter) {
 	const ctrl = this;
 	ctrl.submitted = false;
 	ctrl.credentials = {};
@@ -14,13 +14,13 @@ const LoginController = function (AuthService, $state, $translate) {
 	};
 
 	const showError = (newMessage) => {
-		ctrl.feedback.message = newMessage;
+		ctrl.feedback.message = $filter('translate')(newMessage);
 		ctrl.feedback.showing = true;
 	};
 
 	const handleLoginError = () => {
 		ctrl.loading = false;
-		showError("Login ou senha incorretos");
+		showError("Incorrect login or password");
 	};
 
 	const handleLoginSuccess = () => {
@@ -36,6 +36,7 @@ const LoginController = function (AuthService, $state, $translate) {
 	};
 
 	ctrl.changeLanguage = (langKey) => {
+		localStorage.setItem('i18n', langKey);
 		$translate.use(langKey);
 	};
 
@@ -45,7 +46,7 @@ const LoginController = function (AuthService, $state, $translate) {
 		if (validForm) {
 			doLogin();
 		} else {
-			showError("Preencha os campos em vermelho");
+			showError("Fill the fields in red");
 		}
 	};
 };

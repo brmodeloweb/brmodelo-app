@@ -14,10 +14,14 @@ const ListController = function (
 	$uibModal,
 	AuthService,
 	ModelAPI,
+	$filter
 ) {
 	const ctrl = this;
 	ctrl.loading = false;
 	ctrl.models = [];
+	ctrl.dropdownOptions = [
+		{ name: $filter('translate')("Logout"), type: 'Logout' }
+	];
 
 	const showLoading = (loading) => {
 		ctrl.loading = loading;
@@ -26,9 +30,9 @@ const ListController = function (
 	const mapListData = (models) => {
 		return models.map((model) => {
 			if (model.type == "conceptual") {
-				model.typeName = "Conceitual";
+				model.typeName = $filter('translate')("Conceptual");
 			} else {
-				model.typeName = "Lógico";
+				model.typeName = $filter('translate')("Logical");
 			}
 			model.authorName = AuthService.loggeduserName;
 			return model;
@@ -115,7 +119,7 @@ const ListController = function (
 			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
 			controller: function() {
 				const $ctrl = this;
-				$ctrl.suggestedName = `${model.name} (cópia)`;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
 			},
 			controllerAs: '$ctrl',
 		});
@@ -129,6 +133,8 @@ const ListController = function (
 				user: model.who,
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
+				newModel.authorName = model.authorName;
+				newModel.typeName = model.typeName;
 				ctrl.models.push(newModel);
 				showLoading(false);
 			});

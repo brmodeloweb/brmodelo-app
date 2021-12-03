@@ -19,6 +19,7 @@ import "../../joint/joint.dia.command";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
+import Column from "./Column";
 import ToolsViewService from "../service/toolsViewService";
 
 const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService) => {
@@ -266,17 +267,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var columns = table.columns;
 
 		for (var j = 0; j < columns.length; j++) {
-			var obj = {
-				"name": columns[j].name,
-				"type": "Integer",
-				"PK": columns[j].PK,
-				"FK": false,
-				"tableOrigin": {
-					"idOrigin": "",
-					"idLink": ""
-				}
-			}
-			newTable.addAttribute(obj);
+			const column = new Column({
+				name: columns[j].name,
+				PK: columns[j].PK,
+			});
+			newTable.addAttribute(column);
 		}
 		ls.graph.addCell(newTable);
 
@@ -309,19 +304,14 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 		var originName = source.attributes.name;
 		var idOrigin = source.attributes.id;
+		const column = new Column({
+			name: "id" + originName,
+			FK: true,
+			idOrigin,
+			idLink: link.id,
+		});
 
-		var obj = {
-			"name": "id" + originName,
-			"type": "Integer",
-			"PK": false,
-			"FK": true,
-			"tableOrigin": {
-				"idOrigin": idOrigin,
-				"idLink": link.id
-			}
-		}
-
-		target.addAttribute(obj);
+		target.addAttribute(column);
 		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 	}
 

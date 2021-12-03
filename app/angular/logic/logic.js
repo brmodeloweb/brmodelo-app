@@ -5,6 +5,7 @@ import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
 import bugReportButton from "../components/bugReportButton";
 import statusBar from "../components/statusBar";
+import Column from "../service/Column";
 import preventExitServiceModule from "../service/preventExitService";
 
 const controller = function (
@@ -16,6 +17,7 @@ const controller = function (
 	$state,
 	$timeout,
 	SqlGeneratorService,
+	$filter,
 	preventExitService,
 	$transitions
 ) {
@@ -30,7 +32,7 @@ const controller = function (
 	ctrl.selectedName = "";
 	ctrl.selectedElement = null;
 	ctrl.columns = [];
-	ctrl.editionVisible = false;
+	ctrl.editionVisible = true;
 	ctrl.tableNames = [];
 	ctrl.mapTables = {};
 
@@ -65,7 +67,7 @@ const controller = function (
 	}
 
 	ctrl.showFeedback = function (newMessage, show, type) {
-		ctrl.feedback.message = newMessage;
+		ctrl.feedback.message = $filter('translate')(newMessage);
 		ctrl.feedback.showing = show;
 		ctrl.feedback.type = type;
 	}
@@ -78,7 +80,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		LogicService.updateModel().then(function (res) {
-			ctrl.showFeedback("Salvo com sucesso!", true, "success");
+			ctrl.showFeedback("Saved successfully!", true, "success");
 		});
 	}
 
@@ -131,7 +133,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
-			ctrl.showFeedback("Salvo com sucesso!", true, "success");
+			ctrl.showFeedback("Saved successfully!", true, "success");
 		});
 	});
 
@@ -176,7 +178,7 @@ const controller = function (
 
 	ctrl.editColumn = function (oldColumn, editedColumn, $index) {
 		if (editedColumn.name == "") {
-			ctrl.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
+			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
 
@@ -194,12 +196,12 @@ const controller = function (
 
 	ctrl.addColumn = function (column) {
 		if (column.name == "") {
-			ctrl.showFeedback("NOME de coluna não pode ficar em branco!", true, "error");
+			ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
 		}
 
 		if (column.FK && column.tableOrigin.idName == "") {
-			ctrl.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
+			ctrl.showFeedback("Select the foreign table source!", true, "error");
 			return;
 		} else {
 			column.tableOrigin.idOrigin = ctrl.mapTables.get(column.tableOrigin.idName);
@@ -240,17 +242,7 @@ const controller = function (
 	}
 
 	ctrl.newColumnObject = function () {
-		return {
-			"FK": false,
-			"PK": false,
-			"name": "",
-			"tableOrigin": {
-				"idOrigin": null,
-				"idLink": null,
-				"idName": ""
-			},
-			"type": "INT"
-		};
+		return new Column();
 	}
 
 	ctrl.addColumnModel = ctrl.newColumnObject();
@@ -302,7 +294,7 @@ const controller = function (
 			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
 			controller: function () {
 				const $ctrl = this;
-				$ctrl.suggestedName = `${ctrl.model.name} (cópia)`;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: ctrl.model.name });
 			},
 			controllerAs: '$ctrl',
 		});
@@ -317,7 +309,7 @@ const controller = function (
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
 				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-				ctrl.showFeedback("Duplicado com sucesso!", true);
+				ctrl.showFeedback("Successfully duplicated!", true);
 				ctrl.setLoading(false);
 			});
 		});

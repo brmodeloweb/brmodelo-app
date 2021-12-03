@@ -8,46 +8,44 @@
 ![Hero shot](https://raw.githubusercontent.com/brmodeloweb/brmodelo-site/master/img/hero-shot.png)
 > Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-### Dependencies
+## Dependencies
 
 To run this application you'll need:
 
-- [Node.js](https://nodejs.org/)
-- [yarn](https://yarnpkg.com/)
-- [MongoDB](https://www.mongodb.com/)
+- [Node.js](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
+- [Yarn](https://yarnpkg.com/)
+- [MongoDB Community Edition](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
-#### One time database setup
-
-1. Create database directory: `sudo mkdir -p /data/db`
-1. Change database folder ownership to your user: `sudo chown YOUR_USER_NAME:users -R /data/db`
-
-#### Running application
+## Running application
 
 1. Install dependencies: `yarn install`
-1. Start database: `mongod`
 1. Duplicate `.env.example` and rename it to `.env`
+1. Make sure you have MongoDB running (To know more: [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition), [Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition-as-a-windows-service), [CentOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#run-mongodb-community-edition), [Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition) or [Debian](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/#run-mongodb-community-edition)) 
 1. Start frontend: `yarn start:frontend`
 1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
-### Running with Docker
+## Running with Docker
 
-If you already have docker installed you can skip the [Setup](#setup) and [Run](#run) steps above with:
+> **Note:** Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
 
-1. to start: `docker-compose up`
-1. to finish: `docker-compose down`
+1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running 
+1. Start docker: `docker-compose up`
+1. Access it: [http://localhost:9000/](http://localhost:9000/)
+1. Once your done, finish docker: `docker-compose down`
 
-### Tests
+## Tests
 
-With the database, backend, and frontend up-and-running:
+First, make sure you have the project up and running with database, backend, and frontend.
 
-Run `yarn test` to run Cypress tests in headless mode.
+1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
+1. Edit `cypress.env.json` adding valid user credentials (Username and password)  
+	> **Note:** Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
+1. To run the tests you have two options:
+	1. Run headless mode in your terminal window: `yarn test`
+	1. Run interactive mode: `yarn cy:open`
 
-Or, run `yarn cy:open` to open the test runner for running tests in interactive mode.
-
-> **Note:** For the tests to work, you will have to copy the `cypress.env.example.json` file as `cypress.env.json` (included on `.gitignore`) and update the `user` and `password` with valid credentials.
-
-### Production environments
+## Production environments
 
 - Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
 - Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)

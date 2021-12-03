@@ -2,8 +2,9 @@ import angular from "angular";
 import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
 import conversionAttributeModal from "../components/conversionAttributeModal";
+import Column from "./Column";
 
-const logicConversorService = (ConceptualService, $uibModal) => {
+const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 
 	var modelGraph;
 	var cs = ConceptualService;
@@ -75,12 +76,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 						template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 						controller: function () {
 							const $ctrl = this;
-							$ctrl.title = `Assistente de conversão - Especialização`;
-							$ctrl.summary = `O que deseja fazer com a herança partindo da tabela ${getExtensionRootName(extension)}?`;
+							$ctrl.title = $filter('translate')("Conversion Assistant - Specialization");
+							$ctrl.summary = $filter('translate')("What do you want to do with inheritance from table TABLE_NAME?", { table: getExtensionRootName(extension) });
 							$ctrl.options = [
-								{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
-								{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
-								{ "label": "Uso de uma tabela apenas para entidade(s) especializada(s)", "value": "children_tables" }
+								{ label: $filter('translate')("Use of a table for each entity"), value: "all_tables" },
+								{ label: $filter('translate')("Use of a single table for the entire hierarchy"), value: "one_table" },
+								{ label: $filter('translate')("Use of a table for specialized entity(ies) only"), value: "children_tables" }
 							]
 						},
 						controllerAs: '$ctrl',
@@ -139,11 +140,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 					controller: function () {
 						const $ctrl = this;
-						$ctrl.title = `Atenção - Assistente de conversão - Especialização`;
-						$ctrl.summary = `Não foi possível realizar essa conversão pois a tabela ${getExtensionRootName(extension)} possui outras conexões. Escolha outra opção`;
+						$ctrl.title = $filter('translate')("Attention - Conversion Assistant - Specialization");
+						$ctrl.summary = $filter('translate')("It was not possible to perform this conversion because table TABLE_NAME has other connections. Choose another option.", { table: getExtensionRootName(extension) });
 						$ctrl.options = [
-							{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
-							{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
+							{ label: $filter('translate')("Use of a table for each entity"), value: "all_tables" },
+							{ label: $filter('translate')("Use of a single table for the entire hierarchy"), value: "one_table" },
 						]
 					},
 					controllerAs: '$ctrl',
@@ -163,13 +164,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 				const rootAttributes = [...getPKs(root), ...getAttributes(root)];
 				for (const children of childrens) {
 					for (const attribute of rootAttributes) {
-						var pi = {
-							"name": attribute.attributes.attrs.text.text,
-							"PK": attribute.attributes.type === 'erd.Key',
-							"FK": false
-						}
+						const column = new Column({
+							name: attribute.attributes.attrs.text.text,
+							PK: attribute.attributes.type === 'erd.Key',
+						});
 						ls.selectedElement = ls.paper.findViewByModel(entityTableMap.get(children.id));
-						ls.addColumn(pi);
+						ls.addColumn(column);
 					}
 				}
 				entityTableMap.get(root.id).remove();
@@ -205,12 +205,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					if (tableRelation != null) {
 
 						for (const attribute of new_attributes) {
-							var pi = {
-								"name": attribute.attributes.attrs.text.text,
-								"PK": false,
-								"FK": false
-							}
-							tableRelation.addAttribute(pi);
+							const column = new Column({
+								name: attribute.attributes.attrs.text.text
+							});
+							tableRelation.addAttribute(column);
 						}
 
 						var relationTables = getEntityOrRelationNeighbors(element);
@@ -312,11 +310,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 								template: '<conversion-attribute-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-attribute-modal>',
 								controller: function () {
 									const $ctrl = this;
-									$ctrl.title = `Assistente de conversão: Atributo multivalorado`;
-									$ctrl.summary = `O que deseja fazer com atributo multivalorado ${attName} da tabela ${table.name} ?`;
+									$ctrl.title = $filter('translate')("Conversion Assistant: Multivalued Attribute");
+									$ctrl.summary = $filter('translate')("What do you want to do with multivalued attribute ATTR_NAME of table TABLE_NAME?", { attribute: attName, table: table.name });
 									$ctrl.options = [
-										{ "label": "Uso de uma tabela para cada entidade", "value": "all_tables" },
-										{ "label": "Uso de uma única tabela para toda hierarquia", "value": "one_table" },
+										{ label: $filter('translate')("Use of a table for each entity"), value: "all_tables" },
+										{ label: $filter('translate')("Use of a single table for the entire hierarchy"), value: "one_table" },
 									]
 								},
 								controllerAs: '$ctrl',
@@ -330,11 +328,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 										const newTable = entityTableMap.get(entityReference.id);
 										ls.selectedElement = ls.paper.findViewByModel(newTable);
 										[...Array(response.quantity)].forEach((_, index) => {
-											ls.addColumn({
-												"name": `${attName}${index}`,
-												"PK": attribute.attributes.type === 'erd.Key',
-												"FK": false
-											});
+											const column = new Column({
+												name: `${attName}${index}`,
+												PK: attribute.attributes.type === 'erd.Key',
+											})
+											ls.addColumn(column);
 										});
 										break;
 									default:
@@ -343,10 +341,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 							});
 							iterate();
 						} else {
-							var column = {
-								"name": attribute.attributes.attrs.text.text,
-								"PK": attribute.attributes.type === 'erd.Key'
-							}
+							const column = new Column({
+								name: attribute.attributes.attrs.text.text,
+								PK: attribute.attributes.type === 'erd.Key'
+							});
 							table.columns.push(column);
 							iterate();
 						}
@@ -375,12 +373,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		const y = reference.attributes.position.y - 100;
 		const table = createTableObject(name, x, y);
 
-		const column = {
-			"name": "nome",
-			"PK": true,
-			"FK": false,
-			"type": "VARCHAR"
-		}
+		const column = new Column({
+			name: "nome",
+			PK: true,
+			type: "VARCHAR",
+		});
 
 		table.columns.push(column);
 		const newTable = ls.insertTable(table);
@@ -591,11 +588,10 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 			ls.selectedElement = ls.paper.findViewByModel(table2);
 			const elements = [...attributes, ...pks];
 			elements.forEach(element => {
-				const column = {
-					"name": element.attributes.attrs.text.text,
-					"PK": element.attributes.supertype === "Key",
-					"FK": false
-				}
+				const column = new Column({
+					name: element.attributes.attrs.text.text,
+					PK: element.attributes.supertype === "Key",
+				});
 				ls.addColumn(column);
 			})
 			const table1 = getTableType_1(filterConnections(links), relation);
@@ -626,11 +622,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 					controller: function () {
 						const $ctrl = this;
-						$ctrl.title = `Assistente de conversão - Relacionamento (1, n)`;
-						$ctrl.summary = `O que deseja fazer com o relacionamento ${buildRelationDescription(links)} entre as tabelas ${getTableNames(relation)}?`;
+						$ctrl.title = $filter('translate')("Conversion Assistant - Relationship (1, n)");
+						$ctrl.summary = $filter('translate')("What do you want to do with the RELATIONSHIP relationship between the TABLES tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
 						$ctrl.options = [
-							{ "label": "Criar uma coluna na tabela de menor cardinalidade", "value": "new_column" },
-							{ "label": "Criar nova tabela", "value": "new_table" },
+							{ label: $filter('translate')("Create a column in the least cardinality table"), value: "new_column" },
+							{ label: $filter('translate')("Create new table"), value: "new_table" },
 						]
 					},
 					controllerAs: '$ctrl',
@@ -664,11 +660,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 					template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 					controller: function () {
 						const $ctrl = this;
-						$ctrl.title = `Assistente de conversão - Relacionamento (1, 1)`;
-						$ctrl.summary = `O que deseja fazer com o relacionamento ${buildRelationDescription(links)} entre as tabelas ${getTableNames(relation)}?`;
+						$ctrl.title = $filter('translate')("Conversion Assistant - Relationship (1, 1)");
+						$ctrl.summary = $filter('translate')("What do you want to do with the RELATIONSHIP relationship between the TABLES tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
 						$ctrl.options = [
-							{ "label": "Criar uma coluna na tabela de menor cardinalidade", "value": "new_column" },
-							{ "label": "Criar nova tabela", "value": "new_table" },
+							{ label: $filter('translate')("Create a column in the least cardinality table"), value: "new_column" },
+							{ label: $filter('translate')("Create new table"), value: "new_table" },
 						]
 					},
 					controllerAs: '$ctrl',
@@ -696,11 +692,11 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 						template: '<conversion-option-modal title="$ctrl.title" options="$ctrl.options" summary="$ctrl.summary" close="$close(result)"></conversion-option-modal>',
 						controller: function () {
 							const $ctrl = this;
-							$ctrl.title = `Assistente de conversão - Relacionamento (1, n)`;
-							$ctrl.summary = `O que deseja fazer com o relacionamento ${buildRelationDescription(links)} entre as tabelas ${getTableNames(relation)}?`;
+							$ctrl.title = $filter('translate')("Conversion Assistant - Relationship (1, n)");
+							$ctrl.summary = $filter('translate')("What do you want to do with the RELATIONSHIP relationship between the TABLES tables?", { relationship: buildRelationDescription(links), tables: getTableNames(relation) });
 							$ctrl.options = [
-								{ "label": "Criar uma coluna na tabela de menor cardinalidade", "value": "new_column" },
-								{ "label": "Unir tabelas", "value": "join_tables" }
+								{ label: $filter('translate')("Create a column in the least cardinality table"), value: "new_column" },
+								{ label: $filter('translate')("Join tables"), value: "join_tables" }
 							]
 						},
 						controllerAs: '$ctrl',
@@ -723,18 +719,13 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 	}
 
 	const connectTables = (source, target) => {
-		var obj = {
-			"name": "id" + source.attributes.name,
-			"type": "Integer",
-			"PK": false,
-			"FK": true,
-			"tableOrigin": {
-				"idOrigin": source.id,
-				"idLink": ""
-			}
-		}
+		const column = new Column({
+			name: "id" + source.attributes.name,
+			FK: true,
+			idOrigin: source.id,
+		});
 		ls.selectedElement = ls.paper.findViewByModel(target);
-		ls.addColumn(obj);
+		ls.addColumn(column);
 	}
 
 	const joinTablesFromRelation = (relation) => {
@@ -779,17 +770,12 @@ const logicConversorService = (ConceptualService, $uibModal) => {
 		if (pks.length > 0) {
 			attName = pks[0].attributes.attrs.text.text;
 		}
-		const obj = {
-			"name": attName,
-			"type": "Integer",
-			"PK": false,
-			"FK": true,
-			"tableOrigin": {
-				"idOrigin": entityTableMap.get(entity.id).id,
-				"idLink": ""
-			}
-		}
-		return obj;
+		
+		return new Column({
+			name: attName,
+			FK: true,
+			idOrigin: entityTableMap.get(entity.id).id,
+		});
 	}
 
 	const filterConnections = (links) => {

@@ -1,7 +1,4 @@
-<section
-	class="view modelWorkspace workspaceLogic"
->
-
+<section class="view modelWorkspace workspaceLogic">
 	<header class="navbar navbar-default navbar-fixed-top">
 		<ul class="nav navbar-nav pull-left">
 			<li>
@@ -12,7 +9,7 @@
 		</ul>
 
 		<div class="navbar-header">
-			<strong class="navbar-brand">BR Modelo Web</strong>
+			<strong class="navbar-brand">{{ 'BR Modelo Web' | translate }}</strong>
 		</div>
 		<img
 			src="../../img/loading-dots.gif"
@@ -30,20 +27,20 @@
 		<section id="content" class="model-area">
 			<header class="workspace-header">
 				<div class="page-header clearfix">
-					<h2 class="h4 pull-left">Modelo lógico de: {{$ctrl.model.name}}</h2>
+					<h2 class="h4 pull-left">{{ 'Logical model of:' | translate }} {{$ctrl.model.name}}</h2>
 					<aside class="header-actions pull-right">
-						<a class="br-button" data-ng-click="$ctrl.saveModel()" title="Salvar (CTRL S)">Salvar</a>
+						<a class="br-button" data-ng-click="$ctrl.saveModel()" title="{{ 'Save (CTRL S)' | translate }}">{{ 'Save' | translate }}</a>
 					</aside>
 				</div>
 				<ul class="nav navbar-nav tool-icons">
-					<li><a data-ng-click="$ctrl.undoModel()" title="Desfazer (CTRL Z)"><i class="fa fa-reply"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.redoModel()" title="Refazer (CTRL SHIFT Z)"><i class="fa fa-share"></i></a></li>
-					<li><a data-ng-click="$ctrl.zoomIn()" title="Mais zoom (Z +)"><i class="fa fa-search-plus"></i></a></li>
-					<li><a data-ng-click="$ctrl.zoomNone()" title="Zoom 100% (Z 0)"><i class="fa fa-search"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="Menos zoom (Z -)"><i class="fa fa-search-minus"></i></a></li>
-					<li><a data-ng-click="$ctrl.duplicateModel()" title="Duplicar modelo"><i class="fa fa-files-o"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.generateSQL()" title="Gerar SQL"><i class="fa fa-database"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.print()" title="Imprimir (CTRL P)"><i class="fa fa-print"></i></a></li>
+					<li><a data-ng-click="$ctrl.undoModel()" title="{{ 'Undo (CTRL Z)' | translate }}"><i class="fa fa-reply"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.redoModel()" title="{{ 'Redo (CTRL SHIFT Z)' | translate }}"><i class="fa fa-share"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomIn()" title="{{ 'Zoom in (Z +)' | translate }}"><i class="fa fa-search-plus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomNone()" title="{{ 'Zoom 100% (Z 0)' | translate }}"><i class="fa fa-search"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="{{ 'Zoom out (Z -)' | translate }}"><i class="fa fa-search-minus"></i></a></li>
+					<li><a data-ng-click="$ctrl.duplicateModel()" title="{{ 'Duplicate model' | translate }}"><i class="fa fa-files-o"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.generateSQL()" title="{{ 'Generate SQL' | translate }}"><i class="fa fa-database"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
 					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
@@ -52,16 +49,16 @@
 				</aside>
 			</header><!-- End .workspace-header -->
 
-			<aside class="model-properties" data-ng-class="{'active': !$ctrl.editionVisible}">
+			<aside class="model-properties" data-ng-class="{'active': $ctrl.editionVisible}">
 
 				<span class="action" data-ng-click="$ctrl.changeVisible()">
-					<i class="fa angle-double-icon" data-ng-class="!$ctrl.editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+					<i class="fa angle-double-icon" data-ng-class="$ctrl.editionVisible ? 'fa-angle-double-right' : 'fa-angle-double-left'"></i>
 				</span>
 
 				<div class="properties-content" ng-if="$ctrl.selectedElement == null">
 					<div class="form-group">
 						<div class="empty-state">
-							<label for="entry-name">Selecione um elemento para editar</label>
+							<label for="entry-name">{{ 'Select an element to edit' | translate }}</label>
 						</div>
 					</div><!-- End .form-group -->
 				</div>
@@ -69,7 +66,7 @@
 				<div class="properties-content" ng-show="$ctrl.selectedElement != null">
 
 					<div class="form-group">
-						<label for="entry-name">Nome</label>
+						<label for="entry-name">{{ 'Name' | translate }}</label>
 						<input
 							id="entry-name"
 							type="text"
@@ -81,13 +78,13 @@
 
 					<section class="columnsList">
 						<header class="clearfix">
-							<label>Colunas</label>
+							<label>{{ 'Columns' | translate }}</label>
 							<i class="fa fa-plus-circle addColumn" aria-hidden="true" ng-click="$ctrl.showAddColumn(true)"></i>
 						</header>
 
 						<div class="columnItem" ng-show="$ctrl.addColumnVisible">
 							<div class="form-group">
-								<label for="column-name">Nome</label>
+								<label for="column-name">{{ 'Name' | translate }}</label>
 								<input
 									id="entry-name"
 									type="text"
@@ -97,7 +94,7 @@
 							</div>
 
 							<div class="form-group clearfix">
-								<label for="">Tipo</label>
+								<label for="">{{ 'Type' | translate }}</label>
 									<dropdown
 										on-select="$ctrl.selectAddType(selected)"
 										selected="{name: 'INT', type: 'ORIGEM'}"
@@ -105,28 +102,67 @@
 									</dropdown>
 							</div>
 
+							<div class="form-group">
+								<label for="default">{{ 'Default' | translate }}</label>
+								<input
+									id="default"
+									type="text"
+									class="form-control"
+									ng-model="$ctrl.addColumnModel.defaultValue"
+								/>
+							</div>
+
 							<div class="checkbox">
-								<label for="c1">
+								<label for="add-pk">
 									<input
-										id="c1"
+										id="add-pk"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.PK"
-									/>PK
+									/>{{ 'PK' | translate }}
 								</label>
 							</div>
 
 							<div class="checkbox">
-								<label for="c2">
+								<label for="add-fk">
 									<input
-										id="c2"
+										id="add-fk"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.FK"
-									/>FK
+									/>{{ 'FK' | translate }}
 								</label>
 							</div>
 
-							<div class="form-group clearfix">
-								<label for="">Origem</label>
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
+								<label for="add-not-null">
+									<input
+										id="add-not-null"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.NOT_NULL"
+									/>{{ 'NOT NULL' | translate }}
+								</label>
+							</div>
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK && !$ctrl.addColumnModel.defaultValue">
+								<label for="add-unique">
+									<input
+										id="add-unique"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.UNIQUE"
+									/>{{ 'UNIQUE' | translate }}
+								</label>
+							</div>
+
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.FK && !$ctrl.addColumnModel.defaultValue">
+								<label for="add-auto-increment">
+									<input
+										id="add-auto-increment"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.AUTO_INCREMENT"
+									/>{{ 'AUTO INCREMENT' | translate }}
+								</label>
+							</div>
+
+							<div class="form-group clearfix" ng-show="$ctrl.addColumnModel.FK">
+								<label for="">{{ 'Source' | translate }}</label>
 									<dropdown
 										on-select="$ctrl.selectAddTableOrigin(selected)"
 										selected="{name: 'ORIGEM', type: 'ORIGEM'}"
@@ -154,7 +190,7 @@
 
 							<div class="columnDetails" ng-show="column.expanded">
 								<div class="form-group">
-									<label for="">Nome</label>
+									<label for="">{{ 'Name' | translate }}</label>
 									<input
 										id=""
 										type="text"
@@ -164,7 +200,7 @@
 								</div>
 
 								<div class="form-group clearfix">
-									<label for="">Tipo</label>
+									<label for="">{{ 'Type' | translate }}</label>
 										<dropdown
 											on-select="$ctrl.selectEditType(selected)"
 											selected="{name: column.type, type: column.type}"
@@ -172,28 +208,68 @@
 										</dropdown>
 								</div>
 
+								<div class="form-group" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.FK">
+									<label for="edit-default">{{ 'Default' | translate }}</label>
+									<input
+										id="edit-default"
+										type="text"
+										class="form-control"
+										ng-model="$ctrl.editColumnModel.defaultValue"
+									/>
+								</div>
+
 								<div class="checkbox">
-									<label for="c1">
+									<label for="edit-pk">
 										<input
-											id="c1"
+											id="edit-pk"
 											type="checkbox"
 											ng-model="$ctrl.editColumnModel.PK"
-										/>PK
+										/>{{ 'PK' | translate }}
 									</label>
 								</div>
 
 								<div class="checkbox">
-									<label for="c2">
+									<label for="edit-fk">
 										<input
-											id="c2"
+											id="edit-fk"
 											type="checkbox"
 											ng-model="$ctrl.editColumnModel.FK"
-										/>FK
+										/>{{ 'FK' | translate }}
 									</label>
 								</div>
 
-								<div class="form-group clearfix">
-									<label for="">Origem</label>
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK">
+									<label for="edit-not-null">
+										<input
+											id="edit-not-null"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.NOT_NULL"
+										/>{{ 'NOT NULL' | translate }}
+									</label>
+								</div>
+
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.defaultValue">
+									<label for="edit-unique">
+										<input
+											id="edit-unique"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.UNIQUE"
+										/>{{ 'UNIQUE' | translate }}
+									</label>
+								</div>
+
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.defaultValue && !$ctrl.editColumnModel.FK">
+									<label for="edit-auto-increment">
+										<input
+											id="edit-auto-increment"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.AUTO_INCREMENT"
+										/>{{ 'AUTO INCREMENT' | translate }}
+									</label>
+								</div>
+
+								<div class="form-group clearfix" ng-show="$ctrl.editColumnModel.FK">
+									<label for="">{{ 'Source' | translate }}</label>
 										<dropdown
 											on-select="$ctrl.selectAddTableOrigin(selected)"
 											selected="{name: 'ORIGEM', type: 'ORIGEM'}"
@@ -211,7 +287,7 @@
 
 					<div ng-show="selectedLink != null">
 						<div class="form-group">
-							<label>Cardinalidade</label>
+							<label>{{ 'Cardinality' | translate }}</label>
 							<div
 								class="dropdown-tmp dropdown-tmp-btn"
 								broption=""
@@ -238,7 +314,7 @@
 						</div><!-- End .form-group -->
 
 						<div class="form-group">
-							<label for=" ">Cardinalidade</label>
+							<label for=" ">{{ 'Cardinality' | translate }}</label>
 							<div
 								class="dropdown-tmp dropdown-tmp-btn"
 								broption=""
