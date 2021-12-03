@@ -27,8 +27,10 @@ describe("Models view", () => {
 	});
 
 	it("duplicates a model", () => {
+		cy.intercept("POST", "/models").as("postModel");
 		cy.get(".fa-files-o").click({ force: true });
 		cy.contains("button", "Save").click();
+		cy.wait("@postModel").its("response.statusCode").should("be.equal", 200);
 		cy.reload();
 		cy.get("tr.listLine")
 			.should("have.length", 2)
