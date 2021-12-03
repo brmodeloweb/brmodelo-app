@@ -179,6 +179,7 @@ const controller = function (
 	}
 
 	ctrl.editionColumnMode = function (column) {
+		loadTables();
 		ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
 
 		ctrl.closeAllColumns();
@@ -215,15 +216,19 @@ const controller = function (
 		ctrl.addColumnVisible = false;
 	}
 
-	ctrl.showAddColumn = function (show) {
-		ctrl.addColumnVisible = show;
-		ctrl.addColumnModel = ctrl.newColumnObject();
-
+	const loadTables = () => {
 		ctrl.tableNames = [];
 		ctrl.mapTables = LogicService.getTablesMap();
 		for (var key of ctrl.mapTables.keys()) {
 			ctrl.tableNames.push({"name": key, "type": key});
 		}
+	}
+
+	ctrl.showAddColumn = function (show) {
+		ctrl.addColumnVisible = show;
+		ctrl.addColumnModel = ctrl.newColumnObject();
+		
+		loadTables();
 	}
 
 	ctrl.newColumnObject = function () {
