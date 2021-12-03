@@ -43,4 +43,35 @@ describe("Models view", () => {
 		cy.wait("@deleteModels").its("response.statusCode").should("be.equal", 200);
 		cy.get("table tbody tr.listLine").should("not.exist");
 	});
+
+	it("opens and closes the modals", () => {
+		// Opens the rename model modal
+		cy.get(".fa-pencil").click({ force: true });
+		// Make sure the modal is visible and closes it
+		cy.get(".modal-dialog")
+			.as("modal")
+			.should("be.visible")
+			.find("button:contains(Cancel)")
+			.click();
+		// Make sure the modal doesn't exist in the DOM anymore
+		cy.get("@modal").should("not.exist");
+		// Opens the duplicate model modal
+		cy.get(".fa-files-o").click({ force: true });
+		// Make sure the modal is visible and closes it
+		cy.get("@modal")
+			.should("be.visible")
+			.find("button:contains(Cancel)")
+			.click();
+		// Make sure the modal doesn't exist in the DOM anymore
+		cy.get("@modal").should("not.exist");
+		// Opens the delete model modal
+		cy.get(".fa-trash").click({ force: true });
+		// Make sure the modal is visible and closes it
+		cy.get("@modal")
+			.should("be.visible")
+			.find("button:contains(Cancel)")
+			.click();
+		// Make sure the modal doesn't exist in the DOM anymore
+		cy.get("@modal").should("not.exist");
+	});
 });
