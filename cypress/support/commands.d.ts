@@ -49,10 +49,12 @@ declare namespace Cypress {
      * 
      * @param type string - The type of the model you want to create. The allowed types are 'conceptual' and 'logical'
      * @param userId string - The id of the user for which you want to create the model
+     * @param model object - An object with a cells property as an array, defining all "cells" of a model. Default is an object with an empty array as the value of the cells property
      * 
      * @example cy.createModelViaApi('conceptual', '618f065ed18dc91b10650f99') // Creates a conceptual model for userId=618f065ed18dc91b10650f99
      * @example cy.createModelViaApi('logical', '618f065ed18dc91b10650f99') // Creates a logical model for userId=618f065ed18dc91b10650f99
+     * @example cy.createModelViaApi('conceptual', '618f065ed18dc91b10650f99', conceptualModel) // Creates a conceptual model for userId=618f065ed18dc91b10650f99 passing a model object (`conceptualModel`), defined earlier, as a variable
      */
-    createModelViaApi(type, userId): Cypress.Chainable<Cypress.Response<any>>
+    createModelViaApi(type: string, userId: string, model?: object): Cypress.Chainable<Cypress.Response<any>>
   }
 }
