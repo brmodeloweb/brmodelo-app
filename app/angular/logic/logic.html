@@ -63,7 +63,7 @@
 					</div><!-- End .form-group -->
 				</div>
 
-				<div class="sidebar-wrapper" ng-show="$ctrl.selectedElement != null">
+				<div class="sidebar-wrapper" ng-show="$ctrl.selectedElement != null && $ctrl.selectedType === 'uml.Class'">
 					<section class="sidebar-panel">
 						<header class="panel-header" ng-click="$ctrl.toggleSection('tableProperties')">
 							<h3>{{ 'Table properties' | translate }}</h3>
@@ -107,7 +107,7 @@
 							</div>
 							<button class="br-button br-button--full" ng-show="!$ctrl.addColumnVisible" ng-click="$ctrl.showAddColumn(true)">{{ 'Add new column' | translate }}</button>
 					</section>
-					
+
 					<section class="columnsList" ng-show="false">
 						<header class="clearfix">
 							<label>{{ 'Columns' | translate }}</label>

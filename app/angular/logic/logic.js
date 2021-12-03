@@ -113,6 +113,7 @@ const controller = function (
 			ctrl.selectedElement = element;
 			if (element != null) {
 				ctrl.selectedName = element.attributes.name;
+				ctrl.selectedType = element.attributes.type;
 			}
 		});
 	});

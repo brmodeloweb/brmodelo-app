@@ -27,6 +27,7 @@ export default app.component("view", {
 	template: template,
 	bindings: {
     table: "<",
+	tables: "<",
 	},
 	controller: Controller,
 }).name;

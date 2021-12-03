@@ -4,8 +4,10 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
-import shapes from "../../joint/shapes";
-joint.shapes.erd = shapes;
+import erd from "../../joint/shapes";
+import uml from "../../joint/table";
+joint.shapes.erd = erd;
+joint.shapes.uml = uml;
 import "jointjs/dist/joint.min.css";
 
 import "../../joint/joint.ui.stencil";
@@ -50,6 +52,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			drawGrid: true,
 			model: ls.graph
 		});
+
 		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
 
 		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
@@ -156,7 +159,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		});
 		$('#stencil-holder').append(stencil.render().el);
 		stencil.load([
-			LogicFactory.createTable()
+			LogicFactory.createTable(),
+			LogicFactory.createView()
 		]);
 	}
 
@@ -206,6 +210,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		halo.removeHandle('clone');
 		halo.removeHandle('fork');
 		halo.removeHandle('rotate');
+
+		if(cellView.model.getType() === "View") {
+			halo.removeHandle('link');
+		}
+
 		halo.render();
 	}
 
@@ -301,6 +310,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 		var source = ls.graph.getCell(link.get('source').id);
 		var target = ls.graph.getCell(link.get('target').id);
+
+		if(source.getType() === "View" || target.getType() === "View") {
+			link.remove();
+			return
+		}
 
 		var originName = source.attributes.name;
 		var idOrigin = source.attributes.id;
