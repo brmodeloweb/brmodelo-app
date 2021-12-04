@@ -180,3 +180,7 @@ textarea {
 input[type="checkbox"] {
 	cursor: pointer;
 }
+
+.checkbox > label {
+	word-break: break-all;
+}
