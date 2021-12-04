@@ -1,47 +1,61 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { animal } = require("faker");
 
-Cypress.Commands.add('login', (
-  user = Cypress.env('user'),
-  password = Cypress.env('password'),
-  { cacheSession = true } = {}
-) => {
-  const fillLoginFormAndSubmit = () => {
-    cy.visit('/')
-    cy.get('#userEmail')
-      .type(user)
-    cy.get('#userPassword')
-      .type(password, { log: false })
-    cy.contains('button', 'Login')
-      .click()
-  }
+Cypress.Commands.add(
+	"login",
+	(
+		user = Cypress.env("user"),
+		password = Cypress.env("password"),
+		{ cacheSession = true } = {}
+	) => {
+		const fillLoginFormAndSubmit = () => {
+			cy.visit("/");
+			cy.get("#userEmail").type(user);
+			cy.get("#userPassword").type(password, { log: false });
+			cy.contains("button", "Login").click();
+		};
 
-  if (cacheSession) {
-    cy.session([user], fillLoginFormAndSubmit)
-  } else {
-    fillLoginFormAndSubmit()
-  }
-})
+		if (cacheSession) {
+			cy.session([user], fillLoginFormAndSubmit);
+		} else {
+			fillLoginFormAndSubmit();
+		}
+	}
+);
+
+Cypress.Commands.add("cleanUpUserModels", (userModels) => {
+	cy.getUserModelsViaApi(userModels.response.url).then(
+		(userModelsResponseUrl) => {
+			userModelsResponseUrl.body.forEach((model) => {
+				cy.deleteModelViaApi(model._id);
+			});
+		}
+	);
+});
+
+Cypress.Commands.add("getUserModelsViaApi", (url) => {
+	cy.request("GET", url);
+});
+
+Cypress.Commands.add("deleteModelViaApi", (modelId) => {
+	cy.request(
+		"DELETE",
+		`${Cypress.config("apiUrl")}/models/:modelId?modelId=${modelId}`
+	);
+});
+
+Cypress.Commands.add(
+	"createModelViaApi",
+	(type, userId, model = { cell: [] }) => {
+		cy.request({
+			method: "POST",
+			url: `${Cypress.config("apiUrl")}/models`,
+			body: {
+				name: animal.type(),
+				user: userId,
+				type,
+				model,
+			},
+		});
+	}
+);
