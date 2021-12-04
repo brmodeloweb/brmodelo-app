@@ -1,0 +1,57 @@
+{
+  "cells": [
+    {
+      "type": "erd.Entity",
+      "supertype": "Entity",
+      "isExtended": false,
+      "autorelationship": false,
+      "size": { "width": 80, "height": 40 },
+      "position": { "x": 170, "y": 50 },
+      "angle": 0,
+      "id": "bdb20ca0-5c43-40b2-94dd-d0aecfa5b856",
+      "z": 1,
+      "attrs": {}
+    },
+    {
+      "type": "erd.Relationship",
+      "supertype": "Relationship",
+      "autorelationship": false,
+      "size": { "width": 85, "height": 45 },
+      "position": { "x": 330, "y": 50 },
+      "angle": 0,
+      "id": "36ec2d5d-4084-4c42-add9-aa3afddedae3",
+      "z": 2,
+      "attrs": {}
+    },
+    {
+      "type": "erd.Link",
+      "source": { "id": "36ec2d5d-4084-4c42-add9-aa3afddedae3" },
+      "target": { "id": "bdb20ca0-5c43-40b2-94dd-d0aecfa5b856" },
+      "id": "7ad0455f-5a16-46f4-bc69-dc1090a55978",
+      "z": 3,
+      "labels": [{ "position": 0.7, "attrs": { "text": { "text": "(0, n)" } } }],
+      "attrs": {}
+    },
+    {
+      "type": "erd.Entity",
+      "supertype": "Entity",
+      "isExtended": false,
+      "autorelationship": false,
+      "size": { "width": 80, "height": 40 },
+      "position": { "x": 510, "y": 60 },
+      "angle": 0,
+      "id": "1846af3e-6e30-4471-ba8b-6829cab94050",
+      "z": 4,
+      "attrs": {}
+    },
+    {
+      "type": "erd.Link",
+      "source": { "id": "36ec2d5d-4084-4c42-add9-aa3afddedae3" },
+      "target": { "id": "1846af3e-6e30-4471-ba8b-6829cab94050" },
+      "id": "69c1eca8-34f7-4ec0-8855-93f12f1ebc4f",
+      "z": 5,
+      "labels": [{ "position": 0.7, "attrs": { "text": { "text": "(0, n)" } } }],
+      "attrs": {}
+    }
+  ]
+}

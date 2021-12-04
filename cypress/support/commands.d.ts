@@ -24,7 +24,7 @@ declare namespace Cypress {
      * 
      * @example cy.cleanUpUserModels(userModelsResponseObject) // Cleans up all models for the logged in user
      */
-    cleanUpUserModels(userModelsRespondeObject): Cypress.Chainable<Cypress.Response<any>>
+    cleanUpUserModels(userModelsRespondeObject: object): Cypress.Chainable<Cypress.Response<any>>
 
     /**
      * **Gets all user models for a specific userId via a GET request.**
@@ -33,7 +33,7 @@ declare namespace Cypress {
      * 
      * @example cy.getUserModelsViaApi('http://localhost:3000/models?userId=618f065ed18dc91b10651g98') // Gets all user models for userId=618f065ed18dc91b10651g98
      */
-    getUserModelsViaApi(url): Cypress.Chainable<Cypress.Response<any>>
+    getUserModelsViaApi(url: string): Cypress.Chainable<Cypress.Response<any>>
 
     /**
      * **Deletes a model via a DELETE request.**
@@ -42,17 +42,19 @@ declare namespace Cypress {
      * 
      * @example cy.deleteModelViaApi('61a8db9bc67e9824b66fc8g2')
      */
-    deleteModelViaApi(modelId): Cypress.Chainable<Cypress.Response<any>>
+    deleteModelViaApi(modelId: string): Cypress.Chainable<Cypress.Response<any>>
 
     /**
      * **Creates a model via POST request.**
      * 
      * @param type string - The type of the model you want to create. The allowed types are 'conceptual' and 'logical'
      * @param userId string - The id of the user for which you want to create the model
+     * @param model object - An object with a cells property as an array, defining all "cells" of a model. Default is an object with an empty array as the value of the cells property
      * 
      * @example cy.createModelViaApi('conceptual', '618f065ed18dc91b10650f99') // Creates a conceptual model for userId=618f065ed18dc91b10650f99
      * @example cy.createModelViaApi('logical', '618f065ed18dc91b10650f99') // Creates a logical model for userId=618f065ed18dc91b10650f99
+     * @example cy.createModelViaApi('conceptual', '618f065ed18dc91b10650f99', conceptualModel) // Creates a conceptual model for userId=618f065ed18dc91b10650f99 passing a model object (`conceptualModel`), defined earlier, as a variable
      */
-    createModelViaApi(type, userId): Cypress.Chainable<Cypress.Response<any>>
+    createModelViaApi(type: string, userId: string, model?: object): Cypress.Chainable<Cypress.Response<any>>
   }
 }
