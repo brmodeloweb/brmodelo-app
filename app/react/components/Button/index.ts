@@ -5,4 +5,5 @@ import Button from "./Button";
 export { Button };
 export default angular
 	.module("app.react.button", [])
-	.component("reactButton", react2angular(Button)).name;
+	.component("reactButton", react2angular(Button, ["label", "onClick", "type"]))
+	.name;
