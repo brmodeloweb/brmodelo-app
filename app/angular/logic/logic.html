@@ -92,7 +92,7 @@
 
 						<div class="panel-content" ng-show="$ctrl.sections.columns">
 							<ul class="table-columns">
-								<li class="column-details" ng-repeat="column in $ctrl.columns track by $index">
+								<li class="card-item" ng-repeat="column in $ctrl.columns track by $index">
 									<header ng-click="$ctrl.editionColumnMode(column, $index)" ng-show="!column.expanded">
 										<h4 class="table-title">{{column.name}}</h4>
 										<span class="relationship" ng-show="column.PK">PK</span>
@@ -102,7 +102,7 @@
 								</li>
 							</ul>
 
-							<div class="column-details" ng-show="$ctrl.addColumnVisible">
+							<div class="card-item" ng-show="$ctrl.addColumnVisible">
 								<column-form table-names="$ctrl.tableNames" column="$ctrl.addColumnModel" save="$ctrl.addColumn" dismiss="$ctrl.showAddColumn(false)"></column-form>
 							</div>
 							<button class="br-button br-button--full" ng-show="!$ctrl.addColumnVisible" ng-click="$ctrl.showAddColumn(true)">{{ 'Add new column' | translate }}</button>

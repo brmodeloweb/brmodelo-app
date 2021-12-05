@@ -8,7 +8,7 @@
 		{{'Criar view' | translate }}
 	</button>
 
-	<form class="column-details" ng-show="$ctrl.formVisible">
+	<form class="card-item views" ng-show="$ctrl.formVisible">
 		<div class="form-group">
 			<labelfor="view-based-in">{{ 'Based in' | translate }}</label>
 			<input
@@ -57,7 +57,7 @@
 			></textarea>
 		</div>
 
-		<div class="column-details-actions">
+		<div class="card-item-actions">
 			<button
 				class="br-button"
 				ng-click="$ctrl.save()"
