@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const CopyPlugin = require("copy-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 
 module.exports = {
 	context: `${__dirname}/app`,
@@ -11,6 +12,14 @@ module.exports = {
 	output: {
 		path: `${__dirname}/app/dist`,
 		filename: "bundle.js",
+	},
+	resolve: {
+		extensions: [".js", ".jsx", ".ts", ".tsx"],
+		plugins: [
+			new TsconfigPathsPlugin({
+				configFile: path.resolve(__dirname, "app/react/tsconfig.json"),
+			}),
+		],
 	},
 	devtool: "inline-source-map",
 	devServer: {
@@ -43,11 +52,13 @@ module.exports = {
 			chunks: "all",
 		},
 	},
-	resolve: {
-		extensions: [".js", ".jsx"],
-	},
 	module: {
 		rules: [
+			{
+				test: /\.tsx?$/,
+				use: "ts-loader",
+				exclude: /node_modules/,
+			},
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
