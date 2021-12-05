@@ -1,58 +1,76 @@
 <div>
-  <button type="button" class="br-button br-button--full" ng-show="!$ctrl.formVisible" ng-click="$ctrl.toggleForm()">{{ 'Criar view' | translate }}</button>
-  
-  <form class="column-details" ng-show="$ctrl.formVisible">
-    <div class="form-group">
-      <label for="view-based-in">{{ 'Based in' | translate }}</label>
-      <input
-        id="view-based-in"
-        type="text"
-        class="form-control"
-        ng-model="$ctrl.view.basedIn"
-        disabled
-      />
-    </div>
+	<button
+		type="button"
+		class="br-button br-button--full"
+		ng-show="!$ctrl.formVisible"
+		ng-click="$ctrl.toggleForm()"
+	>
+		{{'Criar view' | translate }}
+	</button>
 
-    <div class="form-group">
-      <label for="view-name">{{ 'Name' | translate }}</label>
-      <input
-        id="view-name"
-        type="text"
-        class="form-control"
-        ng-model="$ctrl.view.name"
-      />
-    </div>
+	<form class="column-details" ng-show="$ctrl.formVisible">
+		<div class="form-group">
+			<labelfor="view-based-in">{{ 'Based in' | translate }}</label>
+			<input
+				id="view-based-in"
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.view.basedIn"
+				disabled
+			/>
+		</div>
 
-    <div class="form-group">
-      <label for="view-query">{{ 'View columns' | translate }}</label>
-      
-      <div ng-repeat="column in $ctrl.view.columns track by $index">
-        <div class="checkbox">
-          <label for="{{column.name}}">
-            <input
-              id="{{column.name}}"
-              type="checkbox"
-              ng-model="$ctrl.view.columns[$index].selected"
-            />{{column.name}}
-          </label>
-        </div>
-      </div>
-    </div>
+		<div class="form-group">
+			<label for="view-name">{{ 'Name' | translate }}</label>
+			<input
+				id="view-name"
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.view.name"
+			/>
+		</div>
 
-    <div class="form-group">
-      <label for="view-query">{{ 'Query expression' | translate }}</label>
-      <textarea
-        id="view-query"
-        type="text"
-        class="form-control"
-        ng-model="$ctrl.view.query"
-      ></textarea>
-    </div>
+		<div class="form-group">
+			<label for="view-query">{{ 'View columns' | translate }}</label>
 
-    <div class="column-details-actions">
-      <button class="br-button" ng-click="$ctrl.save()">{{ 'Save' | translate }}</button>
-      <button class="br-button yellow" ng-click="$ctrl.toggleForm()">{{ 'Cancel' | translate }}</button>
-    </div>
+			<div ng-repeat="column in $ctrl.view.columns track by $index">
+				<div class="checkbox">
+					<label for="{{column.name}}">
+						<input
+							id="{{column.name}}"
+							type="checkbox"
+							ng-model="$ctrl.view.columns[$index].selected"
+						/>
+						{{column.name}}
+					</label>
+				</div>
+			</div>
+		</div>
 
-  </form>
+		<div class="form-group">
+			<label for="view-query">{{ 'Query expression' | translate }}</label>
+			<textarea
+				id="view-query"
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.view.query"
+			></textarea>
+		</div>
+
+		<div class="column-details-actions">
+			<button
+				class="br-button"
+				ng-click="$ctrl.save()"
+			>
+				{{ 'Save' | translate }}
+			</button>
+			<button
+				class="br-button yellow"
+				ng-click="$ctrl.toggleForm()"
+			>
+			{{ 'Cancel' | translate }}
+		</button>
+		</div>
+
+	</form>
 </div>

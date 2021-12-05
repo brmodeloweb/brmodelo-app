@@ -6,9 +6,9 @@ const app = angular.module("app.view", []);
 const Controller = function () {
 	const $ctrl = this;
 
-  $ctrl.view = {};
+	$ctrl.view = {};
 
-  $ctrl.$onChanges = (changes) => {
+	$ctrl.$onChanges = (changes) => {
 		if (changes.table != null && changes.table.currentValue != null) {
 			$ctrl.view = changes.table.currentValue;
 		}
@@ -18,16 +18,16 @@ const Controller = function () {
 		$ctrl.formVisible = !$ctrl.formVisible;
 	};
 
-  $ctrl.save = () => {
-    console.log($ctrl.view);
-  }
+	$ctrl.save = () => {
+		console.log($ctrl.view);
+	}
 };
 
 export default app.component("view", {
 	template: template,
 	bindings: {
-    table: "<",
-	tables: "<",
+		table: "<",
+		tables: "<",
 	},
 	controller: Controller,
 }).name;
