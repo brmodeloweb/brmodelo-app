@@ -1,7 +1,7 @@
 import angular from "angular";
 import confirmationModal from "../components/confirmationModal";
 
-const preventExitService = ($uibModal) => {
+const preventExitService = ($uibModal, $filter) => {
 	const __handleBeforeUnload = (scope) => (event) => {
 		if (scope.modelState.isDirty) return "";
 		event.stopPropagation();
@@ -14,11 +14,10 @@ const preventExitService = ($uibModal) => {
 				component: "confirmationModal",
 				resolve: {
 					modalData: () => ({
-						title: "Alterações não salvas",
-						content:
-							"Você tem alterações não salvas. Tem certeza que deseja sair sem salvar?",
-						cancelLabel: "Cancelar",
-						confirmLabel: "Sair sem salvar",
+						title: $filter('translate')("Unsaved changes"),
+						content: $filter('translate')("You have unsaved changes. Are you sure you want to exit without saving?"),
+						cancelLabel: $filter('translate')("Cancel"),
+						confirmLabel: $filter('translate')("Exit without saving"),
 					}),
 				},
 			});

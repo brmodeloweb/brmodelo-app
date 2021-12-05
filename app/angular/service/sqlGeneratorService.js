@@ -1,6 +1,12 @@
 import angular from "angular";
 
 const sqlGeneratorService = () => {
+	const constraints = [
+		{ key: 'PK', sqlValue: "PRIMARY KEY" },
+		{ key: 'NOT_NULL', sqlValue: "NOT NULL" },
+		{ key: 'UNIQUE', sqlValue: "UNIQUE"	},
+		{ key: 'AUTO_INCREMENT', sqlValue: "AUTO_INCREMENT" },
+	];
 
 	var pending = {};
 	var createdMap = {};
@@ -45,8 +51,13 @@ const sqlGeneratorService = () => {
 			var alreadyCreated = createdMap.get(key);
 
 			create += " " + cleanString(column.name) + " " + column.type;
-			if(column.PK){
-				create += " PRIMARY KEY";
+			
+			constraints.forEach(({ key, sqlValue }) => {
+				if (column[key]) create += ` ${sqlValue}`;
+			});
+
+			if(column.defaultValue) {
+				create += ` DEFAULT '${column.defaultValue}'`
 			}
 			create += ", " + " \n";
 

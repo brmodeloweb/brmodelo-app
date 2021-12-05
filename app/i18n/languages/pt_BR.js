@@ -91,4 +91,8 @@ export default {
   'Conversion Assistant - Relationship (1, 1)': 'Assistente de conversão - Relacionamento (1, 1)',
   'Join tables': 'Unir tabelas',
   'Logout': 'Sair',
+  'Unsaved changes': 'Alterações não salvas',
+  'You have unsaved changes. Are you sure you want to exit without saving?': 'Você tem alterações não salvas. Tem certeza que deseja sair sem salvar?',
+  'Exit without saving': 'Sair sem salvar',
+  'Name': 'Nome',
 };
