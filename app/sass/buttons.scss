@@ -27,12 +27,22 @@
 }
 
 .br-button.yellow {
-	border-color: #dd7c58;
-	color: #dd7c58;
+	border-color: #f58056;
+	color: #f58056;
 }
 
 .br-button.yellow:hover {
-	background: #dd7c58;
+	background: #f58056;
+	color: #fff;
+}
+
+.br-button.destructive {
+	border-color: #af1010;
+	color: #af1010;
+}
+
+.br-button.destructive:hover {
+	background: #af1010;
 	color: #fff;
 }
 
@@ -44,7 +54,6 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
 // .btn-alt
 ////////////////////////////////////////////////////////////////////////////////
 .btn-alt {

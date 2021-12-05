@@ -89,19 +89,28 @@
 
 .column-details-content .form-group {margin-bottom: 12px;}
 
+.column-details .checkbox { margin: 4px 0; }
+
 ////////////////////////////////////////////////////////////////////////////////
-//
+// .column-details-action
 ////////////////////////////////////////////////////////////////////////////////
-.column-details-actions {
-	display: flex;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+.sidebar-block-actions {
 	align-items: center;
 	border-top: 1px solid #ddd;
-	padding-top: 12px;;
+	padding-top: 12px;
 }
 
-.column-details-actions .br-button {width: 50%;}
+.sidebar-block-actions .actions-regular {
+	box-sizing: border-box;
+	margin-bottom: 12px;
+}
 
-.column-details .checkbox { margin: 4px 0; }
+.sidebar-block-actions .actions-regular .br-button {
+	display: inline-block;
+	width: calc(50% - 6px);
+	margin: 0;
+}
+
+.sidebar-block-actions .actions-regular .br-button:first-child {
+	margin-right: 8px;
+}
