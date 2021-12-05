@@ -100,9 +100,13 @@
 	padding-top: 12px;
 }
 
-.sidebar-block-actions .actions-regular {
+.sidebar-block-actions .actions-regular,
+.sidebar-block-actions .actions-destructive {
 	box-sizing: border-box;
-	margin-bottom: 12px;
+}
+
+.sidebar-block-actions .actions-destructive{
+	padding-top: 12px;
 }
 
 .sidebar-block-actions .actions-regular .br-button {
