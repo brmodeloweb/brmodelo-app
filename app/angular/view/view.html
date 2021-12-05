@@ -64,18 +64,13 @@
 		</div>
 
 		<div class="card-item-actions">
-			<button
-				class="br-button"
-				ng-click="$ctrl.save()"
-			>
-				{{ 'Save' | translate }}
-			</button>
-			<button
-				class="br-button warning"
-				ng-click="$ctrl.toggleForm()"
-			>
-			{{ 'Cancel' | translate }}
-		</button>
+			<div class="actions-regular">
+				<button class="br-button" ng-click="$ctrl.save()">{{ 'Save' | translate }}</button>
+				<button class="br-button warning" ng-click="$ctrl.toggleForm()">{{ 'Cancel' | translate }}</button>
+			</div>
+			<div class="actions-destructive">
+				<button class="br-button destructive" ng-click="">{{ 'Delete' | translate }}</button>
+			</div>
 		</div>
 
 	</form>

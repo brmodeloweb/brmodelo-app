@@ -92,29 +92,29 @@
 .card-item .checkbox { margin: 4px 0; }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .card-item-action
+// .card-item-actions
 ////////////////////////////////////////////////////////////////////////////////
-.sidebar-block-actions {
+.card-item-actions {
 	align-items: center;
 	border-top: 1px solid #ddd;
 	padding-top: 12px;
 }
 
-.sidebar-block-actions .actions-regular,
-.sidebar-block-actions .actions-destructive {
+.card-item-actions .actions-regular,
+.card-item-actions .actions-destructive {
 	box-sizing: border-box;
 }
 
-.sidebar-block-actions .actions-destructive{
+.card-item-actions .actions-destructive{
 	padding-top: 12px;
 }
 
-.sidebar-block-actions .actions-regular .br-button {
+.card-item-actions .actions-regular .br-button {
 	display: inline-block;
 	width: calc(50% - 6px);
 	margin: 0;
 }
 
-.sidebar-block-actions .actions-regular .br-button:first-child {
+.card-item-actions .actions-regular .br-button:first-child {
 	margin-right: 8px;
 }
