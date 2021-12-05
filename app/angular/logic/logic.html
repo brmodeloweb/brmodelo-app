@@ -1,7 +1,4 @@
-<section
-	class="view modelWorkspace workspaceLogic"
->
-
+<section class="view modelWorkspace workspaceLogic">
 	<header class="navbar navbar-default navbar-fixed-top">
 		<ul class="nav navbar-nav pull-left">
 			<li>
@@ -52,10 +49,10 @@
 				</aside>
 			</header><!-- End .workspace-header -->
 
-			<aside class="model-properties" data-ng-class="{'active': !$ctrl.editionVisible}">
+			<aside class="model-properties" data-ng-class="{'active': $ctrl.editionVisible}">
 
 				<span class="action" data-ng-click="$ctrl.changeVisible()">
-					<i class="fa angle-double-icon" data-ng-class="!$ctrl.editionVisible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+					<i class="fa angle-double-icon" data-ng-class="$ctrl.editionVisible ? 'fa-angle-double-right' : 'fa-angle-double-left'"></i>
 				</span>
 
 				<div class="properties-content" ng-if="$ctrl.selectedElement == null">
@@ -105,10 +102,20 @@
 									</dropdown>
 							</div>
 
+							<div class="form-group">
+								<label for="default">{{ 'Default' | translate }}</label>
+								<input
+									id="default"
+									type="text"
+									class="form-control"
+									ng-model="$ctrl.addColumnModel.defaultValue"
+								/>
+							</div>
+
 							<div class="checkbox">
-								<label for="c1">
+								<label for="add-pk">
 									<input
-										id="c1"
+										id="add-pk"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.PK"
 									/>{{ 'PK' | translate }}
@@ -116,16 +123,45 @@
 							</div>
 
 							<div class="checkbox">
-								<label for="c2">
+								<label for="add-fk">
 									<input
-										id="c2"
+										id="add-fk"
 										type="checkbox"
 										ng-model="$ctrl.addColumnModel.FK"
 									/>{{ 'FK' | translate }}
 								</label>
 							</div>
 
-							<div class="form-group clearfix">
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK">
+								<label for="add-not-null">
+									<input
+										id="add-not-null"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.NOT_NULL"
+									/>{{ 'NOT NULL' | translate }}
+								</label>
+							</div>
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.PK && !$ctrl.addColumnModel.defaultValue">
+								<label for="add-unique">
+									<input
+										id="add-unique"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.UNIQUE"
+									/>{{ 'UNIQUE' | translate }}
+								</label>
+							</div>
+
+							<div class="checkbox" ng-show="!$ctrl.addColumnModel.FK && !$ctrl.addColumnModel.defaultValue">
+								<label for="add-auto-increment">
+									<input
+										id="add-auto-increment"
+										type="checkbox"
+										ng-model="$ctrl.addColumnModel.AUTO_INCREMENT"
+									/>{{ 'AUTO INCREMENT' | translate }}
+								</label>
+							</div>
+
+							<div class="form-group clearfix" ng-show="$ctrl.addColumnModel.FK">
 								<label for="">{{ 'Source' | translate }}</label>
 									<dropdown
 										on-select="$ctrl.selectAddTableOrigin(selected)"
@@ -172,10 +208,20 @@
 										</dropdown>
 								</div>
 
+								<div class="form-group" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.FK">
+									<label for="edit-default">{{ 'Default' | translate }}</label>
+									<input
+										id="edit-default"
+										type="text"
+										class="form-control"
+										ng-model="$ctrl.editColumnModel.defaultValue"
+									/>
+								</div>
+
 								<div class="checkbox">
-									<label for="c1">
+									<label for="edit-pk">
 										<input
-											id="c1"
+											id="edit-pk"
 											type="checkbox"
 											ng-model="$ctrl.editColumnModel.PK"
 										/>{{ 'PK' | translate }}
@@ -183,16 +229,46 @@
 								</div>
 
 								<div class="checkbox">
-									<label for="c2">
+									<label for="edit-fk">
 										<input
-											id="c2"
+											id="edit-fk"
 											type="checkbox"
 											ng-model="$ctrl.editColumnModel.FK"
 										/>{{ 'FK' | translate }}
 									</label>
 								</div>
 
-								<div class="form-group clearfix">
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK">
+									<label for="edit-not-null">
+										<input
+											id="edit-not-null"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.NOT_NULL"
+										/>{{ 'NOT NULL' | translate }}
+									</label>
+								</div>
+	
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.PK && !$ctrl.editColumnModel.defaultValue">
+									<label for="edit-unique">
+										<input
+											id="edit-unique"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.UNIQUE"
+										/>{{ 'UNIQUE' | translate }}
+									</label>
+								</div>
+
+								<div class="checkbox" ng-show="!$ctrl.editColumnModel.defaultValue && !$ctrl.editColumnModel.FK">
+									<label for="edit-auto-increment">
+										<input
+											id="edit-auto-increment"
+											type="checkbox"
+											ng-model="$ctrl.editColumnModel.AUTO_INCREMENT"
+										/>{{ 'AUTO INCREMENT' | translate }}
+									</label>
+								</div>
+
+								<div class="form-group clearfix" ng-show="$ctrl.editColumnModel.FK">
 									<label for="">{{ 'Source' | translate }}</label>
 										<dropdown
 											on-select="$ctrl.selectAddTableOrigin(selected)"
