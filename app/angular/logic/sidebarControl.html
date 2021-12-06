@@ -47,7 +47,7 @@
 							<span class="relationship" ng-show="column.PK">PK</span>
 						</header>
 
-						<column-form ng-show="column.expanded" table-names="$ctrl.tableNames" column="$ctrl.editColumnModel" save="$ctrl.editColumn" index="$index" dismiss="column.expanded = !column.expanded"></column-form>
+						<column-form ng-show="column.expanded" table-names="$ctrl.tableNames" column="$ctrl.editColumnModel" save="$ctrl.editColumn" index="$index" dismiss="column.expanded = !column.expanded" delete="$ctrl.deleteColumn"></column-form>
 					</li>
 				</ul>
 
@@ -55,26 +55,6 @@
 					<column-form table-names="$ctrl.tableNames" column="$ctrl.addColumnModel" save="$ctrl.addColumn" dismiss="$ctrl.showAddColumn(false)"></column-form>
 				</div>
 				<button class="br-button br-button--full" ng-show="!$ctrl.addColumnVisible" ng-click="$ctrl.showAddColumn(true)">{{ 'Add new column' | translate }}</button>
-		</section>
-
-		<section class="columnsList" ng-show="false">
-			<header class="clearfix">
-				<label>{{ 'Columns' | translate }}</label>
-				<i class="fa fa-plus-circle addColumn" aria-hidden="true" ng-click="$ctrl.showAddColumn(true)"></i>
-			</header>
-
-			<div class="columnItem" ng-repeat="column in [] track by $index">
-				<label
-					draggable="true"
-					ng-click="$ctrl.editionColumnMode(column, $index)"
-					ng-show="!column.expanded"
-				>{{column.name}}</label>
-				<i
-					class="fa fa-trash"
-					aria-hidden="true"
-					ng-click="$ctrl.deleteColumn(column, $index); $event.stopPropagation();"
-				></i>
-			</div>
 		</section>
 
 		<section class="sidebar-panel">

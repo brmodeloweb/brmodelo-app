@@ -30,7 +30,8 @@ export default app.component("columnForm", {
 		dismiss: "&",
     column: "<",
     index: "<",
-    tableNames: "<"
+    tableNames: "<",
+		delete: "<"
 	},
 	controller: Controller,
 }).name;
