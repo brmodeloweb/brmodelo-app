@@ -63,7 +63,3 @@ describe("Model", () => {
 		});
 	});
 });
-
-Cypress.Commands.add("dragAndDropTableAt", (x, y) => {
-	cy.get(".joint-type-uml-class").move({ deltaX: x, deltaY: y });
-});
