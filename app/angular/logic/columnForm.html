@@ -92,8 +92,13 @@
 		</dropdown>
 	</div>
 
-	<footer class="column-details-actions">
-		<button class="br-button" ng-click="$ctrl.save($ctrl.column, $ctrl.index)">{{ 'Save' | translate }}</button>
-		<button class="br-button yellow" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+	<footer class="card-item-actions">
+		<div class="actions-regular">
+			<button class="br-button" ng-click="$ctrl.save($ctrl.column, $ctrl.index)">{{ 'Save' | translate }}</button>
+			<button class="br-button warning" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+		</div>
+		<div class="actions-destructive">
+			<button class="br-button destructive" ng-click="">{{ 'Delete' | translate }}</button>
+		</div>
 	</footer>
 </div>

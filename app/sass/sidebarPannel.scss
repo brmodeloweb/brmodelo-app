@@ -51,16 +51,16 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .column-details
+// .card-item
 ////////////////////////////////////////////////////////////////////////////////
-.column-details {
+.card-item {
 	padding: 12px 8px;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	margin-bottom: 8px;
 }
 
-.column-details header {
+.card-item header {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -68,7 +68,7 @@
 	;
 }
 
-.column-details .table-title {
+.card-item .table-title {
 	margin: 0;
 	line-height: 1.2em;
 	font-size: 12px;
@@ -77,7 +77,7 @@
 	word-break: break-all;
 }
 
-.column-details .relationship {
+.card-item .relationship {
 	display: inline-block;
 	border: 1px solid #000;
 	border-radius: 2px;
@@ -87,21 +87,34 @@
 	letter-spacing: 0.1em;
 }
 
-.column-details-content .form-group {margin-bottom: 12px;}
+.card-item-content .form-group {margin-bottom: 12px;}
+
+.card-item .checkbox { margin: 4px 0; }
 
 ////////////////////////////////////////////////////////////////////////////////
-//
+// .card-item-actions
 ////////////////////////////////////////////////////////////////////////////////
-.column-details-actions {
-	display: flex;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+.card-item-actions {
 	align-items: center;
 	border-top: 1px solid #ddd;
-	padding-top: 12px;;
+	padding-top: 12px;
 }
 
-.column-details-actions .br-button {width: 50%;}
+.card-item-actions .actions-regular,
+.card-item-actions .actions-destructive {
+	box-sizing: border-box;
+}
 
-.column-details .checkbox { margin: 4px 0; }
+.card-item-actions .actions-destructive{
+	padding-top: 12px;
+}
+
+.card-item-actions .actions-regular .br-button {
+	display: inline-block;
+	width: calc(50% - 6px);
+	margin: 0;
+}
+
+.card-item-actions .actions-regular .br-button:first-child {
+	margin-right: 8px;
+}
