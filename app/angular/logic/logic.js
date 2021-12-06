@@ -3,10 +3,10 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
-import Column from "../service/Column";
 import preventExitServiceModule from "../service/preventExitService";
 import view from "../view/view";
 import columnForm from "./columnForm";
+import sidebarControlLogical from "./sidebarControl";
 
 const controller = function (
 	$rootScope,
@@ -47,20 +47,6 @@ const controller = function (
 		type: "success"
 	}
 
-	ctrl.sections = {
-		tableProperties: true,
-		columns: false,
-		views: false,
-	}
-
-	ctrl.toggleSection = (section) => {
-		ctrl.sections[section] = !ctrl.sections[section];
-	}
-
-	ctrl.changeVisible = function () {
-		ctrl.editionVisible = !ctrl.editionVisible;
-	}
-
 	ctrl.print = function () {
 		window.print();
 	}
@@ -72,12 +58,6 @@ const controller = function (
 	ctrl.$onInit = () => {
 		ctrl.setLoading(true);
 		LogicService.buildWorkspace($stateParams.references.modelid, $rootScope.loggeduser, ctrl.stopLoading, $stateParams.references.conversionId);
-	}
-
-	ctrl.closeAllColumns = function () {
-		for (var i = 0; i < ctrl.columns.length; i++) {
-			ctrl.columns[i].expanded = false;
-		}
 	}
 
 	ctrl.showFeedback = function (newMessage, show, type) {
@@ -111,10 +91,6 @@ const controller = function (
 		$timeout(() => {
 			ctrl.selectedLink = null;
 			ctrl.selectedElement = element;
-			if (element != null) {
-				ctrl.selectedName = element.attributes.name;
-				ctrl.selectedType = element.attributes.type;
-			}
 		});
 	});
 
@@ -168,76 +144,6 @@ const controller = function (
 	ctrl.updateCardB = function (card) {
 		LogicService.editCardinalityB(card);
 	}
-
-	ctrl.changeName = function () {
-		if (ctrl.selectedName != null && ctrl.selectedName != "") {
-			LogicService.editName(ctrl.selectedName);
-		}
-	}
-
-	ctrl.deleteColumn = function (column, $index) {
-		LogicService.deleteColumn($index);
-	}
-
-	ctrl.editionColumnMode = function (column) {
-		loadTables();
-		ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
-
-		ctrl.closeAllColumns();
-
-		column.expanded = true;
-	}
-
-	ctrl.editColumn = function (editedColumn, $index) {
-		if (editedColumn.name == "") {
-			ctrl.showFeedback("The column name cannot be empty!", true, "error");
-			return;
-		}
-
-		LogicService.editColumn($index, editedColumn);
-
-		ctrl.closeAllColumns();
-	}
-
-	ctrl.addColumn = function (column) {
-		if (column.name == "") {
-			ctrl.showFeedback("The column name cannot be empty!", true, "error");
-			return;
-		}
-
-		if (column.FK && column.tableOrigin.idName == "") {
-			ctrl.showFeedback("Select the foreign table source!", true, "error");
-			return;
-		} else {
-			column.tableOrigin.idOrigin = ctrl.mapTables.get(column.tableOrigin.idName);
-		}
-
-		LogicService.addColumn(column);
-		ctrl.addColumnModel = ctrl.newColumnObject();
-		ctrl.addColumnVisible = false;
-	}
-
-	const loadTables = () => {
-		ctrl.tableNames = [];
-		ctrl.mapTables = LogicService.getTablesMap();
-		for (var key of ctrl.mapTables.keys()) {
-			ctrl.tableNames.push({"name": key, "type": key});
-		}
-	}
-
-	ctrl.showAddColumn = function (show) {
-		ctrl.addColumnVisible = show;
-		ctrl.addColumnModel = ctrl.newColumnObject();
-		
-		loadTables();
-	}
-
-	ctrl.newColumnObject = function () {
-		return new Column();
-	}
-
-	ctrl.addColumnModel = ctrl.newColumnObject();
-	ctrl.editColumnModel = ctrl.newColumnObject();
 
 	ctrl.undoModel = function () {
 		LogicService.undo();
@@ -319,7 +225,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, view, columnForm])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, view, columnForm, sidebarControlLogical])
 	.component("editorLogic", {
 		template,
 		controller,

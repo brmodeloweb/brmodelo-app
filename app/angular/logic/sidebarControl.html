@@ -1,0 +1,91 @@
+<aside class="model-properties" data-ng-class="{'active': $ctrl.visible}">
+
+	<span class="action" data-ng-click="$ctrl.changeVisible()">
+		<i class="fa angle-double-icon" data-ng-class="$ctrl.visible ? 'fa-angle-double-right' : 'fa-angle-double-left'"></i>
+	</span>
+
+	<div class="properties-content old" ng-if="$ctrl.selectedElement == null">
+		<div class="form-group">
+			<div class="empty-state">
+				<p>{{ 'Select an element to edit' | translate }}</p>
+			</div>
+		</div><!-- End .form-group -->
+	</div>
+
+	<div class="properties-content" ng-show="$ctrl.selectedElement != null && $ctrl.selectedType === 'uml.Class'">
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('tableProperties')">
+				<h3>{{ 'Table properties' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.tableProperties ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+
+			<div class="panel-content" ng-show="$ctrl.sections.tableProperties">
+				<div class="form-group">
+					<label for="entry-name">{{ 'Name' | translate }}</label>
+					<input
+						id="entry-name"
+						type="text"
+						class="form-control"
+						ng-model="$ctrl.selectedName"
+						ng-change="$ctrl.changeName()"
+					/>
+				</div><!-- End .form-group -->
+			</div>
+		</section>
+
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('columns')">
+				<h3>{{ 'Columns' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.columns ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+
+			<div class="panel-content" ng-show="$ctrl.sections.columns">
+				<ul class="table-columns">
+					<li class="column-details" ng-repeat="column in $ctrl.columns track by $index">
+						<header ng-click="$ctrl.editionColumnMode(column, $index)" ng-show="!column.expanded">
+							<h4 class="table-title">{{column.name}}</h4>
+							<span class="relationship" ng-show="column.PK">PK</span>
+						</header>
+
+						<column-form ng-show="column.expanded" table-names="$ctrl.tableNames" column="$ctrl.editColumnModel" save="$ctrl.editColumn" index="$index" dismiss="column.expanded = !column.expanded"></column-form>
+					</li>
+				</ul>
+
+				<div class="column-details" ng-show="$ctrl.addColumnVisible">
+					<column-form table-names="$ctrl.tableNames" column="$ctrl.addColumnModel" save="$ctrl.addColumn" dismiss="$ctrl.showAddColumn(false)"></column-form>
+				</div>
+				<button class="br-button br-button--full" ng-show="!$ctrl.addColumnVisible" ng-click="$ctrl.showAddColumn(true)">{{ 'Add new column' | translate }}</button>
+		</section>
+
+		<section class="columnsList" ng-show="false">
+			<header class="clearfix">
+				<label>{{ 'Columns' | translate }}</label>
+				<i class="fa fa-plus-circle addColumn" aria-hidden="true" ng-click="$ctrl.showAddColumn(true)"></i>
+			</header>
+
+			<div class="columnItem" ng-repeat="column in [] track by $index">
+				<label
+					draggable="true"
+					ng-click="$ctrl.editionColumnMode(column, $index)"
+					ng-show="!column.expanded"
+				>{{column.name}}</label>
+				<i
+					class="fa fa-trash"
+					aria-hidden="true"
+					ng-click="$ctrl.deleteColumn(column, $index); $event.stopPropagation();"
+				></i>
+			</div>
+		</section>
+
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('views')">
+				<h3>{{ 'Views' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.views ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+
+			<div class="panel-content" ng-show="$ctrl.sections.views">
+				<view table="{ basedIn: $ctrl.selectedName, columns: $ctrl.columns }"></view>
+			</div>
+		</section>
+	</div><!-- End .properties-content -->
+</aside>
