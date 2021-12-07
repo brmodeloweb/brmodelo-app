@@ -7,7 +7,9 @@
     "start:dev": "export NODE_ENV=development && nodemon server.js",
     "start:frontend": "export NODE_ENV=development && webpack-dev-server --hot --progress --color",
     "build": "export NODE_ENV=production && rimraf ./app/dist && webpack --progress --color",
-    "test": "yarn cypress run",
+    "test": "jest --coverage",
+    "test:cy": "yarn cypress run",
+    "test:watch": "jest --watch",
     "cy:open": "yarn cypress open"
   },
   "engines": {
