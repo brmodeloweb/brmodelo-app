@@ -39,7 +39,7 @@
     "hotkeys-js": "^3.8.7",
     "jointjs": "3.4.4",
     "jquery": "^3.3.29",
-    "mailgun.js": "^3.4.0",
+    "mailgun.js": "^4.1.0",
     "mongodb": "~3.5.8",
     "mongoose": "^5.9.18",
     "morgan": "^1.10.0",

@@ -5659,10 +5659,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-mailgun.js@^3.4.0:
-  version "3.7.3"
-  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.7.3.tgz#a4c661350ab1d8324ffc9c81221f23d3cdf88dbd"
-  integrity sha512-DHP9v6dNPRM2puOx4HVJVjQKWzgzpQ5Fh1ICW632qaDVgd/QqGRhOjCoHe12JJqrFkhgDvXBhENYeZDHYdkJHQ==
+mailgun.js@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-4.1.0.tgz#21ba9405edc507cf7049f3772509e5a0e3c37168"
+  integrity sha512-X6s+Fuup1tIfDh8tgen7dsrpb0Lp4PitLdqn0vT7ENiHXSUiKgcj8gab8LbvNIaVdgrOC/gJXVmHRiDb2SsttA==
   dependencies:
     base-64 "^1.0.0"
     bluebird "^3.7.2"
