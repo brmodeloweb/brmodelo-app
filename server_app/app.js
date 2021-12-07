@@ -4,7 +4,6 @@ const errorhandler = require("errorhandler");
 const morgan = require("morgan");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
 const path = require("path");
 const cors = require("cors");
 const { uploadMiddleware } = require("./middleware/middleware");
@@ -16,7 +15,6 @@ let app = express();
 // Where to find the view files
 const viewsPath = path.join(__dirname, "../views");
 app.set("views", viewsPath);
-app.engine("html", ejs.renderFile);
 
 app.use(morgan("dev"));
 app.use(bodyParser.json()); // support json encoded bodies
