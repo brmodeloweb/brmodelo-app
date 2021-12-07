@@ -34,7 +34,7 @@ const Controller = function (LogicService) {
 	}
 
 	$ctrl.editionColumnMode = (column) => {
-		loadTables();
+		loadTableNames();
 		$ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
 		$ctrl.closeAllColumns();
 		column.expanded = true;
@@ -78,10 +78,10 @@ const Controller = function (LogicService) {
 	$ctrl.showAddColumn = function (show) {
 		$ctrl.addColumnVisible = show;
 		$ctrl.addColumnModel = $ctrl.newColumnObject();
-		loadTables();
+		loadTableNames();
 	}
 
-	const loadTables = () => {
+	const loadTableNames = () => {
 		$ctrl.tableNames = [];
 		$ctrl.mapTables = LogicService.getTablesMap();
 		for (var key of $ctrl.mapTables.keys()) {

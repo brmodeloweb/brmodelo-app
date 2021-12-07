@@ -5,12 +5,12 @@
 		ng-show="!$ctrl.formVisible"
 		ng-click="$ctrl.toggleForm()"
 	>
-		{{'Criar view' | translate }}
+		{{'Create view' | translate }}
 	</button>
 
 	<form class="card-item views" ng-show="$ctrl.formVisible">
 		<div class="form-group">
-			<labelfor="view-based-in">{{ 'Based in' | translate }}</label>
+			<label for="view-based-in">{{ 'Based in' | translate }}</label>
 			<input
 				id="view-based-in"
 				type="text"
@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="view-query">{{ 'View columns' | translate }}</label>
+			<label for="view-columns">{{ 'View columns' | translate }}</label>
 
 			<section class="table-preview">
 				<!-- Color of this header should be populated dinamically once users have the option to choose it  -->

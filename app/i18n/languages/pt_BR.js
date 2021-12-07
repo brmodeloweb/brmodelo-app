@@ -95,4 +95,11 @@ export default {
 	'You have unsaved changes. Are you sure you want to exit without saving?': 'Você tem alterações não salvas. Tem certeza que deseja sair sem salvar?',
 	'Exit without saving': 'Sair sem salvar',
 	'Name': 'Nome',
+	'Views': 'Visões',
+	'Columns': 'Colunas',
+	'Table properties': 'Propriedades da tabela',
+	'Based in': 'Tabela base',
+	'View columns': 'Colunas da visão',
+	'Query expression': 'Query expression',
+	'Create view': 'Criar visão',
 };
