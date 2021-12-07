@@ -6,13 +6,14 @@ const Dotenv = require("dotenv-webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
+	mode: process.env.NODE_ENV,
 	context: `${__dirname}/app`,
 	entry: "./angular/index.js",
 	output: {
 		path: `${__dirname}/app/dist`,
 		filename: "[name].js",
 	},
-	devtool: "inline-source-map",
+	devtool: process.env.NODE_ENV === "production" ? false : "inline-source-map",
 	devServer: {
 		static: path.join(__dirname, "app"),
 		compress: true,
@@ -26,11 +27,6 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: `bundle.css`,
-		}),
-		new CopyPlugin({
-			patterns: [
-				{ from: `${__dirname}/app/img`, to: `${__dirname}/app/dist/img` },
-			],
 		}),
 	],
 	optimization: {
@@ -59,11 +55,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg)$/i,
-				use: [
-					{
-						loader: "file-loader",
-					},
-				],
+				type: "asset/resource",
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
