@@ -10,11 +10,11 @@ module.exports = {
 	entry: "./angular/index.js",
 	output: {
 		path: `${__dirname}/app/dist`,
-		filename: "bundle.js",
+		filename: "[name].js",
 	},
 	devtool: "inline-source-map",
 	devServer: {
-		contentBase: path.join(__dirname, "app"),
+		static: path.join(__dirname, "app"),
 		compress: true,
 		port: 9000,
 	},
