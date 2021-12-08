@@ -86,7 +86,7 @@ const remove = async (modelId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const result = await modelRepository.deleteOne({ _id: modelId });
-			if(result.ok) {
+			if(result != null) {
 				return resolve("ok");
 			}
 			return reject();

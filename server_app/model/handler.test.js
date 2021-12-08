@@ -42,9 +42,17 @@ describe("Test save /models", () => {
 });
 
 describe("Test list all /models", () => {
+
+	beforeEach(() => {
+		jest.resetModules();
+	});
+
 	test("It should send 200 user exists", async () => {
-		const response = await request(app).get("/").send([]);
+		const response = await request(app).get("/models").send([]);
+		mockModelService.listAll.mockResolvedValue([]);
+
 		expect(response.statusCode).toBe(200);
+		expect(mockModelService.listAll).toHaveBeenCalled();
 	});
 });
 
