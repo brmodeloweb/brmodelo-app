@@ -95,4 +95,6 @@ export default {
   'You have unsaved changes. Are you sure you want to exit without saving?': 'Você tem alterações não salvas. Tem certeza que deseja sair sem salvar?',
   'Exit without saving': 'Sair sem salvar',
   'Name': 'Nome',
+  'Last save:': 'Salvo por último:',
+  'at': 'às',
 };
