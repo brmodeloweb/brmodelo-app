@@ -44,15 +44,22 @@ Cypress.Commands.add("deleteModelViaApi", (modelId) => {
 	);
 });
 
-Cypress.Commands.add("createModelViaApi", (type, userId) => {
-	cy.request({
-		method: "POST",
-		url: `${Cypress.config("apiUrl")}/models`,
-		body: {
-			name: animal.type(),
-			user: userId,
-			type,
-			model: { cells: [] },
-		},
-	});
+Cypress.Commands.add(
+	"createModelViaApi",
+	(type, userId, model = { cell: [] }) => {
+		cy.request({
+			method: "POST",
+			url: `${Cypress.config("apiUrl")}/models`,
+			body: {
+				name: animal.type(),
+				user: userId,
+				type,
+				model,
+			},
+		});
+	}
+);
+
+Cypress.Commands.add("dragAndDropTableAt", (x, y) => {
+	cy.get(".joint-type-uml-class").move({ deltaX: x, deltaY: y });
 });

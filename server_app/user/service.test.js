@@ -1,10 +1,10 @@
 const userService = require("./service");
-const mockingoose = require('mockingoose');
 
-const UserRepository = require("./model");
+jest.mock("./model");
+const UserRepositoryMock = require("./model");
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  jest.restoreAllMocks();
 });
 
 describe("login", () => {
@@ -13,13 +13,11 @@ describe("login", () => {
     const userParam = {username: 'user@mail.com', password: "123456"};
   
     const docResponse = {
-      _id: '507f191e810c19729de860ea',
-      name: 'name',
-      login: 'user@mail.com',
-      password: '123456' 
+        "id": "507f191e810c19729de860ea",
+        "name": "name"
     };
   
-    mockingoose(UserRepository).toReturn(docResponse, 'findOne');
+    UserRepositoryMock.findOne.mockResolvedValue(docResponse);
   
     const userSession = await userService.login(userParam);
   
@@ -34,7 +32,7 @@ describe("login", () => {
   test('should return null when login not found', async () => {
     const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
   
-    mockingoose(UserRepository).toReturn(null, 'findOne');
+    UserRepositoryMock.findOne.mockResolvedValue(null);
   
     const userSession = await userService.login(userParam);
   
@@ -44,7 +42,7 @@ describe("login", () => {
   test('should catch error when service fires it', async () => {
     const userParam = {username: 'user@mail.com', password: "123456", sessionId:"123456"};
   
-    mockingoose(UserRepository).toReturn(new Error("find error"), 'findOne');
+    UserRepositoryMock.findOne.mockResolvedValue(new Error("find error"));
   
     expect(() => {
       userService.login(userParam).toThrow();
@@ -64,8 +62,8 @@ describe("create", () => {
       login: 'user@mail.com',
       password: '123456' 
     };
-  
-    mockingoose(UserRepository).toReturn(docResponse, 'findOne');
+
+    UserRepositoryMock.findOne.mockResolvedValue(docResponse);
 
     expect(() => {
       userService.create(userParam).toThrow();
@@ -84,9 +82,9 @@ describe("create", () => {
       password: '123456' 
     };
     
-    mockingoose(UserRepository)
-      .toReturn(null, 'findOne')
-      .toReturn(docResponse, 'create');
+    UserRepositoryMock.findOne.mockResolvedValue(null);
+
+    UserRepositoryMock.create.mockResolvedValue(docResponse);
 
     const createResponse = await userService.create(userParam);
 

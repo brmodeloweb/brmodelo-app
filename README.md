@@ -12,6 +12,7 @@
 
 To run this application you'll need:
 
+- [EditorConfig](https://editorconfig.org/)
 - [Node.js](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
 - [Yarn](https://yarnpkg.com/)
 - [MongoDB Community Edition](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
@@ -36,13 +37,21 @@ To run this application you'll need:
 
 ## Tests
 
+### Unit Tests
+
+To run the unit tests you have two options:
+
+- `yarn test` to run all the tests and collect the coverage report. Or; 
+- Execute in a `watch` mode by running `yarn test:watch`
+
+### E2E Tests
 First, make sure you have the project up and running with database, backend, and frontend.
 
 1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
 1. Edit `cypress.env.json` adding valid user credentials (Username and password)  
 	> **Note:** Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
 1. To run the tests you have two options:
-	1. Run headless mode in your terminal window: `yarn test`
+	1. Run headless mode in your terminal window: `yarn test:cy`
 	1. Run interactive mode: `yarn cy:open`
 
 ## Production environments
