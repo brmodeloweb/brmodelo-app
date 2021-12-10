@@ -1,3 +1,1 @@
-<footer class="status-bar">
-    <span>Salvo por último: {{ $ctrl.updatedAt | date:"dd/MM/yyyy 'às' hh:mm:ss" }}</span>
-</footer>
+<p class="status-bar">{{ 'Last save:' | translate }} {{ $ctrl.updatedAt | date:"dd/MM/yyyy" }} {{ 'at' | translate }} {{ $ctrl.updatedAt | date:"hh:mm" }}</p>

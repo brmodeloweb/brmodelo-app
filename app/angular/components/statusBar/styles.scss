@@ -1,12 +1,6 @@
 .status-bar {
-    position: fixed;
-    bottom: 0;
-    left: 215px;
-    height: 36px;
-    background-color: #fff;
-    border-top: 1px solid #e7e7e7;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 8px;
+	font-size: 0.9em;
+	font-style: italic;
+	font-weight: 300;
+	color: rgba(#000, 1);
 }
