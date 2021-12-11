@@ -46,6 +46,7 @@ export default {
   'Cancel': 'Cancelar',
   'Delete': 'Excluir',
   'Are you sure you want to delete the model?': 'Tem certeza que deseja excluir a modelagem?',
+  'Delete model': 'Deletar modelagem',
   'Rename': 'Renomear',
   'Close': 'Fechar',
   'SQL': 'SQL',
@@ -95,4 +96,8 @@ export default {
   'You have unsaved changes. Are you sure you want to exit without saving?': 'Você tem alterações não salvas. Tem certeza que deseja sair sem salvar?',
   'Exit without saving': 'Sair sem salvar',
   'Name': 'Nome',
+  'Import model': 'Importar modelo',
+  'File': 'Arquivo',
+  'Import': 'Importar',
+  //'': '',
 };
