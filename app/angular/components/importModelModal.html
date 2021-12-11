@@ -16,18 +16,20 @@
 					autocomplete="off"
 				/>
 			</div>
-			<div class="form-group">
-				<label for="import-model" class="col-sm-3 control-label">{{ 'Name' | translate }}</label>
-				<div class="col-sm-7">
-					<input
-						class="form-control"
-						ng-class=""
-						type="text"
-						id="import-model"
-						data-ng-model=""
-						autocomplete="off"
-					/>
-				</div>
+		</div>
+		<!-- Name field start disabled by default, once user choose the file we fill this field with the file name, removing file extension -->
+		<div class="form-group">
+			<label for="import-model-name" class="col-sm-3 control-label">{{ 'Name' | translate }}</label>
+			<div class="col-sm-7">
+				<input
+					class="form-control"
+					ng-class=""
+					type="text"
+					id="import-model-name"
+					data-ng-model=""
+					autocomplete="off"
+					disabled
+				/>
 			</div>
 		</div>
 	</form>
