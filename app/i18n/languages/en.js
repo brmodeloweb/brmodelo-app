@@ -46,6 +46,7 @@ export default {
   'Cancel': 'Cancel',
   'Delete': 'Delete',
   'Are you sure you want to delete the model?': 'Are you sure you want to delete the model?',
+  'Delete model': 'Delete model',
   'Rename': 'Rename',
   'Close': 'Close',
   'SQL': 'SQL',
