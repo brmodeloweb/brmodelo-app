@@ -6,6 +6,7 @@ import modelCreateComponent from "../components/createModelModal";
 import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
+import modelImportComponent from "../components/importModelModal";
 
 const ListController = function (
 	$state,
@@ -81,6 +82,16 @@ const ListController = function (
 		});
 	};
 
+	ctrl.importModel = () => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: '<import-model-modal close="$close(result)" dismiss="$dismiss()"></import-model-modal>',
+		});
+		modalInstance.result.then((model) => {
+			console.log('Salvei!')
+		});
+	};
+
 	ctrl.renameModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
@@ -149,7 +160,8 @@ export default angular
 		modelCreateComponent,
 		modelDuplicatorComponent,
 		modelDeleterComponent,
-		modelRenameComponent
+		modelRenameComponent,
+		modelImportComponent
 	])
 	.component("workspace", {
 		template,
