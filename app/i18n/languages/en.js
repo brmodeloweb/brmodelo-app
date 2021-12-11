@@ -98,5 +98,6 @@ export default {
   'Import model': 'Import model',
   'File': 'File',
   'Import': 'Import',
+  'Please select a .BRT file': 'Please choose a .BRT file to upload',
 //'': '',
 };
