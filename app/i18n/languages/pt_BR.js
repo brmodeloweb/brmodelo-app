@@ -100,5 +100,7 @@ export default {
   'File': 'Arquivo',
   'Import': 'Importar',
   'Please select a .BRT file': 'Por favor selecione um arquivo .BRT',
-  //'': '',
+  'Documentation': 'Documentação',
+  'Request feature': 'Requisitar funcionalidade',
+  'Report bug': 'Reportar problema',
 };
