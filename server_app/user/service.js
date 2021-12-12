@@ -59,12 +59,12 @@ const recovery = async (email) => {
 
       const recoveryCode = Math.floor(Math.random() * 10000000000) + 1;;
 
-      const recoveredUser = await UserRepository.updateOne(
+      const recoveredUser = await UserRepository.findOneAndUpdate(
         { login: email },
         { $set: { recoveryCode: recoveryCode } }
       );
 
-      if (recoveredUser.ok) {
+      if (recoveredUser != null) {
         mailSender.recovery(email, recoveryCode)
           .then(response => {
             console.log(response);
@@ -110,16 +110,15 @@ const resetPassword = async (mail, code, newPassword) => {
         return reject(new Error("Invalid recovery code"));
       }
 
-      const response = await UserRepository.updateOne(
+      const response = await UserRepository.findOneAndUpdate(
         { login: mail, recoveryCode: code },
         { $set: { password: encriptor.Crypto(newPassword, mail), recoveryCode: null } }
       );
-  
-      if(!response.ok) {
-        console.log(response);
+
+      if(response == null) {
         return reject(new Error("Error reseting password"));
       }
-  
+
       resolve();
     } catch (error) {
       console.error(error);
@@ -133,7 +132,7 @@ const userService = {
   login,
   create,
   recovery,
-  isValidRecovery, 
+  isValidRecovery,
   resetPassword
 };
 

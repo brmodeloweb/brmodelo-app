@@ -3,15 +3,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
-const CopyPlugin = require("copy-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 
 module.exports = {
+	mode: process.env.NODE_ENV,
 	context: `${__dirname}/app`,
 	entry: "./angular/index.js",
 	output: {
 		path: `${__dirname}/app/dist`,
-		filename: "bundle.js",
+		filename: "[name].js",
 	},
 	resolve: {
 		extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -21,9 +21,9 @@ module.exports = {
 			}),
 		],
 	},
-	devtool: "inline-source-map",
+	devtool: process.env.NODE_ENV === "production" ? false : "inline-source-map",
 	devServer: {
-		contentBase: path.join(__dirname, "app"),
+		static: path.join(__dirname, "app"),
 		compress: true,
 		port: 9000,
 	},
@@ -35,11 +35,6 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: `bundle.css`,
-		}),
-		new CopyPlugin({
-			patterns: [
-				{ from: `${__dirname}/app/img`, to: `${__dirname}/app/dist/img` },
-			],
 		}),
 	],
 	optimization: {
@@ -70,11 +65,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg)$/i,
-				use: [
-					{
-						loader: "file-loader",
-					},
-				],
+				type: "asset/resource",
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
@@ -98,15 +89,7 @@ module.exports = {
 			},
 			{
 				test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-				use: [
-					{
-						loader: "file-loader",
-						options: {
-							name: "[name].[ext]",
-							outputPath: "fonts/",
-						},
-					},
-				],
+				type: "asset/resource",
 			},
 		],
 	},

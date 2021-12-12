@@ -49,11 +49,11 @@ const save = async ({ name, type, model, userId }) => {
 const edit = async (modelId, model) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await modelRepository.updateOne(
+			const response = await modelRepository.findOneAndUpdate(
 				{ _id: modelId },
 				{ $set: { model: model, updated: Date.now() } }
 			);
-			if (response.ok) {
+			if (response != null) {
 				return resolve(response);
 			}
 			return reject();
@@ -67,11 +67,11 @@ const edit = async (modelId, model) => {
 const rename = async (modelId, newName) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await modelRepository.updateOne(
+			const response = await modelRepository.findOneAndUpdate(
 				{ _id: modelId },
 				{ $set: { name: newName, updated: Date.now() } }
 			);
-			if (response.ok) {
+			if (response != null) {
 				return resolve(response);
 			}
 			return reject();
@@ -86,7 +86,7 @@ const remove = async (modelId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const result = await modelRepository.deleteOne({ _id: modelId });
-			if(result.ok) {
+			if(result != null) {
 				return resolve("ok");
 			}
 			return reject();
