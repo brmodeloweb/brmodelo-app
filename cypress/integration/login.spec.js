@@ -35,11 +35,11 @@ describe("Login", () => {
 			.should("contain", "Login")
 			.and("be.visible");
 
-		cy.get("[data-cy='lang-ptbr']").click();
+		cy.get("[data-cy='lang-pt-br']").click();
 
 		cy.get("@submitButton").should("contain", "Entrar").and("be.visible");
 
-		cy.get("[data-cy='lang-enus']").click();
+		cy.get("[data-cy='lang-en-us']").click();
 
 		cy.get("@submitButton").should("contain", "Login").and("be.visible");
 	});
