@@ -311,7 +311,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			idLink: link.id,
 		});
 
-		target.addAttribute(column);
+		if (target) target.addAttribute(column);
 		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 	}
 
