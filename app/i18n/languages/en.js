@@ -3,7 +3,7 @@ export default {
   'Password': 'Password',
   'Login': 'Login',
   'Create account': 'Create account',
-  'Change language': 'Change language',
+  'Language': 'Language',
   'Recovery password': 'Recovery password',
   'Report a bug or request a feature': 'Report a bug or request a feature',
   'Back': 'Back',
