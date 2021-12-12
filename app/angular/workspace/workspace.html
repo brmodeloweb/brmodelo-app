@@ -50,10 +50,10 @@
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
-								<i title="{{ 'Rename' | translate }}" class="fa fa-pencil" aria-hidden="true" ng-click="$ctrl.renameModel(model)"></i>
-								<i title="{{ 'Duplicate' | translate }}" class="fa fa-files-o" aria-hidden="true" ng-click="$ctrl.duplicateModel(model)"></i>
-								<i title="{{ 'Export' | translate }}" class="fa fa-download" aria-hidden="true" ng-click="$ctrl.exportModel(model)"></i>
-								<i title="{{ 'Delete' | translate }}" class="fa fa-trash" aria-hidden="true" ng-click="$ctrl.deleteModel(model)"></i>
+								<i title="{{ 'Rename' | translate }}" class="fa fa-pencil" ng-click="$ctrl.renameModel(model)"></i>
+								<i title="{{ 'Duplicate' | translate }}" class="fa fa-files-o" ng-click="$ctrl.duplicateModel(model)"></i>
+								<i title="{{ 'Export' | translate }}" class="fa fa-download" ng-click="$ctrl.exportModel(model)"></i>
+								<i title="{{ 'Delete' | translate }}" class="fa fa-trash" ng-click="$ctrl.deleteModel(model)"></i>
 							</td>
 						</tr>
 					</tbody>
