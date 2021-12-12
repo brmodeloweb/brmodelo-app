@@ -527,6 +527,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.model.id = resp.data._id;
 			ctrl.model.model = jsonModel;
 			configs.graph.fromJSON(jsonModel);
+			ctrl.modelState.updatedAt = resp.data.updated
 			ctrl.setLoading(false);
 		});
 	}

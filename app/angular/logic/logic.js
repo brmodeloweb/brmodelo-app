@@ -148,6 +148,10 @@ const controller = function (
 		setIsDirty(true);
 	});
 
+	$rootScope.$on("model:loaded", function (_, model) {
+		console.log('model', model)
+		ctrl.modelState.updatedAt = model.updated ?? new Date();
+	});
 
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
