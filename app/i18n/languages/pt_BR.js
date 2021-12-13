@@ -101,4 +101,6 @@ export default {
 	'File': 'Arquivo',
 	'Import': 'Importar',
 	'Please select a .BRT file': 'Por favor selecione um arquivo .BRT',
+	'Last save:': 'Salvo por último:',
+	'at': 'às',
 };
