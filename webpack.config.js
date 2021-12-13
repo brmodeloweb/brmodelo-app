@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 
 module.exports = {
 	mode: process.env.NODE_ENV,
@@ -11,6 +12,14 @@ module.exports = {
 	output: {
 		path: `${__dirname}/app/dist`,
 		filename: "[name].js",
+	},
+	resolve: {
+		extensions: [".js", ".jsx", ".ts", ".tsx"],
+		plugins: [
+			new TsconfigPathsPlugin({
+				configFile: path.resolve(__dirname, "app/react/tsconfig.json"),
+			}),
+		],
 	},
 	devtool: process.env.NODE_ENV === "production" ? false : "inline-source-map",
 	devServer: {
@@ -38,11 +47,13 @@ module.exports = {
 			chunks: "all",
 		},
 	},
-	resolve: {
-		extensions: [".js", ".jsx"],
-	},
 	module: {
 		rules: [
+			{
+				test: /\.tsx?$/,
+				use: "ts-loader",
+				exclude: /node_modules/,
+			},
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
