@@ -1,20 +1,13 @@
 /// <reference path="../support/commands.d.ts" />
 
 describe("Login", () => {
-	const userLoginData = {
-		user: Cypress.env("user"),
-		password: Cypress.env("password"),
-		useCachedSession: {
-			cacheSession: false,
-		},
-	};
-
-	const { user, password, useCachedSession } = userLoginData;
+	const user = Cypress.env("user");
+	const password = Cypress.env("password");
 
 	it("logs in and out successfully", () => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
 
-		cy.login(user, password, useCachedSession);
+		cy.loginViaGui(user, password);
 
 		cy.wait("@getUserModels");
 		cy.url().should("be.equal", `${Cypress.config("baseUrl")}/#!/main`);
@@ -35,18 +28,18 @@ describe("Login", () => {
 			.should("contain", "Login")
 			.and("be.visible");
 
-		cy.get(".country-flag[alt='Brazil flag']").click();
+		cy.get("[data-cy='lang-pt-br']").click();
 
 		cy.get("@submitButton").should("contain", "Entrar").and("be.visible");
 
-		cy.get(".country-flag[alt='United States flag']").click();
+		cy.get("[data-cy='lang-en-us']").click();
 
 		cy.get("@submitButton").should("contain", "Login").and("be.visible");
 	});
 
 	context("Form validations", () => {
 		it("alerts on invalid user email", () => {
-			cy.login("invalid#user.com", password, useCachedSession);
+			cy.loginViaGui("invalid#user.com", password);
 
 			cy.contains(".alert-danger", "Fill the fields in red").should(
 				"be.visible"
@@ -68,7 +61,7 @@ describe("Login", () => {
 		});
 
 		it("alerts on invalid user", () => {
-			cy.login("invalid@user.com", password, useCachedSession);
+			cy.loginViaGui("invalid@user.com", password);
 
 			cy.contains(".alert-danger", "Incorrect login or password").should(
 				"be.visible"
@@ -76,7 +69,7 @@ describe("Login", () => {
 		});
 
 		it("alerts on invalid password", () => {
-			cy.login(user, "invalid-pwd", useCachedSession);
+			cy.loginViaGui(user, "invalid-pwd");
 
 			cy.contains(".alert-danger", "Incorrect login or password").should(
 				"be.visible"
