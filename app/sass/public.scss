@@ -69,26 +69,45 @@
 	font-size: 1.2em;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// .public-footer
-////////////////////////////////////////////////////////////////////////////////
-
-.public-footer {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	margin-top: 40px;
-}
-
-.public-footer .country-flag:not(:first-of-type) {
-	margin-left: 10px;
-}
-
-.country-flag {
-	width: 40px;
-	border-radius: 2px;
-	cursor: pointer;
-};
 .br-button.register {
 	padding: 10px 16px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .language-selector
+////////////////////////////////////////////////////////////////////////////////
+.language-selector {
+	width: 375px;
+	margin: 24px auto 0 auto;
+	text-align: center;
+}
+
+.language-selector h2 {
+	font-size: 1.2em;
+	font-weight: 400;
+	margin: 0 0 8px 0;
+}
+
+.language-selector h2 .fa {
+	font-size: 2rem;
+}
+
+.language-list {
+	display: flex;
+	justify-content: center;
+	padding: 0;
+	list-style: none;
+}
+
+.language-list li::after {
+	content: "|";
+	display: inline-block;
+}
+
+.language-list li:last-child::after {
+	display: none;
+}
+
+.language-list li a {
+	margin: 4px;
 }
