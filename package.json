@@ -9,6 +9,7 @@
     "build": "export NODE_ENV=production && rimraf ./app/dist && webpack --progress --color",
     "test": "jest --coverage",
     "test:cy": "yarn cypress run",
+    "test:cy:firefox": "yarn cypress run --browser firefox",
     "test:watch": "jest --watch",
     "cy:open": "yarn cypress open"
   },
