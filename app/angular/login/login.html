@@ -54,9 +54,14 @@
 			<aside>
 		</section>
 
-		<footer class="public-footer">
-			<img ng-click="$ctrl.changeLanguage('pt_BR')" class="country-flag" src="../../img/br-flag.svg" alt="Brazil flag" />
-			<img ng-click="$ctrl.changeLanguage('en')" class="country-flag" src="../../img/us-flag.svg" alt="United States flag" />
+		<footer class="language-selector">
+			<h2>
+				<i class="fa fa-globe" aria-hidden="true"></i>
+				{{'Language' | translate}}</h2>
+			<ul class="language-list">
+				<li><a href="#" ng-click="$ctrl.changeLanguage('pt_BR')" data-cy="lang-pt-br">{{ 'Português (Brasil)' | translate }}</a></li>
+				<li><a href="#" ng-click="$ctrl.changeLanguage('en')" data-cy="lang-en-us">{{ 'English (United States)' | translate }}</a></li>
+			</ul>
 		</footer>
 	</div>
 	<bug-report-button></bug-report-button>

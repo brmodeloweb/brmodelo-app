@@ -35,11 +35,11 @@ describe("Login", () => {
 			.should("contain", "Login")
 			.and("be.visible");
 
-		cy.get(".country-flag[alt='Brazil flag']").click();
+		cy.get("[data-cy='lang-pt-br']").click();
 
 		cy.get("@submitButton").should("contain", "Entrar").and("be.visible");
 
-		cy.get(".country-flag[alt='United States flag']").click();
+		cy.get("[data-cy='lang-en-us']").click();
 
 		cy.get("@submitButton").should("contain", "Login").and("be.visible");
 	});
