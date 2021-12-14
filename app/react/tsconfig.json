@@ -19,7 +19,9 @@
 			"@components/*": ["components/*"],
 			"@pages/*": ["pages/*"],
 			"@containers/*": ["containers/*"],
-			"@enums/*": ["utils/enums/*"]
-		}
-	}
+			"@enums/*": ["utils/enums/*"],
+			"@types/*": ["typings/*"],
+			"@styles/*": ["styles/*"],
+		},
+	},
 }
