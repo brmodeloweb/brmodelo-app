@@ -4,7 +4,6 @@ describe("Model", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
 		cy.loginViaApi();
-		cy.visit("/#!/main");
 		cy.wait("@getUserModels").then((userModels) => {
 			cy.cleanUpUserModels(userModels);
 			cy.reload();
