@@ -35,6 +35,7 @@
 		}
 	},
 	"rules": {
+		"import/prefer-default-export": "off",
 		"no-shadow": "off",
 		"react/jsx-uses-react": "off",
 		"react/react-in-jsx-scope": "off",

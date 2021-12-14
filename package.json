@@ -19,6 +19,8 @@
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "@uirouter/angularjs": "^1.0.30",
+    "@xstyled/styled-components": "^3.1.2",
+    "@xstyled/system": "^3.1.2",
     "angular": "^1.8.0",
     "angular-cookies": "^1.8.0",
     "angular-translate": "^2.18.3",

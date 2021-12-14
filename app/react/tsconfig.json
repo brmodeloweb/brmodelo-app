@@ -22,6 +22,7 @@
 			"@enums/*": ["utils/enums/*"],
 			"@types/*": ["typings/*"],
 			"@styles/*": ["styles/*"],
+			"@i18n/*": ["i18n/*"],
 		},
-	},
+	}
 }
