@@ -1,4 +1,8 @@
-const theme = {
+import { DefaultTheme } from "styled-components";
+
+export type Sizes = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
+const theme: DefaultTheme = {
 	colors: {
 		primary: {
 			500: "#3d9970",
@@ -8,6 +12,7 @@ const theme = {
 		},
 		gray: {
 			100: "#f8f8f8",
+			200: "#e7e7e7",
 		},
 		white: "#fff",
 		black: "#000",
@@ -25,6 +30,14 @@ const theme = {
 		"2xl": "1rem",
 		"3xl": "1.5rem",
 		full: "9999px",
+	},
+	sizes: {
+		xs: "22rem", // 320
+		sm: "28rem", // 384
+		md: "32rem", // 448
+		lg: "36rem", // 512
+		xl: "42rem", // 576
+		"2xl": "48rem", // 672
 	},
 	spacings: {
 		0.5: "0.125rem",
