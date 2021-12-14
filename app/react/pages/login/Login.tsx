@@ -1,5 +1,6 @@
+import Button from "@components/Button";
 import Card from "@components/Card";
-import { Box, Flex } from "@components/Layout";
+import { Flex } from "@components/Layout";
 import Logo from "@components/Logo";
 import Heading from "@components/Typography/Heading/Heading";
 import BasePage from "@containers/BasePage";
@@ -14,11 +15,24 @@ const Login = () => {
 		<BasePage>
 			<PageContainer>
 				<Card w="lg">
-					<Flex alignItems="center" justifyContent="center">
+					<Flex alignItems="center" justifyContent="center" spaceX={4} mb={9}>
 						<Logo />
-						<Box ml={4}>
-							<Heading color="primary-500">{t("BR Modelo Web")}</Heading>
-						</Box>
+						<Heading color="primary-500">{t("BR Modelo Web")}</Heading>
+					</Flex>
+					<Flex flexDirection="column">
+						<Button
+							variant="outline"
+							textTransform="uppercase"
+							onClick={console.log}
+						>
+							Entrar
+						</Button>
+						<Button variant="link" onClick={console.log}>
+							Recuperar Senha
+						</Button>
+						<Button variant="solid" onClick={console.log}>
+							Criar conta
+						</Button>
 					</Flex>
 				</Card>
 			</PageContainer>

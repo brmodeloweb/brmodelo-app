@@ -1,28 +1,50 @@
-import React, { MouseEventHandler } from "react";
+import styled, { css } from "@xstyled/styled-components";
 
-enum ButtonTypes {
-	BUTTON = "button",
-	SUBMIT = "submit",
-	RESET = "reset",
-}
+type Variant = "solid" | "outline" | "link";
 
-type ButtonProps = {
-	label?: string;
-	type?: ButtonTypes;
-	onClick: MouseEventHandler<HTMLButtonElement>;
-};
-
-const Button: React.FC<ButtonProps> = ({
-	label,
-	onClick,
-	type = ButtonTypes.BUTTON,
-	children,
-}) => {
-	return (
-		<button type={type} onClick={onClick} className="br-button btn-block">
-			{children ?? label}
-		</button>
-	);
-};
+const Button = styled.buttonBox<{ variant?: Variant }>`
+	display: inline-block;
+	font-family: "Fira Sans", sans-serif;
+	font-size: 1em;
+	padding: 4 8;
+	font-weight: normal;
+	border-radius: default;
+	transition: all 0.25s ease;
+	${({ variant, color = "primary-500" }) => {
+		switch (variant) {
+			case "outline":
+				return css`
+					background-color: transparent;
+					border: 1px solid;
+					border-color: ${color};
+					color: ${color};
+					&:hover {
+						background-color: ${color};
+						color: white;
+					}
+				`;
+			case "link":
+				return css`
+					height: auto;
+					color: ${color};
+					&:hover {
+						text-decoration: underline;
+					}
+				`;
+			case "solid":
+			default:
+				return css`
+					background-color: primary-500;
+					border: 1px solid;
+					border-color: primary-500;
+					color: white;
+					&:hover {
+						background-color: transparent;
+						color: primary-500;
+					}
+				`;
+		}
+	}}
+`;
 
 export default Button;
