@@ -1,3 +1,5 @@
+/// <reference path="../../support/commands.d.ts" />
+
 const conceptualModel = require("../../fixtures/conceptualModel.json");
 
 describe("Models - Creation via API call", () => {

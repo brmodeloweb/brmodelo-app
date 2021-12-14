@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { animal } = require("faker");
 
 Cypress.Commands.add(
