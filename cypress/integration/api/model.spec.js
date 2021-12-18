@@ -1,10 +1,11 @@
+/// <reference path="../../support/commands.d.ts" />
+
 const conceptualModel = require("../../fixtures/conceptualModel.json");
 
 describe("Models - Creation via API call", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
 		cy.loginViaApi();
-		cy.visit("/#!/main");
 		cy.wait("@getUserModels").then((userModels) => {
 			cy.cleanUpUserModels(userModels);
 		});

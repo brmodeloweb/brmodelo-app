@@ -100,4 +100,10 @@ export default {
 	'Documentation': 'Documentation',
 	'Request feature': 'Request feature',
 	'Report bug': 'Report bug',
+	'Import model': 'Import model',
+	'File': 'File',
+	'Import': 'Import',
+	'Please select a .BRT file': 'Please select a .BRT file',
+	'Last save:': 'Last save:',
+	'at': 'at'
 };
