@@ -3,14 +3,27 @@ import template from "./view.html";
 
 const app = angular.module("app.view", []);
 
-const Controller = function () {
+const Controller = function (LogicService) {
 	const $ctrl = this;
 
-	$ctrl.view = {};
+	$ctrl.$onInit = () => {
+		const allTables = LogicService.loadTables();
+		$ctrl.tables = $ctrl.view.tables;
+		allTables.forEach(table => {
+			if ($ctrl.tables.some(({ name }) => table.name === name)) return;
+			$ctrl.tables.push(table);
+		});
+	};
+
+	$ctrl.changeName = () => {
+		if ($ctrl.view.name) {
+			LogicService.editName($ctrl.view.name);
+		}
+	}
 
 	$ctrl.$onChanges = (changes) => {
-		if (changes.table != null && changes.table.currentValue != null) {
-			$ctrl.view = changes.table.currentValue;
+		if (changes.view != null && changes.view.currentValue != null) {
+			$ctrl.view = changes.view.currentValue;
 		}
 	}
 
@@ -18,16 +31,33 @@ const Controller = function () {
 		$ctrl.formVisible = !$ctrl.formVisible;
 	};
 
+	$ctrl.cancel = () => {
+		$ctrl.dismiss();
+	};
+
 	$ctrl.save = () => {
-		console.log($ctrl.view);
+		let columns = [];
+		const filteredTables = $ctrl.tables.filter(({ selected }) => selected);
+		filteredTables.forEach(table => {
+			table.columns.forEach(column => {
+				if (column.selected) columns.push(column);
+			})
+		})
+		const view = {
+			...$ctrl.view,
+			basedIn: filteredTables,
+			columns,
+		}
+		LogicService.save(view);
 	}
 };
 
 export default app.component("view", {
 	template: template,
 	bindings: {
-		table: "<",
-		tables: "<",
+		view: "<",
+		isEdit: "<",
+		dismiss: "<"
 	},
 	controller: Controller,
 }).name;

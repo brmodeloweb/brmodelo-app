@@ -395,6 +395,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
+	ls.save = function (view) {
+		ls.selectedElement.model.saveView(view);
+		$rootScope.$broadcast('element:update', ls.selectedElement);
+	}
+
 	ls.addColumn = function (column) {
 		if (column.FK) {
 			var myLink = new joint.shapes.erd.Line({
@@ -465,6 +470,33 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			map.set(elements[i].attributes.name, elements[i].id);
 		}
 		return map;
+	}
+
+	const isTable = (element) => element.attributes.type === 'uml.Class';
+
+	const isView = (element) => element.attributes.type === 'uml.Abstract';
+
+	const filterViewsByTableId = (views, tableId) => views.some(({ id }) => id === tableId);
+
+	ls.loadTables = () => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isTable).map(element => ({
+			name: element.attributes.name,
+			columns: element.attributes.objects.map(object => ({ ...object, selected: false })),
+			id: element.id
+		}));
+	};
+
+	ls.filterTablesWithRelationship = (tableId) => {
+		const tables = ls.loadTables();
+		return tables.filter(table => table.columns.some(({ tableOrigin }) => tableOrigin.idOrigin === tableId));
+	}
+
+	ls.loadViewsByTable = (tableId) => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isView)
+			.filter(({ attributes }) => filterViewsByTableId(attributes.objects, tableId))
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects }));
 	}
 
 	ls.buildTablesJson = function () {

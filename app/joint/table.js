@@ -182,34 +182,20 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
         return this.get('name');
     },
 
-    addAttribute: function (obj) {
-        if (obj.PK) {
-            obj.name = obj.name + ": PK";
-        }
-
-        if (obj.FK) {
-            obj.name = obj.name + ": FK";
-        }
-
-        this.get('attributes').push(obj.name);
-        this.get('objects').push(obj);
+	saveView: function (view) {
+		this.set('attributes', view.columns.map(column => column.name));
+		this.set('objects', view.basedIn);
         this.updateRectangles();
         this.trigger('uml-update');
-    },
+	},
 
-    deleteColumn: function (index) {
-        this.get('attributes').splice(index, 1);
-        this.get('objects').splice(index, 1);
+	addAttributes: function (objects) {
+		objects.forEach(({ name }) => this.get('attributes').push(name));
+        this.get('objects').push(objects);
         this.updateRectangles();
         this.trigger('uml-update');
-    },
+	},
 
-    editColumn: function (index, name, object) {
-        this.get('attributes')[index] = name;
-        this.get('objects')[index] = object;
-        this.updateRectangles();
-        this.trigger('uml-update');
-    },
 
     updateRectangles: function () {
 

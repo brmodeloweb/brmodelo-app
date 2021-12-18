@@ -8,6 +8,7 @@ const Controller = function (LogicService) {
 	const $ctrl = this;
 
 	$ctrl.visible = true;
+	$ctrl.views = [];
 
 	$ctrl.sections = {
 		tableProperties: true,
@@ -38,6 +39,17 @@ const Controller = function (LogicService) {
 		$ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
 		$ctrl.closeAllColumns();
 		column.expanded = true;
+	}
+
+	$ctrl.closeAllViews = () => {
+		$ctrl.views.forEach(view => {
+			view.expanded = false;
+		});
+	}
+
+	$ctrl.editView = (view) => {
+		$ctrl.closeAllViews();
+		view.expanded = true;
 	}
 
 	$ctrl.editColumn = (editedColumn, $index) => {
@@ -110,6 +122,9 @@ const Controller = function (LogicService) {
 			$ctrl.selectedName = changes.selected.currentValue.attributes.name;
 			$ctrl.selectedType = changes.selected.currentValue.attributes.type;
 			$ctrl.columns = changes.selected.currentValue.attributes.objects;
+			if ($ctrl.selectedType === 'uml.Class') {
+				$ctrl.views = LogicService.loadViewsByTable(changes.selected.currentValue.id);
+			}
 		}
 	}
 };

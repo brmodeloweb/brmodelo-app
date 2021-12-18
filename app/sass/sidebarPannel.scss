@@ -65,7 +65,6 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	;
 }
 
 .card-item .table-title {
@@ -117,4 +116,32 @@
 
 .card-item-actions .actions-regular .br-button:first-child {
 	margin-right: 8px;
+}
+
+.views-list {
+	list-style: none;
+	padding: 0;
+}
+
+.view-item {
+	padding: 12px 8px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	margin-bottom: 8px;
+	cursor: pointer;
+}
+
+.view-item header {
+	display: flex;
+	align-items: center;
+}
+
+.view-item header i {
+	font-size: 16px;
+}
+
+.view-item header h4 {
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0 0 0 4px;
 }
