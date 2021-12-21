@@ -90,20 +90,6 @@ app.config([
 			},
 		});
 
-		$stateProvider.state("newLogin", {
-			url: "/newLogin",
-			component: "loginPage",
-			data: {
-				requireLogin: false,
-			},
-			lazyLoad($transition$) {
-				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
-				return import("../react/pages/login").then((mod) =>
-					$ocLazyLoad.inject(mod.default)
-				);
-			},
-		});
-
 		$stateProvider.state("register", {
 			url: "/register",
 			component: "signup",

@@ -3,7 +3,7 @@ import Card from "@components/Card";
 import { Label, Input } from "@components/Form";
 import { Box, Divider, Flex } from "@components/Layout";
 import Logo from "@components/Logo";
-import Heading from "@components/Typography/Heading/Heading";
+import { Heading } from "@components/Typography";
 import BasePage from "@containers/BasePage";
 import { useTranslation } from "react-i18next";
 import { x } from "@xstyled/styled-components";
@@ -11,8 +11,8 @@ import { useForm } from "react-hook-form";
 import LocaleNamespaces from "@i18n/LocaleNamespaces";
 import Languages from "@i18n/Languages";
 import { PageContainer } from "./styles";
-import BrFlag from "../../../img/br-flag.svg";
-import UsFlag from "../../../img/us-flag.svg";
+import BrFlag from "../../../../img/br-flag.svg";
+import UsFlag from "../../../../img/us-flag.svg";
 
 interface LoginProps {
 	onSuccess: () => void;
@@ -30,6 +30,8 @@ const Login: React.FC<LoginProps> = ({
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
+	// @ts-ignore
 	const { t, i18n } = useTranslation(LocaleNamespaces.LOGIN);
 
 	const onSubmit = (data: unknown) => {

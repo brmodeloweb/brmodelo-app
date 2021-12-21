@@ -1,5 +1,5 @@
 import angular from "angular";
-import LoginPage from "../../react/pages/login";
+import LoginPage from "../../react/src/pages/login";
 import authService from "../service/authService";
 import template from "./login.html";
 

@@ -3,8 +3,8 @@ import React from "react";
 import { I18nextProvider } from "react-i18next";
 import { ThemeProvider, Preflight } from "@xstyled/styled-components";
 import GlobalStyles from "@styles/GlobalStyles";
+import theme from "@styles/theme";
 import i18n from "../../i18n";
-import theme from "../../theme";
 
 const BasePage: React.FC = ({ children }) => {
 	return (

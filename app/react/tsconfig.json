@@ -14,15 +14,16 @@
 		"isolatedModules": true,
 		"noEmit": false,
 		"jsx": "react-jsx",
-		"baseUrl": ".",
+		"baseUrl": "./src",
 		"paths": {
 			"@components/*": ["components/*"],
 			"@pages/*": ["pages/*"],
 			"@containers/*": ["containers/*"],
-			"@enums/*": ["utils/enums/*"],
 			"@types/*": ["typings/*"],
 			"@styles/*": ["styles/*"],
 			"@i18n/*": ["i18n/*"],
 		}
-	}
+	},
+	"include": ["src/typings/**/*.d.ts", "src/**/*"],
+	"exclude": ["node_modules"]
 }
