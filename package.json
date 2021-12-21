@@ -57,7 +57,7 @@
     "response-time": "^2.3.2",
     "styled-components": "^5.3.3",
     "textangular": "^1.5.16",
-    "typescript": "^4.5.2",
+    "typescript": "^4.5.4",
     "underscore": "^1.12.0"
   },
   "devDependencies": {

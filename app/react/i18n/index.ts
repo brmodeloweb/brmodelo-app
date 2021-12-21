@@ -7,9 +7,9 @@ import loginTranslationEN from "../public/locales/en/login.json";
 import commonTranslationPTBR from "../public/locales/pt-BR/common.json";
 import loginTranslationPTBR from "../public/locales/pt-BR/login.json";
 
-export const defaultNS = LocaleNamespaces.COMMON;
+const defaultNS = LocaleNamespaces.COMMON;
 
-export const resources: Resource = {
+const resources: Resource = {
 	en: {
 		common: commonTranslationEN,
 		login: loginTranslationEN,
