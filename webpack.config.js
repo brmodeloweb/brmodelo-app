@@ -14,7 +14,7 @@ module.exports = {
 		filename: "[name].js",
 	},
 	resolve: {
-		extensions: [".js", ".jsx", ".ts", ".tsx"],
+		extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
 		plugins: [
 			new TsconfigPathsPlugin({
 				configFile: path.resolve(__dirname, "app/react/tsconfig.json"),
