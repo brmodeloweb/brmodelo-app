@@ -5,8 +5,7 @@ const { random } = require("faker");
 describe("Models view", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
-		cy.login();
-		cy.visit("/#!/main");
+		cy.loginViaApi();
 		cy.wait("@getUserModels").then((userModels) => {
 			const userId = userModels.request.url.match(/userId=([^&]*)/)[1];
 

@@ -3,17 +3,26 @@
 declare namespace Cypress {
   interface Chainable {
     /**
-     * **Logs into the BR Modelo Wep App with the possibility of caching the session.**
+     * **Logs into the BR Modelo Wep App via the Graphical User Interface (GUI).**
      *
-     * @param username string - The email of the user you want to log in with
-     * @param password string - The password of the user you want to log in with
-     * @param options object - An object with the property `cacheSession` that can be `true` or `false` (default is `true`)
+     * @param email string - The email of the user you want to log in with. Defaults to Cypress.env('user') if no value is provided.
+     * @param password string - The password of the user you want to log in with. Defaults to Cypress.env('password') if no value is provided.
      *
-     * @example cy.login() // Logs into the app using the default email and password (defined as envs), and caches the session
-     * @example cy.login('user@email.com', 'S3cRe7P@ssW0rd') // Logs into the app using the provided credentials, and caches the session
-     * @example cy.login(Cypress.env('USER_EMAIL'), Cypress.env('USER_PASSWORD'), { cacheSession: false }) // Logs into the app using email and password defined as envs, and does not cache the session
+     * @example cy.loginViaGui() // Logs into the app via GUI using the default email and password (defined as envs).
+     * @example cy.loginViaGui('user@email.com', 'S3cRe7P@ssW0rd') // Logs into the app via GUI using the provided credentials.
      */
-    login(username?: string, password?: string, options?: object): void | Cypress.Chainable<null>
+    loginViaGui(username?: string, password?: string)
+
+    /**
+     * **Programmatically logs into the BR Modelo Wep App.**
+     *
+     * @param email string - The email of the user you want to log in with. Defaults to Cypress.env('user') if no value is provided.
+     * @param password string - The password of the user you want to log in with. Defaults to Cypress.env('password') if no value is provided.
+     *
+     * @example cy.loginViaApi() // Programmatically logs into the app using the default email and password (defined as envs).
+     * @example cy.loginViaApi('user@email.com', 'S3cRe7P@ssW0rd') // Programmatically logs into the app using the provided credentials.
+     */
+     loginViaApi(username?: string, password?: string)
 
     /**
      * **Deletes all models of the logged in user.**

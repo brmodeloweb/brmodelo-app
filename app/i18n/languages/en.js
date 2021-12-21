@@ -4,6 +4,7 @@ export default {
 	'Login': 'Login',
 	'Create account': 'Create account',
 	'Change language': 'Change language',
+	'Language': 'Language',
 	'Recovery password': 'Recovery password',
 	'Report a bug or request a feature': 'Report a bug or request a feature',
 	'Back': 'Back',
@@ -96,4 +97,13 @@ export default {
 	'You have unsaved changes. Are you sure you want to exit without saving?': 'You have unsaved changes. Are you sure you want to exit without saving?',
 	'Exit without saving': 'Exit without saving',
 	'Name': 'Name',
+	'Documentation': 'Documentation',
+	'Request feature': 'Request feature',
+	'Report bug': 'Report bug',
+	'Import model': 'Import model',
+	'File': 'File',
+	'Import': 'Import',
+	'Please select a .BRT file': 'Please select a .BRT file',
+	'Last save:': 'Last save:',
+	'at': 'at'
 };

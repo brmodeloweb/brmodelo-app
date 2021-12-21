@@ -1,25 +1,27 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { animal } = require("faker");
 
 Cypress.Commands.add(
-	"login",
-	(
-		user = Cypress.env("user"),
-		password = Cypress.env("password"),
-		{ cacheSession = true } = {}
-	) => {
-		const fillLoginFormAndSubmit = () => {
-			cy.visit("/");
-			cy.get("#userEmail").type(user);
-			cy.get("#userPassword").type(password, { log: false });
-			cy.contains("button", "Login").click();
-		};
+	"loginViaGui",
+	(user = Cypress.env("user"), password = Cypress.env("password")) => {
+		cy.visit("/");
+		cy.get("#userEmail").type(user);
+		cy.get("#userPassword").type(password, { log: false });
+		cy.contains("button", "Login").click();
+	}
+);
 
-		if (cacheSession) {
-			cy.session([user], fillLoginFormAndSubmit);
-		} else {
-			fillLoginFormAndSubmit();
-		}
+Cypress.Commands.add(
+	"loginViaApi",
+	(user = Cypress.env("user"), password = Cypress.env("password")) => {
+		cy.request("POST", `${Cypress.config("apiUrl")}/users/login`, {
+			username: user,
+			password,
+		}).then((response) => {
+			cy.setCookie("sessionId", response.body.sessionId);
+			cy.setCookie("userId", response.body.userId);
+			cy.setCookie("userName", response.body.userName);
+			cy.visit("/#!/main");
+		});
 	}
 );
 
