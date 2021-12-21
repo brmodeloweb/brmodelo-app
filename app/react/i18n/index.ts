@@ -7,7 +7,9 @@ import loginTranslationEN from "../public/locales/en/login.json";
 import commonTranslationPTBR from "../public/locales/pt-BR/common.json";
 import loginTranslationPTBR from "../public/locales/pt-BR/login.json";
 
-const resources: Resource = {
+export const defaultNS = LocaleNamespaces.COMMON;
+
+export const resources: Resource = {
 	en: {
 		common: commonTranslationEN,
 		login: loginTranslationEN,
@@ -24,7 +26,7 @@ i18n
 	.init({
 		resources,
 		ns: Object.values(LocaleNamespaces),
-		defaultNS: LocaleNamespaces.COMMON,
+		defaultNS,
 		debug: process.env.NODE_ENV !== "production",
 		fallbackLng: "en",
 		interpolation: {

@@ -1,4 +1,5 @@
 import Box from "./Box";
+import Divider from "./Divider";
 import Flex from "./Flex";
 
-export { Flex, Box };
+export { Flex, Box, Divider };

@@ -2,10 +2,14 @@ import styled, { css } from "@xstyled/styled-components";
 
 type Variant = "solid" | "outline" | "link";
 
-const Button = styled.buttonBox<{ variant?: Variant }>`
+interface ButtonProps {
+	variant?: Variant;
+}
+
+const Button = styled.buttonBox<ButtonProps>`
 	display: inline-block;
 	font-family: "Fira Sans", sans-serif;
-	font-size: 1em;
+	font-size: 1.2em;
 	padding: 4 8;
 	font-weight: normal;
 	border-radius: default;
@@ -25,6 +29,7 @@ const Button = styled.buttonBox<{ variant?: Variant }>`
 				`;
 			case "link":
 				return css`
+					background-color: transparent;
 					height: auto;
 					color: ${color};
 					&:hover {
@@ -34,13 +39,13 @@ const Button = styled.buttonBox<{ variant?: Variant }>`
 			case "solid":
 			default:
 				return css`
-					background-color: primary-500;
+					background-color: ${color};
 					border: 1px solid;
-					border-color: primary-500;
+					border-color: ${color};
 					color: white;
 					&:hover {
 						background-color: transparent;
-						color: primary-500;
+						color: ${color};
 					}
 				`;
 		}

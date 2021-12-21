@@ -1,5 +1,5 @@
 import angular from "angular";
-// import ReactButton from "../../react/components/Button";
+import LoginPage from "../../react/pages/login";
 import authService from "../service/authService";
 import template from "./login.html";
 
@@ -34,6 +34,14 @@ const LoginController = function (AuthService, $state, $translate, $filter) {
 			.catch(handleLoginError);
 	};
 
+	ctrl.goToRecoveryPassword = () => {
+		$state.go("recovery");
+	};
+
+	ctrl.goToCreateAccount = () => {
+		$state.go("register");
+	};
+
 	ctrl.changeLanguage = (langKey) => {
 		localStorage.setItem('i18n', langKey);
 		$translate.use(langKey);
@@ -51,7 +59,7 @@ const LoginController = function (AuthService, $state, $translate, $filter) {
 };
 
 export default angular
-	.module("app.login", [authService])
+	.module("app.login", [authService, LoginPage])
 	.component("login", {
 		template,
 		controller: LoginController,

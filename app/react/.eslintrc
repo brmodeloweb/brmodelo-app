@@ -35,6 +35,8 @@
 		}
 	},
 	"rules": {
+		"react/prop-types": "off",
+		"react/self-closing-comp": ["error"],
 		"import/prefer-default-export": "off",
 		"no-shadow": "off",
 		"react/jsx-uses-react": "off",

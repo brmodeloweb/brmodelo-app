@@ -1,15 +1,41 @@
 import Button from "@components/Button";
 import Card from "@components/Card";
-import { Flex } from "@components/Layout";
+import { Label, Input } from "@components/Form";
+import { Box, Divider, Flex } from "@components/Layout";
 import Logo from "@components/Logo";
 import Heading from "@components/Typography/Heading/Heading";
 import BasePage from "@containers/BasePage";
 import LocaleNamespaces from "@i18n/LocaleNamespaces";
 import { useTranslation } from "react-i18next";
+import { x } from "@xstyled/styled-components";
+import Languages from "@i18n/Languages";
+import { useForm } from "react-hook-form";
 import { PageContainer } from "./styles";
+import BrFlag from "../../../img/br-flag.svg";
+import UsFlag from "../../../img/us-flag.svg";
 
-const Login = () => {
-	const { t } = useTranslation(LocaleNamespaces.LOGIN);
+interface LoginProps {
+	onSuccess: () => void;
+	goToRecoveryPassword: () => void;
+	goToCreateAccount: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({
+	onSuccess,
+	goToRecoveryPassword,
+	goToCreateAccount,
+}) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+	const { t, i18n } = useTranslation(LocaleNamespaces.LOGIN);
+
+	const onSubmit = (data: unknown) => {
+		console.log("data", data);
+		onSuccess();
+	};
 
 	return (
 		<BasePage>
@@ -19,22 +45,63 @@ const Login = () => {
 						<Logo />
 						<Heading color="primary-500">{t("BR Modelo Web")}</Heading>
 					</Flex>
-					<Flex flexDirection="column">
-						<Button
-							variant="outline"
-							textTransform="uppercase"
-							onClick={console.log}
-						>
-							Entrar
-						</Button>
-						<Button variant="link" onClick={console.log}>
-							Recuperar Senha
-						</Button>
-						<Button variant="solid" onClick={console.log}>
-							Criar conta
-						</Button>
-					</Flex>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<Flex flexDirection="column">
+							<Box my={4}>
+								<Label>{t("Email")}</Label>
+								<Input
+									type="email"
+									placeholder={t("Email")}
+									{...register("email", {
+										required: "required",
+										pattern: {
+											value: /\S+@\S+\.\S+/,
+											message: t("Invalid email"),
+										},
+									})}
+									hasError={!!errors.email}
+								/>
+							</Box>
+							<Box mt={2} mb={6}>
+								<Label>{t("Password")}</Label>
+								<Input
+									type="password"
+									placeholder={t("Password")}
+									{...register("password", {
+										required: "required",
+									})}
+									hasError={!!errors.password}
+								/>
+							</Box>
+							<Button type="submit" variant="outline" textTransform="uppercase">
+								{t("Login")}
+							</Button>
+							<Button variant="link" onClick={goToRecoveryPassword}>
+								{t("Recovery password")}
+							</Button>
+							<Divider />
+							<Button variant="solid" onClick={goToCreateAccount}>
+								{t("Create account")}
+							</Button>
+						</Flex>
+					</form>
 				</Card>
+				<Flex alignItems="center" justifyContent="center" mt={16} spaceX={4}>
+					<x.img
+						src={BrFlag}
+						alt="Brazil Flag"
+						w="40px"
+						cursor="pointer"
+						onClick={() => i18n.changeLanguage(Languages.PT_BR)}
+					/>
+					<x.img
+						src={UsFlag}
+						alt="USA Flag"
+						w="40px"
+						cursor="pointer"
+						onClick={() => i18n.changeLanguage(Languages.EN)}
+					/>
+				</Flex>
 			</PageContainer>
 		</BasePage>
 	);

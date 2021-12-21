@@ -51,6 +51,7 @@
     "raw-body": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.22.2",
     "react-i18next": "^11.14.3",
     "react2angular": "^4.0.6",
     "response-time": "^2.3.2",

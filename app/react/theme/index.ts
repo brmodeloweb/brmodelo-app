@@ -1,4 +1,5 @@
-import { DefaultTheme, defaultTheme } from "@xstyled/styled-components";
+import { defaultTheme } from "@xstyled/styled-components";
+import { generateHexAlphaVariants } from "@xstyled/system";
 
 export type Sizes = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
@@ -10,8 +11,11 @@ const theme = {
 		"primary-500": "#3d9970",
 		"secondary-500": "#dd7c58",
 
-		"cool-gray-100": "#f8f8f8",
-		"cool-gray-200": "#e7e7e7",
+		"gray-100": "#f8f8f8",
+		"gray-200": "#e7e7e7",
+		...generateHexAlphaVariants({
+			"red-500": "#ef4444",
+		}),
 	},
 	shadows: {
 		...defaultTheme.shadows,

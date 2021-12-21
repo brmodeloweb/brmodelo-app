@@ -5,4 +5,11 @@ import Login from "./Login";
 export { Login };
 export default angular
 	.module("app.react.loginPage", [])
-	.component("loginPage", react2angular(Login)).name;
+	.component(
+		"loginPage",
+		react2angular(Login, [
+			"onSuccess",
+			"goToRecoveryPassword",
+			"goToCreateAccount",
+		])
+	).name;
