@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"lib": ["esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": false,
+		"jsx": "react-jsx",
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": ["components/*"],
+			"@pages/*": ["pages/*"],
+			"@containers/*": ["containers/*"],
+			"@enums/*": ["utils/enums/*"]
+		}
+	}
+}

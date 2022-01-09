@@ -3,6 +3,8 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import bugReportButton from "../components/bugReportButton";
+import statusBar from "../components/statusBar";
 import preventExitServiceModule from "../service/preventExitService";
 import view from "../view/view";
 import columnForm from "./columnForm";
@@ -72,6 +74,7 @@ const controller = function (
 
 	ctrl.saveModel = function () {
 		setIsDirty(false);
+		ctrl.modelState.updatedAt = new Date();
 		LogicService.updateModel().then(function (res) {
 			ctrl.showFeedback("Saved successfully!", true, "success");
 		});
@@ -120,6 +123,8 @@ const controller = function (
 	});
 
 	$rootScope.$on('model:saved', () => {
+		setIsDirty(false);
+		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
 			ctrl.showFeedback("Saved successfully!", true, "success");
 		});
@@ -136,6 +141,10 @@ const controller = function (
 		setIsDirty(true);
 	});
 
+	$rootScope.$on("model:loaded", function (_, model) {
+		console.log('model', model)
+		ctrl.modelState.updatedAt = model.updated ?? new Date();
+	});
 
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
@@ -225,7 +234,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, view, columnForm, sidebarControlLogical])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical])
 	.component("editorLogic", {
 		template,
 		controller,

@@ -1,6 +1,7 @@
 import angular from "angular";
 import template from "./reset.html";
 import AuthService from "../service/authService"
+import bugReportButton from "../components/bugReportButton";
 
 const controller = function (AuthService, $stateParams, $timeout, $state, $filter) {
 	const ctrl = this;
@@ -96,7 +97,7 @@ const controller = function (AuthService, $stateParams, $timeout, $state, $filte
 };
 
 export default angular
-	.module("app.reset", [AuthService])
+	.module("app.reset", [AuthService, bugReportButton])
 	.component("resetPassword", {
 		template,
 		controller,

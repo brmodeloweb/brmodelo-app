@@ -92,7 +92,6 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.registerShortcuts();
 
 		ls.loadModel(modelid, userId, callback, conversionId);
-
 	}
 
 	ls.editCardinalityA = function (card) {
@@ -245,7 +244,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 				const logicJsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
 				ls.graph.fromJSON(logicJsonModel);
 				callback();
-
+				$rootScope.$broadcast('model:loaded', resp.data);
 				if (conversionId != null && conversionId != "" && modelid != "") {
 					ModelAPI.getModel(conversionId, userId).then(function (resp) {
 						const graph =new joint.dia.Graph({}, { cellNamespace: joint.shapes });
@@ -325,7 +324,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			idLink: link.id,
 		});
 
-		target.addAttribute(column);
+		if (target) target.addAttribute(column);
 		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
 	}
 
