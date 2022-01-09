@@ -8,6 +8,7 @@ import statusBar from "../components/statusBar";
 import preventExitServiceModule from "../service/preventExitService";
 import view from "../view/view";
 import columnForm from "./columnForm";
+import checkConstraint from "./checkConstraint";
 import sidebarControlLogical from "./sidebarControl";
 
 const controller = function (
@@ -234,7 +235,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint])
 	.component("editorLogic", {
 		template,
 		controller,

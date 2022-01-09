@@ -145,3 +145,16 @@
 	font-weight: 400;
 	margin: 0 0 0 4px;
 }
+
+.check-constraint {
+	margin-bottom: 12px;
+}
+
+.check-constraint .multiple-fields {
+	display: flex;
+	column-gap: 12px;
+}
+
+.check-constraint .form-field {
+	margin-bottom: 12px;
+}

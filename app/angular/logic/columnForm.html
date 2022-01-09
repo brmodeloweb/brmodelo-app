@@ -29,57 +29,61 @@
 		/>
 	</div>
 
-	<div class="checkbox">
-		<label for="column-pk">
-		<input
-			id="column-pk"
-			type="checkbox"
-			ng-model="$ctrl.column.PK"
-		/>{{ 'PK' | translate }}
-		</label>
-	</div>
+	<check-constraint column="$ctrl.column"></check-constraint>
 
-	<div class="checkbox">
-		<label for="column-fk">
-		<input
-			id="column-fk"
-			type="checkbox"
-			ng-model="$ctrl.column.FK"
-		/>{{ 'FK' | translate }}
-		</label>
-	</div>
+	<div class="form-group">
+		<div class="checkbox">
+			<label for="column-pk">
+			<input
+				id="column-pk"
+				type="checkbox"
+				ng-model="$ctrl.column.PK"
+			/>{{ 'PK' | translate }}
+			</label>
+		</div>
 
-	<div class="checkbox">
-		<label for="column-not-null">
-		<input
-			id="column-not-null"
-			type="checkbox"
-			ng-model="$ctrl.column.NOT_NULL"
-			ng-disabled="$ctrl.column.PK"
-		/>{{ 'NOT NULL' | translate }}
-		</label>
-	</div>
+		<div class="checkbox">
+			<label for="column-fk">
+			<input
+				id="column-fk"
+				type="checkbox"
+				ng-model="$ctrl.column.FK"
+			/>{{ 'FK' | translate }}
+			</label>
+		</div>
 
-	<div class="checkbox">
-		<label for="column-unique">
-		<input
-			id="column-unique"
-			type="checkbox"
-			ng-model="$ctrl.column.UNIQUE"
-			ng-disabled="$ctrl.column.PK || $ctrl.column.defaultValue"
-		/>{{ 'UNIQUE' | translate }}
-		</label>
-	</div>
+		<div class="checkbox">
+			<label for="column-not-null">
+			<input
+				id="column-not-null"
+				type="checkbox"
+				ng-model="$ctrl.column.NOT_NULL"
+				ng-disabled="$ctrl.column.PK"
+			/>{{ 'NOT NULL' | translate }}
+			</label>
+		</div>
 
-	<div class="checkbox">
-		<label for="column-auto-increment">
-		<input
-			id="column-auto-increment"
-			type="checkbox"
-			ng-model="$ctrl.column.AUTO_INCREMENT"
-			ng-disabled="$ctrl.column.defaultValue || $ctrl.column.FK"
-		/>{{ 'AUTO INCREMENT' | translate }}
-		</label>
+		<div class="checkbox">
+			<label for="column-unique">
+			<input
+				id="column-unique"
+				type="checkbox"
+				ng-model="$ctrl.column.UNIQUE"
+				ng-disabled="$ctrl.column.PK || $ctrl.column.defaultValue"
+			/>{{ 'UNIQUE' | translate }}
+			</label>
+		</div>
+
+		<div class="checkbox">
+			<label for="column-auto-increment">
+			<input
+				id="column-auto-increment"
+				type="checkbox"
+				ng-model="$ctrl.column.AUTO_INCREMENT"
+				ng-disabled="$ctrl.column.defaultValue || $ctrl.column.FK"
+			/>{{ 'AUTO INCREMENT' | translate }}
+			</label>
+		</div>
 	</div>
 
 	<div class="form-group clearfix">
