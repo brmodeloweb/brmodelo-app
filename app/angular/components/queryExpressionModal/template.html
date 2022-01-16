@@ -1,0 +1,60 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'Create query expression' | translate }}</h3>
+</div>
+
+<div class="modal-body query-expression-modal">
+	<p>{{ 'Add conditions to create query expression that will be used in the where clause when creating the view.' | translate }}</p>
+
+	<div class="labels-wrapper">
+		<div ng-repeat="condition in $ctrl.conditions track by $index">
+			<span class="condition-label" ng-if="condition.submitted">
+				{{ $ctrl.createLabel(condition) }}
+				<i title="{{ 'Delete' | translate }}" class="fa fa-close" ng-click="$ctrl.removeCondition($index)"></i>
+			</span>
+		</div>
+	</div>
+
+	<div ng-repeat="condition in $ctrl.conditions track by $index">
+		<div class="form-content" ng-if="!condition.submitted">
+			<dropdown
+				on-select="$ctrl.selectColumn(selected, $index)"
+				selected="{ name: condition.columnName || 'Select a value', type: condition.columnType || 'SELECT' }"
+				options="$ctrl.tableColumns">
+			</dropdown>
+
+			<sql-comparasion-dropdown
+				selected="condition"
+				on-select="$ctrl.selectComparasion(selected, $index)"
+				index="$index"
+				type="condition.columnType"
+				ng-if="condition.columnType">
+			</sql-comparasion-dropdown>
+
+			<input
+				type="text"
+				class="form-control"
+				ng-model="condition.comparativeValue"
+				ng-if="condition.type"
+			/>
+
+			<input
+				type="text"
+				class="form-control"
+				ng-model="condition.comparativeValue2"
+				ng-if="condition.type === 'BETWEEN'"
+			/>
+
+			<a class="br-button" ng-if="condition.columnName && condition.type && condition.comparativeValue" data-ng-click="$ctrl.saveCondition($index)">
+				<i title="{{ 'Save' | translate }}" class="fa fa-check" ng-click="$ctrl.duplicateModel(model)"></i>
+			</a>
+		</div>
+	</div>
+
+	<button class="br-button" type="button" ng-click="$ctrl.addCondition()">{{ 'Add condition' | translate }}</button>
+
+</div>
+
+<div class="modal-footer">
+	<button class="br-button warning" type="button" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+	<button class="br-button" type="button" ng-click="$ctrl.save($ctrl.name)">{{ 'Save' | translate }}</button>
+</div>

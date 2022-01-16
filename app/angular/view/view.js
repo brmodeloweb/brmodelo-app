@@ -3,7 +3,7 @@ import template from "./view.html";
 
 const app = angular.module("app.view", []);
 
-const Controller = function (LogicService) {
+const Controller = function (LogicService, $uibModal) {
 	const $ctrl = this;
 
 	$ctrl.$onInit = () => {
@@ -12,6 +12,22 @@ const Controller = function (LogicService) {
 		allTables.forEach(table => {
 			if ($ctrl.tables.some(({ name }) => table.name === name)) return;
 			$ctrl.tables.push(table);
+		});
+	};
+
+	$ctrl.queryExpressionModal = () => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: '<query-expression-modal query-conditions="$ctrl.view.queryConditions" tables="$ctrl.tables" close="$close(result)" dismiss="$dismiss(reason)"></query-expression-modal>',
+			controller: function () {
+				const ctrl = this;
+				ctrl.tables = $ctrl.tables.filter(({ selected }) => selected);
+				ctrl.queryConditions = $ctrl.view.queryConditions;
+			},
+			controllerAs: '$ctrl',
+		});
+		modalInstance.result.then((conditions) => {
+			$ctrl.view.queryConditions = conditions;
 		});
 	};
 
