@@ -130,4 +130,9 @@ export default {
 	'Type the expression check': 'Type the expression check',
 	'Show options to create constraint': 'Show options to create constraint',
 	'Create check constraint manually': 'Create check constraint manually',
+	'Add condition': 'Add condition',
+	'Create query expression': 'Create query expression',
+	'Show options to create query': 'Show options to create query',
+	'Add conditions to create query expression that will be used in the where clause when creating the view.': 'Add conditions to create query expression that will be used in the where clause when creating the view.',
+	'and': 'and',
 };
