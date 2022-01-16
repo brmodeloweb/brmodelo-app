@@ -2,11 +2,12 @@
 	<div ng-if="!$ctrl.isManual" class="form-field">
 		<div class="form-group clearfix">
 			<label for="">{{ 'Check' | translate }}</label>
-			<dropdown
+
+			<sql-comparasion-dropdown
+				selected="$ctrl.column.checkConstraint"
 				on-select="$ctrl.selectCheckConstraint(selected)"
-				selected="{ name: $ctrl.column.checkConstraint.name || 'Select a value', type: $ctrl.column.checkConstraint.type || 'SELECT' }"
-				options="$ctrl.checkConstraintOptions[$ctrl.column.type === 'VARCHAR(n)' || $ctrl.column.type === 'CHAR(n)' ? 'STRING' : 'NUMBER']">
-			</dropdown>
+				type="$ctrl.column.type">
+			</sql-comparasion-dropdown>
 		</div>
 
 		<div class="form-group multiple-fields" ng-if="$ctrl.column.checkConstraint.type">
