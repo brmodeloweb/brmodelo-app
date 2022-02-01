@@ -3,14 +3,6 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
-import "../../joint/joint.ui.stencil";
-import "../../joint/joint.ui.stencil.css";
-import "../../joint/joint.ui.selectionView";
-import "../../joint/joint.ui.selectionView.css";
-import "../../joint/joint.ui.halo.css";
-import "../../joint/joint.ui.halo";
-import "../../joint/br-scroller";
-import "../../joint/joint.dia.command";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
@@ -52,8 +44,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	const configs = {
 		graph: {},
 		paper: {},
-		paperScroller: {},
-		commandManager: {},
 		keyboardController: null,
 	};
 
@@ -90,23 +80,23 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.undoModel = () => {
-		configs.commandManager.undo();
+
 	}
 
 	ctrl.redoModel = () => {
-		configs.commandManager.redo();
+
 	}
 
 	ctrl.zoomIn = () => {
-		configs.paperScroller.zoom(0.1, { max: 2 });
+
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(-0.1, { min: 0.2 });
+
 	}
 
 	ctrl.zoomNone = () => {
-		configs.paperScroller.zoom();
+
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -152,7 +142,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
-		configs.selectionView.cancelSelection();
 		if(configs.selectedHalo) {
 			configs.selectedHalo.remove();
 			configs.selectedHalo = null;
@@ -352,9 +341,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		paper.on('blank:pointerdown', (evt) => {
 			ctrl.unselectAll();
 			if(!configs.keyboardController.spacePressed){
-				configs.selectionView.startSelecting(evt);
+
 			} else {
-				configs.paperScroller.startPanning(evt);
+
 			}
 		});
 
@@ -364,29 +353,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
 			ctrl.onSelectElement(cellView);
-			// if(x != null && y != null){
-			// 	$scope.conectElements(cellView, x, y)
-			// }
-			configs.selectionView.cancelSelection();
-
-			const halo = new joint.ui.Halo({
-				cellView: cellView,
-				boxContent: false
-			});
-
-			configs.selectedHalo = halo;
-			halo.on('action:link:add', function (link) {
-				ctrl.shapeLinker.onLink(link);
-			});
-
-			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
-				halo.removeHandle('resize');
-			}
-
-			halo.removeHandle('clone');
-			halo.removeHandle('fork');
-			halo.removeHandle('rotate');
-			halo.render();
 		});
 
 		configs.paper.on('link:mouseenter', (linkView) => {
@@ -463,8 +429,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		registerGraphEvents(configs.graph);
 
-		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
-
 		const content = $("#content");
 
 		configs.paper = new joint.dia.Paper({
@@ -480,32 +444,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController = new KeyboardController(configs.paper.$document);
 
 		registerPaperEvents(configs.paper);
-
-		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
-
-		configs.paperScroller = new joint.ui.PaperScroller({
-			paper: configs.paper,
-			cursor: "grabbing",
-			autoResizePaper: true,
-		});
-		content.append(configs.paperScroller.render().el);
-
-		const stencil = new joint.ui.Stencil({
-			graph: configs.graph,
-			paper: configs.paper,
-		});
-
-		$("#stencil-holder").append(stencil.render().el);
-
-		stencil.load([
-			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
-			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
-			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
-			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
-			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
-			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
-			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
-		]);
 
 		registerShortcuts();
 	};
@@ -543,8 +481,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.entityExtensor = null;
 		configs.graph = null;
 		configs.paper = null;
-		configs.paperScroller = null;
-		configs.commandManager = null;
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
 		preventExitService.cleanup(ctrl)()
