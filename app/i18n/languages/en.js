@@ -133,6 +133,15 @@ export default {
 	'Add condition': 'Add condition',
 	'Create query expression': 'Create query expression',
 	'Show options to create query': 'Show options to create query',
+	'Edit options to create query': 'Edit options to create query',
 	'Add conditions to create query expression that will be used in the where clause when creating the view.': 'Add conditions to create query expression that will be used in the where clause when creating the view.',
 	'and': 'and',
+	'Add new column': 'Add new column',
+	'Table': 'Table',
+	'View': 'View',
+	'Confirm': 'Confirm',
+	'Portuguese (Brazil)': 'Portuguese (Brazil)',
+	'English': 'English',
+	'AND': 'AND',
+	'OR': 'OR'
 };

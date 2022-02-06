@@ -3,14 +3,14 @@ import angular from "angular";
 import * as joint from "jointjs/dist/joint";
 import "jointjs/dist/joint.min.css";
 
-const logicFactory = () => {
+const logicFactory = ($filter) => {
 	var logic = joint.shapes.uml;
 
 	const _createTable = function () {
 		var table = new logic.Class({
 			position: { x: 12, y: 15 },
 			size: { width: 100, height: 100 },
-			name: 'Tabela',
+			name: $filter('translate')('Table'),
 			attributes: [],
 			attrs: {
 				'.uml-class-name-rect': {
@@ -42,11 +42,11 @@ const logicFactory = () => {
 		var table = new logic.Abstract({
 			position: { x: 12, y: 155 },
 			size: { width: 100, height: 100 },
-			name: 'View',
+			name: $filter('translate')('View'),
 			attributes: [],
 			attrs: {
 				'.uml-class-name-rect': {
-					fill: 'red',
+					fill: 'lightgray',
 					stroke: '#000',
 					'stroke-width': 0.5,
 				},

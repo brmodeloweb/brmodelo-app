@@ -64,11 +64,11 @@
 				id="view-query"
 				type="text"
 				class="form-control query-expression-textarea"
-				ng-model="$ctrl.view.query"
+				ng-model="$ctrl.view.queryConditions.text"
 			></textarea>
 		</div>
 
-		<a ng-click="$ctrl.queryExpressionModal()">{{ 'Show options to create query' | translate }}</a>
+		<a ng-click="$ctrl.queryExpressionModal()">{{ $ctrl.view.queryConditions.values ? 'Edit options to create query' : 'Show options to create query' | translate }}</a>
 
 		<div class="card-item-actions">
 			<div class="actions-regular">
