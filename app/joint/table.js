@@ -141,7 +141,7 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
         attrs: {
             rect: { 'width': 200 },
 
-            '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': 'red' },
+            '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': 'lightgray' },
             '.uml-class-attrs-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': '#fff' },
             '.uml-class-methods-rect': { 'stroke': 'black', 'stroke-width': 0.5, 'fill': '#fff' },
 
@@ -185,6 +185,7 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 	saveView: function (view) {
 		this.set('attributes', view.columns.map(column => column.name));
 		this.set('objects', view.basedIn);
+		this.set('queryConditions', view.queryConditions);
         this.updateRectangles();
         this.trigger('uml-update');
 	},

@@ -495,7 +495,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		const elements = ls.graph.getElements();
 		return elements.filter(isView)
 			.filter(({ attributes }) => filterViewsByTableId(attributes.objects, tableId))
-			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects }));
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
 	}
 
 	ls.buildTablesJson = function () {

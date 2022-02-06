@@ -16,10 +16,19 @@ const Controller = function ($filter) {
 		type: null,
 		comparativeValue: null,
 		submitted: false,
+		logicalOperator: 'AND',
 	};
 
 	$ctrl.createLabel = condition => {
-		return `${condition.columnName} ${$filter('translate')(condition.name)} ${condition.comparativeValue} ${condition.comparativeValue2 ? `${$filter('translate')('and')} ${condition.comparativeValue2}` : '' }`;
+		return `${condition.columnName} ${$filter('translate')(condition.name).toLowerCase()} ${condition.comparativeValue} ${condition.comparativeValue2 ? `${$filter('translate')('and')} ${condition.comparativeValue2}` : '' }`;
+	}
+
+	$ctrl.changeOperator = (index) => {
+		const selectedCondition = $ctrl.conditions[index];
+		$ctrl.conditions[index] = {
+			...selectedCondition,
+			logicalOperator: selectedCondition.logicalOperator === 'AND' ? 'OR' : 'AND',
+		};
 	}
 
 	$ctrl.selectComparasion = (selected, index) => {
@@ -69,7 +78,7 @@ const Controller = function ($filter) {
 
 	$ctrl.$onChanges = (changes) => {
 		if (changes.queryConditions != null && changes.queryConditions.currentValue != null) {
-			$ctrl.conditions = changes.queryConditions.currentValue || [];
+			$ctrl.conditions = changes.queryConditions.currentValue.values || [];
 		}
 	}
 

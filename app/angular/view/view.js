@@ -1,4 +1,5 @@
 import angular from "angular";
+import { comparasionOperators } from "../service/queryExpressionService";
 import template from "./view.html";
 
 const app = angular.module("app.view", []);
@@ -6,19 +7,24 @@ const app = angular.module("app.view", []);
 const Controller = function (LogicService, $uibModal) {
 	const $ctrl = this;
 
-	$ctrl.$onInit = () => {
+	const updateViewInfo = (view) => {
 		const allTables = LogicService.loadTables();
-		$ctrl.tables = $ctrl.view.tables;
+		$ctrl.tables = view.tables;
+		$ctrl.queryConditions = view.queryConditions;
 		allTables.forEach(table => {
 			if ($ctrl.tables.some(({ name }) => table.name === name)) return;
 			$ctrl.tables.push(table);
 		});
+	}
+
+	$ctrl.$onInit = () => {
+		updateViewInfo($ctrl.view);
 	};
 
 	$ctrl.queryExpressionModal = () => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			template: '<query-expression-modal query-conditions="$ctrl.view.queryConditions" tables="$ctrl.tables" close="$close(result)" dismiss="$dismiss(reason)"></query-expression-modal>',
+			template: '<query-expression-modal query-conditions="$ctrl.queryConditions" tables="$ctrl.tables" close="$close(result)" dismiss="$dismiss(reason)"></query-expression-modal>',
 			controller: function () {
 				const ctrl = this;
 				ctrl.tables = $ctrl.tables.filter(({ selected }) => selected);
@@ -27,7 +33,11 @@ const Controller = function (LogicService, $uibModal) {
 			controllerAs: '$ctrl',
 		});
 		modalInstance.result.then((conditions) => {
-			$ctrl.view.queryConditions = conditions;
+			$ctrl.view.queryConditions = {
+				values: conditions,
+				text: `${conditions.map(({ columnName, type, comparativeValue, comparativeValue2, logicalOperator }, index) =>
+					`${columnName} ${comparasionOperators[type](comparativeValue, comparativeValue2)} ${conditions.length - 1 === index ? '' : logicalOperator}`).join(" ")}`
+			}
 		});
 	};
 
@@ -39,7 +49,7 @@ const Controller = function (LogicService, $uibModal) {
 
 	$ctrl.$onChanges = (changes) => {
 		if (changes.view != null && changes.view.currentValue != null) {
-			$ctrl.view = changes.view.currentValue;
+			updateViewInfo({ ...changes.view.currentValue });
 		}
 	}
 
@@ -65,6 +75,7 @@ const Controller = function (LogicService, $uibModal) {
 			columns,
 		}
 		LogicService.save(view);
+
 	}
 };
 

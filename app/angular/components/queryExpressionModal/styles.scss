@@ -3,16 +3,17 @@
 		margin-bottom: 12px;
 		display: flex;
 		flex-wrap: wrap;
-		column-gap: 8px;
+		row-gap: 18px;
 
 		.condition-label {
 			padding: 6px;
 			background: #3d9970;
 			color: white;
 			border-radius: 4px;
+			margin-right: 8px;
 
 			i {
-				margin-left: 8px;
+				margin-left: 4px;
 				cursor: pointer;
 			}
 		}

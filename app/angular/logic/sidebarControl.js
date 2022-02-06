@@ -122,6 +122,7 @@ const Controller = function (LogicService) {
 			$ctrl.selectedName = changes.selected.currentValue.attributes.name;
 			$ctrl.selectedType = changes.selected.currentValue.attributes.type;
 			$ctrl.columns = changes.selected.currentValue.attributes.objects;
+			$ctrl.queryConditions = changes.selected.currentValue.attributes.queryConditions;
 			if ($ctrl.selectedType === 'uml.Class') {
 				$ctrl.views = LogicService.loadViewsByTable(changes.selected.currentValue.id);
 			}

@@ -65,13 +65,13 @@
 
 			<div class="panel-content" ng-if="$ctrl.sections.views">
 				<ul class="views-list">
-					<li class="view-item" ng-click="$ctrl.editView(view)" ng-repeat="view in $ctrl.views track by $index">
-						<header ng-if="!view.expanded">
+					<li class="view-item" ng-repeat="view in $ctrl.views track by $index">
+						<header ng-if="!view.expanded" ng-click="$ctrl.editView(view)" >
 							<i class="fa fa-filter" aria-hidden="true"></i>
 							<h4 class="table-title">{{view.name}}</h4>
 						</header>
 
-						<view ng-if="view.expanded" dismiss="$ctrl.closeAllViews" is-edit="true" view="view" ></view>
+						<view ng-show="view.expanded" dismiss="$ctrl.closeAllViews" is-edit="true" view="view"></view>
 					</li>
 				</ul>
 			</div>
@@ -80,7 +80,7 @@
 
 	<div class="properties-content" ng-if="$ctrl.selectedType === 'uml.Abstract'">
 		<div class="panel-content">
-			<view is-edit="true" view="{ name: $ctrl.selectedName, tables: $ctrl.columns }"></view>
+			<view is-edit="true" view="{ name: $ctrl.selectedName, tables: $ctrl.columns, queryConditions: $ctrl.queryConditions }"></view>
 		</div>
 	</div>
 </aside>
