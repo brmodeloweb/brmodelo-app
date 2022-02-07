@@ -501,13 +501,13 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	ls.buildTablesJson = function () {
 		var map = new Map();
 		var elements = ls.graph.getElements();
-		for (var i = 0; i < elements.length; i++) {
+		elements.filter(isTable).forEach(element => {
 			var obj = {
-				"name": elements[i].attributes.name,
-				"columns": elements[i].attributes.objects
+				name: element.attributes.name,
+				columns: element.attributes.objects
 			}
-			map.set(elements[i].id, obj);
-		}
+			map.set(element.id, obj);
+		});
 		return map;
 	}
 
