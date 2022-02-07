@@ -108,7 +108,7 @@ const Controller = function (LogicService) {
 	$ctrl.addColumnModel = $ctrl.newColumnObject();
 	$ctrl.editColumnModel = $ctrl.newColumnObject();
 
-	const clearSidebar = () => {
+	$ctrl.clearSidebar = () => {
 		$ctrl.selectedElement = null;
 		$ctrl.selectedName = null;
 		$ctrl.selectedType = null;
@@ -116,7 +116,7 @@ const Controller = function (LogicService) {
 	}
 
 	$ctrl.$onChanges = (changes) => {
-		if (!changes.selected.currentValue) clearSidebar();
+		if (!changes.selected.currentValue) $ctrl.clearSidebar();
 		if (changes.selected != null && changes.selected.currentValue != null) {
 			$ctrl.selectedElement = changes.selected.currentValue;
 			$ctrl.selectedName = changes.selected.currentValue.attributes.name;

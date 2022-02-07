@@ -54,10 +54,14 @@
 // .card-item
 ////////////////////////////////////////////////////////////////////////////////
 .card-item {
-	padding: 12px 8px;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	margin-bottom: 8px;
+}
+
+.card-item .column-form,
+.card-item.views {
+	padding: 12px 8px;
 }
 
 .card-item header {
@@ -65,6 +69,8 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
+	padding: 12px 8px;
+	cursor: pointer;
 }
 
 .card-item .table-title {

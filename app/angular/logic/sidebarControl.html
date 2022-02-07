@@ -80,7 +80,7 @@
 
 	<div class="properties-content" ng-if="$ctrl.selectedType === 'uml.Abstract'">
 		<div class="panel-content">
-			<view is-edit="true" view="{ name: $ctrl.selectedName, tables: $ctrl.columns, queryConditions: $ctrl.queryConditions }"></view>
+			<view is-edit="true" dismiss="$ctrl.clearSidebar" view="{ name: $ctrl.selectedName, tables: $ctrl.columns, queryConditions: $ctrl.queryConditions }"></view>
 		</div>
 	</div>
 </aside>

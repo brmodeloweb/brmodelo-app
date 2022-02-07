@@ -51,17 +51,17 @@ const sqlGeneratorService = () => {
 			var alreadyCreated = createdMap.get(key);
 
 			create += " " + cleanString(column.name) + " " + column.type;
-			
+
 			constraints.forEach(({ key, sqlValue }) => {
 				if (column[key]) create += ` ${sqlValue}`;
 			});
 
-			if(column.defaultValue) {
+			if (column.defaultValue) {
 				create += ` DEFAULT '${column.defaultValue}'`
 			}
 			create += ", " + " \n";
 
-			if(column.FK){
+			if (column.FK){
 				pending.set(key, table);
 			}
 		}
