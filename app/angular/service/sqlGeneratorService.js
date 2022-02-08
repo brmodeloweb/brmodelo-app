@@ -1,10 +1,10 @@
 import angular from "angular";
+import { comparasionOperators } from "./queryExpressionService";
 
 const sqlGeneratorService = () => {
 	const constraints = [
 		{ key: 'PK', sqlValue: "PRIMARY KEY" },
 		{ key: 'NOT_NULL', sqlValue: "NOT NULL" },
-		{ key: 'UNIQUE', sqlValue: "UNIQUE"	},
 		{ key: 'AUTO_INCREMENT', sqlValue: "AUTO_INCREMENT" },
 	];
 
@@ -47,7 +47,10 @@ const sqlGeneratorService = () => {
 	const createTable = function(key, table){
 		var create = "CREATE TABLE " + table.name + " \n";
 		create += "( \n";
-		for (const column of table.columns) {
+		const hasCheckConstraint = table.columns.some(column => column.checkConstraint);
+		const hasUniqueConstraint = table.columns.some(column => column.UNIQUE);
+		let checkConstraint = '';
+		table.columns.forEach((column, index) => {
 			var alreadyCreated = createdMap.get(key);
 
 			create += " " + cleanString(column.name) + " " + column.type;
@@ -64,7 +67,18 @@ const sqlGeneratorService = () => {
 			if (column.FK){
 				pending.set(key, table);
 			}
+		})
+
+		if (hasCheckConstraint) {
+			checkConstraint = ` CHECK (${table.columns.filter(column => column.checkConstraint)
+				.map(({ name, checkConstraint }, index) => `${index === 0 ? '': ' AND '}${name} ${comparasionOperators[checkConstraint.type](checkConstraint.comparativeValue, checkConstraint.comparativeValue2)}`).join("")})${hasUniqueConstraint ? ',' : ''}`
+			create += checkConstraint + "\n";
 		}
+
+		if (hasUniqueConstraint) {
+			create += ` UNIQUE (${table.columns.filter(column => column.UNIQUE).map(({ name }) => `${name}`)})` + "\n";
+		}
+
 		create += "); \n\n"
 		return create;
 	}
