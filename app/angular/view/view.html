@@ -45,9 +45,9 @@
 				</header>
 				<div class="table-preview-body">
 					<div class="checkbox" ng-repeat="column in table.columns track by $index">
-						<label for="{{column.name}}">
+						<label for="{{table.name + column.name}}">
 							<input
-								id="{{column.name}}"
+								id="{{table.name + column.name}}"
 								type="checkbox"
 								ng-model="column.selected"
 							/>
