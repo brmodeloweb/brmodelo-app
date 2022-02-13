@@ -143,5 +143,7 @@ export default {
 	'Portuguese (Brazil)': 'Português (Brasil)',
 	'English': 'Inglês',
 	'AND': 'E',
-	'OR': 'OU'
+	'OR': 'OU',
+	'You have chosen more than one table to create the View. It is necessary to select the attributes that will compose the JOIN.': 'Você escolheu mais de uma tabela para a criação da Visão. É necessário selecionar os atributos que irão compor o JOIN.',
+	'Add join': 'Adicionar join',
 };

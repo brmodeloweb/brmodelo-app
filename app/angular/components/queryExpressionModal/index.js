@@ -8,7 +8,13 @@ const Controller = function ($filter) {
 	const $ctrl = this;
 	$ctrl.submitted = false;
 	$ctrl.conditions = [];
+	$ctrl.joins = [];
 	$ctrl.tableColumns = [];
+
+	const defaultJoin = {
+		columnName: null,
+		columnName2: null,
+	}
 
 	const defaultCondition = {
 		columnName: null,
@@ -18,6 +24,26 @@ const Controller = function ($filter) {
 		submitted: false,
 		logicalOperator: 'AND',
 	};
+
+	$ctrl.selectColumnJoin = (selected, attribute, index) => {
+		const selectedJoin = $ctrl.joins[index];
+		$ctrl.joins[index] = {
+			...selectedJoin,
+			[attribute]: selected.name,
+		};
+	}
+
+	$ctrl.saveJoin = (index) => {
+		const selectedJoin = $ctrl.joins[index];
+		$ctrl.joins[index] = {
+			...selectedJoin,
+			submitted: true,
+		};
+	}
+
+	$ctrl.removeJoin = (index) => {
+		$ctrl.joins.splice(index, 1);
+	}
 
 	$ctrl.createLabel = condition => {
 		return `${condition.columnName} ${$filter('translate')(condition.name).toLowerCase()} ${condition.comparativeValue} ${condition.comparativeValue2 ? `${$filter('translate')('and')} ${condition.comparativeValue2}` : '' }`;
@@ -65,7 +91,12 @@ const Controller = function ($filter) {
 		$ctrl.conditions.push(defaultCondition);
 	};
 
+	$ctrl.addJoin = () => {
+		$ctrl.joins.push(defaultJoin);
+	}
+
 	$ctrl.$onInit = () => {
+		$ctrl.showJoins = $ctrl.tables.length > 1;
 		$ctrl.tables.forEach(table => {
 			table.columns.forEach(column => {
 				$ctrl.tableColumns.push({
@@ -79,12 +110,16 @@ const Controller = function ($filter) {
 	$ctrl.$onChanges = (changes) => {
 		if (changes.queryConditions != null && changes.queryConditions.currentValue != null) {
 			$ctrl.conditions = changes.queryConditions.currentValue.values || [];
+			$ctrl.joins = changes.queryConditions.currentValue.joins || [];
 		}
 	}
 
 	$ctrl.save = function () {
 		$ctrl.close({
-			result: $ctrl.conditions.filter(condition => condition.submitted),
+			result: {
+				conditions: $ctrl.conditions.filter(condition => condition.submitted),
+				joins: $ctrl.joins.filter(join => join.submitted),
+			}
 		});
 	};
 

@@ -498,6 +498,12 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
 	}
 
+	ls.loadViews = () => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isView)
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
+	}
+
 	ls.buildTablesJson = function () {
 		var map = new Map();
 		var elements = ls.graph.getElements();

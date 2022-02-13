@@ -178,7 +178,7 @@ const controller = function (
 	}
 
 	ctrl.generateSQL = function () {
-		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson());
+		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson(), LogicService.loadViews());
 
 		console.log(sql);
 
