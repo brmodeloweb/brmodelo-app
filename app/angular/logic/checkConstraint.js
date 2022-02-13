@@ -22,7 +22,7 @@ const Controller = function () {
 	$ctrl.$onChanges = (changes) => {
 		if (changes.column != null && changes.column.currentValue != null) {
 			$ctrl.column = changes.column.currentValue;
-			$ctrl.isManual = !$ctrl.column.checkConstraint;
+			$ctrl.isManual = ($ctrl.column.checkConstraint || {}).checkExpression;
 		}
 	}
 }
