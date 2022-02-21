@@ -475,7 +475,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 	const isView = (element) => element.attributes.type === 'uml.Abstract';
 
-	const filterViewsByTableId = (views, tableId) => views.some(({ id }) => id === tableId);
+	const filterViewsByTableId = (tables, tableId) => tables.filter(table => table.selected).some(({ id }) => id === tableId);
 
 	ls.loadTables = () => {
 		const elements = ls.graph.getElements();

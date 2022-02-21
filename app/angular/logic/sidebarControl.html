@@ -44,7 +44,7 @@
 					<li class="card-item" ng-repeat="column in $ctrl.columns track by $index">
 						<header ng-click="$ctrl.editionColumnMode(column, $index)" ng-show="!column.expanded">
 							<h4 class="table-title">{{column.name}}</h4>
-							<span class="relationship" ng-show="column.PK">PK</span>
+							<span class="relationship" ng-show="column.PK || column.FK">{{column.PK ? 'PK' : 'FK'}}</span>
 						</header>
 
 						<column-form ng-show="column.expanded" table-names="$ctrl.tableNames" column="$ctrl.editColumnModel" save="$ctrl.editColumn" index="$index" dismiss="column.expanded = !column.expanded" delete="$ctrl.deleteColumn"></column-form>

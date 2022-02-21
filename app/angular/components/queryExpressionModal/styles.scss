@@ -27,5 +27,15 @@
 		button {
 			min-width: 180px;
 		}
+
+		.dropdown-tmp-list {
+			max-height: 400px;
+			overflow: auto;
+		}
+	}
+	.form-content-joins {
+		dropdown {
+			width: 100%;
+		}
 	}
 }

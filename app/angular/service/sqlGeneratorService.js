@@ -42,7 +42,7 @@ const sqlGeneratorService = () => {
 
 	const filterSelectedItem = item => item.selected;
 
-	const mapViewSelectedColumn = table => table.columns.filter(filterSelectedItem).map(column => `${table.name}.${cleanString(column.name)}`).join(", ");
+	const mapViewSelectedColumn = (table, hasMultipleTables) => table.columns.filter(filterSelectedItem).map(column => `${hasMultipleTables ? table.name + '.' : ''}${cleanString(column.name)}`).join(", ");
 
 	const getJoinTable = (join, baseTable) => {
 		const attributeName = `columnName${join.columnName.includes(baseTable) ? '2' : ''}`;
@@ -53,9 +53,10 @@ const sqlGeneratorService = () => {
 
 	const createViewScript = (view) => {
 		const selectedTables = view.tables.filter(filterSelectedItem);
+		const hasMultipleTables = selectedTables.length > 1;
 		const baseTable = selectedTables[0].name;
 
-		return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.map(mapViewSelectedColumn).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\nWHERE ${view.queryConditions.text}\n`
+		return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.map(table => mapViewSelectedColumn(table, hasMultipleTables)).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\nWHERE ${view.queryConditions.text}\n`
 	}
 
 	const createAlterTable = function(key, table){

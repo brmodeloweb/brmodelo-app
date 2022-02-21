@@ -16,7 +16,7 @@
 		</div>
 
 		<div ng-repeat="join in $ctrl.joins track by $index">
-			<div class="form-content" ng-if="!join.submitted">
+			<div class="form-content form-content-joins" ng-if="!join.submitted">
 				<dropdown
 					on-select="$ctrl.selectColumnJoin(selected, 'columnName', $index)"
 					selected="{ name: join.columnName || 'Select a value' }"
