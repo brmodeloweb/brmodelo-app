@@ -464,10 +464,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 	ls.getTablesMap = function () {
 		var map = new Map();
-		var elements = ls.graph.getElements();
-		for (var i = 0; i < elements.length; i++) {
-			map.set(elements[i].attributes.name, elements[i].id);
-		}
+		var elements = ls.graph.getElements().filter(isTable);
+		elements.forEach(element => {
+			map.set(element.attributes.name, element.id)
+		});
 		return map;
 	}
 
