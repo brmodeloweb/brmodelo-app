@@ -40,20 +40,25 @@ const sqlGeneratorService = () => {
 		return sql;
 	}
 
+	const filterTableColumn = (tables, column) => tables.some(table => column.includes(table));
+
 	const filterSelectedItem = item => item.selected;
 
 	const mapViewSelectedColumn = (table, hasMultipleTables) => table.columns.filter(filterSelectedItem).map(column => `${hasMultipleTables ? table.name + '.' : ''}${cleanString(column.name)}`).join(", ");
-
-	const getJoinTable = (join, baseTable) => {
-		const attributeName = `columnName${join.columnName.includes(baseTable) ? '2' : ''}`;
-		return join[attributeName].match(REGEX_TABLE_COLUMN_NAME).groups.table;
-	}
 
 	const filterTableWithColunmsSelected = table => table.columns.some(filterSelectedItem);
 
 	const createViewJoins = (view, baseTable) => {
 		if (view.queryConditions && view.queryConditions.joins) {
-			return view.queryConditions.joins.map(join => `\nINNER JOIN ${getJoinTable(join, baseTable)} ON ${cleanString(join.columnName)} = ${cleanString(join.columnName2)}`)
+			let tables = [baseTable];
+			const joins = view.queryConditions.joins.map(join => {
+				let joinTable;
+				const attributeName = `columnName${filterTableColumn(tables, join.columnName) ? '2' : ''}`;
+				joinTable = join[attributeName].match(REGEX_TABLE_COLUMN_NAME).groups.table;;
+				tables.push(joinTable);
+				return ({ ...join, table: joinTable });
+			});
+			return joins.map(join => `\nINNER JOIN ${join.table} ON ${cleanString(join.columnName)} = ${cleanString(join.columnName2)}`)
 		} else {
 			return '';
 		}
