@@ -6,6 +6,7 @@ export default {
 	'Change language': 'Mudar idioma',
 	'Language': 'Idioma',
 	'Recovery password': 'Recuperar senha',
+	'Recovery': 'Recuperar',
 	'Report a bug or request a feature': 'Reportar bug ou requisitar funcionalidade',
 	'Back': 'Voltar',
 	'Redefine password': 'Redefinir senha',

@@ -6,6 +6,7 @@ export default {
 	'Change language': 'Change language',
 	'Language': 'Language',
 	'Recovery password': 'Recovery password',
+	'Recovery': 'Recovery',
 	'Report a bug or request a feature': 'Report a bug or request a feature',
 	'Back': 'Back',
 	'Redefine password': 'Redefine password',

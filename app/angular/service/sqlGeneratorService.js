@@ -49,14 +49,30 @@ const sqlGeneratorService = () => {
 		return join[attributeName].match(REGEX_TABLE_COLUMN_NAME).groups.table;
 	}
 
-	const createViewJoins = (view, baseTable) => view.queryConditions.joins.map(join => `\nINNER JOIN ${getJoinTable(join, baseTable)} ON ${cleanString(join.columnName)} = ${cleanString(join.columnName2)}`)
+	const filterTableWithColunmsSelected = table => table.columns.some(filterSelectedItem);
+
+	const createViewJoins = (view, baseTable) => {
+		if (view.queryConditions && view.queryConditions.joins) {
+			return view.queryConditions.joins.map(join => `\nINNER JOIN ${getJoinTable(join, baseTable)} ON ${cleanString(join.columnName)} = ${cleanString(join.columnName2)}`)
+		} else {
+			return '';
+		}
+	};
+
+	const getWhereCondition = view => {
+		if (view.queryConditions && view.queryConditions.text) {
+			return `WHERE ${view.queryConditions.text}\n`;
+		} else {
+			return '';
+		}
+	};
 
 	const createViewScript = (view) => {
 		const selectedTables = view.tables.filter(filterSelectedItem);
 		const hasMultipleTables = selectedTables.length > 1;
 		const baseTable = selectedTables[0].name;
 
-		return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.map(table => mapViewSelectedColumn(table, hasMultipleTables)).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\nWHERE ${view.queryConditions.text}\n`
+		return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.filter(filterTableWithColunmsSelected).map(table => mapViewSelectedColumn(table, hasMultipleTables)).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\n${getWhereCondition(view)}`
 	}
 
 	const createAlterTable = function(key, table){
