@@ -177,6 +177,10 @@ textarea {
 	resize: vertical;
 }
 
+textarea.sql-script {
+	min-height: 500px;
+}
+
 input[type="checkbox"] {
 	cursor: pointer;
 }

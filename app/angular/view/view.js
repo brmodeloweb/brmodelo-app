@@ -34,7 +34,7 @@ const Controller = function (LogicService, $uibModal) {
 		});
 		modalInstance.result.then(({ conditions, joins }) => {
 			$ctrl.view.queryConditions = {
-				joins,
+				joins: joins.filter(join => join.submitted),
 				values: conditions,
 				text: `${conditions.map(({ columnName, type, comparativeValue, comparativeValue2, logicalOperator }, index) =>
 					`${columnName} ${comparasionOperators[type](comparativeValue, comparativeValue2)} ${conditions.length - 1 === index ? '' : logicalOperator}`).join(" ")}`

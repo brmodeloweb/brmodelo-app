@@ -51,10 +51,9 @@ const sqlGeneratorService = () => {
 	const createViewJoins = (view, baseTable) => {
 		if (view.queryConditions && view.queryConditions.joins) {
 			let tables = [baseTable];
-			const joins = view.queryConditions.joins.map(join => {
-				let joinTable;
-				const attributeName = `columnName${filterTableColumn(tables, join.columnName) ? '2' : ''}`;
-				joinTable = join[attributeName].match(REGEX_TABLE_COLUMN_NAME).groups.table;;
+			const joins = view.queryConditions.joins.filter(join => join.submitted).map(join => {
+				const attributeName = `columnName${filterTableColumn(tables, join.columnName.match(REGEX_TABLE_COLUMN_NAME).groups.table) ? '2' : ''}`;
+				const joinTable = join[attributeName].match(REGEX_TABLE_COLUMN_NAME).groups.table;
 				tables.push(joinTable);
 				return ({ ...join, table: joinTable });
 			});
@@ -73,11 +72,13 @@ const sqlGeneratorService = () => {
 	};
 
 	const createViewScript = (view) => {
+		console.log(view);
 		const selectedTables = view.tables.filter(filterSelectedItem);
-		const hasMultipleTables = selectedTables.length > 1;
-		const baseTable = selectedTables[0].name;
-
-		return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.filter(filterTableWithColunmsSelected).map(table => mapViewSelectedColumn(table, hasMultipleTables)).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\n${getWhereCondition(view)}`
+		if (selectedTables.length > 0) {
+			const hasMultipleTables = selectedTables.length > 1;
+			const baseTable = selectedTables[0].name;
+			return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.filter(filterTableWithColunmsSelected).map(table => mapViewSelectedColumn(table, hasMultipleTables)).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\n${getWhereCondition(view)}`
+		}
 	}
 
 	const createAlterTable = function(key, table){
