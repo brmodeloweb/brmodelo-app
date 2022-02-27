@@ -184,8 +184,13 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			}
 		});
 
+		ls.getConnectionType = link => {
+			const target = link.graph.getCell(link.get('target').id);
+			return target?.attributes?.type === 'uml.Abstract' ? 'Table-View' : '';
+		}
+
 		ls.paper.on('link:mouseenter', (linkView) => {
-			const toolsView = ls.toolsViewService.getToolsView();
+			const toolsView = ls.toolsViewService.getToolsView(ls.getConnectionType(linkView.model));
 			linkView.addTools(toolsView);
 		});
 
@@ -394,7 +399,27 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
+	ls.createLink = function (tableId) {
+		const myLink = new joint.shapes.erd.Line({
+			source: { id: tableId },
+			target: { id: ls.selectedElement.model.id }
+		});
+		myLink.addTo(ls.graph);
+	}
+
+	ls.removeLink = function (tableId, graph) {
+		const link = graph.getLinks(ls.selectedElement.model).find(({ attributes: { source, target } }) => source.id === tableId && target.id === ls.selectedElement.model.id);
+		link.remove();
+	}
+
 	ls.save = function (view) {
+		const graph = ls.selectedElement.model.graph;
+		const neighbors = graph.getNeighbors(ls.selectedElement.model);
+		view.tables.forEach(table => {
+			let linkedTable = neighbors.find(({ attributes: { id } }) => id === table.id);
+			if (!table.selected && linkedTable) ls.removeLink(table.id, graph);
+			if (table.selected && !linkedTable) ls.createLink(table.id);
+		});
 		ls.selectedElement.model.saveView(view);
 		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
