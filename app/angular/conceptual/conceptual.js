@@ -3,6 +3,10 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
+import "../../joint/joint.ui.stencil.css";
+import "../editor/editorManager"
+import "../editor/editorScroller"
+
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
@@ -444,6 +448,30 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController = new KeyboardController(configs.paper.$document);
 
 		registerPaperEvents(configs.paper);
+
+		configs.editorScroller = new joint.ui.EditorScroller({
+			paper: configs.paper,
+			cursor: "grabbing",
+			autoResizePaper: true,
+		});
+		content.append(configs.editorScroller.render().el);
+
+		const stencil = new joint.ui.Stencil({
+			graph: configs.graph,
+			paper: configs.paper,
+		});
+
+		$("#stencil-holder").append(stencil.render().el);
+
+		stencil.load([
+			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
+			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
+			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
+			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
+			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
+			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
+			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
+		]);
 
 		registerShortcuts();
 	};
