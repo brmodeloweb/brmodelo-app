@@ -3,7 +3,6 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
-import "../../joint/joint.ui.stencil.css";
 import "../editor/editorManager"
 import "../editor/editorScroller"
 
