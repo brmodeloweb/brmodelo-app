@@ -7,22 +7,6 @@ This Source Code Form is subject to the terms of the JointJS+ License
 file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
  or from the JointJS+ archive as was distributed by client IO. See the LICENSE file.*/
 
-
- /* This element is being dragged when a new element is about to be dropped into the main paper. */
- .stencil-paper-drag {
-    position: absolute;
-    z-index: 100;
-    width: 800;
-    height: 800;
-    top: -10000;
-    left: -10000;
-    display: none;
- }
  .stencil-paper-drag.dragging {
-    display: block;
     opacity: .7;
- }
-
- .stencil .element [magnet] {
-     pointer-events: none;
  }
