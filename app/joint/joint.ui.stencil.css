@@ -8,18 +8,6 @@ file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
  or from the JointJS+ archive as was distributed by client IO. See the LICENSE file.*/
 
 
- .stencil {
-    width: 126px;
-    float: left;
-    border: 1px solid gray;
- }
-
- .stencil .elements {
-    background-color: white;
-    height: 100%;
-    width: 100%;
- }
-
  /* This element is being dragged when a new element is about to be dropped into the main paper. */
  .stencil-paper-drag {
     position: absolute;
