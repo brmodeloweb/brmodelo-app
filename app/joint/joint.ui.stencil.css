@@ -13,13 +13,13 @@ file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
     float: left;
     border: 1px solid gray;
  }
- 
+
  .stencil .elements {
     background-color: white;
     height: 100%;
     width: 100%;
  }
- 
+
  /* This element is being dragged when a new element is about to be dropped into the main paper. */
  .stencil-paper-drag {
     position: absolute;
@@ -34,62 +34,7 @@ file, You can obtain one at http://jointjs.com/license/jointjs_plus_v1.txt
     display: block;
     opacity: .7;
  }
- 
- .stencil .group {
-    overflow: hidden;
-    padding-left: 10px;
-    margin-bottom: 1px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    transition: max-height 400ms linear;
-    max-height: 400px;
- }
- .stencil .group.closed {
-    height: 26px;
-    max-height: 26px;
- }
- 
- .stencil .group > .group-label {
-    padding: 5px 4px;
-    position: relative;
-    left: -10px;
-    margin-right: -20px;
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    border-top: 1px solid #3a3a3a;
-    border-bottom: 2px solid #1f1f1f;
-    background: #242424;
-    cursor: pointer;
-    color: #bcbcbc;
- }
- .stencil .group > .group-label:before {
-    content: '';
-    width: 0;
-    height: 0;
-    display: inline-block;
-    margin-left: 2px;
-    margin-right: 5px;
-    position: relative;
-    top: 5px;
-    border-top: 5px solid white;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
-    border-bottom: 5px solid transparent;
- }
- .stencil .group.closed > .group-label:before {
-    top: 2px;
-    left: 2px;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-left: 5px solid white;
- }
- 
+
  .stencil .element [magnet] {
      pointer-events: none;
  }
