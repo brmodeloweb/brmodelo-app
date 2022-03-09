@@ -460,7 +460,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			paper: configs.paper,
 		});
 
-		$("#stencil-holder").append(stencil.render().el);
+		$(".elements-holder").append(stencil.render().el);
 
 		stencil.load([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),

@@ -198,7 +198,7 @@ var Handlebars = {};
 }), joint.templates.stencil["stencil.html"] = Handlebars.template(function (a, b, c, d, e) {
     return this.compilerInfo = [4, ">= 1.0.0"], c = this.merge(c, a.helpers), e = e || {}, '<div class="stencil-paper-drag"></div>\n<div class="content"></div>\n\n'
 }), joint.ui.Stencil = Backbone.View.extend({
-    className: "stencil",
+    className: "elements-list",
     events: {
         "click .group-label": "onGroupLabelClick",
         "touchstart .group-label": "onGroupLabelClick",

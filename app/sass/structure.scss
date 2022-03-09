@@ -61,9 +61,9 @@ a,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .stencil-lis
+// .element-holder
 ////////////////////////////////////////////////////////////////////////////////
-.stencil-list {
+.elements-holder {
 	position: fixed;
 	top: 50px;
 	bottom: 0;
@@ -74,14 +74,14 @@ a,
 	user-select: none;
 }
 
-.stencil-list .stencil {
+.elements-holder .elements-list {
 	float: none;
 	width: 125px;
 	margin: 16px auto 0 auto;
 	border: none;
 }
 
-.stencil-list .stencil .elements {
+.elements-holder .elements-list .elements {
 	background-color: transparent;
 }
 
