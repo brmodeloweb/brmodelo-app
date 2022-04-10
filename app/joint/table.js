@@ -117,9 +117,9 @@ uml.Class = joint.shapes.basic.Generic.extend({
 
     },
 
-	getType: function() {
-		return "Class"
-	}
+    getType: function() {
+        return "Class"
+    }
 
 });
 
@@ -182,21 +182,20 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
         return this.get('name');
     },
 
-	saveView: function (view) {
-		this.set('attributes', view.columns.map(column => column.name));
-		this.set('objects', view.basedIn);
-		this.set('queryConditions', view.queryConditions);
+    saveView: function (view) {
+        this.set('attributes', view.columns.map(column => column.name));
+        this.set('objects', view.basedIn);
+        this.set('queryConditions', view.queryConditions);
         this.updateRectangles();
         this.trigger('uml-update');
-	},
+    },
 
-	addAttributes: function (objects) {
-		objects.forEach(({ name }) => this.get('attributes').push(name));
+    addAttributes: function (objects) {
+        objects.forEach(({ name }) => this.get('attributes').push(name));
         this.get('objects').push(objects);
         this.updateRectangles();
         this.trigger('uml-update');
-	},
-
+    },
 
     updateRectangles: function () {
 
@@ -224,9 +223,9 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 
     },
 
-	getType: function() {
-		return "View"
-	}
+    getType: function() {
+        return "View"
+    }
 
 });
 

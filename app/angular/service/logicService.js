@@ -511,11 +511,6 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		}));
 	};
 
-	ls.filterTablesWithRelationship = (tableId) => {
-		const tables = ls.loadTables();
-		return tables.filter(table => table.columns.some(({ tableOrigin }) => tableOrigin.idOrigin === tableId));
-	}
-
 	ls.loadViewsByTable = (tableId) => {
 		const elements = ls.graph.getElements();
 		return elements.filter(isView)

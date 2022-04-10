@@ -68,15 +68,14 @@ const Controller = function (LogicService, $uibModal) {
 		filteredTables.forEach(table => {
 			table.columns.forEach(column => {
 				if (column.selected) columns.push(column);
-			})
-		})
+			});
+		});
 		const view = {
 			...$ctrl.view,
 			basedIn: filteredTables,
 			columns,
 		}
 		LogicService.save(view);
-
 	}
 };
 

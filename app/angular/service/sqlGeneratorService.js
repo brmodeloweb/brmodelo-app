@@ -72,7 +72,6 @@ const sqlGeneratorService = () => {
 	};
 
 	const createViewScript = (view) => {
-		console.log(view);
 		const selectedTables = view.tables.filter(filterSelectedItem);
 		if (selectedTables.length > 0) {
 			const hasMultipleTables = selectedTables.length > 1;

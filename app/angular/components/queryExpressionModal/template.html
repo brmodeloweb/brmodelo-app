@@ -38,7 +38,7 @@
 		<button class="br-button" type="button" ng-click="$ctrl.addJoin()">{{ 'Add join' | translate }}</button>
 	</div>
 
-	<p style="margin-top: 15px;">{{ 'Add conditions to create query expression that will be used in the where clause when creating the view.' | translate }}</p>
+	<p class="modal-message">{{ 'Add conditions to create query expression that will be used in the where clause when creating the view.' | translate }}</p>
 
 	<div class="labels-wrapper">
 		<span ng-repeat="condition in $ctrl.conditions track by $index">

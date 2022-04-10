@@ -4,6 +4,9 @@ import "./styles.scss";
 
 const app = angular.module("app.queryExpressionModalController", []);
 
+const AND_OPERATOR = 'AND';
+const OR_OPERATOR = 'OR';
+
 const Controller = function ($filter) {
 	const $ctrl = this;
 	$ctrl.submitted = false;
@@ -22,7 +25,7 @@ const Controller = function ($filter) {
 		type: null,
 		comparativeValue: null,
 		submitted: false,
-		logicalOperator: 'AND',
+		logicalOperator: AND_OPERATOR,
 	};
 
 	$ctrl.selectColumnJoin = (selected, attribute, index) => {
@@ -53,7 +56,7 @@ const Controller = function ($filter) {
 		const selectedCondition = $ctrl.conditions[index];
 		$ctrl.conditions[index] = {
 			...selectedCondition,
-			logicalOperator: selectedCondition.logicalOperator === 'AND' ? 'OR' : 'AND',
+			logicalOperator: selectedCondition.logicalOperator === AND_OPERATOR ? OR_OPERATOR : AND_OPERATOR,
 		};
 	}
 

@@ -10,7 +10,7 @@ const Controller = function () {
 		$ctrl.dismiss();
 	};
 
-  $ctrl.selectType = function (selected) {
+	$ctrl.selectType = function (selected) {
 		if (!$ctrl.column.PK && !$ctrl.column.FK) {
 			$ctrl.column.type = selected.type;
 		} else {
@@ -18,7 +18,7 @@ const Controller = function () {
 		}
 	}
 
-  $ctrl.selectTableOrigin = function (selected) {
+	$ctrl.selectTableOrigin = function (selected) {
 		$ctrl.column.tableOrigin.idName = selected.name;
 	}
 };
@@ -28,9 +28,9 @@ export default app.component("columnForm", {
 	bindings: {
 		save: "<",
 		dismiss: "&",
-    column: "<",
-    index: "<",
-    tableNames: "<",
+		column: "<",
+		index: "<",
+		tableNames: "<",
 		delete: "<"
 	},
 	controller: Controller,
