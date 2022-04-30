@@ -14,7 +14,7 @@
 		<dropdown
 			on-select="$ctrl.selectType(selected)"
 			selected="{name: $ctrl.column.type, type: $ctrl.column.type}"
-			options="[{name: 'DATE', type: 'DATE'}, {name: 'FLOAT', type: 'FLOAT'}, {name: 'VARCHAR(n)', type: 'VARCHAR(n)'}, {name: 'CHAR(n)', type: 'CHAR(n)'},  {name: 'INT', type: 'INT'}]">
+			options="$ctrl.columnTypes">
 		</dropdown>
 	</div>
 

@@ -178,9 +178,7 @@ const controller = function (
 	}
 
 	ctrl.generateSQL = function () {
-		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson(), LogicService.loadViews());
-
-		console.log(sql);
+		const sql = SqlGeneratorService.generate(LogicService.buildTablesJson(), LogicService.loadViews());
 
 		$uibModal.open({
 			animation: true,

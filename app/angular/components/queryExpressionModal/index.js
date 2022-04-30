@@ -15,8 +15,8 @@ const Controller = function ($filter) {
 	$ctrl.tableColumns = [];
 
 	const defaultJoin = {
-		columnName: null,
-		columnName2: null,
+		columnNameOrigin: null,
+		columnNameTarget: null,
 	}
 
 	const defaultCondition = {

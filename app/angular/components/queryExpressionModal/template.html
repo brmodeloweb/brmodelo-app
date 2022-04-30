@@ -4,12 +4,12 @@
 
 <div class="modal-body query-expression-modal">
 	<div ng-if="$ctrl.showJoins">
-		<p>{{ 'You have chosen more than one table to create the View. It is necessary to select the attributes that will compose the JOIN.' | translate }}</p>
+		<p>{{ 'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.' | translate }}</p>
 
 		<div class="labels-wrapper">
 			<span ng-repeat="join in $ctrl.joins track by $index">
 				<span class="condition-label" ng-if="join.submitted">
-					{{ join.columnName + ' = ' + join.columnName2 }}
+					{{ join.columnNameOrigin + ' = ' + join.columnNameTarget }}
 					<i title="{{ 'Delete' | translate }}" class="fa fa-close" ng-click="$ctrl.removeJoin($index)"></i>
 				</span>
 			</span>
@@ -18,18 +18,18 @@
 		<div ng-repeat="join in $ctrl.joins track by $index">
 			<div class="form-content form-content-joins" ng-if="!join.submitted">
 				<dropdown
-					on-select="$ctrl.selectColumnJoin(selected, 'columnName', $index)"
-					selected="{ name: join.columnName || 'Select a value' }"
+					on-select="$ctrl.selectColumnJoin(selected, 'columnNameOrigin', $index)"
+					selected="{ name: join.columnNameOrigin || 'Select a value' }"
 					options="$ctrl.tableColumns">
 				</dropdown>
 
 				<dropdown
-					on-select="$ctrl.selectColumnJoin(selected, 'columnName2', $index)"
-					selected="{ name: join.columnName2 || 'Select a value' }"
+					on-select="$ctrl.selectColumnJoin(selected, 'columnNameTarget', $index)"
+					selected="{ name: join.columnNameTarget || 'Select a value' }"
 					options="$ctrl.tableColumns">
 				</dropdown>
 
-				<a class="br-button" ng-if="join.columnName && join.columnName2" data-ng-click="$ctrl.saveJoin($index)">
+				<a class="br-button" ng-if="join.columnNameOrigin && join.columnNameTarget" data-ng-click="$ctrl.saveJoin($index)">
 					<i title="{{ 'Save' | translate }}" class="fa fa-check"></i>
 				</a>
 			</div>

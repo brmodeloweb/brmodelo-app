@@ -145,6 +145,6 @@ export default {
 	'English': 'Inglês',
 	'AND': 'E',
 	'OR': 'OU',
-	'You have chosen more than one table to create the View. It is necessary to select the attributes that will compose the JOIN.': 'Você escolheu mais de uma tabela para a criação da Visão. É necessário selecionar os atributos que irão compor o JOIN.',
+	'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.': 'Você escolheu mais de uma tabela para a criação da Visão. É necessário selecionar os atributos que irão compor o JOIN.',
 	'Add join': 'Adicionar join',
 };

@@ -6,6 +6,14 @@ const app = angular.module("app.columnForm", []);
 const Controller = function () {
 	const $ctrl = this;
 
+	$ctrl.columnTypes = [
+		{ name: 'DATE', type: 'DATE' },
+		{ name: 'FLOAT', type: 'FLOAT' },
+		{ name: 'VARCHAR(n)', type: 'VARCHAR(n)' },
+		{ name: 'CHAR(n)', type: 'CHAR(n)' },
+		{ name: 'INT', type: 'INT' }
+	];
+
 	$ctrl.cancel = () => {
 		$ctrl.dismiss();
 	};

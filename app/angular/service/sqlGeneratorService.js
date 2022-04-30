@@ -52,12 +52,12 @@ const sqlGeneratorService = () => {
 		if (view.queryConditions && view.queryConditions.joins) {
 			let tables = [baseTable];
 			const joins = view.queryConditions.joins.filter(join => join.submitted).map(join => {
-				const attributeName = `columnName${filterTableColumn(tables, join.columnName.match(REGEX_TABLE_COLUMN_NAME).groups.table) ? '2' : ''}`;
+				const attributeName = `columnName${filterTableColumn(tables, join.columnNameOrigin.match(REGEX_TABLE_COLUMN_NAME).groups.table) ? 'Target' : 'Origin'}`;
 				const joinTable = join[attributeName].match(REGEX_TABLE_COLUMN_NAME).groups.table;
 				tables.push(joinTable);
 				return ({ ...join, table: joinTable });
 			});
-			return joins.map(join => `\nINNER JOIN ${join.table} ON ${cleanString(join.columnName)} = ${cleanString(join.columnName2)}`)
+			return joins.map(join => `\nINNER JOIN ${join.table} ON ${cleanString(join.columnNameOrigin)} = ${cleanString(join.columnNameTarget)}`)
 		} else {
 			return '';
 		}
