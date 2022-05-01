@@ -91,15 +91,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.zoomIn = () => {
-
+		configs.editorScroller.zoom(0.1, { max: 2 });
 	}
 
 	ctrl.zoomOut = () => {
-
+		configs.editorScroller.zoom(-0.1, { min: 0.2 });
 	}
 
 	ctrl.zoomNone = () => {
-
+		configs.editorScroller.zoom();
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -346,7 +346,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(!configs.keyboardController.spacePressed){
 
 			} else {
-
+				configs.editorScroller.startPanning(evt);
 			}
 		});
 
@@ -455,14 +455,14 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 		content.append(configs.editorScroller.render().el);
 
-		const stencil = new joint.ui.Stencil({
+		const enditorManager = new joint.ui.EditorManager({
 			graph: configs.graph,
 			paper: configs.paper,
 		});
 
-		$(".elements-holder").append(stencil.render().el);
+		$(".elements-holder").append(enditorManager.render().el);
 
-		stencil.load([
+		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
 			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),

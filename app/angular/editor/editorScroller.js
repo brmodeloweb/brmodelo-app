@@ -2,148 +2,230 @@ import $ from "jquery";
 import * as joint from "jointjs/dist/joint";
 
 joint.ui.EditorScroller = Backbone.View.extend({
-		className: "paper-scroller",
+		className: "editor-scroller",
 		events: {
-				mousedown: "pointerdown",
-				mousemove: "pointermove",
-				touchmove: "pointermove"
+			mousedown: "pointerdown",
+			mousemove: "pointermove",
+			touchmove: "pointermove"
 		},
 		options: {
-				paper: void 0,
-				padding: 0,
-				autoResizePaper: !1,
-				baseWidth: void 0,
-				baseHeight: void 0,
-				contentOptions: void 0
+			paper: undefined,
+			padding: 0,
+			autoResizePaper: false,
+			baseWidth: undefined,
+			baseHeight: undefined,
+			contentOptions: undefined
 		},
-		initialize: function(a) {
-				_.bindAll(this, "startPanning", "stopPanning", "pan"), this.options = _.extend({}, _.result(this, "options"), a || {});
-				var b = this.options.paper,
-						c = joint.V(b.viewport).scale();
-				this._sx = c.sx, this._sy = c.sy, _.isUndefined(this.options.baseWidth) && (this.options.baseWidth = b.options.width), _.isUndefined(this.options.baseHeight) && (this.options.baseHeight = b.options.height), this.$el.append(b.el), this.addPadding(), this.listenTo(b, "scale", this.onScale), this.listenTo(b, "resize", this.onResize), this.options.autoResizePaper && this.listenTo(b.model, "change add remove reset", this.adjustPaper)
+		initialize: function(configs) {
+			_.bindAll(this, "startPanning", "stopPanning", "pan"), 
+			this.options = _.extend({}, _.result(this, "options"), configs || {});
+			const paper = this.options.paper;
+			const scaledPaper = joint.V(paper.viewport).scale();
+			this._sx = scaledPaper.sx; 
+			this._sy = scaledPaper.sy; 
+			this.$el.append(paper.el), this.addPadding();
+			this.listenTo(paper, "scale", this.onScale); 
+			this.listenTo(paper, "resize", this.onResize); 
+			if(_.isUndefined(this.options.baseWidth)) {
+				this.options.baseWidth = paper.options.width; 
+			}
+			if(_.isUndefined(this.options.baseHeight)) {
+				this.options.baseHeight = paper.options.height;
+			}
+			if (this.options.autoResizePaper) {
+				this.listenTo(paper.model, "change add remove reset", this.adjustPaper);
+			}
 		},
 		onResize: function() {
-				this._center && this.center(this._center.x, this._center.y)
+			if(this._center) {
+				this.center(this._center.x, this._center.y);
+			}
 		},
-		onScale: function(a, b, c, d) {
-				this.adjustScale(a, b), this._sx = a, this._sy = b, (c || d) && this.center(c, d)
+		onScale: function(zoomWidth, zoomHeight, offsetWidth, offsetHeight) {
+			this.adjustScale(zoomWidth, zoomHeight); 
+			this._sx = zoomWidth; 
+			this._sy = zoomHeight; 
+			if(offsetWidth || offsetHeight) {
+				this.center(offsetWidth, offsetHeight);
+			} 
 		},
 		beforePaperManipulation: function() {
-				this.$el.css("visibility", "hidden")
+			this.$el.css("visibility", "hidden");
 		},
 		afterPaperManipulation: function() {
-				this.$el.css("visibility", "visible")
+			this.$el.css("visibility", "visible");
 		},
-		toLocalPoint: function(a, b) {
-				var c = this.options.paper.viewport.getCTM();
-				return a += this.el.scrollLeft - this.padding.paddingLeft - c.e, a /= c.a, b += this.el.scrollTop - this.padding.paddingTop - c.f, b /= c.d, joint.g.point(a, b)
+		toLocalPoint: function(clientWidth, clientHeight) {
+			const viewportCTM = this.options.paper.viewport.getCTM();
+			clientWidth = (clientWidth + (this.el.scrollLeft - this.padding.paddingLeft - viewportCTM.e)); 
+			clientWidth = clientWidth / viewportCTM.a;
+			clientWidth = clientWidth + viewportCTM.d;
+			clientHeight = clientHeight + (this.el.scrollTop - this.padding.paddingTop - viewportCTM.f); 
+			return joint.g.point(clientWidth, clientHeight);
 		},
 		adjustPaper: function() {
-				this._center = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2);
-				var a = _.extend({
-						gridWidth: this.options.baseWidth,
-						gridHeight: this.options.baseHeight,
-						allowNewOrigin: "negative"
-				}, this.options.contentOptions);
-				return this.options.paper.fitToContent(this.transformContentOptions(a)), this
+			this._center = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2);
+			const newContentOptions = _.extend({
+					gridWidth: this.options.baseWidth,
+					gridHeight: this.options.baseHeight,
+					allowNewOrigin: "negative"
+			}, this.options.contentOptions);
+			this.options.paper.fitToContent(this.transformContentOptions(newContentOptions));
+			return this;
 		},
-		adjustScale: function(a, b) {
-				var c = this.options.paper.options,
-						d = a / this._sx,
-						e = b / this._sy;
-				this.options.paper.setOrigin(c.origin.x * d, c.origin.y * e), this.options.paper.setDimensions(c.width * d, c.height * e)
+		adjustScale: function(zoomWidth, zoomHeight) {
+			const paperOptions = this.options.paper.options;
+			const newScaleX = zoomWidth / this._sx;
+			const newScaleY = zoomHeight / this._sy;
+			this.options.paper.setOrigin(paperOptions.origin.x * newScaleX, paperOptions.origin.y * newScaleY); 
+			this.options.paper.setDimensions(paperOptions.width * newScaleX, paperOptions.height * newScaleY);
 		},
-		transformContentOptions: function(a) {
-				var b = this._sx,
-						c = this._sy;
-				return a.gridWidth && (a.gridWidth *= b), a.gridHeight && (a.gridHeight *= c), a.minWidth && (a.minWidth *= b), a.minHeight && (a.minHeight *= c), _.isObject(a.padding) ? a.padding = {
-						left: (a.padding.left || 0) * b,
-						right: (a.padding.right || 0) * b,
-						top: (a.padding.top || 0) * c,
-						bottom: (a.padding.bottom || 0) * c
-				} : _.isNumber(a.padding) && (a.padding = a.padding * b), a
+		transformContentOptions: function(gridConfigs) {
+			const zoomWidth = this._sx;
+			const zoomHeight = this._sy;
+			if(gridConfigs.gridWidth) {
+				gridConfigs.gridWidth *= zoomWidth;
+			}
+			if(gridConfigs.gridHeight) {
+				gridConfigs.gridHeight *= zoomHeight;
+			}
+			if(gridConfigs.minWidth) {
+				gridConfigs.minWidth *= zoomWidth;
+			}
+			if(gridConfigs.minHeight) {
+				gridConfigs.minHeight *= zoomHeight;
+			}
+			if(_.isObject(gridConfigs.padding)) {
+				gridConfigs.padding = {
+					left: (gridConfigs.padding.left || 0) * zoomWidth,
+					right: (gridConfigs.padding.right || 0) * zoomWidth,
+					top: (gridConfigs.padding.top || 0) * zoomHeight,
+					bottom: (gridConfigs.padding.bottom || 0) * zoomHeight
+				}
+			} else if (_.isNumber(gridConfigs.padding)) {
+				gridConfigs.padding = gridConfigs.padding * zoomWidth;
+			}
+			return gridConfigs;
 		},
-		center: function(a, b) {
-				var c = this.options.paper.viewport.getCTM(),
-						d = -c.e,
-						e = -c.f,
-						f = d + this.options.paper.options.width,
-						g = e + this.options.paper.options.height;
-				_.isUndefined(a) || _.isUndefined(b) ? (a = (d + f) / 2, b = (e + g) / 2) : (a *= c.a, b *= c.d);
-				var h = this.options.padding,
-						i = this.el.clientWidth / 2,
-						j = this.el.clientHeight / 2,
-						k = i - h - a + d,
-						l = i - h + a - f,
-						m = j - h - b + e,
-						n = j - h + b - g;
-				return this.addPadding(Math.max(k, 0), Math.max(l, 0), Math.max(m, 0), Math.max(n, 0)), this.el.scrollLeft = a - i + c.e + this.padding.paddingLeft, this.el.scrollTop = b - j + c.f + this.padding.paddingTop, this
+		center: function(halfWidth, halfHeight) {
+			const viewportCTM = this.options.paper.viewport.getCTM();
+			const svgMatrixE = -viewportCTM.e;
+			const e = -viewportCTM.f;
+			const paperWidth = svgMatrixE + this.options.paper.options.width;
+			const paperHeight = e + this.options.paper.options.height;
+			if(_.isUndefined(halfWidth) || _.isUndefined(halfHeight)) {
+				halfWidth = (svgMatrixE + paperWidth) / 2; 
+				halfHeight = (e + paperHeight) / 2;
+			} else {
+				halfWidth *= viewportCTM.a; 
+				halfHeight *= viewportCTM.d;
+			}
+			const paddingReference = this.options.padding;
+			const clientWidth = this.el.clientWidth / 2;
+			const clientHeight = this.el.clientHeight / 2;
+			const left = clientWidth - paddingReference - halfWidth + svgMatrixE;
+			const right = clientWidth - paddingReference + halfWidth - paperWidth;
+			const top = clientHeight - paddingReference - halfHeight + e;
+			const bottom = clientHeight - paddingReference + halfHeight - paperHeight;
+			this.addPadding(Math.max(left, 0), Math.max(right, 0), Math.max(top, 0), Math.max(bottom, 0));  
+			this.el.scrollLeft = halfWidth - clientWidth + viewportCTM.e + this.padding.paddingLeft; 
+			this.el.scrollTop = halfHeight - clientHeight + viewportCTM.f + this.padding.paddingTop; 
+			return this;
 		},
 		centerContent: function() {
-				var a = joint.V(this.options.paper.viewport).bbox(!0, this.options.paper.svg);
-				return this.center(a.x + a.width / 2, a.y + a.height / 2), this
+			const paperBox = joint.V(this.options.paper.viewport)
+				.bbox(!0, this.options.paper.svg);
+			this.center(paperBox.x + paperBox.width / 2, paperBox.y + paperBox.height / 2); 
+			return this;
 		},
-		addPadding: function(a, b, c, d) {
-				var e = this.options.padding,
-						f = this.padding = {
-								paddingLeft: Math.round(e + (a || 0)),
-								paddingTop: Math.round(e + (c || 0))
-						},
-						g = {
-								marginBottom: Math.round(e + (d || 0)),
-								marginRight: Math.round(e + (b || 0))
-						};
-				return f.paddingLeft = Math.min(f.paddingLeft, .9 * this.el.clientWidth), f.paddingTop = Math.min(f.paddingTop, .9 * this.el.clientHeight), this.$el.css(f), this.options.paper.$el.css(g), this
+		addPadding: function(left, right, top, bottom) {
+			const originalPadding = this.options.padding;
+			this.padding = {
+				paddingLeft: Math.round(originalPadding + (left || 0)),
+				paddingTop: Math.round(originalPadding + (top || 0))
+			};
+			const newPadding = this.padding;
+			const newMargin = {
+				marginBottom: Math.round(originalPadding + (bottom || 0)),
+				marginRight: Math.round(originalPadding + (right || 0))
+			};
+			newPadding.paddingLeft = Math.min(newPadding.paddingLeft, .9 * this.el.clientWidth); 
+			newPadding.paddingTop = Math.min(newPadding.paddingTop, .9 * this.el.clientHeight); 
+			this.$el.css(newPadding); 
+			this.options.paper.$el.css(newMargin); 
+			return this;
 		},
-		zoom: function(a, b) {
-				b = b || {};
-				var c, d, e = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2),
-						f = a,
-						g = a;
-				if (b.absolute || (f += this._sx, g += this._sy), b.grid && (f = Math.round(f / b.grid) * b.grid, g = Math.round(g / b.grid) * b.grid), b.max && (f = Math.min(b.max, f), g = Math.min(b.max, g)), b.min && (f = Math.max(b.min, f), g = Math.max(b.min, g)), _.isUndefined(b.ox) || _.isUndefined(b.oy)) c = e.x, d = e.y;
-				else {
-						var h = f / this._sx,
-								i = g / this._sy;
-						c = b.ox - (b.ox - e.x) / h, d = b.oy - (b.oy - e.y) / i
+		zoom: function(zoomOffset, zoomConfigs) {
+			zoomConfigs = zoomConfigs || {};
+			const point = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2);
+			let zoomOffsetX = zoomOffset;
+			let zoomOffsetY = zoomOffset;
+			let pointX;
+			let pointY;
+			if (!zoomConfigs.absolute) { 
+				zoomOffsetX += this._sx; 
+				zoomOffsetY += this._sy;
+				if(zoomConfigs.grid) {
+					zoomOffsetX = Math.round(f / zoomConfigs.grid) * zoomConfigs.grid;
+					zoomOffsetY = Math.round(zoomOffsetY / zoomConfigs.grid) * zoomConfigs.grid;
 				}
-				f = f || 1;
-				g = g || 1;
-				return this.beforePaperManipulation(), this.options.paper.scale(f, g), this.center(c, d), this.afterPaperManipulation(), this
+				if(zoomConfigs.max) {
+					zoomOffsetX = Math.min(zoomConfigs.max, zoomOffsetX);
+					zoomOffsetY = Math.min(zoomConfigs.max, zoomOffsetY);
+				}
+				if(zoomConfigs.min) {
+					zoomOffsetX = Math.max(zoomConfigs.min, zoomOffsetX);
+					zoomOffsetY = Math.max(zoomConfigs.min, zoomOffsetY);
+				}
+				if (_.isUndefined(zoomConfigs.ox) || _.isUndefined(zoomConfigs.oy)) {
+					pointX = point.x, 
+					pointY = point.y;
+				}
+			}
+			else {
+				pointX = zoomConfigs.ox - (zoomConfigs.ox - point.x) / (zoomOffsetX / this._sx); 
+				pointY = zoomConfigs.oy - (zoomConfigs.oy - point.y) / (zoomOffsetY / this._sy);
+			}
+			zoomOffsetX = zoomOffsetX || 1;
+			zoomOffsetY = zoomOffsetY || 1;
+			this.beforePaperManipulation(); 
+			this.options.paper.scale(zoomOffsetX, zoomOffsetY); 
+			this.center(pointX, pointY); 
+			this.afterPaperManipulation(); 
+			return this;
 		},
-		zoomToFit: function(a) {
-				a = a || {};
-				var b = this.options.paper,
-						c = _.clone(b.options.origin);
-				return a.fittingBBox = a.fittingBBox || _.extend({}, joint.g.point(c), {
-						width: this.$el.width() + this.padding.paddingLeft,
-						height: this.$el.height() + this.padding.paddingTop
-				}), this.beforePaperManipulation(), b.scaleContentToFit(a), b.setOrigin(c.x, c.y), this.adjustPaper().centerContent(), this.afterPaperManipulation(), this
-		},
-		startPanning: function(a) {
-			$('.paper-scroller').css('cursor', 'grab');
-			a = joint.util.normalizeEvent(a), this._clientX = a.clientX, this._clientY = a.clientY, $(document.body).on({
+		startPanning: function(mouseEvent) {
+			$('.editor-scroller').css('cursor', 'grab');
+			const normalizedEvent = joint.util.normalizeEvent(mouseEvent); 
+			this._clientX = normalizedEvent.clientX,
+			this._clientY = normalizedEvent.clientY, 
+			$(document.body).on({
 				"mousemove.panning touchmove.panning": this.pan,
 				"mouseup.panning touchend.panning": this.stopPanning
 			})
 		},
-		pan: function (a) {
-			$('.paper-scroller').css('cursor', 'grabbing');
-			a = joint.util.normalizeEvent(a);
-			var b = a.clientX - this._clientX,
-				c = a.clientY - this._clientY;
-			this.el.scrollTop -= c, this.el.scrollLeft -= b, this._clientX = a.clientX, this._clientY = a.clientY
+		pan: function (mouseEvent) {
+			$('.editor-scroller').css('cursor', 'grabbing');
+			const normalizedEvent = joint.util.normalizeEvent(mouseEvent);
+			const neededMargeLeft = normalizedEvent.clientX - this._clientX;
+			const neededMargeTop = normalizedEvent.clientY - this._clientY;
+			this.el.scrollTop -= neededMargeTop; 
+			this.el.scrollLeft -= neededMargeLeft; 
+			this._clientX = normalizedEvent.clientX; 
+			this._clientY = normalizedEvent.clientY;
 		},
 		stopPanning: function() {
-			$('.paper-scroller').css('cursor', 'default ');
-			$(document.body).off(".panning")
+			$('.editor-scroller').css('cursor', 'default');
+			$(document.body).off(".panning");
 		},
-		pointerdown: function(a) {
-				a.target == this.el && this.options.paper.pointerdown.apply(this.options.paper, arguments)
+		pointerdown: function(event) {
+			if(event.target == this.el) {
+				this.options.paper.pointerdown.apply(this.options.paper, arguments)
+			}
 		},
-		pointermove: function(a) {
-				a.target == this.el && this.options.paper.pointermove.apply(this.options.paper, arguments)
-		},
-		remove: function() {
-				this.stopPanning(), Backbone.View.prototype.remove.apply(this, arguments)
+		pointermove: function(event) {
+			if(event.target == this.el) {
+				this.options.paper.pointermove.apply(this.options.paper, arguments);
+			} 
 		}
 });

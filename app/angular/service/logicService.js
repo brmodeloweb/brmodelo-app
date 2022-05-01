@@ -8,6 +8,9 @@ import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 import "jointjs/dist/joint.min.css";
 
+import "../editor/editorManager"
+import "../editor/editorScroller"
+
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
 import Column from "./Column";
@@ -41,6 +44,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			drawGrid: true,
 			model: ls.graph
 		});
+
+		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
 		ls.toolsViewService = new ToolsViewService();
 
@@ -125,11 +130,24 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.applyResizePage = function () {
-
+		const content = $('#content');
+		ls.editorScroller = new joint.ui.EditorScroller({
+			autoResizePaper: true,
+			paper: ls.paper,
+			cursor: 'grab'
+		});
+		content.append(ls.editorScroller.render().el);
 	}
 
 	ls.applyDragAndDrop = function () {
-
+		const enditorManager = new joint.ui.EditorManager({
+			graph: ls.graph,
+			paper: ls.paper,
+		});
+		$(".elements-holder").append(enditorManager.render().el);
+		enditorManager.loadElements([
+			LogicFactory.createTable()
+		]);
 	}
 
 	ls.applyComponentSelection = () => {
@@ -149,7 +167,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			if(!ls.keyboardController.spacePressed){
 
 			} else {
-
+				ls.editorScroller.startPanning(evt);
 			}
 		});
 
@@ -377,15 +395,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.zoomIn = function () {
-		ls.paperScroller.zoom(0.2, { max: 2 });
+		ls.editorScroller.zoom(0.2, { max: 2 });
 	}
 
 	ls.zoomOut = function () {
-		ls.paperScroller.zoom(-0.2, { min: 0.2 });
+		ls.editorScroller.zoom(-0.2, { min: 0.2 });
 	}
 
 	ls.zoomNone = function () {
-		ls.paperScroller.zoom();
+		ls.editorScroller.zoom();
 	}
 
 	ls.registerShortcuts = () => {

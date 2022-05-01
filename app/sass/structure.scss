@@ -88,7 +88,7 @@ a,
 ////////////////////////////////////////////////////////////////////////////////
 // .stencil-paper-drag
 ////////////////////////////////////////////////////////////////////////////////
-.stencil-paper-drag.dragging {
+.draggable-paper.dragging {
     opacity: .7;
  }
 
@@ -208,30 +208,30 @@ a,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .paper-scroller
+// .editor-scroller
 ////////////////////////////////////////////////////////////////////////////////
-.paper-scroller {
+.editor-scroller {
 	position: relative;
 	width: 100%;
 	height: 100%;
 	overflow: scroll;
 }
 
-.paper-scroller .joint-paper {
+.editor-scroller .joint-paper {
 	position: absolute;
 	border: 1px solid #e7e7e7;
 	box-shadow: 0 0 20px rgba(0,0,0, 0.1);
 	// background-color: purple; // Uncomment to debugging purposes
 }
 
-.paper-scroller .joint-paper > svg {
+.editor-scroller .joint-paper > svg {
 	display: block;
 }
 
-.paper-scroller[data-cursor=grab] {
+.editor-scroller[data-cursor=grab] {
 	cursor: grab;
 }
 
-.paper-scroller[data-cursor=grab].is-panning {
+.editor-scroller[data-cursor=grab].is-panning {
 	cursor: grabbing;
 }
