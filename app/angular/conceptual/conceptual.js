@@ -3,6 +3,9 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
+import "../editor/editorManager"
+import "../editor/editorScroller"
+
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
@@ -88,15 +91,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.zoomIn = () => {
-
+		configs.editorScroller.zoom(0.1, { max: 2 });
 	}
 
 	ctrl.zoomOut = () => {
-
+		configs.editorScroller.zoom(-0.1, { min: 0.2 });
 	}
 
 	ctrl.zoomNone = () => {
-
+		configs.editorScroller.zoom();
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -343,7 +346,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(!configs.keyboardController.spacePressed){
 
 			} else {
-
+				configs.editorScroller.startPanning(evt);
 			}
 		});
 
@@ -444,6 +447,30 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController = new KeyboardController(configs.paper.$document);
 
 		registerPaperEvents(configs.paper);
+
+		configs.editorScroller = new joint.ui.EditorScroller({
+			paper: configs.paper,
+			cursor: "grabbing",
+			autoResizePaper: true,
+		});
+		content.append(configs.editorScroller.render().el);
+
+		const enditorManager = new joint.ui.EditorManager({
+			graph: configs.graph,
+			paper: configs.paper,
+		});
+
+		$(".elements-holder").append(enditorManager.render().el);
+
+		enditorManager.loadElements([
+			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
+			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
+			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
+			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
+			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
+			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
+			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
+		]);
 
 		registerShortcuts();
 	};
