@@ -20,14 +20,17 @@
 	</header>
 
 	<section class="mainContent">
-		<section class="stencil-list" id="stencil-holder">
-			<!-- Insert elemes to be used in model constrution -->
+		<section class="elements-holder">
+			<!-- Insert elements to be used in model constrution -->
 		</section>
 
 		<section id="content" class="model-area">
 			<header class="workspace-header">
 				<div class="page-header clearfix">
-					<h2 class="h4 pull-left">{{ 'Logical model of:' | translate }} {{$ctrl.model.name}}</h2>
+					<div class="document-info pull-left">
+						<h2 class="h4 pull-left">{{ 'Logical model of:' | translate }} {{$ctrl.model.name}}</h2>
+						<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
+					</div>
 					<aside class="header-actions pull-right">
 						<a class="br-button" data-ng-click="$ctrl.saveModel()" title="{{ 'Save (CTRL S)' | translate }}">{{ 'Save' | translate }}</a>
 					</aside>
@@ -345,10 +348,8 @@
 				</div><!-- End .properties-content -->
 			</aside><!-- End .model-properties -->
 		</section><!-- End .model-area -->
-
-		<a class="br-help hidden-print" href="https://github.com/brmodeloweb/brmodelo-app/issues/new/choose" target="_blank" rel="noopener noreferrer" title="{{ 'Report a bug or request a feature' | translate }}">
-			<i class="fa fa-bug" aria-hidden="true"></i>
-		</a>
+		<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
+		<bug-report-button></bug-report-button>
 
 	</section><!-- End .mainContent -->
 </section><!-- End .view -->

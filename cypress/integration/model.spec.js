@@ -4,7 +4,6 @@ describe("Model", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
 		cy.loginViaApi();
-		cy.visit("/#!/main");
 		cy.wait("@getUserModels").then((userModels) => {
 			cy.cleanUpUserModels(userModels);
 			cy.reload();
@@ -46,9 +45,9 @@ describe("Model", () => {
 			// Adds two tables, connects them, and save
 			cy.dragAndDropTableAt(200, 200);
 			cy.dragAndDropTableAt(500, 200);
-			cy.get(".paper-scroller .joint-type-uml-class").first().click();
+			cy.get(".editor-scroller .joint-type-uml-class").first().click();
 			cy.get(".link").drag(
-				".paper-scroller .joint-type-uml-class:nth-child(2)"
+				".editor-scroller .joint-type-uml-class:nth-child(2)"
 			);
 			cy.contains("a", "Save").click();
 			// Asserts the success message is displayed
@@ -58,7 +57,7 @@ describe("Model", () => {
 			// Reloads the page so that the success message disapears
 			cy.reload();
 			// Asserts the tables and connection are still there
-			cy.get(".paper-scroller .joint-type-uml-class").should("have.length", 2);
+			cy.get(".editor-scroller .joint-type-uml-class").should("have.length", 2);
 			cy.get(".connection-wrap").should("have.length", 1);
 		});
 	});

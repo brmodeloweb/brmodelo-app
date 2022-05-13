@@ -3,14 +3,9 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
-import "../../joint/joint.ui.stencil";
-import "../../joint/joint.ui.stencil.css";
-import "../../joint/joint.ui.selectionView";
-import "../../joint/joint.ui.selectionView.css";
-import "../../joint/joint.ui.halo.css";
-import "../../joint/joint.ui.halo";
-import "../../joint/br-scroller";
-import "../../joint/joint.dia.command";
+import "../editor/editorManager"
+import "../editor/editorScroller"
+
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
@@ -18,6 +13,8 @@ import angular from "angular";
 import template from "./conceptual.html";
 
 import modelDuplicatorComponent from "../components/duplicateModelModal";
+import statusBar from "../components/statusBar";
+import bugReportButton from "../components/bugReportButton";
 
 import Factory from "./factory";
 import Validator from "./validator";
@@ -50,8 +47,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	const configs = {
 		graph: {},
 		paper: {},
-		paperScroller: {},
-		commandManager: {},
 		keyboardController: null,
 	};
 
@@ -73,6 +68,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.saveModel = () => {
+		ctrl.modelState.updatedAt = new Date();
 		setIsDirty(false);
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
@@ -87,23 +83,23 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.undoModel = () => {
-		configs.commandManager.undo();
+
 	}
 
 	ctrl.redoModel = () => {
-		configs.commandManager.redo();
+
 	}
 
 	ctrl.zoomIn = () => {
-		configs.paperScroller.zoom(0.1, { max: 2 });
+		configs.editorScroller.zoom(0.1, { max: 2 });
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(-0.1, { min: 0.2 });
+		configs.editorScroller.zoom(-0.1, { min: 0.2 });
 	}
 
 	ctrl.zoomNone = () => {
-		configs.paperScroller.zoom();
+		configs.editorScroller.zoom();
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -149,7 +145,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
-		configs.selectionView.cancelSelection();
 		if(configs.selectedHalo) {
 			configs.selectedHalo.remove();
 			configs.selectedHalo = null;
@@ -349,9 +344,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		paper.on('blank:pointerdown', (evt) => {
 			ctrl.unselectAll();
 			if(!configs.keyboardController.spacePressed){
-				configs.selectionView.startSelecting(evt);
+
 			} else {
-				configs.paperScroller.startPanning(evt);
+				configs.editorScroller.startPanning(evt);
 			}
 		});
 
@@ -361,29 +356,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
 			ctrl.onSelectElement(cellView);
-			// if(x != null && y != null){
-			// 	$scope.conectElements(cellView, x, y)
-			// }
-			configs.selectionView.cancelSelection();
-
-			const halo = new joint.ui.Halo({
-				cellView: cellView,
-				boxContent: false
-			});
-
-			configs.selectedHalo = halo;
-			halo.on('action:link:add', function (link) {
-				ctrl.shapeLinker.onLink(link);
-			});
-
-			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
-				halo.removeHandle('resize');
-			}
-
-			halo.removeHandle('clone');
-			halo.removeHandle('fork');
-			halo.removeHandle('rotate');
-			halo.render();
 		});
 
 		configs.paper.on('link:mouseenter', (linkView) => {
@@ -460,8 +432,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		registerGraphEvents(configs.graph);
 
-		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
-
 		const content = $("#content");
 
 		configs.paper = new joint.dia.Paper({
@@ -478,23 +448,21 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		registerPaperEvents(configs.paper);
 
-		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
-
-		configs.paperScroller = new joint.ui.PaperScroller({
+		configs.editorScroller = new joint.ui.EditorScroller({
 			paper: configs.paper,
 			cursor: "grabbing",
 			autoResizePaper: true,
 		});
-		content.append(configs.paperScroller.render().el);
+		content.append(configs.editorScroller.render().el);
 
-		const stencil = new joint.ui.Stencil({
+		const enditorManager = new joint.ui.EditorManager({
 			graph: configs.graph,
 			paper: configs.paper,
 		});
 
-		$("#stencil-holder").append(stencil.render().el);
+		$(".elements-holder").append(enditorManager.render().el);
 
-		stencil.load([
+		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
 			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
@@ -524,6 +492,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.model.id = resp.data._id;
 			ctrl.model.model = jsonModel;
 			configs.graph.fromJSON(jsonModel);
+			ctrl.modelState.updatedAt = resp.data.updated
 			ctrl.setLoading(false);
 		});
 	}
@@ -539,8 +508,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.entityExtensor = null;
 		configs.graph = null;
 		configs.paper = null;
-		configs.paperScroller = null;
-		configs.commandManager = null;
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
 		preventExitService.cleanup(ctrl)()
@@ -550,7 +517,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar])
 	.component("editorConceptual", {
 		template,
 		controller,

@@ -1,10 +1,41 @@
 <div class="dropdown" ng-class="{open: $ctrl.open}">
-	<button ng-click="$ctrl.toggle(!$ctrl.open)" data-cy="gear-button">
-		<i class="fa fa-cog"></i>
+	<button ng-click="$ctrl.toggle(!$ctrl.open)" data-cy="gear-button" title="">
+		<i class="fa fa-user-circle"></i>
 	</button>
 	<ul class="dropdown-menu dropdown-menu-right">
-		<li ng-repeat="option in $ctrl.options" ng-click="$ctrl.select(option)">
-			<a>{{option.name}}</a>
+		<li>
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://docs.brmodeloweb.com"
+			>
+				{{'Documentation' | translate}}
+			</a>
+		</li>
+		<li role="separator" class="divider"></li>
+		<li>
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://github.com/brmodeloweb/brmodelo-app/issues/new?assignees=&labels=Feature+request&template=feature_request.md&title="
+			>
+				{{'Request feature' | translate}}
+			</a>
+		</li>
+		<li>
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://github.com/brmodeloweb/brmodelo-app/issues/new?assignees=&labels=&template=bug_report.md&title="
+			>
+				{{'Report bug' | translate}}
+			</a>
+		</li>
+		<li role="separator" class="divider"></li>
+		<li title="" ng-repeat="option in $ctrl.options" ng-click="$ctrl.select(option)">
+			<a>
+				{{option.name}}
+			</a>
 		</li>
 	</ul>
 </div>
