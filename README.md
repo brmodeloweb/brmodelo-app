@@ -5,7 +5,7 @@
 
 ## Web application for database modeling and teaching
 
-![Hero shot](https://raw.githubusercontent.com/brmodeloweb/brmodelo-site/master/img/hero-shot.png)
+![Hero shot](https://raw.githubusercontent.com/brmodeloweb/brmodelo-site/master/img/hero-shot-en.png)
 > Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
 ## Dependencies
