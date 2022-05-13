@@ -97,8 +97,13 @@ export default {
 	'You have unsaved changes. Are you sure you want to exit without saving?': 'Você tem alterações não salvas. Tem certeza que deseja sair sem salvar?',
 	'Exit without saving': 'Sair sem salvar',
 	'Name': 'Nome',
+	'Documentation': 'Documentação',
+	'Request feature': 'Requisitar funcionalidade',
+	'Report bug': 'Reportar problema',
 	'Import model': 'Importar modelo',
 	'File': 'Arquivo',
 	'Import': 'Importar',
 	'Please select a .BRT file': 'Por favor selecione um arquivo .BRT',
+	'Last save:': 'Salvo por último:',
+	'at': 'às',
 };

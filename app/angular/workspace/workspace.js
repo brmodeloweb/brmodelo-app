@@ -6,6 +6,7 @@ import modelCreateComponent from "../components/createModelModal";
 import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
+import bugReportButton from "../components/bugReportButton";
 import modelImportComponent from "../components/importModelModal";
 
 const ListController = function (
@@ -161,7 +162,8 @@ export default angular
 		modelDuplicatorComponent,
 		modelDeleterComponent,
 		modelRenameComponent,
-		modelImportComponent
+		bugReportButton,
+		modelImportComponent,
 	])
 	.component("workspace", {
 		template,

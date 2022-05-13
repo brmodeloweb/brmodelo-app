@@ -18,6 +18,8 @@ import angular from "angular";
 import template from "./conceptual.html";
 
 import modelDuplicatorComponent from "../components/duplicateModelModal";
+import statusBar from "../components/statusBar";
+import bugReportButton from "../components/bugReportButton";
 
 import Factory from "./factory";
 import Validator from "./validator";
@@ -73,6 +75,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.saveModel = () => {
+		ctrl.modelState.updatedAt = new Date();
 		setIsDirty(false);
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
@@ -524,6 +527,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.model.id = resp.data._id;
 			ctrl.model.model = jsonModel;
 			configs.graph.fromJSON(jsonModel);
+			ctrl.modelState.updatedAt = resp.data.updated
 			ctrl.setLoading(false);
 		});
 	}
@@ -550,7 +554,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar])
 	.component("editorConceptual", {
 		template,
 		controller,

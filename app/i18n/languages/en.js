@@ -97,8 +97,17 @@ export default {
 	'You have unsaved changes. Are you sure you want to exit without saving?': 'You have unsaved changes. Are you sure you want to exit without saving?',
 	'Exit without saving': 'Exit without saving',
 	'Name': 'Name',
+	'Documentation': 'Documentation',
+	'Request feature': 'Request feature',
+	'Report bug': 'Report bug',
 	'Import model': 'Import model',
 	'File': 'File',
 	'Import': 'Import',
-	'Please select a .BRT file': 'Please choose a .BRT file to upload',
+	'Please select a .BRT file': 'Please select a .BRT file',
+	'Last save:': 'Last save:',
+	'at': 'at',
+	'Import model': 'Import model',
+	'File': 'File',
+	'Import': 'Import',
+	'Please select a .BRT file': 'Please choose a .BRT file to upload'
 };

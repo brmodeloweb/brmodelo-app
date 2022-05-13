@@ -6,7 +6,6 @@ describe("Models view", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
 		cy.loginViaApi();
-		cy.visit("/#!/main");
 		cy.wait("@getUserModels").then((userModels) => {
 			const userId = userModels.request.url.match(/userId=([^&]*)/)[1];
 
