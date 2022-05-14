@@ -5,48 +5,27 @@
 
 .halo .handle {
     position: absolute;
-    pointer-events: auto;
     width: 20px;
     height: 20px;
     background-size: 20px 20px;
     background-repeat: no-repeat;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    -webkit-user-drag: none;
-    user-drag: none
+	pointer-events: auto;
 }
 
 .halo .handle {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .halo .handle.hidden {
-    display: none
+    display: none;
 }
 
-.halo .resize {
-    cursor: se-resize
-}
-
-.halo .clone {
-    cursor: move
-}
-
-.halo .link {
-    cursor: move;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing
-}
-
-.halo .fork {
-    cursor: move
-}
-
-.halo .rotate {
-    cursor: move
-}
+.halo .resize {cursor: se-resize;}
+.halo .clone {cursor: move;}
+.halo .link {cursor: move;}
+.halo .fork {cursor: move}
+.halo .rotate {cursor: move;}
 
 .halo .box {
     position: absolute;
@@ -64,58 +43,60 @@
     margin-top: 30px
 }
 
-.halo.surrounding.small .box {
-    margin-top: 25px
-}
-
-.halo.surrounding.tiny .box {
-    margin-top: 20px
-}
+.halo.surrounding.small .box {margin-top: 25px}
+.halo.surrounding.tiny .box {margin-top: 20px}
 
 .halo.surrounding.animate .handle {
-    transition: background-size 80ms, width 80ms, height 80ms, top 150ms, left 150ms, bottom 150ms, right 150ms
+	transition:
+		background-size 80ms,
+		width 80ms,
+		height 80ms,
+		top 150ms,
+		left 150ms,
+		bottom 150ms,
+		right 150ms;
 }
 
 .halo.surrounding.small .handle {
     width: 15px;
     height: 15px;
-    background-size: 15px 15px
+    background-size: 15px 15px;
 }
 
 .halo.surrounding.tiny .handle {
     width: 10px;
     height: 10px;
-    background-size: 10px 10px
+    background-size: 10px 10px;
 }
 
 .halo.surrounding .handle.se {
     bottom: -25px;
-    right: -25px
+    right: -25px;
 }
 
 .halo.surrounding.small .handle.se {
     bottom: -19px;
-    right: -19px
+    right: -19px;
 }
 
 .halo.surrounding.tiny .handle.se {
     bottom: -13px;
-    right: -13px
+    right: -13px;
 }
 
 .halo.surrounding .handle.nw {
     top: -21px;
-    left: -25px
+    left: -25px;
 }
 
 .halo.surrounding.small .handle.nw {
     top: -19px;
-    left: -19px
+    left: -19px;
 }
 
 .halo.surrounding.tiny .handle.nw {
     top: -13px;
-    left: -13px
+    left: -13px;
 }
 
 .halo.surrounding .handle.n {
@@ -126,18 +107,17 @@
 
 .halo.surrounding.small .handle.n {
     top: -19px;
-    margin-left: -7.5px
+    margin-left: -7.5px;
 }
 
 .halo.surrounding.tiny .handle.n {
     top: -13px;
-    margin-left: -5px
+    margin-left: -5px;
 }
 
 .halo.surrounding .handle.e {
     right: -25px;
-    top: -webkit-calc(50% - 10px);
-    top: calc(50% - 10px)
+    top: calc(50% - 10px);
 }
 
 .halo.surrounding.small .handle.e {
@@ -226,84 +206,45 @@
 }
 
 @-webkit-keyframes pie-visibility {
-    0% {
-        visibility: hidden
-    }
-
-    100% {
-        visibility: visible
-    }
+    0% {visibility: hidden}
+    100% {visibility: visible}
 }
 
 @-moz-keyframes pie-visibility {
-    0% {
-        visibility: hidden
-    }
-
-    100% {
-        visibility: visible
-    }
+    0% {visibility: hidden}
+    100% {visibility: visible}
 }
 
 @-o-keyframes pie-visibility {
-    0% {
-        visibility: hidden
-    }
-
-    100% {
-        visibility: visible
-    }
+    0% {visibility: hidden}
+    100% {visibility: visible}
 }
 
 @keyframes pie-visibility {
-    0% {
-        visibility: hidden
-    }
-
-    100% {
-        visibility: visible
-    }
+    0% {visibility: hidden}
+    100% {visibility: visible}
 }
 
 @-webkit-keyframes pie-opening {
-    0% {
-        transform: scale(0.4) rotate(-20deg)
-    }
-
-    100% {
-        transform: scale(1) rotate(0deg)
-    }
+    0% {transform: scale(0.4) rotate(-20deg)}
+    100% {transform: scale(1) rotate(0deg)}
 }
 
 @-moz-keyframes pie-opening {
-    0% {
-        transform: scale(0.4) rotate(-20deg)
-    }
-
-    100% {
-        transform: scale(1) rotate(0deg)
-    }
+    0% {transform: scale(0.4) rotate(-20deg)}
+    100% {transform: scale(1) rotate(0deg)}
 }
 
 @-o-keyframes pie-opening {
-    0% {
-        transform: scale(0.4) rotate(-20deg)
-    }
-
-    100% {
-        transform: scale(1) rotate(0deg)
-    }
+    0% {transform: scale(0.4) rotate(-20deg)}
+    100% {transform: scale(1) rotate(0deg)}
 }
 
 @keyframes pie-opening {
-    0% {
-        transform: scale(0.4) rotate(-20deg)
-    }
-
-    100% {
-        transform: scale(1) rotate(0deg)
-    }
+    0% {transform: scale(0.4) rotate(-20deg)}
+    100% {transform: scale(1) rotate(0deg)}
 }
+
 
 .halo.pie {
     margin: -2px 0 0 -2px
