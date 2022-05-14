@@ -3,18 +3,16 @@
     pointer-events: none
 }
 
+.halo .handle.hidden {display: none;}
+
 .halo .handle {
-    position: absolute;
     width: 20px;
     height: 20px;
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
+	cursor: pointer;
     user-select: none;
 	pointer-events: auto;
+	background-repeat: no-repeat;
 }
-
-.halo .handle {cursor: pointer;}
-.halo .handle.hidden {display: none;}
 
 .halo .resize {cursor: se-resize;}
 
@@ -22,17 +20,6 @@
 .halo .link,
 .halo .fork,
 .halo .rotate {cursor: move;}
-
-.halo .box {
-    position: absolute;
-    top: 100%;
-    text-align: center;
-    font-size: 10px;
-    line-height: 14px;
-    border-radius: 6px;
-    padding: 6px
-}
-
 
 .halo.toolbar .handles {
     display: flex;
@@ -73,11 +60,6 @@
     margin-top: 7px;
 }
 
-.halo.toolbar .box {
-    margin-top: 10px;
-    min-width: 100px;
-}
-
 .halo.toolbar .handles {
     border-radius: 5px;
     background-color: #F7F7F7;
@@ -91,9 +73,4 @@
 
 .halo.toolbar .handle:hover:after {
     border-bottom: 4px solid #FC6CB8;
-}
-
-.halo.toolbar .box {
-    background-color: #696D89;
-    color: #C7C9E2;
 }
