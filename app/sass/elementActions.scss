@@ -1,0 +1,501 @@
+.halo {
+    position: absolute;
+    pointer-events: none
+}
+
+.halo .handle {
+    position: absolute;
+    pointer-events: auto;
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none
+}
+
+.halo .handle {
+    cursor: pointer
+}
+
+.halo .handle.hidden {
+    display: none
+}
+
+.halo .resize {
+    cursor: se-resize
+}
+
+.halo .clone {
+    cursor: move
+}
+
+.halo .link {
+    cursor: move;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing
+}
+
+.halo .fork {
+    cursor: move
+}
+
+.halo .rotate {
+    cursor: move
+}
+
+.halo .box {
+    position: absolute;
+    top: 100%;
+    text-align: center;
+    font-size: 10px;
+    line-height: 14px;
+    border-radius: 6px;
+    padding: 6px
+}
+
+.halo.surrounding .box {
+    left: -20px;
+    right: -20px;
+    margin-top: 30px
+}
+
+.halo.surrounding.small .box {
+    margin-top: 25px
+}
+
+.halo.surrounding.tiny .box {
+    margin-top: 20px
+}
+
+.halo.surrounding.animate .handle {
+    transition: background-size 80ms, width 80ms, height 80ms, top 150ms, left 150ms, bottom 150ms, right 150ms
+}
+
+.halo.surrounding.small .handle {
+    width: 15px;
+    height: 15px;
+    background-size: 15px 15px
+}
+
+.halo.surrounding.tiny .handle {
+    width: 10px;
+    height: 10px;
+    background-size: 10px 10px
+}
+
+.halo.surrounding .handle.se {
+    bottom: -25px;
+    right: -25px
+}
+
+.halo.surrounding.small .handle.se {
+    bottom: -19px;
+    right: -19px
+}
+
+.halo.surrounding.tiny .handle.se {
+    bottom: -13px;
+    right: -13px
+}
+
+.halo.surrounding .handle.nw {
+    top: -21px;
+    left: -25px
+}
+
+.halo.surrounding.small .handle.nw {
+    top: -19px;
+    left: -19px
+}
+
+.halo.surrounding.tiny .handle.nw {
+    top: -13px;
+    left: -13px
+}
+
+.halo.surrounding .handle.n {
+    top: -22px;
+    left: 50%;
+    margin-left: -10px
+}
+
+.halo.surrounding.small .handle.n {
+    top: -19px;
+    margin-left: -7.5px
+}
+
+.halo.surrounding.tiny .handle.n {
+    top: -13px;
+    margin-left: -5px
+}
+
+.halo.surrounding .handle.e {
+    right: -25px;
+    top: -webkit-calc(50% - 10px);
+    top: calc(50% - 10px)
+}
+
+.halo.surrounding.small .handle.e {
+    right: -19px;
+    top: -webkit-calc(50% - 8px);
+    top: calc(50% - 8px)
+}
+
+.halo.surrounding.tiny .handle.e {
+    right: -13px;
+    top: -webkit-calc(50% - 5px);
+    top: calc(50% - 5px)
+}
+
+.halo.surrounding .handle.ne {
+    top: -21px;
+    right: -25px
+}
+
+.halo.surrounding.small .handle.ne {
+    top: -19px;
+    right: -19px
+}
+
+.halo.surrounding.tiny .handle.ne {
+    top: -13px;
+    right: -13px
+}
+
+.halo.surrounding .handle.w {
+    left: -25px;
+    top: 50%;
+    margin-top: -10px
+}
+
+.halo.surrounding.small .handle.w {
+    left: -19px;
+    margin-top: -8px
+}
+
+.halo.surrounding.tiny .handle.w {
+    left: -13px;
+    margin-top: -5px
+}
+
+.halo.surrounding .handle.sw {
+    bottom: -25px;
+    left: -25px
+}
+
+.halo.surrounding.small .handle.sw {
+    bottom: -19px;
+    left: -19px
+}
+
+.halo.surrounding.tiny .handle.sw {
+    bottom: -13px;
+    left: -13px
+}
+
+.halo.surrounding .handle.s {
+    bottom: -24px;
+    left: 50%;
+    margin-left: -10px
+}
+
+.halo.surrounding.small .handle.s {
+    bottom: -19px;
+    margin-left: -7.5px
+}
+
+.halo.surrounding.tiny .handle.s {
+    bottom: -13px;
+    margin-left: -5px
+}
+
+.halo.surrounding .handle.selected {
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 3px
+}
+
+.halo.pie .box {
+    margin-top: 10px;
+    left: 0;
+    right: 0
+}
+
+@-webkit-keyframes pie-visibility {
+    0% {
+        visibility: hidden
+    }
+
+    100% {
+        visibility: visible
+    }
+}
+
+@-moz-keyframes pie-visibility {
+    0% {
+        visibility: hidden
+    }
+
+    100% {
+        visibility: visible
+    }
+}
+
+@-o-keyframes pie-visibility {
+    0% {
+        visibility: hidden
+    }
+
+    100% {
+        visibility: visible
+    }
+}
+
+@keyframes pie-visibility {
+    0% {
+        visibility: hidden
+    }
+
+    100% {
+        visibility: visible
+    }
+}
+
+@-webkit-keyframes pie-opening {
+    0% {
+        transform: scale(0.4) rotate(-20deg)
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+}
+
+@-moz-keyframes pie-opening {
+    0% {
+        transform: scale(0.4) rotate(-20deg)
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+}
+
+@-o-keyframes pie-opening {
+    0% {
+        transform: scale(0.4) rotate(-20deg)
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+}
+
+@keyframes pie-opening {
+    0% {
+        transform: scale(0.4) rotate(-20deg)
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+}
+
+.halo.pie {
+    margin: -2px 0 0 -2px
+}
+
+.halo.pie .handles {
+    display: none;
+    z-index: 1;
+    pointer-events: visiblePainted;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    right: -50px;
+    top: -webkit-calc(50% - 50px);
+    top: calc(50% - 50px);
+    margin: -2px -2px 0 0;
+    border-radius: 50%;
+    cursor: default
+}
+
+.halo.pie.open .handles {
+    display: block;
+    -webkit-animation: pie-visibility .1s, pie-opening .1s;
+    -moz-animation: pie-visibility .1s, pie-opening .1s;
+    -o-animation: pie-visibility .1s, pie-opening .1s;
+    animation: pie-visibility .1s, pie-opening .1s;
+    -webkit-animation-delay: 0s, .1s;
+    -moz-animation-delay: 0s, .1s;
+    -o-animation-delay: 0s, .1s;
+    animation-delay: 0s, .1s;
+    -webkit-animation-timing-function: step-end, ease;
+    -moz-animation-timing-function: step-end, ease;
+    -o-animation-timing-function: step-end, ease;
+    animation-timing-function: step-end, ease
+}
+
+.halo.pie .handle {
+    pointer-events: none;
+    width: 100%;
+    height: 100%
+}
+
+.halo.pie .slice {
+    pointer-events: visiblePainted;
+    transform: translate(50px, 50px)
+}
+
+.halo.pie .slice-svg {
+    width: 100%;
+    height: 100%
+}
+
+.halo.pie .pie-toggle {
+    z-index: 2;
+    pointer-events: visiblePainted;
+    cursor: pointer;
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    position: absolute;
+    right: -15px;
+    top: -webkit-calc(50% - 15px);
+    top: calc(50% - 15px);
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none
+}
+
+.halo.pie.open .pie-toggle {
+    -webkit-transition: .1s background-image;
+    -moz-transition: .1s background-image;
+    -ms-transition: .1s background-image;
+    -o-transition: .1s background-image;
+    transition: .1s background-image
+}
+
+.halo.toolbar .handles {
+    display: flex;
+    position: absolute;
+    top: -50px;
+    padding: 7px 5px
+}
+
+.halo.toolbar .handles:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 100%;
+    margin-top: 4px;
+    left: 10px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent
+}
+
+.halo.toolbar .handle {
+    display: inline-block;
+    position: relative;
+    margin: 0 2px;
+    background-size: 16px 16px;
+    background-position: 3px 3px
+}
+
+.halo.toolbar .handle.hidden {
+    display: none
+}
+
+.halo.toolbar .handle:hover:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    margin-top: 7px
+}
+
+.halo.toolbar .box {
+    margin-top: 10px;
+    min-width: 100px
+}
+
+.halo.surrounding .box {
+    color: #FFF;
+    background-color: #1ABC9C
+}
+
+.halo.pie .box {
+    background-color: #7C68FC;
+    color: #FFF
+}
+
+.halo.pie {
+    box-shadow: inset 0 0 0 2px #E2CEFF, 0 0 0 2px #E2CEFF;
+    border: 2px solid #7c68fc;
+    border-radius: 5px
+}
+
+.halo.pie .handles {
+    background-color: #fff;
+    border: 2px solid #7C68FC;
+    box-shadow: 0 0 0 3px #E2CEFF
+}
+
+.halo.pie .slice {
+    stroke: #E2CEFF;
+    stroke-width: 1;
+    fill: #fff
+}
+
+.halo.pie .slice:hover {
+    fill: #E2CEFF
+}
+
+.halo.pie .handle.selected .slice {
+    fill: #4DA4EB;
+    stroke: #4DA4EB
+}
+
+.halo.pie .pie-toggle {
+    background-color: #FFF;
+    border: 2px solid #7C68FC;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAIAAABKGoy8AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAALJJREFUeNrs2LERgjAUxvEkOggNg2grizAElUOwiLa6hxawiMTU8JLjLolE7v+VKcjv4F14L9paq0qNUQUHHDhw/4I7xj/icZvG93yxqtW5MdvjnnfhGB9eDkfNgQMHDhw4cGVF+6Yv12uIf/TkOV20r3/xvrllF5QpgY2oOXDg1uDchPKbBDbS8bdMXfsR16/9gZoDBw4cOHDgikqCm003oYjXrhmnLz4rOHDgdoL7CjAAHI4lpm8FALwAAAAASUVORK5CYII=");
+    box-shadow: inset 0 0 0 3px #E2CEFF
+}
+
+.halo.pie.open .pie-toggle {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAIAAABu2d1/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJ1JREFUeNrs2LEJgDAQheGcWEQrwS1s3McJ3M3ePdIoWLmAYKWpPDdIIWIU/9emuA+ScPBEVc13kphPBS5cuHDhwoULFy5cuHDhwv0XNw2crYsZnPrtuSLC5lLVUpSXuH13jO7h0kTnSZo2ufIY/B7husND+Wpw4Ubn2iwCKDxUAnX0C9eE0J7DhQsXLly4cOHChQsXLly4cG/KKcAATXsl8TPrOcMAAAAASUVORK5CYII=")
+}
+
+.halo.toolbar .handles {
+    border-radius: 5px;
+    background-color: #F7F7F7;
+    border-bottom: 4px solid #3B425F;
+    box-shadow: 0 1px 2px #202132
+}
+
+.halo.toolbar .handles:after {
+    border-top: 7px solid #3B425F
+}
+
+.halo.toolbar .handle:hover:after {
+    border-bottom: 4px solid #FC6CB8
+}
+
+.halo.toolbar .box {
+    background-color: #696D89;
+    color: #C7C9E2
+}
