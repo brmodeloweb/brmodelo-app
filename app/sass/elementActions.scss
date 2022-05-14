@@ -9,18 +9,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .handles
 ////////////////////////////////////////////////////////////////////////////////
-.halo.toolbar .handles {
+.halo .handles {
 	display: flex;
 	position: absolute;
 	top: -50px;
 	padding: 7px 5px;
 	border-radius: 5px;
-	border-bottom: 4px solid #3B425F;
-	box-shadow: 0 1px 2px #202132;
+	border-bottom: 4px solid rgba(0,0,0, 0.8);
+	box-shadow: 0 1px 2px rgba(0,0,0, 0.8);
 	background-color: #F7F7F7;
 }
 
-.halo.toolbar .handles:after {
+.halo .handles:after {
 	content: '';
 	position: absolute;
 	width: 0;
@@ -28,36 +28,36 @@
 	top: 100%;
 	margin-top: 4px;
 	left: 10px;
-	border-top: 7px solid #3B425F;
+	border-top: 7px solid rgba(0,0,0, 0.8);
 	border-left: 10px solid transparent;
 	border-right: 10px solid transparent;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .halo.handle
+// .halo .handle
 ////////////////////////////////////////////////////////////////////////////////
 .halo .handle.hidden {display: none;}
 
 .halo .handle {
 	display: inline-block;
 	position: relative;
-	width: 20px;
-	height: 20px;
-	margin: 0 2px;
+	width: 24px;
+	height: 24px;
+	margin: 0 6px;
 	cursor: pointer;
 	user-select: none;
 	pointer-events: auto;
-	background-size: 16px 16px;
+	background-size: 20px 20px;
 	background-position: 3px 3px;
 	background-repeat: no-repeat;
 }
 
-.halo.toolbar .handle:hover:after {
+.halo .handle:hover:after {
 	content: '';
 	position: absolute;
 	top: 100%;
 	width: 100%;
-	border-bottom: 4px solid #FC6CB8;
+	border-bottom: 4px solid #3d9970;
 	margin-top: 7px;
 }
 
