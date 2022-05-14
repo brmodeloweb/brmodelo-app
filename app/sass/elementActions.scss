@@ -1,76 +1,72 @@
+////////////////////////////////////////////////////////////////////////////////
+// .halo
+////////////////////////////////////////////////////////////////////////////////
 .halo {
-    position: absolute;
-    pointer-events: none
+	position: absolute;
+	pointer-events: none
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// .handles
+////////////////////////////////////////////////////////////////////////////////
+.halo.toolbar .handles {
+	display: flex;
+	position: absolute;
+	top: -50px;
+	padding: 7px 5px;
+	border-radius: 5px;
+	border-bottom: 4px solid #3B425F;
+	box-shadow: 0 1px 2px #202132;
+	background-color: #F7F7F7;
+}
+
+.halo.toolbar .handles:after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 100%;
+	margin-top: 4px;
+	left: 10px;
+	border-top: 7px solid #3B425F;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .halo.handle
+////////////////////////////////////////////////////////////////////////////////
 .halo .handle.hidden {display: none;}
 
 .halo .handle {
-    width: 20px;
-    height: 20px;
+	display: inline-block;
+	position: relative;
+	width: 20px;
+	height: 20px;
+	margin: 0 2px;
 	cursor: pointer;
-    user-select: none;
+	user-select: none;
 	pointer-events: auto;
+	background-size: 16px 16px;
+	background-position: 3px 3px;
 	background-repeat: no-repeat;
 }
 
-.halo .resize {cursor: se-resize;}
-
-.halo .clone,
-.halo .link,
-.halo .fork,
-.halo .rotate {cursor: move;}
-
-.halo.toolbar .handles {
-    display: flex;
-    position: absolute;
-    top: -50px;
-    padding: 7px 5px;
-}
-
-.halo.toolbar .handles:after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 100%;
-    margin-top: 4px;
-    left: 10px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-}
-
-.halo.toolbar .handle {
-    display: inline-block;
-    position: relative;
-    margin: 0 2px;
-    background-size: 16px 16px;
-    background-position: 3px 3px;
-}
-
-.halo.toolbar .handle.hidden {
-    display: none;
-}
-
 .halo.toolbar .handle:hover:after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    margin-top: 7px;
+	content: '';
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	border-bottom: 4px solid #FC6CB8;
+	margin-top: 7px;
 }
 
-.halo.toolbar .handles {
-    border-radius: 5px;
-    background-color: #F7F7F7;
-    border-bottom: 4px solid #3B425F;
-    box-shadow: 0 1px 2px #202132;
-}
+////////////////////////////////////////////////////////////////////////////////
+// .handle types
+////////////////////////////////////////////////////////////////////////////////
+.handle.clone,
+.handle.link,
+.handle.fork,
+.handle.rotate {cursor: move;}
 
-.halo.toolbar .handles:after {
-    border-top: 7px solid #3B425F;
-}
-
-.halo.toolbar .handle:hover:after {
-    border-bottom: 4px solid #FC6CB8;
-}
+.handle.resize {cursor: se-resize;}
