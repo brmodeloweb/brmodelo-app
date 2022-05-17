@@ -482,7 +482,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			paper: configs.paper,
 		});
 
-		configs.editorActions = new joint.dia.EditorActions({ graph: configs.graph });
+		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph });
 
 		$(".elements-holder").append(enditorManager.render().el);
 

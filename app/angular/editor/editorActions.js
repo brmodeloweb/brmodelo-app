@@ -1,6 +1,6 @@
 import * as joint from "jointjs/dist/joint";
 
-joint.dia.EditorActions = Backbone.Model.extend({
+joint.ui.EditorActions = Backbone.Model.extend({
     defaults: {
         cmdBeforeAdd: null,
         cmdNameRegex: /^(?:add|remove|change:\w+)$/
@@ -11,30 +11,31 @@ joint.dia.EditorActions = Backbone.Model.extend({
         REMOVE: "remove"
     },
     initialize: function (configs) {
-        _.bindAll(this, "initBatchCommand", "storeBatchCommand"); 
+        _.bindAll(this, "initCommands", "storeCommands"); 
         this.graph = configs.graph;
         this.undoStack = [];
         this.redoStack = [];
         this.listen();
     },
     listen: function () {
-        this.listenTo(this.graph, "all", this.addCommand, this);
-        this.listenTo(this.graph, "batch:start", this.initBatchCommand, this); 
-        this.listenTo(this.graph, "batch:stop", this.storeBatchCommand, this);
+        this.listenTo(this.graph, "all", this.listenCommand, this);
+        this.listenTo(this.graph, "batch:start", this.initCommands, this); 
+        this.listenTo(this.graph, "batch:stop", this.storeCommands, this);
     },
-    createCommand: function (event) {
+    newCommand: function (param) {
         return {
-            action: null,
-            data: {
+            action: param.action,
+            data: param.data || {
                 id: null,
                 type: null,
                 previous: {},
                 next: {}
             },
-            batch: event && event.batch
+            batch: param && param.batch,
+            options: param.options
         };
     },
-    push: function (event) {
+    saveCommand: function (event) {
         this.redoStack = []; 
         if(event.batch) {
             this.lastCmdIndex = Math.max(this.lastCmdIndex, 0); 
@@ -44,40 +45,56 @@ joint.dia.EditorActions = Backbone.Model.extend({
             this.trigger(this.actions.ADD, event);
         }
     },
-    addCommand: function (a, b, c, d) {
-        if (!(d && d.dry || !this.get("cmdNameRegex").test(a) || "function" == typeof this.get("cmdBeforeAdd") && !this.get("cmdBeforeAdd").apply(this, arguments))) {
-            var e = void 0;
+    listenCommand: function (commandAction, cellView, c, d) {
+        const commandDescription = commandAction.substr(this.PREFIX_LENGTH);
+        if (!(d && d.dry || !this.get("cmdNameRegex").test(commandAction) || "function" == typeof this.get("cmdBeforeAdd") && !this.get("cmdBeforeAdd").apply(this, arguments))) {
+            let runningCommand = null;
             if (this.batchCommand) {
-                if (e = this.batchCommand[Math.max(this.lastCmdIndex, 0)], this.lastCmdIndex >= 0 && (e.data.id !== b.id || e.action !== a)) {
-                    var f = _.findIndex(this.batchCommand, function (c, d) {
-                        return c.data.id === b.id && c.action === a
-                    }, this);
-                    0 > f || this.actions.ADD === a || this.actions.REMOVE === a ? e = this.createCommand({
-                        batch: !0
-                    }) : (e = this.batchCommand[f], this.batchCommand.splice(f, 1)), this.lastCmdIndex = this.batchCommand.push(e) - 1
+                runningCommand = this.batchCommand[Math.max(this.lastCmdIndex, 0)];
+                if (this.lastCmdIndex >= 0 && (runningCommand.data.id !== cellView.id || runningCommand.action !== commandAction)) {
+                    const currentCommandIndex = this.batchCommand.findIndex(element => {
+                        return element.data.id === cellView.id && element.action === commandAction;
+                    });
+                    if(currentCommandIndex < 0 || this.actions.ADD === commandAction || this.actions.REMOVE === commandAction) {
+                        runningCommand = this.newCommand({
+                            batch: true
+                        });
+                    } else {
+                        runningCommand = this.batchCommand[currentCommandIndex]; 
+                        this.batchCommand.splice(currentCommandIndex, 1);
+                    }
+                    this.lastCmdIndex = this.batchCommand.push(runningCommand) - 1;
                 }
-            } else e = this.createCommand({
-                batch: !1
+            } else runningCommand = this.newCommand({
+                batch: false
             });
-            if (this.actions.ADD === a || this.actions.REMOVE === a) {
-                e.action = a;
-                e.data.id = b.id;
-                e.data.type = b.attributes.type;
-                e.data.attributes = _.merge({}, b.toJSON());
-                e.options = d || {};
-                e.data.view = b;
-                this.push(e);
-                return e;
+            if (this.actions.ADD === commandAction || this.actions.REMOVE === commandAction) {
+                runningCommand.action = commandAction;
+                runningCommand.data.id = cellView.id; 
+                runningCommand.data.type = cellView.attributes.type; 
+                runningCommand.data.attributes = _.merge({}, cellView.toJSON());
+                runningCommand.options = d || {};
+                runningCommand.data.view = cellView;                
+                this.saveCommand(runningCommand);
+                return runningCommand;
             }
-            var g = a.substr(this.PREFIX_LENGTH);
-            e.batch && e.action || (e.action = a, e.data.id = b.id, e.data.type = b.attributes.type, e.data.previous[g] = _.clone(b.previous(g)), e.options = d || {}), e.data.next[g] = _.clone(b.get(g)), this.push(e)
+            if(!(runningCommand.batch && runningCommand.action)) {
+                runningCommand.action = commandAction;
+                runningCommand.data.id = cellView.id; 
+                runningCommand.data.type = cellView.attributes.type; 
+                runningCommand.data.previous[commandDescription] = _.clone(cellView.previous(commandDescription));
+                runningCommand.options = d || {};
+            } 
+            runningCommand.data.next[commandDescription] = _.clone(cellView.get(commandDescription));
+            this.saveCommand(runningCommand);
         }
     },
-    initBatchCommand: function () {
+    initCommands: function () {
         if(this.batchCommand) {
             this.batchLevel++;
         } else {
-            const newCommand = this.createCommand({
+            const newCommand = this.newCommand({
+                action: null,
                 batch: true
             });
             this.batchCommand = [newCommand]; 
@@ -85,9 +102,9 @@ joint.dia.EditorActions = Backbone.Model.extend({
             this.batchLevel = 0;
         }
     },
-    storeBatchCommand: function () {
+    storeCommands: function () {
         if (this.batchCommand && this.batchLevel <= 0) {
-            const batchCommand = this.filterBatchCommand(this.batchCommand);
+            const batchCommand = this.filterCommands(this.batchCommand);
             if(batchCommand.length > 0) {
                 this.redoStack = []; 
                 this.undoStack.push(batchCommand); 
@@ -100,7 +117,7 @@ joint.dia.EditorActions = Backbone.Model.extend({
             this.batchLevel--;
         } 
     },
-    filterBatchCommand: function (commandEvent) {
+    filterCommands: function (commandEvent) {
         const filteredBatch = [];
         for (let batchCommand = commandEvent.slice(); batchCommand.length > 0;) {
             const command = batchCommand.shift();
@@ -137,7 +154,7 @@ joint.dia.EditorActions = Backbone.Model.extend({
         }
         return filteredBatch;
     },
-    revertCommand: function (commandEvent) {
+    undoCommand: function (commandEvent) {
         this.stopListening();
         const commandId = {
             commandManager: this.id || this.cid
@@ -154,12 +171,12 @@ joint.dia.EditorActions = Backbone.Model.extend({
                     break;
                 default:
                     const action = command.action.substr(this.PREFIX_LENGTH);
-                    cellView.set(action, command.data.previous[action], commandId)
+                    cellView.set(action, command.data.previous[action], commandId);
             }
         }); 
         this.listen();
     },
-    applyCommand: function (commandEvent) {
+    redoCommand: function (commandEvent) {
         this.stopListening();
         const commandId = {
             commandManager: this.id || this.cid
@@ -184,14 +201,14 @@ joint.dia.EditorActions = Backbone.Model.extend({
     undo: function () {
         const redoAction = this.undoStack.pop();
         if(redoAction) {
-            this.revertCommand(redoAction);
+            this.undoCommand(redoAction);
             this.redoStack.push(redoAction);
         }
     },
     redo: function () {
         const redoAction = this.redoStack.pop();
         if(redoAction) {
-            this.applyCommand(redoAction); 
+            this.redoCommand(redoAction); 
             this.undoStack.push(redoAction);
         }
     },

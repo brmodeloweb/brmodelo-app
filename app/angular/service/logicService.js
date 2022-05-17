@@ -10,6 +10,7 @@ import "jointjs/dist/joint.min.css";
 
 import "../editor/editorManager"
 import "../editor/editorScroller"
+import "../editor/editorActions"
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
@@ -44,6 +45,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			drawGrid: true,
 			model: ls.graph
 		});
+
+		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
@@ -387,11 +390,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.undo = function () {
-		ls.commandManager.undo();
+		ls.editorActions.undo();
 	}
 
 	ls.redo = function () {
-		ls.commandManager.redo();
+		ls.editorActions.redo();
 	}
 
 	ls.zoomIn = function () {
