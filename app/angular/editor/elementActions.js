@@ -6,10 +6,10 @@ import * as joint from "jointjs/dist/joint";
 joint.ui.ElementActions = Backbone.View.extend({
     PIE_INNER_RADIUS: 20,
     PIE_OUTER_RADIUS: 50,
-    className: "halo",
+    className: "element-action",
     events: {
-        "mousedown .handle": "onHandlePointerDown",
-        "touchstart .handle": "onHandlePointerDown",
+        "mousedown .item": "onHandlePointerDown",
+        "touchstart .item": "onHandlePointerDown",
         "mousedown .pie-toggle": "onPieTogglePointerDown",
         "touchstart .pie-toggle": "onPieTogglePointerDown"
     },
@@ -120,7 +120,7 @@ joint.ui.ElementActions = Backbone.View.extend({
     },
     render: function() {
         var a = this.options;
-        switch (this.$el.empty(), this.$handles = $("<div/>").addClass("handles").appendTo(this.el), this.$box = $("<label/>").addClass("box").appendTo(this.el), this.$el.addClass(a.type), this.$el.attr("data-type", a.cellView.model.get("type")), this.$handles.append(_.map(this.handles, this.renderHandle, this)), a.type) {
+        switch (this.$el.empty(), this.$handles = $("<div/>").addClass("holder").appendTo(this.el), this.$box = $("<label/>").addClass("box").appendTo(this.el), this.$el.addClass(a.type), this.$el.attr("data-type", a.cellView.model.get("type")), this.$handles.append(_.map(this.handles, this.renderHandle, this)), a.type) {
             case "toolbar":
             case "surrounding":
                 this.hasHandle("fork") && this.toggleFork();
@@ -169,7 +169,7 @@ joint.ui.ElementActions = Backbone.View.extend({
     },
     renderHandle: function(a) {
         var b = this.getHandleIdx(a.name),
-            c = $("<div/>").addClass("handle").addClass(a.name).attr("data-action", a.name).prop("draggable", !1);
+            c = $("<div/>").addClass("item").addClass(a.name).attr("data-action", a.name).prop("draggable", !1);
         switch (this.options.type) {
             case "toolbar":
             case "surrounding":
@@ -212,7 +212,7 @@ joint.ui.ElementActions = Backbone.View.extend({
             c = this.handles[b];
         return c && (_.each(c.events, function(b, c) {
             this.off("action:" + a + ":" + c)
-        }, this), this.$(".handle." + a).remove(), this.handles.splice(b, 1)), this
+        }, this), this.$(".item." + a).remove(), this.handles.splice(b, 1)), this
     },
     changeHandle: function(a, b) {
         var c = this.getHandle(a);
@@ -236,7 +236,7 @@ joint.ui.ElementActions = Backbone.View.extend({
     toggleHandle: function(a, b) {
         var c = this.getHandle(a);
         if (c) {
-            var d = this.$(".handle." + a);
+            var d = this.$(".item." + a);
             _.isUndefined(b) && (b = !d.hasClass("selected")), d.toggleClass("selected", b);
             var e = b ? c.iconSelected : c.icon;
             e && this.setHandleIcon(d, e)
@@ -253,7 +253,7 @@ joint.ui.ElementActions = Backbone.View.extend({
         return _.chain(this.handles).pluck("name").each(this.deselectHandle, this).value(), this
     },
     onHandlePointerDown: function(a) {
-        this._action = $(a.target).closest(".handle").attr("data-action"), this._action && (a.preventDefault(), a.stopPropagation(), a = joint.util.normalizeEvent(a), this._clientX = a.clientX, this._clientY = a.clientY, this._startClientX = this._clientX, this._startClientY = this._clientY, this.triggerAction(this._action, "pointerdown", a))
+        this._action = $(a.target).closest(".item").attr("data-action"), this._action && (a.preventDefault(), a.stopPropagation(), a = joint.util.normalizeEvent(a), this._clientX = a.clientX, this._clientY = a.clientY, this._startClientX = this._clientX, this._startClientY = this._clientY, this.triggerAction(this._action, "pointerdown", a))
     },
     onPieTogglePointerDown: function(a) {
         a.stopPropagation(), this.toggleState()

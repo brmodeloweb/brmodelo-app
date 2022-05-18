@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .halo
 ////////////////////////////////////////////////////////////////////////////////
-.halo {
+.element-action {
 	position: absolute;
 	pointer-events: none
 }
@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .handles
 ////////////////////////////////////////////////////////////////////////////////
-.halo .handles {
+.element-action .holder {
 	display: flex;
 	position: absolute;
 	top: -50px;
@@ -20,7 +20,7 @@
 	background-color: #F7F7F7;
 }
 
-.halo .handles:after {
+.element-action .holder:after {
 	content: '';
 	position: absolute;
 	width: 0;
@@ -36,9 +36,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .halo .handle
 ////////////////////////////////////////////////////////////////////////////////
-.halo .handle.hidden {display: none;}
+.element-action .item.hidden {display: none;}
 
-.halo .handle {
+.element-action .item {
 	display: inline-block;
 	position: relative;
 	width: 24px;
@@ -52,7 +52,7 @@
 	background-repeat: no-repeat;
 }
 
-.halo .handle:hover:after {
+.element-action .item:hover:after {
 	content: '';
 	position: absolute;
 	top: 100%;
@@ -64,9 +64,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .handle types
 ////////////////////////////////////////////////////////////////////////////////
-.handle.clone,
-.handle.link,
-.handle.fork,
-.handle.rotate {cursor: move;}
+.item.clone,
+.item.link,
+.item.fork,
+.item.rotate {cursor: move;}
 
-.handle.resize {cursor: se-resize;}
+.item.resize {cursor: se-resize;}
