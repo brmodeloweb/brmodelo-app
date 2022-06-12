@@ -12,12 +12,12 @@
 .element-action .holder {
 	display: flex;
 	position: absolute;
-	top: -50px;
-	padding: 7px 5px;
-	border-radius: 5px;
-	border-bottom: 4px solid rgba(0,0,0, 0.8);
-	box-shadow: 0 1px 2px rgba(0,0,0, 0.8);
-	background-color: #F7F7F7;
+	top: -60px;
+	border-radius: 4px 4px 4px 0;
+	border: 4px solid #e8e8e8;
+	background-color: #e8e8e8;
+	box-shadow: -1px 0 0 rgba(0,0,0, 0.1),
+				0 -1px 1px rgba(0,0,0, 0.3);
 }
 
 .element-action .holder:after {
@@ -26,11 +26,12 @@
 	width: 0;
 	height: 0;
 	top: 100%;
+	left: -4px;
 	margin-top: 4px;
-	left: 10px;
-	border-top: 7px solid rgba(0,0,0, 0.8);
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
+	border-top: 16px solid #e8e8e8;
+	border-left: 0 solid transparent;
+	border-right: 13px solid transparent;
+	box-shadow: -1px 0 0 rgba(0,0,0, 0.2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,24 +42,18 @@
 .element-action .item {
 	display: inline-block;
 	position: relative;
-	width: 24px;
-	height: 24px;
-	margin: 0 6px;
+	width: 36px;
+	height: 36px;
 	cursor: pointer;
 	user-select: none;
 	pointer-events: auto;
 	background-size: 20px 20px;
-	background-position: 3px 3px;
+	background-position: center;
 	background-repeat: no-repeat;
 }
 
-.element-action .item:hover:after {
-	content: '';
-	position: absolute;
-	top: 100%;
-	width: 100%;
-	border-bottom: 4px solid #3d9970;
-	margin-top: 7px;
+.element-action .item:hover {
+	background-color: #fff;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
