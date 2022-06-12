@@ -28,9 +28,6 @@ joint.ui.ElementActions = Backbone.View.extend({
                 angle: Math.floor(a.model.get("angle") || 0)
             })
         },
-        clone: function(a, b) {
-            return a.clone().unset("z")
-        },
         handles: [{
             name: "resize",
             position: "se",
@@ -85,42 +82,34 @@ joint.ui.ElementActions = Backbone.View.extend({
         this.handles = [], _.each(this.options.handles, this.addHandle, this)
     },
     render: function() {
-        var a = this.options;
-        switch (this.$el.empty(), this.$handles = $("<div/>").addClass("holder").appendTo(this.el), this.$box = $("<label/>").addClass("box").appendTo(this.el), this.$el.addClass(a.type), this.$el.attr("data-type", a.cellView.model.get("type")), this.$handles.append(_.map(this.handles, this.renderHandle, this)), a.type) {
-            case "toolbar":
-            case "surrounding":
-                this.hasHandle("fork") && this.toggleFork();
-                break;
-            default:
-                throw new Error("ui.Halo: unknown type")
-        }
+        const options = this.options;
+        this.$el.empty();
+        this.$handles = $("<div/>").addClass("holder").appendTo(this.el);
+        this.$box = $("<label/>").addClass("box").appendTo(this.el);
+        this.$el.addClass(options.type);
+        this.$el.attr("data-type", options.cellView.model.get("type"));
+        this.$handles.append(_.map(this.handles, this.renderHandle, this));
         this.update(); 
-        this.$el.addClass("animate").appendTo(a.paper.el);
+        this.$el.addClass("animate").appendTo(options.paper.el);
         return this;
     },
     update: function() {
-        var a = this.options.cellView;
-        if (!(a.model instanceof joint.dia.Link)) {
-            this.updateBoxContent();
-            var b = a.getBBox({
+        const cellView = this.options.cellView;
+        if (!(cellView.model instanceof joint.dia.Link)) {
+            const viewBox = cellView.getBBox({
                 useModelGeometry: this.options.useModelGeometry
             });
-            this.$el.toggleClass("tiny", b.width < this.options.tinyThreshold && b.height < this.options.tinyThreshold), this.$el.toggleClass("small", !this.$el.hasClass("tiny") && b.width < this.options.smallThreshold && b.height < this.options.smallThreshold), this.$el.css({
-                width: b.width,
-                height: b.height,
-                left: b.x,
-                top: b.y
-            }), this.hasHandle("unlink") && this.toggleUnlink()
-        }
-    },
-    updateBoxContent: function() {
-        if (this.$box) {
-            var a = this.options.boxContent,
-                b = this.options.cellView;
-            if (_.isFunction(a)) {
-                var c = a.call(this, b, this.$box[0]);
-                c && this.$box.html(c)
-            } else a ? this.$box.html(a) : this.$box.remove()
+            this.$el.toggleClass("tiny", viewBox.width < this.options.tinyThreshold && viewBox.height < this.options.tinyThreshold); 
+            this.$el.toggleClass("small", !this.$el.hasClass("tiny") && viewBox.width < this.options.smallThreshold && viewBox.height < this.options.smallThreshold); 
+            this.$el.css({
+                width: viewBox.width,
+                height: viewBox.height,
+                left: viewBox.x,
+                top: viewBox.y
+            });
+            if(this.hasHandle("unlink")) {
+                this.toggleUnlink();
+            }
         }
     },
     addHandle: function(a) {
@@ -144,23 +133,24 @@ joint.ui.ElementActions = Backbone.View.extend({
         }
         return a.icon && this.setHandleIcon(c, a.icon), joint.util.setAttributesBySelector(c, a.attrs), c
     },
-    setHandleIcon: function(a, b) {
-        switch (this.options.type) {
-            case "toolbar":
-            case "surrounding":
-                a.css("background-image", "url(" + b + ")")
-        }
+    setHandleIcon: function(elementDiv, imageUrl) {
+        elementDiv.css("background-image", "url(" + imageUrl + ")");
     },
-    removeHandle: function(a) {
-        var b = this.getHandleIdx(a),
-            c = this.handles[b];
-        return c && (_.each(c.events, function(b, c) {
-            this.off("action:" + a + ":" + c)
-        }, this), this.$(".item." + a).remove(), this.handles.splice(b, 1)), this
+    removeHandle: function(event) { 
+        const actionId = this.getHandleIdx(event);
+        const action = this.handles[actionId];
+        if(action) {
+            Object.keys(action.events).forEach(actionEvent => {
+             this.off("action:" + event + ":" + actionEvent);
+            });
+            this.$(".item." + event).remove();
+            this.handles.splice(actionId, 1);
+        }
+        return this;
     },
     changeHandle: function(a, b) {
         var c = this.getHandle(a);
-        return c && (this.removeHandle(a), this.addHandle(_.merge({
+        return c && (this.addHandle(_.merge({
             name: a
         }, c, b))), this
     },
@@ -249,19 +239,18 @@ joint.ui.ElementActions = Backbone.View.extend({
         this._action && (this.triggerAction(this._action, "pointerup", a), delete this._action)
     },
     stopBatch: function() {
-        this.options.graph.trigger("batch:stop")
+        this.options.graph.trigger("batch:stop");
     },
-    remove: function(a) {
-        console.log(" remove ");
-        Backbone.View.prototype.remove.apply(this, arguments), $(document.body).off("mousemove touchmove", this.pointermove), $(document).off("mouseup touchend", this.pointerup)
+    remove: function() {
+        Backbone.View.prototype.remove.apply(this, arguments); 
+        $(document.body).off("mousemove touchmove", this.pointermove); 
+        $(document).off("mouseup touchend", this.pointerup);
     },
-    removeElement: function(a) {
-        console.log(" removeElement ");
-        this.options.cellView.model.remove()
+    removeElement: function() {
+        this.options.cellView.model.remove();
     },
-    unlinkElement: function(a) {
-        console.log(" unlinkElement ");
-        this.options.graph.removeLinks(this.options.cellView.model)
+    unlinkElement: function() {
+        this.options.graph.removeLinks(this.options.cellView.model);
     },
     toggleUnlink: function() {
         console.log(" toggleUnlink ");
@@ -302,6 +291,6 @@ joint.ui.ElementActions = Backbone.View.extend({
     }
 }, {
     clear: function(a) {
-        a.trigger("halo:create")
+        a.trigger("halo:create");
     }
 });
