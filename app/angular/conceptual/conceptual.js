@@ -374,9 +374,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				elementActions.removeHandle('resize');
 			}
 
-			elementActions.removeHandle('clone');
-			elementActions.removeHandle('fork');
-			elementActions.removeHandle('rotate');
 			elementActions.render();
 		});
 
