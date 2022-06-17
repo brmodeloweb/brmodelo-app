@@ -48,12 +48,24 @@ joint.ui.ElementActions = Backbone.View.extend({
         smoothLinks: void 0
     },
     initialize: function (a) {
-        this.options = _.extend({}, _.result(this, "options"), a || {}); 
+        console.log(this.collection);
+        console.log(this.model);
+        console.log(this);
+        this.options = Object.assign({}, _.result(this, "options"), a || {}); 
         _.defaults(this.options, {
             paper: this.options.cellView.paper,
             graph: this.options.cellView.paper.model
         }); 
-        _.bindAll(this, "pointermove", "pointerup", "render", "update", "remove");
+        //_.bindAll(this, "pointermove", "pointerup", "render", "update", "remove");
+        //this.bind("pointermove", this.pointermove, this);
+        // this.bind("pointerup", this.pointerup, this);
+        // this.bind("render", this.render, this);
+        // this.bind("update", this.update, this);
+        // this.bind("remove", this.remove, this);
+        this.on("remove", this.render, this)
+        this.on("pointermove", this.pointermove, this)
+        this.on("pointerup", this.pointerup, this)
+        console.log(this);
         joint.ui.ElementActions.clear(this.options.paper);
         this.listenTo(this.options.graph, "reset", this.remove);
         this.listenTo(this.options.graph, "all", this.update);
@@ -73,7 +85,7 @@ joint.ui.ElementActions = Backbone.View.extend({
         this.$box = $("<label/>").addClass("box").appendTo(this.el);
         this.$el.addClass(options.type);
         this.$el.attr("data-type", options.cellView.model.get("type"));
-        this.$handles.append(_.map(this.handles, this.renderHandle, this));
+        this.$handles.append(Object.values(this.handles).map(this.renderHandle));
         this.update();
         this.$el.addClass("animate").appendTo(options.paper.el);
         return this;
@@ -108,6 +120,7 @@ joint.ui.ElementActions = Backbone.View.extend({
         return this;
     },
     renderHandle: function (action) {
+        console.log(action);
         const divAction = $("<div/>").addClass("item")
                         .addClass(action.name)
                         .attr("data-action", action.name)
