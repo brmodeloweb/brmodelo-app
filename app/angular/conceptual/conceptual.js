@@ -3,8 +3,10 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
-import "../editor/editorManager"
-import "../editor/editorScroller"
+import "../editor/editorManager";
+import "../editor/editorScroller";
+import "../editor/editorActions";
+import "../editor/elementActions";
 
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
@@ -43,10 +45,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		user: $rootScope.loggeduser
 	}
 	ctrl.selectedElement = {};
-	ctrl.selectedHalo = {};
+	ctrl.selectedElementActions = {};
 	const configs = {
 		graph: {},
 		paper: {},
+		editorActions: {},
 		keyboardController: null,
 	};
 
@@ -83,11 +86,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.undoModel = () => {
-
+		configs.editorActions.undo();
 	}
 
 	ctrl.redoModel = () => {
-
+		configs.editorActions.redo();
 	}
 
 	ctrl.zoomIn = () => {
@@ -145,9 +148,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
-		if(configs.selectedHalo) {
-			configs.selectedHalo.remove();
-			configs.selectedHalo = null;
+		if(configs.selectedElementActions) {
+			configs.selectedElementActions.remove();
+			configs.selectedElementActions = null;
 		}
 	}
 
@@ -356,6 +359,22 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
 			ctrl.onSelectElement(cellView);
+
+			const elementActions = new joint.ui.ElementActions({
+				cellView: cellView,
+				boxContent: false
+			});
+
+			configs.selectedElementActions = elementActions;
+			elementActions.on('action:link:add', function (link) {
+				ctrl.shapeLinker.onLink(link);
+			});
+
+			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
+				elementActions.removeAction('resize');
+			}
+
+			elementActions.render();
 		});
 
 		configs.paper.on('link:mouseenter', (linkView) => {
@@ -459,6 +478,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			graph: configs.graph,
 			paper: configs.paper,
 		});
+
+		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph });
 
 		$(".elements-holder").append(enditorManager.render().el);
 
