@@ -6,18 +6,12 @@ import * as joint from "jointjs/dist/joint";
 joint.ui.ElementActions = Backbone.View.extend({
     className: "element-action",
     events: {
-        "mousedown .item": "onHandlePointerDown",
-        "touchstart .item": "onHandlePointerDown",
+        "mousedown .item": "onActionPointerDown",
+        "touchstart .item": "onActionPointerDown",
     },
     options: {
-        tinyThreshold: 40,
-        smallThreshold: 80,
-        loopLinkPreferredSide: "top",
-        loopLinkWidth: 40,
-        rotateAngleGrid: 15,
-        clearAll: !0,
         useModelGeometry: !1,
-        handles: [{
+        actions: [{
             name: "resize",
             position: "se",
             events: {
@@ -44,53 +38,40 @@ joint.ui.ElementActions = Backbone.View.extend({
             icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAAA7klEQVRIie3WMUpDQRAG4I+AWNkJgpWFB7DQ0iqVrTZ6B5NLGA9hpVfIARJsAgl4BkHBSuwkIBFj8RT2LSkE2XkJ5Ictl49dZmeHdZYsQ8x/1gRbUfBDAs/RRysC3sNrhvciYDjGRwJ/4SIK76ifeoqjKPwmw1+wGwFv4D7DR9iMwLfxmOF3ETAc4D3DO1H4qaq6f+FPnEThPfVTv2E/Am6pOlmKT/6yaWVzrYGrPlMvrhnapdFFz+myNLqD5wy9LY021jLzT+JJdQNF083QKQ5Lo21V1aaDwHlpdNHoc1UapcFhb5CgY4Hj7Tr/zjfcW2a3eoiKgwAAAABJRU5ErkJggg=="
         }],
         type: "toolbar",
-        linkAttributes: {},
-        smoothLinks: void 0
+        linkAttributes: {}
     },
-    initialize: function (a) {
-        console.log(this.collection);
-        console.log(this.model);
-        console.log(this);
-        this.options = Object.assign({}, _.result(this, "options"), a || {}); 
+    initialize: function (configs) {
+        this.options = Object.assign({}, _.result(this, "options"), configs || {}); 
         _.defaults(this.options, {
             paper: this.options.cellView.paper,
             graph: this.options.cellView.paper.model
         }); 
-        //_.bindAll(this, "pointermove", "pointerup", "render", "update", "remove");
-        //this.bind("pointermove", this.pointermove, this);
-        // this.bind("pointerup", this.pointerup, this);
-        // this.bind("render", this.render, this);
-        // this.bind("update", this.update, this);
-        // this.bind("remove", this.remove, this);
-        this.on("remove", this.render, this)
-        this.on("pointermove", this.pointermove, this)
-        this.on("pointerup", this.pointerup, this)
-        console.log(this);
+        _.bindAll(this, "pointermove", "pointerup", "render", "updateElement", "remove");
         joint.ui.ElementActions.clear(this.options.paper);
         this.listenTo(this.options.graph, "reset", this.remove);
-        this.listenTo(this.options.graph, "all", this.update);
-        this.listenTo(this.options.paper, "blank:pointerdown halo:create", this.remove);
-        this.listenTo(this.options.paper, "scale translate", this.update);
+        this.listenTo(this.options.graph, "all", this.updateElement);
+        this.listenTo(this.options.paper, "blank:pointerdown element-actions:activate", this.remove);
+        this.listenTo(this.options.paper, "scale translate", this.updateElement);
         this.listenTo(this.options.cellView.model, "remove", this.remove);
         $(document.body).on("mousemove touchmove", this.pointermove);
         $(document).on("mouseup touchend", this.pointerup);
         this.options.paper.$el.append(this.$el);
-        this.handles = [];
-         _.each(this.options.handles, this.addHandle, this);
+        this.actions = [];
+        _.each(this.options.actions, this.addAction, this);
     },
     render: function () {
         const options = this.options;
         this.$el.empty();
-        this.$handles = $("<div/>").addClass("holder").appendTo(this.el);
+        this.$actions = $("<div/>").addClass("holder").appendTo(this.el);
         this.$box = $("<label/>").addClass("box").appendTo(this.el);
         this.$el.addClass(options.type);
         this.$el.attr("data-type", options.cellView.model.get("type"));
-        this.$handles.append(Object.values(this.handles).map(this.renderHandle));
-        this.update();
+        this.$actions.append(Object.values(this.actions).map(this.renderAction));
+        this.updateElement();
         this.$el.addClass("animate").appendTo(options.paper.el);
         return this;
     },
-    update: function () {
+    updateElement: function () {
         const cellView = this.options.cellView;
         if (!(cellView.model instanceof joint.dia.Link)) {
             const viewBox = cellView.getBBox({
@@ -104,8 +85,8 @@ joint.ui.ElementActions = Backbone.View.extend({
             });
         }
     },
-    addHandle: function (action) {
-        this.handles.push(action);
+    addAction: function (action) {
+        this.actions.push(action);
         Object.keys(action.events).forEach(key => {
             if(typeof action.events[key] === "string") {
                 this.on("action:" + action.name + ":" + key, this[action.events[key]], this);
@@ -113,14 +94,12 @@ joint.ui.ElementActions = Backbone.View.extend({
                 this.on("action:" + action.name + ":" + key, action.events[key]);
             }
         });
-        if (this.$handles) {
-            console.log("addHandle");
-            this.renderHandle(action).appendTo(this.$handles);
+        if (this.$actions) {
+            this.renderAction(action).appendTo(this.$actions);
         }
         return this;
     },
-    renderHandle: function (action) {
-        console.log(action);
+    renderAction: function (action) {
         const divAction = $("<div/>").addClass("item")
                         .addClass(action.name)
                         .attr("data-action", action.name)
@@ -131,19 +110,19 @@ joint.ui.ElementActions = Backbone.View.extend({
         }
         return divAction;
     },
-    removeHandle: function (event) {
-        const actionId = this.handles.findIndex(element => element.name === event);
-        const action = this.handles[actionId];
+    removeAction: function (event) {
+        const actionId = this.actions.findIndex(element => element.name === event);
+        const action = this.actions[actionId];
         if (action) {
             Object.keys(action.events).forEach(actionEvent => {
                 this.off("action:" + event + ":" + actionEvent);
             });
             this.$(".item." + event).remove();
-            this.handles.splice(actionId, 1);
+            this.actions.splice(actionId, 1);
         }
         return this;
     },
-    onHandlePointerDown: function (event) {
+    onActionPointerDown: function (event) {
         this.currentAction = $(event.target).closest(".item").attr("data-action");
         if(this.currentAction) {
             event.preventDefault(); 
@@ -161,36 +140,42 @@ joint.ui.ElementActions = Backbone.View.extend({
         action.unshift("action:" + actionName + ":" + eventName); 
         this.trigger.apply(this, action);
     },
-    startLinking: function (a) {
+    startLinking: function (event) {
         this.options.graph.trigger("batch:start");
-        var b = this.options.cellView,
-            c = $.data(a.target, "selector"),
-            d = this.options.paper.getDefaultLink(b, c && b.el.querySelector(c));
-        d.set("source", {
-            id: b.model.id,
-            selector: c
-        }), d.set("target", {
-            x: a.clientX,
-            y: a.clientY
-        }), d.attr(this.options.linkAttributes), _.isBoolean(this.options.smoothLinks) && d.set("smooth", this.options.smoothLinks), this.options.graph.addCell(d, {
+        const originView = this.options.cellView;
+        const selector = $.data(event.target, "selector");
+        const newLink = this.options.paper.getDefaultLink(originView, selector && originView.el.querySelector(selector));
+        newLink.set("source", {
+            id: originView.model.id,
+            selector: selector
+        }); 
+        newLink.set("target", {
+            x: event.clientX,
+            y: event.clientY
+        }); 
+        newLink.attr(this.options.linkAttributes); 
+        this.options.graph.addCell(newLink, {
             validation: !1,
             halo: this.cid
-        }), d.set("target", this.options.paper.snapToGrid({
-            x: a.clientX,
-            y: a.clientY
-        })), this._linkView = this.options.paper.findViewByModel(d), this._linkView.startArrowheadMove("target")
+        }); 
+        newLink.set("target", this.options.paper.snapToGrid({
+            x: event.clientX,
+            y: event.clientY
+        })); 
+        this._linkView = this.options.paper.findViewByModel(newLink); 
+        this._linkView.startArrowheadMove("target");
     },
-    startResizing: function (a) {
+    startResizing: function () {
         this.options.graph.trigger("batch:start");
         this._flip = [1, 0, 0, 1, 1, 0, 0, 1][Math.floor(joint.g.normalizeAngle(this.options.cellView.model.get("angle")) / 45)];
     },
-    doResize: function (a, b, c) {
-        var d = this.options.cellView.model.get("size"),
-            e = Math.max(d.width + (this._flip ? b : c), 1),
-            f = Math.max(d.height + (this._flip ? c : b), 1);
-        this.options.cellView.model.resize(e, f, {
+    doResize: function (event, xOffset, yOffset) {
+        const modelSize = this.options.cellView.model.get("size");
+        const maxXOffset = Math.max(modelSize.width + (this._flip ? xOffset : yOffset), 1);
+        const maxYOffset = Math.max(modelSize.height + (this._flip ? yOffset : xOffset), 1);
+        this.options.cellView.model.resize(maxXOffset, maxYOffset, {
             absolute: !0
-        })
+        });
     },
     doLink: function (event) {
         const position = this.options.paper.snapToGrid({
@@ -202,9 +187,6 @@ joint.ui.ElementActions = Backbone.View.extend({
     stopLinking: function (event) {
         const model = this._linkView.model;
         this._linkView.pointerup(event); 
-        if(model.hasLoop()) {
-            this.makeLoopLink(model);
-        }
         if(this.options.paper.options.linkPinning || model.get("target").hasOwnProperty("id")) {
             this.stopBatch(); 
             this.triggerAction("link", "add", model);
@@ -256,40 +238,8 @@ joint.ui.ElementActions = Backbone.View.extend({
     unlinkElement: function () {
         this.options.graph.removeLinks(this.options.cellView.model);
     },
-    makeLoopLink: function (a) {
-        console.log("makeLoopLink");
-        var b, c, d = this.options.loopLinkWidth,
-            e = this.options.paper.options,
-            f = joint.g.rect({
-                x: 0,
-                y: 0,
-                width: e.width,
-                height: e.height
-            }),
-            h = V(this.options.cellView.el).bbox(!1, this.options.paper.viewport),
-            i = _.uniq([this.options.loopLinkPreferredSide, "top", "bottom", "left", "right"]),
-            j = _.find(i, function (a) {
-                var e, i = 0,
-                    j = 0;
-                switch (a) {
-                    case "top":
-                        e = joint.g.point(h.x + h.width / 2, h.y - d), i = d / 2;
-                        break;
-                    case "bottom":
-                        e = joint.g.point(h.x + h.width / 2, h.y + h.height + d), i = d / 2;
-                        break;
-                    case "left":
-                        e = joint.g.point(h.x - d, h.y + h.height / 2), j = d / 2;
-                        break;
-                    case "right":
-                        e = joint.g.point(h.x + h.width + d, h.y + h.height / 2), j = d / 2
-                }
-                return b = joint.g.point(e).offset(-i, -j), c = joint.g.point(e).offset(i, j), f.containsPoint(b) && f.containsPoint(c)
-            }, this);
-        j && a.set("vertices", [b, c])
-    }
 }, {
-    clear: function (a) {
-        a.trigger("halo:create");
+    clear: function (editor) {
+        editor.trigger("element-actions:activate");
     }
 });

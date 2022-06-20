@@ -371,7 +371,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			});
 
 			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
-				elementActions.removeHandle('resize');
+				elementActions.removeAction('resize');
 			}
 
 			elementActions.render();
