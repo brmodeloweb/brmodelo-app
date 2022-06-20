@@ -32,7 +32,7 @@
     "dotenv": "^10.0.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
+    "express-fileupload": "^1.4.0",
     "express-session": "^1.17.1",
     "font-awesome": "^4.7.0",
     "form-data": "^4.0.0",
@@ -110,7 +110,7 @@
     "url-loader": "^4.1.1",
     "webpack": "5.65.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
+    "webpack-dev-server": "^4.9.2"
   },
   "resolutions": {
     "styled-components": "^5"
