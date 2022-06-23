@@ -8,14 +8,10 @@ import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 import "jointjs/dist/joint.min.css";
 
-import "../../joint/joint.ui.stencil";
-import "../../joint/joint.ui.stencil.css";
-import "../../joint/joint.ui.selectionView";
-import "../../joint/joint.ui.selectionView.css";
-import "../../joint/joint.ui.halo.css";
-import "../../joint/joint.ui.halo";
-import "../../joint/br-scroller";
-import "../../joint/joint.dia.command";
+import "../editor/editorManager"
+import "../editor/editorScroller"
+import "../editor/editorActions"
+import "../editor/elementActions";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
@@ -37,7 +33,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		"name": ''
 	};
 
-	ls.selectedHalo = null;
+	ls.selectedActions = null;
 
 	ls.selectedLink = {};
 
@@ -50,9 +46,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			drawGrid: true,
 			model: ls.graph
 		});
-		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
 
-		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
+		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
@@ -139,22 +134,22 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.applyResizePage = function () {
-		var $app = $('#content');
-		ls.paperScroller = new joint.ui.PaperScroller({
+		const content = $('#content');
+		ls.editorScroller = new joint.ui.EditorScroller({
 			autoResizePaper: true,
 			paper: ls.paper,
 			cursor: 'grab'
 		});
-		$app.append(ls.paperScroller.render().el);
+		content.append(ls.editorScroller.render().el);
 	}
 
 	ls.applyDragAndDrop = function () {
-		var stencil = new joint.ui.Stencil({
+		const enditorManager = new joint.ui.EditorManager({
 			graph: ls.graph,
-			paper: ls.paper
+			paper: ls.paper,
 		});
-		$('#stencil-holder').append(stencil.render().el);
-		stencil.load([
+		$(".elements-holder").append(enditorManager.render().el);
+		enditorManager.loadElements([
 			LogicFactory.createTable()
 		]);
 	}
@@ -174,9 +169,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.clearSelectedElement();
 
 			if(!ls.keyboardController.spacePressed){
-				ls.selectionView.startSelecting(evt);
+
 			} else {
-				ls.paperScroller.startPanning(evt);
+				ls.editorScroller.startPanning(evt);
 			}
 		});
 
@@ -191,21 +186,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.applySelectionOptions = function (cellView) {
-		var halo = new joint.ui.Halo({
+		const elementActions = new joint.ui.ElementActions({
 			cellView: cellView,
 			boxContent: false
 		});
-		halo.on('action:link:add', function (link) {
+		elementActions.on('action:link:add', (link) => {
 			ls.onLink(link);
 		});
-		halo.on('action:removeElement:pointerdown', function (link) {
-			console.log("removing....");
-		});
-		ls.selectedHalo = halo;
-		halo.removeHandle('clone');
-		halo.removeHandle('fork');
-		halo.removeHandle('rotate');
-		halo.render();
+		ls.selectedActions = elementActions;
+		elementActions.render();
 	}
 
 	ls.checkAndEditTableName = function (model) {
@@ -315,15 +304,14 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.clearSelectedElement = function () {
-		if(ls.selectedHalo != null) {
-			ls.selectedHalo.remove();
-			ls.selectedHalo = null;
+		if(ls.selectedActions != null) {
+			ls.selectedActions.remove();
+			ls.selectedActions = null;
 		}
 		if (ls.selectedElement != null && ls.selectedElement.model != null) {
 			ls.selectedElement.unhighlight();
 		}
 		ls.selectedElement = {};
-		ls.selectionView.cancelSelection();
 		$rootScope.$broadcast('element:select', null);
 		$rootScope.$broadcast('link:select', null);
 		$rootScope.$broadcast('columns:select', []);
@@ -411,23 +399,23 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.undo = function () {
-		ls.commandManager.undo();
+		ls.editorActions.undo();
 	}
 
 	ls.redo = function () {
-		ls.commandManager.redo();
+		ls.editorActions.redo();
 	}
 
 	ls.zoomIn = function () {
-		ls.paperScroller.zoom(0.2, { max: 2 });
+		ls.editorScroller.zoom(0.2, { max: 2 });
 	}
 
 	ls.zoomOut = function () {
-		ls.paperScroller.zoom(-0.2, { min: 0.2 });
+		ls.editorScroller.zoom(-0.2, { min: 0.2 });
 	}
 
 	ls.zoomNone = function () {
-		ls.paperScroller.zoom();
+		ls.editorScroller.zoom();
 	}
 
 	ls.registerShortcuts = () => {
