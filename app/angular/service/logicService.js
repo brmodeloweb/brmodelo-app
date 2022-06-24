@@ -44,7 +44,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			height: $('#content').height(),
 			gridSize: 10,
 			drawGrid: true,
-			model: ls.graph
+			model: ls.graph,
+			linkPinning: false
 		});
 
 		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
