@@ -1,15 +1,16 @@
 import angular from "angular";
-import conceptualService from "../service/conceptualService"
 import conversionOptionModal from "../components/conversionOptionModal";
 import conversionAttributeModal from "../components/conversionAttributeModal";
+import Validator from "../conceptual/validator";
+
 import Column from "./Column";
 
-const logicConversorService = (ConceptualService, $uibModal, $filter) => {
+const logicConversorService = ($uibModal, $filter) => {
 
 	var modelGraph;
-	var cs = ConceptualService;
 	var ls = {};
 	var conversion = {};
+	var shapeValidator = new Validator();
 
 	var entityTableMap = new Map();
 
@@ -294,7 +295,7 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 						parents.set(attribute.id, attribute);
 						const filhos = modelGraph.getNeighbors(attribute);
 						filhos.forEach(filho => {
-							if (cs.isAttribute(filho) && parents.get(filho.id) == null) {
+							if (shapeValidator.isAttribute(filho) && parents.get(filho.id) == null) {
 								attributes.push(filho);
 							}
 						});
@@ -804,5 +805,5 @@ const logicConversorService = (ConceptualService, $uibModal, $filter) => {
 };
 
 export default angular
-	.module("app.LogicConversorService", [conceptualService, conversionOptionModal, conversionAttributeModal])
+	.module("app.LogicConversorService", [conversionOptionModal, conversionAttributeModal])
 	.factory("LogicConversorService", logicConversorService).name;

@@ -10,6 +10,8 @@ import "jointjs/dist/joint.min.css";
 
 import "../editor/editorManager"
 import "../editor/editorScroller"
+import "../editor/editorActions"
+import "../editor/elementActions";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
@@ -31,7 +33,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		"name": ''
 	};
 
-	ls.selectedHalo = null;
+	ls.selectedActions = null;
 
 	ls.selectedLink = {};
 
@@ -42,8 +44,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			height: $('#content').height(),
 			gridSize: 10,
 			drawGrid: true,
-			model: ls.graph
+			model: ls.graph,
+			linkPinning: false
 		});
+
+		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
@@ -182,7 +187,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.applySelectionOptions = function (cellView) {
-
+		const elementActions = new joint.ui.ElementActions({
+			cellView: cellView,
+			boxContent: false
+		});
+		elementActions.on('action:link:add', (link) => {
+			ls.onLink(link);
+		});
+		ls.selectedActions = elementActions;
+		elementActions.render();
 	}
 
 	ls.checkAndEditTableName = function (model) {
@@ -292,9 +305,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.clearSelectedElement = function () {
-		if(ls.selectedHalo != null) {
-			ls.selectedHalo.remove();
-			ls.selectedHalo = null;
+		if(ls.selectedActions != null) {
+			ls.selectedActions.remove();
+			ls.selectedActions = null;
 		}
 		if (ls.selectedElement != null && ls.selectedElement.model != null) {
 			ls.selectedElement.unhighlight();
@@ -387,11 +400,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.undo = function () {
-		ls.commandManager.undo();
+		ls.editorActions.undo();
 	}
 
 	ls.redo = function () {
-		ls.commandManager.redo();
+		ls.editorActions.redo();
 	}
 
 	ls.zoomIn = function () {
