@@ -74,6 +74,7 @@ app.config([
 
 	function ($urlRouterProvider, $stateProvider) {
 		$stateProvider.state("login", {
+			title: "Login - BRMW",
 			url: "/",
 			component: "login",
 			data: {
@@ -88,6 +89,7 @@ app.config([
 		});
 
 		$stateProvider.state("register", {
+			title: "Register - BRMW",
 			url: "/register",
 			component: "signup",
 			data: {
@@ -102,6 +104,7 @@ app.config([
 		});
 
 		$stateProvider.state("recovery", {
+			title: "Recovery - BRMW",
 			url: "/recovery",
 			component: "recovery",
 			data: {
@@ -116,6 +119,7 @@ app.config([
 		});
 
 		$stateProvider.state("reset", {
+			title: "Reset password - BRMW",
 			url: "/reset/{mail}/{code}",
 			component: "resetPassword",
 			data: {
@@ -130,6 +134,7 @@ app.config([
 		});
 
 		$stateProvider.state("main", {
+			title: "Models list - BRMW",
 			url: "/main",
 			component: "workspace",
 			data: {
@@ -144,6 +149,7 @@ app.config([
 		});
 
 		$stateProvider.state("conceptual", {
+			title: "Conceptual model - BRMW",
 			url: "/conceptual/{modelid}",
 			component: "editorConceptual",
 			data: {
@@ -158,6 +164,7 @@ app.config([
 		});
 
 		$stateProvider.state("logic", {
+			title: "Logic model - BRMW",
 			url: "/logic/{references:json}",
 			component: "editorLogic",
 			data: {
@@ -193,6 +200,8 @@ app.run(function ($transitions, $rootScope, AuthService, $state) {
 				$state.go("login");
 			}
 		}
+
+		$rootScope.title = trans.to().title;
 	});
 });
 
