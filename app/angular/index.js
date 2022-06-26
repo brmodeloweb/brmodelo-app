@@ -12,9 +12,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../sass/app.scss";
 
-import "../joint/joint.ui.halo.css";
-import "../joint/joint.ui.selectionView.css";
-import "../joint/joint.ui.stencil.css";
 import "oclazyload";
 
 import sidebarControlConceptual from "./conceptual/sidebarControl";
