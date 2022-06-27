@@ -36,12 +36,18 @@ app.use(cors());
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");
 
-
 app.use("/users", userHandler);
 app.use("/models", modelHandler);
 
 app.get("/", (_, res) => {
 	res.render("index.html");
+});
+
+app.use((req, res, next) => {
+	if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
+	  return res.redirect('https://' + req.get('host') + req.url);
+	}
+	next();
 });
 
 module.exports = app;
