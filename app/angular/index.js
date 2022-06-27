@@ -190,7 +190,13 @@ app.config([
 	},
 ]);
 
-app.run(function ($transitions, $rootScope, AuthService, $state) {
+app.run(function ($location, $window) {
+	if ($location.host() != "localhost" && $location.port() != 9000 && $location.protocol() !== 'https') {
+		$window.location.href = $location.absUrl().replace('http', 'https');
+	}
+});
+
+app.run(function ($transitions, $rootScope, AuthService, $state, $location, $window) {
 	$transitions.onStart({}, function (trans) {
 		const { requireLogin } = trans.to().data;
 		if (requireLogin) {
@@ -200,7 +206,6 @@ app.run(function ($transitions, $rootScope, AuthService, $state) {
 				$state.go("login");
 			}
 		}
-
 		$rootScope.title = trans.to().title;
 	});
 });
