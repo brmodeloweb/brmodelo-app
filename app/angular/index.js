@@ -190,11 +190,11 @@ app.config([
 	},
 ]);
 
-app.run(function ($location, $window) {
-	if ($location.host() != "localhost" && $location.port() != 9000 && $location.protocol() !== 'https') {
-		$window.location.href = $location.absUrl().replace('http', 'https');
-	}
-});
+// app.run(function ($location, $window) {
+// 	if ($location.host() != "localhost" && $location.port() != 9000 && $location.protocol() !== 'https') {
+// 		$window.location.href = $location.absUrl().replace('http', 'https');
+// 	}
+// });
 
 app.run(function ($transitions, $rootScope, AuthService, $state, $location, $window) {
 	$transitions.onStart({}, function (trans) {
