@@ -43,11 +43,15 @@ app.get("/", (_, res) => {
 	res.render("index.html");
 });
 
-app.use((req, res, next) => {
-	if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
-	  return res.redirect('https://' + req.get('host') + req.url);
-	}
-	next();
-});
+const forceSsl = function (req, res, next) {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    return next();
+ };
+
+if (process.env.NODE_ENV === "production") {
+    app.use(forceSsl);
+}
 
 module.exports = app;
