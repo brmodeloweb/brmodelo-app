@@ -33,16 +33,6 @@ app.use(
 app.use(errorhandler());
 app.use(cors());
 
-const userHandler = require("./user/handler");
-const modelHandler = require("./model/handler");
-
-app.use("/users", userHandler);
-app.use("/models", modelHandler);
-
-app.get("/", (_, res) => {
-	res.render("index.html");
-});
-
 const forceSsl = function (req, res, next) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
         return res.redirect(['https://', req.get('Host'), req.url].join(''));
@@ -53,5 +43,15 @@ const forceSsl = function (req, res, next) {
 if (process.env.NODE_ENV === "production") {
     app.use(forceSsl);
 }
+
+const userHandler = require("./user/handler");
+const modelHandler = require("./model/handler");
+
+app.use("/users", userHandler);
+app.use("/models", modelHandler);
+
+app.get("/", (_, res) => {
+	res.render("index.html");
+});
 
 module.exports = app;
