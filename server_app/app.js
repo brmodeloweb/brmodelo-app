@@ -6,10 +6,13 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
+const enforce = require('express-sslify');
 
 require("dotenv").config();
 
 let app = express();
+
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Where to find the view files
 const viewsPath = path.join(__dirname, "../views");
