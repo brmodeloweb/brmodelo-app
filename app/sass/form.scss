@@ -25,7 +25,7 @@ input[type="button"]:focus,
 input[type="submit"]:focus {
 	outline: 0;
 	box-shadow: 0 0 0 2px rgba(#fff, 1),
-				0 0 0 8px rgba(#3d9970, 0.4);
+				0 0 0 4px rgba(#3d9970, 0.4);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -175,4 +175,20 @@ input[type="submit"]:focus {
 
 textarea {
 	resize: vertical;
+}
+
+textarea.sql-script {
+	min-height: 500px;
+}
+
+input[type="checkbox"] {
+	cursor: pointer;
+}
+
+.checkbox > label {
+	word-break: break-all;
+}
+
+.query-expression-textarea {
+	min-height: 125px;
 }

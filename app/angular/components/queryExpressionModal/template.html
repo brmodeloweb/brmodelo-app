@@ -1,0 +1,100 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'Create query expression' | translate }}</h3>
+</div>
+
+<div class="modal-body query-expression-modal">
+	<div ng-if="$ctrl.showJoins">
+		<p>{{ 'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.' | translate }}</p>
+
+		<div class="labels-wrapper">
+			<span ng-repeat="join in $ctrl.joins track by $index">
+				<span class="condition-label" ng-if="join.submitted">
+					{{ join.columnNameOrigin + ' = ' + join.columnNameTarget }}
+					<i title="{{ 'Delete' | translate }}" class="fa fa-close" ng-click="$ctrl.removeJoin($index)"></i>
+				</span>
+			</span>
+		</div>
+
+		<div ng-repeat="join in $ctrl.joins track by $index">
+			<div class="form-content form-content-joins" ng-if="!join.submitted">
+				<dropdown
+					on-select="$ctrl.selectColumnJoin(selected, 'columnNameOrigin', $index)"
+					selected="{ name: join.columnNameOrigin || 'Select a value' }"
+					options="$ctrl.tableColumns">
+				</dropdown>
+
+				<dropdown
+					on-select="$ctrl.selectColumnJoin(selected, 'columnNameTarget', $index)"
+					selected="{ name: join.columnNameTarget || 'Select a value' }"
+					options="$ctrl.tableColumns">
+				</dropdown>
+
+				<a class="br-button" ng-if="join.columnNameOrigin && join.columnNameTarget" data-ng-click="$ctrl.saveJoin($index)">
+					<i title="{{ 'Save' | translate }}" class="fa fa-check"></i>
+				</a>
+			</div>
+		</div>
+
+		<button class="br-button" type="button" ng-click="$ctrl.addJoin()">{{ 'Add join' | translate }}</button>
+	</div>
+
+	<p class="modal-message">{{ 'Add conditions to create query expression that will be used in the where clause when creating the view.' | translate }}</p>
+
+	<div class="labels-wrapper">
+		<span ng-repeat="condition in $ctrl.conditions track by $index">
+			<span class="condition-label" ng-if="condition.submitted">
+				{{ $ctrl.createLabel(condition) }}
+				<i title="{{ 'Delete' | translate }}" class="fa fa-close" ng-click="$ctrl.removeCondition($index)"></i>
+			</span>
+
+			<span class="condition-label" ng-if="!$last && condition.submitted">
+				{{ condition.logicalOperator | translate }}
+				<i title="{{ 'Alterar operador lógico' | translate }}" class="fa fa-exchange" ng-click="$ctrl.changeOperator($index)"></i>
+			</span>
+		</span>
+	</div>
+
+	<div ng-repeat="condition in $ctrl.conditions track by $index">
+		<div class="form-content" ng-if="!condition.submitted">
+			<dropdown
+				on-select="$ctrl.selectColumn(selected, $index)"
+				selected="{ name: condition.columnName || 'Select a value', type: condition.columnType || 'SELECT' }"
+				options="$ctrl.tableColumns">
+			</dropdown>
+
+			<sql-comparasion-dropdown
+				selected="condition"
+				on-select="$ctrl.selectComparasion(selected, $index)"
+				index="$index"
+				type="condition.columnType"
+				ng-if="condition.columnType">
+			</sql-comparasion-dropdown>
+
+			<input
+				type="text"
+				class="form-control"
+				ng-model="condition.comparativeValue"
+				ng-if="condition.type"
+			/>
+
+			<input
+				type="text"
+				class="form-control"
+				ng-model="condition.comparativeValue2"
+				ng-if="condition.type === 'BETWEEN'"
+			/>
+
+			<a class="br-button" ng-if="condition.columnName && condition.type && condition.comparativeValue" data-ng-click="$ctrl.saveCondition($index)">
+				<i title="{{ 'Save' | translate }}" class="fa fa-check"></i>
+			</a>
+		</div>
+	</div>
+
+	<button class="br-button" type="button" ng-click="$ctrl.addCondition()">{{ 'Add condition' | translate }}</button>
+
+</div>
+
+<div class="modal-footer">
+	<button class="br-button warning" type="button" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+	<button class="br-button" type="button" ng-click="$ctrl.save()">{{ 'Confirm' | translate }}</button>
+</div>

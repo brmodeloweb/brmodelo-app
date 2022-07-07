@@ -2,7 +2,7 @@
 // MODULES / DROPDOWN - OLD
 ////////////////////////////////////////////////////////////////////////////////
 .dropdown-tmp {
-     position: relative;
+		position: relative;
     width: 100%;
 }
 
@@ -37,6 +37,12 @@
 .dropdown-tmp-trigger > button {
     width: 100%;
     text-align: left;
+    background: #FFF;
+}
+
+.dropdown-tmp-trigger > button:disabled {
+	color: #c0c0c0;
+	background-color: #ddd;
 }
 
 .dropdown-tmp-trigger > button:focus {
