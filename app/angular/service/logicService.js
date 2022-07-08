@@ -4,8 +4,10 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
-import shapes from "../../joint/shapes";
-joint.shapes.erd = shapes;
+import erd from "../../joint/shapes";
+import uml from "../../joint/table";
+joint.shapes.erd = erd;
+joint.shapes.uml = uml;
 import "jointjs/dist/joint.min.css";
 
 import "../editor/editorManager"
@@ -44,7 +46,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			height: $('#content').height(),
 			gridSize: 10,
 			drawGrid: true,
-			model: ls.graph
+			model: ls.graph,
+			linkPinning: false
 		});
 
 		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
@@ -150,7 +153,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		});
 		$(".elements-holder").append(enditorManager.render().el);
 		enditorManager.loadElements([
-			LogicFactory.createTable()
+			LogicFactory.createTable(),
+			LogicFactory.createView()
 		]);
 	}
 
@@ -175,8 +179,13 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			}
 		});
 
+		ls.getConnectionType = link => {
+			const target = link.graph.getCell(link.get('target').id);
+			return target?.attributes?.type === 'uml.Abstract' ? 'Table-View' : '';
+		}
+
 		ls.paper.on('link:mouseenter', (linkView) => {
-			const toolsView = ls.toolsViewService.getToolsView();
+			const toolsView = ls.toolsViewService.getToolsView(ls.getConnectionType(linkView.model));
 			linkView.addTools(toolsView);
 		});
 
@@ -190,9 +199,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			cellView: cellView,
 			boxContent: false
 		});
+
 		elementActions.on('action:link:add', (link) => {
 			ls.onLink(link);
 		});
+
+		if(cellView.model.getType() === "View") {
+			elementActions.removeAction('link');
+		}
+
 		ls.selectedActions = elementActions;
 		elementActions.render();
 	}
@@ -290,6 +305,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var source = ls.graph.getCell(link.get('source').id);
 		var target = ls.graph.getCell(link.get('target').id);
 
+		if(source.getType() === "View" || target.getType() === "View") {
+			link.remove();
+			return
+		}
+
 		var originName = source.attributes.name;
 		var idOrigin = source.attributes.id;
 		const column = new Column({
@@ -368,6 +388,31 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
+	ls.createLink = function (tableId) {
+		const myLink = new joint.shapes.erd.Line({
+			source: { id: tableId },
+			target: { id: ls.selectedElement.model.id }
+		});
+		myLink.addTo(ls.graph);
+	}
+
+	ls.removeLink = function (tableId, graph) {
+		const link = graph.getLinks(ls.selectedElement.model).find(({ attributes: { source, target } }) => source.id === tableId && target.id === ls.selectedElement.model.id);
+		link.remove();
+	}
+
+	ls.save = function (view) {
+		const graph = ls.selectedElement.model.graph;
+		const neighbors = graph.getNeighbors(ls.selectedElement.model);
+		view.tables.forEach(table => {
+			let linkedTable = neighbors.find(({ attributes: { id } }) => id === table.id);
+			if (!table.selected && linkedTable) ls.removeLink(table.id, graph);
+			if (table.selected && !linkedTable) ls.createLink(table.id);
+		});
+		ls.selectedElement.model.saveView(view);
+		$rootScope.$broadcast('element:update', ls.selectedElement);
+	}
+
 	ls.addColumn = function (column) {
 		if (column.FK) {
 			var myLink = new joint.shapes.erd.Line({
@@ -433,23 +478,51 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 	ls.getTablesMap = function () {
 		var map = new Map();
-		var elements = ls.graph.getElements();
-		for (var i = 0; i < elements.length; i++) {
-			map.set(elements[i].attributes.name, elements[i].id);
-		}
+		var elements = ls.graph.getElements().filter(isTable);
+		elements.forEach(element => {
+			map.set(element.attributes.name, element.id)
+		});
 		return map;
+	}
+
+	const isTable = (element) => element.attributes.type === 'uml.Class';
+
+	const isView = (element) => element.attributes.type === 'uml.Abstract';
+
+	const filterViewsByTableId = (tables, tableId) => tables.filter(table => table.selected).some(({ id }) => id === tableId);
+
+	ls.loadTables = () => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isTable).map(element => ({
+			name: element.attributes.name,
+			columns: element.attributes.objects.map(object => ({ ...object, selected: false })),
+			id: element.id
+		}));
+	};
+
+	ls.loadViewsByTable = (tableId) => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isView)
+			.filter(({ attributes }) => filterViewsByTableId(attributes.objects, tableId))
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
+	}
+
+	ls.loadViews = () => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isView)
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
 	}
 
 	ls.buildTablesJson = function () {
 		var map = new Map();
 		var elements = ls.graph.getElements();
-		for (var i = 0; i < elements.length; i++) {
+		elements.filter(isTable).forEach(element => {
 			var obj = {
-				"name": elements[i].attributes.name,
-				"columns": elements[i].attributes.objects
+				name: element.attributes.name,
+				columns: element.attributes.objects
 			}
-			map.set(elements[i].id, obj);
-		}
+			map.set(element.id, obj);
+		});
 		return map;
 	}
 

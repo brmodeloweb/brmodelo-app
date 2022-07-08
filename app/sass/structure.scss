@@ -133,9 +133,9 @@ a,
 	position: fixed;
 	z-index: 10;
 	top: 109px;
-	right: -224px;
+	right: -285px;
 	bottom: 0;
-	width: 240px;
+	width: 300px;
 	border-top: 1px solid #e7e7e7;
 	border-left: 1px solid #e7e7e7;
 	background-color: #f8f8f8;
@@ -167,21 +167,19 @@ a,
 }
 
 .properties-content {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	padding: 16px;
+	height: 100%;
 	overflow-y: scroll;
 }
 
+.properties-content.old {
+	padding: 16px;
+}
+
 .properties-content .empty-state {
+	font-size: 1.3em;
+	font-weight: 100;
 	text-align: center;
-	color: #3d9970;
-	vertical-align: middle;
-	border: 1px solid #3d9970;
-	border-radius: 2px;
+	color: #959595;
 	padding: 10px;
 }
 

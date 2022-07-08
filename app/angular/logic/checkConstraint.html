@@ -1,0 +1,42 @@
+<div class="check-constraint">
+	<div ng-if="!$ctrl.isManual" class="form-field">
+		<div class="form-group clearfix">
+			<label for="">{{ 'Check' | translate }}</label>
+
+			<sql-comparasion-dropdown
+				selected="$ctrl.column.checkConstraint"
+				on-select="$ctrl.selectCheckConstraint(selected)"
+				type="$ctrl.column.type">
+			</sql-comparasion-dropdown>
+		</div>
+
+		<div class="form-group multiple-fields" ng-if="$ctrl.column.checkConstraint.type">
+			<input
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.column.checkConstraint.comparativeValue"
+			/>
+
+			<input
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.column.checkConstraint.comparativeValue2"
+				ng-if="$ctrl.column.checkConstraint.type === 'BETWEEN'"
+			/>
+		</div>
+	</div>
+
+	<div class="form-field" ng-if="$ctrl.isManual">
+		<label for="check-expression">{{ 'Check' | translate }}</label>
+
+		<input
+			id="check-expression"
+			type="text"
+			class="form-control"
+			ng-model="$ctrl.column.checkConstraint.checkExpression"
+			placeholder="{{ 'Type the expression check' | translate }}"
+		/>
+	</div>
+
+	<a ng-click="$ctrl.toggleFormType()">{{ $ctrl.isManual ? 'Show options to create constraint' : 'Create check constraint manually' | translate }}</a>
+</div>

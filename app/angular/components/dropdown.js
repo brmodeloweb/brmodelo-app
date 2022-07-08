@@ -34,5 +34,6 @@ export default angular.module("app.dropdown", []).component("dropdown", {
 		options: "<",
 		selected: "<",
 		onSelect: "&",
+		disabled: '<'
 	},
 }).name;

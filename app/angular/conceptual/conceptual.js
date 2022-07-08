@@ -460,7 +460,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			drawGrid: true,
 			model: configs.graph,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
-			cellViewNamespace: joint.shapes
+			cellViewNamespace: joint.shapes,
+			linkPinning: false
 		});
 
 		configs.keyboardController = new KeyboardController(configs.paper.$document);
