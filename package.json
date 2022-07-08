@@ -96,7 +96,7 @@
     "html-webpack-plugin": "5.5.0",
     "jest": "^27.4.3",
     "mini-css-extract-plugin": "^2.4.5",
-    "nodemon": "^2.0.18",
+    "nodemon": "^2.0.19",
     "postcss-loader": "^6.2.1",
     "prettier": "^2.5.1",
     "raw-loader": "^4.0.2",
