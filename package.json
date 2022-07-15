@@ -24,7 +24,6 @@
     "angular-translate": "^2.18.3",
     "angular-ui-bootstrap": "^2.5.6",
     "angular-ui-router": "^1.0.30",
-    "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.4.1",
     "cors": "^2.8.5",
@@ -41,8 +40,8 @@
     "i18next-browser-languagedetector": "^6.1.2",
     "jointjs": "3.5.3",
     "mailgun.js": "^4.1.0",
-    "mongodb": "~4.2.1",
-    "mongoose": "^6.1.0",
+    "mongodb": "~4.8.0",
+    "mongoose": "^6.4.4",
     "morgan": "^1.10.0",
     "oclazyload": "^1.1.0",
     "prop-types": "^15.7.2",
@@ -54,8 +53,7 @@
     "response-time": "^2.3.2",
     "styled-components": "^5.3.3",
     "textangular": "^1.5.16",
-    "typescript": "^4.5.2",
-    "underscore": "^1.12.0"
+    "typescript": "^4.5.2"
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.1.0",
