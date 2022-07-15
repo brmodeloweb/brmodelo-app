@@ -29,7 +29,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "errorhandler": "^1.5.1",
-    "express": "^4.17.1",
+    "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
     "express-session": "^1.17.1",
     "express-sslify": "^1.2.0",
