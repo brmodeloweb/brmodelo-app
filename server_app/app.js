@@ -11,8 +11,11 @@ const enforce = require('express-sslify');
 require("dotenv").config();
 
 let app = express();
+app.use(cors());
 
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
+if (app.get("env") === "production") {
+	app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 
 // Where to find the view files
 const viewsPath = path.join(__dirname, "../views");
@@ -34,7 +37,6 @@ app.use(
 	})
 );
 app.use(errorhandler());
-app.use(cors());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");

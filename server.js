@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-mongoose.Promise = require("bluebird");
 const app = require("./server_app/app");
 
 const port = Number(process.env.PORT);
