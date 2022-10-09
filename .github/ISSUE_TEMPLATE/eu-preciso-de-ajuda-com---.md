@@ -7,11 +7,12 @@ assignees: ''
 
 ---
 
-Antes de fazer sua pergunta, por favor explore a documentação do BRModelo Web:
+> Antes de fazer sua pergunta, por favor explore a documentação do BRModelo Web:
+> https://docs.brmodeloweb.com
+>
+> Se mesmo assim você não encontrou a resposta que precisa, adicione sua pergunta a seguir:
 
-https://docs.brmodeloweb.com
-
-Se mesmo assim você não encontrou a resposta que precisa, adicione sua pergunta a seguir:
+---
 
 ### Pergunta
 Adicione aqui sua pergunta
