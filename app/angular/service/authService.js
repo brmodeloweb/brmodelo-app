@@ -5,9 +5,11 @@ const authService = function ($http, $cookies) {
 	const service = {};
 
 	service.login = function (credentials) {
-		credentials.username = Buffer.from(credentials.username).toString('base64');
-		credentials.password = Buffer.from(credentials.password).toString('base64');
-		return $http.post("/users/login", credentials).then(function (res) {
+		const body = {
+			"username": Buffer.from(credentials.username).toString('base64'),
+			"password": Buffer.from(credentials.password).toString('base64')
+		}
+		return $http.post("/users/login", body).then((res) => {
 			const user = res.data;
 			const today = new Date();
 			const expired = new Date(today);
@@ -26,9 +28,11 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.register = function (credentials) {
-		return $http.post("/users/create", credentials).then(function (res) {
-			// implement resp here!!
-		});
+		const body = {
+			"email": Buffer.from(credentials.email).toString('base64'),
+			"password": Buffer.from(credentials.password).toString('base64')
+		}
+		return $http.post("/users/create", body).then((res) => {});
 	};
 
 	service.isAuthenticated = function () {

@@ -34,8 +34,8 @@ const userLogin = async(req, res) => {
 const userCreate = async(req, res) => {
   try {
     const username = req.body.username;
-    const mail = req.body.email;
-    const password = req.body.password;
+    const mail = Buffer.from(req.body.email, 'base64').toString('ascii');
+    const password = Buffer.from(req.body.password, 'base64').toString('ascii');
 
     const validation = userValitor.validateSignUpParams({username, mail, password});
 
@@ -43,9 +43,9 @@ const userCreate = async(req, res) => {
       return res.status(422).send(validation.message);
     }
   
-    const createdUser = await userService.create({username, mail, password});
+    await userService.create({username, mail, password});
 
-    return res.status(200).json(createdUser);
+    return res.sendStatus(201);
   } catch (error) {
     console.error(error);
     if(error.code == 'USER_ERROR_ALREADY_EXISTS') {
