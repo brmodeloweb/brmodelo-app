@@ -6,8 +6,8 @@ const authService = function ($http, $cookies) {
 
 	service.login = function (credentials) {
 		const body = {
-			"username": Buffer.from(credentials.username).toString('base64'),
-			"password": Buffer.from(credentials.password).toString('base64')
+			"username": service.encode(credentials.username),
+			"password": service.encode(credentials.password)
 		}
 		return $http.post("/users/login", body).then((res) => {
 			const user = res.data;
@@ -29,8 +29,8 @@ const authService = function ($http, $cookies) {
 
 	service.register = function (credentials) {
 		const body = {
-			"email": Buffer.from(credentials.email).toString('base64'),
-			"password": Buffer.from(credentials.password).toString('base64')
+			"email": service.encode(credentials.email),
+			"password": service.encode(credentials.password)
 		}
 		return $http.post("/users/create", body).then((res) => {});
 	};
@@ -54,12 +54,16 @@ const authService = function ($http, $cookies) {
 
 	service.resetPassword = (mail, code, newPassword) => {
 		const body = {
-			"mail": Buffer.from(mail).toString('base64'),
-			"newPassword": Buffer.from(newPassword).toString('base64'),
+			"mail": service.encode(mail),
+			"newPassword": service.encode(newPassword),
 			"code": code
 		}
 		return $http.post("/users/reset", body);
 	};
+
+	service.encode = (data) => {
+		return Buffer.from(data).toString('base64');
+	}
 
 	return service;
 };

@@ -2,14 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const userService = require("./service");
 const userValitor = require("./validator");
+const decipher = require("../helpers/crypto");
 
 const router = express.Router();
 router.use(bodyParser.json());
 
 const userLogin = async(req, res) => {
   try {
-    const username = Buffer.from(req.body.username, 'base64').toString('ascii');
-    const password = Buffer.from(req.body.password, 'base64').toString('ascii');
+    const username = decipher.decode(req.body.username);
+    const password = decipher.decode(req.body.password);
     const sessionId = req.sessionID;
 
     const validation = userValitor.validateLoginParams({username, password});
@@ -34,8 +35,8 @@ const userLogin = async(req, res) => {
 const userCreate = async(req, res) => {
   try {
     const username = req.body.username;
-    const mail = Buffer.from(req.body.email, 'base64').toString('ascii');
-    const password = Buffer.from(req.body.password, 'base64').toString('ascii');
+    const mail = decipher.decode(req.body.email);
+    const password = decipher.decode(req.body.password); 
 
     const validation = userValitor.validateSignUpParams({username, mail, password});
 
@@ -83,8 +84,8 @@ const userRecoveryValidate = async(req, res) => {
 
 const resetPassword = async(req, res) => {
   try {
-    const mail = Buffer.from(req.body.mail, 'base64').toString('ascii');
-    const newPassword = Buffer.from(req.body.newPassword, 'base64').toString('ascii');
+    const mail = decipher.decode(req.body.mail);
+    const newPassword = decipher.decode(req.body.newPassword);
     const code = req.body.code; 
     const isValid = await userService.resetPassword(mail, code, newPassword);
     return res.status(200).json({valid: isValid});
