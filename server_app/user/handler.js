@@ -8,8 +8,8 @@ router.use(bodyParser.json());
 
 const userLogin = async(req, res) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
+    const username = Buffer.from(req.body.username, 'base64').toString('ascii');
+    const password = Buffer.from(req.body.password, 'base64').toString('ascii');
     const sessionId = req.sessionID;
 
     const validation = userValitor.validateLoginParams({username, password});

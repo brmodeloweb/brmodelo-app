@@ -1,9 +1,12 @@
 import angular from "angular";
+import { Buffer } from 'buffer';
 
 const authService = function ($http, $cookies) {
 	const service = {};
 
 	service.login = function (credentials) {
+		credentials.username = Buffer.from(credentials.username).toString('base64');
+		credentials.password = Buffer.from(credentials.password).toString('base64');
 		return $http.post("/users/login", credentials).then(function (res) {
 			const user = res.data;
 			const today = new Date();
