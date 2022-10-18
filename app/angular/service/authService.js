@@ -53,7 +53,12 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.resetPassword = (mail, code, newPassword) => {
-		return $http.post("/users/reset", { mail, code, newPassword });
+		const body = {
+			"mail": Buffer.from(mail).toString('base64'),
+			"newPassword": Buffer.from(newPassword).toString('base64'),
+			"code": code
+		}
+		return $http.post("/users/reset", body);
 	};
 
 	return service;

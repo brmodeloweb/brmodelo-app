@@ -83,9 +83,9 @@ const userRecoveryValidate = async(req, res) => {
 
 const resetPassword = async(req, res) => {
   try {
-    const mail = req.body.mail; 
+    const mail = Buffer.from(req.body.mail, 'base64').toString('ascii');
+    const newPassword = Buffer.from(req.body.newPassword, 'base64').toString('ascii');
     const code = req.body.code; 
-    const newPassword = req.body.newPassword; 
     const isValid = await userService.resetPassword(mail, code, newPassword);
     return res.status(200).json({valid: isValid});
   } catch (error) {
