@@ -58,8 +58,8 @@ const userCreate = async(req, res) => {
 const userRecovery = async(req, res) => {
   try {
     const email = req.body.email; 
-    const recoveredUser = await userService.recovery(email);
-    return res.status(202).json(recoveredUser);
+    await userService.recovery(email);
+    return res.sendStatus(202);
   } catch (error) {
     console.error(error);
     if(error.code == 'USER_DO_NOT_EXISTS') {
