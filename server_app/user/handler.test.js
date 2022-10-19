@@ -50,13 +50,13 @@ describe("Test /users/create", () => {
     expect(response.statusCode).toBe(422);
   });
 
-  test("It should response 200 when user created", async () => {
+  test("It should response 201 when user created", async () => {
     const response = await request(app).post("/users/create").send({"username": "user", "email": "mail@mail.com", "password": "123456"});
     mockUserService.create.mockResolvedValue({
       "userId": "123456",
       "userName": "someusername"
     });
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
     expect(mockUserService.create).toHaveBeenCalled();
   });
 

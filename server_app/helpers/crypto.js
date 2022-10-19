@@ -28,7 +28,12 @@ const decrypt = (hash) => {
 	return decrypted.toString();
 };
 
+const decode = (hash) => {
+	return Buffer.from(hash, 'base64').toString('ascii');
+};
+
 module.exports = {
 	encrypt,
 	decrypt,
+	decode
 };
