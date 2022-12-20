@@ -39,6 +39,7 @@
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.8",
     "jointjs": "3.7.5",
+    "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^4.2.3",
     "mongodb": "~4.17.0",
     "mongoose": "^6.11.6",
