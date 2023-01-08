@@ -61,6 +61,19 @@ const authService = function ($http, $cookies) {
 		return $http.post("/users/reset", body);
 	};
 
+	service.deleteAccount = () => {
+		return $http({
+			method: 'delete',
+			url: '/users/delete',
+			data: {
+				"userId": service.loggeduser
+			},
+			headers: {
+				'Content-type': 'application/json;charset=utf-8'
+			}
+		});
+	};
+
 	service.encode = (data) => {
 		return Buffer.from(data).toString('base64');
 	}

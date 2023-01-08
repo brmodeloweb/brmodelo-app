@@ -6,7 +6,7 @@
 				<strong class="navbar-brand">{{ 'BR Modelo Web' | translate }}</strong>
 			</div><!-- End .navbar-header -->
 			<div class="nav navbar-nav pull-right nav-icons">
-				<dropdown-icon title="Options" options="$ctrl.dropdownOptions" on-select=$ctrl.logout()></dropdown-icon>
+				<dropdown-icon title="Options" options="$ctrl.dropdownOptions" on-select=$ctrl.menuOptionSelected(selected)></dropdown-icon>
 			</div><!-- End .navbar-header -->
 		</div>
 	</header>
@@ -39,10 +39,10 @@
 								id="name"
 								type="text"
 								class="form-control"
-								name="name"
+								name="$ctrl.userAccount.name"
 								placeholder="{{ 'Full name' | translate }}"
 								ng-class=""
-								ng-model=""
+								ng-model="$ctrl.userAccount.name"
 								autocomplete="off"
 							/>
 						</div>
@@ -53,13 +53,14 @@
 						<div class="col-sm-7">
 							<input
 								id="email"
-								type="text"
+								type="mail"
 								class="form-control"
 								name="email"
 								placeholder="{{ 'Email' | translate }}"
 								autocomplete="off"
-								ng-class=""
-								ng-model=""
+								data-ng-class="{'error': userPreferencesForm.email.$invalid}"
+								ng-model="$ctrl.userAccount.email"
+								required
 							/>
 						</div>
 					</div>
@@ -67,7 +68,7 @@
 					<div class="form-group">
 						<div class="col-sm-1">&nbsp;</div>
 						<div class="col-sm-7">
-							<button type="button" class="br-button" ng-click="">{{ 'Save' | translate }}</button>
+							<button type="button" class="br-button" ng-click="$ctrl.updateAccount($ctrl.userAccount.name, $ctrl.userAccount.email)">{{ 'Save' | translate }}</button>
 						</div>
 					</div>
 				</section>
@@ -77,7 +78,7 @@
 						<h3>{{ 'Delete account' | translate }}</h3>
 					</header>
 					<p>{{ 'When deleting your account we will remove all information about your user, including all models created.' | translate }} <strong>{{ 'Keep in mind this is a destructive action and cannot be undone.' | translate}}</strong></p>
-					<button type="button" class="br-button destructive" ng-click="">{{ 'Delete account' | translate }}</button>
+					<button type="button" class="br-button destructive" ng-click="$ctrl.deleteAccount()">{{ 'Delete account' | translate }}</button>
 				</section>
 
 			</form>
