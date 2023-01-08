@@ -147,4 +147,9 @@ export default {
 	'OR': 'OU',
 	'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.': 'Você escolheu mais de uma tabela para a criação da Visão. É necessário selecionar os atributos que irão compor o JOIN.',
 	'Add join': 'Adicionar join',
+	'Preferences': 'Preferencias',
+	'User information': 'Informações do usuário',
+	'When deleting your account we will remove all information about your user, including all models created.': 'Ao deletar sua conta, todas suas informações serão removidas, incluindo todas as modelagens criadas.',
+	'Keep in mind this is a destructive action and cannot be undone.': 'Essa é uma ação destrutiva que não pode ser desfeita.',
+	'Delete account': 'Deletar conta'
 };
