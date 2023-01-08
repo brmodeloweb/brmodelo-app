@@ -129,24 +129,24 @@ const resetPassword = async (mail, code, newPassword) => {
 }
 
 const deleteAccount = async (userId) => {
-  return new Promise(async (resolve, reject) => {
-    try {
+	return new Promise(async (resolve, reject) => {
+		try {
 
 			const deletedInfo = await UserRepository.deleteOne(
-				{"_id": userId},
+				{ "_id": userId },
 			)
 
-      if(deletedInfo.deletedCount === 0) {
-        return reject(new Error("Error deleting account"));
-      }
+			if (deletedInfo.deletedCount === 0) {
+				return reject(new Error("Error deleting account"));
+			}
 
-      resolve(true);
-    } catch (error) {
-      console.error(error);
-      reject(error);
-    }
+			resolve(true);
+		} catch (error) {
+			console.error(error);
+			reject(error);
+		}
 
-  });
+	});
 }
 
 const userService = {
