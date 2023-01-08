@@ -186,6 +186,21 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("preferences", {
+			title: "Preferences - BRMW",
+			url: "/preferences",
+			component: "preferences",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./preferences/preferences.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$urlRouterProvider.otherwise("/");
 	},
 ]);
@@ -212,3 +227,4 @@ app.config(function () {
 });
 
 app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];
+
