@@ -147,4 +147,9 @@ export default {
 	'OR': 'OR',
 	'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.': 'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.',
 	'Add join': 'Add join',
+	'Preferences': 'Preferences',
+	'User information': 'User information',
+	'When deleting your account we will remove all information about your user, including all models created.': 'When deleting your account we will remove all information about your user, including all models created.',
+	'Keep in mind this is a destructive action and cannot be undone.': 'Keep in mind this is a destructive action and cannot be undone.',
+	'Delete account': 'Delete account'
 };
