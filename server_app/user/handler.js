@@ -95,22 +95,22 @@ const resetPassword = async(req, res) => {
   }
 }
 
-const deleteAccount = async(req, res) => {
-  try {
+const deleteAccount = async (req, res) => {
+	try {
 		const userId = req.body.userId;
-    const isDeleted = await userService.deleteAccount(userId);
-    return res.status(200).json({"deleted": isDeleted});
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("Error while deleting account!");
-  }
+		const isDeleted = await userService.deleteAccount(userId);
+		return res.status(200).json({ "deleted": isDeleted });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).send("Error while deleting account!");
+	}
 }
 
 
 module.exports = router
-  .post("/create", userCreate)
-  .post("/login", userLogin)
-  .post("/recovery", userRecovery)
-  .post("/reset", resetPassword)
+	.post("/create", userCreate)
+	.post("/login", userLogin)
+	.post("/recovery", userRecovery)
+	.post("/reset", resetPassword)
 	.delete("/delete", deleteAccount)
-  .get("/recovery/validate", userRecoveryValidate);
+	.get("/recovery/validate", userRecoveryValidate);

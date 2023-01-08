@@ -150,11 +150,11 @@ const deleteAccount = async (userId) => {
 }
 
 const userService = {
-  login,
-  create,
-  recovery,
-  isValidRecovery,
-  resetPassword,
+	login,
+	create,
+	recovery,
+	isValidRecovery,
+	resetPassword,
 	deleteAccount
 };
 
