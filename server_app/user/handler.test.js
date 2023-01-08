@@ -61,3 +61,15 @@ describe("Test /users/create", () => {
   });
 
 });
+
+
+describe("Test /users/delete", () => {
+
+  test("It should response 200 when user deleted", async () => {
+    const response = await request(app).delete("/users/delete").send({"userId": "63bb161ff8d5c483cb28047c"});
+    mockUserService.deleteAccount.mockResolvedValue(true);
+    expect(response.statusCode).toBe(200);
+    expect(mockUserService.deleteAccount).toHaveBeenCalled();
+  });
+
+});

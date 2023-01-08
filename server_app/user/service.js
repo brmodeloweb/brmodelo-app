@@ -132,17 +132,15 @@ const deleteAccount = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
 
-
-			const isValid = await UserRepository.remove(
-				{"userId": userId},
-				{"justOne": true}
+			const deletedInfo = await UserRepository.deleteOne(
+				{"_id": userId},
 			)
 
-      if(isValid == null) {
+      if(deletedInfo.deletedCount === 0) {
         return reject(new Error("Error deleting account"));
       }
 
-      resolve();
+      resolve(true);
     } catch (error) {
       console.error(error);
       reject(error);

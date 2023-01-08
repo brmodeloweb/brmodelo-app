@@ -97,11 +97,12 @@ const resetPassword = async(req, res) => {
 
 const deleteAccount = async(req, res) => {
   try {
-    const isDeleted = await userService.deleteAccount();
-    return res.status(200).json({valid: isValid});
+		const userId = req.body.userId;
+    const isDeleted = await userService.deleteAccount(userId);
+    return res.status(200).json({"deleted": isDeleted});
   } catch (error) {
     console.error(error);
-    return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
+    return res.status(500).send("Error while deleting account!");
   }
 }
 
