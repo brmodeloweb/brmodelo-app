@@ -128,12 +128,36 @@ const resetPassword = async (mail, code, newPassword) => {
   });
 }
 
+const deleteAccount = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+
+
+			const isValid = await UserRepository.remove(
+				{"userId": userId},
+				{"justOne": true}
+			)
+
+      if(isValid == null) {
+        return reject(new Error("Error deleting account"));
+      }
+
+      resolve();
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+
+  });
+}
+
 const userService = {
   login,
   create,
   recovery,
   isValidRecovery,
-  resetPassword
+  resetPassword,
+	deleteAccount
 };
 
 module.exports = userService;
