@@ -1,7 +1,9 @@
 const userService = require("./service");
 
 jest.mock("./model");
+jest.mock("../model/service");
 const UserRepositoryMock = require("./model");
+const ModelServiceMock = require("../model/service");
 
 afterEach(() => {
   jest.restoreAllMocks();
@@ -89,6 +91,31 @@ describe("create", () => {
     const createResponse = await userService.create(userParam);
 
     expect(createResponse.login).toBe(docResponse.login);
+  });
+
+});
+
+describe("remove", () => {
+
+  test('should toThrow error when user has models', async () => {
+
+    ModelServiceMock.countAll.mockResolvedValue(1);
+
+    expect(() => {
+      userService.deleteAccount("123456").toThrow();
+    });
+  
+  });
+
+
+  test('should delete account', async () => {    
+    ModelServiceMock.countAll.mockResolvedValue(0);
+
+    UserRepositoryMock.deleteOne.mockResolvedValue({"deletedCount": 1});
+
+    const deleteResponse = await userService.deleteAccount("507f191e810c19729de860ea");
+
+    expect(deleteResponse).toBe(true);
   });
 
 });

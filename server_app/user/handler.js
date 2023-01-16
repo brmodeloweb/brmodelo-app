@@ -18,13 +18,13 @@ const userLogin = async(req, res) => {
     if(!validation.valid) {
       return res.status(422).send(validation.message);
     }
-      
+
     const user = await userService.login({username, password});
-  
+
     if (user == null) {
       return res.status(404).send("User not found");
     }
-  
+
     return res.status(200).json({...user, "sessionId": sessionId});
   } catch (error) {
     console.error(error);
@@ -36,14 +36,14 @@ const userCreate = async(req, res) => {
   try {
     const username = req.body.username;
     const mail = decipher.decode(req.body.email);
-    const password = decipher.decode(req.body.password); 
+    const password = decipher.decode(req.body.password);
 
     const validation = userValitor.validateSignUpParams({username, mail, password});
 
     if(!validation.valid) {
       return res.status(422).send(validation.message);
     }
-  
+
     await userService.create({username, mail, password});
 
     return res.sendStatus(201);
@@ -58,7 +58,7 @@ const userCreate = async(req, res) => {
 
 const userRecovery = async(req, res) => {
   try {
-    const email = req.body.email; 
+    const email = req.body.email;
     await userService.recovery(email);
     return res.sendStatus(202);
   } catch (error) {
@@ -72,8 +72,8 @@ const userRecovery = async(req, res) => {
 
 const userRecoveryValidate = async(req, res) => {
   try {
-    const mail = req.query.mail; 
-    const code = req.query.code; 
+    const mail = req.query.mail;
+    const code = req.query.code;
     const isValid = await userService.isValidRecovery(mail, code);
     return res.status(200).json({valid: isValid});
   } catch (error) {
@@ -86,7 +86,7 @@ const resetPassword = async(req, res) => {
   try {
     const mail = decipher.decode(req.body.mail);
     const newPassword = decipher.decode(req.body.newPassword);
-    const code = req.body.code; 
+    const code = req.body.code;
     const isValid = await userService.resetPassword(mail, code, newPassword);
     return res.status(200).json({valid: isValid});
   } catch (error) {
@@ -95,9 +95,27 @@ const resetPassword = async(req, res) => {
   }
 }
 
+const deleteAccount = async (req, res) => {
+	try {
+		const userId = req.body.userId;
+		const isDeleted = await userService.deleteAccount(userId);
+		return res.status(200).json({ "deleted": isDeleted });
+	} catch (error) {
+    if(error.code == 'USER_HAS_MODELS_ERROR') {
+      return res.status(400).json({
+        "code": error.code,
+        "message": error.message
+      });
+    }
+		return res.status(500).send("Error while deleting account!");
+	}
+}
+
+
 module.exports = router
-  .post("/create", userCreate)
-  .post("/login", userLogin)
-  .post("/recovery", userRecovery)
-  .post("/reset", resetPassword)
-  .get("/recovery/validate", userRecoveryValidate);
+	.post("/create", userCreate)
+	.post("/login", userLogin)
+	.post("/recovery", userRecovery)
+	.post("/reset", resetPassword)
+	.delete("/delete", deleteAccount)
+	.get("/recovery/validate", userRecoveryValidate);

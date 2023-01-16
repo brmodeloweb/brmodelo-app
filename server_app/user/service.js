@@ -1,6 +1,7 @@
 const UserRepository = require("./model");
 const encriptor = require("../helpers");
 const mailSender = require("../mail/sender");
+const modelService = require("../model/service");
 
 const login = async ({ username, password }) => {
   return new Promise(async (resolve, reject) => {
@@ -128,12 +129,41 @@ const resetPassword = async (mail, code, newPassword) => {
   });
 }
 
+const deleteAccount = async (userId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+
+      const modelsCount = await modelService.countAll(userId);
+      if(modelsCount > 0) {
+        const countError = new Error("Operation not allowed. User has models");
+        countError.code = "USER_HAS_MODELS_ERROR";
+        return reject(countError);
+      }
+
+			const deletedInfo = await UserRepository.deleteOne(
+				{ "_id": userId },
+			)
+
+			if (deletedInfo.deletedCount === 0) {
+				return reject(new Error("Error deleting account"));
+			}
+
+			resolve(true);
+		} catch (error) {
+			console.error(error);
+			reject(error);
+		}
+
+	});
+}
+
 const userService = {
-  login,
-  create,
-  recovery,
-  isValidRecovery,
-  resetPassword
+	login,
+	create,
+	recovery,
+	isValidRecovery,
+	resetPassword,
+	deleteAccount
 };
 
 module.exports = userService;

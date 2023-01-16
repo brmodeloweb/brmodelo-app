@@ -147,4 +147,12 @@ export default {
 	'OR': 'OU',
 	'You have chosen multiple tables to create the View. It is necessary to select the attributes that will compose the JOIN clause.': 'Você escolheu mais de uma tabela para a criação da Visão. É necessário selecionar os atributos que irão compor o JOIN.',
 	'Add join': 'Adicionar join',
+	'Preferences': 'Preferencias',
+	'User information': 'Informações do usuário',
+	'Remove all your models before removing your account.': 'Remova todos os seus modelos antes de prosseguir com a exclusão da conta.',
+	'Keep in mind this is a destructive action and cannot be undone.': 'Essa é uma ação destrutiva que não pode ser desfeita.',
+	'Delete account': 'Deletar conta',
+	'Are you sure you want to delete your account?': 'Tem certeza que deseja deletar sua conta?',
+	'Delete account default error': 'Não foi possível deletar sua conta. Tente novamente mais tarde.',
+	'Delete account model error': 'Não foi possível deletar sua conta pois você possui modelos. Remova-os antes de prosseguir.',
 };

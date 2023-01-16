@@ -1,9 +1,10 @@
 const request = require("supertest");
 const app = require("../app");
-jest.mock("./service");
 const mockUserService = require("./service");
+jest.mock("./service");
 
 describe("Test /users/login", () => {
+
   test("It should response 422 when validation password fails", async () => {
     const response = await request(app).post("/users/login").send({"username": "user", "password": ""});
     expect(response.statusCode).toBe(422);
@@ -35,6 +36,10 @@ describe("Test /users/login", () => {
 });
 
 describe("Test /users/create", () => {
+  beforeEach(() => {
+    jest.mock("./service");
+  });
+
   test("It should response 422 when validation password fails", async () => {
     const response = await request(app).post("/users/create").send({"username": "user", "email": "mail@mail.com", "password": ""});
     expect(response.statusCode).toBe(422);
@@ -58,6 +63,37 @@ describe("Test /users/create", () => {
     });
     expect(response.statusCode).toBe(201);
     expect(mockUserService.create).toHaveBeenCalled();
+  });
+
+});
+
+
+describe("Test /users/delete", () => {
+
+  test("It should response 200 when user deleted", async () => {
+    const response = await request(app).delete("/users/delete").send({"userId": "63bb161ff8d5c483cb28047c"});
+    mockUserService.deleteAccount.mockResolvedValueOnce(true);
+    expect(response.statusCode).toBe(200);
+    expect(mockUserService.deleteAccount).toHaveBeenCalled();
+  });
+
+  test("It should response 500 when user has created models", async () => {
+    mockUserService.deleteAccount.mockReset();
+    mockUserService.deleteAccount.mockRejectedValueOnce(new Error('Async error message'));
+    const response = await request(app).delete("/users/delete").send({ "userId": "63bb161ff8d5c483cb28047c" });
+    expect(response.statusCode).toBe(500);
+    expect(mockUserService.deleteAccount).toHaveBeenCalled();
+  });
+
+  test("It should response 400 when user has created models", async () => {
+    const modelsError = new Error('Models Error');
+    modelsError.code = "USER_HAS_MODELS_ERROR";
+
+    mockUserService.deleteAccount.mockReset();
+    mockUserService.deleteAccount.mockRejectedValueOnce(modelsError);
+    const response = await request(app).delete("/users/delete").send({ "userId": "63bb161ff8d5c483cb28047c" });
+    expect(response.statusCode).toBe(400);
+    expect(mockUserService.deleteAccount).toHaveBeenCalled();
   });
 
 });

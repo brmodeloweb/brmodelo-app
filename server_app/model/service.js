@@ -112,6 +112,18 @@ const exportModel = async (modelId) => {
 	});
 };
 
+const countAll = async (userId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const count = await modelRepository.count({ who: userId });
+			return resolve(count);
+		} catch (error) {
+			console.error(error);
+			reject(error);
+		}
+	});
+};
+
 const modelService = {
 	listAll,
 	getById,
@@ -120,6 +132,7 @@ const modelService = {
 	remove,
 	rename,
 	exportModel,
+	countAll
 };
 
 module.exports = modelService;
