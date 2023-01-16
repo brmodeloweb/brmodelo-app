@@ -2,31 +2,39 @@ import angular from "angular";
 import template from "./preferences.html";
 import confirmationModal from "../components/confirmationModal";
 
-const preferencesController = function($translate, AuthService, $state, $filter, $uibModal){
+const preferencesController = function(AuthService, $state, $filter, $uibModal, $timeout){
 	const ctrl = this;
-	ctrl.loading = true;
-	ctrl.userAccount = {
-		"name": "milton bittencourt",
-		"email": "milton@gmail.com"
+	ctrl.loading = false;
+	ctrl.feedback = {
+		message: "",
+		showing: false
+	}
+
+	ctrl.showFeedback = (show, newMessage) => {
+		$timeout(() => {
+			ctrl.feedback.showing = show;
+			ctrl.feedback.message = $filter('translate')(newMessage);
+		});
 	}
 
 	const showLoading = (loading) => {
 		ctrl.loading = loading;
 	};
 
-	ctrl.$onInit = () => {
-		showLoading(true);
-	};
+	const handleDeleteAccountError = (error) => {
+		if(error.status == 400) {
+			const errorMessage = $filter('translate')("Delete account model error");
+			ctrl.showFeedback(true, errorMessage);
+		} else {
+			const errorMessage = $filter('translate')("Delete account default error");
+			ctrl.showFeedback(true, errorMessage);
+		}
+	}
 
 	ctrl.dropdownOptions = [
 		{ name: $filter('translate')("Preferences"), type: 'preferences' },
 		{ name: $filter('translate')("Logout"), type: 'logout' }
 	];
-
-	ctrl.updateAccount = (newUserName, newUserMail) => {
-		console.log(newUserName);
-		console.log(newUserMail);
-	}
 
 	ctrl.deleteAccount = () => {
 		const modalInstance = $uibModal.open({
@@ -34,7 +42,7 @@ const preferencesController = function($translate, AuthService, $state, $filter,
 			component: "confirmationModal",
 			resolve: {
 				modalData: () => ({
-					title: $filter('translate')("Delete Account"),
+					title: $filter('translate')("Delete account"),
 					content: $filter('translate')("Are you sure you want to delete your account?"),
 					cancelLabel: $filter('translate')("Cancel"),
 					confirmLabel: $filter('translate')("Delete"),
@@ -45,9 +53,11 @@ const preferencesController = function($translate, AuthService, $state, $filter,
 		modalInstance.result.then(() => {
 			showLoading(true);
 			AuthService.deleteAccount().then(() => {
-				showLoading(false);
 				AuthService.logout();
 				$state.go("login");
+			}).catch(handleDeleteAccountError)
+			.finally(() => {
+				showLoading(false);
 			});
 		});
 	}

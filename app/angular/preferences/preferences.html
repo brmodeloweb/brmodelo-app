@@ -14,6 +14,7 @@
 		</div>
 	</header>
 
+
 	<section class="mainContent">
 		<header class="container">
 			<div class="page-header clearfix">
@@ -29,58 +30,18 @@
 				ng-class="{'loading': $ctrl.loading}"
 			/>
 
+			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+				<p>{{ $ctrl.feedback.message }}</p>
+			</div>
+
 			<!-- User information -->
 			<form class="form-horizontal" role="form" name="userPreferencesForm">
-				<section class="form-section userInformation">
-					<header>
-						<h3>{{ 'User information' | translate }}</h3>
-					</header>
-					<div class="form-group">
-						<label for="name" class="col-sm-1 control-label">{{ 'Name' | translate }}</label>
-						<div class="col-sm-5">
-							<input
-								id="name"
-								type="text"
-								class="form-control"
-								name="$ctrl.userAccount.name"
-								placeholder="{{ 'Full name' | translate }}"
-								ng-class=""
-								ng-model="$ctrl.userAccount.name"
-								autocomplete="off"
-							/>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="email" class="col-sm-1 control-label">{{ 'Email' | translate }}</label>
-						<div class="col-sm-5">
-							<input
-								id="email"
-								type="mail"
-								class="form-control"
-								name="email"
-								placeholder="{{ 'Email' | translate }}"
-								autocomplete="off"
-								data-ng-class="{'error': userPreferencesForm.email.$invalid}"
-								ng-model="$ctrl.userAccount.email"
-								required
-							/>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-sm-1">&nbsp;</div>
-						<div class="col-sm-5">
-							<button type="button" class="br-button" ng-click="$ctrl.updateAccount($ctrl.userAccount.name, $ctrl.userAccount.email)">{{ 'Save' | translate }}</button>
-						</div>
-					</div>
-				</section>
-
+				
 				<section class="form-section deleteAccount">
 					<header>
 						<h3>{{ 'Delete account' | translate }}</h3>
 					</header>
-					<p>{{ 'When deleting your account we will remove all information about your user, including all models created.' | translate }}<br/> <strong>{{ 'Keep in mind this is a destructive action and cannot be undone.' | translate}}</strong></p>
+					<p>{{ 'Remove all your models before removing your account.' | translate }}<br/> <strong>{{ 'Keep in mind this is a destructive action and cannot be undone.' | translate}}</strong></p>
 					<button type="button" class="br-button destructive" ng-click="$ctrl.deleteAccount()">{{ 'Delete account' | translate }}</button>
 				</section>
 

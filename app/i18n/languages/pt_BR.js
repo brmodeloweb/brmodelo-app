@@ -149,7 +149,10 @@ export default {
 	'Add join': 'Adicionar join',
 	'Preferences': 'Preferencias',
 	'User information': 'Informações do usuário',
-	'When deleting your account we will remove all information about your user, including all models created.': 'Ao deletar sua conta, todas suas informações serão removidas, incluindo todas as modelagens criadas.',
+	'Remove all your models before removing your account.': 'Remova todos os seus modelos antes de prosseguir com a exclusão da conta.',
 	'Keep in mind this is a destructive action and cannot be undone.': 'Essa é uma ação destrutiva que não pode ser desfeita.',
-	'Delete account': 'Deletar conta'
+	'Delete account': 'Deletar conta',
+	'Are you sure you want to delete your account?': 'Tem certeza que deseja deletar sua conta?',
+	'Delete account default error': 'Não foi possível deletar sua conta. Tente novamente mais tarde.',
+	'Delete account model error': 'Não foi possível deletar sua conta pois você possui modelos. Remova-os antes de prosseguir.',
 };

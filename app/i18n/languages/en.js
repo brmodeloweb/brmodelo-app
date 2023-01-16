@@ -149,7 +149,10 @@ export default {
 	'Add join': 'Add join',
 	'Preferences': 'Preferences',
 	'User information': 'User information',
-	'When deleting your account we will remove all information about your user, including all models created.': 'When deleting your account we will remove all information about your user, including all models created.',
+	'Remove all your models before removing your account.': 'Remove all your models before removing your account.',
 	'Keep in mind this is a destructive action and cannot be undone.': 'Keep in mind this is a destructive action and cannot be undone.',
-	'Delete account': 'Delete account'
+	'Delete account': 'Delete account',
+	'Are you sure you want to delete your account?': 'Are you sure you want to delete your account?',
+	'Delete account default error': 'It was not possible to delete your account. Please try again later.',
+	'Delete account model error': 'It was not possible to delete your account because you have models. Please remove all your models before deleting your account.',
 };

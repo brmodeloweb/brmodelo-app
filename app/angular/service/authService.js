@@ -76,7 +76,7 @@ const authService = function ($http, $cookies) {
 
 	service.encode = (data) => {
 		return Buffer.from(data).toString('base64');
-	}
+	};
 
 	return service;
 };
