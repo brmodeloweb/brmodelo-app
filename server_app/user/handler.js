@@ -101,7 +101,12 @@ const deleteAccount = async (req, res) => {
 		const isDeleted = await userService.deleteAccount(userId);
 		return res.status(200).json({ "deleted": isDeleted });
 	} catch (error) {
-		console.error(error);
+    if(error.code == 'USER_HAS_MODELS_ERROR') {
+      return res.status(400).json({
+        "code": error.code,
+        "message": error.message
+      });
+    }
 		return res.status(500).send("Error while deleting account!");
 	}
 }
