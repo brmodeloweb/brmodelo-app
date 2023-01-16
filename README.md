@@ -26,12 +26,12 @@ To run this application you'll need:
 1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 
-## Running with Docker
+## Running with docker-compose
 
 > **Note:** Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
 
 1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running 
-1. Start docker: `docker-compose up`
+1. Start docker: `docker-compose up` or `docker-compose up -d`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 1. Once your done, finish docker: `docker-compose down`
 

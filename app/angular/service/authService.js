@@ -1,10 +1,15 @@
 import angular from "angular";
+import { Buffer } from 'buffer';
 
 const authService = function ($http, $cookies) {
 	const service = {};
 
 	service.login = function (credentials) {
-		return $http.post("/users/login", credentials).then(function (res) {
+		const body = {
+			"username": service.encode(credentials.username),
+			"password": service.encode(credentials.password)
+		}
+		return $http.post("/users/login", body).then((res) => {
 			const user = res.data;
 			const today = new Date();
 			const expired = new Date(today);
@@ -23,9 +28,11 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.register = function (credentials) {
-		return $http.post("/users/create", credentials).then(function (res) {
-			// implement resp here!!
-		});
+		const body = {
+			"email": service.encode(credentials.email),
+			"password": service.encode(credentials.password)
+		}
+		return $http.post("/users/create", body).then((res) => {});
 	};
 
 	service.isAuthenticated = function () {
@@ -46,7 +53,29 @@ const authService = function ($http, $cookies) {
 	};
 
 	service.resetPassword = (mail, code, newPassword) => {
-		return $http.post("/users/reset", { mail, code, newPassword });
+		const body = {
+			"mail": service.encode(mail),
+			"newPassword": service.encode(newPassword),
+			"code": code
+		}
+		return $http.post("/users/reset", body);
+	};
+
+	service.deleteAccount = () => {
+		return $http({
+			method: 'delete',
+			url: '/users/delete',
+			data: {
+				"userId": service.loggeduser
+			},
+			headers: {
+				'Content-type': 'application/json;charset=utf-8'
+			}
+		});
+	};
+
+	service.encode = (data) => {
+		return Buffer.from(data).toString('base64');
 	};
 
 	return service;

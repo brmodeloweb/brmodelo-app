@@ -1,16 +1,5 @@
 version: "2"
 services:
-  app:
-    container_name: app
-    restart: always
-    build: .
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/brmodeloDB
-    ports:
-      - "3000:3000"
-      - "9000:9000"
-    links:
-      - mongo
   mongo:
     container_name: mongo
     image: mongo
@@ -18,3 +7,25 @@ services:
       - ./data:/data/db
     ports:
       - "27017:27017"
+  app_server:
+    container_name: app_server
+    build: .
+    command: yarn start:dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+  app_frontend:
+    container_name: app_frontend
+    build: .
+    command: yarn start:frontend
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "9000:9000"
+    depends_on:
+      - app_server
