@@ -34,9 +34,21 @@ const Controller = function (LogicService) {
 		LogicService.deleteColumn($index);
 	}
 
+	$ctrl.getTableOriginName = (tableId) => {
+		const tables = [...$ctrl.mapTables].map(([name, value]) => ({ name, value }));
+		return tables.find(() => tableId)?.name;
+	}
+
 	$ctrl.editionColumnMode = (column) => {
 		loadTableNames();
-		$ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
+		const columnValues = JSON.parse(JSON.stringify(column));
+		$ctrl.editColumnModel = {
+			...columnValues,
+			tableOrigin: {
+				...columnValues.tableOrigin,
+				idName: $ctrl.getTableOriginName(columnValues.tableOrigin.idOrigin),
+			}
+		};
 		$ctrl.closeAllColumns();
 		column.expanded = true;
 	}
@@ -53,14 +65,12 @@ const Controller = function (LogicService) {
 	}
 
 	$ctrl.editColumn = (editedColumn, $index) => {
-		if (editedColumn.name == "") {
-			$ctrl.showFeedback("The column name cannot be empty!", true, "error");
-			return;
+		const column = $ctrl.checkColumnBeforeSave(editedColumn);
+
+		if (column) {
+			LogicService.editColumn($index, editedColumn);
+			$ctrl.closeAllColumns();
 		}
-
-		LogicService.editColumn($index, editedColumn);
-
-		$ctrl.closeAllColumns();
 	}
 
 	$ctrl.closeAllColumns = function () {
@@ -69,7 +79,7 @@ const Controller = function (LogicService) {
 		});
 	}
 
-	$ctrl.addColumn = function (column) {
+	$ctrl.checkColumnBeforeSave = function (column) {
 		if (column.name == "") {
 			$ctrl.showFeedback("The column name cannot be empty!", true, "error");
 			return;
@@ -82,9 +92,17 @@ const Controller = function (LogicService) {
 			column.tableOrigin.idOrigin = $ctrl.mapTables.get(column.tableOrigin.idName);
 		}
 
-		LogicService.addColumn(column);
-		$ctrl.addColumnModel = $ctrl.newColumnObject();
-		$ctrl.addColumnVisible = false;
+		return column;
+	}
+
+	$ctrl.addColumn = function (addedColumn) {
+		const column = $ctrl.checkColumnBeforeSave(addedColumn);
+
+		if (column) {
+			LogicService.addColumn(column);
+			$ctrl.addColumnModel = $ctrl.newColumnObject();
+			$ctrl.addColumnVisible = false;
+		}
 	}
 
 	$ctrl.showAddColumn = function (show) {
