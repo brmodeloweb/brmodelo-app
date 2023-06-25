@@ -44,7 +44,7 @@ const sqlGeneratorService = () => {
 
 	const filterSelectedItem = item => item.selected;
 
-	const mapViewSelectedColumn = (table, hasMultipleTables) => table.columns.filter(filterSelectedItem).map(column => `${hasMultipleTables ? table.name + '.' : ''}${cleanString(column.name)}`).join(", ");
+	const mapViewSelectedColumn = (table, hasMultipleTables) => table.columns.filter(filterSelectedItem).map(column => `${hasMultipleTables ? table?.name + '.' : ''}${cleanString(column?.name)}`).join(", ");
 
 	const filterTableWithColunmsSelected = table => table.columns.some(filterSelectedItem);
 
@@ -75,17 +75,18 @@ const sqlGeneratorService = () => {
 		const selectedTables = view.tables.filter(filterSelectedItem);
 		if (selectedTables.length > 0) {
 			const hasMultipleTables = selectedTables.length > 1;
-			const baseTable = selectedTables[0].name;
+			const baseTable = selectedTables[0]?.name;
 			return `\nCREATE VIEW ${view.name} AS \nSELECT ${selectedTables.filter(filterTableWithColunmsSelected).map(table => mapViewSelectedColumn(table, hasMultipleTables)).join(", ")}\nFROM ${baseTable}${createViewJoins(view, baseTable)}\n${getWhereCondition(view)}`
 		}
+		return '';
 	}
 
 	const createAlterTable = function(key, table){
 		var alter = "";
 		for (const column of table.columns) {
 			if(column.FK){
-				var originTable = createdMap.get(column.tableOrigin.idOrigin).name;
-				alter += "ALTER TABLE " + table.name + " ADD FOREIGN KEY(" + cleanString(column.name) + ") REFERENCES " + originTable + " ("+ cleanString(column.name) + ")\n";
+				var originTable = createdMap.get(column.tableOrigin.idOrigin)?.name;
+				alter += "ALTER TABLE " + table?.name + " ADD FOREIGN KEY(" + cleanString(column?.name) + ") REFERENCES " + originTable + " ("+ cleanString(column?.name) + ")\n";
 			}
 		}
 		return alter;
@@ -96,7 +97,7 @@ const sqlGeneratorService = () => {
 	}
 
 	const createTable = function(key, table){
-		var create = "CREATE TABLE " + table.name + " \n";
+		var create = "CREATE TABLE " + table?.name + " \n";
 		create += "( \n";
 		const hasCheckConstraint = table.columns.some(column => column.checkConstraint);
 		const hasUniqueConstraint = table.columns.some(column => column.UNIQUE);
@@ -104,7 +105,7 @@ const sqlGeneratorService = () => {
 		table.columns.forEach((column, index) => {
 			var alreadyCreated = createdMap.get(key);
 
-			create += " " + cleanString(column.name) + " " + column.type;
+			create += " " + cleanString(column?.name) + " " + column.type;
 
 			constraints.forEach(({ key, sqlValue }) => {
 				if (column[key]) create += ` ${sqlValue}`;

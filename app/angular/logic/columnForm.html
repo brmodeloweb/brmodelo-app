@@ -91,7 +91,7 @@
 		<dropdown
 			disabled="!$ctrl.column.FK"
 			on-select="$ctrl.selectTableOrigin(selected)"
-			selected="{name: 'ORIGEM', type: 'ORIGEM'}"
+			selected="{name: $ctrl.column.tableOrigin.idName || 'ORIGEM', type: $ctrl.column.tableOrigin.idOrigin || 'ORIGEM'}"
 			options="$ctrl.tableNames">
 		</dropdown>
 	</div>
