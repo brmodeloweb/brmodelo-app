@@ -41,7 +41,7 @@
     "jointjs": "3.5.5",
     "mailgun.js": "^4.2.3",
     "mongodb": "~4.8.0",
-    "mongoose": "^6.4.6",
+    "mongoose": "^6.11.3",
     "morgan": "^1.10.0",
     "oclazyload": "^1.1.0",
     "prop-types": "^15.8.1",
