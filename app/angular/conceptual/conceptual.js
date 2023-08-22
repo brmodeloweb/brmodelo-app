@@ -349,7 +349,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.unselectAll();
 			if(!configs.keyboardController.spacePressed){
 				configs.elementSelector.start(evt);
-				console.log("starting selecting");
 			} else {
 				configs.editorScroller.startPanning(evt);
 			}
