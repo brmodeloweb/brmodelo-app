@@ -7,6 +7,7 @@ import "../editor/editorManager";
 import "../editor/editorScroller";
 import "../editor/editorActions";
 import "../editor/elementActions";
+import "../editor/elementSelector";
 
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
@@ -347,7 +348,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		paper.on('blank:pointerdown', (evt) => {
 			ctrl.unselectAll();
 			if(!configs.keyboardController.spacePressed){
-
+				configs.elementSelector.start(evt);
+				console.log("starting selecting");
 			} else {
 				configs.editorScroller.startPanning(evt);
 			}
@@ -483,6 +485,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph });
 
 		$(".elements-holder").append(enditorManager.render().el);
+
+		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
 		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
