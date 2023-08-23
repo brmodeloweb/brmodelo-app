@@ -6592,21 +6592,21 @@ jest@^27.5.1:
     import-local "^3.0.2"
     jest-cli "^27.5.1"
 
-jointjs@3.5.5:
-  version "3.5.5"
-  resolved "https://registry.yarnpkg.com/jointjs/-/jointjs-3.5.5.tgz#f378a382e859103274eaa0b91734a617b58072be"
-  integrity sha512-iuSWl/itGuB7XoKzx3lrr7fq0VWdJb9qX9NDvIyZcAsUCJ47L7eQZWazRtWM87W3bEqYZvEG/9/SfWgPN31CAg==
+jointjs@3.7.5:
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/jointjs/-/jointjs-3.7.5.tgz#a446463cc1e9766575c2718d7c57f72100ccadac"
+  integrity sha512-q8eC0300Y6wHy59dU/wRO9HIEfZlPQsmoD9QF6ty/TsyZGaY8yRptoEpzxbtIRnQ8vRDJ5R6lBYRmsAN0FVw9w==
   dependencies:
     backbone "~1.4.1"
     dagre "~0.8.5"
     graphlib "~2.1.8"
-    jquery "~3.6.0"
+    jquery "~3.6.4"
     lodash "~4.17.21"
 
-jquery@~3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
-  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
+jquery@~3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.4.tgz#ba065c188142100be4833699852bf7c24dc0252f"
+  integrity sha512-v28EW9DWDFpzcD9O5iyJXg3R3+q+mET5JhnjJzQUZMHOv67bpSIHq81GEYpPNZHG+XXHsfSme3nxp/hndKEcsQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

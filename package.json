@@ -38,7 +38,7 @@
     "hotkeys-js": "^3.9.4",
     "i18next": "^21.7.14",
     "i18next-browser-languagedetector": "^6.1.4",
-    "jointjs": "3.5.5",
+    "jointjs": "3.7.5",
     "mailgun.js": "^4.2.3",
     "mongodb": "~4.8.0",
     "mongoose": "^6.11.3",
