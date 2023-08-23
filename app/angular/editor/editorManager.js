@@ -1,5 +1,4 @@
 import $ from "jquery";
-import _ from "underscore";
 import "backbone";
 import * as joint from "jointjs/dist/joint";
 
@@ -26,16 +25,19 @@ joint.ui.EditorManager = Backbone.View.extend({
         width: 126,
         height: 500
     },
-    initialize: function (configs) {
-        this.options = _.extend({}, _.result(this, "options"), configs || {});
-        this.graphs = {};
-        this.papers = {};
-        _.bindAll(this, "onDrag", "onDragEnd");
-        $(document.body).on({
-            "mousemove.elements-holder touchmove.elements-holder": this.onDrag,
-            "mouseup.elements-holder touchend.elements-holder": this.onDragEnd
-        });
-    },
+	initialize(configs) {
+		this.options = { ...this.options, ...configs } || {};
+		this.graphs = {};
+		this.papers = {};
+
+		this.onDrag = this.onDrag.bind(this);
+		this.onDragEnd = this.onDragEnd.bind(this);
+
+		$(document.body).on({
+			"mousemove.elements-holder touchmove.elements-holder": this.onDrag,
+			"mouseup.elements-holder touchend.elements-holder": this.onDragEnd
+		});
+	},
     render: function () {
         this.$el.html(joint.templates.draggable["draggable-paper.html"](this.template));
         this.$content = this.$(".content");
@@ -48,10 +50,11 @@ joint.ui.EditorManager = Backbone.View.extend({
             interactive: false
         };
 
-        this.papers.originalGraph = new joint.dia.Paper(_.extend(paperConfig, {
-            el: this.$(".elements"),
-            model: this.graphs.originalGraph
-        }));
+		this.papers.originalGraph = new joint.dia.Paper({
+			...paperConfig,
+			el: this.$(".elements"),
+			model: this.graphs.originalGraph
+		});
 
         this.listenTo(this.papers.originalGraph, "cell:pointerdown", this.onDragStart);
         this.draggableGraph = new joint.dia.Graph;
@@ -137,18 +140,18 @@ joint.ui.EditorManager = Backbone.View.extend({
             });
             joint.V(paper.svg).prepend(fakeElement);
             const paperOffset = $(paper.svg).offset();
-            fakeElement.remove(); 
-            paperTargetPoint.x += scrollLeftPos - paperOffset.left; 
+            fakeElement.remove();
+            paperTargetPoint.x += scrollLeftPos - paperOffset.left;
             paperTargetPoint.y += scrollTopPos - paperOffset.top;
             const targetPos = paperTargetPoint.matrixTransform(paper.viewport.getCTM().inverse());
             const droppedModelBox = droppedModel.getBBox();
-            targetPos.x += droppedModelBox.x - modelDimensions.width / 2, 
-            targetPos.y += droppedModelBox.y - modelDimensions.height / 2, 
+            targetPos.x += droppedModelBox.x - modelDimensions.width / 2,
+            targetPos.y += droppedModelBox.y - modelDimensions.height / 2,
             droppedModel.set("position", {
                 x: joint.g.snapToGrid(targetPos.x, paper.options.gridSize),
                 y: joint.g.snapToGrid(targetPos.y, paper.options.gridSize)
-            }); 
-            droppedModel.unset("z"); 
+            });
+            droppedModel.unset("z");
             this.options.graph.addCell(droppedModel, {
                 xxx: this.cid
             });
