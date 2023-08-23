@@ -14,6 +14,7 @@ import "../editor/editorManager"
 import "../editor/editorScroller"
 import "../editor/editorActions"
 import "../editor/elementActions";
+import "../editor/elementSelector";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
@@ -55,6 +56,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
 		ls.toolsViewService = new ToolsViewService();
+
+		ls.elementSelector = new joint.ui.ElementSelector({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -173,7 +176,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.clearSelectedElement();
 
 			if(!ls.keyboardController.spacePressed){
-
+				ls.elementSelector.start(evt);
 			} else {
 				ls.editorScroller.startPanning(evt);
 			}
