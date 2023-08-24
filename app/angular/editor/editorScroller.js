@@ -16,22 +16,31 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			baseHeight: undefined,
 			contentOptions: undefined
 		},
-		initialize: function(configs) {
-			_.bindAll(this, "startPanning", "stopPanning", "pan"), 
-			this.options = _.extend({}, _.result(this, "options"), configs || {});
-			const paper = this.options.paper;
+		initialize(configs) {
+			this.startPanning = this.startPanning.bind(this);
+			this.stopPanning = this.stopPanning.bind(this);
+			this.pan = this.pan.bind(this);
+
+			this.options = { ...this.options, ...configs } || {};
+			const { paper } = this.options;
+
 			const scaledPaper = joint.V(paper.viewport).scale();
-			this._sx = scaledPaper.sx; 
-			this._sy = scaledPaper.sy; 
-			this.$el.append(paper.el), this.addPadding();
-			this.listenTo(paper, "scale", this.onScale); 
-			this.listenTo(paper, "resize", this.onResize); 
-			if(_.isUndefined(this.options.baseWidth)) {
-				this.options.baseWidth = paper.options.width; 
+			this._sx = scaledPaper.sx;
+			this._sy = scaledPaper.sy;
+
+			this.$el.append(paper.el);
+			this.addPadding();
+
+			this.listenTo(paper, "scale", this.onScale);
+			this.listenTo(paper, "resize", this.onResize);
+
+			if (this.options.baseWidth == null) {
+				this.options.baseWidth = paper.options.width;
 			}
-			if(_.isUndefined(this.options.baseHeight)) {
+			if (this.options.baseHeight == null) {
 				this.options.baseHeight = paper.options.height;
 			}
+
 			if (this.options.autoResizePaper) {
 				this.listenTo(paper.model, "change add remove reset", this.adjustPaper);
 			}
@@ -42,12 +51,12 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			}
 		},
 		onScale: function(zoomWidth, zoomHeight, offsetWidth, offsetHeight) {
-			this.adjustScale(zoomWidth, zoomHeight); 
-			this._sx = zoomWidth; 
-			this._sy = zoomHeight; 
+			this.adjustScale(zoomWidth, zoomHeight);
+			this._sx = zoomWidth;
+			this._sy = zoomHeight;
 			if(offsetWidth || offsetHeight) {
 				this.center(offsetWidth, offsetHeight);
-			} 
+			}
 		},
 		beforePaperManipulation: function() {
 			this.$el.css("visibility", "hidden");
@@ -57,19 +66,21 @@ joint.ui.EditorScroller = Backbone.View.extend({
 		},
 		toLocalPoint: function(clientWidth, clientHeight) {
 			const viewportCTM = this.options.paper.viewport.getCTM();
-			clientWidth = (clientWidth + (this.el.scrollLeft - this.padding.paddingLeft - viewportCTM.e)); 
+			clientWidth = (clientWidth + (this.el.scrollLeft - this.padding.paddingLeft - viewportCTM.e));
 			clientWidth = clientWidth / viewportCTM.a;
 			clientWidth = clientWidth + viewportCTM.d;
-			clientHeight = clientHeight + (this.el.scrollTop - this.padding.paddingTop - viewportCTM.f); 
+			clientHeight = clientHeight + (this.el.scrollTop - this.padding.paddingTop - viewportCTM.f);
 			return joint.g.point(clientWidth, clientHeight);
 		},
-		adjustPaper: function() {
-			this._center = this.toLocalPoint(this.el.clientWidth / 2, this.el.clientHeight / 2);
-			const newContentOptions = _.extend({
-					gridWidth: this.options.baseWidth,
-					gridHeight: this.options.baseHeight,
-					allowNewOrigin: "negative"
-			}, this.options.contentOptions);
+		adjustPaper() {
+			const { clientWidth, clientHeight } = this.el;
+			this._center = this.toLocalPoint(clientWidth / 2, clientHeight / 2);
+			const newContentOptions = {
+				gridWidth: this.options.baseWidth,
+				gridHeight: this.options.baseHeight,
+				allowNewOrigin: "negative",
+				...this.options.contentOptions
+			};
 			this.options.paper.fitToContent(this.transformContentOptions(newContentOptions));
 			return this;
 		},
@@ -77,7 +88,7 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			const paperOptions = this.options.paper.options;
 			const newScaleX = zoomWidth / this._sx;
 			const newScaleY = zoomHeight / this._sy;
-			this.options.paper.setOrigin(paperOptions.origin.x * newScaleX, paperOptions.origin.y * newScaleY); 
+			this.options.paper.setOrigin(paperOptions.origin.x * newScaleX, paperOptions.origin.y * newScaleY);
 			this.options.paper.setDimensions(paperOptions.width * newScaleX, paperOptions.height * newScaleY);
 		},
 		transformContentOptions: function(gridConfigs) {
@@ -95,14 +106,14 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			if(gridConfigs.minHeight) {
 				gridConfigs.minHeight *= zoomHeight;
 			}
-			if(_.isObject(gridConfigs.padding)) {
+			if(typeof gridConfigs.padding === 'object') {
 				gridConfigs.padding = {
 					left: (gridConfigs.padding.left || 0) * zoomWidth,
 					right: (gridConfigs.padding.right || 0) * zoomWidth,
 					top: (gridConfigs.padding.top || 0) * zoomHeight,
 					bottom: (gridConfigs.padding.bottom || 0) * zoomHeight
 				}
-			} else if (_.isNumber(gridConfigs.padding)) {
+			} else if(typeof gridConfigs.padding === 'number') {
 				gridConfigs.padding = gridConfigs.padding * zoomWidth;
 			}
 			return gridConfigs;
@@ -113,11 +124,11 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			const e = -viewportCTM.f;
 			const paperWidth = svgMatrixE + this.options.paper.options.width;
 			const paperHeight = e + this.options.paper.options.height;
-			if(_.isUndefined(halfWidth) || _.isUndefined(halfHeight)) {
-				halfWidth = (svgMatrixE + paperWidth) / 2; 
+			if(halfWidth == null || halfHeight == null) {
+				halfWidth = (svgMatrixE + paperWidth) / 2;
 				halfHeight = (e + paperHeight) / 2;
 			} else {
-				halfWidth *= viewportCTM.a; 
+				halfWidth *= viewportCTM.a;
 				halfHeight *= viewportCTM.d;
 			}
 			const paddingReference = this.options.padding;
@@ -127,15 +138,15 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			const right = clientWidth - paddingReference + halfWidth - paperWidth;
 			const top = clientHeight - paddingReference - halfHeight + e;
 			const bottom = clientHeight - paddingReference + halfHeight - paperHeight;
-			this.addPadding(Math.max(left, 0), Math.max(right, 0), Math.max(top, 0), Math.max(bottom, 0));  
-			this.el.scrollLeft = halfWidth - clientWidth + viewportCTM.e + this.padding.paddingLeft; 
-			this.el.scrollTop = halfHeight - clientHeight + viewportCTM.f + this.padding.paddingTop; 
+			this.addPadding(Math.max(left, 0), Math.max(right, 0), Math.max(top, 0), Math.max(bottom, 0));
+			this.el.scrollLeft = halfWidth - clientWidth + viewportCTM.e + this.padding.paddingLeft;
+			this.el.scrollTop = halfHeight - clientHeight + viewportCTM.f + this.padding.paddingTop;
 			return this;
 		},
 		centerContent: function() {
 			const paperBox = joint.V(this.options.paper.viewport)
 				.bbox(!0, this.options.paper.svg);
-			this.center(paperBox.x + paperBox.width / 2, paperBox.y + paperBox.height / 2); 
+			this.center(paperBox.x + paperBox.width / 2, paperBox.y + paperBox.height / 2);
 			return this;
 		},
 		addPadding: function(left, right, top, bottom) {
@@ -149,10 +160,10 @@ joint.ui.EditorScroller = Backbone.View.extend({
 				marginBottom: Math.round(originalPadding + (bottom || 0)),
 				marginRight: Math.round(originalPadding + (right || 0))
 			};
-			newPadding.paddingLeft = Math.min(newPadding.paddingLeft, .9 * this.el.clientWidth); 
-			newPadding.paddingTop = Math.min(newPadding.paddingTop, .9 * this.el.clientHeight); 
-			this.$el.css(newPadding); 
-			this.options.paper.$el.css(newMargin); 
+			newPadding.paddingLeft = Math.min(newPadding.paddingLeft, .9 * this.el.clientWidth);
+			newPadding.paddingTop = Math.min(newPadding.paddingTop, .9 * this.el.clientHeight);
+			this.$el.css(newPadding);
+			this.options.paper.$el.css(newMargin);
 			return this;
 		},
 		zoom: function(zoomOffset, zoomConfigs) {
@@ -162,8 +173,8 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			let zoomOffsetY = zoomOffset;
 			let pointX;
 			let pointY;
-			if (!zoomConfigs.absolute) { 
-				zoomOffsetX += this._sx; 
+			if (!zoomConfigs.absolute) {
+				zoomOffsetX += this._sx;
 				zoomOffsetY += this._sy;
 				if(zoomConfigs.grid) {
 					zoomOffsetX = Math.round(f / zoomConfigs.grid) * zoomConfigs.grid;
@@ -177,28 +188,28 @@ joint.ui.EditorScroller = Backbone.View.extend({
 					zoomOffsetX = Math.max(zoomConfigs.min, zoomOffsetX);
 					zoomOffsetY = Math.max(zoomConfigs.min, zoomOffsetY);
 				}
-				if (_.isUndefined(zoomConfigs.ox) || _.isUndefined(zoomConfigs.oy)) {
-					pointX = point.x, 
+				if (zoomConfigs.ox == null || zoomConfigs.oy == null) {
+					pointX = point.x,
 					pointY = point.y;
 				}
 			}
 			else {
-				pointX = zoomConfigs.ox - (zoomConfigs.ox - point.x) / (zoomOffsetX / this._sx); 
+				pointX = zoomConfigs.ox - (zoomConfigs.ox - point.x) / (zoomOffsetX / this._sx);
 				pointY = zoomConfigs.oy - (zoomConfigs.oy - point.y) / (zoomOffsetY / this._sy);
 			}
 			zoomOffsetX = zoomOffsetX || 1;
 			zoomOffsetY = zoomOffsetY || 1;
-			this.beforePaperManipulation(); 
-			this.options.paper.scale(zoomOffsetX, zoomOffsetY); 
-			this.center(pointX, pointY); 
-			this.afterPaperManipulation(); 
+			this.beforePaperManipulation();
+			this.options.paper.scale(zoomOffsetX, zoomOffsetY);
+			this.center(pointX, pointY);
+			this.afterPaperManipulation();
 			return this;
 		},
 		startPanning: function(mouseEvent) {
 			$('.editor-scroller').css('cursor', 'grab');
-			const normalizedEvent = joint.util.normalizeEvent(mouseEvent); 
+			const normalizedEvent = joint.util.normalizeEvent(mouseEvent);
 			this._clientX = normalizedEvent.clientX,
-			this._clientY = normalizedEvent.clientY, 
+			this._clientY = normalizedEvent.clientY,
 			$(document.body).on({
 				"mousemove.panning touchmove.panning": this.pan,
 				"mouseup.panning touchend.panning": this.stopPanning
@@ -209,9 +220,9 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			const normalizedEvent = joint.util.normalizeEvent(mouseEvent);
 			const neededMargeLeft = normalizedEvent.clientX - this._clientX;
 			const neededMargeTop = normalizedEvent.clientY - this._clientY;
-			this.el.scrollTop -= neededMargeTop; 
-			this.el.scrollLeft -= neededMargeLeft; 
-			this._clientX = normalizedEvent.clientX; 
+			this.el.scrollTop -= neededMargeTop;
+			this.el.scrollLeft -= neededMargeLeft;
+			this._clientX = normalizedEvent.clientX;
 			this._clientY = normalizedEvent.clientY;
 		},
 		stopPanning: function() {
@@ -226,6 +237,6 @@ joint.ui.EditorScroller = Backbone.View.extend({
 		pointermove: function(event) {
 			if(event.target == this.el) {
 				this.options.paper.pointermove.apply(this.options.paper, arguments);
-			} 
+			}
 		}
 });
