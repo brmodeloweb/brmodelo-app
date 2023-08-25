@@ -40,6 +40,7 @@ joint.ui.ElementActions = Backbone.View.extend({
         linkAttributes: {}
     },
 	initialize(configs) {
+		console.log("start ElementActions");
 		this.options = { ...this.options, ...configs } || {};
 		this.options = {
 			...this.options,
@@ -52,6 +53,7 @@ joint.ui.ElementActions = Backbone.View.extend({
 		this.render = this.render.bind(this);
 		this.updateElement = this.updateElement.bind(this);
 		this.remove = this.remove.bind(this);
+
 
 		joint.ui.ElementActions.clear(this.options.paper);
 		this.listenTo(this.options.graph, "reset", this.remove);

@@ -7,7 +7,7 @@ import "../editor/editorManager";
 import "../editor/editorScroller";
 import "../editor/editorActions";
 import "../editor/elementActions";
-import "../editor/elementSelector";
+//import "../editor/elementSelector";
 
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
@@ -46,7 +46,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		user: $rootScope.loggeduser
 	}
 	ctrl.selectedElement = {};
-	ctrl.selectedElementActions = {};
+	ctrl.selectedElementActions = null;
 	const configs = {
 		graph: {},
 		paper: {},
@@ -149,7 +149,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
-		if(configs.selectedElementActions) {
+		if(configs.selectedElementActions != null) {
 			configs.selectedElementActions.remove();
 			configs.selectedElementActions = null;
 		}
@@ -346,12 +346,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	const registerPaperEvents = (paper) => {
 		paper.on('blank:pointerdown', (evt) => {
-			ctrl.unselectAll();
-			if(!configs.keyboardController.spacePressed){
-				configs.elementSelector.start(evt);
-			} else {
-				configs.editorScroller.startPanning(evt);
-			}
+			console.log('blank:pointerdown');
+			// ctrl.unselectAll();
+			// if(!configs.keyboardController.spacePressed){
+			//	configs.elementSelector.start(evt);
+			// } else {
+			// 	configs.editorScroller.startPanning(evt);
+			// }
+
+			//configs.editorActions.setCopyContext(evt);
 		});
 
 		paper.on('link:options', (cellView) => {
@@ -396,11 +399,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController.registerHandler(types.ZOOM_IN, () => ctrl.zoomIn());
 		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
 		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
-		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
+		// configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
+		// configs.keyboardController.registerHandler(types.COPY, () => configs.editorActions.copyElement(ctrl.selectedElement));
+		// configs.keyboardController.registerHandler(types.PASTE, () => configs.editorActions.pasteElement());
 	}
 
 	const registerGraphEvents = (graph) => {
-
 		graph.on("change", () => {
 			setIsDirty(true);
 		});
@@ -435,14 +439,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(ctrl.shapeValidator.isComposedAttribute(model)) {
 				ctrl.makeComposedAttribute(model);
 			}
-
-			// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
-			// 		var x = cellView.model.attributes.position.x;
-			// 		var y = cellView.model.attributes.position.y;
-			// 		if(x != null && y != null){
-			// 			$scope.conectElements(cellView, x, y);
-			// 		}
-			// 	}
 		});
 
 	}
@@ -481,11 +477,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			paper: configs.paper,
 		});
 
-		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph });
+		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph, paper: configs.paper });
 
 		$(".elements-holder").append(enditorManager.render().el);
 
-		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
+		// configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
 		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),

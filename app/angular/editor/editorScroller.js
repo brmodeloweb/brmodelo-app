@@ -17,6 +17,7 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			contentOptions: undefined
 		},
 		initialize(configs) {
+			console.log("start EditorScroller");
 			this.startPanning = this.startPanning.bind(this);
 			this.stopPanning = this.stopPanning.bind(this);
 			this.pan = this.pan.bind(this);
@@ -73,15 +74,19 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			return joint.g.point(clientWidth, clientHeight);
 		},
 		adjustPaper() {
-			const { clientWidth, clientHeight } = this.el;
-			this._center = this.toLocalPoint(clientWidth / 2, clientHeight / 2);
-			const newContentOptions = {
-				gridWidth: this.options.baseWidth,
-				gridHeight: this.options.baseHeight,
-				allowNewOrigin: "negative",
-				...this.options.contentOptions
-			};
-			this.options.paper.fitToContent(this.transformContentOptions(newContentOptions));
+			try {
+				const { clientWidth, clientHeight } = this.el;
+				this._center = this.toLocalPoint(clientWidth / 2, clientHeight / 2);
+				const newContentOptions = {
+					gridWidth: this.options.baseWidth,
+					gridHeight: this.options.baseHeight,
+					allowNewOrigin: "negative",
+					...this.options.contentOptions
+				};
+				this.options.paper.fitToContent(this.transformContentOptions(newContentOptions));
+			} catch (error) {
+				console.log(error);
+			}
 			return this;
 		},
 		adjustScale: function(zoomWidth, zoomHeight) {

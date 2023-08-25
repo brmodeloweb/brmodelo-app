@@ -11,12 +11,19 @@ joint.ui.EditorActions = Backbone.Model.extend({
         REMOVE: "remove"
     },
     initialize: function (configs) {
+		console.log("initialize EditorActions");
 		this.initCommands = this.initCommands.bind(this);
 		this.storeCommands = this.storeCommands.bind(this);
+		this.setCopyContext = this.setCopyContext.bind(this);
 
         this.graph = configs.graph;
+		this.paper = configs.paper;
         this.undoStack = [];
         this.redoStack = [];
+		this.copyContext = {
+			"element": null,
+			"event": null
+		}
         this.listen();
     },
     listen: function () {
@@ -118,6 +125,35 @@ joint.ui.EditorActions = Backbone.Model.extend({
         } else if (this.batchCommand && this.batchLevel > 0) {
             this.batchLevel--;
         }
+    },
+	copyElement: function (elementView) {
+		if(elementView != null && elementView.element != null) {
+			this.copyContext.element = elementView.element.model.clone();
+		}
+    },
+	setCopyContext: function (event) {
+		if(this.copyContext.element != null) {
+			const normalizedEvent = joint.util.normalizeEvent(event);
+			const localPoint = this.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY })
+			this.copyContext.event = {
+				"x": localPoint.x,
+				"y": localPoint.y
+			}
+		}
+    },
+	pasteElement: function () {
+		if(this.copyContext != null && this.copyContext.element != null && this.copyContext.event != null) {
+			const toPastElement = this.copyContext.element;
+			toPastElement.attributes.position = {
+				"x": this.copyContext.event.x,
+				"y": this.copyContext.event.y
+			}
+			this.graph.addCell(toPastElement);
+			this.copyContext = {
+				"element": null,
+				"event": null
+			}
+		}
     },
     filterCommands: function (commandEvent) {
         const filteredBatch = [];
