@@ -15,7 +15,6 @@ joint.ui.ElementSelector = Backbone.View.extend({
         "touchstart .selection-box": "startVisualSelection",
     },
 	initialize(a) {
-		console.log("start ElementSelector");
 		this.options = { ...this.options, ...a } || {};
 
 		this.options = {

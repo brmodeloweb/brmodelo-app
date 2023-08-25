@@ -40,7 +40,6 @@ joint.ui.ElementActions = Backbone.View.extend({
         linkAttributes: {}
     },
 	initialize(configs) {
-		console.log("start ElementActions");
 		this.options = { ...this.options, ...configs } || {};
 		this.options = {
 			...this.options,

@@ -51,7 +51,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			linkPinning: false
 		});
 
-		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
+		ls.editorActions = new joint.ui.EditorActions({graph: ls.graph, paper: ls.paper});
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
@@ -180,6 +180,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			} else {
 				ls.editorScroller.startPanning(evt);
 			}
+
+			ls.editorActions.setCopyContext(evt);
 		});
 
 		ls.getConnectionType = link => {
@@ -477,6 +479,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.updateModel();
 			$rootScope.$broadcast('model:saved')
 		});
+		ls.keyboardController.registerHandler(types.COPY, () => ls.editorActions.copyElement(ls.selectedElement));
+		ls.keyboardController.registerHandler(types.PASTE, () => ls.editorActions.pasteElement());
+		ls.keyboardController.registerHandler(types.DELETE, () => ls.selectedActions?.removeElement() );
 	}
 
 	ls.getTablesMap = function () {

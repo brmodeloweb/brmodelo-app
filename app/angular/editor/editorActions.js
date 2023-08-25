@@ -11,7 +11,6 @@ joint.ui.EditorActions = Backbone.Model.extend({
         REMOVE: "remove"
     },
     initialize: function (configs) {
-		console.log("initialize EditorActions");
 		this.initCommands = this.initCommands.bind(this);
 		this.storeCommands = this.storeCommands.bind(this);
 		this.setCopyContext = this.setCopyContext.bind(this);
@@ -126,9 +125,9 @@ joint.ui.EditorActions = Backbone.Model.extend({
             this.batchLevel--;
         }
     },
-	copyElement: function (elementView) {
-		if(elementView != null && elementView.element != null) {
-			this.copyContext.element = elementView.element.model.clone();
+	copyElement: function (element) {
+		if(element != null) {
+			this.copyContext.element = element.model.clone();
 		}
     },
 	setCopyContext: function (event) {

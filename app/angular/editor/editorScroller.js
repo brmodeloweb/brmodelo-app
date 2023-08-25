@@ -17,7 +17,6 @@ joint.ui.EditorScroller = Backbone.View.extend({
 			contentOptions: undefined
 		},
 		initialize(configs) {
-			console.log("start EditorScroller");
 			this.startPanning = this.startPanning.bind(this);
 			this.stopPanning = this.stopPanning.bind(this);
 			this.pan = this.pan.bind(this);
@@ -136,14 +135,8 @@ joint.ui.EditorScroller = Backbone.View.extend({
 				halfWidth *= viewportCTM.a;
 				halfHeight *= viewportCTM.d;
 			}
-			const paddingReference = this.options.padding;
 			const clientWidth = this.el.clientWidth / 2;
 			const clientHeight = this.el.clientHeight / 2;
-			const left = clientWidth - paddingReference - halfWidth + svgMatrixE;
-			const right = clientWidth - paddingReference + halfWidth - paperWidth;
-			const top = clientHeight - paddingReference - halfHeight + e;
-			const bottom = clientHeight - paddingReference + halfHeight - paperHeight;
-			this.addPadding(Math.max(left, 0), Math.max(right, 0), Math.max(top, 0), Math.max(bottom, 0));
 			this.el.scrollLeft = halfWidth - clientWidth + viewportCTM.e + this.padding.paddingLeft;
 			this.el.scrollTop = halfHeight - clientHeight + viewportCTM.f + this.padding.paddingTop;
 			return this;
