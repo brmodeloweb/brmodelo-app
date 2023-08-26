@@ -65,3 +65,38 @@
 .item.rotate {cursor: move;}
 
 .item.resize {cursor: se-resize;}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// select actions
+////////////////////////////////////////////////////////////////////////////////
+
+.selection {
+	position: absolute;
+	border: 2px solid #3d9970;
+	border-radius: 3px;
+	overflow: visible;
+	background-color: rgba(61, 153, 112, 0.2);
+ }
+
+ .selected .selection-wrapper {
+	position: absolute;
+	transform: scale(1.3);
+	border: 2px solid #3d9970;
+	border-radius: 3px;
+ }
+
+ .selection.selected {
+	position: static;
+	height: 0 !important;
+	border: none;
+	background-color: transparent;
+ }
+
+ .selection-box {
+	position: absolute;
+	border-radius: 2px;
+	border: 1px dashed #3d9970;
+	transform: scale(1.15);
+	cursor: move;
+ }

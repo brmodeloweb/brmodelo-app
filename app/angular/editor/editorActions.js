@@ -11,15 +11,23 @@ joint.ui.EditorActions = Backbone.Model.extend({
         REMOVE: "remove"
     },
     initialize: function (configs) {
-        _.bindAll(this, "initCommands", "storeCommands"); 
+		this.initCommands = this.initCommands.bind(this);
+		this.storeCommands = this.storeCommands.bind(this);
+		this.setCopyContext = this.setCopyContext.bind(this);
+
         this.graph = configs.graph;
+		this.paper = configs.paper;
         this.undoStack = [];
         this.redoStack = [];
+		this.copyContext = {
+			"element": null,
+			"event": null
+		}
         this.listen();
     },
     listen: function () {
         this.listenTo(this.graph, "all", this.listenCommand, this);
-        this.listenTo(this.graph, "batch:start", this.initCommands, this); 
+        this.listenTo(this.graph, "batch:start", this.initCommands, this);
         this.listenTo(this.graph, "batch:stop", this.storeCommands, this);
     },
     newCommand: function (param) {
@@ -36,12 +44,12 @@ joint.ui.EditorActions = Backbone.Model.extend({
         };
     },
     saveCommand: function (event) {
-        this.redoStack = []; 
+        this.redoStack = [];
         if(event.batch) {
-            this.lastCmdIndex = Math.max(this.lastCmdIndex, 0); 
+            this.lastCmdIndex = Math.max(this.lastCmdIndex, 0);
             this.trigger("batch", event);
         } else {
-            this.undoStack.push(event); 
+            this.undoStack.push(event);
             this.trigger(this.actions.ADD, event);
         }
     },
@@ -60,7 +68,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
                             batch: true
                         });
                     } else {
-                        runningCommand = this.batchCommand[currentCommandIndex]; 
+                        runningCommand = this.batchCommand[currentCommandIndex];
                         this.batchCommand.splice(currentCommandIndex, 1);
                     }
                     this.lastCmdIndex = this.batchCommand.push(runningCommand) - 1;
@@ -70,22 +78,22 @@ joint.ui.EditorActions = Backbone.Model.extend({
             });
             if (this.actions.ADD === commandAction || this.actions.REMOVE === commandAction) {
                 runningCommand.action = commandAction;
-                runningCommand.data.id = cellView.id; 
-                runningCommand.data.type = cellView.attributes.type; 
-                runningCommand.data.attributes = _.merge({}, cellView.toJSON());
+                runningCommand.data.id = cellView.id;
+                runningCommand.data.type = cellView.attributes.type;
+                runningCommand.data.attributes = { ...cellView.toJSON() };;
                 runningCommand.options = d || {};
-                runningCommand.data.view = cellView;                
+                runningCommand.data.view = cellView;
                 this.saveCommand(runningCommand);
                 return runningCommand;
             }
             if(!(runningCommand.batch && runningCommand.action)) {
                 runningCommand.action = commandAction;
-                runningCommand.data.id = cellView.id; 
-                runningCommand.data.type = cellView.attributes.type; 
-                runningCommand.data.previous[commandDescription] = _.clone(cellView.previous(commandDescription));
+                runningCommand.data.id = cellView.id;
+                runningCommand.data.type = cellView.attributes.type;
+                runningCommand.data.previous[commandDescription] = Object.assign({}, cellView.previous(commandDescription));
                 runningCommand.options = d || {};
-            } 
-            runningCommand.data.next[commandDescription] = _.clone(cellView.get(commandDescription));
+            }
+            runningCommand.data.next[commandDescription] = Object.assign({}, cellView.get(commandDescription));
             this.saveCommand(runningCommand);
         }
     },
@@ -97,8 +105,8 @@ joint.ui.EditorActions = Backbone.Model.extend({
                 action: null,
                 batch: true
             });
-            this.batchCommand = [newCommand]; 
-            this.lastCmdIndex = -1; 
+            this.batchCommand = [newCommand];
+            this.lastCmdIndex = -1;
             this.batchLevel = 0;
         }
     },
@@ -106,16 +114,56 @@ joint.ui.EditorActions = Backbone.Model.extend({
         if (this.batchCommand && this.batchLevel <= 0) {
             const batchCommand = this.filterCommands(this.batchCommand);
             if(batchCommand.length > 0) {
-                this.redoStack = []; 
-                this.undoStack.push(batchCommand); 
+                this.redoStack = [];
+                this.undoStack.push(batchCommand);
                 this.trigger(this.actions.ADD, batchCommand);
             }
-            delete this.batchCommand; 
-            delete this.lastCmdIndex; 
+            delete this.batchCommand;
+            delete this.lastCmdIndex;
             delete this.batchLevel;
         } else if (this.batchCommand && this.batchLevel > 0) {
             this.batchLevel--;
-        } 
+        }
+    },
+	copyElement: function (element) {
+		if(element != null) {
+			this.copyContext.element = element.model.clone();
+			const oginalPos = element.model.attributes.position
+			this.setCopyContext({
+				"clientX": oginalPos.x + 25,
+				"clientY": oginalPos.y + 25,
+				"type": "originalposition"
+			})
+			console.log(element);
+		}
+    },
+	setCopyContext: function (event) {
+		if(this.copyContext.element != null) {
+			const normalizedEvent = joint.util.normalizeEvent(event);
+			console.log(event);
+			let localPoint = { x: normalizedEvent.clientX, y: normalizedEvent.clientY }
+			if(event.type === "mousedown") {
+				localPoint = this.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY })
+			}
+			this.copyContext.event = {
+				"x": localPoint.x,
+				"y": localPoint.y
+			}
+		}
+    },
+	pasteElement: function () {
+		if(this.copyContext != null && this.copyContext.element != null && this.copyContext.event != null) {
+			const toPastElement = this.copyContext.element;
+			toPastElement.attributes.position = {
+				"x": this.copyContext.event.x,
+				"y": this.copyContext.event.y
+			}
+			this.graph.addCell(toPastElement);
+			this.copyContext = {
+				"element": null,
+				"event": null
+			}
+		}
     },
     filterCommands: function (commandEvent) {
         const filteredBatch = [];
@@ -145,7 +193,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
                         }
                         break;
                     default:
-                        if (command.action.startsWith("change") && _.isEqual(command.data.previous, command.data.next)) {
+                        if (command.action.startsWith("change") && command.data.previous === command.data.next) {
                             continue
                         }
                 }
@@ -159,7 +207,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
         const commandId = {
             commandManager: this.id || this.cid
         };
-        const commandEventArr = _.isArray(commandEvent) ? commandEvent : [commandEvent];
+        const commandEventArr = Array.isArray(commandEvent) ? commandEvent : [commandEvent];
         commandEventArr.reverse().forEach(command => {
             const cellView = this.graph.getCell(command.data.id);
             switch (command.action) {
@@ -173,7 +221,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
                     const action = command.action.substr(this.PREFIX_LENGTH);
                     cellView.set(action, command.data.previous[action], commandId);
             }
-        }); 
+        });
         this.listen();
     },
     redoCommand: function (commandEvent) {
@@ -181,7 +229,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
         const commandId = {
             commandManager: this.id || this.cid
         };
-        const commandEventArr = _.isArray(commandEvent) ? commandEvent : [commandEvent];
+        const commandEventArr = Array.isArray(commandEvent) ? commandEvent : [commandEvent];
         commandEventArr.forEach(command => {
             const cellView = this.graph.getCell(command.data.id);
             switch (command.action) {
@@ -194,7 +242,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
                 default:
                     const action = command.action.substr(this.PREFIX_LENGTH);
                     cellView.set(action, command.data.next[action], commandId);
-            } 
+            }
         });
         this.listen();
     },
@@ -208,7 +256,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
     redo: function () {
         const redoAction = this.redoStack.pop();
         if(redoAction) {
-            this.redoCommand(redoAction); 
+            this.redoCommand(redoAction);
             this.undoStack.push(redoAction);
         }
     },

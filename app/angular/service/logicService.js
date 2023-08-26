@@ -14,6 +14,7 @@ import "../editor/editorManager"
 import "../editor/editorScroller"
 import "../editor/editorActions"
 import "../editor/elementActions";
+import "../editor/elementSelector";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
@@ -50,11 +51,13 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			linkPinning: false
 		});
 
-		ls.editorActions = new joint.ui.EditorActions({ graph: ls.graph });
+		ls.editorActions = new joint.ui.EditorActions({graph: ls.graph, paper: ls.paper});
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
 		ls.toolsViewService = new ToolsViewService();
+
+		ls.elementSelector = new joint.ui.ElementSelector({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -173,10 +176,12 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.clearSelectedElement();
 
 			if(!ls.keyboardController.spacePressed){
-
+				ls.elementSelector.start(evt);
 			} else {
 				ls.editorScroller.startPanning(evt);
 			}
+
+			ls.editorActions.setCopyContext(evt);
 		});
 
 		ls.getConnectionType = link => {
@@ -474,6 +479,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.updateModel();
 			$rootScope.$broadcast('model:saved')
 		});
+		ls.keyboardController.registerHandler(types.COPY, () => ls.editorActions.copyElement(ls.selectedElement));
+		ls.keyboardController.registerHandler(types.PASTE, () => ls.editorActions.pasteElement());
+		ls.keyboardController.registerHandler(types.DELETE, () => ls.selectedActions?.removeElement() );
 	}
 
 	ls.getTablesMap = function () {
