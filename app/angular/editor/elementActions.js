@@ -53,6 +53,7 @@ joint.ui.ElementActions = Backbone.View.extend({
 		this.updateElement = this.updateElement.bind(this);
 		this.remove = this.remove.bind(this);
 
+
 		joint.ui.ElementActions.clear(this.options.paper);
 		this.listenTo(this.options.graph, "reset", this.remove);
 		this.listenTo(this.options.graph, "all", this.updateElement);

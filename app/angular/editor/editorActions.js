@@ -13,10 +13,16 @@ joint.ui.EditorActions = Backbone.Model.extend({
     initialize: function (configs) {
 		this.initCommands = this.initCommands.bind(this);
 		this.storeCommands = this.storeCommands.bind(this);
+		this.setCopyContext = this.setCopyContext.bind(this);
 
         this.graph = configs.graph;
+		this.paper = configs.paper;
         this.undoStack = [];
         this.redoStack = [];
+		this.copyContext = {
+			"element": null,
+			"event": null
+		}
         this.listen();
     },
     listen: function () {
@@ -118,6 +124,46 @@ joint.ui.EditorActions = Backbone.Model.extend({
         } else if (this.batchCommand && this.batchLevel > 0) {
             this.batchLevel--;
         }
+    },
+	copyElement: function (element) {
+		if(element != null) {
+			this.copyContext.element = element.model.clone();
+			const oginalPos = element.model.attributes.position
+			this.setCopyContext({
+				"clientX": oginalPos.x + 25,
+				"clientY": oginalPos.y + 25,
+				"type": "originalposition"
+			})
+			console.log(element);
+		}
+    },
+	setCopyContext: function (event) {
+		if(this.copyContext.element != null) {
+			const normalizedEvent = joint.util.normalizeEvent(event);
+			console.log(event);
+			let localPoint = { x: normalizedEvent.clientX, y: normalizedEvent.clientY }
+			if(event.type === "mousedown") {
+				localPoint = this.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY })
+			}
+			this.copyContext.event = {
+				"x": localPoint.x,
+				"y": localPoint.y
+			}
+		}
+    },
+	pasteElement: function () {
+		if(this.copyContext != null && this.copyContext.element != null && this.copyContext.event != null) {
+			const toPastElement = this.copyContext.element;
+			toPastElement.attributes.position = {
+				"x": this.copyContext.event.x,
+				"y": this.copyContext.event.y
+			}
+			this.graph.addCell(toPastElement);
+			this.copyContext = {
+				"element": null,
+				"event": null
+			}
+		}
     },
     filterCommands: function (commandEvent) {
         const filteredBatch = [];
