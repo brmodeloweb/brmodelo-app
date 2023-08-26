@@ -128,12 +128,23 @@ joint.ui.EditorActions = Backbone.Model.extend({
 	copyElement: function (element) {
 		if(element != null) {
 			this.copyContext.element = element.model.clone();
+			const oginalPos = element.model.attributes.position
+			this.setCopyContext({
+				"clientX": oginalPos.x + 25,
+				"clientY": oginalPos.y + 25,
+				"type": "originalposition"
+			})
+			console.log(element);
 		}
     },
 	setCopyContext: function (event) {
 		if(this.copyContext.element != null) {
 			const normalizedEvent = joint.util.normalizeEvent(event);
-			const localPoint = this.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY })
+			console.log(event);
+			let localPoint = { x: normalizedEvent.clientX, y: normalizedEvent.clientY }
+			if(event.type === "mousedown") {
+				localPoint = this.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY })
+			}
 			this.copyContext.event = {
 				"x": localPoint.x,
 				"y": localPoint.y
