@@ -8,14 +8,14 @@
 	justify-content: space-between;
 	padding: 12px;
 	margin-bottom: 1px;
-	color: #fff;
-	background-color: #3d9970;
+	color: var(--white);
+	background-color: var(--brand-primary-20);
 	cursor: pointer;
 	transition: ease .3s;
 }
 
 .panel-header:hover {
-	background-color: #1a744b;
+	background-color: var(--brand-primary-10);
 }
 
 .panel-header > h3 {

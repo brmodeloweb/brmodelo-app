@@ -24,8 +24,8 @@ button:focus,
 input[type="button"]:focus,
 input[type="submit"]:focus {
 	outline: 0;
-	box-shadow: 0 0 0 2px rgba(#fff, 1),
-				0 0 0 4px rgba(#3d9970, 0.4);
+	box-shadow: 0 0 0 2px var(--white),
+				0 0 0 4px var(--brand-primary-20);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,6 @@ input[type="submit"]:focus {
 	border-bottom: 1px solid #eee;
 	margin-bottom: 25px;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // .columnsList
@@ -159,16 +158,16 @@ input[type="submit"]:focus {
 // Bootstrap fixes
 ////////////////////////////////////////////////////////////////////////////////
 .form-control {
-	box-shadow: 0 0 0 #3D9970,
-				0 0 0 #3D9970;
+	box-shadow: 0 0 0 var(--brand-primary-20),
+				0 0 0 var(--brand-primary-20);
 	transition: box-shadow 0.2s
 }
 
 .form-control:focus {
 	outline: none;
-	border-color: #3D9970;
-	box-shadow: 1px 1px 0 #3D9970,
-				-1px 3px 0 #3D9970;
+	border-color:var(--brand-primary-20);
+	box-shadow: 1px 1px 0 var(--brand-primary-20)
+				-1px 3px 0 var(--brand-primary-20);
 }
 
 .form-control.error {
