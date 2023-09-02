@@ -46,7 +46,7 @@ const loadRecovery = (recoveryPath) => {
     .ExternalClass * {
       line-height: 100%;
     }
-    .em_blue a {text-decoration:none; color:#3d9970;}
+    .em_blue a {text-decoration:none; color: hsl(170, 100%, 20%);}
     .em_grey a {text-decoration:none; color:#434343;}
     .em_white a {text-decoration:none; color:#ffffff;}
     
@@ -103,7 +103,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="25" style="height:25px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none; font-family:Fira Sans, Arial, sans-serif; font-size:20px; line-height:25px; text-align:center; color:#3d9970; font-weight: bold;">BR Modelo Web</a></td>
+                    <td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none; font-family:Fira Sans, Arial, sans-serif; font-size:20px; line-height:25px; text-align:center; color:hsl(170, 100%, 20%); font-weight: bold;">BR Modelo Web</a></td>
                   </tr>
                   <tr>
                     <td height="28" style="height:28px;" class="em_h20">&nbsp;</td>
@@ -124,7 +124,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="45" style="height:45px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class="em_blue em_font_22" align="center" valign="top" style="font-family:Fira Sans, Arial, sans-serif; font-size: 26px; line-height: 29px; color:#3d9970; font-weight:bold;">Esqueceu a senha?</td>
+                    <td class="em_blue em_font_22" align="center" valign="top" style="font-family:Fira Sans, Arial, sans-serif; font-size: 26px; line-height: 29px; color: hsl(170, 100%, 20%); font-weight:bold;">Esqueceu a senha?</td>
                   </tr>
                   <tr>
                     <td height="14" style="height:40px; font-size:0px; line-height:0px;">&nbsp;</td>
@@ -136,7 +136,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="26" style="height:50px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td align="center" valign="top"><table width="250" style="width:250px; background-color:#3d9970; border-radius:4px;" border="0" cellspacing="0" cellpadding="0" align="center">
+                    <td align="center" valign="top"><table width="250" style="width:250px; background-color: hsl(170, 100%, 20%); border-radius:4px;" border="0" cellspacing="0" cellpadding="0" align="center">
                       <tr>
                         <td class="em_white" height="42" align="center" valign="middle" style="font-family:Fira Sans, Arial, sans-serif; font-size: 16px; color:#ffffff; font-weight:bold; height:42px;"><a href="${recoveryPath}" target="_blank" style="text-decoration:none; color:#ffffff; line-height:42px; display:block;">RESETAR SENHA</a></td>
                       </tr>
