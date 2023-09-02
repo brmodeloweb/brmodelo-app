@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover {
-	color: var(--brand-primary-20);
+	color: var(--brand-default);
 	cursor: default;
 }
 
@@ -13,14 +13,14 @@
 .navbar-default .back-button {
 	display: block;
 	float: left;
-	color: var(--brand-primary-20);
+	color: var(--brand-default);
 	font-size: 1.2em;
 	padding: 13px 16px;
 	margin-right: 6px;
 }
 
 .navbar-default .back-button:hover {
-	color: var(--brand-primary-20);
+	color: var(--brand-default);
 	background-color: #e1e1e1;
 }
 

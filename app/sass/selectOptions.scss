@@ -31,7 +31,7 @@
 }
 
 .expanded .dropdown-tmp-trigger {
-    border-color: var(--brand-primary-20);
+    border-color: var(--brand-default);
 }
 
 .dropdown-tmp-trigger > button {
@@ -264,7 +264,7 @@
 .dropdown-tmp-list,
 .dropdown-tmp-text {
   background: white;
-  border: solid 1px var(--brand-primary-20);
+  border: solid 1px var(--brand-default);
   border-radius: 2px;
 }
 
@@ -390,5 +390,5 @@
 .dropdown-item:hover,
 .dropdown-tmp-item:hover {
     color: #fff;
-    background: var(--brand-primary-20);
+    background: var(--brand-default);
 }
