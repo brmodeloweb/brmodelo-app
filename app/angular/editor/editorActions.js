@@ -80,7 +80,7 @@ joint.ui.EditorActions = Backbone.Model.extend({
                 runningCommand.action = commandAction;
                 runningCommand.data.id = cellView.id;
                 runningCommand.data.type = cellView.attributes.type;
-                runningCommand.data.attributes = { ...cellView.toJSON() };;
+                runningCommand.data.attributes = { ...cellView.toJSON() };
                 runningCommand.options = d || {};
                 runningCommand.data.view = cellView;
                 this.saveCommand(runningCommand);
