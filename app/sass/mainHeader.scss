@@ -119,16 +119,23 @@
 }
 
 .nav-icons > dropdown-icon > .dropdown > button {
-	color: var(--gray-30);
-	background-color:transparent;
 	border: 0;
 	padding: 15px;
+	color: var(--gray-20);
+	background-color: transparent;
 }
 
 .nav-icons > dropdown-icon > .dropdown > button:focus {
-	color: #555;
-	background-color: var(--gray-90);
 	text-decoration: none;
 	box-shadow: none;
+	background-color: var(--gray-90);
 }
+
+.nav-icons .dropdown-menu > li > a {
+	color: var(--gray-20);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .br-loader
+///////////////////////////////////////////////////////////////////////////////
 .br-loader.loading {display: block;}
