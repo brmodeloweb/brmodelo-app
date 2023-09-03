@@ -103,7 +103,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="25" style="height:25px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none; font-family:Fira Sans, Arial, sans-serif; font-size:20px; line-height:25px; text-align:center; color:hsl(170, 100%, 20%); font-weight: bold;">BR Modelo Web</a></td>
+                    <td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none; font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:20px; line-height:25px; text-align:center; color:hsl(170, 100%, 20%); font-weight: bold;">BR Modelo Web</a></td>
                   </tr>
                   <tr>
                     <td height="28" style="height:28px;" class="em_h20">&nbsp;</td>
@@ -124,13 +124,13 @@ const loadRecovery = (recoveryPath) => {
                     <td height="45" style="height:45px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class="em_blue em_font_22" align="center" valign="top" style="font-family:Fira Sans, Arial, sans-serif; font-size: 26px; line-height: 29px; color: hsl(170, 100%, 20%); font-weight:bold;">Esqueceu a senha?</td>
+                    <td class="em_blue em_font_22" align="center" valign="top" style="font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size: 26px; line-height: 29px; color: hsl(170, 100%, 20%); font-weight:bold;">Esqueceu a senha?</td>
                   </tr>
                   <tr>
                     <td height="14" style="height:40px; font-size:0px; line-height:0px;">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class="em_grey" align="center" valign="top" style="font-family:Fira Sans, Arial, sans-serif; font-size: 16px; line-height: 26px; color:#434343;">É normal, todo mundo já passou por isso. <br class="em_hide" />A boa notícia é que você pode alterar sua senha já!</td>
+                    <td class="em_grey" align="center" valign="top" style="font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size: 16px; line-height: 26px; color:#434343;">É normal, todo mundo já passou por isso. <br class="em_hide" />A boa notícia é que você pode alterar sua senha já!</td>
                   </tr>
                   <tr>
                     <td height="26" style="height:50px;" class="em_h20">&nbsp;</td>
@@ -138,7 +138,7 @@ const loadRecovery = (recoveryPath) => {
                   <tr>
                     <td align="center" valign="top"><table width="250" style="width:250px; background-color: hsl(170, 100%, 20%); border-radius:4px;" border="0" cellspacing="0" cellpadding="0" align="center">
                       <tr>
-                        <td class="em_white" height="42" align="center" valign="middle" style="font-family:Fira Sans, Arial, sans-serif; font-size: 16px; color:#ffffff; font-weight:bold; height:42px;"><a href="${recoveryPath}" target="_blank" style="text-decoration:none; color:#ffffff; line-height:42px; display:block;">RESETAR SENHA</a></td>
+                        <td class="em_white" height="42" align="center" valign="middle" style="font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size: 16px; color:#ffffff; font-weight:bold; height:42px;"><a href="${recoveryPath}" target="_blank" style="text-decoration:none; color:#ffffff; line-height:42px; display:block;">RESETAR SENHA</a></td>
                       </tr>
                     </table>
                     </td>
@@ -147,7 +147,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="25" style="height:40px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class="em_grey" align="center" valign="top" style="font-family:Fira Sans, Arial, sans-serif; font-size: 16px; line-height: 26px; color:#434343;">Se você não solicitou a troca de senha, não se preocupe, é só ignorar esse email.</td>
+                    <td class="em_grey" align="center" valign="top" style="font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size: 16px; line-height: 26px; color:#434343;">Se você não solicitou a troca de senha, não se preocupe, é só ignorar esse email.</td>
                   </tr>
                   <tr>
                     <td height="44" style="height:44px;" class="em_h20">&nbsp;</td>
@@ -168,7 +168,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="40" style="height:24px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td class="em_grey" align="center" valign="top" style="font-family:Fira Sans, Arial, sans-serif; font-size: 15px; line-height: 18px; color:#434343; font-weight:bold;">Dúvidas ou suggestões?</td>
+                    <td class="em_grey" align="center" valign="top" style="font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size: 15px; line-height: 18px; color:#434343; font-weight:bold;">Dúvidas ou suggestões?</td>
                   </tr>
                   <tr>
                     <td height="10" style="height:10px; font-size:1px; line-height:1px;">&nbsp;</td>
@@ -176,7 +176,7 @@ const loadRecovery = (recoveryPath) => {
                   <tr>
                     <td align="center" valign="top" style="font-size:0px; line-height:0px;"><table border="0" cellspacing="0" cellpadding="0" align="center">
                       <tr>
-                        <td class="em_grey em_font_11" align="center" valign="middle" style="font-family:Fira Sans, Arial, sans-serif; font-size: 13px; line-height: 15px; color:#434343;"><a href="mailto:brmodeloweb@gmail.com" style="text-decoration:none; color:#434343;">brmodeloweb@gmail.com</a> </td>
+                        <td class="em_grey em_font_11" align="center" valign="middle" style="font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size: 13px; line-height: 15px; color:#434343;"><a href="mailto:brmodeloweb@gmail.com" style="text-decoration:none; color:#434343;">brmodeloweb@gmail.com</a> </td>
                       </tr>
                     </table>
                     </td>

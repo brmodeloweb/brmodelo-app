@@ -5,6 +5,7 @@
 .navbar-default .navbar-brand:hover {
 	color: var(--brand-default);
 	cursor: default;
+	padding-right: 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,7 +17,6 @@
 	color: var(--brand-default);
 	font-size: 1.2em;
 	padding: 13px 16px;
-	margin-right: 6px;
 }
 
 .navbar-default .back-button:hover {
