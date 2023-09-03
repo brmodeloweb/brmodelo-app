@@ -4,6 +4,7 @@
 .table > thead > tr > th,
 .table > tbody > tr > td {
 	vertical-align: middle;
+	border-color: var(--border-default);
 }
 
 .table thead th strong {
@@ -37,10 +38,11 @@
 tr:hover .actions-cell .fa {
 	pointer-events: all;
 	opacity: 1;
+	border-radius: 4px;
 }
 
 .actions-cell .fa:hover {
-	border-color: #d2d2d2;
-	background-color: #d2d2d2;
+	border-color: var(--gray-80);
+	background-color: var(--gray-90);
 }
 

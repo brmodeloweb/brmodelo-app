@@ -54,7 +54,7 @@
 // .card-item
 ////////////////////////////////////////////////////////////////////////////////
 .card-item {
-	border: 1px solid #ddd;
+	border: 1px solid var(--border-default);
 	border-radius: 3px;
 	margin-bottom: 8px;
 }
@@ -84,7 +84,7 @@
 
 .card-item .relationship {
 	display: inline-block;
-	border: 1px solid #000;
+	border: 1px solid var(--black);
 	border-radius: 2px;
 	padding:0 2px;
 	font-size: 10px;
@@ -101,7 +101,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 .card-item-actions {
 	align-items: center;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid var(--border-default);
 	padding-top: 12px;
 }
 
@@ -131,7 +131,7 @@
 
 .view-item {
 	padding: 12px 8px;
-	border: 1px solid #ddd;
+	border: 1px solid var(--border-default);
 	border-radius: 3px;
 	margin-bottom: 8px;
 	cursor: pointer;

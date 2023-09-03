@@ -3,7 +3,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 .modelWorkspace .navbar {
 	width: 215px;
-	border-right: 1px solid #e7e7e7
+	border-right: 1px solid var(--border-default);
+	border-bottom: 1px solid var(--border-default);
+	background-color: var(--gray-95)
 }
 
 .modelWorkspace .navbar .back-button {
@@ -31,4 +33,5 @@
 
 .modelWorkspace .workspace-header .page-header {
 	margin-top: 10px;
+	border-bottom: 1px solid var(--border-default);
 }

@@ -25,7 +25,7 @@ body {
 	height: 100%;
 	font-family: 'Fira Sans', sans-serif;
 	font-weight: 400;
-	color: rgba(0,0,0, 0.8);
+	color: var(--gray-30);
 }
 
 a,
@@ -76,8 +76,8 @@ a,
 	bottom: 0;
 	left: 0;
 	width: 215px;
-	border-right: 1px solid #e7e7e7;;
-	background-color: #f8f8f8;
+	border-right: 1px solid var(--border-default);
+	background-color: var(--gray-95);
 	user-select: none;
 }
 
@@ -143,9 +143,9 @@ a,
 	right: -285px;
 	bottom: 0;
 	width: 300px;
-	border-top: 1px solid #e7e7e7;
-	border-left: 1px solid #e7e7e7;
-	background-color: #f8f8f8;
+	border-top: 1px solid var(--border-default);
+	border-left: 1px solid var(--border-default);
+	background-color: var(--gray-95);
 	transition: 0.3s ease-in-out right;
 }
 
@@ -159,9 +159,9 @@ a,
 	top: 5px;
 	left: -25px;
 	text-align: center;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--border-default);
 	border-radius: 3px 0 0 3px;
-	background-color: #f8f8f8;
+	background-color: var(--gray-95);
 	cursor: pointer;
 }
 
@@ -224,7 +224,6 @@ a,
 
 .editor-scroller .joint-paper {
 	position: absolute;
-	border: 1px solid #e7e7e7;
 	box-shadow: 0 0 20px rgba(0,0,0, 0.1);
 	// background-color: purple; // Uncomment to debugging purposes
 }
@@ -239,4 +238,11 @@ a,
 
 .editor-scroller[data-cursor=grab].is-panning {
 	cursor: grabbing;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .page-header (Overwrite bootstrap)
+////////////////////////////////////////////////////////////////////////////////
+.page-header {
+	border-color: var(--border-default);
 }

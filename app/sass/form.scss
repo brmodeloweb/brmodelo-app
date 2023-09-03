@@ -42,7 +42,7 @@ input[type="submit"]:focus {
 }
 
 .form-section header {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid var(--border-default);
 	margin-bottom: 25px;
 }
 
@@ -68,7 +68,7 @@ input[type="submit"]:focus {
 .columnItem {
 	position: relative;
 	padding: 8px 8px 4px 8px;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--border-default);
 	border-radius: 4px;
 	background: rgba(#fff, 0.4);
 	margin-bottom: 16px;
@@ -107,7 +107,7 @@ input[type="submit"]:focus {
 .columnItem .fa:hover {color: rgba(#000, 1);}
 
 .columnItem .actions {
-	border-top: 1px solid #e7e7e7;
+	border-top: 1px solid var(--border-default);
 	padding-top: 10px;
 }
 
@@ -158,6 +158,7 @@ input[type="submit"]:focus {
 // Bootstrap fixes
 ////////////////////////////////////////////////////////////////////////////////
 .form-control {
+	border-color: var(--border-default);
 	box-shadow: 0 0 0 var(--brand-default), 
 				0 0 0 var(--brand-default); 
 	transition: box-shadow 0.2s
