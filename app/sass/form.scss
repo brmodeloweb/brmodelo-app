@@ -63,7 +63,7 @@ input[type="submit"]:focus {
 	cursor: pointer;
 }
 
-.columnsList .addColumn:hover {color: rgba(green, 1);}
+.columnsList .addColumn:hover {color: var(--brand-default);}
 
 .columnItem {
 	position: relative;
@@ -104,7 +104,7 @@ input[type="submit"]:focus {
 	margin-bottom: 40px;
 }
 
-.columnItem .fa:hover {color: rgba(#000, 1);}
+.columnItem .fa:hover {color: var(--black);}
 
 .columnItem .actions {
 	border-top: 1px solid var(--border-default);
@@ -121,8 +121,8 @@ input[type="submit"]:focus {
 	margin-left: 8px;
 }
 
-.columnItem .actions .add {color: rgba(green, 0.8);}
-.columnItem .actions .cancel {color: rgba(red, 0.8);}
+.columnItem .actions .add {color: var(--brand-default);}
+.columnItem .actions .cancel {color: var(--danger-base);}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Radioboxes customization
@@ -167,22 +167,23 @@ input[type="submit"]:focus {
 .form-control:focus {
 	outline: none;
 	border-color: var(--brand-default);
-	box-shadow: 1px 1px 0 var(--brand-default)
+	box-shadow: 1px 1px 0 var(--brand-default),
  				-1px 3px 0 var(--brand-default); 
 }
 
 .form-control.error {
-	color: rgba(red, 0.8);
-	border-color: rgba(red, 0.8);
+	color: var(--danger-base);
+	border-color: var(--danger-base);
 	background-color: rgba(red, 0.07);
 }
 
 .form-control.error:focus {
-	box-shadow: 1px 1px 0 rgba(red, 0.8), -1px 3px 0 rgba(red, 0.8);
+	box-shadow:  1px 1px var(--danger-base),
+				-1px 3px 0 var(--danger-base);
 }
 
 .form-control.error::placeholder {
-	color: rgba(red, 1);
+	color: var(--danger-base);
 }
 
 textarea {
