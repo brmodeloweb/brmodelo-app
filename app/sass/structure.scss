@@ -30,8 +30,13 @@ body {
 
 a,
 .link {
-	color: var(--brand-default);
+	color: var(--brand-primary-30);
 	cursor: pointer;
+}
+
+a:hover,
+.link:hover {
+	color: var(--brand-default)
 }
 
 .fa {user-select: none;}
