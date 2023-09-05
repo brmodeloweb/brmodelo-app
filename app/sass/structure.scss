@@ -23,18 +23,31 @@ html {
 ////////////////////////////////////////////////////////////////////////////////
 body {
 	height: 100%;
-	font-family: 'Fira Sans', sans-serif;
+	font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 	font-weight: 400;
-	color: rgba(0,0,0, 0.8);
+	color: var(--gray-20);
 }
 
 a,
 .link {
-	color: rgba(#3D9970, 1);
+	color: var(--brand-primary-30);
 	cursor: pointer;
 }
 
+a:hover,
+.link:hover {
+	color: var(--brand-default)
+}
+
 .fa {user-select: none;}
+
+////////////////////////////////////////////////////////////////////////////////
+// .navbar-default
+////////////////////////////////////////////////////////////////////////////////
+.navbar-default {
+	background-color: var(--gray-95);
+	border-color: var(--border-default);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // .mainContent
@@ -76,8 +89,8 @@ a,
 	bottom: 0;
 	left: 0;
 	width: 215px;
-	border-right: 1px solid #e7e7e7;;
-	background-color: #f8f8f8;
+	border-right: 1px solid var(--border-default);
+	background-color: var(--gray-95);
 	user-select: none;
 }
 
@@ -143,9 +156,9 @@ a,
 	right: -285px;
 	bottom: 0;
 	width: 300px;
-	border-top: 1px solid #e7e7e7;
-	border-left: 1px solid #e7e7e7;
-	background-color: #f8f8f8;
+	border-top: 1px solid var(--border-default);
+	border-left: 1px solid var(--border-default);
+	background-color: var(--gray-95);
 	transition: 0.3s ease-in-out right;
 }
 
@@ -153,23 +166,22 @@ a,
 
 .model-properties .action {
 	display: block;
-	height: 25px;
-	width: 25px;
 	position: absolute;
-	top: 5px;
-	left: -25px;
+	top: 12px;
+	left: -36px;
+	padding: 6px 12px 10px 12px;
 	text-align: center;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--border-default);
 	border-radius: 3px 0 0 3px;
-	background-color: #f8f8f8;
+	background-color: var(--gray-95);
 	cursor: pointer;
 }
 
 .action .angle-double-icon {
 	position: relative;
 	top: 3px;
-	font-size: 1.2em;
-	color: rgb(119, 119, 119);
+	font-size: 1.3em;
+	color: var(--gray-30);
 	font-weight: bold;
 }
 
@@ -183,11 +195,11 @@ a,
 }
 
 .properties-content .empty-state {
+	padding: 24px 0;
 	font-size: 1.3em;
-	font-weight: 100;
+	font-weight: 200;
 	text-align: center;
-	color: #959595;
-	padding: 10px;
+	color: var(--gray-20);
 }
 
 .properties-content .br-button {
@@ -224,7 +236,6 @@ a,
 
 .editor-scroller .joint-paper {
 	position: absolute;
-	border: 1px solid #e7e7e7;
 	box-shadow: 0 0 20px rgba(0,0,0, 0.1);
 	// background-color: purple; // Uncomment to debugging purposes
 }
@@ -239,4 +250,11 @@ a,
 
 .editor-scroller[data-cursor=grab].is-panning {
 	cursor: grabbing;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .page-header (Overwrite bootstrap)
+////////////////////////////////////////////////////////////////////////////////
+.page-header {
+	border-color: var(--border-default);
 }

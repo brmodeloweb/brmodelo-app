@@ -5,7 +5,7 @@ label,
 input,
 textarea,
 button {
-	font-family: 'Fira Sans', sans-serif;
+	font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 	font-weight: 300;
 	color: inherit;
 }
@@ -24,8 +24,8 @@ button:focus,
 input[type="button"]:focus,
 input[type="submit"]:focus {
 	outline: 0;
-	box-shadow: 0 0 0 2px rgba(#fff, 1),
-				0 0 0 4px rgba(#3d9970, 0.4);
+	box-shadow: 0 0 0 2px var(--white),
+				0 0 0 4px var(--brand-default); 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,10 +42,9 @@ input[type="submit"]:focus {
 }
 
 .form-section header {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid var(--border-default);
 	margin-bottom: 25px;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // .columnsList
@@ -64,12 +63,12 @@ input[type="submit"]:focus {
 	cursor: pointer;
 }
 
-.columnsList .addColumn:hover {color: rgba(green, 1);}
+.columnsList .addColumn:hover {color: var(--brand-default);}
 
 .columnItem {
 	position: relative;
 	padding: 8px 8px 4px 8px;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--border-default);
 	border-radius: 4px;
 	background: rgba(#fff, 0.4);
 	margin-bottom: 16px;
@@ -105,10 +104,10 @@ input[type="submit"]:focus {
 	margin-bottom: 40px;
 }
 
-.columnItem .fa:hover {color: rgba(#000, 1);}
+.columnItem .fa:hover {color: var(--black);}
 
 .columnItem .actions {
-	border-top: 1px solid #e7e7e7;
+	border-top: 1px solid var(--border-default);
 	padding-top: 10px;
 }
 
@@ -122,8 +121,8 @@ input[type="submit"]:focus {
 	margin-left: 8px;
 }
 
-.columnItem .actions .add {color: rgba(green, 0.8);}
-.columnItem .actions .cancel {color: rgba(red, 0.8);}
+.columnItem .actions .add {color: var(--brand-default);}
+.columnItem .actions .cancel {color: var(--danger-base);}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Radioboxes customization
@@ -131,7 +130,7 @@ input[type="submit"]:focus {
 .radio > label {
 	line-height: 0.8em;
 	font-size: 15px;
-	font-family: 'Fira Sans', sans-serif;
+	font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 	font-weight: 300;
 	margin-bottom: 5px;
 }
@@ -159,30 +158,32 @@ input[type="submit"]:focus {
 // Bootstrap fixes
 ////////////////////////////////////////////////////////////////////////////////
 .form-control {
-	box-shadow: 0 0 0 #3D9970,
-				0 0 0 #3D9970;
+	border-color: var(--border-default);
+	box-shadow: 0 0 0 var(--brand-default), 
+				0 0 0 var(--brand-default); 
 	transition: box-shadow 0.2s
 }
 
 .form-control:focus {
 	outline: none;
-	border-color: #3D9970;
-	box-shadow: 1px 1px 0 #3D9970,
-				-1px 3px 0 #3D9970;
+	border-color: var(--brand-default);
+	box-shadow: 1px 1px 0 var(--brand-default),
+ 				-1px 3px 0 var(--brand-default); 
 }
 
 .form-control.error {
-	color: rgba(red, 0.8);
-	border-color: rgba(red, 0.8);
+	color: var(--danger-base);
+	border-color: var(--danger-base);
 	background-color: rgba(red, 0.07);
 }
 
 .form-control.error:focus {
-	box-shadow: 1px 1px 0 rgba(red, 0.8), -1px 3px 0 rgba(red, 0.8);
+	box-shadow:  1px 1px var(--danger-base),
+				-1px 3px 0 var(--danger-base);
 }
 
 .form-control.error::placeholder {
-	color: rgba(red, 1);
+	color: var(--danger-base);
 }
 
 textarea {
