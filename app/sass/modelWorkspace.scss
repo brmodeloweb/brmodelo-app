@@ -2,7 +2,7 @@
 // .modelWorkspace .navbar
 ////////////////////////////////////////////////////////////////////////////////
 .modelWorkspace .navbar {
-	width: 215px;
+	width: 150px;
 	border-right: 1px solid var(--border-default);
 	border-bottom: 1px solid var(--border-default);
 	background-color: var(--gray-95)
@@ -13,11 +13,23 @@
 	color: var(--brand-default);
 	padding-top: 16px;
 	padding-bottom: 17px;
+	border-right: 1px solid var(--border-default);
 }
 
 .modelWorkspace .navbar .back-button:hover {
 	color: var(--brand-default);
 	background-color: #e1e1e1;
+}
+
+.modelWorkspace .navbar-header {
+	float: none;
+}
+
+.modelWorkspace .navbar-header .navbar-brand {
+	float: none;
+	display: block;
+	padding: 15px 0;
+	text-align: center;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

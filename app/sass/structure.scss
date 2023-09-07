@@ -88,7 +88,8 @@ a:hover,
 	top: 50px;
 	bottom: 0;
 	left: 0;
-	width: 215px;
+	max-width: 150px;
+	padding: 12px;
 	border-right: 1px solid var(--border-default);
 	background-color: var(--gray-95);
 	user-select: none;
@@ -97,7 +98,6 @@ a:hover,
 .elements-holder .elements-list {
 	float: none;
 	width: 125px;
-	margin: 16px auto 0 auto;
 	border: none;
 }
 
@@ -120,7 +120,7 @@ a:hover,
 	top: 50px;
 	right: 0;
 	bottom: 0;
-	left: 215px;
+	left: 150px;
 	overflow: hidden;
 	box-sizing: border-box;
 }
