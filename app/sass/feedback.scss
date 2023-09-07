@@ -12,14 +12,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .field.error
 ////////////////////////////////////////////////////////////////////////////////
-.field.error .fieldLabel {color: rgba(red, 0.8);}
-
-.field.error .fieldInput {
-	color: rgba(red, 0.8);
-	border-color: rgba(red, 0.8);
-	background-color: rgba(red, 0.1);
-	box-shadow: 1px 1px 1px rgba(#fff, 1) inset;
+.field.error .fieldLabel {
+	color: var (--danger-base);
 }
 
-.field.error .fieldInput:focus {box-shadow: 1px 1px 1px rgba(#fff, 1) inset;}
+.field.error .fieldInput {
+	color: var(--danger-base);
+	border-color: var(--danger-base);
+	// background-color: rgba(red, 0.1);
+	box-shadow: 1px 1px 1px var(--white) inset;
+}
+
+.field.error .fieldInput:focus {box-shadow: 1px 1px 1px var(--white) inset;}
 .field.error .fieldInput::placeholder {color: rgba(red, 0.6);}

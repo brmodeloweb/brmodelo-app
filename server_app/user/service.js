@@ -58,7 +58,7 @@ const recovery = async (email) => {
         return reject({ "code": "USER_DO_NOT_EXISTS" });
       }
 
-      const recoveryCode = Math.floor(Math.random() * 10000000000) + 1;;
+      const recoveryCode = Math.floor(Math.random() * 10000000000) + 1;
 
       const recoveredUser = await UserRepository.findOneAndUpdate(
         { login: email },

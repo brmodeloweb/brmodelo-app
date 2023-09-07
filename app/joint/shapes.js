@@ -303,7 +303,7 @@ erd.InfoButton = joint.linkTools.InfoButton = joint.linkTools.Button.extend({
 			distance: 40,
 			offset: 0,
 			action: function(evt) {
-				this.notify('link:options', evt, this.sourceView, this.sourceMagnet, 'source');;
+				this.notify('link:options', evt, this.sourceView, this.sourceMagnet, 'source');
 			}
 	}
 });

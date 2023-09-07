@@ -35,6 +35,7 @@
 						<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
 					</div>
 					<aside class="header-actions pull-right">
+						<a class="docs-icon" href="https://docs.brmodeloweb.com" target="_blank" rel="noopener noreferrer" title="{{ 'Documentation' | translate }}"><i class="fa fa-book"></i></a>
 						<a class="br-button" data-ng-click="$ctrl.saveModel()" title="{{ 'Save (CTRL S)' | translate }}">{{ 'Save' | translate }}</a>
 					</aside>
 				</div>
@@ -54,10 +55,8 @@
 					</div>
 				</aside>
 			</header><!-- End .workspace-header -->
-		</section>
-	  	<sidebar-control-conceptual selected="$ctrl.selectedElement" on-update="$ctrl.onUpdate(event)"></sidebar-control-conceptual>
+		</section><!-- End .model-area -->
+		<sidebar-control-conceptual selected="$ctrl.selectedElement" on-update="$ctrl.onUpdate(event)"></sidebar-control-conceptual>
 		<bug-report-button></bug-report-button>
-	</div>
-	<!-- End .mainContent -->
-</section>
-<!-- End .view -->
+	</div><!-- End .mainContent -->
+</section><!-- End .view -->

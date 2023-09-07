@@ -2,14 +2,14 @@
 // .table-preview
 ////////////////////////////////////////////////////////////////////////////////
 .table-preview {
-	border: 1px solid #bdbdbd;
+	border: 1px solid var(--border-default);
 	border-radius: 2px 2px 0 0;
 	margin-bottom: 12px;
 }
 
 .table-preview header {
 	padding: 12px 8px;
-	border-bottom: 1px solid #bdbdbd;
+	border-bottom: 1px solid var(--border-default);
 	font-size: 1.3em;
 	background-color: rgba(#000, 0.1); // Fallback color
 }
@@ -29,7 +29,7 @@
 }
 
 .table-preview-body .checkbox:not(:last-child) {
-	border-bottom: 1px solid #bdbdbd;
+	border-bottom: 1px solid var(--border-default);
 }
 
 .table-preview-body .checkbox label {
