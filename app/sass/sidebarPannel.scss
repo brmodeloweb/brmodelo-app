@@ -1,4 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
+// .sidebar-panel
+////////////////////////////////////////////////////////////////////////////////
+.sidebar-panel {
+	margin-bottom: 12px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // .panel-header
 ////////////////////////////////////////////////////////////////////////////////
 .panel-header {
@@ -7,7 +14,7 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 12px;
-	margin-bottom: 1px;
+	border-radius: 3px;
 	color: var(--white);
 	background-color: var(--brand-default);
 	cursor: pointer;
@@ -35,7 +42,7 @@
 .temp-hide .panel-content {padding: 0;}
 
 .panel-content {
-	padding: 12px 12px 24px 12px;
+	padding: 12px 0;
 }
 
 .panel-content .form-group:last-child {

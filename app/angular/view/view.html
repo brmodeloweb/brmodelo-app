@@ -8,10 +8,21 @@
 		{{'Create view' | translate }}
 	</button>
 
-	<div class="card-item views" ng-show="$ctrl.formVisible || $ctrl.isEdit">
+	<div class="views" ng-show="$ctrl.formVisible || $ctrl.isEdit">
+		
+		<div class="form-group">
+			<label for="view-name">{{ 'Name' | translate }}</label>
+			<input
+				id="view-name"
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.view.name"
+				ng-change="$ctrl.changeName()"
+			/>
+		</div>
+
 		<div class="form-group">
 			<label for="view-based-in">{{ 'Based in' | translate }}</label>
-
 			<div class="checkbox" ng-repeat="table in $ctrl.tables track by $index">
 				<label for="{{table.name}}">
 					<input
@@ -22,17 +33,6 @@
 					{{table.name}}
 				</label>
 			</div>
-		</div>
-
-		<div class="form-group">
-			<label for="view-name">{{ 'Name' | translate }}</label>
-			<input
-				id="view-name"
-				type="text"
-				class="form-control"
-				ng-model="$ctrl.view.name"
-				ng-change="$ctrl.changeName()"
-			/>
 		</div>
 
 		<div class="form-group">
