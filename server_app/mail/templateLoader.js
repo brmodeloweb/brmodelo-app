@@ -10,7 +10,7 @@ const loadRecovery = (recoveryPath) => {
     <o:PixelsPerInch>96</o:PixelsPerInch>
     </o:OfficeDocumentSettings>
     </xml><![endif]-->
-    <title>BR Modelo Web</title>
+    <title>BRMW</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0 " />
@@ -103,7 +103,7 @@ const loadRecovery = (recoveryPath) => {
                     <td height="25" style="height:25px;" class="em_h20">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none; font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:20px; line-height:25px; text-align:center; color:hsl(170, 100%, 20%); font-weight: bold;">BR Modelo Web</a></td>
+                    <td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none; font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; font-size:20px; line-height:25px; text-align:center; color:hsl(170, 100%, 20%); font-weight: bold;">BRMW</a></td>
                   </tr>
                   <tr>
                     <td height="28" style="height:28px;" class="em_h20">&nbsp;</td>

@@ -57,7 +57,7 @@ export default {
 	'Actions': 'Ações',
 	'Models': 'Modelagens',
 	'New model': 'Nova modelagem',
-	'BR Modelo Web': 'BR Modelo Web',
+	'BRMW': 'BRMW',
 	'Conceptual': 'Conceitual',
 	'Logical': 'Lógico',
 	'Save': 'Salvar',
