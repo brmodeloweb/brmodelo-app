@@ -81,7 +81,7 @@
  .selected .selection-wrapper {
 	position: absolute;
 	transform: scale(1.3);
-	border: 2px solid var(--brand-default); 
+	border: 2px solid var(--brand-default);
 	border-radius: 3px;
  }
 
@@ -95,7 +95,7 @@
  .selection-box {
 	position: absolute;
 	border-radius: 2px;
-	border: 1px dashed var(--brand-default); 
+	border: 1px dashed var(--brand-default);
 	transform: scale(1.15);
 	cursor: move;
  }
