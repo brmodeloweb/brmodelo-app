@@ -25,7 +25,7 @@ input[type="button"]:focus,
 input[type="submit"]:focus {
 	outline: 0;
 	box-shadow: 0 0 0 2px var(--white),
-				0 0 0 4px var(--brand-default); 
+				0 0 0 4px var(--brand-default);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,8 +159,8 @@ input[type="submit"]:focus {
 ////////////////////////////////////////////////////////////////////////////////
 .form-control {
 	border-color: var(--border-default);
-	box-shadow: 0 0 0 var(--brand-default), 
-				0 0 0 var(--brand-default); 
+	box-shadow: 0 0 0 var(--brand-default),
+				0 0 0 var(--brand-default);
 	transition: box-shadow 0.2s
 }
 
@@ -168,7 +168,7 @@ input[type="submit"]:focus {
 	outline: none;
 	border-color: var(--brand-default);
 	box-shadow: 1px 1px 0 var(--brand-default),
- 				-1px 3px 0 var(--brand-default); 
+ 				-1px 3px 0 var(--brand-default);
 }
 
 .form-control.error {
