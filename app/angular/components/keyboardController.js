@@ -57,7 +57,7 @@ export default class KeyboardController {
 			{ key: 'command+s, ctrl+s', eventName: types.SAVE },
 			{ key: 'command+z, ctrl+z', eventName: types.UNDO },
 			{ key: 'command+shift+z, ctrl+shift+z', eventName: types.REDO },
-			{ key: 'command+backspace, ctrl+backspace', eventName: types.DELETE },
+			{ key: 'backspace', eventName: types.DELETE },
 			{ key: 'command+c, ctrl+c', eventName: types.COPY },
 			{ key: 'command+v, ctrl+v', eventName: types.PASTE },
 			{ key: 'z+=', eventName: types.ZOOM_IN },
