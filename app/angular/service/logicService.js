@@ -82,6 +82,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 		});
 
+		ls.paper.on('element:pointerdblclick', () => {
+			$rootScope.$broadcast("command:openmenu");
+		});
+
 		ls.applyResizePage();
 		ls.applyDragAndDrop();
 		ls.applyComponentSelection();
