@@ -13,7 +13,7 @@
 		</div><!-- End .form-group -->
 	</div>
 
-	<div class="properties-content" ng-show="$ctrl.selectedElement != null && $ctrl.selectedType === 'uml.Class'">
+	<div class="properties-content" ng-if="$ctrl.selectedElement != null && $ctrl.selectedType === 'uml.Class'">
 		<section class="sidebar-panel">
 			<header class="panel-header" ng-click="$ctrl.toggleSection('tableProperties')">
 				<h3>{{ 'Table properties' | translate }}</h3>
@@ -29,6 +29,7 @@
 						class="form-control"
 						ng-model="$ctrl.selectedName"
 						ng-change="$ctrl.changeName()"
+						autofocus
 					/>
 				</div><!-- End .form-group -->
 			</div>

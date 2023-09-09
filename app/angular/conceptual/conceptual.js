@@ -379,6 +379,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			elementActions.render();
 		});
 
+		paper.on('element:pointerdblclick', () => {
+			$rootScope.$broadcast("command:openmenu");
+		});
+
 		configs.paper.on('link:mouseenter', (linkView) => {
 			const conectionType = ctrl.shapeLinker.getConnectionTypeFromLink(linkView.model);
 			const toolsView = ctrl.toolsViewService.getToolsView(conectionType);

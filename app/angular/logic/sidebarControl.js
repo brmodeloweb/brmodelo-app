@@ -2,9 +2,7 @@ import angular from "angular";
 import template from "./sidebarControl.html";
 import Column from "../service/Column";
 
-const app = angular.module("app.sidebarControl", []);
-
-const Controller = function (LogicService) {
+const Controller = function (LogicService, $rootScope, $timeout) {
 	const $ctrl = this;
 
 	$ctrl.visible = true;
@@ -15,6 +13,12 @@ const Controller = function (LogicService) {
 		columns: false,
 		views: false,
 	}
+
+	$rootScope.$on('command:openmenu', () => {
+		$timeout(() => {
+			$ctrl.visible = true;
+		});
+	});
 
 	$ctrl.toggleSection = (section) => {
 		$ctrl.sections[section] = !$ctrl.sections[section];
@@ -148,7 +152,8 @@ const Controller = function (LogicService) {
 	}
 };
 
-export default app.component("sidebarControlLogical", {
+export default angular.module("app.sidebarControl", [])
+	.component("sidebarControlLogical", {
 	template: template,
 	bindings: {
 		selected: "<",

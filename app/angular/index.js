@@ -15,6 +15,7 @@ import "../sass/app.scss";
 import "oclazyload";
 
 import sidebarControlConceptual from "./conceptual/sidebarControl";
+import sidebarControlLogic from "./logic/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
@@ -44,6 +45,7 @@ const app = angular.module("app", [
 	logicFactory,
 	sidebarControlConceptual,
 	dropdownIconComponent,
+	sidebarControlLogic
 ]);
 
 app.config([
@@ -224,6 +226,18 @@ app.config(function () {
 	angular.lowercase = function (text) {
 		return typeof text === "string" ? text.toLowerCase() : text;
 	};
+});
+
+
+app.directive('autofocus', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(_scope, _element) {
+            $timeout(function(){
+                _element[0].focus();
+            }, 100);
+        }
+    };
 });
 
 app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];

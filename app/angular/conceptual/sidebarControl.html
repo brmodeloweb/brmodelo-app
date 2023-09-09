@@ -17,7 +17,7 @@
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 			</div><!-- End .form-group -->
 
 			<div class="form-group clearfix">
@@ -74,7 +74,7 @@
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value.name"
-					ng-change="$ctrl.updateAttributeName($ctrl.selectedElement.value.name)" />
+					ng-change="$ctrl.updateAttributeName($ctrl.selectedElement.value.name)" autofocus/>
 			</div>
 			<div class="form-group clearfix">
 				<label for="">{{ 'Cardinality' | translate }}</label>
@@ -98,14 +98,14 @@
 		<div class="form-group" ng-if="($ctrl.configuration.key)">
 			<label for="entry-name">{{ 'Name' | translate }}</label>
 			<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-				ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+				ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.relationship)">
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 			</div><!-- End .form-group -->
 
 			<div class="form-group">
