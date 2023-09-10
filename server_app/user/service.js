@@ -6,6 +6,7 @@ const modelService = require("../model/service");
 const login = async ({ username, password }) => {
   return new Promise(async (resolve, reject) => {
     try {
+      username = username.toLowerCase();
       const userDocument = await UserRepository.findOne({
         "login": username,
         "password": encriptor.Crypto(password, username),
@@ -29,6 +30,7 @@ const login = async ({ username, password }) => {
 const create = async ({ username, password, mail }) => {
   return new Promise(async (resolve, reject) => {
     try {
+      mail = mail.toLowerCase();
       const user = await UserRepository.findOne({ "login": mail });
 
       if (user != null) {
@@ -52,6 +54,7 @@ const create = async ({ username, password, mail }) => {
 const recovery = async (email) => {
   return new Promise(async (resolve, reject) => {
     try {
+      email = email.toLowerCase();
       const user = await UserRepository.findOne({ "login": email });
 
       if (user == null) {
@@ -89,6 +92,7 @@ const recovery = async (email) => {
 
 const isValidRecovery = async (mail, code) => {
   try {
+    mail = mail.toLowerCase();
     const user = await UserRepository.findOne({ "login": mail, "recoveryCode": code });
 
     if (user == null) {
@@ -105,7 +109,7 @@ const isValidRecovery = async (mail, code) => {
 const resetPassword = async (mail, code, newPassword) => {
   return new Promise(async (resolve, reject) => {
     try {
-
+      mail = mail.toLowerCase();
       const isValid = await isValidRecovery(mail, code)
       if (!isValid) {
         return reject(new Error("Invalid recovery code"));
