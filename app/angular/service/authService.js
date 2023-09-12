@@ -29,6 +29,7 @@ const authService = function ($http, $cookies) {
 
 	service.register = function (credentials) {
 		const body = {
+			"username": credentials.username,
 			"email": service.encode(credentials.email),
 			"password": service.encode(credentials.password)
 		}
