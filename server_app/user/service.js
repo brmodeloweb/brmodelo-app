@@ -129,6 +129,28 @@ const resetPassword = async (mail, code, newPassword) => {
   });
 }
 
+const updatePassword = async (username, password, newPassword) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const userDocument = await UserRepository.findOne({
+        "login": username,
+        "password": encriptor.Crypto(password, username),
+      });
+
+      if (userDocument == null){
+        return resolve(false);
+      }
+
+      userDocument.password = encriptor.Crypto(newPassword, username);
+      userDocument.save();
+      return resolve(true);
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+  });
+}
+
 const deleteAccount = async (userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -163,6 +185,7 @@ const userService = {
 	recovery,
 	isValidRecovery,
 	resetPassword,
+	updatePassword,
 	deleteAccount
 };
 

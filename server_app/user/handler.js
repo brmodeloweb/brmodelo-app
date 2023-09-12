@@ -95,6 +95,19 @@ const resetPassword = async(req, res) => {
   }
 }
 
+const updatePassword = async(req, res) => {
+  try {
+    const mail = /*decipher.decode(*/req.body.mail;
+    const password = /*decipher.decode(*/req.body.password;
+    const newPassword = /*decipher.decode(*/req.body.newpassword;
+    const updated = await userService.updatePassword(mail, password, newPassword);
+    return res.status(200).json({updated: updated});
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Ocorreu um erro no tratamento do seu request!");
+  }
+}
+
 const deleteAccount = async (req, res) => {
 	try {
 		const userId = req.body.userId;
@@ -117,5 +130,6 @@ module.exports = router
 	.post("/login", userLogin)
 	.post("/recovery", userRecovery)
 	.post("/reset", resetPassword)
+	.post("/update", updatePassword)
 	.delete("/delete", deleteAccount)
 	.get("/recovery/validate", userRecoveryValidate);
