@@ -151,6 +151,32 @@ const updatePassword = async (username, password, newPassword) => {
   });
 }
 
+const updateUserData = async (userId, newName, newMail ) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const userDocument = await UserRepository.findById(userId);
+
+      if (userDocument == null){
+        return resolve(false);
+      }
+
+			if (newMail != ""){
+				userDocument.login = newMail;
+			}
+
+			if (newName != ""){
+				userDocument.name = newName;
+			}
+
+      userDocument.save();
+      return resolve(true);
+    } catch (error) {
+      console.error(error);
+      reject(error);
+    }
+  });
+}
+
 const deleteAccount = async (userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -186,6 +212,7 @@ const userService = {
 	isValidRecovery,
 	resetPassword,
 	updatePassword,
+	updateUserData,
 	deleteAccount
 };
 
