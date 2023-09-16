@@ -16,10 +16,20 @@ const listAll = async (userId) => {
 	});
 };
 
-const getById = async (modelId) => {
+const getById = async (modelId, userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
+			if(model == null) {
+				const notFoundErr =  new Error('model not found');
+				notFoundErr.status = 404;
+				throw notFoundErr;
+			}
+			if(model != null && model.who != userId) {
+				const notAuthotizedErr =  new Error('user not authorired');
+				notAuthotizedErr.status = 401;
+				throw notAuthotizedErr;
+			}
 			return resolve(model);
 		} catch (error) {
 			console.error(error);

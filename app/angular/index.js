@@ -180,6 +180,21 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("noaccess", {
+			title: "No Access - BRMW",
+			url: "/noaccess",
+			component: "noAccess",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./noaccess/noaccess.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$stateProvider.state("sql", {
 			url: "/sql/{code}",
 			templateUrl: "angular/view/sql.html",

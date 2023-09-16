@@ -518,6 +518,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			configs.graph.fromJSON(jsonModel);
 			ctrl.modelState.updatedAt = resp.data.updated
 			ctrl.setLoading(false);
+		}).catch((error) => {
+			if(error.status == 404 || error.status == 401) {
+				$state.go("noaccess");
+			}
 		});
 	}
 
