@@ -27,18 +27,11 @@ const getById = async (req, res) => {
 	try {
 		let modelId = req.query.modelId;
 		let userId = req.query.userId;
-
 		const model = await modelService.getById(modelId, userId);
 		res.send(model);
 	} catch (error) {
-		console.log(error);
-		console.log(error.status);
-		console.log(error.code);
-		console.error(error);
-
 		const code = error.status ? error.status : 500;
 		const message = error.message != "" ? error.message : "There's an error while treating your get request";
-
 		return res
 			.status(code)
 			.send(message);
