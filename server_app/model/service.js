@@ -32,7 +32,6 @@ const getById = async (modelId, userId) => {
 			}
 			return resolve(model);
 		} catch (error) {
-			console.error(error);
 			reject(error);
 		}
 	});
