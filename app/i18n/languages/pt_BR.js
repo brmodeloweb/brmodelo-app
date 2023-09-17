@@ -155,4 +155,7 @@ export default {
 	'Are you sure you want to delete your account?': 'Tem certeza que deseja deletar sua conta?',
 	'Delete account default error': 'Não foi possível deletar sua conta. Tente novamente mais tarde.',
 	'Delete account model error': 'Não foi possível deletar sua conta pois você possui modelos. Remova-os antes de prosseguir.',
+	'Forbidden access': 'Accesso proibido',
+	'Looks like this model does not exist or you don\'t have access to it.': 'Parece que este modelo não existe ou você não tem acesso a ele.',
+	'Back to models list': 'Voltar à lista de modelos'
 };

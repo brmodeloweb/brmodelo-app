@@ -155,4 +155,7 @@ export default {
 	'Are you sure you want to delete your account?': 'Are you sure you want to delete your account?',
 	'Delete account default error': 'It was not possible to delete your account. Please try again later.',
 	'Delete account model error': 'It was not possible to delete your account because you have models. Please remove all your models before deleting your account.',
+	'Forbidden access': 'Forbidden access',
+	'Looks like this model does not exist or you don\'t have access to it.': 'Looks like this model does not exist or you don\'t have access to it.',
+	'Back to models list': 'Back to models list'
 };
