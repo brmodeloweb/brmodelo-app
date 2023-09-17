@@ -148,6 +148,12 @@ const controller = function (
 		ctrl.modelState.updatedAt = model.updated ?? new Date();
 	});
 
+	$rootScope.$on("model:loaderror", function (_, error) {
+		if(error.status == 404 || error.status == 401) {
+			$state.go("noaccess");
+		}
+	});
+
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
 	}
