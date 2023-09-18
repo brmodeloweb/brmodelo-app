@@ -21,12 +21,19 @@ joint.ui.ElementSelector = Backbone.View.extend({
             ...a.paper.model,
             ...this.options,
             graph: a.paper.model,
+			copyContext: {
+				clones: [],
+				event: null
+			}
 		};
 
 		this.start = this.start.bind(this);
 		this.stop = this.stop.bind(this);
 		this.adjust = this.adjust.bind(this);
 		this.pointerup = this.pointerup.bind(this);
+		this.deleteAll = this.deleteAll.bind(this);
+		this.copyAll = this.copyAll.bind(this);
+		this.pasteAll = this.pasteAll.bind(this);
 
 		$(document.body).on("mousemove.selectionView touchmove.selectionView", this.adjust);
 		$(document).on("mouseup.selectionView touchend.selectionView", this.pointerup);
@@ -52,6 +59,56 @@ joint.ui.ElementSelector = Backbone.View.extend({
 		this._snappedClientY = snappedPoint.y;
 
 		this.trigger("selection-box:pointerdown", normalizedEvent);
+	},
+	deleteAll: function() {
+		if(this.model.length > 0) {
+			this.options.graph.trigger("batch:start");
+			this.model.forEach(model => model.remove());
+			this.options.graph.trigger("batch:stop");
+			this.cancel();
+		}
+	},
+	copyAll: function() {
+		if(this.model.length > 0) {
+			this.options.copyContext.clones = this.model.map(original => original.clone());
+		}
+	},
+	setCopyContext: function (event) {
+		if(this.options.copyContext.clones.length > 0 && event.type === "mousedown") {
+			const normalizedEvent = joint.util.normalizeEvent(event);
+			let localPoint = this.options.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY });
+			this.options.copyContext.event = {
+				"x": localPoint.x,
+				"y": localPoint.y
+			}
+			console.log(this.options.copyContext);
+		}
+	},
+	pasteAll: function() {
+		const clones = this.options.copyContext.clones;
+		console.log(this.options.copyContext);
+		if(clones.length > 0) {
+			const graph = this.options.graph;
+			const copyContextEvent = this.options.copyContext.event;
+			this.options.graph.trigger("batch:start");
+			clones.forEach(clone => {
+				let localPoint = this.options.paper.clientToLocalPoint({ x: clone.attributes.position.x, y: clone.attributes.position.y});
+				let posX = localPoint.x + 25;
+				let posY = localPoint.y + 25;
+				if(copyContextEvent != null) {
+					console.log("inside: " + copyContextEvent.x);
+					posX = copyContextEvent.x;
+					posY = copyContextEvent.y;
+				}
+				clone.attributes.position = {
+					"x": posX,
+					"y": posY
+				}
+				graph.addCell(clone);
+			});
+			this.options.graph.trigger("batch:stop");
+			this.cancel();
+		}
 	},
     start: function(event) {
 		const normalizedEvent = joint.util.normalizeEvent(event);
