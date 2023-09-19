@@ -70,45 +70,75 @@ joint.ui.ElementSelector = Backbone.View.extend({
 	},
 	copyAll: function() {
 		if(this.model.length > 0) {
-			this.options.copyContext.clones = this.model.map(original => original.clone());
+			this.options.copyContext.clones = this.options.graph.cloneSubgraph(this.model.models, {
+				deep: true,
+			});
 		}
 	},
 	setCopyContext: function (event) {
-		if(this.options.copyContext.clones.length > 0 && event.type === "mousedown") {
+		if(event.type === "mousedown") {
 			const normalizedEvent = joint.util.normalizeEvent(event);
 			let localPoint = this.options.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY });
 			this.options.copyContext.event = {
 				"x": localPoint.x,
 				"y": localPoint.y
 			}
-			console.log(this.options.copyContext);
 		}
 	},
 	pasteAll: function() {
-		const clones = this.options.copyContext.clones;
-		console.log(this.options.copyContext);
-		if(clones.length > 0) {
-			const graph = this.options.graph;
-			const copyContextEvent = this.options.copyContext.event;
-			this.options.graph.trigger("batch:start");
-			clones.forEach(clone => {
-				let localPoint = this.options.paper.clientToLocalPoint({ x: clone.attributes.position.x, y: clone.attributes.position.y});
-				let posX = localPoint.x + 25;
-				let posY = localPoint.y + 25;
-				if(copyContextEvent != null) {
-					console.log("inside: " + copyContextEvent.x);
-					posX = copyContextEvent.x;
-					posY = copyContextEvent.y;
+		const options = Object.assign({}, this.defaults, options);
+		const graph = this.options.graph;
+		const pastePoint = this.options.copyContext.event;
+		const copiedCells = this.options.copyContext.clones;
+		const bbox = function(cells, opt) {
+			return joint.util.toArray(cells).reduce(function(memo, cell) {
+				if (cell.isLink()) return memo;
+				var rect = cell.getBBox(opt);
+				var angle = cell.angle();
+				if (angle) rect = rect.bbox(angle);
+				if (memo) {
+					return memo.union(rect);
+				} else {
+					return rect;
 				}
-				clone.attributes.position = {
-					"x": posX,
-					"y": posY
-				}
-				graph.addCell(clone);
+			}, null);
+		};
+		const origin = bbox(Object.values(copiedCells));
+		if (origin) {
+			const originX = origin.x == 0 ? pastePoint.x : (pastePoint.x - origin.x);
+			const originY = origin.y == 0 ? pastePoint.y : (pastePoint.y - origin.y);
+			const translation = {
+				dx: originX,
+				dy: originY
+			};
+			options.translate = translation;
+			let zIndex = graph.maxZIndex();
+			const context = this;
+			const modifiedCells = Object.values(copiedCells).map(cell => {
+				zIndex += 1;
+				return context.moveCell(cell, options, zIndex);
 			});
-			this.options.graph.trigger("batch:stop");
-			this.cancel();
+			graph.startBatch("paste");
+			graph.addCells(modifiedCells);
+			graph.stopBatch("paste");
+			this.options.copyContext = {
+				clones: [],
+				event: null
+			}
 		}
+	},
+	moveCell(cell, options, zIndex) {
+		cell.set("z", zIndex);
+		if (cell.isLink() && options.link) {
+			cell.set(options.link);
+		}
+		if (options.translate) {
+			const { dx, dy } = options.translate;
+			cell.translate(Number.isFinite(dx) ? dx : 0, Number.isFinite(dy) ? dy : 0);
+		}
+		cell.collection = null;
+
+		return cell;
 	},
     start: function(event) {
 		const normalizedEvent = joint.util.normalizeEvent(event);
