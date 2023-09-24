@@ -185,7 +185,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 				ls.editorScroller.startPanning(evt);
 			}
 
-			ls.editorActions.setCopyContext(evt);
+			ls.elementSelector.setCopyContext(evt);
 		});
 
 		ls.getConnectionType = link => {
@@ -484,9 +484,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.updateModel();
 			$rootScope.$broadcast('model:saved')
 		});
-		ls.keyboardController.registerHandler(types.COPY, () => ls.editorActions.copyElement(ls.selectedElement));
-		ls.keyboardController.registerHandler(types.PASTE, () => ls.editorActions.pasteElement());
-		ls.keyboardController.registerHandler(types.DELETE, () => ls.selectedActions?.removeElement() );
+		ls.keyboardController.registerHandler(types.COPY, () => ls.elementSelector.copyAll());
+		ls.keyboardController.registerHandler(types.PASTE, () => ls.elementSelector.pasteAll());
+		ls.keyboardController.registerHandler(types.DELETE, () => ls.elementSelector.deleteAll());
 	}
 
 	ls.getTablesMap = function () {
