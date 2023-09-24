@@ -90,20 +90,7 @@ joint.ui.ElementSelector = Backbone.View.extend({
 		const graph = this.options.graph;
 		const pastePoint = this.options.copyContext.event;
 		const copiedCells = this.options.copyContext.clones;
-		const bbox = function(cells, opt) {
-			return joint.util.toArray(cells).reduce(function(memo, cell) {
-				if (cell.isLink()) return memo;
-				var rect = cell.getBBox(opt);
-				var angle = cell.angle();
-				if (angle) rect = rect.bbox(angle);
-				if (memo) {
-					return memo.union(rect);
-				} else {
-					return rect;
-				}
-			}, null);
-		};
-		const origin = bbox(Object.values(copiedCells));
+		const origin = this.findbBox(Object.values(copiedCells));
 		if (origin) {
 			const originX = origin.x == 0 ? pastePoint.x : (pastePoint.x - origin.x);
 			const originY = origin.y == 0 ? pastePoint.y : (pastePoint.y - origin.y);
@@ -115,8 +102,7 @@ joint.ui.ElementSelector = Backbone.View.extend({
 			let zIndex = graph.maxZIndex();
 			const context = this;
 			const modifiedCells = Object.values(copiedCells).map(cell => {
-				zIndex += 1;
-				return context.moveCell(cell, options, zIndex);
+				return context.moveCell(cell, options, zIndex += 1);
 			});
 			graph.startBatch("paste");
 			graph.addCells(modifiedCells);
@@ -127,7 +113,20 @@ joint.ui.ElementSelector = Backbone.View.extend({
 			}
 		}
 	},
-	moveCell(cell, options, zIndex) {
+	findbBox: function(cells, opt){
+		return joint.util.toArray(cells).reduce(function(memo, cell) {
+			if (cell.isLink()) return memo;
+			let rect = cell.getBBox(opt);
+			const angle = cell.angle();
+			if (angle) rect = rect.bbox(angle);
+			if (memo) {
+				return memo.union(rect);
+			} else {
+				return rect;
+			}
+		}, null);
+	},
+	moveCell: function(cell, options, zIndex) {
 		cell.set("z", zIndex);
 		if (cell.isLink() && options.link) {
 			cell.set(options.link);
@@ -137,7 +136,6 @@ joint.ui.ElementSelector = Backbone.View.extend({
 			cell.translate(Number.isFinite(dx) ? dx : 0, Number.isFinite(dy) ? dy : 0);
 		}
 		cell.collection = null;
-
 		return cell;
 	},
     start: function(event) {
