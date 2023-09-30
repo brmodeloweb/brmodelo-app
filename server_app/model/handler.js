@@ -4,6 +4,8 @@ const fileUpload = require("express-fileupload");
 const modelService = require("./service");
 const modelValidator = require("./validator");
 const { decrypt } = require("../helpers/crypto");
+const { validateJWT } = require('../middleware');
+
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -26,13 +28,15 @@ const listAll = async (req, res) => {
 const getById = async (req, res) => {
 	try {
 		let modelId = req.query.modelId;
-		const model = await modelService.getById(modelId);
+		let userId = req.query.userId;
+		const model = await modelService.getById(modelId, userId);
 		res.send(model);
 	} catch (error) {
-		console.error(error);
+		const code = error.status ? error.status : 500;
+		const message = error.message != "" ? error.message : "There's an error while treating your get request";
 		return res
-			.status(500)
-			.send("There's an error while treating your get request");
+			.status(code)
+			.send(message);
 	}
 };
 
@@ -152,11 +156,11 @@ const importModel = async (req, res) => {
 };
 
 module.exports = router
-	.get("/", listAll)
-	.post("/", save)
-	.get("/:modelId", getById)
-	.put("/:modelId", edit)
-	.delete("/:modelId", remove)
-	.put("/:modelId/rename", rename)
-	.get("/:modelId/export", exportModel)
-	.post("/import", importModel);
+	.get("/",validateJWT, listAll)
+	.post("/",validateJWT, save)
+	.get("/:modelId", validateJWT, getById)
+	.put("/:modelId",validateJWT, edit)
+	.delete("/:modelId",validateJWT, remove)
+	.put("/:modelId/rename",validateJWT, rename)
+	.get("/:modelId/export",validateJWT, exportModel)
+	.post("/import",validateJWT, importModel);

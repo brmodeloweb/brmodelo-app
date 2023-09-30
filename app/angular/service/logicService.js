@@ -259,7 +259,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 						});
 					});
 				}
-
+			}).catch((error) => {
+				$rootScope.$broadcast('model:loaderror', error);
 			});
 		}
 

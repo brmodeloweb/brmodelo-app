@@ -67,8 +67,16 @@ app.config(['$httpProvider', ($httpProvider) => {
 			config.url = `${apiUrl}${config.url}`
 			return config;
 		 }
-	}))
-}]);
+	}));
+	$httpProvider.interceptors.push(($injector) => ({
+		"request": (config) => {
+			if ($injector.get("AuthService").isAuthenticated()) {
+				config.headers["brx-access-token"] = $injector.get("AuthService").token;
+			}
+			return config;
+		}
+	}));
+	}]);
 
 app.config([
 	"$urlRouterProvider",
@@ -180,6 +188,21 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("noaccess", {
+			title: "No Access - BRMW",
+			url: "/noaccess",
+			component: "noAccess",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./noaccess/noaccess.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$stateProvider.state("sql", {
 			url: "/sql/{code}",
 			templateUrl: "angular/view/sql.html",
@@ -213,6 +236,7 @@ app.run(function ($transitions, $rootScope, AuthService, $state) {
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
 				$rootScope.loggeduser = AuthService.loggeduser;
+				$rootScope.token = AuthService.token;
 			} else {
 				$state.go("login");
 			}

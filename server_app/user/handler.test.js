@@ -1,7 +1,20 @@
 const request = require("supertest");
+
 const app = require("../app");
 const mockUserService = require("./service");
 jest.mock("./service");
+
+jest.mock('../helpers/config', () => ({
+	SecretToken: 'mockSecretToken',
+}));
+
+jest.mock('jsonwebtoken', () => ({
+	...jest.requireActual('jsonwebtoken'), // import and keep all other methods unchanged
+	sign: jest.fn(() => 'mockedToken'),
+	verify: jest.fn((token, secret, cb) => {
+		cb(null, { id: 'global-user-id' });
+	}),
+}));
 
 describe("Test /users/login", () => {
 
@@ -71,7 +84,10 @@ describe("Test /users/create", () => {
 describe("Test /users/delete", () => {
 
   test("It should response 200 when user deleted", async () => {
-    const response = await request(app).delete("/users/delete").send({"userId": "63bb161ff8d5c483cb28047c"});
+    const response = await request(app)
+		.delete("/users/delete")
+		.set("brx-access-token", 'mockToken')
+		.send({"userId": "63bb161ff8d5c483cb28047c"});
     mockUserService.deleteAccount.mockResolvedValueOnce(true);
     expect(response.statusCode).toBe(200);
     expect(mockUserService.deleteAccount).toHaveBeenCalled();
@@ -80,7 +96,10 @@ describe("Test /users/delete", () => {
   test("It should response 500 when user has created models", async () => {
     mockUserService.deleteAccount.mockReset();
     mockUserService.deleteAccount.mockRejectedValueOnce(new Error('Async error message'));
-    const response = await request(app).delete("/users/delete").send({ "userId": "63bb161ff8d5c483cb28047c" });
+    const response = await request(app)
+		.delete("/users/delete")
+		.set("brx-access-token", 'mockToken')
+		.send({ "userId": "63bb161ff8d5c483cb28047c" });
     expect(response.statusCode).toBe(500);
     expect(mockUserService.deleteAccount).toHaveBeenCalled();
   });
@@ -91,7 +110,10 @@ describe("Test /users/delete", () => {
 
     mockUserService.deleteAccount.mockReset();
     mockUserService.deleteAccount.mockRejectedValueOnce(modelsError);
-    const response = await request(app).delete("/users/delete").send({ "userId": "63bb161ff8d5c483cb28047c" });
+    const response = await request(app)
+		.delete("/users/delete")
+		.set("brx-access-token", 'mockToken')
+		.send({ "userId": "63bb161ff8d5c483cb28047c" });
     expect(response.statusCode).toBe(400);
     expect(mockUserService.deleteAccount).toHaveBeenCalled();
   });

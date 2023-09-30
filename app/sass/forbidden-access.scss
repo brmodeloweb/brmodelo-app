@@ -1,0 +1,22 @@
+////////////////////////////////////////////////////////////////////////////////
+// .forbidden-access
+////////////////////////////////////////////////////////////////////////////////
+.forbidden-access {
+	display: grid;
+	height: 100vh;
+}
+
+.forbidden-access .wrapper {
+	align-self: center;
+}
+
+.forbidden-access .wrapper {
+	text-align: center;
+	max-width: 600px;
+}
+
+.forbidden-icon {
+	display: block;
+	width: 80%;
+	margin: 0 auto 24px auto;
+}

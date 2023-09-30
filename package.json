@@ -9,6 +9,7 @@
     "build": "export NODE_ENV=production && rimraf ./app/dist && webpack --progress --color",
     "test": "jest --coverage",
     "test:cy": "yarn cypress run",
+    "test:cy:firefox": "yarn cypress run --browser firefox",
     "test:watch": "jest --watch",
     "cy:open": "yarn cypress open"
   },
@@ -39,6 +40,7 @@
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.8",
     "jointjs": "3.7.5",
+    "jsonwebtoken": "^9.0.0",
     "mailgun.js": "^4.2.3",
     "mongodb": "~4.17.0",
     "mongoose": "^6.11.6",

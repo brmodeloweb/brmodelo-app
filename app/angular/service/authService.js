@@ -17,6 +17,7 @@ const authService = function ($http, $cookies) {
 			$cookies.put("sessionId", user.sessionId, { expires: expired });
 			$cookies.put("userId", user.userId, { expires: expired });
 			$cookies.put("userName", user.userName, { expires: expired });
+			$cookies.put("userToken", user.token, { expires: expired });
 			return user;
 		});
 	};
@@ -25,6 +26,7 @@ const authService = function ($http, $cookies) {
 		$cookies.remove("sessionId");
 		$cookies.remove("userId");
 		$cookies.remove("userName");
+		$cookies.remove("userToken");
 	};
 
 	service.register = function (credentials) {
@@ -39,6 +41,7 @@ const authService = function ($http, $cookies) {
 		const userId = $cookies.get("userId");
 		service.loggeduser = userId;
 		service.loggeduserName = $cookies.get("userName");
+		service.token = $cookies.get("userToken");
 		return !!userId;
 	};
 

@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const userService = require("./service");
 const userValitor = require("./validator");
 const decipher = require("../helpers/crypto");
-
+const jwt = require('jsonwebtoken');
+const { SecretToken } = require('../helpers/config');
+const { validateJWT } = require('../middleware');
 const router = express.Router();
 router.use(bodyParser.json());
 
@@ -24,6 +26,10 @@ const userLogin = async(req, res) => {
     if (user == null) {
       return res.status(404).send("User not found");
     }
+
+		user.token = jwt.sign({ id: user.userId }, SecretToken, {
+			expiresIn: 86400
+		});
 
     return res.status(200).json({...user, "sessionId": sessionId});
   } catch (error) {
@@ -117,5 +123,5 @@ module.exports = router
 	.post("/login", userLogin)
 	.post("/recovery", userRecovery)
 	.post("/reset", resetPassword)
-	.delete("/delete", deleteAccount)
-	.get("/recovery/validate", userRecoveryValidate);
+	.get("/recovery/validate", userRecoveryValidate)
+	.delete("/delete", validateJWT, deleteAccount);

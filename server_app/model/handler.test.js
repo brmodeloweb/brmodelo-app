@@ -1,19 +1,36 @@
 const request = require("supertest");
-const fs = require("fs");
 const app = require("../app");
 
 jest.mock("./service");
+jest.mock('jsonwebtoken');
+process.env.SECRET_TOKEN = 'mockSecretToken';
+
+
 const mockModelService = require("./service");
 const { encrypt } = require("../helpers/crypto");
 
+jest.mock('../helpers/config', () => ({
+	SecretToken: 'mockSecretToken',
+}));
+jest.mock('jsonwebtoken', () => ({
+	...jest.requireActual('jsonwebtoken'), // import and keep all other methods unchanged
+	sign: jest.fn(() => 'mockedToken'),
+	verify: jest.fn((token, secret, cb) => {
+		cb(null, { id: 'global-user-id' });
+	}),
+}));
+
+
 afterEach(() => {
-	jest.restoreAllMocks();
+	jest.clearAllMocks();
 });
+
 
 describe("Test save /models", () => {
 	test("It should send 422 when validation fails", async () => {
 		const response = await request(app)
 			.post("/models")
+			.set("brx-access-token", 'mockToken')
 			.send({
 				name: "Teste",
 				type: "conceptual",
@@ -25,6 +42,7 @@ describe("Test save /models", () => {
 	test("It should send 200 when user model is saved", async () => {
 		const response = await request(app)
 			.post("/models")
+			.set("brx-access-token", 'mockToken')
 			.send({
 				name: "Teste",
 				type: "conceptual",
@@ -49,7 +67,10 @@ describe("Test list all /models", () => {
 	});
 
 	test("It should send 200 user exists", async () => {
-		const response = await request(app).get("/models").send([]);
+		const response = await request(app)
+			.get("/models")
+			.set("brx-access-token", 'mockToken')
+			.send([]);
 		mockModelService.listAll.mockResolvedValue([]);
 
 		expect(response.statusCode).toBe(200);
@@ -90,6 +111,7 @@ describe("Test export /models", () => {
 
 		const response = await request(app)
 			.get("/models/6179eacfc9cac3976aef0fec/export")
+			.set("brx-access-token", 'mockToken')
 			.send(encrypt(JSON.stringify(model)));
 
 		expect(response.header).toHaveProperty("content-type");
@@ -111,6 +133,7 @@ describe("Test export /models", () => {
 
 		const response = await request(app)
 			.get("/models/6179eacfc9cac3976aef0fec/export")
+			.set("brx-access-token", 'mockToken')
 			.send(encrypt(JSON.stringify(model)));
 
 		expect(response.statusCode).toBe(500);
@@ -123,27 +146,40 @@ describe("Test import /models", () => {
 	beforeEach(() => {
 		jest.resetModules();
 		process.env = { ...OLD_ENV };
+
 	});
 	afterAll(() => {
 		process.env = OLD_ENV;
+
 	});
 
-	const fileToUpload = `${__dirname}/test_files/test.brm`;
 	process.env.SECRET_TOKEN = "talkischeapshowmethecode";
 
 	test("It should return 400 when no file is uploaded", async () => {
 		const response = await request(app)
 			.post("/models/import")
+			.set("brx-access-token", 'mockToken')
 			.set("x-user-id", "6179eac1c9cac3976aef0fe8")
-			.attach("model", null, "test.brm");
+			.attach("model", null, "test01.brm");
 		expect(response.statusCode).toBe(400);
 		expect(mockModelService.save).not.toHaveBeenCalled();
 	});
 
 	test("It should return 422 when file is uploaded with any model validation error", async () => {
+		const jsonObject = {
+			name: "someName",
+			type: "someType",
+			model: {},
+			userId: "someUserId"
+		};
+		const jsonString = JSON.stringify(jsonObject);
+		const encryptedString = encrypt(jsonString);
+		const buffer = Buffer.from(encryptedString, 'utf-8');
+
 		const response = await request(app)
 			.post("/models/import")
-			.attach("model", fs.readFileSync(fileToUpload), "test.brm");
+			.attach("model", buffer, "test01.brm")
+			.set("brx-access-token", 'mockToken');
 
 		expect(response.statusCode).toBe(422);
 		expect(mockModelService.save).not.toHaveBeenCalled();
@@ -162,11 +198,15 @@ describe("Test import /models", () => {
 			__v: 0,
 		};
 		mockModelService.save.mockReturnValue(importedModel);
+		const jsonString = JSON.stringify(importedModel);
+		const encryptedString = encrypt(jsonString);
+		const buffer = Buffer.from(encryptedString, 'utf-8');
 
 		const response = await request(app)
 			.post("/models/import")
+			.set("brx-access-token", 'mockToken')
 			.set("x-user-id", "6179eac1c9cac3976aef0fe8")
-			.attach("model", fs.readFileSync(fileToUpload), "test.brm");
+			.attach("model", buffer, "test01.brm");
 
 		expect(response.statusCode).toBe(200);
 		expect(response.body).toEqual(importedModel);
@@ -174,14 +214,25 @@ describe("Test import /models", () => {
 	});
 
 	test("It should return 500 when model is not imported", async () => {
+
+		const jsonObject = {
+			name: "someName",
+			type: "someType",
+			model: {},
+			userId: "someUserId"
+		};
+		const jsonString = JSON.stringify(jsonObject);
+		const encryptedString = encrypt(jsonString);
+		const buffer = Buffer.from(encryptedString, 'utf-8');
 		mockModelService.save.mockImplementation(() => {
 			throw new Error();
 		});
 
 		const response = await request(app)
 			.post("/models/import")
+			.set("brx-access-token", 'mockToken')
 			.set("x-user-id", "6179eac1c9cac3976aef0fe8")
-			.attach("model", fs.readFileSync(fileToUpload), "test.brm");
+			.attach("model", buffer, "test01.brm");
 
 		expect(response.statusCode).toBe(500);
 		expect(mockModelService.save).toHaveBeenCalled();
