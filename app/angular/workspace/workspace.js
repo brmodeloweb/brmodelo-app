@@ -21,7 +21,8 @@ const ListController = function (
 	ctrl.loading = false;
 	ctrl.models = [];
 	ctrl.dropdownOptions = [
-		{ name: $filter('translate')("Logout"), type: 'Logout' }
+		{ name: $filter('translate')("Preferences"), type: 'preferences' },
+		{ name: $filter('translate')("Logout"), type: 'logout' }
 	];
 
 	const showLoading = (loading) => {
@@ -119,7 +120,16 @@ const ListController = function (
 		});
 	};
 
-	ctrl.logout = () => {
+	ctrl.menuOptionSelected = (option) => {
+		switch(option.type) {
+			case "logout":  ctrl.doLogout()
+				break;
+			case "preferences":  $state.go("preferences");
+				break;
+		}
+	}
+
+	ctrl.doLogout = () => {
 		AuthService.logout();
 		$state.go("login");
 	}

@@ -15,6 +15,7 @@ import "../sass/app.scss";
 import "oclazyload";
 
 import sidebarControlConceptual from "./conceptual/sidebarControl";
+import sidebarControlLogic from "./logic/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
@@ -44,6 +45,7 @@ const app = angular.module("app", [
 	logicFactory,
 	sidebarControlConceptual,
 	dropdownIconComponent,
+	sidebarControlLogic
 ]);
 
 app.config([
@@ -65,8 +67,16 @@ app.config(['$httpProvider', ($httpProvider) => {
 			config.url = `${apiUrl}${config.url}`
 			return config;
 		 }
-	}))
-}]);
+	}));
+	$httpProvider.interceptors.push(($injector) => ({
+		"request": (config) => {
+			if ($injector.get("AuthService").isAuthenticated()) {
+				config.headers["brx-access-token"] = $injector.get("AuthService").token;
+			}
+			return config;
+		}
+	}));
+	}]);
 
 app.config([
 	"$urlRouterProvider",
@@ -74,6 +84,7 @@ app.config([
 
 	function ($urlRouterProvider, $stateProvider) {
 		$stateProvider.state("login", {
+			title: "Login - BRMW",
 			url: "/",
 			component: "login",
 			data: {
@@ -88,6 +99,7 @@ app.config([
 		});
 
 		$stateProvider.state("register", {
+			title: "Register - BRMW",
 			url: "/register",
 			component: "signup",
 			data: {
@@ -102,6 +114,7 @@ app.config([
 		});
 
 		$stateProvider.state("recovery", {
+			title: "Recovery - BRMW",
 			url: "/recovery",
 			component: "recovery",
 			data: {
@@ -116,6 +129,7 @@ app.config([
 		});
 
 		$stateProvider.state("reset", {
+			title: "Reset password - BRMW",
 			url: "/reset/{mail}/{code}",
 			component: "resetPassword",
 			data: {
@@ -130,6 +144,7 @@ app.config([
 		});
 
 		$stateProvider.state("main", {
+			title: "Models list - BRMW",
 			url: "/main",
 			component: "workspace",
 			data: {
@@ -144,6 +159,7 @@ app.config([
 		});
 
 		$stateProvider.state("conceptual", {
+			title: "Conceptual model - BRMW",
 			url: "/conceptual/{modelid}",
 			component: "editorConceptual",
 			data: {
@@ -158,6 +174,7 @@ app.config([
 		});
 
 		$stateProvider.state("logic", {
+			title: "Logic model - BRMW",
 			url: "/logic/{references:json}",
 			component: "editorLogic",
 			data: {
@@ -171,11 +188,41 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("noaccess", {
+			title: "No Access - BRMW",
+			url: "/noaccess",
+			component: "noAccess",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./noaccess/noaccess.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$stateProvider.state("sql", {
 			url: "/sql/{code}",
 			templateUrl: "angular/view/sql.html",
 			data: {
 				requireLogin: true,
+			},
+		});
+
+		$stateProvider.state("preferences", {
+			title: "Preferences - BRMW",
+			url: "/preferences",
+			component: "preferences",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./preferences/preferences.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
 			},
 		});
 
@@ -189,10 +236,13 @@ app.run(function ($transitions, $rootScope, AuthService, $state) {
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
 				$rootScope.loggeduser = AuthService.loggeduser;
+				$rootScope.token = AuthService.token;
 			} else {
 				$state.go("login");
 			}
 		}
+
+		$rootScope.title = trans.to().title;
 	});
 });
 
@@ -202,4 +252,17 @@ app.config(function () {
 	};
 });
 
+
+app.directive('autofocus', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(_scope, _element) {
+            $timeout(function(){
+                _element[0].focus();
+            }, 100);
+        }
+    };
+});
+
 app.$inject = ["$scope", "$http", "$cookies", "$uibModalInstance"];
+

@@ -1,0 +1,5 @@
+<dropdown
+	on-select="$ctrl.select(selected)"
+	selected="{ name: $ctrl.selected.name || 'Select a value', type: $ctrl.selected.type || 'SELECT' }"
+	options="$ctrl.checkConstraintOptions[$ctrl.type === 'VARCHAR(n)' || $ctrl.type === 'CHAR(n)' ? 'STRING' : 'NUMBER']">
+</dropdown>

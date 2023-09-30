@@ -1,0 +1,88 @@
+<aside class="model-properties" data-ng-class="{'active': $ctrl.visible}">
+
+	<span class="action" data-ng-click="$ctrl.changeVisible()">
+		<i class="fa angle-double-icon" data-ng-class="$ctrl.visible ? 'fa-angle-double-right' : 'fa-angle-double-left'"></i>
+	</span>
+
+	<div class="properties-content old" ng-if="$ctrl.selectedElement == null">
+		<div class="form-group">
+			<div class="empty-state">
+				<i class="fa fa-mouse-pointer" aria-hidden="true"></i>
+				<p>{{ 'Select an element to edit' | translate }}</p>
+			</div>
+		</div><!-- End .form-group -->
+	</div>
+
+	<div class="properties-content" ng-if="$ctrl.selectedElement != null && $ctrl.selectedType === 'uml.Class'">
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('tableProperties')">
+				<h3>{{ 'Table properties' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.tableProperties ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+
+			<div class="panel-content" ng-show="$ctrl.sections.tableProperties">
+				<div class="form-group">
+					<label for="entry-name">{{ 'Name' | translate }}</label>
+					<input
+						id="entry-name"
+						type="text"
+						class="form-control"
+						ng-model="$ctrl.selectedName"
+						ng-change="$ctrl.changeName()"
+						autofocus
+					/>
+				</div><!-- End .form-group -->
+			</div>
+		</section>
+
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('columns')">
+				<h3>{{ 'Columns' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.columns ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+
+			<div class="panel-content" ng-show="$ctrl.sections.columns">
+				<ul class="table-columns">
+					<li class="card-item" ng-repeat="column in $ctrl.columns track by $index">
+						<header ng-click="$ctrl.editionColumnMode(column, $index)" ng-show="!column.expanded">
+							<h4 class="table-title">{{column.name}}</h4>
+							<span class="relationship" ng-show="column.PK || column.FK">{{column.PK ? 'PK' : 'FK'}}</span>
+						</header>
+
+						<column-form ng-show="column.expanded" table-names="$ctrl.tableNames" column="$ctrl.editColumnModel" save="$ctrl.editColumn" index="$index" dismiss="column.expanded = !column.expanded" delete="$ctrl.deleteColumn"></column-form>
+					</li>
+				</ul>
+
+				<div class="card-item" ng-show="$ctrl.addColumnVisible">
+					<column-form table-names="$ctrl.tableNames" column="$ctrl.addColumnModel" save="$ctrl.addColumn" dismiss="$ctrl.showAddColumn(false)"></column-form>
+				</div>
+				<button class="br-button br-button--full" ng-show="!$ctrl.addColumnVisible" ng-click="$ctrl.showAddColumn(true)">{{ 'Add new column' | translate }}</button>
+		</section>
+
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('views')">
+				<h3>{{ 'Views' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.views ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+
+			<div class="panel-content" ng-if="$ctrl.sections.views">
+				<ul class="views-list">
+					<li class="view-item" ng-repeat="view in $ctrl.views track by $index">
+						<header ng-if="!view.expanded" ng-click="$ctrl.editView(view)" >
+							<i class="fa fa-filter" aria-hidden="true"></i>
+							<h4 class="table-title">{{view.name}}</h4>
+						</header>
+
+						<view ng-show="view.expanded" dismiss="$ctrl.closeAllViews" is-edit="true" view="view"></view>
+					</li>
+				</ul>
+			</div>
+		</section>
+	</div><!-- End .properties-content -->
+
+	<div class="properties-content" ng-if="$ctrl.selectedType === 'uml.Abstract'">
+		<div class="panel-content">
+			<view is-edit="true" dismiss="$ctrl.clearSidebar" view="{ name: $ctrl.selectedName, tables: $ctrl.columns, queryConditions: $ctrl.queryConditions }"></view>
+		</div>
+	</div>
+</aside>

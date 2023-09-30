@@ -1,0 +1,108 @@
+<div class="column-form">
+	<div class="form-group">
+		<label for="column-name">{{ 'Name' | translate }}</label>
+		<input
+			id="column-name"
+			type="text"
+			class="form-control"
+			ng-model="$ctrl.column.name"
+		/>
+	</div>
+
+	<div class="form-group clearfix">
+		<label for="">{{ 'Type' | translate }}</label>
+		<dropdown
+			on-select="$ctrl.selectType(selected)"
+			selected="{name: $ctrl.column.type, type: $ctrl.column.type}"
+			options="$ctrl.columnTypes">
+		</dropdown>
+	</div>
+
+	<div class="form-group">
+		<label for="column-default">{{ 'Default' | translate }}</label>
+		<input
+			id="column-default"
+			type="text"
+			class="form-control"
+			ng-model="$ctrl.column.defaultValue"
+			ng-disabled="$ctrl.column.PK || $ctrl.column.FK"
+		/>
+	</div>
+
+	<check-constraint column="$ctrl.column"></check-constraint>
+
+	<div class="form-group">
+		<div class="checkbox">
+			<label for="column-pk">
+			<input
+				id="column-pk"
+				type="checkbox"
+				ng-model="$ctrl.column.PK"
+			/>{{ 'PK' | translate }}
+			</label>
+		</div>
+
+		<div class="checkbox">
+			<label for="column-fk">
+			<input
+				id="column-fk"
+				type="checkbox"
+				ng-model="$ctrl.column.FK"
+			/>{{ 'FK' | translate }}
+			</label>
+		</div>
+
+		<div class="checkbox">
+			<label for="column-not-null">
+			<input
+				id="column-not-null"
+				type="checkbox"
+				ng-model="$ctrl.column.NOT_NULL"
+				ng-disabled="$ctrl.column.PK"
+			/>{{ 'NOT NULL' | translate }}
+			</label>
+		</div>
+
+		<div class="checkbox">
+			<label for="column-unique">
+			<input
+				id="column-unique"
+				type="checkbox"
+				ng-model="$ctrl.column.UNIQUE"
+				ng-disabled="$ctrl.column.PK || $ctrl.column.defaultValue"
+			/>{{ 'UNIQUE' | translate }}
+			</label>
+		</div>
+
+		<div class="checkbox">
+			<label for="column-auto-increment">
+			<input
+				id="column-auto-increment"
+				type="checkbox"
+				ng-model="$ctrl.column.AUTO_INCREMENT"
+				ng-disabled="$ctrl.column.defaultValue || $ctrl.column.FK"
+			/>{{ 'AUTO INCREMENT' | translate }}
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group clearfix">
+		<label for="">{{ 'Source' | translate }}</label>
+		<dropdown
+			disabled="!$ctrl.column.FK"
+			on-select="$ctrl.selectTableOrigin(selected)"
+			selected="{name: $ctrl.column.tableOrigin.idName || 'ORIGEM', type: $ctrl.column.tableOrigin.idOrigin || 'ORIGEM'}"
+			options="$ctrl.tableNames">
+		</dropdown>
+	</div>
+
+	<footer class="card-item-actions">
+		<div class="actions-regular">
+			<button class="br-button" ng-click="$ctrl.save($ctrl.column, $ctrl.index)">{{ 'Save' | translate }}</button>
+			<button class="br-button warning" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+		</div>
+		<div class="actions-destructive" ng-show="$ctrl.delete">
+			<button class="br-button destructive" ng-click="$ctrl.delete($ctrl.index)">{{ 'Delete' | translate }}</button>
+		</div>
+	</footer>
+</div>

@@ -52,10 +52,16 @@ const configurator = () => {
 }
 
 
-const controller = function () {
+const controller = function($rootScope, $timeout) {
 	const $ctrl = this;
 	$ctrl.visible = true;
 	$ctrl.selectedElement = {}
+
+	$rootScope.$on('command:openmenu', () => {
+		$timeout(() => {
+			$ctrl.visible = true;
+		});
+	});
 
 	$ctrl.$onInit = () => {
 		$ctrl.configuration = configurator().emptyState();

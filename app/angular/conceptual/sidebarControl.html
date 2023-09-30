@@ -1,15 +1,15 @@
 <aside class="model-properties" data-ng-class="{'active': $ctrl.visible}">
 
 	<span class="action" data-ng-click="$ctrl.changeVisible()">
-		<i class="fa angle-double-icon"
-			data-ng-class="!$ctrl.visible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+		<i class="fa angle-double-icon" data-ng-class="!$ctrl.visible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 	</span>
 
-	<div class="properties-content">
+	<div class="properties-content old">
 
 		<div class="form-group" ng-if="$ctrl.configuration.emptyState">
 			<div class="empty-state">
-				<label for="entry-name">{{ 'Select an element to edit' | translate }}</label>
+				<i class="fa fa-mouse-pointer" aria-hidden="true"></i>
+				<p>{{ 'Select an element to edit' | translate }}</p>
 			</div>
 		</div><!-- End .form-group -->
 
@@ -17,7 +17,7 @@
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 			</div><!-- End .form-group -->
 
 			<div class="form-group clearfix">
@@ -74,7 +74,7 @@
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value.name"
-					ng-change="$ctrl.updateAttributeName($ctrl.selectedElement.value.name)" />
+					ng-change="$ctrl.updateAttributeName($ctrl.selectedElement.value.name)" autofocus/>
 			</div>
 			<div class="form-group clearfix">
 				<label for="">{{ 'Cardinality' | translate }}</label>
@@ -98,14 +98,14 @@
 		<div class="form-group" ng-if="($ctrl.configuration.key)">
 			<label for="entry-name">{{ 'Name' | translate }}</label>
 			<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-				ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+				ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.relationship)">
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" />
+					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 			</div><!-- End .form-group -->
 
 			<div class="form-group">

@@ -3,10 +3,15 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import queryExpressionModal from "../components/queryExpressionModal";
+import sqlComparasionDropdown from "../components/sqlComparasionDropdown";
 import bugReportButton from "../components/bugReportButton";
 import statusBar from "../components/statusBar";
-import Column from "../service/Column";
 import preventExitServiceModule from "../service/preventExitService";
+import view from "../view/view";
+import columnForm from "./columnForm";
+import checkConstraint from "./checkConstraint";
+import sidebarControlLogical from "./sidebarControl";
 
 const controller = function (
 	$rootScope,
@@ -60,12 +65,6 @@ const controller = function (
 		LogicService.buildWorkspace($stateParams.references.modelid, $rootScope.loggeduser, ctrl.stopLoading, $stateParams.references.conversionId);
 	}
 
-	ctrl.closeAllColumns = function () {
-		for (var i = 0; i < ctrl.columns.length; i++) {
-			ctrl.columns[i].expanded = false;
-		}
-	}
-
 	ctrl.showFeedback = function (newMessage, show, type) {
 		ctrl.feedback.message = $filter('translate')(newMessage);
 		ctrl.feedback.showing = show;
@@ -98,9 +97,6 @@ const controller = function (
 		$timeout(() => {
 			ctrl.selectedLink = null;
 			ctrl.selectedElement = element;
-			if (element != null) {
-				ctrl.selectedName = element.attributes.name;
-			}
 		});
 	});
 
@@ -149,8 +145,13 @@ const controller = function (
 	});
 
 	$rootScope.$on("model:loaded", function (_, model) {
-		console.log('model', model)
 		ctrl.modelState.updatedAt = model.updated ?? new Date();
+	});
+
+	$rootScope.$on("model:loaderror", function (_, error) {
+		if(error.status == 404 || error.status == 401) {
+			$state.go("noaccess");
+		}
 	});
 
 	ctrl.updateCardA = function (card) {
@@ -160,97 +161,6 @@ const controller = function (
 	ctrl.updateCardB = function (card) {
 		LogicService.editCardinalityB(card);
 	}
-
-	ctrl.changeName = function () {
-		if (ctrl.selectedName != null && ctrl.selectedName != "") {
-			LogicService.editName(ctrl.selectedName);
-		}
-	}
-
-	ctrl.deleteColumn = function (column, $index) {
-		LogicService.deleteColumn($index);
-	}
-
-	ctrl.editionColumnMode = function (column) {
-		ctrl.editColumnModel = JSON.parse(JSON.stringify(column));
-
-		ctrl.closeAllColumns();
-
-		column.expanded = true;
-		//LogicService.editColumn($index);
-	}
-
-	ctrl.editColumn = function (oldColumn, editedColumn, $index) {
-		if (editedColumn.name == "") {
-			ctrl.showFeedback("The column name cannot be empty!", true, "error");
-			return;
-		}
-
-		// if(editedColumn.FK && editedColumn.tableOrigin.idName == "") {
-		// 	 ctrl.showFeedback("Selecione a origem da tabela estrangeira!", true, "error");
-		// 	 return;
-		// } else {
-		// 	column.tableOrigin.idOrigin = self.mapTables.get(column.tableOrigin.idName);
-		// }
-
-		LogicService.editColumn($index, editedColumn);
-
-		ctrl.closeAllColumns();
-	}
-
-	ctrl.addColumn = function (column) {
-		if (column.name == "") {
-			ctrl.showFeedback("The column name cannot be empty!", true, "error");
-			return;
-		}
-
-		if (column.FK && column.tableOrigin.idName == "") {
-			ctrl.showFeedback("Select the foreign table source!", true, "error");
-			return;
-		} else {
-			column.tableOrigin.idOrigin = ctrl.mapTables.get(column.tableOrigin.idName);
-		}
-
-		LogicService.addColumn(column);
-		ctrl.addColumnModel = ctrl.newColumnObject();
-		ctrl.addColumnVisible = false;
-	}
-
-	ctrl.showAddColumn = function (show) {
-		ctrl.addColumnVisible = show;
-		ctrl.addColumnModel = ctrl.newColumnObject();
-
-		ctrl.tableNames = [];
-		ctrl.mapTables = LogicService.getTablesMap();
-		for (var key of ctrl.mapTables.keys()) {
-			ctrl.tableNames.push({"name": key, "type": key});
-		}
-	}
-
-	ctrl.selectAddType = function (selected) {
-		if (!ctrl.addColumnModel.PK && !ctrl.addColumnModel.FK) {
-			ctrl.addColumnModel.type = selected.type;
-		} else {
-			ctrl.addColumnModel.type = "INT";
-		}
-	}
-
-	ctrl.selectEditType = function (selected) {
-		if (!ctrl.editColumnModel.PK && !ctrl.editColumnModel.FK) {
-			ctrl.editColumnModel.type = selected.type;
-		}
-	}
-
-	ctrl.selectAddTableOrigin = function (selected) {
-		ctrl.addColumnModel.tableOrigin.idName = selected.name;
-	}
-
-	ctrl.newColumnObject = function () {
-		return new Column();
-	}
-
-	ctrl.addColumnModel = ctrl.newColumnObject();
-	ctrl.editColumnModel = ctrl.newColumnObject();
 
 	ctrl.undoModel = function () {
 		LogicService.undo();
@@ -272,14 +182,8 @@ const controller = function (
 		LogicService.zoomNone();
 	}
 
-	ctrl.changeVisible = function () {
-		ctrl.editionVisible = !ctrl.editionVisible;
-	}
-
 	ctrl.generateSQL = function () {
-		var sql = SqlGeneratorService.generate(LogicService.buildTablesJson());
-
-		console.log(sql);
+		const sql = SqlGeneratorService.generate(LogicService.buildTablesJson(), LogicService.loadViews());
 
 		$uibModal.open({
 			animation: true,
@@ -336,7 +240,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown])
 	.component("editorLogic", {
 		template,
 		controller,

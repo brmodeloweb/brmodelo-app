@@ -31,7 +31,7 @@ module.exports = {
 		new Dotenv({ systemvars: true }),
 		new HtmlWebpackPlugin({
 			template: "index.html",
-			favicon: `${__dirname}/app/favicon.ico`,
+			favicon: `${__dirname}/app/img/brmw-logo.svg`,
 		}),
 		new MiniCssExtractPlugin({
 			filename: `bundle.css`,
