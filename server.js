@@ -1,29 +1,25 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-mongoose.Promise = require("bluebird");
 const app = require("./server_app/app");
-
-const port = Number(process.env.PORT);
-const apiUrl = `${process.env.API_URL}`;
-const mongoUrl = process.env.PROD_MONGODB || process.env.MONGODB_LOCAL_URL || process.env.MONGO_URI;
-const isDevelopment = process.env.NODE_ENV === "development";
+const config = require("./server_app/helpers/config");
+const { Port, MongoUrl, ApiUrl, IsDevelopment } = config;
 
 mongoose.set("debug", true);
 mongoose.connect(
-	mongoUrl,
+	MongoUrl,
 	{ useNewUrlParser: true, useUnifiedTopology: true },
 	function (err) {
 		if (err) throw err;
 
-		const databaseInfo = isDevelopment ? `Database: ${mongoUrl}\n` : "";
+		const databaseInfo = IsDevelopment ? `Database: ${MongoUrl}\n` : "";
 
-		app.listen(port, function () {
+		app.listen(Port, function () {
 			console.log(`
 			---------------------------------------------------
 			--------------- APPLICATION RUNNING ---------------
 			---------------------------------------------------
 
-			App: ${apiUrl}
+			App: ${ApiUrl}
 			${databaseInfo}
 			---------------------------------------------------
 		`);

@@ -1,8 +1,8 @@
 <div class="dropdown-tmp dropdown-tmp-btn" ng-class="{expanded: $ctrl.open}">
 	<div class="dropdown-tmp-trigger" ng-click="$ctrl.toggle(true)">
-		<button class="btn ng-binding">{{$ctrl.selected.name}}</button>
+		<button class="btn ng-binding" ng-disabled="$ctrl.disabled">{{ $ctrl.selected.name | translate }}</button>
 	</div>
 	<ul class="dropdown-tmp-list" style="min-width: 140px;">
-		<li class="dropdown-tmp-item" ng-repeat="option in $ctrl.options" ng-click="$ctrl.select(option)"><span>{{option.name}}</span></li>
+		<li class="dropdown-tmp-item" ng-repeat="option in $ctrl.options" ng-click="$ctrl.select(option)"><span>{{ option.name | translate }}</span></li>
 	</ul>
 </div>

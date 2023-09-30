@@ -1,0 +1,44 @@
+.query-expression-modal {
+	.labels-wrapper {
+		margin-bottom: 12px;
+		display: flex;
+		flex-wrap: wrap;
+		row-gap: 18px;
+
+		.condition-label {
+			padding: 6px;
+			background: hsl(170, 100%, 20%);
+			color: white;
+			border-radius: 4px;
+			margin-right: 8px;
+
+			i {
+				margin-left: 4px;
+				cursor: pointer;
+			}
+		}
+	}
+	.form-content {
+		display: flex;
+		align-items: center;
+		column-gap: 8px;
+		margin-bottom: 12px;
+
+		button {
+			min-width: 180px;
+		}
+
+		.dropdown-tmp-list {
+			max-height: 400px;
+			overflow: auto;
+		}
+	}
+	.form-content-joins {
+		dropdown {
+			width: 100%;
+		}
+	}
+	.modal-message {
+		margin-top: 16px;
+	}
+}

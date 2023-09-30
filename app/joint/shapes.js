@@ -1,5 +1,6 @@
 import * as joint from "jointjs/dist/joint";
 import _ from "lodash";
+import composedImg from "../img/composto-01.png"
 
 const erd = joint.shapes.erd;
 
@@ -272,7 +273,7 @@ erd.ComposedAttribute = joint.shapes.basic.Generic.extend({
 			size: { width: 60, height: 40 },
 			attrs: {
 					'rect': { fill: 'transparent', stroke: 'transparent', width: 50, height: 30 },
-					'image': { "xlink:href": "/img/composto-01.png" },
+					'image': { "xlink:href": composedImg },
 			}
 	}, joint.shapes.basic.Generic.prototype.defaults)
 });
@@ -302,7 +303,7 @@ erd.InfoButton = joint.linkTools.InfoButton = joint.linkTools.Button.extend({
 			distance: 40,
 			offset: 0,
 			action: function(evt) {
-				this.notify('link:options', evt, this.sourceView, this.sourceMagnet, 'source');;
+				this.notify('link:options', evt, this.sourceView, this.sourceMagnet, 'source');
 			}
 	}
 });

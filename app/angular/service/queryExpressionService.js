@@ -1,0 +1,15 @@
+export const comparasionOperators = {
+		EQUAL_TO: (value) => `= ${value}`,
+		NOT_EQUAL_TO: (value) => `<> ${value}`,
+		GREATER_THAN: (value) => `> ${value}`,
+		LESS_THAN: (value) => `< ${value}`,
+		BETWEEN: (value, otherValue) => `BETWEEN ${value} AND ${otherValue}`,
+		GREATER_THAN_OR_EQUAL_TO: (value) => `>= ${value}`,
+		LESS_THAN_OR_EQUAL_TO: (value) => `<= ${value}`,
+		IS: (value) => `= '${value}'`,
+		IS_NOT: (value) => `<> '${value}'`,
+		CONTAINS: (value) => `LIKE '%${value}%'`,
+		DOES_NOT_CONTAIN: (value) => `NOT LIKE '%${value}%'`,
+		STARTS_WITH: (value) => `LIKE '${value}%'`,
+		ENDS_WITH: (value) => `LIKE '%${value}'`,
+}

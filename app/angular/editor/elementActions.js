@@ -1,5 +1,4 @@
 import $ from "jquery";
-import _ from "underscore";
 import "backbone";
 import * as joint from "jointjs/dist/joint";
 
@@ -40,25 +39,36 @@ joint.ui.ElementActions = Backbone.View.extend({
         type: "toolbar",
         linkAttributes: {}
     },
-    initialize: function (configs) {
-        this.options = Object.assign({}, _.result(this, "options"), configs || {}); 
-        _.defaults(this.options, {
-            paper: this.options.cellView.paper,
-            graph: this.options.cellView.paper.model
-        }); 
-        _.bindAll(this, "pointermove", "pointerup", "render", "updateElement", "remove");
-        joint.ui.ElementActions.clear(this.options.paper);
-        this.listenTo(this.options.graph, "reset", this.remove);
-        this.listenTo(this.options.graph, "all", this.updateElement);
-        this.listenTo(this.options.paper, "blank:pointerdown element-actions:activate", this.remove);
-        this.listenTo(this.options.paper, "scale translate", this.updateElement);
-        this.listenTo(this.options.cellView.model, "remove", this.remove);
-        $(document.body).on("mousemove touchmove", this.pointermove);
-        $(document).on("mouseup touchend", this.pointerup);
-        this.options.paper.$el.append(this.$el);
-        this.actions = [];
-        _.each(this.options.actions, this.addAction, this);
-    },
+	initialize(configs) {
+		this.options = { ...this.options, ...configs } || {};
+		this.options = {
+			...this.options,
+			paper: this.options.cellView.paper,
+			graph: this.options.cellView.paper.model
+		};
+
+		this.pointermove = this.pointermove.bind(this);
+		this.pointerup = this.pointerup.bind(this);
+		this.render = this.render.bind(this);
+		this.updateElement = this.updateElement.bind(this);
+		this.remove = this.remove.bind(this);
+
+
+		joint.ui.ElementActions.clear(this.options.paper);
+		this.listenTo(this.options.graph, "reset", this.remove);
+		this.listenTo(this.options.graph, "all", this.updateElement);
+		this.listenTo(this.options.paper, "blank:pointerdown element-actions:activate", this.remove);
+		this.listenTo(this.options.paper, "scale translate", this.updateElement);
+		this.listenTo(this.options.cellView.model, "remove", this.remove);
+
+		$(document.body).on("mousemove touchmove", this.pointermove);
+		$(document).on("mouseup touchend", this.pointerup);
+
+		this.options.paper.$el.append(this.$el);
+
+		this.actions = [];
+		this.options.actions.forEach(this.addAction, this);
+	},
     render: function () {
         const options = this.options;
         this.$el.empty();
@@ -104,7 +114,7 @@ joint.ui.ElementActions = Backbone.View.extend({
                         .addClass(action.name)
                         .attr("data-action", action.name)
                         .prop("draggable", false);
-        if(action.icon) {    
+        if(action.icon) {
             divAction.css("background-image", "url(" + action.icon + ")");
             joint.util.setAttributesBySelector(divAction, action.attrs);
         }
@@ -125,19 +135,19 @@ joint.ui.ElementActions = Backbone.View.extend({
     onActionPointerDown: function (event) {
         this.currentAction = $(event.target).closest(".item").attr("data-action");
         if(this.currentAction) {
-            event.preventDefault(); 
-            event.stopPropagation(); 
-            event = joint.util.normalizeEvent(event); 
-            this._clientX = event.clientX; 
-            this._clientY = event.clientY; 
-            this._startClientX = this._clientX; 
-            this._startClientY = this._clientY; 
+            event.preventDefault();
+            event.stopPropagation();
+            event = joint.util.normalizeEvent(event);
+            this._clientX = event.clientX;
+            this._clientY = event.clientY;
+            this._startClientX = this._clientX;
+            this._startClientY = this._clientY;
             this.triggerAction(this.currentAction, "pointerdown", event);
         }
     },
     triggerAction: function (actionName, eventName) {
         const action = Array.prototype.slice.call(arguments, 2);
-        action.unshift("action:" + actionName + ":" + eventName); 
+        action.unshift("action:" + actionName + ":" + eventName);
         this.trigger.apply(this, action);
     },
     startLinking: function (event) {
@@ -148,21 +158,21 @@ joint.ui.ElementActions = Backbone.View.extend({
         newLink.set("source", {
             id: originView.model.id,
             selector: selector
-        }); 
+        });
         newLink.set("target", {
             x: event.clientX,
             y: event.clientY
-        }); 
-        newLink.attr(this.options.linkAttributes); 
+        });
+        newLink.attr(this.options.linkAttributes);
         this.options.graph.addCell(newLink, {
             validation: !1,
             halo: this.cid
-        }); 
+        });
         newLink.set("target", this.options.paper.snapToGrid({
             x: event.clientX,
             y: event.clientY
-        })); 
-        this._linkView = this.options.paper.findViewByModel(newLink); 
+        }));
+        this._linkView = this.options.paper.findViewByModel(newLink);
         this._linkView.startArrowheadMove("target");
     },
     startResizing: function () {
@@ -186,9 +196,9 @@ joint.ui.ElementActions = Backbone.View.extend({
     },
     stopLinking: function (event) {
         const model = this._linkView.model;
-        this._linkView.pointerup(event); 
+        this._linkView.pointerup(event);
         if(this.options.paper.options.linkPinning || model.get("target").hasOwnProperty("id")) {
-            this.stopBatch(); 
+            this.stopBatch();
             this.triggerAction("link", "add", model);
         } else {
             model.remove({
@@ -200,8 +210,8 @@ joint.ui.ElementActions = Backbone.View.extend({
     },
     pointermove: function (event) {
         if (this.currentAction) {
-            event.preventDefault(); 
-            event.stopPropagation(); 
+            event.preventDefault();
+            event.stopPropagation();
             event = joint.util.normalizeEvent(event);
             const eventPosition = this.options.paper.snapToGrid({
                 x: event.clientX,
@@ -213,14 +223,14 @@ joint.ui.ElementActions = Backbone.View.extend({
             });
             const diffX = eventPosition.x - elementPosition.x;
             const diffY = eventPosition.y - elementPosition.y;
-            this.triggerAction(this.currentAction, "pointermove", event, diffX, diffY, event.clientX - this._startClientX, event.clientY - this._startClientY); 
-            this._clientX = event.clientX; 
+            this.triggerAction(this.currentAction, "pointermove", event, diffX, diffY, event.clientX - this._startClientX, event.clientY - this._startClientY);
+            this._clientX = event.clientX;
             this._clientY = event.clientY;
         }
     },
     pointerup: function (event) {
         if(this.currentAction) {
-            this.triggerAction(this.currentAction, "pointerup", event); 
+            this.triggerAction(this.currentAction, "pointerup", event);
             delete this.currentAction;
         }
     },

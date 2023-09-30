@@ -1,3 +1,4 @@
+@import 'colors.scss';
 @import 'public.scss';
 @import 'mainHeader.scss';
 @import 'structure.scss';
@@ -12,4 +13,7 @@
 @import 'sql.scss';
 @import 'print.scss';
 @import 'joint-custom.scss';
+@import 'sidebarPannel';
+@import 'table-preview.scss';
 @import 'elementActions.scss';
+@import 'forbidden-access.scss'

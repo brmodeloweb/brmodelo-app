@@ -1,0 +1,173 @@
+////////////////////////////////////////////////////////////////////////////////
+// .sidebar-panel
+////////////////////////////////////////////////////////////////////////////////
+.sidebar-panel {
+	margin-bottom: 12px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .panel-header
+////////////////////////////////////////////////////////////////////////////////
+.panel-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px;
+	border-radius: 3px;
+	color: var(--white);
+	background-color: var(--brand-default);
+	cursor: pointer;
+	transition: ease .3s;
+}
+
+.panel-header:hover {
+	background-color: var(--brand-primary-10);
+}
+
+.panel-header > h3 {
+	font-weight: 300;
+	font-size: 14px;
+	margin: 0;
+}
+
+.panel-header > .fa {
+	position: relative;
+	top: -2px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .panel-content
+////////////////////////////////////////////////////////////////////////////////
+.temp-hide .panel-content {padding: 0;}
+
+.panel-content {
+	padding: 12px 0;
+}
+
+.panel-content .form-group:last-child {
+	margin-bottom: 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .table-columns
+////////////////////////////////////////////////////////////////////////////////
+.table-columns {
+	list-style: none;
+	padding: 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .card-item
+////////////////////////////////////////////////////////////////////////////////
+.card-item {
+	border: 1px solid var(--border-default);
+	border-radius: 3px;
+	margin-bottom: 12px;
+}
+
+.card-item .column-form,
+.card-item.views {
+	padding: 12px;
+}
+
+.card-item header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 8px;
+	cursor: pointer;
+}
+
+.card-item .table-title {
+	margin: 0;
+	line-height: 1.2em;
+	font-size: 12px;
+	font-weight: 500;
+	font-family: monospace;
+	word-break: break-all;
+}
+
+.card-item .relationship {
+	display: inline-block;
+	border: 1px solid var(--gray-20);
+	border-radius: 2px;
+	padding:0 2px;
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.1em;
+}
+
+.card-item-content .form-group {margin-bottom: 12px;}
+
+.card-item .checkbox { margin: 4px 0; }
+
+////////////////////////////////////////////////////////////////////////////////
+// .card-item-actions
+////////////////////////////////////////////////////////////////////////////////
+.card-item-actions {
+	align-items: center;
+	border-top: 1px solid var(--border-default);
+	padding-top: 12px;
+}
+
+.card-item-actions .actions-regular,
+.card-item-actions .actions-destructive {
+	box-sizing: border-box;
+}
+
+.card-item-actions .actions-destructive{
+	padding-top: 12px;
+}
+
+.card-item-actions .actions-regular .br-button {
+	display: inline-block;
+	width: calc(50% - 6px);
+	margin: 0;
+}
+
+.card-item-actions .actions-regular .br-button:first-child {
+	margin-right: 8px;
+}
+
+.views-list {
+	list-style: none;
+	padding: 0;
+}
+
+.view-item {
+	padding: 12px 8px;
+	border: 1px solid var(--border-default);
+	border-radius: 3px;
+	margin-bottom: 8px;
+	cursor: pointer;
+}
+
+.view-item header {
+	display: flex;
+	align-items: center;
+}
+
+.view-item header i {
+	font-size: 16px;
+}
+
+.view-item header h4 {
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0 0 0 4px;
+}
+
+.check-constraint {
+	margin-bottom: 12px;
+}
+
+.check-constraint .multiple-fields {
+	display: flex;
+	column-gap: 12px;
+}
+
+.check-constraint .form-field {
+	margin-bottom: 12px;
+}

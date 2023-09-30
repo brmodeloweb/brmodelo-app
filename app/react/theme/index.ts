@@ -1,16 +1,16 @@
 const theme = {
 	colors: {
 		primary: {
-			500: "#3d9970",
+			500: "hsl(170, 100%, 30%)",
 		},
 		secondary: {
-			500: "#dd7c58",
+			500: "hsl(170, 100%, 40%)",
 		},
 		gray: {
-			100: "#f8f8f8",
+			100: "hsl(0, 0%, 10%",
 		},
-		white: "#fff",
-		black: "#000",
+		white: "hsl(0, 0%, 100%)",
+		black: "hsl(0, 0, 0)",
 	},
 	shadows: {
 		default: "0 0 20px rgb(0, 0, 0, 0.1)",

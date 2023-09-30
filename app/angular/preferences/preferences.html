@@ -1,0 +1,53 @@
+<section class="view preferences">
+
+	<header class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<a class="back-button" href="#" data-ui-sref="main">
+				<i class="fa fa-arrow-left" aria-hidden="true"></i>
+			</a>
+			<div class="navbar-header pull-left">
+				<strong class="navbar-brand">{{ 'BRMW' | translate }}</strong>
+			</div><!-- End .navbar-header -->
+			<div class="nav navbar-nav pull-right nav-icons">
+				<dropdown-icon title="Options" options="$ctrl.dropdownOptions" on-select=$ctrl.menuOptionSelected(selected)></dropdown-icon>
+			</div><!-- End .navbar-header -->
+		</div>
+	</header>
+
+
+	<section class="mainContent">
+		<header class="container">
+			<div class="page-header clearfix">
+				<h2 class="h2 pull-left">{{ 'Preferences' | translate }}</h2>
+			</div><!-- End .page-header -->
+		</header><!-- End .container -->
+
+		<div class="container userPreferences">
+			<img
+				src="../../img/loading-dots.gif"
+				alt="Loading"
+				class="br-loader"
+				ng-class="{'loading': $ctrl.loading}"
+			/>
+
+			<div class="alert alert-danger" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+				<p>{{ $ctrl.feedback.message }}</p>
+			</div>
+
+			<!-- User information -->
+			<form class="form-horizontal" role="form" name="userPreferencesForm">
+				
+				<section class="form-section deleteAccount">
+					<header>
+						<h3>{{ 'Delete account' | translate }}</h3>
+					</header>
+					<p>{{ 'Remove all your models before removing your account.' | translate }}<br/> <strong>{{ 'Keep in mind this is a destructive action and cannot be undone.' | translate}}</strong></p>
+					<button type="button" class="br-button destructive" ng-click="$ctrl.deleteAccount()">{{ 'Delete account' | translate }}</button>
+				</section>
+
+			</form>
+		</div><!-- End .container -->
+
+		<bug-report-button></bug-report-button>
+	</section><!-- End .mainContent -->
+</section><!-- End .view -->
