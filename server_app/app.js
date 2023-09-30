@@ -6,11 +6,16 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
-const { uploadMiddleware } = require("./middleware/middleware");
+const enforce = require('express-sslify');
 
 require("dotenv").config();
 
 let app = express();
+app.use(cors());
+
+if (app.get("env") === "production") {
+	app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 
 // Where to find the view files
 const viewsPath = path.join(__dirname, "../views");
@@ -20,7 +25,6 @@ app.use(morgan("dev"));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-app.use(uploadMiddleware);
 const appPath = path.join(__dirname, "../app");
 app.use(express.static(`${appPath}/dist`));
 app.use(responseTime());
@@ -33,7 +37,6 @@ app.use(
 	})
 );
 app.use(errorhandler());
-app.use(cors());
 
 const userHandler = require("./user/handler");
 const modelHandler = require("./model/handler");

@@ -8,6 +8,9 @@ export const types = {
 	ZOOM_OUT: 'zoomOut',
 	ZOOM_NONE: 'zoomNone',
 	ESC: 'esc',
+	DELETE: 'delete',
+	COPY: 'copy',
+	PASTE: 'paste',
 }
 
 export default class KeyboardController {
@@ -54,6 +57,9 @@ export default class KeyboardController {
 			{ key: 'command+s, ctrl+s', eventName: types.SAVE },
 			{ key: 'command+z, ctrl+z', eventName: types.UNDO },
 			{ key: 'command+shift+z, ctrl+shift+z', eventName: types.REDO },
+			{ key: 'backspace', eventName: types.DELETE },
+			{ key: 'command+c, ctrl+c', eventName: types.COPY },
+			{ key: 'command+v, ctrl+v', eventName: types.PASTE },
 			{ key: 'z+=', eventName: types.ZOOM_IN },
 			{ key: 'z+-', eventName: types.ZOOM_OUT },
 			{ key: 'z+0', eventName: types.ZOOM_NONE },

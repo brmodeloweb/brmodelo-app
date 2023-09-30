@@ -1,0 +1,85 @@
+<div>
+	<button
+		type="button"
+		class="br-button br-button--full"
+		ng-show="!$ctrl.formVisible && !$ctrl.isEdit"
+		ng-click="$ctrl.toggleForm()"
+	>
+		{{'Create view' | translate }}
+	</button>
+
+	<div class="views" ng-show="$ctrl.formVisible || $ctrl.isEdit">
+
+		<div class="form-group">
+			<label for="view-name">{{ 'Name' | translate }}</label>
+			<input
+				id="view-name"
+				type="text"
+				class="form-control"
+				ng-model="$ctrl.view.name"
+				ng-change="$ctrl.changeName()"
+				autofocus
+			/>
+		</div>
+
+		<div class="form-group">
+			<label for="view-based-in">{{ 'Based in' | translate }}</label>
+			<div class="checkbox" ng-repeat="table in $ctrl.tables track by $index">
+				<label for="{{table.name}}">
+					<input
+						id="{{table.name}}"
+						type="checkbox"
+						ng-model="table.selected"
+					/>
+					{{table.name}}
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="view-columns">{{ 'View columns' | translate }}</label>
+
+			<section class="table-preview" ng-repeat="table in $ctrl.tables track by $index" ng-if="table.selected">
+				<!-- Color of this header should be populated dinamically once users have the option to choose it  -->
+				<header>
+					<h5>{{ table.name }}</h5>
+				</header>
+				<div class="table-preview-body">
+					<div class="checkbox" ng-repeat="column in table.columns track by $index">
+						<label for="{{table.name + column.name}}">
+							<input
+								id="{{table.name + column.name}}"
+								type="checkbox"
+								ng-model="column.selected"
+							/>
+							{{column.name}}
+						</label>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div class="form-group">
+			<label for="view-query">{{ 'Query expression' | translate }}</label>
+			<textarea
+				id="view-query"
+				type="text"
+				class="form-control query-expression-textarea"
+				ng-model="$ctrl.view.queryConditions.text"
+			></textarea>
+		</div>
+
+		<a ng-click="$ctrl.queryExpressionModal()">{{ $ctrl.view.queryConditions.values ? 'Edit query for view creation' : 'Include query for view creation' | translate }}</a>
+
+		<div class="card-item-actions">
+			<div class="actions-regular">
+				<button class="br-button" ng-click="$ctrl.save()">{{ 'Save' | translate }}</button>
+				<button class="br-button warning" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+			</div>
+			<!-- <div class="actions-destructive">
+				<button class="br-button destructive" ng-click="">{{ 'Delete' | translate }}</button>
+			</div> -->
+		</div>
+
+	</div>
+</div>

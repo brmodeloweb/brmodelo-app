@@ -14,7 +14,7 @@ module.exports = {
 		filename: "[name].js",
 	},
 	resolve: {
-		extensions: [".js", ".jsx", ".ts", ".tsx"],
+		extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
 		plugins: [
 			new TsconfigPathsPlugin({
 				configFile: path.resolve(__dirname, "app/react/tsconfig.json"),
@@ -31,7 +31,7 @@ module.exports = {
 		new Dotenv({ systemvars: true }),
 		new HtmlWebpackPlugin({
 			template: "index.html",
-			favicon: `${__dirname}/app/favicon.ico`,
+			favicon: `${__dirname}/app/img/brmw-logo.svg`,
 		}),
 		new MiniCssExtractPlugin({
 			filename: `bundle.css`,

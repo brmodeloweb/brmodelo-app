@@ -3,8 +3,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:hover {
-	color: #3d9970;
+	color: var(--brand-default);
 	cursor: default;
+	padding-right: 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .nav-bar .back-button
+///////////////////////////////////////////////////////////////////////////////
+.navbar-default .back-button {
+	display: block;
+	float: left;
+	color: var(--brand-default);
+	font-size: 1.2em;
+	padding: 13px 16px;
+}
+
+.navbar-default .back-button:hover {
+	color: var(--brand-default);
+	background-color: #e1e1e1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,7 +37,7 @@
 .tool-icons {
 	float: none;
 	width: 100%;
-	border-bottom: 1px solid #e7e7e7;
+	border-bottom: 1px solid var(--border-default);
 }
 
 .tool-icons .fa {
@@ -32,7 +49,7 @@
 }
 
 .tool-icons .divider {
-	border-right: 1px solid #e7e7e7;
+	border-right: 1px solid var(--border-default);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +67,7 @@
 .modelName input {
 	min-width: 250px;
 	padding: 3px 25px 3px 5px;
-	border-color: 1px solid rgba(0, 0, 0, 0.4);
+	border-color: 1px solid var(--border-default);
 	background-color: rgba(255, 255, 255, 0.1);
 	color: grey;
 }
@@ -86,7 +103,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 .br-loader {
 	position: fixed;
-	top: 30px;
+	top: 70px;
 	left: 50%;
 	margin-left: -20px;
 	display: none;
@@ -102,16 +119,23 @@
 }
 
 .nav-icons > dropdown-icon > .dropdown > button {
-	color: #777;
-	background-color:transparent;
 	border: 0;
 	padding: 15px;
+	color: var(--gray-20);
+	background-color: transparent;
 }
 
 .nav-icons > dropdown-icon > .dropdown > button:focus {
-	color: #555;
-	background-color: #e7e7e7;
 	text-decoration: none;
 	box-shadow: none;
+	background-color: var(--gray-90);
 }
+
+.nav-icons .dropdown-menu > li > a {
+	color: var(--gray-20);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .br-loader
+///////////////////////////////////////////////////////////////////////////////
 .br-loader.loading {display: block;}

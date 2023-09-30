@@ -1,11 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 const modelService = require("./service");
 const modelValidator = require("./validator");
 const { decrypt } = require("../helpers/crypto");
+const { validateJWT } = require('../middleware');
+
 
 const router = express.Router();
 router.use(bodyParser.json());
+router.use(fileUpload());
 
 const listAll = async (req, res) => {
 	try {
@@ -24,13 +28,15 @@ const listAll = async (req, res) => {
 const getById = async (req, res) => {
 	try {
 		let modelId = req.query.modelId;
-		const model = await modelService.getById(modelId);
+		let userId = req.query.userId;
+		const model = await modelService.getById(modelId, userId);
 		res.send(model);
 	} catch (error) {
-		console.error(error);
+		const code = error.status ? error.status : 500;
+		const message = error.message != "" ? error.message : "There's an error while treating your get request";
 		return res
-			.status(500)
-			.send("There's an error while treating your get request");
+			.status(code)
+			.send(message);
 	}
 };
 
@@ -124,7 +130,23 @@ const exportModel = async (req, res) => {
 
 const importModel = async (req, res) => {
 	try {
-		return res.status(200).json(JSON.parse(decrypt(req.body)));
+		if (!req.files) {
+			return res.status(400).send("No file uploaded");
+		}
+		const file = req.files.model;
+		const { name, type, model } = JSON.parse(decrypt(file.data));
+		const userId = req.headers["x-user-id"]; // TODO Change this when implementing authentication via jwt
+		const validation = modelValidator.validateSaveParams({
+			name,
+			type,
+			model,
+			userId,
+		});
+		if (!validation.valid) {
+			return res.status(422).send(validation.message);
+		}
+		const newModel = await modelService.save({ name, type, model, userId });
+		return res.status(200).json(newModel);
 	} catch (error) {
 		console.error(error);
 		return res
@@ -134,11 +156,11 @@ const importModel = async (req, res) => {
 };
 
 module.exports = router
-	.get("/", listAll)
-	.post("/", save)
-	.get("/:modelId", getById)
-	.put("/:modelId", edit)
-	.delete("/:modelId", remove)
-	.put("/:modelId/rename", rename)
-	.get("/:modelId/export", exportModel)
-	.post("/import", importModel);
+	.get("/",validateJWT, listAll)
+	.post("/",validateJWT, save)
+	.get("/:modelId", validateJWT, getById)
+	.put("/:modelId",validateJWT, edit)
+	.delete("/:modelId",validateJWT, remove)
+	.put("/:modelId/rename",validateJWT, rename)
+	.get("/:modelId/export",validateJWT, exportModel)
+	.post("/import",validateJWT, importModel);

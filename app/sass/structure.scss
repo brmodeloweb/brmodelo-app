@@ -11,11 +11,11 @@ html {
 *:after {box-sizing: inherit;}
 
 ////////////////////////////////////////////////////////////////////////////////
-// .separator
+// .wrapper
 ////////////////////////////////////////////////////////////////////////////////
-.separator {
-	width: 100%;
-	border-color: #cecece;
+.wrapper {
+	max-width: 1100px;
+	margin-block: 0 auto;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,18 +23,31 @@ html {
 ////////////////////////////////////////////////////////////////////////////////
 body {
 	height: 100%;
-	font-family: 'Fira Sans', sans-serif;
+	font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 	font-weight: 400;
-	color: rgba(0,0,0, 0.8);
+	color: var(--gray-20);
 }
 
 a,
 .link {
-	color: rgba(#3D9970, 1);
+	color: var(--brand-primary-30);
 	cursor: pointer;
 }
 
+a:hover,
+.link:hover {
+	color: var(--brand-default)
+}
+
 .fa {user-select: none;}
+
+////////////////////////////////////////////////////////////////////////////////
+// .navbar-default
+////////////////////////////////////////////////////////////////////////////////
+.navbar-default {
+	background-color: var(--gray-95);
+	border-color: var(--border-default);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // .mainContent
@@ -51,6 +64,13 @@ a,
 	margin-top: 20px;
 }
 
+.header-actions .docs-icon {
+	position: relative;
+	top: 4px;
+	font-size: 1.6em;
+	margin-right: 12px;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // .wrapper
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,29 +81,36 @@ a,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .stencil-lis
+// .element-holder
 ////////////////////////////////////////////////////////////////////////////////
-.stencil-list {
+.elements-holder {
 	position: fixed;
 	top: 50px;
 	bottom: 0;
 	left: 0;
-	width: 215px;
-	border-right: 1px solid #e7e7e7;;
-	background-color: #f8f8f8;
+	max-width: 150px;
+	padding: 12px;
+	border-right: 1px solid var(--border-default);
+	background-color: var(--gray-95);
 	user-select: none;
 }
 
-.stencil-list .stencil {
+.elements-holder .elements-list {
 	float: none;
 	width: 125px;
-	margin: 16px auto 0 auto;
 	border: none;
 }
 
-.stencil-list .stencil .elements {
+.elements-holder .elements-list .elements {
 	background-color: transparent;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// .stencil-paper-drag
+////////////////////////////////////////////////////////////////////////////////
+.draggable-paper.dragging {
+    opacity: .7;
+ }
 
 ////////////////////////////////////////////////////////////////////////////////
 // .model-area
@@ -93,7 +120,7 @@ a,
 	top: 50px;
 	right: 0;
 	bottom: 0;
-	left: 215px;
+	left: 150px;
 	overflow: hidden;
 	box-sizing: border-box;
 }
@@ -126,12 +153,12 @@ a,
 	position: fixed;
 	z-index: 10;
 	top: 109px;
-	right: -224px;
+	right: -348px;
 	bottom: 0;
-	width: 240px;
-	border-top: 1px solid #e7e7e7;
-	border-left: 1px solid #e7e7e7;
-	background-color: #f8f8f8;
+	width: 360px;
+	border-top: 1px solid var(--border-default);
+	border-left: 1px solid var(--border-default);
+	background-color: var(--gray-95);
 	transition: 0.3s ease-in-out right;
 }
 
@@ -139,50 +166,52 @@ a,
 
 .model-properties .action {
 	display: block;
-	height: 25px;
-	width: 25px;
 	position: absolute;
-	top: 5px;
-	left: -25px;
+	top: 12px;
+	left: -36px;
+	padding: 6px 12px 10px 12px;
 	text-align: center;
-	border: 1px solid #e7e7e7;
+	border: 1px solid var(--border-default);
 	border-radius: 3px 0 0 3px;
-	background-color: #f8f8f8;
+	background-color: var(--gray-95);
 	cursor: pointer;
 }
 
 .action .angle-double-icon {
 	position: relative;
 	top: 3px;
-	font-size: 1.2em;
-	color: rgb(119, 119, 119);
+	font-size: 1.3em;
+	color: var(--gray-30);
 	font-weight: bold;
 }
 
 .properties-content {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	padding: 16px;
+	height: 100%;
+	padding: 12px;
 	overflow-y: scroll;
+	scrollbar-width: none;
+}
+
+.properties-content::-webkit-scrollbar {
+	display: none;
+}
+
+.properties-content.old {
+	padding: 16px;
 }
 
 .properties-content .empty-state {
+	padding: 24px 0;
+	font-size: 1.3em;
+	font-weight: 200;
 	text-align: center;
-	color: #3d9970;
-	vertical-align: middle;
-	border: 1px solid #3d9970;
-	border-radius: 2px;
-	padding: 10px;
+	color: var(--gray-20);
 }
 
 .properties-content .br-button {
 	text-align: center;
 	width: 100%;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // .editionColumn
@@ -201,30 +230,36 @@ a,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// .paper-scroller
+// .editor-scroller
 ////////////////////////////////////////////////////////////////////////////////
-.paper-scroller {
+.editor-scroller {
 	position: relative;
 	width: 100%;
 	height: 100%;
 	overflow: scroll;
 }
 
-.paper-scroller .joint-paper {
+.editor-scroller .joint-paper {
 	position: absolute;
-	border: 1px solid #e7e7e7;
 	box-shadow: 0 0 20px rgba(0,0,0, 0.1);
 	// background-color: purple; // Uncomment to debugging purposes
 }
 
-.paper-scroller .joint-paper > svg {
+.editor-scroller .joint-paper > svg {
 	display: block;
 }
 
-.paper-scroller[data-cursor=grab] {
+.editor-scroller[data-cursor=grab] {
 	cursor: grab;
 }
 
-.paper-scroller[data-cursor=grab].is-panning {
+.editor-scroller[data-cursor=grab].is-panning {
 	cursor: grabbing;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .page-header (Overwrite bootstrap)
+////////////////////////////////////////////////////////////////////////////////
+.page-header {
+	border-color: var(--border-default);
 }

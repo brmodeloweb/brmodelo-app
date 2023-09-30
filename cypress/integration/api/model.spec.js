@@ -1,3 +1,5 @@
+/// <reference path="../../support/commands.d.ts" />
+
 const conceptualModel = require("../../fixtures/conceptualModel.json");
 
 describe("Models - Creation via API call", () => {
@@ -19,11 +21,11 @@ describe("Models - Creation via API call", () => {
 		cy.reload();
 		cy.contains("td", "Conceptual").click();
 
-		cy.get(".paper-scroller [data-type='erd.Entity']").should("have.length", 2);
-		cy.get(".paper-scroller [data-type='erd.Relationship']").should(
+		cy.get(".editor-scroller [data-type='erd.Entity']").should("have.length", 2);
+		cy.get(".editor-scroller [data-type='erd.Relationship']").should(
 			"have.length",
 			1
 		);
-		cy.get(".paper-scroller [data-type='erd.Link']").should("have.length", 2);
+		cy.get(".editor-scroller [data-type='erd.Link']").should("have.length", 2);
 	});
 });

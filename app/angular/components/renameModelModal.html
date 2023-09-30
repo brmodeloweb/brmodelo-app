@@ -5,13 +5,13 @@
 <div class="modal-body">
 	<form class="form-horizontal" role="form" name="modelForm">
 		<div class="form-group">
-			<label for="rename-model" class="col-sm-3 control-label">{{ 'Rename' | translate }}</label>	
+			<label for="rename-model" class="col-sm-3 control-label">{{ 'Rename' | translate }}</label>
 			<div class="col-sm-7">
-				<input 
+				<input
 					class="form-control"
 					ng-class="{'error': ($ctrl.name == null || $ctrl.name == '') && $ctrl.submitted}"
-					type="text" 
-					id="rename-model" 
+					type="text"
+					id="rename-model"
 					data-ng-model="$ctrl.name"
 					placeholder="{{ 'New model name' | translate }}"
 					autocomplete="off"
@@ -22,6 +22,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="br-button yellow" type="button" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
+	<button class="br-button warning" type="button" ng-click="$ctrl.cancel()">{{ 'Cancel' | translate }}</button>
 	<button class="br-button" type="button" ng-click="$ctrl.rename($ctrl.name)">{{ 'Rename' | translate }}</button>
 </div>

@@ -4,18 +4,17 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
-import shapes from "../../joint/shapes";
-joint.shapes.erd = shapes;
+import erd from "../../joint/shapes";
+import uml from "../../joint/table";
+joint.shapes.erd = erd;
+joint.shapes.uml = uml;
 import "jointjs/dist/joint.min.css";
 
-import "../../joint/joint.ui.stencil";
-import "../../joint/joint.ui.stencil.css";
-import "../../joint/joint.ui.selectionView";
-import "../../joint/joint.ui.selectionView.css";
-import "../../joint/joint.ui.halo.css";
-import "../../joint/joint.ui.halo";
-import "../../joint/br-scroller";
-import "../../joint/joint.dia.command";
+import "../editor/editorManager"
+import "../editor/editorScroller"
+import "../editor/editorActions"
+import "../editor/elementActions";
+import "../editor/elementSelector";
 
 import KeyboardController, { types } from "../components/keyboardController";
 import conversorService from "../service/conversorService"
@@ -37,7 +36,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		"name": ''
 	};
 
-	ls.selectedHalo = null;
+	ls.selectedActions = null;
 
 	ls.selectedLink = {};
 
@@ -48,15 +47,17 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			height: $('#content').height(),
 			gridSize: 10,
 			drawGrid: true,
-			model: ls.graph
+			model: ls.graph,
+			linkPinning: false
 		});
-		ls.commandManager = new joint.dia.CommandManager({ graph: ls.graph });
 
-		ls.selectionView = new joint.ui.SelectionView({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
+		ls.editorActions = new joint.ui.EditorActions({graph: ls.graph, paper: ls.paper});
 
 		ls.keyboardController = new KeyboardController(ls.paper.$document);
 
 		ls.toolsViewService = new ToolsViewService();
+
+		ls.elementSelector = new joint.ui.ElementSelector({ paper: ls.paper, graph: ls.graph, model: new Backbone.Collection });
 
 		ls.paper.on('link:options', function (link, evt, x, y) {
 
@@ -79,6 +80,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.selectedLink = link;
 			$rootScope.$broadcast('link:select', obj);
 
+		});
+
+		ls.paper.on('element:pointerdblclick', () => {
+			$rootScope.$broadcast("command:openmenu");
 		});
 
 		ls.applyResizePage();
@@ -139,23 +144,24 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.applyResizePage = function () {
-		var $app = $('#content');
-		ls.paperScroller = new joint.ui.PaperScroller({
+		const content = $('#content');
+		ls.editorScroller = new joint.ui.EditorScroller({
 			autoResizePaper: true,
 			paper: ls.paper,
 			cursor: 'grab'
 		});
-		$app.append(ls.paperScroller.render().el);
+		content.append(ls.editorScroller.render().el);
 	}
 
 	ls.applyDragAndDrop = function () {
-		var stencil = new joint.ui.Stencil({
+		const enditorManager = new joint.ui.EditorManager({
 			graph: ls.graph,
-			paper: ls.paper
+			paper: ls.paper,
 		});
-		$('#stencil-holder').append(stencil.render().el);
-		stencil.load([
-			LogicFactory.createTable()
+		$(".elements-holder").append(enditorManager.render().el);
+		enditorManager.loadElements([
+			LogicFactory.createTable(),
+			LogicFactory.createView()
 		]);
 	}
 
@@ -174,14 +180,21 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.clearSelectedElement();
 
 			if(!ls.keyboardController.spacePressed){
-				ls.selectionView.startSelecting(evt);
+				ls.elementSelector.start(evt);
 			} else {
-				ls.paperScroller.startPanning(evt);
+				ls.editorScroller.startPanning(evt);
 			}
+
+			ls.editorActions.setCopyContext(evt);
 		});
 
+		ls.getConnectionType = link => {
+			const target = link.graph.getCell(link.get('target').id);
+			return target?.attributes?.type === 'uml.Abstract' ? 'Table-View' : '';
+		}
+
 		ls.paper.on('link:mouseenter', (linkView) => {
-			const toolsView = ls.toolsViewService.getToolsView();
+			const toolsView = ls.toolsViewService.getToolsView(ls.getConnectionType(linkView.model));
 			linkView.addTools(toolsView);
 		});
 
@@ -191,21 +204,21 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.applySelectionOptions = function (cellView) {
-		var halo = new joint.ui.Halo({
+		const elementActions = new joint.ui.ElementActions({
 			cellView: cellView,
 			boxContent: false
 		});
-		halo.on('action:link:add', function (link) {
+
+		elementActions.on('action:link:add', (link) => {
 			ls.onLink(link);
 		});
-		halo.on('action:removeElement:pointerdown', function (link) {
-			console.log("removing....");
-		});
-		ls.selectedHalo = halo;
-		halo.removeHandle('clone');
-		halo.removeHandle('fork');
-		halo.removeHandle('rotate');
-		halo.render();
+
+		if(cellView.model.getType() === "View") {
+			elementActions.removeAction('link');
+		}
+
+		ls.selectedActions = elementActions;
+		elementActions.render();
 	}
 
 	ls.checkAndEditTableName = function (model) {
@@ -246,7 +259,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 						});
 					});
 				}
-
+			}).catch((error) => {
+				$rootScope.$broadcast('model:loaderror', error);
 			});
 		}
 
@@ -301,6 +315,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var source = ls.graph.getCell(link.get('source').id);
 		var target = ls.graph.getCell(link.get('target').id);
 
+		if(source.getType() === "View" || target.getType() === "View") {
+			link.remove();
+			return
+		}
+
 		var originName = source.attributes.name;
 		var idOrigin = source.attributes.id;
 		const column = new Column({
@@ -315,15 +334,14 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.clearSelectedElement = function () {
-		if(ls.selectedHalo != null) {
-			ls.selectedHalo.remove();
-			ls.selectedHalo = null;
+		if(ls.selectedActions != null) {
+			ls.selectedActions.remove();
+			ls.selectedActions = null;
 		}
 		if (ls.selectedElement != null && ls.selectedElement.model != null) {
 			ls.selectedElement.unhighlight();
 		}
 		ls.selectedElement = {};
-		ls.selectionView.cancelSelection();
 		$rootScope.$broadcast('element:select', null);
 		$rootScope.$broadcast('link:select', null);
 		$rootScope.$broadcast('columns:select', []);
@@ -380,6 +398,31 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
+	ls.createLink = function (tableId) {
+		const myLink = new joint.shapes.erd.Line({
+			source: { id: tableId },
+			target: { id: ls.selectedElement.model.id }
+		});
+		myLink.addTo(ls.graph);
+	}
+
+	ls.removeLink = function (tableId, graph) {
+		const link = graph.getLinks(ls.selectedElement.model).find(({ attributes: { source, target } }) => source.id === tableId && target.id === ls.selectedElement.model.id);
+		link.remove();
+	}
+
+	ls.save = function (view) {
+		const graph = ls.selectedElement.model.graph;
+		const neighbors = graph.getNeighbors(ls.selectedElement.model);
+		view.tables.forEach(table => {
+			let linkedTable = neighbors.find(({ attributes: { id } }) => id === table.id);
+			if (!table.selected && linkedTable) ls.removeLink(table.id, graph);
+			if (table.selected && !linkedTable) ls.createLink(table.id);
+		});
+		ls.selectedElement.model.saveView(view);
+		$rootScope.$broadcast('element:update', ls.selectedElement);
+	}
+
 	ls.addColumn = function (column) {
 		if (column.FK) {
 			var myLink = new joint.shapes.erd.Line({
@@ -411,23 +454,23 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.undo = function () {
-		ls.commandManager.undo();
+		ls.editorActions.undo();
 	}
 
 	ls.redo = function () {
-		ls.commandManager.redo();
+		ls.editorActions.redo();
 	}
 
 	ls.zoomIn = function () {
-		ls.paperScroller.zoom(0.2, { max: 2 });
+		ls.editorScroller.zoom(0.2, { max: 2 });
 	}
 
 	ls.zoomOut = function () {
-		ls.paperScroller.zoom(-0.2, { min: 0.2 });
+		ls.editorScroller.zoom(-0.2, { min: 0.2 });
 	}
 
 	ls.zoomNone = function () {
-		ls.paperScroller.zoom();
+		ls.editorScroller.zoom();
 	}
 
 	ls.registerShortcuts = () => {
@@ -441,27 +484,58 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.updateModel();
 			$rootScope.$broadcast('model:saved')
 		});
+		ls.keyboardController.registerHandler(types.COPY, () => ls.editorActions.copyElement(ls.selectedElement));
+		ls.keyboardController.registerHandler(types.PASTE, () => ls.editorActions.pasteElement());
+		ls.keyboardController.registerHandler(types.DELETE, () => ls.selectedActions?.removeElement() );
 	}
 
 	ls.getTablesMap = function () {
 		var map = new Map();
-		var elements = ls.graph.getElements();
-		for (var i = 0; i < elements.length; i++) {
-			map.set(elements[i].attributes.name, elements[i].id);
-		}
+		var elements = ls.graph.getElements().filter(isTable);
+		elements.forEach(element => {
+			map.set(element.attributes.name, element.id)
+		});
 		return map;
+	}
+
+	const isTable = (element) => element.attributes.type === 'uml.Class';
+
+	const isView = (element) => element.attributes.type === 'uml.Abstract';
+
+	const filterViewsByTableId = (tables, tableId) => tables.filter(table => table.selected).some(({ id }) => id === tableId);
+
+	ls.loadTables = () => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isTable).map(element => ({
+			name: element.attributes.name,
+			columns: element.attributes.objects.map(object => ({ ...object, selected: false })),
+			id: element.id
+		}));
+	};
+
+	ls.loadViewsByTable = (tableId) => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isView)
+			.filter(({ attributes }) => filterViewsByTableId(attributes.objects, tableId))
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
+	}
+
+	ls.loadViews = () => {
+		const elements = ls.graph.getElements();
+		return elements.filter(isView)
+			.map(({ attributes }) => ({ name: attributes.name, tables: attributes.objects, queryConditions: attributes.queryConditions }));
 	}
 
 	ls.buildTablesJson = function () {
 		var map = new Map();
 		var elements = ls.graph.getElements();
-		for (var i = 0; i < elements.length; i++) {
+		elements.filter(isTable).forEach(element => {
 			var obj = {
-				"name": elements[i].attributes.name,
-				"columns": elements[i].attributes.objects
+				name: element.attributes.name,
+				columns: element.attributes.objects
 			}
-			map.set(elements[i].id, obj);
-		}
+			map.set(element.id, obj);
+		});
 		return map;
 	}
 

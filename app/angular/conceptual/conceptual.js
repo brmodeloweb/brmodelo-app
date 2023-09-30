@@ -3,14 +3,12 @@ import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
 
-import "../../joint/joint.ui.stencil";
-import "../../joint/joint.ui.stencil.css";
-import "../../joint/joint.ui.selectionView";
-import "../../joint/joint.ui.selectionView.css";
-import "../../joint/joint.ui.halo.css";
-import "../../joint/joint.ui.halo";
-import "../../joint/br-scroller";
-import "../../joint/joint.dia.command";
+import "../editor/editorManager";
+import "../editor/editorScroller";
+import "../editor/editorActions";
+import "../editor/elementActions";
+import "../editor/elementSelector";
+
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
@@ -48,13 +46,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		user: $rootScope.loggeduser
 	}
 	ctrl.selectedElement = {};
-	ctrl.selectedHalo = {};
 	const configs = {
 		graph: {},
 		paper: {},
-		paperScroller: {},
-		commandManager: {},
+		editorActions: {},
 		keyboardController: null,
+		selectedElementActions: null
 	};
 
 	const setIsDirty = (isDirty) => {
@@ -90,23 +87,23 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	ctrl.undoModel = () => {
-		configs.commandManager.undo();
+		configs.editorActions.undo();
 	}
 
 	ctrl.redoModel = () => {
-		configs.commandManager.redo();
+		configs.editorActions.redo();
 	}
 
 	ctrl.zoomIn = () => {
-		configs.paperScroller.zoom(0.1, { max: 2 });
+		configs.editorScroller.zoom(0.1, { max: 2 });
 	}
 
 	ctrl.zoomOut = () => {
-		configs.paperScroller.zoom(-0.1, { min: 0.2 });
+		configs.editorScroller.zoom(-0.1, { min: 0.2 });
 	}
 
 	ctrl.zoomNone = () => {
-		configs.paperScroller.zoom();
+		configs.editorScroller.zoom();
 	}
 
 	ctrl.duplicateModel = (model) => {
@@ -152,10 +149,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
-		configs.selectionView.cancelSelection();
-		if(configs.selectedHalo) {
-			configs.selectedHalo.remove();
-			configs.selectedHalo = null;
+		if(configs.selectedElementActions != null) {
+			configs.selectedElementActions.remove();
+			configs.selectedElementActions = null;
 		}
 	}
 
@@ -352,10 +348,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		paper.on('blank:pointerdown', (evt) => {
 			ctrl.unselectAll();
 			if(!configs.keyboardController.spacePressed){
-				configs.selectionView.startSelecting(evt);
+				configs.elementSelector.start(evt);
 			} else {
-				configs.paperScroller.startPanning(evt);
+				configs.editorScroller.startPanning(evt);
 			}
+			configs.editorActions.setCopyContext(evt);
 		});
 
 		paper.on('link:options', (cellView) => {
@@ -364,29 +361,26 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		paper.on('element:pointerup', (cellView, evt, x, y) => {
 			ctrl.onSelectElement(cellView);
-			// if(x != null && y != null){
-			// 	$scope.conectElements(cellView, x, y)
-			// }
-			configs.selectionView.cancelSelection();
 
-			const halo = new joint.ui.Halo({
+			const elementActions = new joint.ui.ElementActions({
 				cellView: cellView,
 				boxContent: false
 			});
 
-			configs.selectedHalo = halo;
-			halo.on('action:link:add', function (link) {
+			configs.selectedElementActions = elementActions;
+			elementActions.on('action:link:add', function (link) {
 				ctrl.shapeLinker.onLink(link);
 			});
 
 			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
-				halo.removeHandle('resize');
+				elementActions.removeAction('resize');
 			}
 
-			halo.removeHandle('clone');
-			halo.removeHandle('fork');
-			halo.removeHandle('rotate');
-			halo.render();
+			elementActions.render();
+		});
+
+		paper.on('element:pointerdblclick', () => {
+			$rootScope.$broadcast("command:openmenu");
 		});
 
 		configs.paper.on('link:mouseenter', (linkView) => {
@@ -408,10 +402,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
 		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
 		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
+		configs.keyboardController.registerHandler(types.COPY, () => configs.editorActions.copyElement(ctrl.selectedElement.element));
+		configs.keyboardController.registerHandler(types.PASTE, () => configs.editorActions.pasteElement());
+		configs.keyboardController.registerHandler(types.DELETE, () => configs.selectedElementActions?.removeElement() );
 	}
 
 	const registerGraphEvents = (graph) => {
-
 		graph.on("change", () => {
 			setIsDirty(true);
 		});
@@ -446,14 +442,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(ctrl.shapeValidator.isComposedAttribute(model)) {
 				ctrl.makeComposedAttribute(model);
 			}
-
-			// 	if(cellView != null && (cs.isAttribute(cell) || cs.isKey(cell))){
-			// 		var x = cellView.model.attributes.position.x;
-			// 		var y = cellView.model.attributes.position.y;
-			// 		if(x != null && y != null){
-			// 			$scope.conectElements(cellView, x, y);
-			// 		}
-			// 	}
 		});
 
 	}
@@ -462,8 +450,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
 
 		registerGraphEvents(configs.graph);
-
-		configs.commandManager = new joint.dia.CommandManager({ graph: configs.graph })
 
 		const content = $("#content");
 
@@ -474,30 +460,33 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			drawGrid: true,
 			model: configs.graph,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
-			cellViewNamespace: joint.shapes
+			cellViewNamespace: joint.shapes,
+			linkPinning: false
 		});
 
 		configs.keyboardController = new KeyboardController(configs.paper.$document);
 
 		registerPaperEvents(configs.paper);
 
-		configs.selectionView = new joint.ui.SelectionView({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
-
-		configs.paperScroller = new joint.ui.PaperScroller({
+		configs.editorScroller = new joint.ui.EditorScroller({
 			paper: configs.paper,
 			cursor: "grabbing",
 			autoResizePaper: true,
 		});
-		content.append(configs.paperScroller.render().el);
+		content.append(configs.editorScroller.render().el);
 
-		const stencil = new joint.ui.Stencil({
+		const enditorManager = new joint.ui.EditorManager({
 			graph: configs.graph,
 			paper: configs.paper,
 		});
 
-		$("#stencil-holder").append(stencil.render().el);
+		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph, paper: configs.paper });
 
-		stencil.load([
+		$(".elements-holder").append(enditorManager.render().el);
+
+		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
+
+		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
 			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
@@ -529,6 +518,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			configs.graph.fromJSON(jsonModel);
 			ctrl.modelState.updatedAt = resp.data.updated
 			ctrl.setLoading(false);
+		}).catch((error) => {
+			if(error.status == 404 || error.status == 401) {
+				$state.go("noaccess");
+			}
 		});
 	}
 
@@ -543,8 +536,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.entityExtensor = null;
 		configs.graph = null;
 		configs.paper = null;
-		configs.paperScroller = null;
-		configs.commandManager = null;
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
 		preventExitService.cleanup(ctrl)()
