@@ -10,6 +10,7 @@ type ButtonProps = {
 	label?: string;
 	type?: ButtonTypes;
 	onClick: MouseEventHandler<HTMLButtonElement>;
+	children: any;
 };
 
 const Button: React.FC<ButtonProps> = ({
