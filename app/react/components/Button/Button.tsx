@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, ReactNode } from "react";
 
 enum ButtonTypes {
 	BUTTON = "button",
@@ -10,7 +10,7 @@ type ButtonProps = {
 	label?: string;
 	type?: ButtonTypes;
 	onClick: MouseEventHandler<HTMLButtonElement>;
-	children: any;
+	children: ReactNode;
 };
 
 const Button: React.FC<ButtonProps> = ({
