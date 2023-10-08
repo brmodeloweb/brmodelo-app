@@ -154,6 +154,13 @@ const controller = function (
 		}
 	});
 
+	$rootScope.$on("model:warning-copy", function () {
+		console.log("Fired");
+		$timeout(() => {
+			ctrl.showFeedback("Copy and past not allowed on this module.", true, "warning");
+		});
+	});
+
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
 	}
