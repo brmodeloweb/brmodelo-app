@@ -158,5 +158,5 @@ export default {
 	'Forbidden access': 'Acesso proibido',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Parece que este modelo não existe ou você não tem acesso a ele.',
 	'Back to models list': 'Voltar à lista de modelos',
-	'Copy and past not allowed on this module.': 'Copiar e colar não permitido nesse modulo.'
+	'Copy and paste in logic models is not possible yet': 'Copiar e colar em modelos lógicos ainda não é possível'
 };
