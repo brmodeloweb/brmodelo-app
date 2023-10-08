@@ -9,7 +9,6 @@ import uml from "../../joint/table";
 joint.shapes.erd = erd;
 joint.shapes.uml = uml;
 import "jointjs/dist/joint.min.css";
-
 import "../editor/editorManager"
 import "../editor/editorScroller"
 import "../editor/editorActions"
@@ -483,10 +482,9 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
 		ls.keyboardController.registerHandler(types.SAVE, () => {
 			ls.updateModel();
-			$rootScope.$broadcast('model:saved')
+			$rootScope.$broadcast('model:saved');
 		});
-		ls.keyboardController.registerHandler(types.COPY, () => ls.elementSelector.copyAll());
-		ls.keyboardController.registerHandler(types.PASTE, () => ls.elementSelector.pasteAll());
+		ls.keyboardController.registerHandler(types.COPY, () => $rootScope.$broadcast('model:warning-copy'));
 		ls.keyboardController.registerHandler(types.DELETE, () => ls.elementSelector.deleteAll());
 	}
 
