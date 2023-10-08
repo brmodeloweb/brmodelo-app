@@ -352,6 +352,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var name = "";
 		if (ls.selectedElement.model != null) ls.selectedElement.unhighlight();
 		if (cellView.model.attributes.name != null) {
+			ls.elementSelector.cancel();
 			ls.selectedElement = cellView;
 			name = ls.selectedElement.model.attributes.name;
 			ls.selectedElement.highlight();

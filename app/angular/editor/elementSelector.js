@@ -34,6 +34,7 @@ joint.ui.ElementSelector = Backbone.View.extend({
 		this.deleteAll = this.deleteAll.bind(this);
 		this.copyAll = this.copyAll.bind(this);
 		this.pasteAll = this.pasteAll.bind(this);
+		this.cancel = this.cancel.bind(this);
 
 		$(document.body).on("mousemove.selectionView touchmove.selectionView", this.adjust);
 		$(document).on("mouseup.selectionView touchend.selectionView", this.pointerup);

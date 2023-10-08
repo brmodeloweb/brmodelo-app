@@ -157,6 +157,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
+			configs.elementSelector.cancel();
 			$timeout(() => {
 				const elementType = cellView.model.isLink() ? "Link" : cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
