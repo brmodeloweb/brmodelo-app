@@ -157,6 +157,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
+			configs.elementSelector.cancel();
 			$timeout(() => {
 				const elementType = cellView.model.isLink() ? "Link" : cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
@@ -352,7 +353,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			} else {
 				configs.editorScroller.startPanning(evt);
 			}
-			configs.editorActions.setCopyContext(evt);
+			configs.elementSelector.setCopyContext(evt);
 		});
 
 		paper.on('link:options', (cellView) => {
@@ -402,9 +403,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
 		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
 		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
-		configs.keyboardController.registerHandler(types.COPY, () => configs.editorActions.copyElement(ctrl.selectedElement.element));
-		configs.keyboardController.registerHandler(types.PASTE, () => configs.editorActions.pasteElement());
-		configs.keyboardController.registerHandler(types.DELETE, () => configs.selectedElementActions?.removeElement() );
+		configs.keyboardController.registerHandler(types.COPY, () => configs.elementSelector.copyAll());
+		configs.keyboardController.registerHandler(types.PASTE, () => configs.elementSelector.pasteAll());
+		configs.keyboardController.registerHandler(types.DELETE, () => configs.elementSelector.deleteAll() );
 	}
 
 	const registerGraphEvents = (graph) => {
