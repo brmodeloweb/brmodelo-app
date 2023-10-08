@@ -158,5 +158,5 @@ export default {
 	'Forbidden access': 'Acesso proibido',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Parece que este modelo não existe ou você não tem acesso a ele.',
 	'Back to models list': 'Voltar à lista de modelos',
-	'Copy and past not allowed on this module.': 'Copiar e colar não permitido nesse modulo.'
+	'Copy is not allowed on this module when element has references.': 'Copiar não é permitido nesse módulo quando elementos já estiverem conectados.'
 };

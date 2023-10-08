@@ -473,6 +473,18 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.editorScroller.zoom();
 	}
 
+	ls.copySelectedElements = function () {
+		const elements = ls.elementSelector.getSelectedElements();
+		const hasConnections = elements.some(element => {
+			return element.attributes.objects.some(attr => attr.FK);
+		});
+		if(hasConnections) {
+			$rootScope.$broadcast('model:warning-copy');
+		} else {
+			ls.elementSelector.copyAll();
+		}
+	}
+
 	ls.registerShortcuts = () => {
 		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
 		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
@@ -484,7 +496,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.updateModel();
 			$rootScope.$broadcast('model:saved');
 		});
-		ls.keyboardController.registerHandler(types.COPY, () => $rootScope.$broadcast('model:warning-copy'));
+		ls.keyboardController.registerHandler(types.COPY, () => ls.copySelectedElements());
+		ls.keyboardController.registerHandler(types.PASTE, () => ls.elementSelector.pasteAll());
 		ls.keyboardController.registerHandler(types.DELETE, () => ls.elementSelector.deleteAll());
 	}
 

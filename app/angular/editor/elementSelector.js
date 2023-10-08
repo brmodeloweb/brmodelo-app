@@ -35,6 +35,7 @@ joint.ui.ElementSelector = Backbone.View.extend({
 		this.copyAll = this.copyAll.bind(this);
 		this.pasteAll = this.pasteAll.bind(this);
 		this.cancel = this.cancel.bind(this);
+		this.getSelectedElements = this.getSelectedElements.bind(this);
 
 		$(document.body).on("mousemove.selectionView touchmove.selectionView", this.adjust);
 		$(document).on("mouseup.selectionView touchend.selectionView", this.pointerup);
@@ -361,5 +362,8 @@ joint.ui.ElementSelector = Backbone.View.extend({
         var d = Array.prototype.slice.call(arguments, 2);
         d.unshift("action:" + a + ":" + b);
 		this.trigger.apply(this, d);
-    }
+    },
+	getSelectedElements: function() {
+		return this.model.models;
+	}
 });

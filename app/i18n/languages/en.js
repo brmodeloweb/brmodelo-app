@@ -158,5 +158,5 @@ export default {
 	'Forbidden access': 'Forbidden access',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Looks like this model does not exist or you don\'t have access to it.',
 	'Back to models list': 'Back to models list',
-	'Copy and past not allowed on this module due update reference complexity.': 'Copy and past not allowed on this module due update reference complexity.'
+	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.'
 };
