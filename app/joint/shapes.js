@@ -1,13 +1,26 @@
 import * as joint from "jointjs/dist/joint";
-import _ from "lodash";
 import composedImg from "../img/composto-01.png"
 
 const erd = joint.shapes.erd;
 
+function deepMerge(obj1, obj2) {
+  let output = Object.assign({}, obj1);
+  
+  for (let key in obj2) {
+    if (obj2.hasOwnProperty(key)) {
+      if (typeof obj2[key] === 'object' && obj2[key] !== null && obj1[key] && typeof obj1[key] === 'object') {
+        output[key] = deepMerge(obj1[key], obj2[key]);
+      } else {
+        output[key] = obj2[key];
+      };
+    };
+  };
+  return output;
+};
+
 erd.Entity = joint.dia.Element.extend({
-  markup:
-    '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
-  defaults: _.defaultsDeep(
+  markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+  defaults: deepMerge(
     {
       type: "erd.Entity",
       supertype: "Entity",
@@ -44,10 +57,9 @@ erd.Entity = joint.dia.Element.extend({
   ),
 });
 
-erd.Relationship = joint.dia.Element.extend({
-  markup:
-    '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
-  defaults: _.defaultsDeep(
+erd.Entity = joint.dia.Element.extend({
+  markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+  defaults: deepMerge(
     {
       type: "erd.Relationship",
       supertype: "Relationship",
@@ -83,10 +95,9 @@ erd.Relationship = joint.dia.Element.extend({
   ),
 });
 
-erd.ISA = joint.dia.Element.extend({
-  markup:
-    '<g class="rotatable"><g class="scalable"><polygon class="poly"/></g><text/></g>',
-  defaults: _.defaultsDeep(
+erd.Entity = joint.dia.Element.extend({
+  markup: '<g class="rotatable"><g class="scalable"><polygon class="poly"/></g><text/></g>',
+  defaults: deepMerge(
     {
       type: "erd.ISA",
       supertype: "Inheritance",
@@ -114,7 +125,7 @@ erd.ISA = joint.dia.Element.extend({
 
 erd.Associative = joint.dia.Element.extend({
   markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
-  defaults: _.defaultsDeep({
+  defaults: deepMerge({
     type: 'erd.Associative',
     supertype: 'Relationship',
     isExtended: false,
@@ -139,14 +150,15 @@ erd.Associative = joint.dia.Element.extend({
         'font-family': 'Arial', 'font-size': 12,
         ref: '.outer', 'ref-x': .5, 'ref-y': .5,
         'x-alignment': 'middle', 'y-alignment': 'middle'
-      }
-    }
-  }, joint.dia.Element.prototype.defaults)
+      },
+    },
+  },
+  joint.dia.Element.prototype.defaults)
 });
 
 erd.BlockAssociative = joint.dia.Element.extend({
   markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
-  defaults: _.defaultsDeep({
+  defaults: deepMerge({
       type: 'erd.BlockAssociative',
       supertype: 'Entity',
       size: { width: 100, height: 50 },
@@ -156,13 +168,13 @@ erd.BlockAssociative = joint.dia.Element.extend({
               points: '100,0 100,60 0,60 0,0'
           }
       }
-  }, joint.dia.Element.prototype.defaults)
+  },
+  joint.dia.Element.prototype.defaults)
 });
 
 erd.Attribute = joint.dia.Element.extend({
-  markup:
-    '<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
-  defaults: _.defaultsDeep(
+  markup: '<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
+  defaults: deepMerge(
     {
       type: "erd.Attribute",
       supertype: "Attribute",
@@ -209,9 +221,8 @@ erd.Attribute = joint.dia.Element.extend({
 });
 
 erd.Key = joint.dia.Element.extend({
-  markup:
-    '<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
-  defaults: _.defaultsDeep(
+  markup: '<g class="rotatablex"><g class="scalable"><ellipse class="outer"/><ellipse class="inner"/></g><text/></g>',
+  defaults: deepMerge(
     {
       type: "erd.Key",
       supertype: "Key",
@@ -267,15 +278,16 @@ erd.Link = joint.dia.Link.extend({
 });
 
 erd.ComposedAttribute = joint.shapes.basic.Generic.extend({
-	markup: '<g class="rotatable"><g class="scalable"><rect/></g><image/><text/></g>',
+	markup:'<g class="rotatable"><g class="scalable"><rect/></g><image/><text/></g>',
 	defaults: joint.util.deepSupplement({
 			type: 'erd.ComposedAttribute',
 			size: { width: 60, height: 40 },
 			attrs: {
 					'rect': { fill: 'transparent', stroke: 'transparent', width: 50, height: 30 },
 					'image': { "xlink:href": composedImg },
-			}
-	}, joint.shapes.basic.Generic.prototype.defaults)
+			},
+	},
+  joint.shapes.basic.Generic.prototype.defaults)
 });
 
 erd.InfoButton = joint.linkTools.InfoButton = joint.linkTools.Button.extend({
@@ -309,4 +321,3 @@ erd.InfoButton = joint.linkTools.InfoButton = joint.linkTools.Button.extend({
 });
 
 export default erd;
-
