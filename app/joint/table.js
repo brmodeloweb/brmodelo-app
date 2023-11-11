@@ -1,10 +1,9 @@
 import * as joint from "jointjs/dist/joint";
-import _ from "lodash";
+import { deepMerge } from './deepMerge';
 
 const uml = joint.shapes.uml;
 
 uml.Class = joint.shapes.basic.Generic.extend({
-
     markup: [
         '<g class="rotatable">',
         '<g class="scalable">',
@@ -13,11 +12,8 @@ uml.Class = joint.shapes.basic.Generic.extend({
         '<text class="uml-class-name-text"/><text class="uml-class-attrs-text"/><text class="uml-class-methods-text"/>',
         '</g>'
     ].join(''),
-
-    defaults: _.defaultsDeep({
-
+    defaults: deepMerge({
         type: 'uml.Class',
-
         attrs: {
             rect: { 'width': 200 },
 
@@ -38,23 +34,19 @@ uml.Class = joint.shapes.basic.Generic.extend({
                 'fill': 'black', 'font-size': 12, 'font-family': 'BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif'
             }
         },
-
         name: [],
         attributes: [],
         methods: [],
         objects: []
-
     }, joint.shapes.basic.Generic.prototype.defaults),
 
     initialize: function () {
-
         this.on('change:name change:attributes change:methods', function () {
             this.updateRectangles();
             this.trigger('uml-update');
         }, this);
 
         this.updateRectangles();
-
         joint.shapes.basic.Generic.prototype.initialize.apply(this, arguments);
     },
 
@@ -92,9 +84,7 @@ uml.Class = joint.shapes.basic.Generic.extend({
     },
 
     updateRectangles: function () {
-
         var attrs = this.get('attrs');
-
         var rects = [
             { type: 'name', text: this.getClassName() },
             { type: 'attrs', text: this.get('attributes') },
@@ -102,29 +92,22 @@ uml.Class = joint.shapes.basic.Generic.extend({
         ];
 
         var offsetY = 0;
+        rects.forEach(rect => {
+            const lines = Array.isArray(rect.text) ? rect.text : [rect.text];
+            const rectHeight = lines.length * 20 + 20;
 
-        _.each(rects, function (rect) {
-
-            var lines = _.isArray(rect.text) ? rect.text : [rect.text];
-            var rectHeight = lines.length * 20 + 20;
-
-            attrs['.uml-class-' + rect.type + '-text'].text = lines.join('\n');
-            attrs['.uml-class-' + rect.type + '-rect'].height = rectHeight;
-            attrs['.uml-class-' + rect.type + '-rect'].transform = 'translate(0,' + offsetY + ')';
-
+            attrs[`.uml-class-${rect.type}-text`].text = lines.join('\n');
+            attrs[`.uml-class-${rect.type}-rect`].height = rectHeight;
+            attrs[`.uml-class-${rect.type}-rect`].transform = `translate(0,${offsetY})`;
             offsetY += rectHeight;
-        });
-
+          });
     },
-
     getType: function() {
         return "Class"
     }
-
 });
 
 uml.Abstract = joint.shapes.basic.Generic.extend({
-
     markup: [
         '<g class="rotatable">',
         '<g class="scalable">',
@@ -133,11 +116,8 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
         '<text class="uml-class-name-text"/><text class="uml-class-attrs-text"/><text class="uml-class-methods-text"/>',
         '</g>'
     ].join(''),
-
-    defaults: _.defaultsDeep({
-
+    defaults: deepMerge({
         type: 'uml.Abstract',
-
         attrs: {
             rect: { 'width': 200 },
 
@@ -158,23 +138,19 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
                 'fill': 'black', 'font-size': 12, 'font-family': 'BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif'
             }
         },
-
         name: [],
         attributes: [],
         methods: [],
         objects: []
-
-    }, joint.shapes.basic.Generic.prototype.defaults),
+    },
+    joint.shapes.basic.Generic.prototype.defaults),
 
     initialize: function () {
-
         this.on('change:name change:attributes change:methods', function () {
             this.updateRectangles();
             this.trigger('uml-update');
         }, this);
-
         this.updateRectangles();
-
         joint.shapes.basic.Generic.prototype.initialize.apply(this, arguments);
     },
 
@@ -198,9 +174,7 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
     },
 
     updateRectangles: function () {
-
         var attrs = this.get('attrs');
-
         var rects = [
             { type: 'name', text: this.getClassName() },
             { type: 'attrs', text: this.get('attributes') },
@@ -208,19 +182,15 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
         ];
 
         var offsetY = 0;
+        rects.forEach(rect => {
+            const lines = Array.isArray(rect.text) ? rect.text : [rect.text];
+            const rectHeight = lines.length * 20 + 20;
 
-        _.each(rects, function (rect) {
-
-            var lines = _.isArray(rect.text) ? rect.text : [rect.text];
-            var rectHeight = lines.length * 20 + 20;
-
-            attrs['.uml-class-' + rect.type + '-text'].text = lines.join('\n');
-            attrs['.uml-class-' + rect.type + '-rect'].height = rectHeight;
-            attrs['.uml-class-' + rect.type + '-rect'].transform = 'translate(0,' + offsetY + ')';
-
+            attrs[`.uml-class-${rect.type}-text`].text = lines.join('\n');
+            attrs[`.uml-class-${rect.type}-rect`].height = rectHeight;
+            attrs[`.uml-class-${rect.type}-rect`].transform = `translate(0,${offsetY})`;
             offsetY += rectHeight;
-        });
-
+          });
     },
 
     getType: function() {
