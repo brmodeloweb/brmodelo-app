@@ -22,28 +22,40 @@ Cypress.Commands.add("cleanUpUserModels", (userModels) => {
 });
 
 Cypress.Commands.add("getUserModelsViaApi", (url) => {
-	cy.request("GET", url);
+	cy.getCookie('userToken').then(({ value }) => {
+		cy.request({
+			method: "GET",
+			url,
+			headers: { "brx-access-token": value },
+		});
+	});
 });
 
 Cypress.Commands.add("deleteModelViaApi", (modelId) => {
-	cy.request(
-		"DELETE",
-		`${Cypress.config("apiUrl")}/models/:modelId?modelId=${modelId}`
-	);
+	cy.getCookie('userToken').then(({ value }) => {
+		cy.request({
+			method: "DELETE",
+			url: `${Cypress.env("apiUrl")}/models/:modelId?modelId=${modelId}`,
+			headers: { "brx-access-token": value },
+		});
+	});
 });
 
 Cypress.Commands.add(
 	"createModelViaApi",
 	(type, userId, model = { cell: [] }) => {
-		cy.request({
-			method: "POST",
-			url: `${Cypress.config("apiUrl")}/models`,
-			body: {
-				name: faker.animal.type(),
-				user: userId,
-				type,
-				model,
-			},
+		cy.getCookie('userToken').then(({ value }) => {
+			cy.request({
+				method: "POST",
+				url: `${Cypress.env("apiUrl")}/models`,
+				headers: { "brx-access-token": value },
+				body: {
+					name: faker.animal.type(),
+					user: userId,
+					type,
+					model,
+				},
+			});
 		});
 	}
 );
