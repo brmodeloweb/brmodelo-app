@@ -1,6 +1,6 @@
 /// <reference path="../support/commands.d.ts" />
 
-const { random } = require("faker");
+import { faker } from '@faker-js/faker/locale/en';
 
 describe("Models view", () => {
 	beforeEach(() => {
@@ -17,7 +17,7 @@ describe("Models view", () => {
 	});
 
 	it("edits a model title", () => {
-		const updatedModelName = random.word();
+		const updatedModelName = faker.lorem.word();
 
 		cy.get(".fa-pencil").click({ force: true });
 		cy.get("#rename-model").type(updatedModelName);

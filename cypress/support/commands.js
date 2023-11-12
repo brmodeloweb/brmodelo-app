@@ -1,4 +1,5 @@
-const { animal } = require("faker");
+
+import { faker } from '@faker-js/faker/locale/en';
 
 Cypress.Commands.add(
 	"loginViaGui",
@@ -53,7 +54,7 @@ Cypress.Commands.add(
 			method: "POST",
 			url: `${Cypress.config("apiUrl")}/models`,
 			body: {
-				name: animal.type(),
+				name: faker.animal.type(),
 				user: userId,
 				type,
 				model,
