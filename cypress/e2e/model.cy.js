@@ -3,7 +3,7 @@
 describe("Model", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
-		cy.loginViaApi();
+		cy.loginViaGui();
 		cy.wait("@getUserModels").then((userModels) => {
 			cy.cleanUpUserModels(userModels);
 			cy.reload();

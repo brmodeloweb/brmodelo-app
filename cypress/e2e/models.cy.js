@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker/locale/en';
 describe("Models view", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
-		cy.loginViaApi();
+		cy.loginViaGui();
 		cy.wait("@getUserModels").then((userModels) => {
 			const userId = userModels.request.url.match(/userId=([^&]*)/)[1];
 
