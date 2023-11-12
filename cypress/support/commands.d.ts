@@ -14,17 +14,6 @@ declare namespace Cypress {
     loginViaGui(username?: string, password?: string)
 
     /**
-     * **Programmatically logs into the BR Modelo Wep App.**
-     *
-     * @param email string - The email of the user you want to log in with. Defaults to Cypress.env('user') if no value is provided.
-     * @param password string - The password of the user you want to log in with. Defaults to Cypress.env('password') if no value is provided.
-     *
-     * @example cy.loginViaApi() // Programmatically logs into the app using the default email and password (defined as envs).
-     * @example cy.loginViaApi('user@email.com', 'S3cRe7P@ssW0rd') // Programmatically logs into the app using the provided credentials.
-     */
-     loginViaApi(username?: string, password?: string)
-
-    /**
      * **Deletes all models of the logged in user.**
      * 
      * This command is used for cleaning things up before tests start so that they start on a clean state.

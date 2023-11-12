@@ -11,21 +11,6 @@ Cypress.Commands.add(
 	}
 );
 
-Cypress.Commands.add(
-	"loginViaApi",
-	(user = Cypress.env("user"), password = Cypress.env("password")) => {
-		cy.request("POST", `${Cypress.config("apiUrl")}/users/login`, {
-			username: user,
-			password,
-		}).then((response) => {
-			cy.setCookie("sessionId", response.body.sessionId);
-			cy.setCookie("userId", response.body.userId);
-			cy.setCookie("userName", response.body.userName);
-			cy.visit("/#!/main");
-		});
-	}
-);
-
 Cypress.Commands.add("cleanUpUserModels", (userModels) => {
 	cy.getUserModelsViaApi(userModels.response.url).then(
 		(userModelsResponseUrl) => {
