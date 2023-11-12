@@ -54,15 +54,5 @@ declare namespace Cypress {
      * @example cy.createModelViaApi('conceptual', '618f065ed18dc91b10650f99', conceptualModel) // Creates a conceptual model for userId=618f065ed18dc91b10650f99 passing a model object (`conceptualModel`), defined earlier, as a variable
      */
     createModelViaApi(type: string, userId: string, model?: object): Cypress.Chainable<Cypress.Response<any>>
-
-    /**
-     * **Moves the table element from the sidebar of the logical model creation view X pixels to its right, and Y pixels down.**
-     *
-     * @param deltaX number - The distance (to the right) in pixels relative to the element's current position
-     * @param deltaY number - The distance (down) in pixels relative to the element's current position
-     *
-     * @example cy.dragAndDropTableAt(200, 200) // Moves the table element from the sidebar of the logical model creation view 200 pixels to its right, and 200 pixels down
-     */
-    dragAndDropTableAt(deltaX: number, deltaY: number): Chainable<Element>
   }
 }
