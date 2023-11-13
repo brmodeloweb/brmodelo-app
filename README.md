@@ -37,6 +37,23 @@ To run this application you'll need:
 
 ## Tests
 
+### Setup tests
+
+1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
+1. Update `cypress.env.json` with valid user credentials (Username and password)
+
+> [!WARNING]
+> The data from the accound you set here will be wiped out after the tests are run.
+> So, don't use your real account here!
+
+## E2E tests
+
+To run E2E tests you have two options:
+
+1. Run headless mode in your terminal window: `yarn test:cy`
+1. Run interactive mode: `yarn cy:open`
+
+
 ### Unit Tests
 
 To run the unit tests you have two options:
@@ -44,15 +61,6 @@ To run the unit tests you have two options:
 - `yarn test` to run all the tests and collect the coverage report. Or; 
 - Execute in a `watch` mode by running `yarn test:watch`
 
-### E2E Tests
-First, make sure you have the project up and running with database, backend, and frontend.
-
-1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
-1. Edit `cypress.env.json` adding valid user credentials (Username and password)  
-	> **Note:** Tests will delete all models from your user. To avoid lost your work we recommend you to create a different user to run the tests
-1. To run the tests you have two options:
-	1. Run headless mode in your terminal window: `yarn test:cy`
-	1. Run interactive mode: `yarn cy:open`
 
 ## Production environments
 
