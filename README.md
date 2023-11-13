@@ -43,7 +43,7 @@ To run this application you'll need:
 1. Update `cypress.env.json` with valid user credentials (Username and password)
 
 > [!WARNING]
-> The data from the accound you set here will be wiped out after the tests are run.
+> The data from the accound you set in `cypress.env.json` will be wiped out after the tests run.
 > So, don't use your real account here!
 
 ### E2E tests
