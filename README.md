@@ -46,7 +46,7 @@ To run this application you'll need:
 > The data from the accound you set here will be wiped out after the tests are run.
 > So, don't use your real account here!
 
-## E2E tests
+### E2E tests
 
 To run E2E tests you have two options:
 
