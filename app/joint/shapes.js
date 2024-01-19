@@ -147,15 +147,21 @@ erd.Associative = joint.dia.Element.extend({
 erd.BlockAssociative = joint.dia.Element.extend({
   markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
   defaults: _.defaultsDeep({
-      type: 'erd.BlockAssociative',
-      supertype: 'Entity',
-      size: { width: 100, height: 50 },
-      attrs: {
-          '.outer': {
-              fill: 'white', stroke: 'black',
-              points: '100,0 100,60 0,60 0,0'
-          }
-      }
+		type: 'erd.BlockAssociative',
+		supertype: 'Entity',
+		size: { width: 100, height: 50 },
+		attrs: {
+			'.outer': {
+					fill: 'white', stroke: 'black',
+					points: '100,0 100,60 0,60 0,0'
+			},
+			text: {
+				text: '',
+				'font-family': 'Arial', 'font-size': 12,
+				ref: '.outer', 'ref-x': .1, 'ref-y': .05,
+				'x-alignment': 'start', 'y-alignment': 'start'
+			}
+    }
   }, joint.dia.Element.prototype.defaults)
 });
 
