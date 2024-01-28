@@ -1,5 +1,8 @@
 name: Add sponsors to README
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: 30 15 * * 0
