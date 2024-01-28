@@ -1,20 +1,22 @@
-- name: Add GitHub Sponsors to Readme
-  uses: JamesIves/github-sponsors-readme-action@v1.3.1
+name: Add sponsors to README
 on:
   workflow_dispatch:
   schedule:
     - cron: 30 15 * * 0
+
 jobs:
-  deploy:
+  update-readme-with-sponsors:
     runs-on: ubuntu-latest
     steps:
       - name: 🛎️ Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
       - name: 💖 Generate Sponsors
         uses: JamesIves/github-sponsors-readme-action@v1
         with:
           token: ${{ secrets.ADD_SPONSORS_TO_README }}
           file: 'README.md'
+
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
