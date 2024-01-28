@@ -67,6 +67,10 @@ To run the unit tests you have two options:
 - Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
 - Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
 
+## Sponsors
+
+<!-- sponsors --><!-- sponsors -->
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
