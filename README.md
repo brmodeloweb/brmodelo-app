@@ -21,7 +21,7 @@ To run this application you'll need:
 
 1. Install dependencies: `yarn install`
 1. Duplicate `.env.example` and rename it to `.env`
-1. Make sure you have MongoDB running (To know more: [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition), [Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition-as-a-windows-service), [CentOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#run-mongodb-community-edition), [Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition) or [Debian](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/#run-mongodb-community-edition)) 
+1. Make sure you have MongoDB running (To know more: [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition), [Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition-as-a-windows-service), [CentOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#run-mongodb-community-edition), [Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition) or [Debian](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/#run-mongodb-community-edition))
 1. Start frontend: `yarn start:frontend`
 1. Start server: `yarn start:dev`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
@@ -30,7 +30,7 @@ To run this application you'll need:
 
 > **Note:** Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
 
-1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running 
+1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running
 1. Start docker: `docker-compose up` or `docker-compose up -d`
 1. Access it: [http://localhost:9000/](http://localhost:9000/)
 1. Once your done, finish docker: `docker-compose down`
@@ -58,7 +58,7 @@ To run E2E tests you have two options:
 
 To run the unit tests you have two options:
 
-- `yarn test` to run all the tests and collect the coverage report. Or; 
+- `yarn test` to run all the tests and collect the coverage report. Or;
 - Execute in a `watch` mode by running `yarn test:watch`
 
 
@@ -66,10 +66,6 @@ To run the unit tests you have two options:
 
 - Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
 - Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
-
-## Sponsors
-
-<!-- sponsors --><!-- sponsors -->
 
 ## Contributors ✨
 
