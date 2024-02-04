@@ -69,7 +69,7 @@ To run the unit tests you have two options:
 
 ## Sponsors
 
-<!-- sponsors:START --><!-- sponsors:END -->
+<!-- sponsors --><!-- sponsors -->
 
 ## Contributors ✨
 
