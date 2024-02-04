@@ -17,4 +17,5 @@ jobs:
       - name: 💖 Generate Sponsors
         uses: JamesIves/github-sponsors-readme-action@v1
         with:
+          organization: true
           token: ${{ secrets.ADD_SPONSORS_TO_README }}
