@@ -87,6 +87,16 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "Tarliton",
+      "name": "Tárliton Basso de Godoy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7471617?v=4",
+      "profile": "https://github.com/Tarliton",
+      "contributions": [
+        "code",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -94,5 +104,7 @@
   "projectOwner": "brmodeloweb",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs",
+  "commitConvention": "angular"
 }
