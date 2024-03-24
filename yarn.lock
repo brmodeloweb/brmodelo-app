@@ -1991,6 +1991,11 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@joint/core@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@joint/core/-/core-4.0.1.tgz#8821fa42b89142006ba46da8f919367dd4a9cf02"
+  integrity sha512-/nI64MhSUhTJ4rVT0UeaVBYyFYE8SLGbz1M6nB3lcE9pub1a8cudXG6+8MqhmQMMBOZ2SwNUpHebZXyl5gqDZg==
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -3464,13 +3469,6 @@ babel-preset-jest@^27.5.1:
     babel-plugin-jest-hoist "^27.5.1"
     babel-preset-current-node-syntax "^1.0.0"
 
-backbone@~1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.4.1.tgz#099a78184bc07b034048a8332229c2ccca1e3e62"
-  integrity sha512-ADy1ztN074YkWbHi8ojJVFe3vAanO/lrzMGZWUClIP7oDD/Pjy2vrASraUP+2EVCfIiTtCW4FChVow01XneivA==
-  dependencies:
-    underscore ">=1.8.3"
-
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
@@ -4283,14 +4281,6 @@ cypress@^9.7.0:
     tmp "~0.2.1"
     untildify "^4.0.0"
     yauzl "^2.10.0"
-
-dagre@~0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/dagre/-/dagre-0.8.5.tgz#ba30b0055dac12b6c1fcc247817442777d06afee"
-  integrity sha512-/aTqmnRta7x7MCCpExk7HQL2O4owCT2h8NT//9I1OQ9vt29Pa0BzSAkR5lwFUcQ7491yVi/3CXU9jQ5o0Mn2Sw==
-  dependencies:
-    graphlib "^2.1.8"
-    lodash "^4.17.15"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -5618,13 +5608,6 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, 
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
   integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
-graphlib@^2.1.8, graphlib@~2.1.8:
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/graphlib/-/graphlib-2.1.8.tgz#5761d414737870084c92ec7b5dbcb0592c9d35da"
-  integrity sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==
-  dependencies:
-    lodash "^4.17.15"
-
 handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
@@ -6672,22 +6655,6 @@ jest@^27.5.1:
     import-local "^3.0.2"
     jest-cli "^27.5.1"
 
-jointjs@3.7.5:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/jointjs/-/jointjs-3.7.5.tgz#a446463cc1e9766575c2718d7c57f72100ccadac"
-  integrity sha512-q8eC0300Y6wHy59dU/wRO9HIEfZlPQsmoD9QF6ty/TsyZGaY8yRptoEpzxbtIRnQ8vRDJ5R6lBYRmsAN0FVw9w==
-  dependencies:
-    backbone "~1.4.1"
-    dagre "~0.8.5"
-    graphlib "~2.1.8"
-    jquery "~3.6.4"
-    lodash "~4.17.21"
-
-jquery@~3.6.4:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.4.tgz#ba065c188142100be4833699852bf7c24dc0252f"
-  integrity sha512-v28EW9DWDFpzcD9O5iyJXg3R3+q+mET5JhnjJzQUZMHOv67bpSIHq81GEYpPNZHG+XXHsfSme3nxp/hndKEcsQ==
-
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -6975,7 +6942,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0, lodash@~4.17.21:
+lodash@^4.17.11, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -9443,11 +9410,6 @@ undefsafe@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/undefsafe/-/undefsafe-2.0.5.tgz#38733b9327bdcd226db889fb723a6efd162e6e2c"
   integrity sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==
-
-underscore@>=1.8.3:
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.2.tgz#276cea1e8b9722a8dbed0100a407dda572125881"
-  integrity sha512-ekY1NhRzq0B08g4bGuX4wd2jZx5GnKz6mKSqFL4nqBlfyMGiG10gDFhDTMEfYmDL6Jy0FUIZp7wiRB+0BP7J2g==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.22.10",
+    "@joint/core": "^4.0.1",
     "@uirouter/angularjs": "^1.1.0",
     "angular": "^1.8.3",
     "angular-cookies": "^1.8.3",
@@ -38,7 +39,6 @@
     "hotkeys-js": "^3.12.0",
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.8",
-    "jointjs": "3.7.5",
     "mailgun.js": "^4.2.3",
     "mongodb": "~4.17.0",
     "mongoose": "^6.11.6",
