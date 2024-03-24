@@ -1,9 +1,9 @@
-import * as joint from "jointjs/dist/joint";
+import * as joint from "@joint/core/dist/joint";
 
 export default class ToolsViewService {
-	constructor() {
+	constructor(infoButton) {
 		const defaultTools = this.#createDefaultTools();
-		this.toolsWithInfo = new joint.dia.ToolsView({ tools: [...defaultTools, new joint.shapes.erd.InfoButton(), new joint.linkTools.Remove()] });
+		this.toolsWithInfo = new joint.dia.ToolsView({ tools: [...defaultTools, infoButton, new joint.linkTools.Remove()] });
 		this.tools = new joint.dia.ToolsView({ tools: [...defaultTools, new joint.linkTools.Remove()] })
 		this.toolsWithoutRemove = new joint.dia.ToolsView({ tools: defaultTools });
 	}
@@ -23,5 +23,4 @@ export default class ToolsViewService {
 			new joint.linkTools.Boundary(),
 		]
 	}
-
 };

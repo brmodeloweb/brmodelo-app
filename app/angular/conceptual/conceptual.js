@@ -25,10 +25,10 @@ import bugReportButton from "../components/bugReportButton";
 
 import Factory from "./factory";
 import Validator from "./validator";
-//import Linker from "./linker";
-//import EntityExtensor from "./entityExtensor";
+import Linker from "./linker";
+import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
-//import ToolsViewService from "../service/toolsViewService";
+import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
@@ -511,11 +511,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	};
 
 	ctrl.$onInit = () => {
-		// ctrl.shapeFactory = new Factory(joint.shapes);
-		// ctrl.shapeValidator = new Validator();
-		// ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
-		// ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
-		// ctrl.toolsViewService = new ToolsViewService();
+		ctrl.shapeFactory = new Factory(joint.shapes);
+		ctrl.shapeValidator = new Validator();
+		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
+		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
+		ctrl.toolsViewService = new ToolsViewService(new erd.InfoButton());
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
 		 	const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
