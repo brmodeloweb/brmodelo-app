@@ -6,22 +6,22 @@ import "angular-cookies";
 import "angular-translate";
 import "textangular";
 
-import "jointjs";
-import jointCss from "jointjs/dist/joint.min.css";
+//import "jointjs";
+//import jointCss from "jointjs/dist/joint.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "../sass/app.scss";
 
 import "oclazyload";
 
-import sidebarControlConceptual from "./conceptual/sidebarControl";
-import sidebarControlLogic from "./logic/sidebarControl";
+//import sidebarControlConceptual from "./conceptual/sidebarControl";
+//import sidebarControlLogic from "./logic/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
-import dropdownComponent from "./components/dropdown";
-import dropdownIconComponent from "./components/dropdownIcon";
-import logicService from "./service/logicService";
-import logicFactory from "./service/logicFactory";
+//import dropdownComponent from "./components/dropdown";
+//import dropdownIconComponent from "./components/dropdownIcon";
+//import logicService from "./service/logicService";
+//import logicFactory from "./service/logicFactory";
 
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
@@ -30,7 +30,7 @@ import en from "../i18n/languages/en";
  * This line prevent a sideEffect issue in jointjs library that make webpack ignore joint css imports
  * See more: https://github.com/webpack/webpack/issues/8814
  */
-console.log(jointCss)
+//console.log(jointCss)
 
 const app = angular.module("app", [
 	"ui.router",
@@ -40,12 +40,12 @@ const app = angular.module("app", [
 	"oc.lazyLoad",
 	authService,
 	modelService,
-	logicService,
-	dropdownComponent,
-	logicFactory,
-	sidebarControlConceptual,
-	dropdownIconComponent,
-	sidebarControlLogic
+	//logicService,
+	// dropdownComponent,
+	// logicFactory,
+	// sidebarControlConceptual,
+	// dropdownIconComponent,
+	// sidebarControlLogic
 ]);
 
 app.config([
@@ -165,28 +165,28 @@ app.config([
 			},
 		});
 
-		$stateProvider.state("logic", {
-			title: "Logic model - BRMW",
-			url: "/logic/{references:json}",
-			component: "editorLogic",
-			data: {
-				requireLogin: true,
-			},
-			lazyLoad($transition$) {
-				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
-				return import("./logic/logic.js").then((mod) =>
-					$ocLazyLoad.inject(mod.default)
-				);
-			},
-		});
+		// $stateProvider.state("logic", {
+		// 	title: "Logic model - BRMW",
+		// 	url: "/logic/{references:json}",
+		// 	component: "editorLogic",
+		// 	data: {
+		// 		requireLogin: true,
+		// 	},
+		// 	lazyLoad($transition$) {
+		// 		const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+		// 		return import("./logic/logic.js").then((mod) =>
+		// 			$ocLazyLoad.inject(mod.default)
+		// 		);
+		// 	},
+		// });
 
-		$stateProvider.state("sql", {
-			url: "/sql/{code}",
-			templateUrl: "angular/view/sql.html",
-			data: {
-				requireLogin: true,
-			},
-		});
+		// $stateProvider.state("sql", {
+		// 	url: "/sql/{code}",
+		// 	templateUrl: "angular/view/sql.html",
+		// 	data: {
+		// 		requireLogin: true,
+		// 	},
+		// });
 
 		$stateProvider.state("preferences", {
 			title: "Preferences - BRMW",

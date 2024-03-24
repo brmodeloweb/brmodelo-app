@@ -3,12 +3,12 @@ import angular from "angular";
 import "backbone";
 import $ from "jquery";
 
-import * as joint from "jointjs/dist/joint";
+import * as joint from "@joint/core/dist/joint";
 import erd from "../../joint/shapes";
 import uml from "../../joint/table";
 joint.shapes.erd = erd;
 joint.shapes.uml = uml;
-import "jointjs/dist/joint.min.css";
+//import "jointjs/dist/joint.min.css";
 
 import "../editor/editorManager"
 import "../editor/editorScroller"

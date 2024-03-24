@@ -1,7 +1,7 @@
 import angular from "angular";
 
 import * as joint from "jointjs/dist/joint";
-import "jointjs/dist/joint.min.css";
+//import "jointjs/dist/joint.min.css";
 
 const logicFactory = ($filter) => {
 	var logic = joint.shapes.uml;

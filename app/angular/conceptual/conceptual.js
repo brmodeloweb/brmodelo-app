@@ -1,16 +1,20 @@
-import "backbone";
-import $ from "jquery";
+import * as joint from "@joint/core/dist/joint"
 
-import * as joint from "jointjs/dist/joint";
+// import "../editor/editorManager";
+// import "../editor/editorScroller";
+// import "../editor/editorActions";
+// import "../editor/elementActions";
+// import "../editor/elementSelector";
 
-import "../editor/editorManager";
-import "../editor/editorScroller";
-import "../editor/editorActions";
-import "../editor/elementActions";
-import "../editor/elementSelector";
+console.log(joint);
 
-import shapes from "../../joint/shapes";
-joint.shapes.erd = shapes;
+import erd from "../../joint/shapes";
+
+const shapes = {
+    ...joint.shapes,
+    erd: erd,
+	link: erd.Link
+};
 
 import angular from "angular";
 import template from "./conceptual.html";
@@ -21,10 +25,10 @@ import bugReportButton from "../components/bugReportButton";
 
 import Factory from "./factory";
 import Validator from "./validator";
-import Linker from "./linker";
-import EntityExtensor from "./entityExtensor";
+//import Linker from "./linker";
+//import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
-import ToolsViewService from "../service/toolsViewService";
+//import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
@@ -315,7 +319,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		const posY = model.attributes.position.y;
 		const block = ctrl.shapeFactory.createBlockAssociative({ "position": { x: posX, y: posY }});
 		const auto = ctrl.shapeFactory.createRelationship({ position: { x: posX + 6, y: posY + 2 }});
-
 		block.embed(auto);
 		configs.graph.addCells([block, auto]);
 
@@ -447,54 +450,58 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	}
 
 	const buildWorkspace = () => {
-		configs.graph = new joint.dia.Graph({}, { cellNamespace: joint.shapes });
+		console.log(joint);
+		configs.graph = new joint.dia.Graph({}, { cellNamespace: shapes });
 
-		registerGraphEvents(configs.graph);
+		// registerGraphEvents(configs.graph);
 
-		const content = $("#content");
+		const content = joint.mvc.$("#content");
 
 		configs.paper = new joint.dia.Paper({
 			width: content.width(),
 			height: content.height(),
+			el: content,
 			gridSize: 10,
 			drawGrid: true,
 			model: configs.graph,
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
-			cellViewNamespace: joint.shapes,
+			cellViewNamespace: shapes,
 			linkPinning: false
 		});
 
-		configs.keyboardController = new KeyboardController(configs.paper.$document);
+		console.log(configs.paper);
+
+		configs.keyboardController = new KeyboardController(configs.paper.$el);
 
 		registerPaperEvents(configs.paper);
 
-		configs.editorScroller = new joint.ui.EditorScroller({
-			paper: configs.paper,
-			cursor: "grabbing",
-			autoResizePaper: true,
-		});
-		content.append(configs.editorScroller.render().el);
+		// configs.editorScroller = new joint.ui.EditorScroller({
+		// 	paper: configs.paper,
+		// 	cursor: "grabbing",
+		// 	autoResizePaper: true,
+		// });
+		// content.append(configs.editorScroller.render().el);
 
-		const enditorManager = new joint.ui.EditorManager({
-			graph: configs.graph,
-			paper: configs.paper,
-		});
+		// const enditorManager = new joint.ui.EditorManager({
+		// 	graph: configs.graph,
+		// 	paper: configs.paper,
+		// });
 
-		configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph, paper: configs.paper });
+		// configs.editorActions = new joint.ui.EditorActions({ graph: configs.graph, paper: configs.paper });
 
-		$(".elements-holder").append(enditorManager.render().el);
+		// $(".elements-holder").append(enditorManager.render().el);
 
-		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
+		// configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
-		enditorManager.loadElements([
-			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
-			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
-			ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
-			ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
-			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
-			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
-			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
-		]);
+		// enditorManager.loadElements([
+		// 	ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
+		// 	ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
+		// 	ctrl.shapeFactory.createRelationship({ position: { x: 25, y: 130 } }),
+		// 	ctrl.shapeFactory.createAssociative({ position: { x: 15, y: 185 } }),
+		// 	ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
+		// 	ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
+		// 	ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
+		// ]);
 
 		registerShortcuts();
 	};
@@ -504,20 +511,20 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	};
 
 	ctrl.$onInit = () => {
-		ctrl.shapeFactory = new Factory(joint.shapes);
-		ctrl.shapeValidator = new Validator();
-		ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
-		ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
-		ctrl.toolsViewService = new ToolsViewService();
+		// ctrl.shapeFactory = new Factory(joint.shapes);
+		// ctrl.shapeValidator = new Validator();
+		// ctrl.shapeLinker = new Linker(ctrl.shapeFactory, ctrl.shapeValidator);
+		// ctrl.entityExtensor = new EntityExtensor(ctrl.shapeFactory, ctrl.shapeValidator, ctrl.shapeLinker);
+		// ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
-			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
-			ctrl.model = resp.data;
-			ctrl.model.id = resp.data._id;
-			ctrl.model.model = jsonModel;
-			configs.graph.fromJSON(jsonModel);
-			ctrl.modelState.updatedAt = resp.data.updated
-			ctrl.setLoading(false);
+		 	const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+		 	ctrl.model = resp.data;
+		 	ctrl.model.id = resp.data._id;
+		 	ctrl.model.model = jsonModel;
+		 	configs.graph.fromJSON(jsonModel);
+		 	ctrl.modelState.updatedAt = resp.data.updated
+		 	ctrl.setLoading(false);
 		});
 	}
 
