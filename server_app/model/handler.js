@@ -110,21 +110,29 @@ const rename = async (req, res) => {
 	}
 };
 
-const exportModel = async (req, res) => {
+const share = async (req, res) => {
 	try {
 		const { modelId } = req.params;
-		const { name, data } = await modelService.exportModel(modelId);
-		res.writeHead(200, {
-			"Content-Type": "application/octet-stream",
-			"Content-Disposition": `attachment; filename=${name}.brm`,
-			"Content-Length": data.length,
-		});
-		return res.end(data);
+		const shareId = await modelService.shareModel(modelId);
+		return res.status(200).end(shareId);
 	} catch (error) {
 		console.error(error);
 		return res
 			.status(500)
-			.send("There's an error while treating export your model request");
+			.send("There's an error while sharing your model request");
+	}
+};
+
+const findShareOptions = async (req, res) => {
+	try {
+		const { modelId } = req.params;
+		const shareOptions = await modelService.findShareOptions(modelId);
+		return res.status(200).end(shareOptions);
+	} catch (error) {
+		console.error(error);
+		return res
+			.status(500)
+			.send("There's an error while sharing your model request");
 	}
 };
 
@@ -162,5 +170,6 @@ module.exports = router
 	.put("/:modelId",validateJWT, edit)
 	.delete("/:modelId",validateJWT, remove)
 	.put("/:modelId/rename",validateJWT, rename)
-	.get("/:modelId/export",validateJWT, exportModel)
+	.get("/:modelId/share", share)
+	.get("/:modelId/share/options", validateJWT, findShareOptions)
 	.post("/import",validateJWT, importModel);
