@@ -7,6 +7,7 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
+import shareModelModal from "../components/shareModelModal";
 
 const ListController = function (
 	$state,
@@ -150,6 +151,17 @@ const ListController = function (
 			});
 		});
 	};
+
+	ctrl.shareModel = () => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()"></share-model-modal>',
+		});
+		modalInstance.result.then((model) => {
+			showLoading(true);
+		});
+	};
+
 };
 
 export default angular
@@ -162,6 +174,7 @@ export default angular
 		modelDeleterComponent,
 		modelRenameComponent,
 		bugReportButton,
+		shareModelModal,
 	])
 	.component("workspace", {
 		template,
