@@ -109,9 +109,9 @@ export default {
 	'Request feature': 'Request feature',
 	'Report bug': 'Report bug',
 	'Import model': 'Import model',
-	'File': 'File',
+	'URL': 'URL',
 	'Import': 'Import',
-	'Please select a .BRT file': 'Please select a .BRT file',
+	'Please insert the URL to import': 'Please the URL to import',
 	'Last save:': 'Last save:',
 	'at': 'at',
 	'Equal to': 'Equal to',
@@ -158,9 +158,5 @@ export default {
 	'Forbidden access': 'Forbidden access',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Looks like this model does not exist or you don\'t have access to it.',
 	'Back to models list': 'Back to models list',
-	'Import model': 'Import model',
-	'File': 'File',
-	'Import': 'Import',
-	'Please select a .BRT file': 'Please choose a .BRT file to upload',
 	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.'
 };
