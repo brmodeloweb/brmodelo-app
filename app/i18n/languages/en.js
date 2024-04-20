@@ -161,5 +161,6 @@ export default {
 	'Import model': 'Import model',
 	'File': 'File',
 	'Import': 'Import',
-	'Please select a .BRT file': 'Please choose a .BRT file to upload'
+	'Please select a .BRT file': 'Please choose a .BRT file to upload',
+	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.'
 };

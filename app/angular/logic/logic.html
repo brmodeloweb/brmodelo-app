@@ -47,7 +47,7 @@
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
-					<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success'}">
+					<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success', 'alert-warning': $ctrl.feedback.type=='warning'}">
 						<p>{{ $ctrl.feedback.message }}</p>
 					</div>
 				</aside>
