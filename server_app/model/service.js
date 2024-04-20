@@ -107,14 +107,52 @@ const remove = async (modelId) => {
 	});
 };
 
-const exportModel = async (modelId) => {
+const share = async (modelId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const model = await getById(modelId);
-			return resolve({
-				name: model.name.replace(/[^a-zA-Z0-9]/g, ""),
-				data: encrypt(JSON.stringify(model)),
-			});
+			const model = await modelRepository.findOne({ _id: modelId });
+			if(model != null) {
+				if (model.shareOptions?.active) {
+					return resolve(model.shareOptions.id);
+				}
+
+				const shareOptions = {
+					active: true,
+					id: (Math.floor(Math.random() * 10000000000) + 1)
+				}
+
+				const saveResponse = await modelRepository.findOneAndUpdate(
+					{ _id: modelId },
+					{ $set: { shareOptions: shareOptions, updated: Date.now() } }
+				);
+
+				if(saveResponse != null) {
+					return resolve(shareOptions.id);
+				}
+
+				return reject();
+			}
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
+const findShareOptions = async (modelId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await modelRepository.findOne({ _id: modelId });
+			if(model != null) {
+				if (model.shareOptions != null) {
+					return resolve(model.shareOptions);
+				}
+
+				return resolve({
+					active: false,
+					id: (Math.floor(Math.random() * 10000000000) + 1)
+				});
+			}
 		} catch (error) {
 			console.error(error);
 			return reject(error);
@@ -141,8 +179,9 @@ const modelService = {
 	edit,
 	remove,
 	rename,
-	exportModel,
-	countAll
+	share,
+	countAll,
+	findShareOptions
 };
 
 module.exports = modelService;
