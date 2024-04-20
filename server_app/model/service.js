@@ -4,7 +4,7 @@ const { encrypt } = require("../helpers/crypto");
 const listAll = async (userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const models = await modelRepository.find({ who: userId });
+			const models = await modelRepository.find({ who: userId }, { model: 0 });
 			if (models != null) {
 				resolve(models);
 			}

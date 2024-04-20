@@ -154,6 +154,12 @@ const controller = function (
 		}
 	});
 
+	$rootScope.$on("model:warning-copy", function () {
+		$timeout(() => {
+			ctrl.showFeedback("Copy is not allowed on this module when element has references.", true, "warning");
+		});
+	});
+
 	ctrl.updateCardA = function (card) {
 		LogicService.editCardinalityA(card);
 	}

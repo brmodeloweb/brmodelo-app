@@ -157,5 +157,6 @@ export default {
 	'Delete account model error': 'It was not possible to delete your account because you have models. Please remove all your models before deleting your account.',
 	'Forbidden access': 'Forbidden access',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Looks like this model does not exist or you don\'t have access to it.',
-	'Back to models list': 'Back to models list'
+	'Back to models list': 'Back to models list',
+	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.'
 };
