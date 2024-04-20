@@ -1,15 +1,5 @@
-<section
-	class="view modelWorkspace workspaceConceptual"
->
+<section class="view modelWorkspace publicView">
 	<header class="navbar navbar-default navbar-fixed-top">
-		<ul class="nav navbar-nav pull-left">
-			<li>
-				<a class="back-button" href="#" data-ui-sref="main">
-					<i class="fa fa-arrow-left" aria-hidden="true"></i>
-				</a>
-			</li>
-		</ul>
-
 		<div class="navbar-header">
 			<strong class="navbar-brand">{{ 'BRMW' | translate }}</strong>
 		</div>
@@ -29,16 +19,16 @@
 				<div class="page-header clearfix">
 					<div class="document-info pull-left">
 						<h2 class="h4">{{ 'Conceptual model of:' | translate }} {{$ctrl.model.name}}</h2>
-						<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
 					</div>
 					<aside class="header-actions pull-right">
 						<a class="docs-icon" href="https://docs.brmodeloweb.com" target="_blank" rel="noopener noreferrer" title="{{ 'Documentation' | translate }}"><i class="fa fa-book"></i></a>
+						<a class="br-button" href="https://app.brmodeloweb.com/#!/register" target="_blank" rel="noopener noreferrer">{{'Create account' | translate}}</a>
 					</aside>
 				</div>
 				<ul class="nav navbar-nav tool-icons">
 					<li><a data-ng-click="$ctrl.zoomIn()" title="{{ 'Zoom in (Z +)' | translate }}"><i class="fa fa-search-plus"></i></a></li>
 					<li><a data-ng-click="$ctrl.zoomNone()" title="{{ 'Zoom 100% (Z 0)' | translate }}"><i class="fa fa-search"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="{{ 'Zoom out (Z -)' | translate }}"><i class="fa fa-search-minus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomOut()" title="{{ 'Zoom out (Z -)' | translate }}"><i class="fa fa-search-minus"></i></a></li>
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
