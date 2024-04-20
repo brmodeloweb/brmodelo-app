@@ -46,7 +46,7 @@
 					<tbody>
 						<tr ng-repeat="model in $ctrl.models" class="listLine">
 							<td ng-click="$ctrl.openModel(model)">{{model.typeName}}</td>
-							<td ng-click="$ctrl.openModel(model)">{{model.name}}</td>
+							<td ng-click="$ctrl.openModel(model)"><span class="model-name" title="{{model.name}}">{{model.name}}</span></td>
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
