@@ -123,7 +123,7 @@ const toggleShare = async (modelId, active) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
 			if(model != null) {
-				const shareOptions = model.shareOptions != null ? model.shareOptions : {active}
+				const shareOptions = model.shareOptions != null ? model.shareOptions : {"active": active}
 				shareOptions.active = active;
 				const updatedModel = await modelRepository.findOneAndUpdate(
 					{ _id: modelId },
@@ -149,10 +149,13 @@ const findShareOptions = async (modelId) => {
 			if(model != null && model.shareOptions != null) {
 				return resolve(buildConfigResponse(model.shareOptions));
 			}
-			return resolve({
-				"active": false,
-				"url": ""
-			});
+			const shareOptions = {"active": false};
+			const updatedModel = await modelRepository.findOneAndUpdate(
+				{ _id: modelId },
+				{ $set: { shareOptions: shareOptions, updated: Date.now() } },
+				{ new: true }
+			);
+			return resolve(buildConfigResponse(updatedModel.shareOptions));
 		} catch (error) {
 			console.error(error);
 			return reject(error);
