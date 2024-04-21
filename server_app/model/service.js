@@ -1,6 +1,11 @@
 const modelRepository = require("./model");
 const { encrypt } = require("../helpers/crypto");
 
+const getSharedLink = (id) => {
+	const baseurl = process.env.PROD_MAIL_ENV || 'http://localhost:9000';
+	return `${baseurl}/#!/publicview/${id}`
+}
+
 const listAll = async (userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -107,29 +112,25 @@ const remove = async (modelId) => {
 	});
 };
 
-const share = async (modelId) => {
+const share = async (modelId, active) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
 			if(model != null) {
-				if (model.shareOptions?.active) {
-					return resolve(model.shareOptions.id);
-				}
-
-				const shareOptions = {
-					active: true,
-					id: (Math.floor(Math.random() * 10000000000) + 1)
-				}
-
+				const shareOptions = model.shareOptions != null ? model.shareOptions : {active}
+				shareOptions.active = active;
 				const saveResponse = await modelRepository.findOneAndUpdate(
 					{ _id: modelId },
-					{ $set: { shareOptions: shareOptions, updated: Date.now() } }
+					{ $set: { shareOptions: shareOptions, updated: Date.now() } },
+					{ new: true }
 				);
-
 				if(saveResponse != null) {
-					return resolve(shareOptions.id);
+					const url = getSharedLink(saveResponse.shareOptions._id);
+					return resolve({
+						"active": shareOptions.active,
+						"url": url
+					});
 				}
-
 				return reject();
 			}
 		} catch (error) {
@@ -145,12 +146,15 @@ const findShareOptions = async (modelId) => {
 			const model = await modelRepository.findOne({ _id: modelId });
 			if(model != null) {
 				if (model.shareOptions != null) {
-					return resolve(model.shareOptions);
+					const url = getSharedLink(model.shareOptions._id);
+					return resolve({
+						"active": model.shareOptions.active,
+						"url": url
+					});
 				}
-
 				return resolve({
-					active: false,
-					id: (Math.floor(Math.random() * 10000000000) + 1)
+					"active": false,
+					"url": ""
 				});
 			}
 		} catch (error) {

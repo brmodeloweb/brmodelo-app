@@ -110,11 +110,12 @@ const rename = async (req, res) => {
 	}
 };
 
-const share = async (req, res) => {
+const toggleShare = async (req, res) => {
 	try {
-		const { modelId } = req.params;
-		const shareId = await modelService.shareModel(modelId);
-		return res.status(200).end(shareId);
+		const modelId = req.body.modelId;
+		const active = req.body.active;
+		const shareId = await modelService.share(modelId, active);
+		return res.status(200).send(shareId);
 	} catch (error) {
 		console.error(error);
 		return res
@@ -127,7 +128,7 @@ const findShareOptions = async (req, res) => {
 	try {
 		const { modelId } = req.params;
 		const shareOptions = await modelService.findShareOptions(modelId);
-		return res.status(200).end(shareOptions);
+		return res.status(200).send(shareOptions);
 	} catch (error) {
 		console.error(error);
 		return res
@@ -170,6 +171,6 @@ module.exports = router
 	.put("/:modelId",validateJWT, edit)
 	.delete("/:modelId",validateJWT, remove)
 	.put("/:modelId/rename",validateJWT, rename)
-	.get("/:modelId/share", share)
+	.post("/share", validateJWT, toggleShare)
 	.get("/:modelId/share/options", validateJWT, findShareOptions)
 	.post("/import",validateJWT, importModel);
