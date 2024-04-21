@@ -8,7 +8,6 @@ const Controller = function (ModelAPI) {
 	$ctrl.submitted = false;
 
 	$ctrl.$onInit = () => {
-		console.log("loading");
 		ModelAPI.loadShareOptions($ctrl.modelId).then(response => {
 			console.log(response.data);
 			const shareConfig = response.data;
