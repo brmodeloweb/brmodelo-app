@@ -162,9 +162,7 @@ const ListController = function (
 			},
 			controllerAs: '$ctrl',
 		});
-		modalInstance.result.then((model) => {
-			showLoading(true);
-		});
+		modalInstance.close();
 	};
 
 };

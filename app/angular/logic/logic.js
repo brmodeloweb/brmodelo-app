@@ -3,6 +3,7 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import shareModelModal from "../components/shareModelModal";
 import queryExpressionModal from "../components/queryExpressionModal";
 import sqlComparasionDropdown from "../components/sqlComparasionDropdown";
 import bugReportButton from "../components/bugReportButton";
@@ -229,6 +230,19 @@ const controller = function (
 		});
 	};
 
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model.id;
+			},
+			controllerAs: '$ctrl',
+		});
+		modalInstance.close();
+	};
+
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
 
 	const onBeforeDeregister = $transitions.onBefore({},
@@ -246,7 +260,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown, shareModelModal])
 	.component("editorLogic", {
 		template,
 		controller,

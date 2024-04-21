@@ -157,9 +157,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			},
 			controllerAs: '$ctrl',
 		});
-		modalInstance.result.then((model) => {
-			showLoading(true);
-		});
+		modalInstance.close();
 	};
 
 	ctrl.unselectAll = () => {
