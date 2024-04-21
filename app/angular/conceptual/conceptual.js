@@ -150,14 +150,20 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.shareModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
 			controller: function() {
 				const $ctrl = this;
 				$ctrl.modelId = model._id;
 			},
 			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback(true, "Successfully share config saved!");
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
-		modalInstance.close();
 	};
 
 	ctrl.unselectAll = () => {

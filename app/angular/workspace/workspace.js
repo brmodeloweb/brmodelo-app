@@ -87,6 +87,8 @@ const ListController = function (
 	ctrl.renameModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<rename-model-modal close="$close(result)" dismiss="$dismiss(newName)"></rename-model-modal>',
 		});
 		modalInstance.result.then((newName) => {
@@ -155,14 +157,20 @@ const ListController = function (
 	ctrl.shareModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
 			controller: function() {
 				const $ctrl = this;
 				$ctrl.modelId = model._id;
 			},
 			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			console.log("Successfully share config saved!");
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
-		modalInstance.close();
 	};
 
 };

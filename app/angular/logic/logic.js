@@ -233,14 +233,20 @@ const controller = function (
 	ctrl.shareModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
 			controller: function() {
 				const $ctrl = this;
 				$ctrl.modelId = model.id;
 			},
 			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback("Successfully share config saved!", true);
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
-		modalInstance.close();
 	};
 
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
