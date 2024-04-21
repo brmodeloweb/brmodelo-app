@@ -9,7 +9,6 @@ const Controller = function (ModelAPI) {
 
 	$ctrl.$onInit = () => {
 		ModelAPI.loadShareOptions($ctrl.modelId).then(response => {
-			console.log(response.data);
 			const shareConfig = response.data;
 			$ctrl.url = shareConfig.active ? shareConfig.url : "";
 			$ctrl.shared = shareConfig.active;

@@ -6,7 +6,6 @@ const modelValidator = require("./validator");
 const { decrypt } = require("../helpers/crypto");
 const { validateJWT } = require('../middleware');
 
-
 const router = express.Router();
 router.use(bodyParser.json());
 router.use(fileUpload());
@@ -112,10 +111,9 @@ const rename = async (req, res) => {
 
 const toggleShare = async (req, res) => {
 	try {
-		const modelId = req.body.modelId;
-		const active = req.body.active;
-		const shareId = await modelService.share(modelId, active);
-		return res.status(200).send(shareId);
+		const {modelId, active} = req.body;
+		const shareOptions = await modelService.toggleShare(modelId, active);
+		return res.status(200).send(shareOptions);
 	} catch (error) {
 		console.error(error);
 		return res
@@ -133,7 +131,7 @@ const findShareOptions = async (req, res) => {
 		console.error(error);
 		return res
 			.status(500)
-			.send("There's an error while sharing your model request");
+			.send("There's an error while finding your sharing config model request");
 	}
 };
 

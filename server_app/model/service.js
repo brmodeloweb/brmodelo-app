@@ -1,5 +1,4 @@
 const modelRepository = require("./model");
-const { encrypt } = require("../helpers/crypto");
 
 const getSharedLink = (id) => {
 	const baseurl = process.env.PROD_MAIL_ENV || 'http://localhost:9000';
@@ -112,24 +111,27 @@ const remove = async (modelId) => {
 	});
 };
 
-const share = async (modelId, active) => {
+const buildConfigResponse = (shareOptions) => {
+	return {
+		"active": shareOptions.active,
+		"url": getSharedLink(shareOptions._id)
+	}
+}
+
+const toggleShare = async (modelId, active) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
 			if(model != null) {
 				const shareOptions = model.shareOptions != null ? model.shareOptions : {active}
 				shareOptions.active = active;
-				const saveResponse = await modelRepository.findOneAndUpdate(
+				const updatedModel = await modelRepository.findOneAndUpdate(
 					{ _id: modelId },
 					{ $set: { shareOptions: shareOptions, updated: Date.now() } },
 					{ new: true }
 				);
-				if(saveResponse != null) {
-					const url = getSharedLink(saveResponse.shareOptions._id);
-					return resolve({
-						"active": shareOptions.active,
-						"url": url
-					});
+				if(updatedModel != null) {
+					return resolve(buildConfigResponse(updatedModel.shareOptions));
 				}
 				return reject();
 			}
@@ -144,19 +146,13 @@ const findShareOptions = async (modelId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
-			if(model != null) {
-				if (model.shareOptions != null) {
-					const url = getSharedLink(model.shareOptions._id);
-					return resolve({
-						"active": model.shareOptions.active,
-						"url": url
-					});
-				}
-				return resolve({
-					"active": false,
-					"url": ""
-				});
+			if(model != null && model.shareOptions != null) {
+				return resolve(buildConfigResponse(model.shareOptions));
 			}
+			return resolve({
+				"active": false,
+				"url": ""
+			});
 		} catch (error) {
 			console.error(error);
 			return reject(error);
@@ -183,7 +179,7 @@ const modelService = {
 	edit,
 	remove,
 	rename,
-	share,
+	toggleShare,
 	countAll,
 	findShareOptions
 };
