@@ -158,7 +158,6 @@ const ListController = function (
 			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
 			controller: function() {
 				const $ctrl = this;
-				console.log(model);
 				$ctrl.modelId = model._id;
 			},
 			controllerAs: '$ctrl',
