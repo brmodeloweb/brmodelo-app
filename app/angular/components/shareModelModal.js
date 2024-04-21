@@ -12,23 +12,30 @@ const Controller = function (ModelAPI) {
 			const shareConfig = response.data;
 			$ctrl.url = shareConfig.active ? shareConfig.url : "";
 			$ctrl.shared = shareConfig.active;
+			$ctrl.backupUrl = shareConfig.url;
+			$ctrl.backupShared = shareConfig.active;
 		});
 	};
 
 	$ctrl.toggleShare = (shared) => {
-		ModelAPI.toggleShare($ctrl.modelId, shared).then(response => {
-			if(shared) {
-				$ctrl.url = response.data.url;
-			} else {
-				$ctrl.url = "";
-			}
-		});
-	};
+		$ctrl.url = shared? $ctrl.backupUrl : "";
+	}
 
 	$ctrl.cancel = () => {
-		$ctrl.dismiss({
-			reason: "cancel",
-		});
+		$ctrl.dismiss({reason: "cancel"});
+	};
+
+	$ctrl.save = () => {
+		if($ctrl.shared != $ctrl.backupShared) {
+			ModelAPI.toggleShare($ctrl.modelId, $ctrl.shared).then(() => {
+				$ctrl.close({reason: "model shared"});
+			}).catch(error => {
+				console.log(error);
+				$ctrl.dismiss({reason: "model share error"});
+			});
+		} else {
+			$ctrl.close({reason: "model shared"});
+		}
 	};
 
 	$ctrl.copy = () => {
