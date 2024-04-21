@@ -263,3 +263,17 @@ a:hover,
 .page-header {
 	border-color: var(--border-default);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// .alert-sponsor
+////////////////////////////////////////////////////////////////////////////////
+.alert-sponsor {
+	display: flex;
+	gap: 10px;
+	border: 1px solid #ddd;
+	margin-top: 24px;
+}
+
+.alert-sponsor .github-sponsor {
+	width: 128px;
+}
