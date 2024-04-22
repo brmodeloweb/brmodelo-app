@@ -17,7 +17,16 @@
 		<header class="container">
 
 			<aside class="feedback">
-				<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+				<div
+					class="alert"
+					role="alert"
+					data-ng-class="{
+						'hide': !$ctrl.feedback.showing,
+						'alert-danger': $ctrl.feedback.type=='error',
+						'alert-success': $ctrl.feedback.type=='success',
+						'alert-warning': $ctrl.feedback.type=='warning'
+					}"
+				>
 					<p>{{ $ctrl.feedback.message }}</p>
 				</div>
 			</aside>

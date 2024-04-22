@@ -27,14 +27,16 @@ const ListController = function (
 
 	ctrl.feedback = {
 		message: "",
-		showing: false
+		showing: false,
+		type: "success"
 	}
 
-	ctrl.showFeedback = (show, newMessage) => {
+	ctrl.showFeedback = (newMessage, show, type) => {
 		$timeout(() => {
-			ctrl.feedback.showing = show;
 			ctrl.feedback.message = $filter('translate')(newMessage);
-		});
+			ctrl.feedback.showing = show;
+			ctrl.feedback.type = type;
+		})
 	}
 
 	const showLoading = (loading) => {
@@ -60,7 +62,7 @@ const ListController = function (
 				ctrl.models.splice(ctrl.models.indexOf(model), 1);
 			}
 			showLoading(false);
-			ctrl.showFeedback(true, $filter('translate')("Successfully deleted!"))
+			ctrl.showFeedback($filter('translate')("Successfully deleted!"), true, 'success');
 		});
 	};
 
@@ -109,7 +111,7 @@ const ListController = function (
 					model.name = newName;
 				}
 				showLoading(false);
-				ctrl.showFeedback(true, $filter('translate')("Successfully renamed!"))
+				ctrl.showFeedback($filter('translate')("Successfully renamed!"), true, 'success');
 			});
 		});
 	};
