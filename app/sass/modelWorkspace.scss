@@ -47,3 +47,37 @@
 	margin-top: 10px;
 	border-bottom: 1px solid var(--border-default);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// .publicView
+////////////////////////////////////////////////////////////////////////////////
+.publicView .navbar {
+	background-color: #fff;
+}
+
+.publicView .navbar .br-loader {
+	top: 63px;
+}
+
+.publicView .document-info {
+	margin-left: 150px;
+}
+
+.publicView .document-info h2 {
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+.publicView .model-area {
+	left: 0;
+}
+
+.publicView .workspace-header .nav li:first-child {
+	margin-left: 149px;
+	border-left: 1px solid var(--border-default);
+}
+
+.publicView .workspace-header .header-actions {
+	position: relative;
+	top: -3px;
+}
