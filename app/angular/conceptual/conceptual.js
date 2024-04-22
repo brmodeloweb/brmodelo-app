@@ -77,7 +77,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
-			ctrl.showFeedback(true, "Saved successfully!");
+			ctrl.showFeedback(true, "Successfully saved!");
 			ctrl.setLoading(false);
 		});
 	}
