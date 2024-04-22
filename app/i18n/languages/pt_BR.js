@@ -163,5 +163,5 @@ export default {
 	'BRMW is maintained by a small team working in their spare time, doing their best to make it available for free!': 'O BRMW é mantido por uma pequena equipe que trabalha nas horas vagas, fazendo o possível para disponibilizá-lo gratuitamente.',
 	'Still, the server and database to keep the project live cost money.': 'Ainda assim, o servidor e bancos de dados para manter o projeto ativo custam dinheiro.',
 	'If you can, please considere a one time only or even monthly contribution via Github Sponsor.': 'Se puder, considere uma contribuição única ou mesmo mensal por meio do Github Sponsors.',
-	'Go to Github Sponsors': 'Ir para Github Sponsors'
+	'Go to Github Sponsors': 'Ir para o Github Sponsors'
 };
