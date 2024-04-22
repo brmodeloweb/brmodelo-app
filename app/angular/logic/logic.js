@@ -224,7 +224,7 @@ const controller = function (
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
 				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-				ctrl.showFeedback("Successfully duplicated!", true);
+				ctrl.showFeedback("Successfully duplicated!", true, 'success');
 				ctrl.setLoading(false);
 			});
 		});
