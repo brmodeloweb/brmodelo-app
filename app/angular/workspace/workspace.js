@@ -7,6 +7,7 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
+import githubSponsorBanner from "../components/githubSponsorBanner";
 
 const ListController = function (
 	$state,
@@ -162,6 +163,7 @@ export default angular
 		modelDeleterComponent,
 		modelRenameComponent,
 		bugReportButton,
+		githubSponsorBanner
 	])
 	.component("workspace", {
 		template,
