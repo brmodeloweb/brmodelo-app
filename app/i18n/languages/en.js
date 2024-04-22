@@ -71,7 +71,7 @@ export default {
 	'Ops, we had an internal error, please try again later...': 'Ops, we had an internal error, please try again later...',
 	'An email with instructions has been sent to EMAIL': 'An email with instructions has been sent to {{email}}',
 	'Incorrect login or password': 'Incorrect login or password',
-	'Saved successfully!': 'Saved successfully!',
+	'Successfully saved!': 'Successfully saved!',
 	'Successfully duplicated!': 'Successfully duplicated!',
 	'Successfully deleted!': 'Successfully deleted!',
 	'Successfully renamed!': 'Successfully renamed!',
