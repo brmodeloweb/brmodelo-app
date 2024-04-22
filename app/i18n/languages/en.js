@@ -158,5 +158,10 @@ export default {
 	'Forbidden access': 'Forbidden access',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Looks like this model does not exist or you don\'t have access to it.',
 	'Back to models list': 'Back to models list',
-	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.'
+	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.',
+	'Please consider make a donation': 'Please consider make a donation',
+	'BRMW is maintained by a small team working in their spare time, doing their best to make it available for free!': 'BRMW is maintained by a small team working in their spare time, doing their best to make it available for free.',
+	'Still, the server and database to keep the project live cost money.': 'Still, the server and database to keep the project live cost money.',
+	'If you can, please considere a one time only or even monthly contribution via Github Sponsor.': 'If you can, please considere a one time only or even monthly contribution via Github Sponsor.',
+	'Go to Github Sponsors': 'Go to Github Sponsors'
 };
