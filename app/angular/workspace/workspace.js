@@ -14,7 +14,8 @@ const ListController = function (
 	$uibModal,
 	AuthService,
 	ModelAPI,
-	$filter
+	$filter,
+	$timeout
 ) {
 	const ctrl = this;
 	ctrl.loading = false;
@@ -23,6 +24,18 @@ const ListController = function (
 		{ name: $filter('translate')("Preferences"), type: 'preferences' },
 		{ name: $filter('translate')("Logout"), type: 'logout' }
 	];
+
+	ctrl.feedback = {
+		message: "",
+		showing: false
+	}
+
+	ctrl.showFeedback = (show, newMessage) => {
+		$timeout(() => {
+			ctrl.feedback.showing = show;
+			ctrl.feedback.message = $filter('translate')(newMessage);
+		});
+	}
 
 	const showLoading = (loading) => {
 		ctrl.loading = loading;
@@ -47,6 +60,7 @@ const ListController = function (
 				ctrl.models.splice(ctrl.models.indexOf(model), 1);
 			}
 			showLoading(false);
+			ctrl.showFeedback(true, $filter('translate')("Successfully deleted!"))
 		});
 	};
 
@@ -95,6 +109,7 @@ const ListController = function (
 					model.name = newName;
 				}
 				showLoading(false);
+				ctrl.showFeedback(true, $filter('translate')("Successfully renamed!"))
 			});
 		});
 	};
