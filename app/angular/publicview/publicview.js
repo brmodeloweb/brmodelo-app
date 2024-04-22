@@ -66,7 +66,8 @@ const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 			gridSize: 10,
 			drawGrid: true,
 			model: configs.graph,
-			linkPinning: false
+			linkPinning: false,
+			cellViewNamespace: joint.shapes
 		});
 
 		configs.keyboardController = new KeyboardController(configs.paper.$document);
@@ -90,8 +91,10 @@ const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 
 		ModelAPI.getSharedModel($stateParams.modelshareid).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
+			if(resp.data.type === 'conceptual') {
+				configs.paper.options.linkConnectionPoint = joint.util.shapePerimeterConnectionPoint;
+			}
 			configs.graph.fromJSON(jsonModel);
-			console.log(resp.data);
 			ctrl.model.name = resp.data.name;
 			ctrl.setLoading(false);
 			configs.paper.freeze();

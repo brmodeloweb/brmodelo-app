@@ -18,7 +18,6 @@ const listAll = async (req, res) => {
 			.status(200)
 			.send(models);
 	} catch (error) {
-		console.error("caiu na rede");
 		console.error(error);
 		return res.status(500).send("There's an error listing your models");
 	}
