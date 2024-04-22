@@ -162,6 +162,21 @@ const importModel = async (req, res) => {
 	}
 };
 
+const findSharedModel = async (req, res) => {
+	try {
+		const sharedId = req.params.sharedId;
+		const sharedModel = await modelService.findSharedModel(sharedId);
+		return res.status(201).send(sharedModel);
+	} catch (error) {
+		if(error === "unauthorized") {
+			return res.status(401).json({ auth: false, message: 'This model is not shared.' });
+		}
+		return res
+			.status(500)
+			.send("There's an error while finding your sharing config model request");
+	}
+};
+
 module.exports = router
 	.get("/",validateJWT, listAll)
 	.post("/",validateJWT, save)
@@ -171,4 +186,5 @@ module.exports = router
 	.put("/:modelId/rename",validateJWT, rename)
 	.post("/share", validateJWT, toggleShare)
 	.get("/:modelId/share/options", validateJWT, findShareOptions)
-	.post("/import",validateJWT, importModel);
+	.post("/import",validateJWT, importModel)
+	.get("/share/:sharedId", findSharedModel);

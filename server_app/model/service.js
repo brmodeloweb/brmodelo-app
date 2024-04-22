@@ -163,6 +163,21 @@ const findShareOptions = async (modelId) => {
 	});
 };
 
+const findSharedModel = async (sharedId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await modelRepository.findOne({ "shareOptions._id": sharedId });
+			if(model === null || model.shareOptions === null || !model.shareOptions.active){
+				reject("unauthorized");
+			}
+			return resolve(model);
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
 const countAll = async (userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -184,7 +199,8 @@ const modelService = {
 	rename,
 	toggleShare,
 	countAll,
-	findShareOptions
+	findShareOptions,
+	findSharedModel
 };
 
 module.exports = modelService;
