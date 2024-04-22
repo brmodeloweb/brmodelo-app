@@ -45,7 +45,11 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="model in $ctrl.models" class="listLine">
-							<td ng-click="$ctrl.openModel(model)">{{model.typeName}}</td>
+							<td ng-click="$ctrl.openModel(model)">
+								<icon-conceptual ng-if="model.type === 'conceptual'" aria-hidden="true"></icon-conceptual>
+								<icon-logic ng-if="model.type === 'logic'" aria-hidden="true"></icon-logic>
+								<span>{{model.typeName}}</span>
+							</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.name}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
