@@ -2,6 +2,10 @@ import "backbone";
 import $ from "jquery";
 
 import * as joint from "jointjs/dist/joint";
+import erd from "../../joint/shapes";
+import uml from "../../joint/table";
+joint.shapes.erd = erd;
+joint.shapes.uml = uml;
 
 import angular from "angular";
 import template from "./publicview.html";
@@ -12,17 +16,12 @@ import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
 import KeyboardController, { types } from "../components/keyboardController";
 
-const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, $filter) {
+const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 	const ctrl = this;
-	ctrl.modelState = {
-		isDirty: false,
-		updatedAt: new Date(),
-	};
-	ctrl.feedback = {
-		message: "",
-		showing: false
+	ctrl.loading = false;
+	ctrl.model = {
+		name: ""
 	}
-	ctrl.loading = true;
 	const configs = {
 		graph: {},
 		paper: {}
@@ -31,13 +30,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	ctrl.setLoading = (show) => {
 		$timeout(() => {
 			ctrl.loading = show;
-		});
-	}
-
-	ctrl.showFeedback = (show, newMessage) => {
-		$timeout(() => {
-			ctrl.feedback.showing = show;
-			ctrl.feedback.message = $filter('translate')(newMessage);
 		});
 	}
 
@@ -74,8 +66,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			gridSize: 10,
 			drawGrid: true,
 			model: configs.graph,
-			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
-			cellViewNamespace: joint.shapes,
 			linkPinning: false
 		});
 
@@ -97,14 +87,18 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	ctrl.$onInit = () => {
 		ctrl.setLoading(true);
-		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser).then((resp) => {
+
+		ModelAPI.getSharedModel($stateParams.modelshareid).then((resp) => {
 			const jsonModel = (typeof resp.data.model == "string") ? JSON.parse(resp.data.model) : resp.data.model;
 			configs.graph.fromJSON(jsonModel);
-			ctrl.modelState.updatedAt = resp.data.updated
+			console.log(resp.data);
+			ctrl.model.name = resp.data.name;
 			ctrl.setLoading(false);
+			configs.paper.freeze();
 		}).catch((error) => {
+			ctrl.setLoading(false);
 			if(error.status == 404 || error.status == 401) {
-				//$state.go("noaccess");
+				$state.go("noaccess");
 			}
 		});
 	}
@@ -114,8 +108,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.paper = null;
 		configs.keyboardController.unbindAll();
 		configs.keyboardController = null;
-		onBeforeDeregister()
-		onExitDeregister()
 	}
 };
 

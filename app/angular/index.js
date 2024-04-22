@@ -100,7 +100,7 @@ app.config([
 
 		$stateProvider.state("publicview", {
 			title: "PublicView - BRMW",
-			url: "/publicview",
+			url: "/publicview/{modelshareid}",
 			component: "publicview",
 			data: {
 				requireLogin: false,

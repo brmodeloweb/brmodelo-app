@@ -67,6 +67,14 @@ const authService = ($http) => {
 			});
 	};
 
+	const _getSharedModel = function (shareId) {
+		return $http
+			.get(`/models/share/${shareId}`)
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
 	return {
 		saveModel: _saveModel,
 		getAllModels: _getAllModels,
@@ -75,7 +83,8 @@ const authService = ($http) => {
 		deleteModel: _deleteModel,
 		renameModel: _renameModel,
 		loadShareOptions: _loadShareOptions,
-		toggleShare: _toggleShare
+		toggleShare: _toggleShare,
+		getSharedModel: _getSharedModel
 	};
 };
 
