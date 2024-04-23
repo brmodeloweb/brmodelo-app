@@ -170,7 +170,12 @@ const findSharedModel = async (sharedId) => {
 			if(model === null || model.shareOptions === null || !model.shareOptions.active){
 				reject("unauthorized");
 			}
-			return resolve(model);
+			return resolve({
+				"id": model.shareOptions._id,
+				"model": model.model,
+				"type": model.type,
+				"name": model.name
+			});
 		} catch (error) {
 			console.error(error);
 			return reject(error);
