@@ -27,6 +27,7 @@ import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
 import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
+import iconConceptual from  "../components/icons/conceptual";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
 	const ctrl = this;
@@ -566,7 +567,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar, shareModelModal])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar, shareModelModal, iconConceptual])
 	.component("editorConceptual", {
 		template,
 		controller,

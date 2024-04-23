@@ -13,6 +13,7 @@ import view from "../view/view";
 import columnForm from "./columnForm";
 import checkConstraint from "./checkConstraint";
 import sidebarControlLogical from "./sidebarControl";
+import iconLogic from  "../components/icons/logic";
 
 const controller = function (
 	$rootScope,
@@ -266,7 +267,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown, shareModelModal])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown, shareModelModal, iconLogic])
 	.component("editorLogic", {
 		template,
 		controller,
