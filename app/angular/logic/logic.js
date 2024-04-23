@@ -243,7 +243,7 @@ const controller = function (
 			controllerAs: '$ctrl',
 		}).result;
 		modalInstance.then(() => {
-			ctrl.showFeedback("Successfully share config saved!", true);
+			ctrl.showFeedback($filter('translate')("Sharing configuration has been updated successfully!"), true, "success");
 		}).catch((reason) => {
 			console.log("Modal dismissed with reason", reason);
 		});
