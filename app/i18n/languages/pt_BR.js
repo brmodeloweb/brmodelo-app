@@ -160,7 +160,7 @@ export default {
 	'Back to models list': 'Voltar à lista de modelos',
 	'Copy is not allowed on this module when element has references.': 'Copiar não é permitido nesse módulo quando elementos já estiverem conectados.',
 	'Share': 'Compartilhar',
-	'Share model': 'Compartilhar modelo',
+	'Create public link': 'Criar link público',
 	'Make model public': 'Tornar modelo público',
 	'URL': 'URL',
 	'Copy': 'Copiar',

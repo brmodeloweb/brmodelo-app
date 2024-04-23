@@ -161,7 +161,7 @@ export default {
 	'Back to models list': 'Back to models list',
 	'Copy is not allowed on this module when element has references.': 'Copy is not allowed on this module when element has references.',
 	'Share':'Share',
-	'Share model':'Share model',
+	'Create public link':'Create public link',
 	'Make model public': 'Make model public',
 	'URL': 'URL',
 	'Copy': 'Copy',
