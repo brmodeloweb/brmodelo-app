@@ -82,7 +82,16 @@ const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 		content.append(configs.editorScroller.render().el);
 
 		registerShortcuts();
+		registerPaperEvents(configs.paper);
 	};
+
+	const registerPaperEvents = (paper) => {
+		paper.on('blank:pointerdown', (evt) => {
+			if(configs.keyboardController.spacePressed){
+				configs.editorScroller.startPanning(evt);
+			}
+		});
+	}
 
 	ctrl.$postLink = () => {
 		buildWorkspace();
