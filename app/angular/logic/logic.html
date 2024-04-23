@@ -28,7 +28,7 @@
 			<header class="workspace-header">
 				<div class="page-header clearfix">
 					<div class="document-info pull-left">
-						<h2 class="h4 pull-left" title="{{$ctrl.model.name}}">{{ 'Logical model of:' | translate }} {{$ctrl.model.name}}</h2>
+						<h2 class="h4"><icon-logic title="{{'Logic model' | translate}}"></icon-logic> {{$ctrl.model.name}}</h2>
 						<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
 					</div>
 					<aside class="header-actions pull-right">
@@ -48,7 +48,16 @@
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">
-					<div class="alert" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing, 'alert-danger': $ctrl.feedback.type=='error', 'alert-success': $ctrl.feedback.type=='success', 'alert-warning': $ctrl.feedback.type=='warning'}">
+					<div
+						class="alert"
+						role="alert"
+						data-ng-class="{
+							'hide': !$ctrl.feedback.showing,
+							'alert-danger': $ctrl.feedback.type=='error',
+							'alert-success': $ctrl.feedback.type=='success',
+							'alert-warning': $ctrl.feedback.type=='warning'
+						}"
+					>
 						<p>{{ $ctrl.feedback.message }}</p>
 					</div>
 				</aside>

@@ -80,7 +80,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		LogicService.updateModel().then(function (res) {
-			ctrl.showFeedback("Saved successfully!", true, "success");
+			ctrl.showFeedback("Successfully saved!", true, "success");
 		});
 	}
 
@@ -130,7 +130,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
-			ctrl.showFeedback("Saved successfully!", true, "success");
+			ctrl.showFeedback("Successfully saved!", true, "success");
 		});
 	});
 

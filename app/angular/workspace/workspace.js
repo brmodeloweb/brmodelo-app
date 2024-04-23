@@ -8,6 +8,9 @@ import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
 import shareModelModal from "../components/shareModelModal";
+import iconConceptual from  "../components/icons/conceptual";
+import iconLogic from  "../components/icons/logic";
+
 
 const ListController = function (
 	$state,
@@ -15,7 +18,8 @@ const ListController = function (
 	$uibModal,
 	AuthService,
 	ModelAPI,
-	$filter
+	$filter,
+	$timeout
 ) {
 	const ctrl = this;
 	ctrl.loading = false;
@@ -24,6 +28,20 @@ const ListController = function (
 		{ name: $filter('translate')("Preferences"), type: 'preferences' },
 		{ name: $filter('translate')("Logout"), type: 'logout' }
 	];
+
+	ctrl.feedback = {
+		message: "",
+		showing: false,
+		type: "success"
+	}
+
+	ctrl.showFeedback = (newMessage, show, type) => {
+		$timeout(() => {
+			ctrl.feedback.message = $filter('translate')(newMessage);
+			ctrl.feedback.showing = show;
+			ctrl.feedback.type = type;
+		})
+	}
 
 	const showLoading = (loading) => {
 		ctrl.loading = loading;
@@ -48,6 +66,7 @@ const ListController = function (
 				ctrl.models.splice(ctrl.models.indexOf(model), 1);
 			}
 			showLoading(false);
+			ctrl.showFeedback($filter('translate')("Successfully deleted!"), true, 'success');
 		});
 	};
 
@@ -98,6 +117,7 @@ const ListController = function (
 					model.name = newName;
 				}
 				showLoading(false);
+				ctrl.showFeedback($filter('translate')("Successfully renamed!"), true, 'success');
 			});
 		});
 	};
@@ -186,6 +206,8 @@ export default angular
 		modelRenameComponent,
 		bugReportButton,
 		shareModelModal,
+		iconConceptual,
+		iconLogic
 	])
 	.component("workspace", {
 		template,
