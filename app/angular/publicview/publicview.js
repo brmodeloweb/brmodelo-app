@@ -15,6 +15,8 @@ import "../editor/editorScroller";
 import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
 import KeyboardController, { types } from "../components/keyboardController";
+import iconModelConceptual from "../components/icons/conceptual"
+import iconModelLogic from "../components/icons/logic"
 
 const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 	const ctrl = this;
@@ -96,6 +98,7 @@ const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 			}
 			configs.graph.fromJSON(jsonModel);
 			ctrl.model.name = resp.data.name;
+			ctrl.model.type = resp.data.type;
 			ctrl.setLoading(false);
 			configs.paper.freeze();
 		}).catch((error) => {
@@ -115,7 +118,7 @@ const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 };
 
 export default angular
-	.module("app.publicview", [bugReportButton, statusBar])
+	.module("app.publicview", [bugReportButton, statusBar, iconModelConceptual, iconModelLogic])
 	.component("publicview", {
 		template,
 		controller,

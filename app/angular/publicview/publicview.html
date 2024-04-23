@@ -18,7 +18,8 @@
 			<header class="workspace-header">
 				<div class="page-header clearfix">
 					<div class="document-info pull-left">
-						<h2 class="h4" title="{{$ctrl.model.name}}">{{$ctrl.model.name}}</h2>
+						<h2 class="h4" ng-if="$ctrl.model.type === 'conceptual'"><icon-conceptual title="{{'Conceptual model' | translate}}" aria-hidden="true"></icon-conceptual> {{$ctrl.model.name}}</h2>
+						<h2 class="h4" ng-if="$ctrl.model.type === 'logic'"><icon-logic title="{{'Logic model' | translate}}" aria-hidden="true"></icon-logic> {{$ctrl.model.name}}</h2>
 					</div>
 					<aside class="header-actions pull-right">
 						<a class="docs-icon" href="https://docs.brmodeloweb.com" target="_blank" rel="noopener noreferrer" title="{{ 'Documentation' | translate }}"><i class="fa fa-book"></i></a>
