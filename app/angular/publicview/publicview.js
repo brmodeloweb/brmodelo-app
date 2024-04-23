@@ -1,5 +1,6 @@
 import "backbone";
 import $ from "jquery";
+import "./publicView.scss"
 
 import * as joint from "jointjs/dist/joint";
 import erd from "../../joint/shapes";
