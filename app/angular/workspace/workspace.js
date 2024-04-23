@@ -7,6 +7,7 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
+import githubSponsorBanner from "../components/githubSponsorBanner";
 import shareModelModal from "../components/shareModelModal";
 import iconConceptual from  "../components/icons/conceptual";
 import iconLogic from  "../components/icons/logic";
@@ -206,6 +207,7 @@ export default angular
 		modelDeleterComponent,
 		modelRenameComponent,
 		bugReportButton,
+		githubSponsorBanner,
 		shareModelModal,
 		iconConceptual,
 		iconLogic
