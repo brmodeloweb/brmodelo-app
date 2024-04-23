@@ -31,7 +31,7 @@
 			<header class="workspace-header">
 				<div class="page-header clearfix">
 					<div class="document-info pull-left">
-						<h2 class="h4">{{ 'Conceptual model of:' | translate }} {{$ctrl.model.name}}</h2>
+						<h2 class="h4"><icon-conceptual title="{{'Conceptual model' | translate}}"></icon-conceptual> {{$ctrl.model.name}}</h2>
 						<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
 					</div>
 					<aside class="header-actions pull-right">
@@ -46,7 +46,8 @@
 					<li><a data-ng-click="$ctrl.zoomNone()" title="{{ 'Zoom 100% (Z 0)' | translate }}"><i class="fa fa-search"></i></a></li>
 					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="{{ 'Zoom out (Z -)' | translate }}"><i class="fa fa-search-minus"></i></a></li>
 					<li><a data-ng-click="$ctrl.duplicateModel($ctrl.model)" title="{{ 'Duplicate model' | translate }}"><i class="fa fa-files-o"></i></a></li>
-					<li class="divider"><a data-ng-click="$ctrl.convertModel($ctrl.model)" title="{{ 'Generate logical model' | translate }}"><i class="fa fa-table"></i></a></li>
+					<li><a data-ng-click="$ctrl.convertModel($ctrl.model)" title="{{ 'Generate logical model' | translate }}"><i class="fa fa-table"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.shareModel($ctrl.model)" title="{{ 'Share' | translate }}"><i class="fa fa-share-alt"></i></a></li>
 					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
 				</ul>
 				<aside class="feedback">

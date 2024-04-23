@@ -1,0 +1,44 @@
+<section class="view modelWorkspace publicView">
+	<header class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-header">
+			<strong class="navbar-brand">{{ 'BRMW' | translate }}</strong>
+		</div>
+
+		<img
+			src="../../img/loading-dots.gif"
+			alt="Loading"
+			class="br-loader"
+			ng-class="{'loading': $ctrl.loading}"
+		/>
+	</header>
+
+	<div class="mainContent">
+
+		<section id="content" class="model-area">
+			<header class="workspace-header">
+				<div class="page-header clearfix">
+					<div class="document-info pull-left">
+						<h2 class="h4" ng-if="$ctrl.model.type === 'conceptual'"><icon-conceptual title="{{'Conceptual model' | translate}}" aria-hidden="true"></icon-conceptual> {{$ctrl.model.name}}</h2>
+						<h2 class="h4" ng-if="$ctrl.model.type === 'logic'"><icon-logic title="{{'Logic model' | translate}}" aria-hidden="true"></icon-logic> {{$ctrl.model.name}}</h2>
+					</div>
+					<aside class="header-actions pull-right">
+						<a class="docs-icon" href="https://docs.brmodeloweb.com" target="_blank" rel="noopener noreferrer" title="{{ 'Documentation' | translate }}"><i class="fa fa-book"></i></a>
+						<a class="br-button" href="https://app.brmodeloweb.com/#!/register" target="_blank" rel="noopener noreferrer">{{'Create account' | translate}}</a>
+					</aside>
+				</div>
+				<ul class="nav navbar-nav tool-icons">
+					<li><a data-ng-click="$ctrl.zoomIn()" title="{{ 'Zoom in (Z +)' | translate }}"><i class="fa fa-search-plus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomNone()" title="{{ 'Zoom 100% (Z 0)' | translate }}"><i class="fa fa-search"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomOut()" title="{{ 'Zoom out (Z -)' | translate }}"><i class="fa fa-search-minus"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
+				</ul>
+				<aside class="feedback">
+					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+						<p>{{ $ctrl.feedback.message }}</p>
+					</div>
+				</aside>
+			</header><!-- End .workspace-header -->
+		</section><!-- End .model-area -->
+		<bug-report-button></bug-report-button>
+	</div><!-- End .mainContent -->
+</section><!-- End .view -->

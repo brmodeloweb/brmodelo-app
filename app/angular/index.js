@@ -98,6 +98,22 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("publicview", {
+			title: "PublicView - BRMW",
+			url: "/publicview/{modelshareid}",
+			component: "publicview",
+			data: {
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./publicview/publicview.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
+
 		$stateProvider.state("register", {
 			title: "Register - BRMW",
 			url: "/register",
