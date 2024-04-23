@@ -1,5 +1,9 @@
 const modelRepository = require("./model");
-const { encrypt } = require("../helpers/crypto");
+
+const getSharedLink = (id) => {
+	const baseurl = process.env.PROD_MAIL_ENV || 'http://localhost:9000';
+	return `${baseurl}/#!/publicview/${id}`
+}
 
 const listAll = async (userId) => {
 	return new Promise(async (resolve, reject) => {
@@ -107,13 +111,70 @@ const remove = async (modelId) => {
 	});
 };
 
-const exportModel = async (modelId) => {
+const buildConfigResponse = (shareOptions) => {
+	return {
+		"active": shareOptions.active,
+		"url": getSharedLink(shareOptions._id)
+	}
+}
+
+const toggleShare = async (modelId, active) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const model = await getById(modelId);
+			const model = await modelRepository.findOne({ _id: modelId });
+			if(model != null) {
+				const shareOptions = model.shareOptions != null ? model.shareOptions : {"active": active}
+				shareOptions.active = active;
+				const updatedModel = await modelRepository.findOneAndUpdate(
+					{ _id: modelId },
+					{ $set: { shareOptions: shareOptions, updated: Date.now() } },
+					{ new: true }
+				);
+				if(updatedModel != null) {
+					return resolve(buildConfigResponse(updatedModel.shareOptions));
+				}
+				return reject();
+			}
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
+const findShareOptions = async (modelId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await modelRepository.findOne({ _id: modelId });
+			if(model != null && model.shareOptions != null) {
+				return resolve(buildConfigResponse(model.shareOptions));
+			}
+			const shareOptions = {"active": false};
+			const updatedModel = await modelRepository.findOneAndUpdate(
+				{ _id: modelId },
+				{ $set: { shareOptions: shareOptions, updated: Date.now() } },
+				{ new: true }
+			);
+			return resolve(buildConfigResponse(updatedModel.shareOptions));
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
+const findSharedModel = async (sharedId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await modelRepository.findOne({ "shareOptions._id": sharedId });
+			if(model === null || model.shareOptions === null || !model.shareOptions.active){
+				reject("unauthorized");
+			}
 			return resolve({
-				name: model.name.replace(/[^a-zA-Z0-9]/g, ""),
-				data: encrypt(JSON.stringify(model)),
+				"id": model.shareOptions._id,
+				"model": model.model,
+				"type": model.type,
+				"name": model.name
 			});
 		} catch (error) {
 			console.error(error);
@@ -141,8 +202,10 @@ const modelService = {
 	edit,
 	remove,
 	rename,
-	exportModel,
-	countAll
+	toggleShare,
+	countAll,
+	findShareOptions,
+	findSharedModel
 };
 
 module.exports = modelService;

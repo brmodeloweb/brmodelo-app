@@ -158,5 +158,12 @@ export default {
 	'Forbidden access': 'Acesso proibido',
 	'Looks like this model does not exist or you don\'t have access to it.': 'Parece que este modelo não existe ou você não tem acesso a ele.',
 	'Back to models list': 'Voltar à lista de modelos',
-	'Copy is not allowed on this module when element has references.': 'Copiar não é permitido nesse módulo quando elementos já estiverem conectados.'
+	'Copy is not allowed on this module when element has references.': 'Copiar não é permitido nesse módulo quando elementos já estiverem conectados.',
+	'Share': 'Compartilhar',
+	'Create public link': 'Criar link público',
+	'Make model public': 'Tornar modelo público',
+	'URL': 'URL',
+	'Copy': 'Copiar',
+	'With this link, people will be able to see but not modify this model': 'Com este link, as pessoas poderão ver, mas não modificar este modelo',
+	"Sharing configuration has been updated successfully!": "A configuração de compartilhamento foi atualizada com sucesso!"
 };

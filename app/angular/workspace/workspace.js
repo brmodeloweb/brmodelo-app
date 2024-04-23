@@ -7,6 +7,7 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
+import shareModelModal from "../components/shareModelModal";
 import iconConceptual from  "../components/icons/conceptual";
 import iconLogic from  "../components/icons/logic";
 
@@ -105,6 +106,8 @@ const ListController = function (
 	ctrl.renameModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<rename-model-modal close="$close(result)" dismiss="$dismiss(newName)"></rename-model-modal>',
 		});
 		modalInstance.result.then((newName) => {
@@ -170,6 +173,27 @@ const ListController = function (
 			});
 		});
 	};
+
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model._id;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			console.log("Successfully share config saved!");
+			ctrl.showFeedback($filter('translate')("Sharing configuration has been updated successfully!"), true, 'success');
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
+		});
+	};
+
 };
 
 export default angular
@@ -182,6 +206,7 @@ export default angular
 		modelDeleterComponent,
 		modelRenameComponent,
 		bugReportButton,
+		shareModelModal,
 		iconConceptual,
 		iconLogic
 	])
