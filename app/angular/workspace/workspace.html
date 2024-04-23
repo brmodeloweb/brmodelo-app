@@ -16,22 +16,24 @@
 	<section class="mainContent">
 		<header class="container">
 
-			<aside class="feedback">
-				<div
-					class="alert"
-					role="alert"
-					data-ng-class="{
-						'hide': !$ctrl.feedback.showing,
-						'alert-danger': $ctrl.feedback.type=='error',
-						'alert-success': $ctrl.feedback.type=='success',
-						'alert-warning': $ctrl.feedback.type=='warning'
-					}"
-				>
-					<p>{{ $ctrl.feedback.message }}</p>
-				</div>
-			</aside>
+			<banner-whats-new></banner-whats-new>
 
 			<div class="page-header clearfix">
+				<aside class="feedback">
+					<div
+						class="alert"
+						role="alert"
+						data-ng-class="{
+							'hide': !$ctrl.feedback.showing,
+							'alert-danger': $ctrl.feedback.type=='error',
+							'alert-success': $ctrl.feedback.type=='success',
+							'alert-warning': $ctrl.feedback.type=='warning'
+						}"
+					>
+						<p>{{ $ctrl.feedback.message }}</p>
+					</div>
+				</aside>
+
 				<h2 class="h2 pull-left">{{ 'Models' | translate }}</h2>
 				<aside class="header-actions pull-right">
 					<a class="br-button" data-ng-click="$ctrl.newModel()"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ 'New model' | translate }}</a>

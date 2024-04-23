@@ -9,6 +9,7 @@ import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
 import iconConceptual from  "../components/icons/conceptual";
 import iconLogic from  "../components/icons/logic";
+import whatsNewBanner from "../components/whatsNewBanner";
 
 
 const ListController = function (
@@ -183,7 +184,8 @@ export default angular
 		modelRenameComponent,
 		bugReportButton,
 		iconConceptual,
-		iconLogic
+		iconLogic,
+		whatsNewBanner
 	])
 	.component("workspace", {
 		template,
