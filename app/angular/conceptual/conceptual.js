@@ -160,7 +160,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			controllerAs: '$ctrl',
 		}).result;
 		modalInstance.then(() => {
-			ctrl.showFeedback(true, "Successfully share config saved!");
+			ctrl.showFeedback(true, $filter('translate')("Sharing configuration has been updated successfully!"));
 		}).catch((reason) => {
 			console.log("Modal dismissed with reason", reason);
 		});
