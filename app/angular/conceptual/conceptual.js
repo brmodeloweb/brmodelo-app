@@ -16,6 +16,7 @@ import angular from "angular";
 import template from "./conceptual.html";
 
 import modelDuplicatorComponent from "../components/duplicateModelModal";
+import shareModelModal from "../components/shareModelModal";
 import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
 
@@ -26,6 +27,7 @@ import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
 import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
+import iconConceptual from  "../components/icons/conceptual";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
 	const ctrl = this;
@@ -77,7 +79,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
-			ctrl.showFeedback(true, "Saved successfully!");
+			ctrl.showFeedback(true, "Successfully saved!");
 			ctrl.setLoading(false);
 		});
 	}
@@ -145,6 +147,25 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
 			});
 	}
+
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model._id;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback(true, $filter('translate')("Sharing configuration has been updated successfully!"));
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
+		});
+	};
 
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
@@ -546,7 +567,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar, shareModelModal, iconConceptual])
 	.component("editorConceptual", {
 		template,
 		controller,

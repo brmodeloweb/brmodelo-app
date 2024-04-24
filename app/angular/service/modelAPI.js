@@ -51,6 +51,30 @@ const authService = ($http) => {
 			});
 	};
 
+	const _loadShareOptions = function (_modelId) {
+		return $http
+			.get(`/models/${_modelId}/share/options`)
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
+	const _toggleShare = function (modelId, active) {
+		return $http
+			.post(`/models/share`, {"modelId": modelId, "active": active})
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
+	const _getSharedModel = function (shareId) {
+		return $http
+			.get(`/models/share/${shareId}`)
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
 	return {
 		saveModel: _saveModel,
 		getAllModels: _getAllModels,
@@ -58,6 +82,9 @@ const authService = ($http) => {
 		updateModel: _updateModel,
 		deleteModel: _deleteModel,
 		renameModel: _renameModel,
+		loadShareOptions: _loadShareOptions,
+		toggleShare: _toggleShare,
+		getSharedModel: _getSharedModel
 	};
 };
 

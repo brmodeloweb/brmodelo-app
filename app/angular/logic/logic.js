@@ -3,6 +3,7 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import shareModelModal from "../components/shareModelModal";
 import queryExpressionModal from "../components/queryExpressionModal";
 import sqlComparasionDropdown from "../components/sqlComparasionDropdown";
 import bugReportButton from "../components/bugReportButton";
@@ -12,6 +13,7 @@ import view from "../view/view";
 import columnForm from "./columnForm";
 import checkConstraint from "./checkConstraint";
 import sidebarControlLogical from "./sidebarControl";
+import iconLogic from  "../components/icons/logic";
 
 const controller = function (
 	$rootScope,
@@ -79,7 +81,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		LogicService.updateModel().then(function (res) {
-			ctrl.showFeedback("Saved successfully!", true, "success");
+			ctrl.showFeedback("Successfully saved!", true, "success");
 		});
 	}
 
@@ -129,7 +131,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
-			ctrl.showFeedback("Saved successfully!", true, "success");
+			ctrl.showFeedback("Successfully saved!", true, "success");
 		});
 	});
 
@@ -223,9 +225,28 @@ const controller = function (
 			};
 			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
 				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-				ctrl.showFeedback("Successfully duplicated!", true);
+				ctrl.showFeedback("Successfully duplicated!", true, 'success');
 				ctrl.setLoading(false);
 			});
+		});
+	};
+
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model.id;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback($filter('translate')("Sharing configuration has been updated successfully!"), true, "success");
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
 	};
 
@@ -246,7 +267,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown, shareModelModal, iconLogic])
 	.component("editorLogic", {
 		template,
 		controller,
