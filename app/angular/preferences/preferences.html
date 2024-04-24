@@ -34,9 +34,34 @@
 				<p>{{ $ctrl.feedback.message }}</p>
 			</div>
 
+			<form>
+				<section class="form-section">
+					<header>
+						<h3>{{ 'User information' | translate }}</h3>
+					</header>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="displayName">{{ 'Name' | translate }}</label>
+								<input type="text" class="form-control input-lg" id="displayName" placeholder="Email">
+							</div>
+
+							<div class="form-group">
+								<label for="userEmail">{{ 'Email' | translate }}</label>
+								<input type="email" class="form-control input-lg" id="userEmail" disabled>
+							</div>
+
+							<button class="br-button">Save</button>
+
+						</div>
+					</div>
+
+				</section>
+			</form>
+
 			<!-- User information -->
-			<form class="form-horizontal" role="form" name="userPreferencesForm">
-				
+			<form role="form" name="userPreferencesForm">
+
 				<section class="form-section deleteAccount">
 					<header>
 						<h3>{{ 'Delete account' | translate }}</h3>
