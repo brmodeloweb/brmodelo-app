@@ -176,6 +176,22 @@ const findSharedModel = async (req, res) => {
 	}
 };
 
+const duplicate = async (req, res) => {
+	try {
+		const modelId = req.params.modelId;
+		const { newName, userId } = req.body;
+		const duplicated = await modelService.duplicate(modelId, userId, newName);
+		return res.status(200).send(duplicated);
+	} catch (error) {
+		if(error.status === 401) {
+			return res.status(401).json({ auth: false, message: 'You are not authorized to complete this request' });
+		}
+		return res
+			.status(500)
+			.send("There's an error while finding your sharing config model request");
+	}
+};
+
 module.exports = router
 	.get("/",validateJWT, listAll)
 	.post("/",validateJWT, save)
@@ -186,4 +202,5 @@ module.exports = router
 	.post("/share", validateJWT, toggleShare)
 	.get("/:modelId/share/options", validateJWT, findShareOptions)
 	.post("/import",validateJWT, importModel)
+	.post("/:modelId/duplicate",validateJWT, duplicate)
 	.get("/share/:sharedId", findSharedModel);
