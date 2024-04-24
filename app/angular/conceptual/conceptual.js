@@ -135,6 +135,32 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 	};
 
+	ctrl.duplicateModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: `<duplicate-model-modal
+						suggested-name="$ctrl.suggestedName"
+						close="$close(result)"
+						dismiss="$dismiss(reason)"
+						user-id=$ctrl.userId
+						model-id=$ctrl.modelId>
+					</duplicate-model-modal>`,
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
+				$ctrl.modelId = model._id;
+				$ctrl.userId = model.who;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then((newModel) => {
+			window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+			ctrl.showFeedback(true, "Successfully duplicated!");
+		}).catch(error => {
+			console.error(error);
+		});
+	};
+
 	ctrl.convertModel = (conceptualModel) => {
 		const model = {
 			"name": conceptualModel.name + $filter('translate')("_converted"),
