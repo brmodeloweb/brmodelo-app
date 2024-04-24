@@ -75,6 +75,14 @@ const authService = ($http) => {
 			});
 	};
 
+	const _duplicate= function (modelId, userId, newName) {
+		return $http
+			.post(`/models/${modelId}/duplicate`, {"userId": userId, "newName": newName})
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
 	return {
 		saveModel: _saveModel,
 		getAllModels: _getAllModels,
@@ -84,7 +92,8 @@ const authService = ($http) => {
 		renameModel: _renameModel,
 		loadShareOptions: _loadShareOptions,
 		toggleShare: _toggleShare,
-		getSharedModel: _getSharedModel
+		getSharedModel: _getSharedModel,
+		duplicate: _duplicate
 	};
 };
 
