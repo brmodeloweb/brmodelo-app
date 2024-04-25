@@ -113,9 +113,8 @@ const ListController = function (
 			keyboard: false,
 			template: '<import-model-modal close="$close(result)" dismiss="$dismiss()"></import-model-modal>',
 		}).result;
-		modalInstance.then((result) => {
-			console.log(result);
-			ctrl.models.push(result);
+		modalInstance.then((importedModel) => {
+			ctrl.models.push(mapData(importedModel));
 			ctrl.showFeedback($filter('translate')("Your model was imported successfully!"), true, 'success');
 		}).catch((reason) => {
 			console.log("Modal dismissed with reason", reason);
