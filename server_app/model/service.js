@@ -170,14 +170,15 @@ const findSharedModel = async (sharedId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ "shareOptions._id": sharedId });
-			if(model === null || model.shareOptions === null || !model.shareOptions.active || !model.shareOptions.importAllowed){
+			if(model === null || model.shareOptions === null || !model.shareOptions.active){
 				reject("unauthorized");
 			}
 			return resolve({
 				"id": model.shareOptions._id,
 				"model": model.model,
 				"type": model.type,
-				"name": model.name
+				"name": model.name,
+				"importAllowed": model.shareOptions.importAllowed,
 			});
 		} catch (error) {
 			console.error(error);
@@ -202,6 +203,10 @@ const importModel = async (sharedId, userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const sharedModel = await findSharedModel(sharedId);
+
+			if(!sharedModel.importAllowed){
+				reject("unauthorized");
+			}
 
 			const newModel = {
 				"name": sharedModel.name,
