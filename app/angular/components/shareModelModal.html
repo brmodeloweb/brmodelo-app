@@ -16,7 +16,7 @@
 			<div class="col-sm-offset-3 col-sm-7">
 				<div class="checkbox">
 					<label for="share-import-config">
-						<input id="share-import-config" type="checkbox" ng-model="$ctrl.importAllowed"/>
+						<input id="share-import-config" type="checkbox" ng-model="$ctrl.importAllowed" ng-disabled="!$ctrl.shared"/>
 						<span>{{ 'Enable import' | translate }}</span>
 						<p class="note">{{ 'Allow users to make copies using the public link' | translate }}</p>
 					</label>

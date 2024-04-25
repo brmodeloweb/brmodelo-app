@@ -23,6 +23,9 @@ const Controller = function (ModelAPI) {
 
 	$ctrl.toggleShare = (shared) => {
 		$ctrl.url = shared? $ctrl.backupConfig.url : "";
+		if (!shared) {
+			$ctrl.importAllowed = false;
+		}
 	}
 
 	$ctrl.cancel = () => {
