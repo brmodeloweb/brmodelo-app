@@ -13,6 +13,14 @@
 					</label>
 				</div>
 			</div>
+			<div class="col-sm-offset-3 col-sm-7">
+				<div class="checkbox">
+					<label for="share-import-config">
+						<input id="share-import-config" type="checkbox" ng-model="$ctrl.importAllowed"/>
+						<span>{{ 'Allow import' | translate }}</span>
+					</label>
+				</div>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="import-model" class="col-sm-3 control-label">{{ 'URL' | translate }}</label>

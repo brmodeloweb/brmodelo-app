@@ -12,13 +12,17 @@ const Controller = function (ModelAPI) {
 			const shareConfig = response.data;
 			$ctrl.url = shareConfig.active ? shareConfig.url : "";
 			$ctrl.shared = shareConfig.active;
-			$ctrl.backupUrl = shareConfig.url;
-			$ctrl.backupShared = shareConfig.active;
+			$ctrl.importAllowed = shareConfig.importAllowed;
+			$ctrl.backupConfig = shareConfig;
 		});
 	};
 
+	const hasChanges = (newActive, newImportAllowed) => {
+		return $ctrl.backupConfig.active != newActive || $ctrl.backupConfig.importAllowed != newImportAllowed;
+	}
+
 	$ctrl.toggleShare = (shared) => {
-		$ctrl.url = shared? $ctrl.backupUrl : "";
+		$ctrl.url = shared? $ctrl.backupConfig.url : "";
 	}
 
 	$ctrl.cancel = () => {
@@ -26,8 +30,8 @@ const Controller = function (ModelAPI) {
 	};
 
 	$ctrl.save = () => {
-		if($ctrl.shared != $ctrl.backupShared) {
-			ModelAPI.toggleShare($ctrl.modelId, $ctrl.shared).then(() => {
+		if(hasChanges($ctrl.shared, $ctrl.importAllowed)) {
+			ModelAPI.toggleShare($ctrl.modelId, $ctrl.shared, $ctrl.importAllowed).then(() => {
 				$ctrl.close({reason: "model shared"});
 			}).catch(error => {
 				console.log(error);
