@@ -59,9 +59,9 @@ const authService = ($http) => {
 			});
 	};
 
-	const _toggleShare = function (modelId, active) {
+	const _toggleShare = function (modelId, active, importAllowed) {
 		return $http
-			.post(`/models/share`, {"modelId": modelId, "active": active})
+			.post(`/models/share`, {"modelId": modelId, "active": active, "importAllowed": importAllowed})
 			.then(function (resp) {
 				return resp;
 			});
