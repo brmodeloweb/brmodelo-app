@@ -1,14 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
 const modelService = require("./service");
 const modelValidator = require("./validator");
-const { decrypt } = require("../helpers/crypto");
 const { validateJWT } = require('../middleware');
 
 const router = express.Router();
 router.use(bodyParser.json());
-router.use(fileUpload());
 
 const listAll = async (req, res) => {
 	try {
