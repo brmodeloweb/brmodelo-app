@@ -108,9 +108,13 @@ const ListController = function (
 		const modalInstance = $uibModal.open({
 			animation: true,
 			template: '<import-model-modal close="$close(result)" dismiss="$dismiss()"></import-model-modal>',
-		});
-		modalInstance.result.then((model) => {
-			console.log('Salvei!')
+		}).result;
+		modalInstance.then((result) => {
+			console.log(result);
+			ctrl.models.push(result);
+			ctrl.showFeedback($filter('translate')("Your model was imported successfully!"), true, 'success');
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
 	};
 

@@ -75,6 +75,14 @@ const authService = ($http) => {
 			});
 	};
 
+	const _importModel = function (shareId, userId) {
+		return $http
+			.post(`/models/import`, {shareId, userId})
+			.then(function (resp) {
+				return resp;
+			});
+	};
+
 	return {
 		saveModel: _saveModel,
 		getAllModels: _getAllModels,
@@ -84,7 +92,8 @@ const authService = ($http) => {
 		renameModel: _renameModel,
 		loadShareOptions: _loadShareOptions,
 		toggleShare: _toggleShare,
-		getSharedModel: _getSharedModel
+		getSharedModel: _getSharedModel,
+		importModel: _importModel
 	};
 };
 
