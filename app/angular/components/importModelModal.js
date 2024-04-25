@@ -5,10 +5,10 @@ const app = angular.module("app.ImportModelModal", []);
 
 const Controller = function (ModelAPI, AuthService) {
 	const $ctrl = this;
-	$ctrl.submitted = false;
 
 	$ctrl.$onInit = () => {
-		$ctrl.url = "teste";
+		$ctrl.url = "";
+		$ctrl.submitted = false;
 	};
 
 
@@ -21,6 +21,7 @@ const Controller = function (ModelAPI, AuthService) {
 	$ctrl.save = (url) => {
 		const parts = url.split("/");
 		const shareId = parts[parts.length-1];
+		$ctrl.submitted = true;
 		console.log(AuthService);
 		ModelAPI.importModel(shareId, AuthService.loggeduser).then(response => {
 			$ctrl.close({result: response.data});
