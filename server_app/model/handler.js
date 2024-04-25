@@ -110,8 +110,8 @@ const rename = async (req, res) => {
 
 const toggleShare = async (req, res) => {
 	try {
-		const {modelId, active} = req.body;
-		const shareOptions = await modelService.toggleShare(modelId, active);
+		const {modelId, active, importAllowed} = req.body;
+		const shareOptions = await modelService.toggleShare(modelId, active, importAllowed);
 		return res.status(200).send(shareOptions);
 	} catch (error) {
 		console.error(error);

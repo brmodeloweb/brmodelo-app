@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 let ShareOptions = mongoose.Schema({
-	active: {type: Boolean, required: true}
+	active: {type: Boolean, required: true},
+	importAllowed: {type: Boolean, required: true}
 });
 
 let model = mongoose.Schema({
