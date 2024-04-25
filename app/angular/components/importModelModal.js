@@ -1,7 +1,7 @@
 import angular from "angular";
-import template from "./ImportModelModal.html";
+import template from "./importModelModal.html";
 
-const app = angular.module("app.ImportModelModal", []);
+const app = angular.module("app.importModelModal", []);
 
 const Controller = function (ModelAPI, AuthService, $timeout) {
 	const $ctrl = this;
