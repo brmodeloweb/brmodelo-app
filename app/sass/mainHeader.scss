@@ -102,12 +102,18 @@
 // Loading
 ////////////////////////////////////////////////////////////////////////////////
 .br-loader {
+	display: none;
 	position: fixed;
 	top: 70px;
 	left: 50%;
 	margin-left: -20px;
-	display: none;
+	padding: 3px;;
+	border: 1px solid var(--border-light);
+	border-radius: 4px;
+	background-color: var(--white);
 }
+
+.br-loader.loading {display: block;}
 
 ///////////////////////////////////////////////////////////////////////////////
 // .nav-icons dropdown-icon
@@ -134,8 +140,3 @@
 .nav-icons .dropdown-menu > li > a {
 	color: var(--gray-20);
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// .br-loader
-///////////////////////////////////////////////////////////////////////////////
-.br-loader.loading {display: block;}

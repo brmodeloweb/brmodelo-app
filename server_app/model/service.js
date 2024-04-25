@@ -112,19 +112,22 @@ const remove = async (modelId) => {
 };
 
 const buildConfigResponse = (shareOptions) => {
+	const importAllowed = (shareOptions.importAllowed != null) ? shareOptions.importAllowed : false;
 	return {
 		"active": shareOptions.active,
+		"importAllowed": importAllowed,
 		"url": getSharedLink(shareOptions._id)
 	}
 }
 
-const toggleShare = async (modelId, active) => {
+const toggleShare = async (modelId, active, importAllowed) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
 			if(model != null) {
-				const shareOptions = model.shareOptions != null ? model.shareOptions : {"active": active}
+				const shareOptions = model.shareOptions != null ? model.shareOptions : {"active": false, "importAllowed": false}
 				shareOptions.active = active;
+				shareOptions.importAllowed = importAllowed;
 				const updatedModel = await modelRepository.findOneAndUpdate(
 					{ _id: modelId },
 					{ $set: { shareOptions: shareOptions, updated: Date.now() } },
@@ -149,7 +152,7 @@ const findShareOptions = async (modelId) => {
 			if(model != null && model.shareOptions != null) {
 				return resolve(buildConfigResponse(model.shareOptions));
 			}
-			const shareOptions = {"active": false};
+			const shareOptions = {"active": false, "importAllowed": false};
 			const updatedModel = await modelRepository.findOneAndUpdate(
 				{ _id: modelId },
 				{ $set: { shareOptions: shareOptions, updated: Date.now() } },
@@ -167,7 +170,7 @@ const findSharedModel = async (sharedId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ "shareOptions._id": sharedId });
-			if(model === null || model.shareOptions === null || !model.shareOptions.active){
+			if(model === null || model.shareOptions === null || !model.shareOptions.active || !model.shareOptions.importAllowed){
 				reject("unauthorized");
 			}
 			return resolve({
@@ -195,8 +198,35 @@ const countAll = async (userId) => {
 	});
 };
 
+const importModel = async (sharedId, userId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const sharedModel = await findSharedModel(sharedId);
+
+			const newModel = {
+				"name": sharedModel.name,
+				"type": sharedModel.type,
+				"model": sharedModel.model,
+				"userId": userId
+			}
+
+			const createdModel = await save(newModel);
+
+			return resolve({
+				"_id": createdModel._id,
+				"type": createdModel.type,
+				"name": createdModel.name,
+				"created": createdModel.created,
+				"who": createdModel.who
+			});
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+}
+
 const duplicate = async (modelId, userId, newName) => {
-	console.log(modelId, userId, newName);
 	return new Promise(async (resolve, reject) => {
 		try {
 
@@ -234,6 +264,7 @@ const modelService = {
 	countAll,
 	findShareOptions,
 	findSharedModel,
+	importModel,
 	duplicate
 };
 

@@ -109,9 +109,11 @@ export default {
 	'Request feature': 'Requisitar funcionalidade',
 	'Report bug': 'Reportar problema',
 	'Import model': 'Importar modelo',
-	'File': 'Arquivo',
+	'URL': 'URL',
 	'Import': 'Importar',
-	'Please select a .BRT file': 'Por favor selecione um arquivo .BRT',
+	'Please insert the URL to import': 'Por favor insira a URL para importar',
+	'It was not possible to import this model. ': 'Não foi possível importar esse modelo. ',
+	'The URL may not be correct or the model does not allow import.': 'A URL pode não estar correta ou o modelo não autoriza importação',
 	'Last save:': 'Salvo por último:',
 	'at': 'às',
 	'Equal to': 'Igual',
@@ -166,9 +168,11 @@ export default {
 	'Go to Github Sponsors': 'Ir para o Github Sponsors',
 	'Share model': 'Compartilhar modelo',
 	'Create public link': 'Criar link público',
-	'Make model public': 'Tornar modelo público',
+	'Enable import': 'Autorizar importação',
+	'Allow users to make copies using the public link': 'Permitir que os usuários façam cópias usando o link público',
 	'URL': 'URL',
 	'Copy': 'Copiar',
-	'With this link, people will be able to see but not modify this model': 'Com este link, as pessoas poderão ver, mas não modificar este modelo',
-	"Sharing configuration has been updated successfully!": "A configuração de compartilhamento foi atualizada com sucesso!"
+	'People will be able to see but not modify your model': 'As pessoas poderão ver, mas não modificar seu modelo',
+	"Sharing configuration has been updated successfully!": "A configuração de compartilhamento foi atualizada com sucesso!",
+	"Your model was imported successfully!": "Seu modelo foi importado com sucesso!"
 };

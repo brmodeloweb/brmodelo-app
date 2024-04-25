@@ -45,6 +45,15 @@ input[type="submit"]:focus {
 	border-bottom: 1px solid var(--border-default);
 	margin-bottom: 25px;
 }
+////////////////////////////////////////////////////////////////////////////////
+// .form-group
+////////////////////////////////////////////////////////////////////////////////
+.form-group .note {
+	word-break: normal;
+	font-size: 0.9em;
+	font-style: italic;
+	margin: 2px 0 0 4px;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // .columnsList
@@ -184,6 +193,7 @@ input[type="submit"]:focus {
 
 .form-control.error::placeholder {
 	color: var(--danger-base);
+	opacity: 0.5;
 }
 
 textarea {

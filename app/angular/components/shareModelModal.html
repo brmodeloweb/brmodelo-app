@@ -13,6 +13,15 @@
 					</label>
 				</div>
 			</div>
+			<div class="col-sm-offset-3 col-sm-7">
+				<div class="checkbox">
+					<label for="share-import-config">
+						<input id="share-import-config" type="checkbox" ng-model="$ctrl.importAllowed" ng-disabled="!$ctrl.shared"/>
+						<span>{{ 'Enable import' | translate }}</span>
+						<p class="note">{{ 'Allow users to make copies using the public link' | translate }}</p>
+					</label>
+				</div>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="import-model" class="col-sm-3 control-label">{{ 'URL' | translate }}</label>
@@ -27,14 +36,10 @@
 					readonly
 					data-ng-model="$ctrl.url"
 				/>
+				<p class="note">{{ 'People will be able to see but not modify your model' | translate }}</p>
 			</div>
 			<div class="col-sm-3">
 				<button type="submit" class="btn btn-default" style="margin-left: -24px;" ng-click="$ctrl.copy()" ng-disabled="!$ctrl.url">{{ 'Copy' | translate }}</button>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-3 col-sm-7">
-				<p class="note">{{ 'With this link, people will be able to see but not modify this model' | translate }}</p>
 			</div>
 		</div>
 	</form>

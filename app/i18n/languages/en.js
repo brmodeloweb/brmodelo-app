@@ -110,9 +110,11 @@ export default {
 	'Request feature': 'Request feature',
 	'Report bug': 'Report bug',
 	'Import model': 'Import model',
-	'File': 'File',
+	'URL': 'URL',
 	'Import': 'Import',
-	'Please select a .BRT file': 'Please select a .BRT file',
+	'Please insert the URL to import': 'Please the URL to import',
+	'It was not possible to import this model. ': 'It was not possible to import this model. ',
+	'The URL may not be correct or the model does not allow import.': 'The URL may not be correct or the model is not allowed to be imported.',
 	'Last save:': 'Last save:',
 	'at': 'at',
 	'Equal to': 'Equal to',
@@ -167,9 +169,11 @@ export default {
 	'Go to Github Sponsors': 'Go to Github Sponsors',
 	'Share model':'Share model',
 	'Create public link':'Create public link',
-	'Make model public': 'Make model public',
+	'Enable import': 'Enable import',
+	'Allow users to make copies using the public link': 'Allow users to make copies using the public link',
 	'URL': 'URL',
 	'Copy': 'Copy',
-	'With this link, people will be able to see but not modify this model': 'With this link, people will be able to see but not modify this model',
-	"Sharing configuration has been updated successfully!": "Sharing configuration has been updated successfully!"
+	'People will be able to see but not modify your model': 'People will be able to see but not modify your model',
+	"Sharing configuration has been updated successfully!": "Sharing configuration has been updated successfully!",
+	"Your model was imported successfully!": "Your model was imported successfully!"
 };

@@ -7,6 +7,7 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
+import modelImportComponent from "../components/importModelModal";
 import githubSponsorBanner from "../components/githubSponsorBanner";
 import shareModelModal from "../components/shareModelModal";
 import iconConceptual from  "../components/icons/conceptual";
@@ -102,6 +103,21 @@ const ListController = function (
 				ctrl.openModel(newModel);
 				showLoading(false);
 			});
+		});
+	};
+
+	ctrl.importModel = () => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<import-model-modal close="$close(result)" dismiss="$dismiss()"></import-model-modal>',
+		}).result;
+		modalInstance.then((importedModel) => {
+			ctrl.models.push(mapData(importedModel));
+			ctrl.showFeedback($filter('translate')("Your model was imported successfully!"), true, 'success');
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
 	};
 
@@ -205,6 +221,7 @@ export default angular
 		modelDeleterComponent,
 		modelRenameComponent,
 		bugReportButton,
+		modelImportComponent,
 		githubSponsorBanner,
 		shareModelModal,
 		iconConceptual,
