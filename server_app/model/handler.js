@@ -4,6 +4,7 @@ const fileUpload = require("express-fileupload");
 const modelService = require("./service");
 const modelValidator = require("./validator");
 const { decrypt } = require("../helpers/crypto");
+const { validateJWT } = require('../middleware');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -17,7 +18,6 @@ const listAll = async (req, res) => {
 			.status(200)
 			.send(models);
 	} catch (error) {
-		console.error("caiu na rede");
 		console.error(error);
 		return res.status(500).send("There's an error listing your models");
 	}
@@ -26,13 +26,15 @@ const listAll = async (req, res) => {
 const getById = async (req, res) => {
 	try {
 		let modelId = req.query.modelId;
-		const model = await modelService.getById(modelId);
+		let userId = req.query.userId;
+		const model = await modelService.getById(modelId, userId);
 		res.send(model);
 	} catch (error) {
-		console.error(error);
+		const code = error.status ? error.status : 500;
+		const message = error.message != "" ? error.message : "There's an error while treating your get request";
 		return res
-			.status(500)
-			.send("There's an error while treating your get request");
+			.status(code)
+			.send(message);
 	}
 };
 
@@ -106,21 +108,29 @@ const rename = async (req, res) => {
 	}
 };
 
-const exportModel = async (req, res) => {
+const toggleShare = async (req, res) => {
 	try {
-		const { modelId } = req.params;
-		const { name, data } = await modelService.exportModel(modelId);
-		res.writeHead(200, {
-			"Content-Type": "application/octet-stream",
-			"Content-Disposition": `attachment; filename=${name}.brm`,
-			"Content-Length": data.length,
-		});
-		return res.end(data);
+		const {modelId, active} = req.body;
+		const shareOptions = await modelService.toggleShare(modelId, active);
+		return res.status(200).send(shareOptions);
 	} catch (error) {
 		console.error(error);
 		return res
 			.status(500)
-			.send("There's an error while treating export your model request");
+			.send("There's an error while sharing your model request");
+	}
+};
+
+const findShareOptions = async (req, res) => {
+	try {
+		const { modelId } = req.params;
+		const shareOptions = await modelService.findShareOptions(modelId);
+		return res.status(200).send(shareOptions);
+	} catch (error) {
+		console.error(error);
+		return res
+			.status(500)
+			.send("There's an error while finding your sharing config model request");
 	}
 };
 
@@ -151,12 +161,46 @@ const importModel = async (req, res) => {
 	}
 };
 
+const findSharedModel = async (req, res) => {
+	try {
+		const sharedId = req.params.sharedId;
+		const sharedModel = await modelService.findSharedModel(sharedId);
+		return res.status(201).send(sharedModel);
+	} catch (error) {
+		if(error === "unauthorized") {
+			return res.status(401).json({ auth: false, message: 'This model is not shared.' });
+		}
+		return res
+			.status(500)
+			.send("There's an error while finding your sharing config model request");
+	}
+};
+
+const duplicate = async (req, res) => {
+	try {
+		const modelId = req.params.modelId;
+		const { newName, userId } = req.body;
+		const duplicated = await modelService.duplicate(modelId, userId, newName);
+		return res.status(200).send(duplicated);
+	} catch (error) {
+		if(error.status === 401) {
+			return res.status(401).json({ auth: false, message: 'You are not authorized to complete this request' });
+		}
+		return res
+			.status(500)
+			.send("There's an error while finding your sharing config model request");
+	}
+};
+
 module.exports = router
-	.get("/", listAll)
-	.post("/", save)
-	.get("/:modelId", getById)
-	.put("/:modelId", edit)
-	.delete("/:modelId", remove)
-	.put("/:modelId/rename", rename)
-	.get("/:modelId/export", exportModel)
-	.post("/import", importModel);
+	.get("/",validateJWT, listAll)
+	.post("/",validateJWT, save)
+	.get("/:modelId", validateJWT, getById)
+	.put("/:modelId",validateJWT, edit)
+	.delete("/:modelId",validateJWT, remove)
+	.put("/:modelId/rename",validateJWT, rename)
+	.post("/share", validateJWT, toggleShare)
+	.get("/:modelId/share/options", validateJWT, findShareOptions)
+	.post("/import",validateJWT, importModel)
+	.post("/:modelId/duplicate",validateJWT, duplicate)
+	.get("/share/:sharedId", findSharedModel);

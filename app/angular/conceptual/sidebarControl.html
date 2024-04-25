@@ -13,7 +13,7 @@
 			</div>
 		</div><!-- End .form-group -->
 
-		<div class="form-group" ng-if="($ctrl.configuration.entity)">
+		<div class="form-group" ng-if="($ctrl.configuration.entity && $ctrl.visible)">
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
@@ -35,7 +35,7 @@
 			</div>
 		</div><!-- End .form-group -->
 
-		<div class="form-group" ng-if="($ctrl.configuration.link)">
+		<div class="form-group" ng-if="($ctrl.configuration.link && $ctrl.visible)">
 			<div class="form-group clearfix">
 				<label for="">{{ 'Cardinality' | translate }}</label>
 				<dropdown on-select="$ctrl.updateCardinality(selected)"
@@ -60,7 +60,7 @@
 			</div><!-- End .form-group -->
 		</div><!-- End .form-group -->
 
-		<div class="form-group" ng-if="($ctrl.configuration.extension)">
+		<div class="form-group" ng-if="($ctrl.configuration.extension && $ctrl.visible)">
 			<div class="form-group clearfix">
 				<label for="">{{ 'Edit' | translate }}</label>
 				<dropdown on-select="$ctrl.updateName(selected.type)"
@@ -70,7 +70,7 @@
 			</div>
 		</div><!-- End .form-group -->
 
-		<div class="form-group" ng-if="($ctrl.configuration.attribute)">
+		<div class="form-group" ng-if="($ctrl.configuration.attribute && $ctrl.visible)">
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value.name"
@@ -95,13 +95,13 @@
 			</div>
 		</div><!-- End .form-group -->
 
-		<div class="form-group" ng-if="($ctrl.configuration.key)">
+		<div class="form-group" ng-if="($ctrl.configuration.key && $ctrl.visible)">
 			<label for="entry-name">{{ 'Name' | translate }}</label>
 			<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
 				ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 		</div><!-- End .form-group -->
 
-		<div class="form-group" ng-if="($ctrl.configuration.relationship)">
+		<div class="form-group" ng-if="($ctrl.configuration.relationship && $ctrl.visible)">
 			<div class="form-group">
 				<label for="entry-name">{{ 'Name' | translate }}</label>
 				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"

@@ -3,7 +3,7 @@ import template from "./duplicateModelModal.html";
 
 const app = angular.module("app.duplicateModelModalController", []);
 
-const Controller = function () {
+const Controller = function(ModelAPI) {
 	const $ctrl = this;
 	$ctrl.submitted = false;
 
@@ -11,11 +11,18 @@ const Controller = function () {
 		$ctrl.name = $ctrl.suggestedName;
 	};
 
-	$ctrl.save = function (modelname) {
+	$ctrl.save = function (newName) {
 		$ctrl.submitted = true;
-		if (modelname != null && modelname != "") {
-			$ctrl.close({
-				result: modelname,
+		if (newName != null && newName != "") {
+			ModelAPI.duplicate($ctrl.modelId, $ctrl.userId, newName).then((newModelResponse) => {
+				$ctrl.close({
+					result: newModelResponse.data,
+				});
+			}).catch(error => {
+				$ctrl.dismiss({
+					result: "error",
+					reason: error
+				});
 			});
 		}
 	};
@@ -33,6 +40,8 @@ export default app.component("duplicateModelModal", {
 		close: "&",
 		dismiss: "&",
 		suggestedName: "<",
+		userId: "<",
+		modelId: "<",
 	},
 	controller: Controller,
 }).name;

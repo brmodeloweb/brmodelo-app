@@ -14,17 +14,6 @@ declare namespace Cypress {
     loginViaGui(username?: string, password?: string)
 
     /**
-     * **Programmatically logs into the BR Modelo Wep App.**
-     *
-     * @param email string - The email of the user you want to log in with. Defaults to Cypress.env('user') if no value is provided.
-     * @param password string - The password of the user you want to log in with. Defaults to Cypress.env('password') if no value is provided.
-     *
-     * @example cy.loginViaApi() // Programmatically logs into the app using the default email and password (defined as envs).
-     * @example cy.loginViaApi('user@email.com', 'S3cRe7P@ssW0rd') // Programmatically logs into the app using the provided credentials.
-     */
-     loginViaApi(username?: string, password?: string)
-
-    /**
      * **Deletes all models of the logged in user.**
      * 
      * This command is used for cleaning things up before tests start so that they start on a clean state.
@@ -65,15 +54,5 @@ declare namespace Cypress {
      * @example cy.createModelViaApi('conceptual', '618f065ed18dc91b10650f99', conceptualModel) // Creates a conceptual model for userId=618f065ed18dc91b10650f99 passing a model object (`conceptualModel`), defined earlier, as a variable
      */
     createModelViaApi(type: string, userId: string, model?: object): Cypress.Chainable<Cypress.Response<any>>
-
-    /**
-     * **Moves the table element from the sidebar of the logical model creation view X pixels to its right, and Y pixels down.**
-     *
-     * @param deltaX number - The distance (to the right) in pixels relative to the element's current position
-     * @param deltaY number - The distance (down) in pixels relative to the element's current position
-     *
-     * @example cy.dragAndDropTableAt(200, 200) // Moves the table element from the sidebar of the logical model creation view 200 pixels to its right, and 200 pixels down
-     */
-    dragAndDropTableAt(deltaX: number, deltaY: number): Chainable<Element>
   }
 }

@@ -2,6 +2,8 @@
 @import 'public.scss';
 @import 'mainHeader.scss';
 @import 'structure.scss';
+@import 'projectsList';
+@import 'modelsList.scss';
 @import 'modelWorkspace.scss';
 @import 'form.scss';
 @import 'buttons.scss';
@@ -16,3 +18,4 @@
 @import 'sidebarPannel';
 @import 'table-preview.scss';
 @import 'elementActions.scss';
+@import 'forbidden-access.scss'

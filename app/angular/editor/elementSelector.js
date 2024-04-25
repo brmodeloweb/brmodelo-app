@@ -21,12 +21,21 @@ joint.ui.ElementSelector = Backbone.View.extend({
             ...a.paper.model,
             ...this.options,
             graph: a.paper.model,
+			copyContext: {
+				clones: [],
+				event: null
+			}
 		};
 
 		this.start = this.start.bind(this);
 		this.stop = this.stop.bind(this);
 		this.adjust = this.adjust.bind(this);
 		this.pointerup = this.pointerup.bind(this);
+		this.deleteAll = this.deleteAll.bind(this);
+		this.copyAll = this.copyAll.bind(this);
+		this.pasteAll = this.pasteAll.bind(this);
+		this.cancel = this.cancel.bind(this);
+		this.getSelectedElements = this.getSelectedElements.bind(this);
 
 		$(document.body).on("mousemove.selectionView touchmove.selectionView", this.adjust);
 		$(document).on("mouseup.selectionView touchend.selectionView", this.pointerup);
@@ -52,6 +61,84 @@ joint.ui.ElementSelector = Backbone.View.extend({
 		this._snappedClientY = snappedPoint.y;
 
 		this.trigger("selection-box:pointerdown", normalizedEvent);
+	},
+	deleteAll: function() {
+		if(this.model.length > 0) {
+			this.options.graph.trigger("batch:start");
+			this.model.forEach(model => model.remove());
+			this.options.graph.trigger("batch:stop");
+			this.cancel();
+		}
+	},
+	copyAll: function() {
+		if(this.model.length > 0) {
+			this.options.copyContext.clones = this.options.graph.cloneSubgraph(this.model.models, {
+				deep: true,
+			});
+		}
+	},
+	setCopyContext: function (event) {
+		if(event.type === "mousedown") {
+			const normalizedEvent = joint.util.normalizeEvent(event);
+			let localPoint = this.options.paper.clientToLocalPoint({ x: normalizedEvent.clientX, y: normalizedEvent.clientY });
+			this.options.copyContext.event = {
+				"x": localPoint.x,
+				"y": localPoint.y
+			}
+		}
+	},
+	pasteAll: function() {
+		const options = Object.assign({}, this.defaults, options);
+		const graph = this.options.graph;
+		const pastePoint = this.options.copyContext.event;
+		const copiedCells = this.options.copyContext.clones;
+		const origin = this.findbBox(Object.values(copiedCells));
+		if (origin) {
+			const originX = origin.x == 0 ? pastePoint.x : (pastePoint.x - origin.x);
+			const originY = origin.y == 0 ? pastePoint.y : (pastePoint.y - origin.y);
+			const translation = {
+				dx: originX,
+				dy: originY
+			};
+			options.translate = translation;
+			let zIndex = graph.maxZIndex();
+			const context = this;
+			const modifiedCells = Object.values(copiedCells).map(cell => {
+				return context.moveCell(cell, options, zIndex += 1);
+			});
+			graph.startBatch("paste");
+			graph.addCells(modifiedCells);
+			graph.stopBatch("paste");
+			this.options.copyContext = {
+				clones: [],
+				event: null
+			}
+		}
+	},
+	findbBox: function(cells, opt){
+		return joint.util.toArray(cells).reduce(function(memo, cell) {
+			if (cell.isLink()) return memo;
+			let rect = cell.getBBox(opt);
+			const angle = cell.angle();
+			if (angle) rect = rect.bbox(angle);
+			if (memo) {
+				return memo.union(rect);
+			} else {
+				return rect;
+			}
+		}, null);
+	},
+	moveCell: function(cell, options, zIndex) {
+		cell.set("z", zIndex);
+		if (cell.isLink() && options.link) {
+			cell.set(options.link);
+		}
+		if (options.translate) {
+			const { dx, dy } = options.translate;
+			cell.translate(Number.isFinite(dx) ? dx : 0, Number.isFinite(dy) ? dy : 0);
+		}
+		cell.collection = null;
+		return cell;
 	},
     start: function(event) {
 		const normalizedEvent = joint.util.normalizeEvent(event);
@@ -275,5 +362,8 @@ joint.ui.ElementSelector = Backbone.View.extend({
         var d = Array.prototype.slice.call(arguments, 2);
         d.unshift("action:" + a + ":" + b);
 		this.trigger.apply(this, d);
-    }
+    },
+	getSelectedElements: function() {
+		return this.model.models;
+	}
 });

@@ -9,7 +9,6 @@ import uml from "../../joint/table";
 joint.shapes.erd = erd;
 joint.shapes.uml = uml;
 import "jointjs/dist/joint.min.css";
-
 import "../editor/editorManager"
 import "../editor/editorScroller"
 import "../editor/editorActions"
@@ -185,7 +184,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 				ls.editorScroller.startPanning(evt);
 			}
 
-			ls.editorActions.setCopyContext(evt);
+			ls.elementSelector.setCopyContext(evt);
 		});
 
 		ls.getConnectionType = link => {
@@ -259,7 +258,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 						});
 					});
 				}
-
+			}).catch((error) => {
+				$rootScope.$broadcast('model:loaderror', error);
 			});
 		}
 
@@ -351,6 +351,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		var name = "";
 		if (ls.selectedElement.model != null) ls.selectedElement.unhighlight();
 		if (cellView.model.attributes.name != null) {
+			ls.elementSelector.cancel();
 			ls.selectedElement = cellView;
 			name = ls.selectedElement.model.attributes.name;
 			ls.selectedElement.highlight();
@@ -472,6 +473,18 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.editorScroller.zoom();
 	}
 
+	ls.copySelectedElements = function () {
+		const elements = ls.elementSelector.getSelectedElements();
+		const hasConnections = elements.some(element => {
+			return element.attributes.objects.some(attr => attr.FK);
+		});
+		if(hasConnections) {
+			$rootScope.$broadcast('model:warning-copy');
+		} else {
+			ls.elementSelector.copyAll();
+		}
+	}
+
 	ls.registerShortcuts = () => {
 		ls.keyboardController.registerHandler(types.UNDO, () => ls.undo());
 		ls.keyboardController.registerHandler(types.REDO, () => ls.redo());
@@ -481,11 +494,11 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.keyboardController.registerHandler(types.ESC, () => ls.clearSelectedElement());
 		ls.keyboardController.registerHandler(types.SAVE, () => {
 			ls.updateModel();
-			$rootScope.$broadcast('model:saved')
+			$rootScope.$broadcast('model:saved');
 		});
-		ls.keyboardController.registerHandler(types.COPY, () => ls.editorActions.copyElement(ls.selectedElement));
-		ls.keyboardController.registerHandler(types.PASTE, () => ls.editorActions.pasteElement());
-		ls.keyboardController.registerHandler(types.DELETE, () => ls.selectedActions?.removeElement() );
+		ls.keyboardController.registerHandler(types.COPY, () => ls.copySelectedElements());
+		ls.keyboardController.registerHandler(types.PASTE, () => ls.elementSelector.pasteAll());
+		ls.keyboardController.registerHandler(types.DELETE, () => ls.elementSelector.deleteAll());
 	}
 
 	ls.getTablesMap = function () {

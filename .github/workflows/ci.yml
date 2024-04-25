@@ -1,0 +1,65 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: yarn install
+    - name: Run unit tests 🧪
+      run: yarn test
+  end-to-end-tests-chrome:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    container: cypress/base:16.5.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        uses: cypress-io/github-action@v2
+        with:
+          install-command: yarn install
+          runTests: false
+      - name: Run end-to-end tests on Chrome 🧪
+        uses: cypress-io/github-action@v2
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          PORT: ${{ secrets.PORT }}
+          MONGODB_LOCAL_URL: ${{ secrets.MONGODB_LOCAL_URL }}
+          CYPRESS_user: ${{ secrets.CYPRESS_user }}
+          CYPRESS_password: ${{ secrets.CYPRESS_password }}
+        with:
+          install: false
+          start: yarn start:dev, yarn start:frontend
+          command: yarn test:cy
+  end-to-end-tests-firefox:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    container: cypress/base:16.5.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        uses: cypress-io/github-action@v2
+        with:
+          install-command: yarn install
+          runTests: false
+      - name: Run end-to-end tests on Firefox 🧪
+        uses: cypress-io/github-action@v2
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          PORT: ${{ secrets.PORT }}
+          MONGODB_LOCAL_URL: ${{ secrets.MONGODB_LOCAL_URL }}
+          CYPRESS_user: ${{ secrets.CYPRESS_user }}
+          CYPRESS_password: ${{ secrets.CYPRESS_password }}
+        with:
+          install: false
+          start: yarn start:dev, yarn start:frontend
+          command: yarn test:cy:firefox

@@ -67,8 +67,16 @@ app.config(['$httpProvider', ($httpProvider) => {
 			config.url = `${apiUrl}${config.url}`
 			return config;
 		 }
-	}))
-}]);
+	}));
+	$httpProvider.interceptors.push(($injector) => ({
+		"request": (config) => {
+			if ($injector.get("AuthService").isAuthenticated()) {
+				config.headers["brx-access-token"] = $injector.get("AuthService").token;
+			}
+			return config;
+		}
+	}));
+	}]);
 
 app.config([
 	"$urlRouterProvider",
@@ -89,6 +97,22 @@ app.config([
 				);
 			},
 		});
+
+		$stateProvider.state("publicview", {
+			title: "PublicView - BRMW",
+			url: "/publicview/{modelshareid}",
+			component: "publicview",
+			data: {
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./publicview/publicview.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 
 		$stateProvider.state("register", {
 			title: "Register - BRMW",
@@ -180,6 +204,21 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("noaccess", {
+			title: "No Access - BRMW",
+			url: "/noaccess",
+			component: "noAccess",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./noaccess/noaccess.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$stateProvider.state("sql", {
 			url: "/sql/{code}",
 			templateUrl: "angular/view/sql.html",
@@ -207,18 +246,22 @@ app.config([
 	},
 ]);
 
-app.run(function ($transitions, $rootScope, AuthService, $state) {
+app.run(function ($transitions, $rootScope, AuthService, $state, $window, $location) {
 	$transitions.onStart({}, function (trans) {
 		const { requireLogin } = trans.to().data;
 		if (requireLogin) {
 			if (AuthService.isAuthenticated()) {
 				$rootScope.loggeduser = AuthService.loggeduser;
+				$rootScope.token = AuthService.token;
 			} else {
 				$state.go("login");
 			}
 		}
-
 		$rootScope.title = trans.to().title;
+		if (typeof $window.gtag === 'function' && !$location.absUrl().includes("localhost")) {
+			$window.gtag('js', new Date());
+			$window.gtag('event', 'page_view', { 'send_to': 'G-NQ9Z9PV306' });
+		}
 	});
 });
 

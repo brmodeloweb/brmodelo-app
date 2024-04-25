@@ -1,10 +1,14 @@
 const modelRepository = require("./model");
-const { encrypt } = require("../helpers/crypto");
+
+const getSharedLink = (id) => {
+	const baseurl = process.env.PROD_MAIL_ENV || 'http://localhost:9000';
+	return `${baseurl}/#!/publicview/${id}`
+}
 
 const listAll = async (userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const models = await modelRepository.find({ who: userId });
+			const models = await modelRepository.find({ who: userId }, { model: 0 });
 			if (models != null) {
 				resolve(models);
 			}
@@ -16,10 +20,20 @@ const listAll = async (userId) => {
 	});
 };
 
-const getById = async (modelId) => {
+const getById = async (modelId, userId) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const model = await modelRepository.findOne({ _id: modelId });
+			if(model == null) {
+				const notFoundErr =  new Error('model not found');
+				notFoundErr.status = 404;
+				throw notFoundErr;
+			}
+			if(model != null && model.who != userId) {
+				const notAuthotizedErr =  new Error('user not authorired');
+				notAuthotizedErr.status = 401;
+				throw notAuthotizedErr;
+			}
 			return resolve(model);
 		} catch (error) {
 			console.error(error);
@@ -97,13 +111,70 @@ const remove = async (modelId) => {
 	});
 };
 
-const exportModel = async (modelId) => {
+const buildConfigResponse = (shareOptions) => {
+	return {
+		"active": shareOptions.active,
+		"url": getSharedLink(shareOptions._id)
+	}
+}
+
+const toggleShare = async (modelId, active) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const model = await getById(modelId);
+			const model = await modelRepository.findOne({ _id: modelId });
+			if(model != null) {
+				const shareOptions = model.shareOptions != null ? model.shareOptions : {"active": active}
+				shareOptions.active = active;
+				const updatedModel = await modelRepository.findOneAndUpdate(
+					{ _id: modelId },
+					{ $set: { shareOptions: shareOptions, updated: Date.now() } },
+					{ new: true }
+				);
+				if(updatedModel != null) {
+					return resolve(buildConfigResponse(updatedModel.shareOptions));
+				}
+				return reject();
+			}
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
+const findShareOptions = async (modelId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await modelRepository.findOne({ _id: modelId });
+			if(model != null && model.shareOptions != null) {
+				return resolve(buildConfigResponse(model.shareOptions));
+			}
+			const shareOptions = {"active": false};
+			const updatedModel = await modelRepository.findOneAndUpdate(
+				{ _id: modelId },
+				{ $set: { shareOptions: shareOptions, updated: Date.now() } },
+				{ new: true }
+			);
+			return resolve(buildConfigResponse(updatedModel.shareOptions));
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
+const findSharedModel = async (sharedId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const model = await modelRepository.findOne({ "shareOptions._id": sharedId });
+			if(model === null || model.shareOptions === null || !model.shareOptions.active){
+				reject("unauthorized");
+			}
 			return resolve({
-				name: model.name.replace(/[^a-zA-Z0-9]/g, ""),
-				data: encrypt(JSON.stringify(model)),
+				"id": model.shareOptions._id,
+				"model": model.model,
+				"type": model.type,
+				"name": model.name
 			});
 		} catch (error) {
 			console.error(error);
@@ -124,6 +195,34 @@ const countAll = async (userId) => {
 	});
 };
 
+const duplicate = async (modelId, userId, newName) => {
+	console.log(modelId, userId, newName);
+	return new Promise(async (resolve, reject) => {
+		try {
+
+			const originalModel = await getById(modelId, userId);
+
+			const duplicatedModel = await save({
+				userId: userId,
+				type: originalModel.type,
+				model: originalModel.model,
+				name: newName
+			});
+
+			return resolve({
+				"_id": duplicatedModel._id,
+				"type": duplicatedModel.type,
+				"name": duplicatedModel.name,
+				"created": duplicatedModel.created,
+				"who": duplicatedModel.who
+			});
+		} catch (error) {
+			console.error(error);
+			reject(error);
+		}
+	});
+};
+
 const modelService = {
 	listAll,
 	getById,
@@ -131,8 +230,11 @@ const modelService = {
 	edit,
 	remove,
 	rename,
-	exportModel,
-	countAll
+	toggleShare,
+	countAll,
+	findShareOptions,
+	findSharedModel,
+	duplicate
 };
 
 module.exports = modelService;
