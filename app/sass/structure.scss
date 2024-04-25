@@ -142,7 +142,15 @@ a:hover,
 ////////////////////////////////////////////////////////////////////////////////
 // .document-info
 ////////////////////////////////////////////////////////////////////////////////
+.document-info {
+	max-width: calc(100% - 300px);
+}
+
 .document-info h2 {
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	margin-bottom: 4px;
 }
 
@@ -152,7 +160,7 @@ a:hover,
 .model-properties {
 	position: fixed;
 	z-index: 10;
-	top: 109px;
+	top: 112px;
 	right: -348px;
 	bottom: 0;
 	width: 360px;

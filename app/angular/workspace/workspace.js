@@ -7,6 +7,10 @@ import modelDuplicatorComponent from "../components/duplicateModelModal";
 import modelDeleterComponent from "../components/deleteModelModal";
 import modelRenameComponent from "../components/renameModelModal";
 import bugReportButton from "../components/bugReportButton";
+import githubSponsorBanner from "../components/githubSponsorBanner";
+import shareModelModal from "../components/shareModelModal";
+import iconConceptual from  "../components/icons/conceptual";
+import iconLogic from  "../components/icons/logic";
 
 const ListController = function (
 	$state,
@@ -14,7 +18,8 @@ const ListController = function (
 	$uibModal,
 	AuthService,
 	ModelAPI,
-	$filter
+	$filter,
+	$timeout
 ) {
 	const ctrl = this;
 	ctrl.loading = false;
@@ -24,20 +29,36 @@ const ListController = function (
 		{ name: $filter('translate')("Logout"), type: 'logout' }
 	];
 
+	ctrl.feedback = {
+		message: "",
+		showing: false,
+		type: "success"
+	}
+
+	ctrl.showFeedback = (newMessage, show, type) => {
+		$timeout(() => {
+			ctrl.feedback.message = $filter('translate')(newMessage);
+			ctrl.feedback.showing = show;
+			ctrl.feedback.type = type;
+		})
+	}
+
 	const showLoading = (loading) => {
 		ctrl.loading = loading;
 	};
 
+	const mapData = (model) => {
+		if (model.type == "conceptual") {
+			model.typeName = $filter('translate')("Conceptual");
+		} else {
+			model.typeName = $filter('translate')("Logical");
+		}
+		model.authorName = AuthService.loggeduserName;
+		return model;
+	};
+
 	const mapListData = (models) => {
-		return models.map((model) => {
-			if (model.type == "conceptual") {
-				model.typeName = $filter('translate')("Conceptual");
-			} else {
-				model.typeName = $filter('translate')("Logical");
-			}
-			model.authorName = AuthService.loggeduserName;
-			return model;
-		});
+		return models.map(mapData);
 	};
 
 	const doDelete = (model) => {
@@ -47,6 +68,7 @@ const ListController = function (
 				ctrl.models.splice(ctrl.models.indexOf(model), 1);
 			}
 			showLoading(false);
+			ctrl.showFeedback($filter('translate')("Successfully deleted!"), true, 'success');
 		});
 	};
 
@@ -86,6 +108,8 @@ const ListController = function (
 	ctrl.renameModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<rename-model-modal close="$close(result)" dismiss="$dismiss(newName)"></rename-model-modal>',
 		});
 		modalInstance.result.then((newName) => {
@@ -95,6 +119,7 @@ const ListController = function (
 					model.name = newName;
 				}
 				showLoading(false);
+				ctrl.showFeedback($filter('translate')("Successfully renamed!"), true, 'success');
 			});
 		});
 	};
@@ -126,30 +151,48 @@ const ListController = function (
 	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
+			template: `<duplicate-model-modal
+						suggested-name="$ctrl.suggestedName"
+						close="$close(result)"
+						dismiss="$dismiss(reason)"
+						user-id=$ctrl.userId
+						model-id=$ctrl.modelId>
+					</duplicate-model-modal>`,
 			controller: function() {
 				const $ctrl = this;
 				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
+				$ctrl.modelId = model._id;
+				$ctrl.userId = model.who;
 			},
 			controllerAs: '$ctrl',
-		});
-		modalInstance.result.then((newName) => {
-			showLoading(true);
-			const duplicatedModel = {
-				id: "",
-				name: newName,
-				type: model.type,
-				model: model.model,
-				user: model.who,
-			};
-			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
-				newModel.authorName = model.authorName;
-				newModel.typeName = model.typeName;
-				ctrl.models.push(newModel);
-				showLoading(false);
-			});
+		}).result;
+		modalInstance.then((newModel) => {
+			ctrl.models.push(mapData(newModel));
+			ctrl.showFeedback($filter('translate')("Successfully duplicated!"), true, 'success');
+		}).catch(error => {
+			console.error(error);
 		});
 	};
+
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model._id;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback($filter('translate')("Sharing configuration has been updated successfully!"), true, 'success');
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
+		});
+	};
+
 };
 
 export default angular
@@ -162,6 +205,10 @@ export default angular
 		modelDeleterComponent,
 		modelRenameComponent,
 		bugReportButton,
+		githubSponsorBanner,
+		shareModelModal,
+		iconConceptual,
+		iconLogic
 	])
 	.component("workspace", {
 		template,

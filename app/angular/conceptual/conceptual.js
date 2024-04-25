@@ -16,6 +16,7 @@ import angular from "angular";
 import template from "./conceptual.html";
 
 import modelDuplicatorComponent from "../components/duplicateModelModal";
+import shareModelModal from "../components/shareModelModal";
 import statusBar from "../components/statusBar";
 import bugReportButton from "../components/bugReportButton";
 
@@ -26,6 +27,7 @@ import EntityExtensor from "./entityExtensor";
 import KeyboardController, { types } from "../components/keyboardController";
 import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
+import iconConceptual from  "../components/icons/conceptual";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
 	const ctrl = this;
@@ -77,7 +79,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.setLoading(true);
 		ctrl.model.model = JSON.stringify(configs.graph);
 		ModelAPI.updateModel(ctrl.model).then(function (res) {
-			ctrl.showFeedback(true, "Saved successfully!");
+			ctrl.showFeedback(true, "Successfully saved!");
 			ctrl.setLoading(false);
 		});
 	}
@@ -133,6 +135,32 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 	};
 
+	ctrl.duplicateModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: `<duplicate-model-modal
+						suggested-name="$ctrl.suggestedName"
+						close="$close(result)"
+						dismiss="$dismiss(reason)"
+						user-id=$ctrl.userId
+						model-id=$ctrl.modelId>
+					</duplicate-model-modal>`,
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
+				$ctrl.modelId = model._id;
+				$ctrl.userId = model.who;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then((newModel) => {
+			window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+			ctrl.showFeedback(true, "Successfully duplicated!");
+		}).catch(error => {
+			console.error(error);
+		});
+	};
+
 	ctrl.convertModel = (conceptualModel) => {
 		const model = {
 			"name": conceptualModel.name + $filter('translate')("_converted"),
@@ -146,6 +174,25 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			});
 	}
 
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model._id;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback(true, $filter('translate')("Sharing configuration has been updated successfully!"));
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
+		});
+	};
+
 	ctrl.unselectAll = () => {
 		ctrl.showFeedback(false, "");
 		ctrl.onSelectElement(null);
@@ -157,6 +204,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
+			configs.elementSelector.cancel();
 			$timeout(() => {
 				const elementType = cellView.model.isLink() ? "Link" : cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
@@ -352,7 +400,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			} else {
 				configs.editorScroller.startPanning(evt);
 			}
-			configs.editorActions.setCopyContext(evt);
+			configs.elementSelector.setCopyContext(evt);
 		});
 
 		paper.on('link:options', (cellView) => {
@@ -402,9 +450,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		configs.keyboardController.registerHandler(types.ZOOM_OUT, () => ctrl.zoomOut());
 		configs.keyboardController.registerHandler(types.ZOOM_NONE, () => ctrl.zoomNone());
 		configs.keyboardController.registerHandler(types.ESC, () => ctrl.unselectAll());
-		configs.keyboardController.registerHandler(types.COPY, () => configs.editorActions.copyElement(ctrl.selectedElement.element));
-		configs.keyboardController.registerHandler(types.PASTE, () => configs.editorActions.pasteElement());
-		configs.keyboardController.registerHandler(types.DELETE, () => configs.selectedElementActions?.removeElement() );
+		configs.keyboardController.registerHandler(types.COPY, () => configs.elementSelector.copyAll());
+		configs.keyboardController.registerHandler(types.PASTE, () => configs.elementSelector.pasteAll());
+		configs.keyboardController.registerHandler(types.DELETE, () => configs.elementSelector.deleteAll() );
 	}
 
 	const registerGraphEvents = (graph) => {
@@ -545,7 +593,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar])
+	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar, shareModelModal, iconConceptual])
 	.component("editorConceptual", {
 		template,
 		controller,

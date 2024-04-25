@@ -13,10 +13,24 @@
 		</div>
 	</header>
 
-	<section
-		class="mainContent"
-	>
+	<section class="mainContent">
 		<header class="container">
+
+			<aside class="feedback">
+				<div
+					class="alert"
+					role="alert"
+					data-ng-class="{
+						'hide': !$ctrl.feedback.showing,
+						'alert-danger': $ctrl.feedback.type=='error',
+						'alert-success': $ctrl.feedback.type=='success',
+						'alert-warning': $ctrl.feedback.type=='warning'
+					}"
+				>
+					<p>{{ $ctrl.feedback.message }}</p>
+				</div>
+			</aside>
+
 			<div class="page-header clearfix">
 				<h2 class="h2 pull-left">{{ 'Models' | translate }}</h2>
 				<aside class="header-actions pull-right">
@@ -26,7 +40,7 @@
 		</header><!-- End .container -->
 
 		<div class="container projectsList">
-				<img
+			<img
 				src="../../img/loading-dots.gif"
 				alt="Loading"
 				class="br-loader"
@@ -45,20 +59,29 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="model in $ctrl.models" class="listLine">
-							<td ng-click="$ctrl.openModel(model)">{{model.typeName}}</td>
+							<td ng-click="$ctrl.openModel(model)">
+								<icon-conceptual ng-if="model.type === 'conceptual'" aria-hidden="true"></icon-conceptual>
+								<icon-logic ng-if="model.type === 'logic'" aria-hidden="true"></icon-logic>
+								<span>{{model.typeName}}</span>
+							</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.name}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
-								<i title="{{ 'Rename' | translate }}" class="fa fa-pencil" aria-hidden="true" ng-click="$ctrl.renameModel(model)"></i>
-								<i title="{{ 'Duplicate' | translate }}" class="fa fa-files-o" aria-hidden="true" ng-click="$ctrl.duplicateModel(model)"></i>
-								<i title="{{ 'Delete' | translate }}" class="fa fa-trash" aria-hidden="true" ng-click="$ctrl.deleteModel(model)"></i>
+								<i title="{{ 'Rename' | translate }}" class="fa fa-pencil" ng-click="$ctrl.renameModel(model)"></i>
+								<i title="{{ 'Duplicate' | translate }}" class="fa fa-files-o" ng-click="$ctrl.duplicateModel(model)"></i>
+								<i title="{{ 'Share' | translate }}" class="fa fa-share-alt" ng-click="$ctrl.shareModel(model)"></i>
+								<i title="{{ 'Delete' | translate }}" class="fa fa-trash" ng-click="$ctrl.deleteModel(model)"></i>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div><!-- End .table-responsive -->
 		</div><!-- End .container.projectsList -->
+
+		<div class="container">
+			<github-sponsor-banner></github-sponsor-banner>
+		</div> 
 
 		<bug-report-button></bug-report-button>
 

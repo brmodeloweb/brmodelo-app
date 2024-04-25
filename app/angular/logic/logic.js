@@ -3,6 +3,7 @@ import template from "./logic.html";
 import sqlGeneratorService from "../service/sqlGeneratorService";
 import sqlGeneratorModal from "../components/sqlGeneratorModal";
 import duplicateModelModal from "../components/duplicateModelModal";
+import shareModelModal from "../components/shareModelModal";
 import queryExpressionModal from "../components/queryExpressionModal";
 import sqlComparasionDropdown from "../components/sqlComparasionDropdown";
 import bugReportButton from "../components/bugReportButton";
@@ -12,6 +13,7 @@ import view from "../view/view";
 import columnForm from "./columnForm";
 import checkConstraint from "./checkConstraint";
 import sidebarControlLogical from "./sidebarControl";
+import iconLogic from  "../components/icons/logic";
 
 const controller = function (
 	$rootScope,
@@ -79,7 +81,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		LogicService.updateModel().then(function (res) {
-			ctrl.showFeedback("Saved successfully!", true, "success");
+			ctrl.showFeedback("Successfully saved!", true, "success");
 		});
 	}
 
@@ -129,7 +131,7 @@ const controller = function (
 		setIsDirty(false);
 		ctrl.modelState.updatedAt = new Date();
 		$timeout(() => {
-			ctrl.showFeedback("Saved successfully!", true, "success");
+			ctrl.showFeedback("Successfully saved!", true, "success");
 		});
 	});
 
@@ -152,6 +154,12 @@ const controller = function (
 		if(error.status == 404 || error.status == 401) {
 			$state.go("noaccess");
 		}
+	});
+
+	$rootScope.$on("model:warning-copy", function () {
+		$timeout(() => {
+			ctrl.showFeedback("Copy is not allowed on this module when element has references.", true, "warning");
+		});
 	});
 
 	ctrl.updateCardA = function (card) {
@@ -196,30 +204,49 @@ const controller = function (
 		});
 	}
 
-	ctrl.duplicateModel = () => {
+	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
-			controller: function () {
+			template: `<duplicate-model-modal
+						suggested-name="$ctrl.suggestedName"
+						close="$close(result)"
+						dismiss="$dismiss(reason)"
+						user-id=$ctrl.userId
+						model-id=$ctrl.modelId>
+					</duplicate-model-modal>`,
+			controller: function() {
 				const $ctrl = this;
-				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: ctrl.model.name });
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
+				$ctrl.modelId = model.id;
+				$ctrl.userId = model.user;
 			},
 			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then((newModel) => {
+			window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+			ctrl.showFeedback("Successfully duplicated!", true, 'success');
+		}).catch(error => {
+			console.error(error);
 		});
-		modalInstance.result.then((newName) => {
-			ctrl.setLoading(true);
-			const duplicatedModel = {
-				id: "",
-				name: newName,
-				type: ctrl.model.type,
-				model: JSON.stringify(LogicService.graph),
-				user: ctrl.model.user,
-			};
-			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
-				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-				ctrl.showFeedback("Successfully duplicated!", true);
-				ctrl.setLoading(false);
-			});
+	};
+
+
+	ctrl.shareModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			backdrop: 'static',
+			keyboard: false,
+			template: '<share-model-modal close="$close(result)" dismiss="$dismiss()" model-id="$ctrl.modelId"></share-model-modal>',
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.modelId = model.id;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then(() => {
+			ctrl.showFeedback($filter('translate')("Sharing configuration has been updated successfully!"), true, "success");
+		}).catch((reason) => {
+			console.log("Modal dismissed with reason", reason);
 		});
 	};
 
@@ -240,7 +267,7 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown])
+	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown, shareModelModal, iconLogic])
 	.component("editorLogic", {
 		template,
 		controller,

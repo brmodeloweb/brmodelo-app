@@ -98,6 +98,22 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("publicview", {
+			title: "PublicView - BRMW",
+			url: "/publicview/{modelshareid}",
+			component: "publicview",
+			data: {
+				requireLogin: false,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./publicview/publicview.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
+
 		$stateProvider.state("register", {
 			title: "Register - BRMW",
 			url: "/register",
@@ -230,7 +246,7 @@ app.config([
 	},
 ]);
 
-app.run(function ($transitions, $rootScope, AuthService, $state) {
+app.run(function ($transitions, $rootScope, AuthService, $state, $window, $location) {
 	$transitions.onStart({}, function (trans) {
 		const { requireLogin } = trans.to().data;
 		if (requireLogin) {
@@ -241,8 +257,11 @@ app.run(function ($transitions, $rootScope, AuthService, $state) {
 				$state.go("login");
 			}
 		}
-
 		$rootScope.title = trans.to().title;
+		if (typeof $window.gtag === 'function' && !$location.absUrl().includes("localhost")) {
+			$window.gtag('js', new Date());
+			$window.gtag('event', 'page_view', { 'send_to': 'G-NQ9Z9PV306' });
+		}
 	});
 });
 

@@ -1,4 +1,5 @@
-const { animal } = require("faker");
+
+import { faker } from '@faker-js/faker/locale/en';
 
 Cypress.Commands.add(
 	"loginViaGui",
@@ -7,21 +8,6 @@ Cypress.Commands.add(
 		cy.get("#userEmail").type(user);
 		cy.get("#userPassword").type(password, { log: false });
 		cy.contains("button", "Login").click();
-	}
-);
-
-Cypress.Commands.add(
-	"loginViaApi",
-	(user = Cypress.env("user"), password = Cypress.env("password")) => {
-		cy.request("POST", `${Cypress.config("apiUrl")}/users/login`, {
-			username: user,
-			password,
-		}).then((response) => {
-			cy.setCookie("sessionId", response.body.sessionId);
-			cy.setCookie("userId", response.body.userId);
-			cy.setCookie("userName", response.body.userName);
-			cy.visit("/#!/main");
-		});
 	}
 );
 
@@ -36,32 +22,40 @@ Cypress.Commands.add("cleanUpUserModels", (userModels) => {
 });
 
 Cypress.Commands.add("getUserModelsViaApi", (url) => {
-	cy.request("GET", url);
+	cy.getCookie('userToken').then(({ value }) => {
+		cy.request({
+			method: "GET",
+			url,
+			headers: { "brx-access-token": value },
+		});
+	});
 });
 
 Cypress.Commands.add("deleteModelViaApi", (modelId) => {
-	cy.request(
-		"DELETE",
-		`${Cypress.config("apiUrl")}/models/:modelId?modelId=${modelId}`
-	);
+	cy.getCookie('userToken').then(({ value }) => {
+		cy.request({
+			method: "DELETE",
+			url: `${Cypress.env("apiUrl")}/models/:modelId?modelId=${modelId}`,
+			headers: { "brx-access-token": value },
+		});
+	});
 });
 
 Cypress.Commands.add(
 	"createModelViaApi",
 	(type, userId, model = { cell: [] }) => {
-		cy.request({
-			method: "POST",
-			url: `${Cypress.config("apiUrl")}/models`,
-			body: {
-				name: animal.type(),
-				user: userId,
-				type,
-				model,
-			},
+		cy.getCookie('userToken').then(({ value }) => {
+			cy.request({
+				method: "POST",
+				url: `${Cypress.env("apiUrl")}/models`,
+				headers: { "brx-access-token": value },
+				body: {
+					name: faker.animal.type(),
+					user: userId,
+					type,
+					model,
+				},
+			});
 		});
 	}
 );
-
-Cypress.Commands.add("dragAndDropTableAt", (x, y) => {
-	cy.get(".joint-type-uml-class").move({ deltaX: x, deltaY: y });
-});

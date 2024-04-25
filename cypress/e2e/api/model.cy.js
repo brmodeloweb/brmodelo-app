@@ -5,7 +5,7 @@ const conceptualModel = require("../../fixtures/conceptualModel.json");
 describe("Models - Creation via API call", () => {
 	beforeEach(() => {
 		cy.intercept("GET", "/models?userId=*").as("getUserModels");
-		cy.loginViaApi();
+		cy.loginViaGui();
 		cy.wait("@getUserModels").then((userModels) => {
 			cy.cleanUpUserModels(userModels);
 		});
