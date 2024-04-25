@@ -9,10 +9,11 @@
 			<div class="col-sm-7">
 				<input
 					class="form-control"
-					ng-class="{'error': ($ctrl.url == null || $ctrl.url == '') && $ctrl.submitted}"
+					ng-class="{'error': (!$ctrl.valid && $ctrl.submitted)}"
 					type="text"
 					id="import-model"
 					autocomplete="off"
+					placeholder="https://app.brmodeloweb.com/#!/publicview/{hash}"
 					data-ng-model="$ctrl.url"
 				/>
 				<p class="note">{{ 'Please insert the URL to import' | translate }}</p>

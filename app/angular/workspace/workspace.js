@@ -109,6 +109,8 @@ const ListController = function (
 	ctrl.importModel = () => {
 		const modalInstance = $uibModal.open({
 			animation: true,
+			backdrop: 'static',
+			keyboard: false,
 			template: '<import-model-modal close="$close(result)" dismiss="$dismiss()"></import-model-modal>',
 		}).result;
 		modalInstance.then((result) => {
