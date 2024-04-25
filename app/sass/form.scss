@@ -192,6 +192,7 @@ input[type="submit"]:focus {
 
 .form-control.error::placeholder {
 	color: var(--danger-base);
+	opacity: 0.5;
 }
 
 textarea {
