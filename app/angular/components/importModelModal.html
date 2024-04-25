@@ -1,5 +1,11 @@
 <div class="modal-header">
 	<h3 class="modal-title">{{ 'Import model' | translate }}</h3>
+	<img
+		src="../../img/loading-dots.gif"
+		alt="Loading"
+		class="br-loader"
+		ng-class="{'loading': $ctrl.loading}"
+	/>
 </div>
 
 <div class="modal-body">
