@@ -221,6 +221,34 @@ const importModel = async (sharedId, userId) => {
 			return reject(error);
 		}
 	});
+}
+
+const duplicate = async (modelId, userId, newName) => {
+	console.log(modelId, userId, newName);
+	return new Promise(async (resolve, reject) => {
+		try {
+
+			const originalModel = await getById(modelId, userId);
+
+			const duplicatedModel = await save({
+				userId: userId,
+				type: originalModel.type,
+				model: originalModel.model,
+				name: newName
+			});
+
+			return resolve({
+				"_id": duplicatedModel._id,
+				"type": duplicatedModel.type,
+				"name": duplicatedModel.name,
+				"created": duplicatedModel.created,
+				"who": duplicatedModel.who
+			});
+		} catch (error) {
+			console.error(error);
+			reject(error);
+		}
+	});
 };
 
 const modelService = {
@@ -234,7 +262,8 @@ const modelService = {
 	countAll,
 	findShareOptions,
 	findSharedModel,
-	importModel
+	importModel,
+	duplicate
 };
 
 module.exports = modelService;
