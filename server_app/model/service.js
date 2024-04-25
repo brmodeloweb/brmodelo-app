@@ -227,7 +227,6 @@ const importModel = async (sharedId, userId) => {
 }
 
 const duplicate = async (modelId, userId, newName) => {
-	console.log(modelId, userId, newName);
 	return new Promise(async (resolve, reject) => {
 		try {
 
