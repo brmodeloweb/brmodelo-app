@@ -173,5 +173,6 @@ export default {
 	'URL': 'URL',
 	'Copy': 'Copy',
 	'With this link, people will be able to see but not modify this model': 'With this link, people will be able to see but not modify this model',
-	"Sharing configuration has been updated successfully!": "Sharing configuration has been updated successfully!"
+	"Sharing configuration has been updated successfully!": "Sharing configuration has been updated successfully!",
+	"Your model was imported successfully!": "Your model was imported successfully!"
 };
