@@ -168,10 +168,11 @@ export default {
 	'Go to Github Sponsors': 'Ir para o Github Sponsors',
 	'Share model': 'Compartilhar modelo',
 	'Create public link': 'Criar link público',
-	'Make model public': 'Tornar modelo público',
+	'Enable import': 'Autorizar importação',
+	'Allow users to make copies using the public link': 'Permitir que os usuários façam cópias usando o link público',
 	'URL': 'URL',
 	'Copy': 'Copiar',
-	'With this link, people will be able to see but not modify this model': 'Com este link, as pessoas poderão ver, mas não modificar este modelo',
+	'People will be able to see but not modify your model': 'As pessoas poderão ver, mas não modificar seu modelo',
 	"Sharing configuration has been updated successfully!": "A configuração de compartilhamento foi atualizada com sucesso!",
 	"Your model was imported successfully!": "Seu modelo foi importado com sucesso!"
 };
