@@ -113,6 +113,8 @@ export default {
 	'URL': 'URL',
 	'Import': 'Import',
 	'Please insert the URL to import': 'Please the URL to import',
+	'It was not possible to import this model. ': 'It was not possible to import this model. ',
+	'The URL may not be correct or the model does not allow import.': 'The URL may not be correct or the model is not allowed to be imported.',
 	'Last save:': 'Last save:',
 	'at': 'at',
 	'Equal to': 'Equal to',

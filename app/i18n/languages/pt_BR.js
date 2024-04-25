@@ -112,6 +112,8 @@ export default {
 	'URL': 'URL',
 	'Import': 'Importar',
 	'Please insert the URL to import': 'Por favor insira a URL para importar',
+	'It was not possible to import this model. ': 'Não foi possível importar esse modelo. ',
+	'The URL may not be correct or the model does not allow import.': 'A URL pode não estar correta ou o modelo não autoriza importação',
 	'Last save:': 'Salvo por último:',
 	'at': 'às',
 	'Equal to': 'Igual',

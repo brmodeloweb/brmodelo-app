@@ -3,6 +3,14 @@
 </div>
 
 <div class="modal-body">
+	<aside class="feedback">
+		<div class="alert alert-danger" role="alert" data-ng-class="">
+			<p>
+				{{ 'It was not possible to import this model. ' | translate}} <br/>
+				{{ 'The URL may not be correct or the model does not allow import.' | translate}}
+			</p>
+		</div>
+	</aside>
 	<form class="form-horizontal" role="form" name="modelForm">
 		<div class="form-group">
 			<label for="import-model" class="col-sm-3 control-label">{{ 'URL' | translate }}</label>
