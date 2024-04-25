@@ -195,6 +195,34 @@ const countAll = async (userId) => {
 	});
 };
 
+const importModel = async (sharedId, userId) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const sharedModel = await findSharedModel(sharedId);
+
+			const newModel = {
+				"name": sharedModel.name,
+				"type": sharedModel.type,
+				"model": sharedModel.model,
+				"userId": userId
+			}
+
+			const createdModel = await save(newModel);
+
+			return resolve({
+				"_id": createdModel._id,
+				"type": createdModel.type,
+				"name": createdModel.name,
+				"created": createdModel.created,
+				"who": createdModel.who
+			});
+		} catch (error) {
+			console.error(error);
+			return reject(error);
+		}
+	});
+};
+
 const modelService = {
 	listAll,
 	getById,
@@ -205,7 +233,8 @@ const modelService = {
 	toggleShare,
 	countAll,
 	findShareOptions,
-	findSharedModel
+	findSharedModel,
+	importModel
 };
 
 module.exports = modelService;

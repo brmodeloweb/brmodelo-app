@@ -136,25 +136,14 @@ const findShareOptions = async (req, res) => {
 
 const importModel = async (req, res) => {
 	try {
-		if (!req.files) {
-			return res.status(400).send("No file uploaded");
-		}
-		const file = req.files.model;
-		const { name, type, model } = JSON.parse(decrypt(file.data));
-		const userId = req.headers["x-user-id"]; // TODO Change this when implementing authentication via jwt
-		const validation = modelValidator.validateSaveParams({
-			name,
-			type,
-			model,
-			userId,
-		});
-		if (!validation.valid) {
-			return res.status(422).send(validation.message);
-		}
-		const newModel = await modelService.save({ name, type, model, userId });
-		return res.status(200).json(newModel);
+		const { shareId, userId } = req.body;
+		const newModel = await modelService.importModel(shareId, userId);
+		return res.status(201).json(newModel);
 	} catch (error) {
 		console.error(error);
+		if(error === "unauthorized") {
+			return res.status(401).json({ auth: false, message: 'This model is not shared.' });
+		}
 		return res
 			.status(500)
 			.send("There's an error while treating import your model request");
@@ -185,5 +174,5 @@ module.exports = router
 	.put("/:modelId/rename",validateJWT, rename)
 	.post("/share", validateJWT, toggleShare)
 	.get("/:modelId/share/options", validateJWT, findShareOptions)
-	.post("/import",validateJWT, importModel)
+	.post("/import", validateJWT, importModel)
 	.get("/share/:sharedId", findSharedModel);
