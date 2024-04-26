@@ -65,7 +65,10 @@
 								<icon-logic ng-if="model.type === 'logic'" aria-hidden="true"></icon-logic>
 								<span>{{model.typeName}}</span>
 							</td>
-							<td ng-click="$ctrl.openModel(model)">{{model.name}}</td>
+							<td ng-click="$ctrl.openModel(model)">
+								<i  title="{{ 'Public link available' | translate }}" class="fa fa-share-alt share-status"></i>
+								<span>{{model.name}}</span>
+							</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.created | date:'dd/MM/yyyy'}}</td>
 							<td class="actions-cell">
