@@ -79,29 +79,3 @@
 	background-color: transparent;
 	color: var(--brand-default);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// .br-help
-////////////////////////////////////////////////////////////////////////////////
-
-.br-help {
-	position: fixed;
-	z-index: 10;
-	bottom: 6px;
-	left: 6px;
-	font-size: 2em;
-	width: 42px;
-	height: 42px;
-	text-align: center;
-	border-radius: 100%;
-	text-decoration: none;
-	transition: 0.1s ease-in-out transform
-}
-
-.br-help:visited {
-	color: var(--brand-default);
-}
-
-.br-help:hover {
-	transform: rotate(35deg)
-}
