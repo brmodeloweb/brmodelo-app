@@ -13,6 +13,7 @@ import columnForm from "./columnForm";
 import checkConstraint from "./checkConstraint";
 import sidebarControlLogical from "./sidebarControl";
 import iconLogic from  "../components/icons/logic";
+import supportBannersList from "../components/supportBannersList";
 
 const controller = function (
 	$rootScope,
@@ -279,7 +280,8 @@ export default angular
 		queryExpressionModal,
 		sqlComparasionDropdown,
 		shareModelModal,
-		iconLogic
+		iconLogic,
+		supportBannersList
 	])
 	.component("editorLogic", {
 		template,
