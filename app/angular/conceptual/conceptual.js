@@ -27,6 +27,7 @@ import KeyboardController, { types } from "../components/keyboardController";
 import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import iconConceptual from  "../components/icons/conceptual";
+import supportBannersList from "../components/supportBannersList";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
 	const ctrl = this;
@@ -597,7 +598,8 @@ export default angular
 		preventExitServiceModule,
 		statusBar,
 		shareModelModal,
-		iconConceptual
+		iconConceptual,
+		supportBannersList
 	])
 	.component("editorConceptual", {
 		template,
