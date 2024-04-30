@@ -18,7 +18,6 @@ import template from "./conceptual.html";
 import modelDuplicatorComponent from "../components/duplicateModelModal";
 import shareModelModal from "../components/shareModelModal";
 import statusBar from "../components/statusBar";
-import bugReportButton from "../components/bugReportButton";
 
 import Factory from "./factory";
 import Validator from "./validator";
@@ -132,6 +131,32 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				ctrl.showFeedback(true, "Successfully duplicated!");
 				ctrl.setLoading(false);
 			});
+		});
+	};
+
+	ctrl.duplicateModel = (model) => {
+		const modalInstance = $uibModal.open({
+			animation: true,
+			template: `<duplicate-model-modal
+						suggested-name="$ctrl.suggestedName"
+						close="$close(result)"
+						dismiss="$dismiss(reason)"
+						user-id=$ctrl.userId
+						model-id=$ctrl.modelId>
+					</duplicate-model-modal>`,
+			controller: function() {
+				const $ctrl = this;
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
+				$ctrl.modelId = model._id;
+				$ctrl.userId = model.who;
+			},
+			controllerAs: '$ctrl',
+		}).result;
+		modalInstance.then((newModel) => {
+			window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+			ctrl.showFeedback(true, "Successfully duplicated!");
+		}).catch(error => {
+			console.error(error);
 		});
 	};
 
@@ -567,7 +592,13 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 };
 
 export default angular
-	.module("app.workspace.conceptual", [modelDuplicatorComponent, preventExitServiceModule, bugReportButton, statusBar, shareModelModal, iconConceptual])
+	.module("app.workspace.conceptual", [
+		modelDuplicatorComponent,
+		preventExitServiceModule,
+		statusBar,
+		shareModelModal,
+		iconConceptual
+	])
 	.component("editorConceptual", {
 		template,
 		controller,

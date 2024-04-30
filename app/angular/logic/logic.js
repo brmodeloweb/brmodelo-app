@@ -6,7 +6,6 @@ import duplicateModelModal from "../components/duplicateModelModal";
 import shareModelModal from "../components/shareModelModal";
 import queryExpressionModal from "../components/queryExpressionModal";
 import sqlComparasionDropdown from "../components/sqlComparasionDropdown";
-import bugReportButton from "../components/bugReportButton";
 import statusBar from "../components/statusBar";
 import preventExitServiceModule from "../service/preventExitService";
 import view from "../view/view";
@@ -204,32 +203,32 @@ const controller = function (
 		});
 	}
 
-	ctrl.duplicateModel = () => {
+	ctrl.duplicateModel = (model) => {
 		const modalInstance = $uibModal.open({
 			animation: true,
-			template: '<duplicate-model-modal suggested-name="$ctrl.suggestedName" close="$close(result)" dismiss="$dismiss(reason)"></duplicate-model-modal>',
-			controller: function () {
+			template: `<duplicate-model-modal
+						suggested-name="$ctrl.suggestedName"
+						close="$close(result)"
+						dismiss="$dismiss(reason)"
+						user-id=$ctrl.userId
+						model-id=$ctrl.modelId>
+					</duplicate-model-modal>`,
+			controller: function() {
 				const $ctrl = this;
-				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: ctrl.model.name });
+				$ctrl.suggestedName = $filter('translate')("MODEL_NAME (copy)", { name: model.name });
+				$ctrl.modelId = model.id;
+				$ctrl.userId = model.user;
 			},
 			controllerAs: '$ctrl',
-		});
-		modalInstance.result.then((newName) => {
-			ctrl.setLoading(true);
-			const duplicatedModel = {
-				id: "",
-				name: newName,
-				type: ctrl.model.type,
-				model: JSON.stringify(LogicService.graph),
-				user: ctrl.model.user,
-			};
-			ModelAPI.saveModel(duplicatedModel).then((newModel) => {
-				window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
-				ctrl.showFeedback("Successfully duplicated!", true, 'success');
-				ctrl.setLoading(false);
-			});
+		}).result;
+		modalInstance.then((newModel) => {
+			window.open($state.href('logic', { references: { 'modelid': newModel._id } }));
+			ctrl.showFeedback("Successfully duplicated!", true, 'success');
+		}).catch(error => {
+			console.error(error);
 		});
 	};
+
 
 	ctrl.shareModel = (model) => {
 		const modalInstance = $uibModal.open({
@@ -267,7 +266,21 @@ const controller = function (
 };
 
 export default angular
-	.module("app.workspace.logic", [sqlGeneratorService, sqlGeneratorModal, duplicateModelModal, preventExitServiceModule, bugReportButton, statusBar, view, columnForm, sidebarControlLogical, checkConstraint, queryExpressionModal, sqlComparasionDropdown, shareModelModal, iconLogic])
+	.module("app.workspace.logic", [
+		sqlGeneratorService,
+		sqlGeneratorModal,
+		duplicateModelModal,
+		preventExitServiceModule,
+		statusBar,
+		view,
+		columnForm,
+		sidebarControlLogical,
+		checkConstraint,
+		queryExpressionModal,
+		sqlComparasionDropdown,
+		shareModelModal,
+		iconLogic
+	])
 	.component("editorLogic", {
 		template,
 		controller,

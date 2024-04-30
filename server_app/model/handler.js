@@ -1,14 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
 const modelService = require("./service");
 const modelValidator = require("./validator");
-const { decrypt } = require("../helpers/crypto");
 const { validateJWT } = require('../middleware');
 
 const router = express.Router();
 router.use(bodyParser.json());
-router.use(fileUpload());
 
 const listAll = async (req, res) => {
 	try {
@@ -110,8 +107,8 @@ const rename = async (req, res) => {
 
 const toggleShare = async (req, res) => {
 	try {
-		const {modelId, active} = req.body;
-		const shareOptions = await modelService.toggleShare(modelId, active);
+		const {modelId, active, importAllowed} = req.body;
+		const shareOptions = await modelService.toggleShare(modelId, active, importAllowed);
 		return res.status(200).send(shareOptions);
 	} catch (error) {
 		console.error(error);
@@ -136,25 +133,14 @@ const findShareOptions = async (req, res) => {
 
 const importModel = async (req, res) => {
 	try {
-		if (!req.files) {
-			return res.status(400).send("No file uploaded");
-		}
-		const file = req.files.model;
-		const { name, type, model } = JSON.parse(decrypt(file.data));
-		const userId = req.headers["x-user-id"]; // TODO Change this when implementing authentication via jwt
-		const validation = modelValidator.validateSaveParams({
-			name,
-			type,
-			model,
-			userId,
-		});
-		if (!validation.valid) {
-			return res.status(422).send(validation.message);
-		}
-		const newModel = await modelService.save({ name, type, model, userId });
-		return res.status(200).json(newModel);
+		const { shareId, userId } = req.body;
+		const newModel = await modelService.importModel(shareId, userId);
+		return res.status(201).json(newModel);
 	} catch (error) {
 		console.error(error);
+		if(error === "unauthorized") {
+			return res.status(401).json({ auth: false, message: 'This model is not shared.' });
+		}
 		return res
 			.status(500)
 			.send("There's an error while treating import your model request");
@@ -176,6 +162,22 @@ const findSharedModel = async (req, res) => {
 	}
 };
 
+const duplicate = async (req, res) => {
+	try {
+		const modelId = req.params.modelId;
+		const { newName, userId } = req.body;
+		const duplicated = await modelService.duplicate(modelId, userId, newName);
+		return res.status(200).send(duplicated);
+	} catch (error) {
+		if(error.status === 401) {
+			return res.status(401).json({ auth: false, message: 'You are not authorized to complete this request' });
+		}
+		return res
+			.status(500)
+			.send("There's an error while finding your sharing config model request");
+	}
+};
+
 module.exports = router
 	.get("/",validateJWT, listAll)
 	.post("/",validateJWT, save)
@@ -185,5 +187,6 @@ module.exports = router
 	.put("/:modelId/rename",validateJWT, rename)
 	.post("/share", validateJWT, toggleShare)
 	.get("/:modelId/share/options", validateJWT, findShareOptions)
-	.post("/import",validateJWT, importModel)
+	.post("/import", validateJWT, importModel)
+	.post("/:modelId/duplicate",validateJWT, duplicate)
 	.get("/share/:sharedId", findSharedModel);
