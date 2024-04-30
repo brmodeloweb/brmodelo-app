@@ -66,7 +66,7 @@
 								<span>{{model.typeName}}</span>
 							</td>
 							<td ng-click="$ctrl.openModel(model)">
-								<i  title="{{ 'Public link available' | translate }}" class="fa fa-share-alt share-status"></i>
+								<i ng-if="model.shareOptions.active"  title="{{ 'Public link available' | translate }}" class="fa fa-share-alt share-status"></i>
 								<span>{{model.name}}</span>
 							</td>
 							<td ng-click="$ctrl.openModel(model)">{{model.authorName}}</td>
@@ -85,7 +85,7 @@
 
 		<div class="container">
 			<github-sponsor-banner></github-sponsor-banner>
-		</div> 
+		</div>
 
 		<bug-report-button></bug-report-button>
 
