@@ -89,6 +89,10 @@ a:hover,
 	bottom: 0;
 	left: 0;
 	max-width: 150px;
+	display: flex;
+	flex-direction: column;
+	flex-direction: column-reverse;
+	justify-content: space-between;
 	padding: 12px;
 	border-right: 1px solid var(--border-default);
 	background-color: var(--gray-95);
