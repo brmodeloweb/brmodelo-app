@@ -167,6 +167,7 @@ export default {
 	'If you can, please considere a one time only or even monthly contribution via Github Sponsor.': 'Se puder, considere uma contribuição única ou mesmo mensal por meio do Github Sponsors.',
 	'Go to Github Sponsors': 'Ir para o Github Sponsors',
 	'Share model': 'Compartilhar modelo',
+	'Public link available': 'Link público disponível',
 	'Create public link': 'Criar link público',
 	'Enable import': 'Autorizar importação',
 	'Allow users to make copies using the public link': 'Permitir que os usuários façam cópias usando o link público',

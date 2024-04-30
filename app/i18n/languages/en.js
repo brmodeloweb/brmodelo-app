@@ -167,6 +167,7 @@ export default {
 	'Still, the server and database to keep the project live cost money.': 'Still, the server and database to keep the project live cost money.',
 	'If you can, please considere a one time only or even monthly contribution via Github Sponsor.': 'If you can, please considere a one time only or even monthly contribution via Github Sponsor.',
 	'Go to Github Sponsors': 'Go to Github Sponsors',
+	'Public link available': 'Public link available',
 	'Share model':'Share model',
 	'Create public link':'Create public link',
 	'Enable import': 'Enable import',
