@@ -202,7 +202,7 @@ const ListController = function (
 			controllerAs: '$ctrl',
 		}).result;
 		modalInstance.then((result) => {
-			model.shareOptions.active = result.shared;
+			model.shareOptions = {"active": result.shared};
 			ctrl.showFeedback($filter('translate')("Sharing configuration has been updated successfully!"), true, 'success');
 		}).catch((reason) => {
 			console.log("Modal dismissed with reason", reason);
