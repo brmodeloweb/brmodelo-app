@@ -229,8 +229,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		switch (event.type) {
 			case 'name':
 				$timeout(() => {
-					ctrl.selectedElement.element.model.attributes.attrs.text.text = event.value;
-					ctrl.selectedElement.element.update();
+					ctrl.selectedElement.element.model.setText(event.value, ctrl.selectedElement.element);
 				});
 				break;
 			case 'extention':
