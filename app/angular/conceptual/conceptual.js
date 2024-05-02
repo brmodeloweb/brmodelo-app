@@ -295,9 +295,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 						currentText = currentText + " " + newCardinality;
 					}
 
-					ctrl.selectedElement.element.model.attributes.attrs.text.text = currentText;
 					ctrl.selectedElement.element.model.attributes.cardinality = newCardinality;
-					ctrl.selectedElement.element.update();
+					ctrl.selectedElement.element.model.setText(currentText, ctrl.selectedElement.element);
 				});
 				break;
 			case 'attribute.name':

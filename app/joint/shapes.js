@@ -220,7 +220,10 @@ erd.Attribute = joint.dia.Element.extend({
       },
     },
     joint.dia.Element.prototype.defaults
-  ),
+  ), setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		view.update();
+	}
 });
 
 erd.Key = joint.dia.Element.extend({
