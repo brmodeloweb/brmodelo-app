@@ -35,7 +35,7 @@ const Controller = function (ModelAPI) {
 	$ctrl.save = () => {
 		if(hasChanges($ctrl.shared, $ctrl.importAllowed)) {
 			ModelAPI.toggleShare($ctrl.modelId, $ctrl.shared, $ctrl.importAllowed).then(() => {
-				$ctrl.close({reason: "model shared"});
+				$ctrl.close({result: {'shared': $ctrl.shared}});
 			}).catch(error => {
 				console.log(error);
 				$ctrl.dismiss({reason: "model share error"});
