@@ -63,7 +63,7 @@
 		<div class="form-group" ng-if="($ctrl.configuration.extension && $ctrl.visible)">
 			<div class="form-group clearfix">
 				<label for="">{{ 'Edit' | translate }}</label>
-				<dropdown on-select="$ctrl.updateName(selected.type)"
+				<dropdown on-select="$ctrl.editExtention(selected.type)"
 					selected="{name: $ctrl.selectedElement.value, type: $ctrl.selectedElement.value}"
 					options="[{name: '(t, d)', type: '(t, d)'}, {name: '(t, c)', type: '(t, c)'}, {name: '(p, d)', type: '(p, d)'}, {name: '(p, c)', type: '(p, c)'}]">
 				</dropdown>
