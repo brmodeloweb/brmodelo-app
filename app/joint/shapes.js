@@ -125,6 +125,10 @@ erd.ISA = joint.dia.Element.extend({
     },
     joint.dia.Element.prototype.defaults
   ),
+	setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		view.update();
+	}
 });
 
 erd.Associative = joint.dia.Element.extend({
@@ -156,7 +160,11 @@ erd.Associative = joint.dia.Element.extend({
         'x-alignment': 'middle', 'y-alignment': 'middle'
       }
     }
-  }, joint.dia.Element.prototype.defaults)
+  }, joint.dia.Element.prototype.defaults),
+	setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		view.update();
+	}
 });
 
 erd.BlockAssociative = joint.dia.Element.extend({
@@ -222,7 +230,9 @@ erd.Attribute = joint.dia.Element.extend({
     joint.dia.Element.prototype.defaults
   ), setText: function (newText, view) {
 		this.attributes.attrs.text.text = newText;
-		view.update();
+		if(view != null) {
+			view.update();
+		}
 	}
 });
 

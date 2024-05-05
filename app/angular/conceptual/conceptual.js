@@ -244,8 +244,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				break;
 			case 'editExtention':
 				$timeout(() => {
-					ctrl.selectedElement.element.model.attributes.attrs.text.text = event.value;
-					ctrl.selectedElement.element.update();
+					ctrl.selectedElement.element.model.setText(event.value, ctrl.selectedElement.element);
 				});
 				break;
 			case 'addAutoRelationship':
@@ -308,8 +307,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 						newName = newName + " " + currentCardinality;
 					}
 
-					ctrl.selectedElement.element.model.attributes.attrs.text.text = newName;
-					ctrl.selectedElement.element.update();
+					ctrl.selectedElement.element.model.setText(newName, ctrl.selectedElement.element);
 				});
 				break;
 			case 'attribute.composed':
@@ -378,10 +376,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			base.attributes.composed = true;
 
 			const attr1 = ctrl.shapeFactory.createAttribute({ "position": { x: posX + 50, y: posY + 20 }});
-			attr1.attributes.attrs.text.text = "attr1";
+			attr1.setText("attr1");
 
 			const attr2 = ctrl.shapeFactory.createAttribute({ "position": { x: posX + 50, y: posY - 20 }});
-			attr2.attributes.attrs.text.text = "attr2";
+			attr2.setText("attr2");
 
 			configs.graph.addCells([base, attr1, attr2]);
 			ctrl.shapeLinker.createLink(base, attr1, configs.graph);
