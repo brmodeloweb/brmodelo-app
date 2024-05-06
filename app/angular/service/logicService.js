@@ -8,6 +8,7 @@ import erd from "../../joint/shapes";
 import uml from "../../joint/table";
 joint.shapes.erd = erd;
 joint.shapes.uml = uml;
+
 import "jointjs/dist/joint.min.css";
 import "../editor/editorManager"
 import "../editor/editorScroller"
@@ -47,7 +48,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			gridSize: 10,
 			drawGrid: true,
 			model: ls.graph,
-			linkPinning: false
+			linkPinning: false,
+			cellViewNamespace: joint.shapes,
 		});
 
 		ls.editorActions = new joint.ui.EditorActions({graph: ls.graph, paper: ls.paper});
@@ -173,7 +175,6 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		ls.paper.on('blank:pointerdown', (evt) => {
 			if (ls.selectedElement != null && ls.selectedElement.model != null) {
 				ls.checkAndEditTableName(ls.selectedElement.model);
-				ls.selectedElement.unhighlight();
 			}
 
 			ls.clearSelectedElement();
@@ -337,9 +338,6 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.selectedActions.remove();
 			ls.selectedActions = null;
 		}
-		if (ls.selectedElement != null && ls.selectedElement.model != null) {
-			ls.selectedElement.unhighlight();
-		}
 		ls.selectedElement = {};
 		$rootScope.$broadcast('element:select', null);
 		$rootScope.$broadcast('link:select', null);
@@ -349,12 +347,10 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 	ls.onSelectElement = function (cellView) {
 		var name = "";
-		if (ls.selectedElement.model != null) ls.selectedElement.unhighlight();
 		if (cellView.model.attributes.name != null) {
 			ls.elementSelector.cancel();
 			ls.selectedElement = cellView;
 			name = ls.selectedElement.model.attributes.name;
-			ls.selectedElement.highlight();
 			ls.applySelectionOptions(cellView);
 
 			var selected = ls.selectedElement.model.attributes.objects;
