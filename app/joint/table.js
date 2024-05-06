@@ -225,20 +225,18 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 });
 
 const updateSize = function() {
-	const nameWidth = this.$el.find(".uml-class-name-text")[0].clientWidth * 2.2;
-	const columns = this.$el.find(".uml-class-attrs-text")[0];
-	const columnstWidth = columns.clientWidth + 10;
-	const columnsHeight = columns.clientHeight + 20;
+	const nameBox = this.$el.find(".uml-class-name-text")[0].getBBox();
+	const columnsBox = this.$el.find(".uml-class-attrs-text")[0].getBBox();
 
-	let elementWidth = Math.max(nameWidth, columnstWidth);
+	let elementWidth = Math.max(nameBox.width, columnsBox.width);
 
 	if(elementWidth > 100) {
-		this.model.attributes.size.width = elementWidth;
+		this.model.attributes.size.width = elementWidth + 10;
 		this.resize();
 	}
 
-	if (columnsHeight > 80) {
-		this.model.attributes.size.height = columnsHeight + 40;
+	if (columnsBox.height > 80) {
+		this.model.attributes.size.height = columnsBox.height + 40;
 		this.resize();
 	}
 }

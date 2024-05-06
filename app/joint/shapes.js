@@ -5,7 +5,7 @@ import composedImg from "../img/composto-01.png"
 const setText = (element, view, newText) => {
 	element.attributes.attrs.text.text = newText;
 	view.update();
-	const textSize = view.$el.find("text")[0].clientWidth;
+	const textSize = view.$el.find("text")[0].getBBox().width;
 	if((textSize > 80)) {
 		element.attributes.size.width = (textSize + 10);
 		view.resize();
@@ -338,6 +338,7 @@ erd.InfoButton = joint.linkTools.InfoButton = joint.linkTools.Button.extend({
 			}
 	}
 });
+
 
 export default erd;
 
