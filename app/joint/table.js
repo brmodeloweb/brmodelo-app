@@ -228,9 +228,6 @@ const updateSize = function() {
 	const nameBox = this.$el.find(".uml-class-name-text")[0].getBBox();
 	const columnsBox = this.$el.find(".uml-class-attrs-text")[0].getBBox();
 
-	console.log(nameBox);
-	console.log(columnsBox);
-
 	let elementWidth = Math.max(nameBox.width, columnsBox.width);
 
 	if(elementWidth > 100) {
