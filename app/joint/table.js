@@ -226,12 +226,19 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 
 const updateSize = function() {
 	const nameWidth = this.$el.find(".uml-class-name-text")[0].clientWidth * 2.2;
-	const columnsWidth = this.$el.find(".uml-class-attrs-text")[0].clientWidth + 10;
+	const columns = this.$el.find(".uml-class-attrs-text")[0];
+	const columnstWidth = columns.clientWidth + 10;
+	const columnsHeight = columns.clientHeight + 20;
 
-	let elementWidth = Math.max(nameWidth, columnsWidth);
+	let elementWidth = Math.max(nameWidth, columnstWidth);
 
 	if(elementWidth > 100) {
 		this.model.attributes.size.width = elementWidth;
+		this.resize();
+	}
+
+	if (columnsHeight > 80) {
+		this.model.attributes.size.height = columnsHeight + 40;
 		this.resize();
 	}
 }
