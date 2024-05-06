@@ -47,7 +47,6 @@ uml.Class = joint.shapes.basic.Generic.extend({
     }, joint.shapes.basic.Generic.prototype.defaults),
 
     initialize: function () {
-
         this.on('change:name change:attributes change:methods', function () {
             this.updateRectangles();
             this.trigger('uml-update');
@@ -92,7 +91,6 @@ uml.Class = joint.shapes.basic.Generic.extend({
     },
 
     updateRectangles: function () {
-
         var attrs = this.get('attrs');
 
         var rects = [
@@ -114,7 +112,6 @@ uml.Class = joint.shapes.basic.Generic.extend({
 
             offsetY += rectHeight;
         });
-
     },
 
     getType: function() {
@@ -198,7 +195,6 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
     },
 
     updateRectangles: function () {
-
         var attrs = this.get('attrs');
 
         var rects = [
@@ -220,7 +216,6 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 
             offsetY += rectHeight;
         });
-
     },
 
     getType: function() {
@@ -232,11 +227,19 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 uml.ClassView = joint.dia.ElementView.extend({
     initialize: function () {
         joint.dia.ElementView.prototype.initialize.apply(this, arguments);
-        this.listenTo(this.model, 'uml-update', function () {
-            this.update();
-            this.resize();
-        });
-    }
+    },
+
+	updateSize: function() {
+		const nameWidth = this.$el.find(".uml-class-name-text")[0].clientWidth * 2.2;
+		const columnsWidth = this.$el.find(".uml-class-attrs-text")[0].clientWidth + 10;
+
+		let elementWidth = Math.max(nameWidth, columnsWidth);
+
+		if(elementWidth > 100) {
+			this.model.attributes.size.width = elementWidth;
+			this.resize();
+		}
+	}
 });
 
 export default uml;
