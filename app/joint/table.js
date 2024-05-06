@@ -224,22 +224,30 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 
 });
 
+const updateSize = function() {
+	const nameWidth = this.$el.find(".uml-class-name-text")[0].clientWidth * 2.2;
+	const columnsWidth = this.$el.find(".uml-class-attrs-text")[0].clientWidth + 10;
+
+	let elementWidth = Math.max(nameWidth, columnsWidth);
+
+	if(elementWidth > 100) {
+		this.model.attributes.size.width = elementWidth;
+		this.resize();
+	}
+}
+
 uml.ClassView = joint.dia.ElementView.extend({
     initialize: function () {
         joint.dia.ElementView.prototype.initialize.apply(this, arguments);
     },
+	updateSize: updateSize
+});
 
-	updateSize: function() {
-		const nameWidth = this.$el.find(".uml-class-name-text")[0].clientWidth * 2.2;
-		const columnsWidth = this.$el.find(".uml-class-attrs-text")[0].clientWidth + 10;
-
-		let elementWidth = Math.max(nameWidth, columnsWidth);
-
-		if(elementWidth > 100) {
-			this.model.attributes.size.width = elementWidth;
-			this.resize();
-		}
-	}
+uml.AbstractView = joint.dia.ElementView.extend({
+    initialize: function () {
+        joint.dia.ElementView.prototype.initialize.apply(this, arguments);
+    },
+	updateSize: updateSize
 });
 
 export default uml;
