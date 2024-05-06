@@ -118,6 +118,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			if (cell.isLink()) {
 				var source = ls.graph.getCell(cell.get('source').id);
 				var target = ls.graph.getCell(cell.get('target').id);
+				if (source || target === null) return;
 				var objects = target.attributes.objects;
 				for (var i = 0; i < objects.length; i++) {
 					var object = objects[i];
