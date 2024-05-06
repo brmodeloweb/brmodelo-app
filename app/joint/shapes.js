@@ -339,5 +339,6 @@ erd.InfoButton = joint.linkTools.InfoButton = joint.linkTools.Button.extend({
 	}
 });
 
+
 export default erd;
 
