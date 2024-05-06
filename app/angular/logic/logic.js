@@ -124,6 +124,7 @@ const controller = function (
 			if(element != null && element.resize != null) {
 				element.resize();
 			}
+			element.updateSize();
 		});
 	});
 

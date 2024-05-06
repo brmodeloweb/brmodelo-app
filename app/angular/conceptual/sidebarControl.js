@@ -87,6 +87,15 @@ const controller = function($rootScope, $timeout) {
 		});
 	}
 
+	$ctrl.editExtention = (selected) => {
+		$ctrl.onUpdate({
+			"event": {
+				"type": "editExtention",
+				"value": selected
+			}
+		});
+	}
+
 	$ctrl.updateCardinality = (selected) => {
 		$ctrl.onUpdate({
 			"event": {
@@ -115,6 +124,7 @@ const controller = function($rootScope, $timeout) {
 	}
 
 	$ctrl.updateAttributeCardinality = (selected) => {
+		$ctrl.selectedElement.value.cardinality = selected.type;
 		$ctrl.onUpdate({
 			"event": {
 				"type": "attribute.cardinality",

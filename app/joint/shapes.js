@@ -2,46 +2,58 @@ import * as joint from "jointjs/dist/joint";
 import _ from "lodash";
 import composedImg from "../img/composto-01.png"
 
+const setText = (element, view, newText) => {
+	element.attributes.attrs.text.text = newText;
+	view.update();
+	const textSize = view.$el.find("text")[0].clientWidth;
+	if((textSize > 80)) {
+		element.attributes.size.width = (textSize + 10);
+		view.resize();
+	}
+}
+
 const erd = joint.shapes.erd;
 
 erd.Entity = joint.dia.Element.extend({
-  markup:
-    '<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
-  defaults: _.defaultsDeep(
-    {
-      type: "erd.Entity",
-      supertype: "Entity",
-      isExtended: false,
-      autorelationship: false,
-      size: { width: 80, height: 40 },
-      attrs: {
-        ".outer": {
-          fill: "#FFFFFF",
-          stroke: "black",
-          "stroke-width": 1,
-          points: "100,0 100,60 0,60 0,0",
-        },
-        ".inner": {
-          fill: "#2ECC71",
-          stroke: "#27AE60",
-          "stroke-width": 1,
-          points: "95,5 95,55 5,55 5,5",
-          display: "none",
-        },
-        text: {
-          text: "Entity",
-          "font-family": "Arial",
-          "font-size": 14,
-          ref: ".outer",
-          "ref-x": 0.5,
-          "ref-y": 0.5,
-          "x-alignment": "middle",
-          "y-alignment": "middle",
-        },
-      },
-    },
-    joint.dia.Element.prototype.defaults
-  ),
+	markup:
+		'<g class="rotatable"><g class="scalable"><polygon class="outer"/><polygon class="inner"/></g><text/></g>',
+	defaults: _.defaultsDeep(
+		{
+			type: "erd.Entity",
+			supertype: "Entity",
+			isExtended: false,
+			autorelationship: false,
+			size: { width: 80, height: 40 },
+			attrs: {
+				".outer": {
+					fill: "#FFFFFF",
+					stroke: "black",
+					"stroke-width": 1,
+					points: "100,0 100,60 0,60 0,0",
+				},
+				".inner": {
+					fill: "#2ECC71",
+					stroke: "#27AE60",
+					"stroke-width": 1,
+					points: "95,5 95,55 5,55 5,5",
+					display: "none",
+				},
+				text: {
+					text: "Entity",
+					"font-family": "Arial",
+					"font-size": 14,
+					ref: ".outer",
+					"ref-x": 0.5,
+					"ref-y": 0.5,
+					"x-alignment": "middle",
+					"y-alignment": "middle",
+				},
+			},
+		},
+		joint.dia.Element.prototype.defaults
+	), setText: function (newText, view) {
+			setText(this, view, newText);
+	}
 });
 
 erd.Relationship = joint.dia.Element.extend({
@@ -79,8 +91,11 @@ erd.Relationship = joint.dia.Element.extend({
         },
       },
     },
-    joint.dia.Element.prototype.defaults
+    joint.dia.Element.prototype.defaults,
   ),
+	setText: function (newText, view) {
+		setText(this, view, newText);
+	}
 });
 
 erd.ISA = joint.dia.Element.extend({
@@ -110,6 +125,10 @@ erd.ISA = joint.dia.Element.extend({
     },
     joint.dia.Element.prototype.defaults
   ),
+	setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		view.update();
+	}
 });
 
 erd.Associative = joint.dia.Element.extend({
@@ -141,7 +160,11 @@ erd.Associative = joint.dia.Element.extend({
         'x-alignment': 'middle', 'y-alignment': 'middle'
       }
     }
-  }, joint.dia.Element.prototype.defaults)
+  }, joint.dia.Element.prototype.defaults),
+	setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		view.update();
+	}
 });
 
 erd.BlockAssociative = joint.dia.Element.extend({
@@ -205,7 +228,12 @@ erd.Attribute = joint.dia.Element.extend({
       },
     },
     joint.dia.Element.prototype.defaults
-  ),
+  ), setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		if(view != null) {
+			view.update();
+		}
+	}
 });
 
 erd.Key = joint.dia.Element.extend({
@@ -254,7 +282,10 @@ erd.Key = joint.dia.Element.extend({
       },
     },
     joint.dia.Element.prototype.defaults
-  ),
+  ), setText: function (newText, view) {
+		this.attributes.attrs.text.text = newText;
+		view.update();
+	}
 });
 
 erd.Link = joint.dia.Link.extend({

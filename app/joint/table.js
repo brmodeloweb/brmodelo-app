@@ -47,7 +47,6 @@ uml.Class = joint.shapes.basic.Generic.extend({
     }, joint.shapes.basic.Generic.prototype.defaults),
 
     initialize: function () {
-
         this.on('change:name change:attributes change:methods', function () {
             this.updateRectangles();
             this.trigger('uml-update');
@@ -92,7 +91,6 @@ uml.Class = joint.shapes.basic.Generic.extend({
     },
 
     updateRectangles: function () {
-
         var attrs = this.get('attrs');
 
         var rects = [
@@ -114,7 +112,6 @@ uml.Class = joint.shapes.basic.Generic.extend({
 
             offsetY += rectHeight;
         });
-
     },
 
     getType: function() {
@@ -198,7 +195,6 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
     },
 
     updateRectangles: function () {
-
         var attrs = this.get('attrs');
 
         var rects = [
@@ -220,7 +216,6 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 
             offsetY += rectHeight;
         });
-
     },
 
     getType: function() {
@@ -229,14 +224,37 @@ uml.Abstract = joint.shapes.basic.Generic.extend({
 
 });
 
+const updateSize = function() {
+	const nameWidth = this.$el.find(".uml-class-name-text")[0].clientWidth * 2.2;
+	const columns = this.$el.find(".uml-class-attrs-text")[0];
+	const columnstWidth = columns.clientWidth + 10;
+	const columnsHeight = columns.clientHeight + 20;
+
+	let elementWidth = Math.max(nameWidth, columnstWidth);
+
+	if(elementWidth > 100) {
+		this.model.attributes.size.width = elementWidth;
+		this.resize();
+	}
+
+	if (columnsHeight > 80) {
+		this.model.attributes.size.height = columnsHeight + 40;
+		this.resize();
+	}
+}
+
 uml.ClassView = joint.dia.ElementView.extend({
     initialize: function () {
         joint.dia.ElementView.prototype.initialize.apply(this, arguments);
-        this.listenTo(this.model, 'uml-update', function () {
-            this.update();
-            this.resize();
-        });
-    }
+    },
+	updateSize: updateSize
+});
+
+uml.AbstractView = joint.dia.ElementView.extend({
+    initialize: function () {
+        joint.dia.ElementView.prototype.initialize.apply(this, arguments);
+    },
+	updateSize: updateSize
 });
 
 export default uml;
