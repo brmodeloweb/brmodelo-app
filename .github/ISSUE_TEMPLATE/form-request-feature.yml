@@ -14,7 +14,7 @@ body:
     id: problem-related?
     attributes:
       label: Sua sugestão é relacionada a algum problema?
-      description: Caso sua sugestão de melhoria seja relacionada a algum problema, por favor descreva de forma mais detalhada possíuvel, Fique a vontade pra adicionar links para videos e imagens. 
+      description: Caso sua sugestão de melhoria seja relacionada a algum problema, por favor descreva de forma mais detalhada possível, Fique a vontade pra adicionar links para videos e imagens. 
       placeholder: Ex: É muito complicado fazer...
     validations:
       required: false
