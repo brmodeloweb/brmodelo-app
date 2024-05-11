@@ -35,6 +35,15 @@
 			</div>
 		</div><!-- End .form-group -->
 
+		<!-- ########## start notes ######## -->
+		<div class="form-group" ng-if="($ctrl.configuration.note && $ctrl.visible)">
+			<div class="form-group">
+				<label for="entry-name">{{ 'Text' | translate }}</label>
+				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
+					ng-change="$ctrl.updateNoteText($ctrl.selectedElement.value)" autofocus/>
+			</div><!-- End .form-group -->
+		</div><!-- End .form-group -->
+
 		<div class="form-group" ng-if="($ctrl.configuration.link && $ctrl.visible)">
 			<div class="form-group clearfix">
 				<label for="">{{ 'Cardinality' | translate }}</label>

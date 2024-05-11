@@ -38,6 +38,10 @@ const configurator = () => {
 			case "Link":
 				configuration.link = true;
 				return configuration;
+			case "Note":
+				configuration.note = true;
+				return configuration;
+
 			default:
 				break;
 		}
@@ -159,6 +163,15 @@ const controller = function($rootScope, $timeout) {
 		});
 	}
 
+	$ctrl.updateNoteText = (newText) => {
+		$ctrl.onUpdate({
+			"event": {
+				"type": "note",
+				"value": newText
+			}
+		});
+	}
+
 	const customSelector = (selected) => {
 		const currentType = selected.currentValue.type;
 		if (currentType === "Link") {
@@ -178,6 +191,12 @@ const controller = function($rootScope, $timeout) {
 				"composed": attributes.composed
 			}
 		}
+
+		if (currentType === "Note") {
+			const attributes = selected.currentValue.element.model.attributes;
+			selected.currentValue.value = attributes.attrs.label.text.replace(/ *\([^)]*\) */g, "");
+		}
+
 		return selected.currentValue;
 	}
 

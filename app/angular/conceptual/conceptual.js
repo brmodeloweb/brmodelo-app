@@ -351,6 +351,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					}
 				});
 				break;
+			case 'note':
+				$timeout(() => {
+					ctrl.selectedElement.element.model.attr('label/text', event.value);
+					ctrl.selectedElement.element.update();
+				});
+				break;
 		}
 	}
 
@@ -530,6 +536,14 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
+		const note = new joint.shapes.standard.TextBlock();
+		note.position(25, 425);
+		note.resize(80, 40);
+		note.attr('label/text', 'Nota');
+		note.attributes.supertype = "Note";
+
+		console.log(note);
+
 		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
@@ -538,6 +552,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
+			note
 		]);
 
 		registerShortcuts();
