@@ -38,9 +38,9 @@
 		<!-- ########## start notes ######## -->
 		<div class="form-group" ng-if="($ctrl.configuration.note && $ctrl.visible)">
 			<div class="form-group">
-				<label for="entry-name">{{ 'Text' | translate }}</label>
+				<label for="user-note">{{ 'Note' | translate }}</label>
 				<textarea
-					id="entry-name"
+					id="user-note"
 					class="form-control user-note-input"
 					data-ng-model="$ctrl.selectedElement.value"
 					ng-change="$ctrl.updateNoteText($ctrl.selectedElement.value)"

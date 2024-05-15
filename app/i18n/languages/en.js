@@ -178,5 +178,6 @@ export default {
 	"Sharing configuration has been updated successfully!": "Sharing configuration has been updated successfully!",
 	"Your model was imported successfully!": "Your model was imported successfully!",
 	"Star on Github": "Star on Github",
-	"Donate": "Donate"
+	"Donate": "Donate",
+	"Note": "Note"
 };
