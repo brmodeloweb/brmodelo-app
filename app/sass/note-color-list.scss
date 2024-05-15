@@ -38,6 +38,10 @@ li:has(#color-pink) {background-color: hsl(318deg, 96%, 80.2%, 1);}
 	cursor: pointer;
 }
 
+.note-color-list > li:focus-within{	
+	outline: dashed var(--brand-primary-10);
+}
+
 .note-color-list > li:has(:checked):after {
 	display: block;
 	z-index: 1;
@@ -45,5 +49,5 @@ li:has(#color-pink) {background-color: hsl(318deg, 96%, 80.2%, 1);}
 	font-size: 1.5em;
 	text-align: center;
 	color: var(--gray-30);
-	
 }
+
