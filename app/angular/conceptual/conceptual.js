@@ -538,8 +538,9 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		const note = new joint.shapes.standard.TextBlock();
 		note.position(25, 425);
-		note.resize(80, 40);
+		note.resize(96, 64);
 		note.attr('label/text', 'Nota');
+		note.attr('body/fill', '#ffff88');
 		note.attributes.supertype = "Note";
 
 		console.log(note);
