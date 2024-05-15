@@ -175,9 +175,10 @@ export default {
 	'URL': 'URL',
 	'Copy': 'Copy',
 	'People will be able to see but not modify your model': 'People will be able to see but not modify your model',
-	"Sharing configuration has been updated successfully!": "Sharing configuration has been updated successfully!",
-	"Your model was imported successfully!": "Your model was imported successfully!",
-	"Star on Github": "Star on Github",
-	"Donate": "Donate",
-	"Note": "Note"
+	'Sharing configuration has been updated successfully!': 'Sharing configuration has been updated successfully!',
+	'Your model was imported successfully!': 'Your model was imported successfully!',
+	'Star on Github': 'Star on Github',
+	'Donate': 'Donate',
+	'Note': 'Note',
+	'Color': 'Cor'
 };
