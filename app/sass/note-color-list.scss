@@ -1,0 +1,49 @@
+.note-color-list {
+	display: flex;
+	gap: 1rem;
+	list-style: none;
+	padding: 0;
+}
+
+.note-color-list > li {
+	position: relative;
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	border: 1px solid transparent;
+	border-radius: 8px;
+}
+
+li:has(#color-gray) {background-color: hsl(216deg, 25%, 74.9%, 1);}
+li:has(#color-salmon) {background-color: hsl(7.13deg, 94.4%, 79%, 1);}
+li:has(#color-orange) {background-color: hsl(35.2deg, 100%, 72%, 1);}
+li:has(#color-yellow) {background-color: hsl(60deg, 100%, 76.7%, 1);}
+li:has(#color-green) {background-color: hsl(140deg, 49.7%, 64.9%, 1);}
+li:has(#color-blue) {background-color: hsl(205deg, 89.9%, 72.9%, 1);}
+li:has(#color-purple) {background-color: hsl(268deg, 100%, 82.9%, 1);}
+li:has(#color-pink) {background-color: hsl(318deg, 96%, 80.2%, 1);}
+
+.note-color-list > li label {
+	position: absolute;
+	top: 32px
+}
+
+.note-color-list > li [type="radio"] {
+	display: block;
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.note-color-list > li:has(:checked):after {
+	display: block;
+	z-index: 1;
+	content: "✔︎";
+	font-size: 1.5em;
+	text-align: center;
+	color: var(--gray-30);
+	
+}

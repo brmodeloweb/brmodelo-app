@@ -47,6 +47,83 @@
 					autofocus
 				></textarea>
 			</div><!-- End .form-group -->
+			<div class="form-group">
+				<label for="note-color">{{'Color' | translate}}</label>
+				<ul class="note-color-list">
+					<li>
+						<label for="color-gray">{{'Gray' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-gray"
+							value="color-gray"
+						/>
+					</li>
+					<li>
+						<label for="color-salmon">{{'Salmon' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-salmon"
+							value="color-salmon"
+						/>
+					</li>
+					<li>
+						<label for="color-orange">{{'Orange' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-orange"
+							value="color-orange"
+						/>
+					</li>
+					<li>
+						<label for="color-yellow">{{'Yellow' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-yellow"
+							value="color-yellow"
+						/>
+					</li>
+					<li>
+						<label for="color-green">{{'Green' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-green"
+							value="color-green"
+						/>
+					</li>
+					<li>
+						<label for="color-blue">{{'Blue' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-blue"
+							value="color-blue"
+						/>
+					</li>
+					<li>
+						<label for="color-purple">{{'Purple' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-purple"
+							value="color-purple"
+						/>
+					</li>
+					<li>
+						<label for="color-pink">{{'Pink' | translate}}</label>
+						<input
+							type="radio"
+							name="note-color-option"
+							id="color-pink"
+							value="color-pink"
+						/>
+					</li>
+				</ul>
+			</div>
 		</div><!-- End .form-group -->
 
 		<div class="form-group" ng-if="($ctrl.configuration.link && $ctrl.visible)">
