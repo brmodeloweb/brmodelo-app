@@ -536,11 +536,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
-		const note = new joint.shapes.standard.TextBlock();
+		const note = new joint.shapes.erd.Note();
 		note.position(25, 425);
 		note.resize(80, 40);
-		note.attr('label/text', 'Nota');
-		note.attributes.supertype = "Note";
+		note.attr('label', 'Nota');
+		//note.attributes.supertype = "Note";
 
 		console.log(note);
 
