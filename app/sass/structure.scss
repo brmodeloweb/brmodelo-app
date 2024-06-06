@@ -89,10 +89,6 @@ a:hover,
 	bottom: 0;
 	left: 0;
 	max-width: 150px;
-	display: flex;
-	flex-direction: column;
-	flex-direction: column-reverse;
-	justify-content: space-between;
 	padding: 12px;
 	border-right: 1px solid var(--border-default);
 	background-color: var(--gray-95);
@@ -107,6 +103,24 @@ a:hover,
 
 .elements-holder .elements-list .elements {
 	background-color: transparent;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// ..elements-holder support-banners-list
+////////////////////////////////////////////////////////////////////////////////
+
+// Hide by default
+.elements-holder support-banners-list {display: none;}
+
+// Only show if screen height is larger enough to show all items from
+// .elements-list in conceptual workspace (The one with more elements)
+@media screen and (min-height: 620px) {
+	.elements-holder support-banners-list {
+		display: block;
+		position: fixed;
+		bottom: 0;
+		z-index: 1;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

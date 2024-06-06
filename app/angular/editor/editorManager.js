@@ -22,8 +22,8 @@ joint.templates.draggable["draggable-paper.html"] = Handlebars.template(() => {
 joint.ui.EditorManager = Backbone.View.extend({
     className: "elements-list",
     options: {
-        width: 126,
-        height: 500
+        width: `100%`,
+        height: `calc(100vh - 75px)` // Magic number:  ~ .navbar height
     },
 	initialize(configs) {
 		this.options = { ...this.options, ...configs } || {};
