@@ -97,6 +97,15 @@
         "code",
         "infra"
       ]
+    },
+    {
+      "login": "johnfercher",
+      "name": "John Fercher",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4752636?v=4",
+      "profile": "http://johnfercher.com",
+      "contributions": [
+        "financial"
+      ]
     }
   ],
   "contributorsPerLine": 7,
