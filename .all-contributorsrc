@@ -106,6 +106,15 @@
       "contributions": [
         "financial"
       ]
+    },
+    {
+      "login": "henriqueferraz",
+      "name": "Henrique Ferraz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3935214?v=4",
+      "profile": "https://www.ofnet.com.br",
+      "contributions": [
+        "financial"
+      ]
     }
   ],
   "contributorsPerLine": 7,
