@@ -1,0 +1,63 @@
+<section
+	class="view modelWorkspace workspaceConceptual"
+>
+	<header class="navbar navbar-default navbar-fixed-top">
+		<ul class="nav navbar-nav pull-left">
+			<li>
+				<a class="back-button" href="#" data-ui-sref="main">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+				</a>
+			</li>
+		</ul>
+
+		<div class="navbar-header">
+			<strong class="navbar-brand">{{ 'BRMW' | translate }}</strong>
+		</div>
+
+		<img
+			src="../../img/loading-dots.gif"
+			alt="Loading"
+			class="br-loader"
+			ng-class="{'loading': $ctrl.loading}"
+		/>
+	</header>
+
+	<div class="mainContent">
+		<section class="elements-holder">
+			<!-- Insert elements to be used in model constrution -->
+			<support-banners-list></support-banners-list>
+		</section>
+
+		<section id="content" class="model-area">
+			<header class="workspace-header">
+				<div class="page-header clearfix">
+					<div class="document-info pull-left">
+						<h2 class="h4"><icon-conceptual title="{{'Conceptual model' | translate}}"></icon-conceptual> {{$ctrl.model.name}}</h2>
+						<status-bar updated-at="$ctrl.modelState.updatedAt"></status-bar>
+					</div>
+					<aside class="header-actions pull-right">
+						<a class="docs-icon" href="https://docs.brmodeloweb.com" target="_blank" rel="noopener noreferrer" title="{{ 'Documentation' | translate }}"><i class="fa fa-book"></i></a>
+						<a class="br-button" data-ng-click="$ctrl.saveModel()" title="{{ 'Save (CTRL S)' | translate }}">{{ 'Save' | translate }}</a>
+					</aside>
+				</div>
+				<ul class="nav navbar-nav tool-icons">
+					<li><a data-ng-click="$ctrl.undoModel()" title="{{ 'Undo (CTRL Z)' | translate }}"><i class="fa fa-reply"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.redoModel()" title="{{ 'Redo (CTRL SHIFT Z)' | translate }}"><i class="fa fa-share"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomIn()" title="{{ 'Zoom in (Z +)' | translate }}"><i class="fa fa-search-plus"></i></a></li>
+					<li><a data-ng-click="$ctrl.zoomNone()" title="{{ 'Zoom 100% (Z 0)' | translate }}"><i class="fa fa-search"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.zoomOut()" title="{{ 'Zoom out (Z -)' | translate }}"><i class="fa fa-search-minus"></i></a></li>
+					<li><a data-ng-click="$ctrl.duplicateModel($ctrl.model)" title="{{ 'Duplicate model' | translate }}"><i class="fa fa-files-o"></i></a></li>
+					<li><a data-ng-click="$ctrl.convertModel($ctrl.model)" title="{{ 'Generate logical model' | translate }}"><i class="fa fa-table"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.shareModel($ctrl.model)" title="{{ 'Share' | translate }}"><i class="fa fa-share-alt"></i></a></li>
+					<li class="divider"><a data-ng-click="$ctrl.print()" title="{{ 'Print (CTRL P)' | translate }}"><i class="fa fa-print"></i></a></li>
+				</ul>
+				<aside class="feedback">
+					<div class="alert alert-success" role="alert" data-ng-class="{'hide': !$ctrl.feedback.showing}">
+						<p>{{ $ctrl.feedback.message }}</p>
+					</div>
+				</aside>
+			</header><!-- End .workspace-header -->
+		</section><!-- End .model-area -->
+		<sidebar-control-conceptual selected="$ctrl.selectedElement" on-update="$ctrl.onUpdate(event)"></sidebar-control-conceptual>
+	</div><!-- End .mainContent -->
+</section><!-- End .view -->

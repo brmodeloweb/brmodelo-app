@@ -48,10 +48,15 @@ const ListController = function (
 	};
 
 	const mapData = (model) => {
-		if (model.type == "conceptual") {
-			model.typeName = $filter('translate')("Conceptual");
-		} else {
-			model.typeName = $filter('translate')("Logical");
+		switch(model.type) {
+			case "conceptual":
+				model.typeName = $filter('translate')("Conceptual");
+			case "logic":
+				model.typeName = $filter('translate')("Logical");
+			case "nosql":
+				model.typeName = $filter('translate')("NoSQL");
+			default:
+				model.typeName = "";
 		}
 		model.authorName = AuthService.loggeduserName;
 		return model;
@@ -84,6 +89,11 @@ const ListController = function (
 		if (model.type === "logic") {
 			return $state.go("logic", {
 				references: { modelid: model._id, conversionId: "" },
+			});
+		}
+		if (model.type === "nosql") {
+			return $state.go("nosql", {
+				modelid: model._id
 			});
 		}
 		$state.go(model.type, {
