@@ -12,6 +12,8 @@ import "../editor/elementSelector";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
+import "../../joint/shapesNosql";
+///joint.shapes.container.Base = cont;
 import angular from "angular";
 import template from "./nosql.html";
 
@@ -24,6 +26,7 @@ import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import iconConceptual from  "../components/icons/conceptual";
 import supportBannersList from "../components/supportBannersList";
+//import { container } from "webpack";
 
 const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibModal, $state, $transitions, preventExitService, $filter) {
 	const ctrl = this;
@@ -339,8 +342,16 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		$(".elements-holder").append(enditorManager.render().el);
 
 		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
+			var container_1 = shapesNosql.parent({
+			size: { width: 30, height: 30 },
+			z: 1,
+			attrs: { headerText: { text: 'key = custormerID' }},
+			position: { x: 25, y: 10 }
+		},);
+//		ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 
 		enditorManager.loadElements([
+			container_1
 		]);
 
 		registerShortcuts();
