@@ -12,7 +12,7 @@ import "../editor/elementSelector";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
-import "../../joint/shapesNosql";
+import shapesNosql from "../../joint/shapesNosql";
 ///joint.shapes.container.Base = cont;
 import angular from "angular";
 import template from "./nosql.html";
@@ -342,16 +342,25 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		$(".elements-holder").append(enditorManager.render().el);
 
 		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
-			var container_1 = shapesNosql.parent({
-			size: { width: 30, height: 30 },
+
+		var containerParent = new shapesNosql.parent({
+			size: { width: 100, height: 100 },
 			z: 1,
-			attrs: { headerText: { text: 'key = custormerID' }},
+			attrs: { headerText: { text: 'parent' }},
 			position: { x: 25, y: 10 }
 		},);
+		var containerChild = new shapesNosql.child({
+			size: { width: 100, height: 50 },
+			z: 1,
+			attrs: { headerText: { text: 'child' }},
+			position: { x: 25, y: 200 }
+		},);
+
+
 //		ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 
 		enditorManager.loadElements([
-			container_1
+			containerParent, containerChild
 		]);
 
 		registerShortcuts();
