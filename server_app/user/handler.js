@@ -50,6 +50,8 @@ const userCreate = async(req, res) => {
       return res.status(422).send(validation.message);
     }
 
+		console.log("trying to connect")
+
     await userService.create({username, mail, password});
 
     return res.sendStatus(201);

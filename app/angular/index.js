@@ -204,6 +204,21 @@ app.config([
 			},
 		});
 
+		$stateProvider.state("nosql", {
+			title: "NoSQL model - BRMW",
+			url: "/nosql/{modelid}",
+			component: "editorNoSQL",
+			data: {
+				requireLogin: true,
+			},
+			lazyLoad($transition$) {
+				const $ocLazyLoad = $transition$.injector().get("$ocLazyLoad");
+				return import("./nosql/nosql.js").then((mod) =>
+					$ocLazyLoad.inject(mod.default)
+				);
+			},
+		});
+
 		$stateProvider.state("noaccess", {
 			title: "No Access - BRMW",
 			url: "/noaccess",

@@ -10,7 +10,8 @@ const Controller = function ($rootScope, $filter) {
 
 	$ctrl.options = [
 		{ name: $filter('translate')('Conceptual'), type: 'conceptual'},
-		{ name: $filter('translate')('Logical'), type: 'logic' }
+		{ name: $filter('translate')('Logical'), type: 'logic' },
+		{ name: $filter('translate')('NoSQl (beta)'), type: 'nosql' }
 	];
 
 	$ctrl.$onInit = () => {
