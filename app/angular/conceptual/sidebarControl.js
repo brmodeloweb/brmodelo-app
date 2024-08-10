@@ -38,7 +38,7 @@ const configurator = () => {
 			case "Link":
 				configuration.link = true;
 				return configuration;
-			case "Note":
+			case "note":
 				configuration.note = true;
 				return configuration;
 
@@ -168,6 +168,15 @@ const controller = function($rootScope, $timeout) {
 			"event": {
 				"type": "note",
 				"value": newText
+			}
+		});
+	}
+
+	$ctrl.updateNoteColor = (newColor) => {
+		$ctrl.onUpdate({
+			"event": {
+				"type": "note-color",
+				"value": newColor
 			}
 		});
 	}
