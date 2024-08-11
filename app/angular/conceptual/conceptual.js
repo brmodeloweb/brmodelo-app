@@ -12,8 +12,8 @@ import "../editor/elementSelector";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
-import custom from "../../joint/custom";
-joint.shapes.custom = custom;
+import note from "../../joint/notes"
+joint.shapes.custom = note;
 
 import angular from "angular";
 import template from "./conceptual.html";
@@ -356,12 +356,12 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				break;
 			case 'note':
 				$timeout(() => {
-					ctrl.selectedElement.element.model.set('label', event.value);
+					ctrl.selectedElement.element.setText(event.value);
 				});
 				break;
 			case 'note-color':
 				$timeout(() => {
-					ctrl.selectedElement.element.model.prop("fillColor", event.value).prop("outlineColor", event.value)
+					ctrl.selectedElement.element.setColor(event.value);
 				});
 				break;
 		}
@@ -543,15 +543,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
-		// const note = new joint.shapes.erd.Note();
-		// note.position(150, 400);
-		// note.set("label", "A multiline\n text with no image.")
-		// note.resize(96, 64);
-		// note.prop("fillColor", "#EBACCF")
-		// note.prop("outlineColor", "#d80073")
-		// note.attributes.supertype = "Note";
-		// note.addTo(configs.graph);
-		// console.log(note);
+		const note = new joint.shapes.custom.Note({ position: { x: 25, y: 430 } });
 
 		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
@@ -561,7 +553,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
-
+			note
 		]);
 
 		registerShortcuts();
@@ -586,18 +578,11 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			configs.graph.fromJSON(jsonModel);
 			ctrl.modelState.updatedAt = resp.data.updated
 			ctrl.setLoading(false);
-
-			const customShape2 = new joint.shapes.custom.Note(configs.paper);
-			customShape2
-			.set("label", "A multiline\n text with no image.")
-			.position(10, 400)
-			.prop("fillColor", "#EBACCF")
-			.prop("outlineColor", "#EBACCF")
-			.addTo(configs.graph);
 		}).catch((error) => {
 			if(error.status == 404 || error.status == 401) {
 				$state.go("noaccess");
 			}
+			console.log(error);
 		});
 	}
 

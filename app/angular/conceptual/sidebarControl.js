@@ -38,7 +38,7 @@ const configurator = () => {
 			case "Link":
 				configuration.link = true;
 				return configuration;
-			case "note":
+			case "Note":
 				configuration.note = true;
 				return configuration;
 
@@ -203,7 +203,7 @@ const controller = function($rootScope, $timeout) {
 
 		if (currentType === "Note") {
 			const attributes = selected.currentValue.element.model.attributes;
-			selected.currentValue.value = attributes.attrs.label.text.replace(/ *\([^)]*\) */g, "");
+			selected.currentValue.value = attributes.attrs.text.text.replace(/ *\([^)]*\) */g, "");
 		}
 
 		return selected.currentValue;
