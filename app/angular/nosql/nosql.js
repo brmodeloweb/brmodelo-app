@@ -254,6 +254,26 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			});
 
 			elementActions.render();
+
+			cellView.model.attributes.attrs.headerText.text = "Felipe"
+			cellView.model.attributes.attrs.header.fill = "green";
+			cellView.model.attributes.attrs.header.stroke = "green";
+			cellView.update();
+			console.log(cellView);
+
+		});
+
+		paper.on('element:pointerup', (cellView, evt, x, y) => {
+			console.log(cellView);
+			// change position
+			const parents = configs.graph.findModelsUnderElement(cellView.model);
+			console.log(parents);
+			if (parents.length > 0) {
+				const parent = parents[0];
+				console.log(parent);
+				parent.embed([cellView.model]);
+				parent.fitToChildElements();
+			}
 		});
 
 		paper.on('element:pointerdblclick', () => {
@@ -268,6 +288,15 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		configs.paper.on('link:mouseleave', (linkView) => {
 			linkView.removeTools();
+		});
+
+		paper.on('element:button:pointerdown', function(elementView) {
+			console.log(elementView);
+			var element = elementView.model;
+			// `toggle()` method is defined at `joint.shapes.container.Parent` in `./joint.shapes.container.js`
+			element.toggle();
+			// `fitAncestorElements()` method is defined at `joint.shapes.container.Base` in `./joint.shapes.container.js`
+			element.fitAncestorElements();
 		});
 	}
 
@@ -294,6 +323,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		});
 
 		graph.on('change:position', function (cell) {
+
 		});
 
 		graph.on('add', (model) => {
