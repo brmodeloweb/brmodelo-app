@@ -163,24 +163,6 @@ const controller = function($rootScope, $timeout) {
 		});
 	}
 
-	$ctrl.updateNoteText = (newText) => {
-		$ctrl.onUpdate({
-			"event": {
-				"type": "note",
-				"value": newText
-			}
-		});
-	}
-
-	$ctrl.updateNoteColor = (newColor) => {
-		$ctrl.onUpdate({
-			"event": {
-				"type": "note-color",
-				"value": newColor
-			}
-		});
-	}
-
 	const customSelector = (selected) => {
 		const currentType = selected.currentValue.type;
 		if (currentType === "Link") {
