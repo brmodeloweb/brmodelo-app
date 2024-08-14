@@ -36,7 +36,9 @@ const Note = joint.dia.Element.extend({
 		},
 		joint.dia.Element.prototype.defaults
 	),
-
+	getType() {
+		return "custom.Note";
+	}
 });
 
 const NoteView = joint.dia.ElementView.extend({

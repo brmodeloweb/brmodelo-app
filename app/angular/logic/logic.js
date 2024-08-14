@@ -102,6 +102,15 @@ const controller = function (
 		});
 	});
 
+	$rootScope.$on('note:select', function (event, element) {
+		$timeout(() => {
+			ctrl.selectedLink = null;
+			const type = element.model.attributes.type;
+			const value = element.model.attributes.attrs.text.text;
+			ctrl.selectedElement = {"value": value, "type": type, "element": element};
+		});
+	});
+
 	$rootScope.$on('columns:select', function (event, columns) {
 		$timeout(() => {
 			ctrl.addColumnVisible = false;
@@ -230,7 +239,6 @@ const controller = function (
 			console.error(error);
 		});
 	};
-
 
 	ctrl.shareModel = (model) => {
 		const modalInstance = $uibModal.open({

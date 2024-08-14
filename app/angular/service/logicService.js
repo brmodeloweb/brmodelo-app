@@ -6,8 +6,10 @@ import $ from "jquery";
 import * as joint from "jointjs/dist/joint";
 import erd from "../../joint/shapes";
 import uml from "../../joint/table";
+import note from "../../joint/notes"
 joint.shapes.erd = erd;
 joint.shapes.uml = uml;
+joint.shapes.custom = note;
 
 import "jointjs/dist/joint.min.css";
 import "../editor/editorManager"
@@ -163,7 +165,8 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 		$(".elements-holder").append(enditorManager.render().el);
 		enditorManager.loadElements([
 			LogicFactory.createTable(),
-			LogicFactory.createView()
+			LogicFactory.createView(),
+			new joint.shapes.custom.Note({ position: { x: 20, y: 290 } })
 		]);
 	}
 
@@ -214,7 +217,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			ls.onLink(link);
 		});
 
-		if(cellView.model.getType() === "View") {
+		if(cellView.model != null && cellView.model.getType() === "View") {
 			elementActions.removeAction('link');
 		}
 
@@ -357,6 +360,15 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 			var selected = ls.selectedElement.model.attributes.objects;
 			$rootScope.$broadcast('columns:select', selected);
 		}
+
+		if(cellView.model.attributes.type == "custom.Note") {
+			ls.elementSelector.cancel();
+			ls.selectedElement = cellView;
+			ls.applySelectionOptions(cellView);
+			$rootScope.$broadcast('note:select', cellView);
+			return;
+		}
+
 		$rootScope.$broadcast('element:select', ls.selectedElement.model);
 	}
 

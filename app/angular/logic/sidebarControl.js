@@ -139,6 +139,12 @@ const Controller = function (LogicService, $rootScope, $timeout) {
 
 	$ctrl.$onChanges = (changes) => {
 		if (!changes.selected.currentValue) $ctrl.clearSidebar();
+		const selected = changes.selected.currentValue;
+		if (selected != null && selected.type === "custom.Note") {
+			$ctrl.selectedElement = selected;
+			$ctrl.selectedType = "custom.Note";
+			return;
+		}
 		if (changes.selected != null && changes.selected.currentValue != null) {
 			$ctrl.selectedElement = changes.selected.currentValue;
 			$ctrl.selectedName = changes.selected.currentValue.attributes.name;
