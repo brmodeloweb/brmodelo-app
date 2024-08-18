@@ -303,38 +303,47 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.onLink = function (link) {
-
-		link.label(0,
-			{
-				position: 0.2,
-				attrs: { text: { text: "(1, 1)", 'font-weight': 'normal', 'font-size': 12 } }
-			});
-
-		link.label(1,
-			{
-				position: 0.8,
-				attrs: { text: { text: "(0, n)", 'font-weight': 'normal', 'font-size': 12 } }
-			});
-
-		var source = ls.graph.getCell(link.get('source').id);
-		var target = ls.graph.getCell(link.get('target').id);
+		const source = ls.graph.getCell(link.get('source').id);
+		const target = ls.graph.getCell(link.get('target').id);
 
 		if(source.getType() === "View" || target.getType() === "View") {
 			link.remove();
 			return
 		}
 
-		var originName = source.attributes.name;
-		var idOrigin = source.attributes.id;
-		const column = new Column({
-			name: "id" + originName,
-			FK: true,
-			idOrigin,
-			idLink: link.id,
-		});
+		if(source.getType() === "custom.Note" || target.getType() === "custom.Note") {
+			link.attributes.attrs = {
+				'.connection': { strokeDasharray: '5,3' }
+			}
+			ls.paper.findViewByModel(link.id).update();
+			return
+		}
 
-		if (target) target.addAttribute(column);
-		$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
+		if(source.getType() === "Class" && target.getType() === "Class") {
+			link.label(0,
+				{
+					position: 0.2,
+					attrs: { text: { text: "(1, 1)", 'font-weight': 'normal', 'font-size': 12 } }
+				});
+
+			link.label(1,
+				{
+					position: 0.8,
+					attrs: { text: { text: "(0, n)", 'font-weight': 'normal', 'font-size': 12 } }
+				});
+
+			var originName = source.attributes.name;
+			var idOrigin = source.attributes.id;
+			const column = new Column({
+				name: "id" + originName,
+				FK: true,
+				idOrigin,
+				idLink: link.id,
+			});
+
+			if (target) target.addAttribute(column);
+			$rootScope.$broadcast('element:update', ls.paper.findViewByModel(target));
+		}
 	}
 
 	ls.clearSelectedElement = function () {
