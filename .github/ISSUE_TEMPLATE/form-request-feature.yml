@@ -1,0 +1,36 @@
+name: Requisitar funcionalidade
+description: Ideias e sugestões de como melhorar o BRMW
+title: "[Request]: "
+labels: ["Feature request"]
+projects: []
+assignees:
+  - idmarjr
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por nos ajudar a melhorar o BRMW!
+  - type: textarea
+    id: problem-related?
+    attributes:
+      label: Sua sugestão é relacionada a algum problema?
+      description: Caso sua sugestão de melhoria seja relacionada a algum problema, por favor descreva de forma mais detalhada possível, Fique a vontade pra adicionar links para videos e imagens. 
+      placeholder: Ex: É muito complicado fazer...
+    validations:
+      required: false
+  - type: textarea
+    id: how-to-solve
+    attributes:
+      label: Descreva sua ideia de como resolver o problema
+      description: Adicione aqui como você acha que deveríamos resolver esse problema. Fique a vontade para adicionar imagens, videos, desenhos ou qualquer material que te ajude a explicar sua proposta de solução.
+      placeholder: Como você sugere que o problema seja resolvido?
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contato
+      description: Como podemos entrar em contato se precisarmos de mais informações?
+      placeholder: Ex: email@example.com
+    validations:
+      required: false
