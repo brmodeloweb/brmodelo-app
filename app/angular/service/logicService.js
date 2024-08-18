@@ -313,7 +313,7 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 
 		if(source.getType() === "custom.Note" || target.getType() === "custom.Note") {
 			link.attributes.attrs = {
-				'.connection': { strokeDasharray: '5,3' }
+				'.connection': { strokeDasharray: '5,3', stroke: "#AAA7AD" }
 			}
 			ls.paper.findViewByModel(link.id).update();
 			return

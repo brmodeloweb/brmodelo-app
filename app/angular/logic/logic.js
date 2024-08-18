@@ -127,13 +127,15 @@ const controller = function (
 
 	$rootScope.$on('element:update', function (event, element) {
 		$timeout(() => {
-			if(element != null && element.update != null) {
-				element.update();
+			if(typeof element?.model.getType === "function" && (element?.model?.getType() === "Class" || element?.model?.getType() === "View")) {
+				if(element != null && element.update != null) {
+					element.update();
+				}
+				if(element != null && element.resize != null) {
+					element.resize();
+				}
+				element.updateSize();
 			}
-			if(element != null && element.resize != null) {
-				element.resize();
-			}
-			element.updateSize();
 		});
 	});
 
