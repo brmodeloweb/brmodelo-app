@@ -10,13 +10,13 @@ const Note = joint.dia.Element.extend({
 			size: { width: 80, height: 40 },
 			attrs: {
 				".outer": {
-					fill: "#ffff88",
-					stroke: "#ffff88",
+					fill: "#79d297",
+					stroke: "#79d297",
 					"stroke-width": 1,
 					points: "100,0 100,60 0,60 0,0",
 				},
 				".inner": {
-					fill: "#ffff88",
+					fill: "#79d297",
 					stroke: "#27AE60",
 					"stroke-width": 1,
 					points: "95,5 95,55 5,55 5,5",
