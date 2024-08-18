@@ -90,6 +90,13 @@ export default class Linker {
 		return this.getConnectionType(source, target);
 	}
 
+	connectNote = (link, paper) => {
+		link.attributes.attrs = {
+			'.connection': { strokeDasharray: '5,3', stroke: "#AAA7AD" }
+		}
+		paper.findViewByModel(link.id).update();
+	}
+
   getConnectionType = (source, target) => {
     if (this.validator.isEntity(source) && this.validator.isEntity(target)) {
       return "Entity-Entity";
@@ -123,10 +130,14 @@ export default class Linker {
       return "Attribute-Attribute";
     }
 
+		if (this.validator.isNote(source) && !this.validator.isNote(target) || this.validator.isNote(target) && !this.validator.isNote(source)) {
+      return "Note-Any";
+    }
+
     return "Invalid-Connection";
   }
 
-  onLink = (link) => {
+  onLink = (link, paper) => {
     const source = link.graph.getCell(link.get('source').id);
     const target = link.graph.getCell(link.get('target').id);
 
@@ -151,6 +162,9 @@ export default class Linker {
       case "Attribute-Attribute":
         this.connectAttributeAttribute(source, target);
         break;
+			case "Note-Any":
+				this.connectNote(link, paper);
+				break;
     }
   }
 

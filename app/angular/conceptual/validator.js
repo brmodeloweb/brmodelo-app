@@ -34,4 +34,8 @@ export default class Validator {
 		return element.attributes.type === 'erd.Link';
 	};
 
+	isNote = (element) => {
+		return element.attributes.type === 'custom.Note';
+	};
+
 }

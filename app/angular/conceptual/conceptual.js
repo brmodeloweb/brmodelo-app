@@ -354,16 +354,6 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 					}
 				});
 				break;
-			case 'note':
-				$timeout(() => {
-					ctrl.selectedElement.element.setText(event.value);
-				});
-				break;
-			case 'note-color':
-				$timeout(() => {
-					ctrl.selectedElement.element.setColor(event.value);
-				});
-				break;
 		}
 	}
 
@@ -426,7 +416,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 			configs.selectedElementActions = elementActions;
 			elementActions.on('action:link:add', function (link) {
-				ctrl.shapeLinker.onLink(link);
+				ctrl.shapeLinker.onLink(link, configs.paper);
 			});
 
 			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
