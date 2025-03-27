@@ -1,6 +1,6 @@
 import * as joint from "jointjs/dist/joint";
 
-joint.shapes.standard.Link.define("container.Link", {
+const _link = joint.shapes.standard.Link.define("container.Link", {
 	attrs: {
 		line: {
 			stroke: "#222222",
@@ -102,22 +102,6 @@ var _child = Base.define(
 			},
 		],
 
-		toggle: function (shouldCollapse) {
-			var buttonD;
-			var collapsed =
-				shouldCollapse === undefined ? !this.get("collapsed") : shouldCollapse;
-			if (collapsed) {
-				buttonD = "M 2 7 12 7 M 7 2 7 12";
-				this.resize(140, 30);
-			} else {
-				buttonD = "M 2 7 12 7";
-				this.fitToChildElements();
-			}
-			this.attr(["buttonIcon", "d"], buttonD);
-			this.set("collapsed", collapsed);
-			console.log("cancian");
-		},
-
 		isCollapsed: function () {
 			return Boolean(this.get("collapsed"));
 		},
@@ -157,16 +141,16 @@ var _parent = Base.define(
 			body: {
 				refWidth: "100%",
 				refHeight: "100%",
-				strokeWidth: 1,
-				stroke: "#DDDDDD",
+				strokeWidth: 2,
+				stroke: "#000000",
 				fill: "#FCFCFC",
 			},
 			header: {
 				refWidth: "100%",
 				height: headerHeight,
 				strokeWidth: 0.5,
-				stroke: "#4666E5",
-				fill: "#4666E5",
+				stroke: "#000000",
+				fill: "#000000",
 			},
 			headerText: {
 				textVerticalAnchor: "middle",
@@ -185,26 +169,6 @@ var _parent = Base.define(
 				style: {
 					textShadow: "1px 1px #222222",
 				},
-			},
-			button: {
-				refDx: -buttonSize - (headerHeight - buttonSize) / 2,
-				refY: (headerHeight - buttonSize) / 2,
-				cursor: "pointer",
-				event: "element:button:pointerdown",
-				title: "Collapse / Expand",
-			},
-			buttonBorder: {
-				width: buttonSize,
-				height: buttonSize,
-				fill: "#000000",
-				fillOpacity: 0.2,
-				stroke: "#FFFFFF",
-				strokeWidth: 0.5,
-			},
-			buttonIcon: {
-				fill: "none",
-				stroke: "#FFFFFF",
-				strokeWidth: 1,
 			},
 		},
 	},
@@ -249,6 +213,7 @@ var _parent = Base.define(
 			if (collapsed) {
 				buttonD = "M 2 7 12 7 M 7 2 7 12";
 				this.resize(140, 30);
+				this.fitToChildElements();
 			} else {
 				buttonD = "M 2 7 12 7";
 				this.fitToChildElements();
@@ -278,4 +243,5 @@ var _parent = Base.define(
 export default {
 	child: _child,
 	parent: _parent,
+	link: _link,
 };
