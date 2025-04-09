@@ -26,6 +26,8 @@ import logicFactory from "./service/logicFactory";
 import pt_BR from "../i18n/languages/pt_BR";
 import en from "../i18n/languages/en";
 
+import noteEditor from "./components/noteEditor";
+
 /*
  * This line prevent a sideEffect issue in jointjs library that make webpack ignore joint css imports
  * See more: https://github.com/webpack/webpack/issues/8814
@@ -45,7 +47,8 @@ const app = angular.module("app", [
 	logicFactory,
 	sidebarControlConceptual,
 	dropdownIconComponent,
-	sidebarControlLogic
+	sidebarControlLogic,
+	noteEditor
 ]);
 
 app.config([

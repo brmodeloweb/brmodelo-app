@@ -35,6 +35,11 @@
 			</div>
 		</div><!-- End .form-group -->
 
+		<!-- ########## start notes ######## -->
+		<div class="form-group" ng-if="($ctrl.configuration.note && $ctrl.visible)">
+			<note-editor selected="$ctrl.selectedElement"></note-editor>
+		</div><!-- End .form-group -->
+
 		<div class="form-group" ng-if="($ctrl.configuration.link && $ctrl.visible)">
 			<div class="form-group clearfix">
 				<label for="">{{ 'Cardinality' | translate }}</label>
