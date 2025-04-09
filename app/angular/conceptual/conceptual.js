@@ -60,6 +60,10 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 		ctrl.modelState.isDirty = isDirty;
 	};
 
+
+
+
+	
 	ctrl.setLoading = (show) => {
 		$timeout(() => {
 			ctrl.loading = show;
