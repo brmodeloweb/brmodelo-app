@@ -29,7 +29,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "errorhandler": "^1.5.1",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "express-session": "^1.17.3",
     "express-sslify": "^1.2.0",
     "font-awesome": "^4.7.0",
