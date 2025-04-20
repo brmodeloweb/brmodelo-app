@@ -13,9 +13,9 @@
 To run this application you'll need:
 
 - [EditorConfig](https://editorconfig.org/)
-- [Node.js](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
-- [Yarn](https://yarnpkg.com/)
-- [MongoDB Community Edition](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
+- [Node.js version 20.x](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
+- [Yarn version 1.x](https://yarnpkg.com/)
+- [MongoDB Community Edition version 4.x](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
 ## Running application
 
