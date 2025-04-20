@@ -1,6 +1,6 @@
 # [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
@@ -96,6 +96,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/walissonkuper"><img src="https://avatars.githubusercontent.com/u/185857098?v=4?s=100" width="100px;" alt="walissonkuper"/><br /><sub><b>walissonkuper</b></sub></a><br /><a href="#financial-walissonkuper" title="Financial">💵</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dpldpc"><img src="https://avatars.githubusercontent.com/u/20994048?v=4?s=100" width="100px;" alt="David de Souza"/><br /><sub><b>David de Souza</b></sub></a><br /><a href="#financial-dpldpc" title="Financial">💵</a></td>
     </tr>
   </tbody>
 </table>
