@@ -10,8 +10,8 @@ const Note = joint.dia.Element.extend({
 			size: { width: 80, height: 40 },
 			attrs: {
 				".outer": {
-					fill: "#79d297",
-					stroke: "#79d297",
+					fill: "#afbccf",
+					stroke: "#afbccf",
 					"stroke-width": 1,
 					points: "100,0 100,60 0,60 0,0",
 				},
@@ -24,6 +24,11 @@ const Note = joint.dia.Element.extend({
 				},
 				text: {
 					text: "Nota",
+					textWrap: {
+						width: 200,
+						height: 200,
+						ellipsis: true,
+					},
 					"font-family": "Arial",
 					"font-size": 14,
 					ref: ".outer",
@@ -42,14 +47,14 @@ const Note = joint.dia.Element.extend({
 });
 
 const NoteView = joint.dia.ElementView.extend({
-    initialize: function () {
-        joint.dia.ElementView.prototype.initialize.apply(this, arguments);
-    },
-	setText: function(newText) {
+	initialize: function () {
+		joint.dia.ElementView.prototype.initialize.apply(this, arguments);
+	},
+	setText: function (newText) {
 		this.model.attributes.attrs.text.text = newText;
 		this.update();
 		const textBox = this.$el.find("text")[0].getBBox();
-		if(textBox.width > 80) {
+		if (textBox.width > 80) {
 			this.model.attributes.size.width = textBox.width + 10;
 			this.resize();
 		}
