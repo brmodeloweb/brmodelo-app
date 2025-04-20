@@ -1,9 +1,9 @@
 export default class Linker {
 
-  constructor(shapeFactory, shapeValidator) {
-    this.factory = shapeFactory;
-    this.validator = shapeValidator;
-  }
+	constructor(shapeFactory, shapeValidator) {
+		this.factory = shapeFactory;
+		this.validator = shapeValidator;
+	}
 
 	createLink = (source, target, graph) => {
 		const newLink = this.factory.createLink({
