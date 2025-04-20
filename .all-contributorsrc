@@ -133,6 +133,15 @@
       "contributions": [
         "financial"
       ]
+    },
+    {
+      "login": "dpldpc",
+      "name": "David de Souza",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20994048?v=4",
+      "profile": "https://github.com/dpldpc",
+      "contributions": [
+        "financial"
+      ]
     }
   ],
   "contributorsPerLine": 7,
