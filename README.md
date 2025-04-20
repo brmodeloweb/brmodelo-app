@@ -1,6 +1,6 @@
 # [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
@@ -92,6 +92,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://www.ofnet.com.br"><img src="https://avatars.githubusercontent.com/u/3935214?v=4?s=100" width="100px;" alt="Henrique Ferraz"/><br /><sub><b>Henrique Ferraz</b></sub></a><br /><a href="#financial-henriqueferraz" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.paulo.eti.br"><img src="https://avatars.githubusercontent.com/u/2488937?v=4?s=100" width="100px;" alt="Paulo Ricardo Stradioti"/><br /><sub><b>Paulo Ricardo Stradioti</b></sub></a><br /><a href="#financial-paulostradioti" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/salimNabbout"><img src="https://avatars.githubusercontent.com/u/75948052?v=4?s=100" width="100px;" alt="Salim Nabbout"/><br /><sub><b>Salim Nabbout</b></sub></a><br /><a href="#financial-salimNabbout" title="Financial">💵</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dpldpc"><img src="https://avatars.githubusercontent.com/u/20994048?v=4?s=100" width="100px;" alt="David de Souza"/><br /><sub><b>David de Souza</b></sub></a><br /><a href="#financial-dpldpc" title="Financial">💵</a></td>
     </tr>
   </tbody>
 </table>
