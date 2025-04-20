@@ -97,6 +97,42 @@
         "code",
         "infra"
       ]
+    },
+    {
+      "login": "johnfercher",
+      "name": "John Fercher",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4752636?v=4",
+      "profile": "http://johnfercher.com",
+      "contributions": [
+        "financial"
+      ]
+    },
+    {
+      "login": "henriqueferraz",
+      "name": "Henrique Ferraz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3935214?v=4",
+      "profile": "https://www.ofnet.com.br",
+      "contributions": [
+        "financial"
+      ]
+    },
+    {
+      "login": "paulostradioti",
+      "name": "Paulo Ricardo Stradioti",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2488937?v=4",
+      "profile": "http://www.paulo.eti.br",
+      "contributions": [
+        "financial"
+      ]
+    },
+    {
+      "login": "salimNabbout",
+      "name": "Salim Nabbout",
+      "avatar_url": "https://avatars.githubusercontent.com/u/75948052?v=4",
+      "profile": "https://github.com/salimNabbout",
+      "contributions": [
+        "financial"
+      ]
     }
   ],
   "contributorsPerLine": 7,
