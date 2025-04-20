@@ -25,8 +25,8 @@ const Note = joint.dia.Element.extend({
 				text: {
 					text: "Nota",
 					textWrap: {
-						width: 200,
-						height: 200,
+						width: 300,
+						height: 210,
 						ellipsis: true,
 					},
 					"font-family": "Arial",
