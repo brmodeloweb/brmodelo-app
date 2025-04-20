@@ -13,7 +13,7 @@
     "cy:open": "yarn cypress open"
   },
   "engines": {
-    "node": "16.x",
+    "node": "20.x",
     "yarn": "1.x"
   },
   "dependencies": {
