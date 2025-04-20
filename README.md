@@ -1,6 +1,6 @@
 # [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
@@ -93,6 +93,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://www.paulo.eti.br"><img src="https://avatars.githubusercontent.com/u/2488937?v=4?s=100" width="100px;" alt="Paulo Ricardo Stradioti"/><br /><sub><b>Paulo Ricardo Stradioti</b></sub></a><br /><a href="#financial-paulostradioti" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/salimNabbout"><img src="https://avatars.githubusercontent.com/u/75948052?v=4?s=100" width="100px;" alt="Salim Nabbout"/><br /><sub><b>Salim Nabbout</b></sub></a><br /><a href="#financial-salimNabbout" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ailtonferrazjr"><img src="https://avatars.githubusercontent.com/u/52893006?v=4?s=100" width="100px;" alt="Justin Ferraz"/><br /><sub><b>Justin Ferraz</b></sub></a><br /><a href="#financial-ailtonferrazjr" title="Financial">💵</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/walissonkuper"><img src="https://avatars.githubusercontent.com/u/185857098?v=4?s=100" width="100px;" alt="walissonkuper"/><br /><sub><b>walissonkuper</b></sub></a><br /><a href="#financial-walissonkuper" title="Financial">💵</a></td>
     </tr>
   </tbody>
 </table>
