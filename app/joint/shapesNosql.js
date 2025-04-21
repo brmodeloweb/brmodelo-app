@@ -1,0 +1,247 @@
+import * as joint from "jointjs/dist/joint";
+
+const _link = joint.shapes.standard.Link.define("container.Link", {
+	attrs: {
+		line: {
+			stroke: "#222222",
+			strokeWidth: 1,
+			targetMarker: {
+				d: "M 4 -4 0 0 4 4 M 7 -4 3 0 7 4 M 10 -4 6 0 10 4",
+				fill: "none",
+			},
+		},
+	},
+});
+var headerHeight = 30;
+var buttonSize = 14;
+const Base = joint.dia.Element.define(
+	"container.Base",
+	{
+		// no default attributes
+	},
+	{
+		fitAncestorElements: function () {
+			var padding = 10;
+			this.fitParent({
+				deep: true,
+				padding: {
+					top: headerHeight + padding,
+					left: padding,
+					right: padding,
+					bottom: padding,
+				},
+			});
+		},
+	},
+);
+var _child = Base.define(
+	"container.Child",
+	{
+		size: { width: 50, height: 50 },
+		attrs: {
+			root: {
+				magnetSelector: "body",
+			},
+			shadow: {
+				refWidth: "100%",
+				refHeight: "100%",
+				x: 3,
+				y: 3,
+				fill: "#000000",
+				opacity: 0.2,
+			},
+			body: {
+				refWidth: "100%",
+				refHeight: "100%",
+				strokeWidth: 1,
+				stroke: "#FF4365",
+				fill: "#F9DBDF",
+			},
+			label: {
+				textVerticalAnchor: "middle",
+				textAnchor: "middle",
+				refX: "50%",
+				refY: "50%",
+				fontSize: 14,
+				fontFamily: "sans-serif",
+				fill: "#222222",
+			},
+		},
+	},
+	{
+		markup: [
+			{
+				tagName: "rect",
+				selector: "shadow",
+			},
+			{
+				tagName: "rect",
+				selector: "body",
+			},
+			{
+				tagName: "rect",
+				selector: "header",
+			},
+			{
+				tagName: "text",
+				selector: "headerText",
+			},
+			{
+				tagName: "g",
+				selector: "button",
+				children: [
+					{
+						tagName: "rect",
+						selector: "buttonBorder",
+					},
+					{
+						tagName: "path",
+						selector: "buttonIcon",
+					},
+				],
+			},
+		],
+
+		isCollapsed: function () {
+			return Boolean(this.get("collapsed"));
+		},
+
+		fitToChildElements: function () {
+			var padding = 10;
+			this.fitToChildren({
+				padding: {
+					top: headerHeight + padding,
+					left: padding,
+					right: padding,
+					bottom: padding,
+				},
+			});
+		},
+	},
+);
+
+var _parent = Base.define(
+	"container.Parent",
+	{
+		collapsed: false,
+		size: { width: 50, height: 50 },
+
+		attrs: {
+			root: {
+				magnetSelector: "body",
+			},
+			shadow: {
+				refWidth: "100%",
+				refHeight: "100%",
+				x: 3,
+				y: 3,
+				fill: "#000000",
+				opacity: 0.05,
+			},
+			body: {
+				refWidth: "100%",
+				refHeight: "100%",
+				strokeWidth: 2,
+				stroke: "#000000",
+				fill: "#FCFCFC",
+			},
+			header: {
+				refWidth: "100%",
+				height: headerHeight,
+				strokeWidth: 0.5,
+				stroke: "#000000",
+				fill: "#000000",
+			},
+			headerText: {
+				textVerticalAnchor: "middle",
+				textAnchor: "start",
+				refX: 8,
+				refY: headerHeight / 2,
+				fontSize: 16,
+				fontFamily: "sans-serif",
+				letterSpacing: 1,
+				fill: "#FFFFFF",
+				textWrap: {
+					width: -40,
+					maxLineCount: 1,
+					ellipsis: "*",
+				},
+				style: {
+					textShadow: "1px 1px #222222",
+				},
+			},
+		},
+	},
+	{
+		markup: [
+			{
+				tagName: "rect",
+				selector: "shadow",
+			},
+			{
+				tagName: "rect",
+				selector: "body",
+			},
+			{
+				tagName: "rect",
+				selector: "header",
+			},
+			{
+				tagName: "text",
+				selector: "headerText",
+			},
+			{
+				tagName: "g",
+				selector: "button",
+				children: [
+					{
+						tagName: "rect",
+						selector: "buttonBorder",
+					},
+					{
+						tagName: "path",
+						selector: "buttonIcon",
+					},
+				],
+			},
+		],
+
+		toggle: function (shouldCollapse) {
+			var buttonD;
+			var collapsed =
+				shouldCollapse === undefined ? !this.get("collapsed") : shouldCollapse;
+			if (collapsed) {
+				buttonD = "M 2 7 12 7 M 7 2 7 12";
+				this.resize(140, 30);
+				this.fitToChildElements();
+			} else {
+				buttonD = "M 2 7 12 7";
+				this.fitToChildElements();
+			}
+			this.attr(["buttonIcon", "d"], buttonD);
+			this.set("collapsed", collapsed);
+		},
+
+		isCollapsed: function () {
+			return Boolean(this.get("collapsed"));
+		},
+
+		fitToChildElements: function () {
+			var padding = 10;
+			this.fitToChildren({
+				padding: {
+					top: headerHeight + padding,
+					left: padding,
+					right: padding,
+					bottom: padding,
+				},
+			});
+		},
+	},
+);
+
+export default {
+	child: _child,
+	parent: _parent,
+	link: _link,
+};
