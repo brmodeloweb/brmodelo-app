@@ -12,6 +12,9 @@ import "../editor/elementSelector";
 import shapes from "../../joint/shapes";
 joint.shapes.erd = shapes;
 
+import note from "../../joint/notes"
+joint.shapes.custom = note;
+
 import angular from "angular";
 import template from "./conceptual.html";
 
@@ -413,7 +416,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 			configs.selectedElementActions = elementActions;
 			elementActions.on('action:link:add', function (link) {
-				ctrl.shapeLinker.onLink(link);
+				ctrl.shapeLinker.onLink(link, configs.paper);
 			});
 
 			if (ctrl.shapeValidator.isAttribute(cellView.model) || ctrl.shapeValidator.isExtension(cellView.model)) {
@@ -530,6 +533,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 
 		configs.elementSelector = new joint.ui.ElementSelector({ paper: configs.paper, graph: configs.graph, model: new Backbone.Collection });
 
+		const note = new joint.shapes.custom.Note({ position: { x: 25, y: 430 } });
+
 		enditorManager.loadElements([
 			ctrl.shapeFactory.createEntity({ position: { x: 25, y: 10 } }),
 			ctrl.shapeFactory.createIsa({ position: { x: 40, y: 70 } }),
@@ -538,6 +543,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			ctrl.shapeFactory.createAttribute({ position: { x: 65, y: 265 } }),
 			ctrl.shapeFactory.createKey({ position: { x: 65, y: 305 } }),
 			ctrl.shapeFactory.createComposedAttribute({ position: { x: 30, y: 345 } }),
+			note
 		]);
 
 		registerShortcuts();
@@ -566,6 +572,7 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 			if(error.status == 404 || error.status == 401) {
 				$state.go("noaccess");
 			}
+			console.log(error);
 		});
 	}
 

@@ -1,6 +1,6 @@
 # [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
@@ -13,9 +13,9 @@
 To run this application you'll need:
 
 - [EditorConfig](https://editorconfig.org/)
-- [Node.js](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
-- [Yarn](https://yarnpkg.com/)
-- [MongoDB Community Edition](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
+- [Node.js version 20.x](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
+- [Yarn version 1.x](https://yarnpkg.com/)
+- [MongoDB Community Edition version 4.x](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
 
 ## Running application
 
@@ -92,6 +92,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://www.ofnet.com.br"><img src="https://avatars.githubusercontent.com/u/3935214?v=4?s=100" width="100px;" alt="Henrique Ferraz"/><br /><sub><b>Henrique Ferraz</b></sub></a><br /><a href="#financial-henriqueferraz" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.paulo.eti.br"><img src="https://avatars.githubusercontent.com/u/2488937?v=4?s=100" width="100px;" alt="Paulo Ricardo Stradioti"/><br /><sub><b>Paulo Ricardo Stradioti</b></sub></a><br /><a href="#financial-paulostradioti" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/salimNabbout"><img src="https://avatars.githubusercontent.com/u/75948052?v=4?s=100" width="100px;" alt="Salim Nabbout"/><br /><sub><b>Salim Nabbout</b></sub></a><br /><a href="#financial-salimNabbout" title="Financial">💵</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ailtonferrazjr"><img src="https://avatars.githubusercontent.com/u/52893006?v=4?s=100" width="100px;" alt="Justin Ferraz"/><br /><sub><b>Justin Ferraz</b></sub></a><br /><a href="#financial-ailtonferrazjr" title="Financial">💵</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/walissonkuper"><img src="https://avatars.githubusercontent.com/u/185857098?v=4?s=100" width="100px;" alt="walissonkuper"/><br /><sub><b>walissonkuper</b></sub></a><br /><a href="#financial-walissonkuper" title="Financial">💵</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dpldpc"><img src="https://avatars.githubusercontent.com/u/20994048?v=4?s=100" width="100px;" alt="David de Souza"/><br /><sub><b>David de Souza</b></sub></a><br /><a href="#financial-dpldpc" title="Financial">💵</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/JeversonMisaelDaCruz"><img src="https://avatars.githubusercontent.com/u/143036544?v=4?s=100" width="100px;" alt="Jeverson misael da cruz filho"/><br /><sub><b>Jeverson misael da cruz filho</b></sub></a><br /><a href="#financial-JeversonMisaelDaCruz" title="Financial">💵</a></td>
     </tr>
   </tbody>
 </table>

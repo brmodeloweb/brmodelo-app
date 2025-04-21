@@ -1,0 +1,51 @@
+<!-- ########## start notes ######## -->
+<div class="form-group">
+	<label for="user-note">{{ 'Note' | translate }}</label>
+	<textarea id="user-note" class="form-control user-note-input" data-ng-model="$ctrl.selected.value"
+		ng-change="$ctrl.updateNoteText($ctrl.selected.value)" autofocus wrap="hard"></textarea>
+</div><!-- End .form-group -->
+<div class="form-group">
+	<label for="note-color">{{'Color' | translate }}</label>
+	<ul class="note-color-list">
+		<li>
+			<label for="color-gray">{{'Gray' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-gray" value="color-gray"
+				ng-click="$ctrl.updateNoteColor('#afbccf')" />
+		</li>
+		<li>
+			<label for="color-salmon">{{'Salmon' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-salmon" value="color-salmon"
+				ng-click="$ctrl.updateNoteColor('#fca397')" />
+		</li>
+		<li>
+			<label for="color-orange">{{'Orange' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-orange" value="color-orange"
+				ng-click="$ctrl.updateNoteColor('#ffc470')" />
+		</li>
+		<li>
+			<label for="color-yellow">{{'Yellow' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-yellow" value="color-yellow"
+				ng-click="$ctrl.updateNoteColor('#ffff88')" />
+		</li>
+		<li>
+			<label for="color-green">{{'Green' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-green" value="color-green"
+				ng-click="$ctrl.updateNoteColor('#79d297')" />
+		</li>
+		<li>
+			<label for="color-blue">{{'Blue' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-blue" value="color-blue"
+				ng-click="$ctrl.updateNoteColor('#7cc4f8')" />
+		</li>
+		<li>
+			<label for="color-purple">{{'Purple' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-purple" value="color-purple"
+				ng-click="$ctrl.updateNoteColor('#d1a8ff')" />
+		</li>
+		<li>
+			<label for="color-pink">{{'Pink' | translate }}</label>
+			<input type="radio" name="note-color-option" id="color-pink" value="color-pink"
+				ng-click="$ctrl.updateNoteColor('#fd9ce0')" />
+		</li>
+	</ul>
+</div>

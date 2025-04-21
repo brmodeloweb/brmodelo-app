@@ -102,6 +102,15 @@ const controller = function (
 		});
 	});
 
+	$rootScope.$on('note:select', function (event, element) {
+		$timeout(() => {
+			ctrl.selectedLink = null;
+			const type = element.model.attributes.type;
+			const value = element.model.attributes.attrs.text.text;
+			ctrl.selectedElement = {"value": value, "type": type, "element": element};
+		});
+	});
+
 	$rootScope.$on('columns:select', function (event, columns) {
 		$timeout(() => {
 			ctrl.addColumnVisible = false;
@@ -118,13 +127,15 @@ const controller = function (
 
 	$rootScope.$on('element:update', function (event, element) {
 		$timeout(() => {
-			if(element != null && element.update != null) {
-				element.update();
+			if(typeof element?.model.getType === "function" && (element?.model?.getType() === "Class" || element?.model?.getType() === "View")) {
+				if(element != null && element.update != null) {
+					element.update();
+				}
+				if(element != null && element.resize != null) {
+					element.resize();
+				}
+				element.updateSize();
 			}
-			if(element != null && element.resize != null) {
-				element.resize();
-			}
-			element.updateSize();
 		});
 	});
 
@@ -230,7 +241,6 @@ const controller = function (
 			console.error(error);
 		});
 	};
-
 
 	ctrl.shareModel = (model) => {
 		const modalInstance = $uibModal.open({
