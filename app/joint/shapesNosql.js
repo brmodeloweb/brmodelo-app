@@ -121,11 +121,11 @@ var _child = Base.define(
 );
 
 var _parent = Base.define(
-	"container.Parent",
+	"Collection",
 	{
 		collapsed: false,
 		size: { width: 50, height: 50 },
-
+		supertype: "Collection",
 		attrs: {
 			root: {
 				magnetSelector: "body",
@@ -236,6 +236,11 @@ var _parent = Base.define(
 					bottom: padding,
 				},
 			});
+		},
+
+		updateName: function (name) {
+			this.attr("headerText/text", name);
+			this.resize(this.get("size").width, this.get("size").height);
 		},
 	},
 );

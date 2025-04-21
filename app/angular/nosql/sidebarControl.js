@@ -4,7 +4,8 @@ import template from "./sidebarControl.html";
 const configurator = () => {
 
 	const configuration = {
-		"emptyState": false
+		"emptyState": false,
+		"collection": false
 	}
 
 	const emptyState = () => {
@@ -13,7 +14,13 @@ const configurator = () => {
 	}
 
 	const select = (element) => {
-		switch (element.type) {}
+		switch (element.type) {
+			case "Collection":
+				configuration.collection = true;
+				return configuration;
+			default:
+				break;
+		}
 
 		return emptyState();
 	}
