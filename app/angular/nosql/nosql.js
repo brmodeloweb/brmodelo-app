@@ -9,11 +9,9 @@ import "../editor/editorActions";
 import "../editor/elementActions";
 import "../editor/elementSelector";
 
-import shapes from "../../joint/shapes";
-joint.shapes.erd = shapes;
+import nosql from "../../joint/shapesNosql";
+joint.shapes.nosql = nosql;
 
-import shapesNosql from "../../joint/shapesNosql";
-///joint.shapes.container.Base = cont;
 import angular from "angular";
 import template from "./nosql.html";
 
@@ -26,7 +24,6 @@ import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import iconConceptual from "../components/icons/conceptual";
 import supportBannersList from "../components/supportBannersList";
-//import { container } from "webpack";
 
 const controller = function (
 	ModelAPI,
@@ -238,11 +235,10 @@ const controller = function (
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
 			configs.elementSelector.cancel();
-			console.log(cellView);
 			$timeout(() => {
 				ctrl.selectedElement = {
 					value: cellView.model.attributes?.attrs?.headerText?.text,
-					type: cellView.model.attributes.type,
+					type: cellView.model.attributes.supertype,
 					element: cellView,
 				};
 			});
@@ -295,7 +291,6 @@ const controller = function (
 
 		/////////////////////make all the actions of embeding
 		paper.on("element:mouseover", (cellView, evt, x, y) => {
-			//			console.log(cellView.model);
 			try {
 				const parents = configs.graph.findModelsUnderElement(cellView.model);
 				if (parents.length > 0) {
@@ -430,12 +425,14 @@ const controller = function (
 			model: new Backbone.Collection(),
 		});
 
-		var containerParent = new shapesNosql.parent({
+		const containerParent = new joint.shapes.nosql.Collection({
 			size: { width: 100, height: 100 },
 			z: 1,
-			attrs: { headerText: { text: "parent" } },
-			position: { x: 25, y: 10 },
+			attrs: { headerText: { text: "Coleção" } },
+			position: { x: 10, y: 10 },
 		});
+
+		//const note = new joint.shapes.custom.Note({ position: { x: 20, y: 130 } });
 
 		enditorManager.loadElements([containerParent]);
 
@@ -466,6 +463,7 @@ const controller = function (
 				if (error.status == 404 || error.status == 401) {
 					$state.go("noaccess");
 				}
+				console.error(error);
 			});
 	};
 

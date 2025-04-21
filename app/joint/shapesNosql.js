@@ -1,127 +1,9 @@
 import * as joint from "jointjs/dist/joint";
 
-const _link = joint.shapes.standard.Link.define("container.Link", {
-	attrs: {
-		line: {
-			stroke: "#222222",
-			strokeWidth: 1,
-			targetMarker: {
-				d: "M 4 -4 0 0 4 4 M 7 -4 3 0 7 4 M 10 -4 6 0 10 4",
-				fill: "none",
-			},
-		},
-	},
-});
 var headerHeight = 30;
-var buttonSize = 14;
-const Base = joint.dia.Element.define(
-	"container.Base",
-	{
-		// no default attributes
-	},
-	{
-		fitAncestorElements: function () {
-			var padding = 10;
-			this.fitParent({
-				deep: true,
-				padding: {
-					top: headerHeight + padding,
-					left: padding,
-					right: padding,
-					bottom: padding,
-				},
-			});
-		},
-	},
-);
-var _child = Base.define(
-	"container.Child",
-	{
-		size: { width: 50, height: 50 },
-		attrs: {
-			root: {
-				magnetSelector: "body",
-			},
-			shadow: {
-				refWidth: "100%",
-				refHeight: "100%",
-				x: 3,
-				y: 3,
-				fill: "#000000",
-				opacity: 0.2,
-			},
-			body: {
-				refWidth: "100%",
-				refHeight: "100%",
-				strokeWidth: 1,
-				stroke: "#FF4365",
-				fill: "#F9DBDF",
-			},
-			label: {
-				textVerticalAnchor: "middle",
-				textAnchor: "middle",
-				refX: "50%",
-				refY: "50%",
-				fontSize: 14,
-				fontFamily: "sans-serif",
-				fill: "#222222",
-			},
-		},
-	},
-	{
-		markup: [
-			{
-				tagName: "rect",
-				selector: "shadow",
-			},
-			{
-				tagName: "rect",
-				selector: "body",
-			},
-			{
-				tagName: "rect",
-				selector: "header",
-			},
-			{
-				tagName: "text",
-				selector: "headerText",
-			},
-			{
-				tagName: "g",
-				selector: "button",
-				children: [
-					{
-						tagName: "rect",
-						selector: "buttonBorder",
-					},
-					{
-						tagName: "path",
-						selector: "buttonIcon",
-					},
-				],
-			},
-		],
 
-		isCollapsed: function () {
-			return Boolean(this.get("collapsed"));
-		},
-
-		fitToChildElements: function () {
-			var padding = 10;
-			this.fitToChildren({
-				padding: {
-					top: headerHeight + padding,
-					left: padding,
-					right: padding,
-					bottom: padding,
-				},
-			});
-		},
-	},
-);
-
-var _parent = Base.define(
-	"Collection",
+const Collection = joint.dia.Element.define(
+	"nosql.Collection",
 	{
 		collapsed: false,
 		size: { width: 50, height: 50 },
@@ -162,9 +44,9 @@ var _parent = Base.define(
 				letterSpacing: 1,
 				fill: "#FFFFFF",
 				textWrap: {
-					width: -40,
+					width: 0,
 					maxLineCount: 1,
-					ellipsis: "*",
+					ellipsis: "..",
 				},
 				style: {
 					textShadow: "1px 1px #222222",
@@ -240,13 +122,18 @@ var _parent = Base.define(
 
 		updateName: function (name) {
 			this.attr("headerText/text", name);
-			this.resize(this.get("size").width, this.get("size").height);
 		},
 	},
 );
 
+const CollectionView = joint.dia.ElementView.extend({
+	initialize: function () {
+		joint.dia.ElementView.prototype.initialize.apply(this, arguments);
+	},
+}
+);
+
 export default {
-	child: _child,
-	parent: _parent,
-	link: _link,
+	Collection, 
+	CollectionView
 };
