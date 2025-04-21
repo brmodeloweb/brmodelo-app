@@ -238,13 +238,11 @@ const controller = function (
 	ctrl.onSelectElement = (cellView) => {
 		if (cellView != null) {
 			configs.elementSelector.cancel();
+			console.log(cellView);
 			$timeout(() => {
-				const elementType = cellView.model.isLink()
-					? "Link"
-					: cellView.model.attributes.supertype;
 				ctrl.selectedElement = {
-					value: cellView.model.attributes?.attrs?.text?.text,
-					type: elementType,
+					value: cellView.model.attributes?.attrs?.headerText?.text,
+					type: cellView.model.attributes.type,
 					element: cellView,
 				};
 			});
@@ -260,8 +258,11 @@ const controller = function (
 		});
 	};
 
-	ctrl.onUpdate = (event) => {};
-	var count = 0;
+	ctrl.onUpdate = (event) => {
+		if (event.type == "name") {
+			ctrl.selectedElement.element.model.updateName(event.value);
+		}
+	};
 
 	const registerPaperEvents = (paper) => {
 		paper.on("blank:pointerdown", (evt) => {
@@ -290,11 +291,6 @@ const controller = function (
 			elementActions.on("action:link:add", function (link) {});
 
 			elementActions.render();
-
-			// cellView.model.attributes.attrs.headerText.text = "Felipe" + count++;
-			// cellView.model.attributes.attrs.header.fill = "green";
-			// cellView.model.attributes.attrs.header.stroke = "green";
-			// cellView.update();
 		});
 
 		/////////////////////make all the actions of embeding

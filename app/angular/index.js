@@ -16,6 +16,7 @@ import "oclazyload";
 
 import sidebarControlConceptual from "./conceptual/sidebarControl";
 import sidebarControlLogic from "./logic/sidebarControl";
+import sidebarControlNosql from "./nosql/sidebarControl";
 import authService from "./service/authService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
@@ -48,7 +49,8 @@ const app = angular.module("app", [
 	sidebarControlConceptual,
 	dropdownIconComponent,
 	sidebarControlLogic,
-	noteEditor
+	noteEditor,
+	sidebarControlNosql
 ]);
 
 app.config([
