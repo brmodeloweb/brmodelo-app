@@ -236,6 +236,7 @@ const controller = function (
 		if (cellView != null) {
 			configs.elementSelector.cancel();
 			$timeout(() => {
+				cellView.model.toFront({"deep": true});
 				ctrl.selectedElement = {
 					value: cellView.model.attributes?.attrs?.headerText?.text,
 					type: cellView.model.attributes.supertype,
@@ -289,23 +290,11 @@ const controller = function (
 			elementActions.render();
 		});
 
-		/////////////////////make all the actions of embeding
-		paper.on("element:mouseover", (cellView, evt, x, y) => {
-			try {
-				const parents = configs.graph.findModelsUnderElement(cellView.model);
-				if (parents.length > 0) {
-					let parent = parents[0];
-					if (parents.length > 1) {
-						parent = parents[parents.length - 1];
-						parent.embed([cellView.model]);
-						parent.fitToChildElements();
-					} else {
-						parent.embed([cellView.model]);
-						parent.fitToChildElements();
-					}
-				}
-			} catch (error) {
-				console.log(error);
+		paper.on('element:pointerup', function(cellView) {
+			const parents = configs.graph.findModelsUnderElement(cellView.model);
+			if (parents.length > 0) {
+				parents[0].embed([cellView.model]);
+				parents[0].fitToChildElements();
 			}
 		});
 
@@ -431,8 +420,6 @@ const controller = function (
 			attrs: { headerText: { text: "Coleção" } },
 			position: { x: 10, y: 10 },
 		});
-
-		//const note = new joint.shapes.custom.Note({ position: { x: 20, y: 130 } });
 
 		enditorManager.loadElements([containerParent]);
 

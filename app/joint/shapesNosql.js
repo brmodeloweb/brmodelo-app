@@ -120,6 +120,19 @@ const Collection = joint.dia.Element.define(
 			});
 		},
 
+		fitAncestorElements: function() {
+			var padding = 10;
+			this.fitParent({
+					deep: true,
+					padding: {
+							top: headerHeight + padding,
+							left: padding,
+							right: padding,
+							bottom: padding
+					}
+			});
+		},
+
 		updateName: function (name) {
 			this.attr("headerText/text", name);
 		},
