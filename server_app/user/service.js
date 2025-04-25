@@ -66,17 +66,15 @@ const recovery = async (email) => {
       );
 
       if (recoveredUser != null) {
-        mailSender.recovery(email, recoveryCode)
+        return mailSender.recovery(email, recoveryCode)
           .then(response => {
             console.log(response);
             return resolve(recoveredUser)
           })
           .catch(error => {
-            console.log(error);
+            console.error(error);
             return reject(error);
-          })
-
-        return resolve(recoveredUser);
+          });
       }
 
       return reject();
