@@ -68,7 +68,6 @@ const userRecovery = async(req, res) => {
     await userService.recovery(email);
     return res.sendStatus(202);
   } catch (error) {
-    console.error(error);
     if(error.code == 'USER_DO_NOT_EXISTS') {
       return res.status(400).send("Usuário não existente!")
     }
