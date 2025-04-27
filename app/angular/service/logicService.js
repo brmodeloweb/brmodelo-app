@@ -389,16 +389,14 @@ const logicService = ($rootScope, ModelAPI, LogicFactory, LogicConversorService)
 	}
 
 	ls.deleteColumn = function (index) {
-		var selected = ls.selectedElement.model.attributes.attributes;
-		var object = ls.selectedElement.model.attributes.objects[index];
-
+		const object = ls.selectedElement.model.attributes.objects[index];
 		if (object.FK) {
-			var link = ls.graph.getCell(object.tableOrigin.idLink);
-			link.remove();
-		} else {
-			ls.selectedElement.model.deleteColumn(index);
-		}
-
+			const link = ls.graph.getCell(object.tableOrigin.idLink);
+			if (link != null) {
+				link.remove();
+			}
+		} 
+		ls.selectedElement.model.deleteColumn(index);
 		$rootScope.$broadcast('element:update', ls.selectedElement);
 	}
 
