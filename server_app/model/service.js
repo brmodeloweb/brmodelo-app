@@ -205,7 +205,7 @@ const importModel = async (sharedId, userId) => {
 			const sharedModel = await findSharedModel(sharedId);
 
 			if(!sharedModel.importAllowed){
-				reject("unauthorized");
+				return reject("unauthorized");
 			}
 
 			const newModel = {
