@@ -40,7 +40,7 @@ const Controller = function (LogicService, $rootScope, $timeout) {
 
 	$ctrl.getTableOriginName = (tableId) => {
 		const tables = [...$ctrl.mapTables].map(([name, value]) => ({ name, value }));
-		return tables.find(() => tableId)?.name;
+		return tables.find((table) => table.value == tableId)?.name;
 	}
 
 	$ctrl.editionColumnMode = (column) => {
