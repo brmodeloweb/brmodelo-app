@@ -14,7 +14,6 @@ import template from "./publicview.html";
 import "../editor/editorScroller";
 
 import statusBar from "../components/statusBar";
-import bugReportButton from "../components/bugReportButton";
 import KeyboardController, { types } from "../components/keyboardController";
 import iconModelConceptual from "../components/icons/conceptual"
 import iconModelLogic from "../components/icons/logic"
@@ -128,7 +127,7 @@ const controller = function (ModelAPI, $stateParams, $timeout, $state) {
 };
 
 export default angular
-	.module("app.publicview", [bugReportButton, statusBar, iconModelConceptual, iconModelLogic])
+	.module("app.publicview", [statusBar, iconModelConceptual, iconModelLogic])
 	.component("publicview", {
 		template,
 		controller,
