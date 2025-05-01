@@ -1,5 +1,4 @@
 import angular from "angular";
-import bugReportButton from "../components/bugReportButton";
 import authService from "../service/authService";
 import template from "./signup.html";
 
@@ -68,7 +67,7 @@ const SignupController = function ($state, AuthService, $filter) {
 	};
 };
 
-export default angular.module("app.signup", [authService, bugReportButton]).component("signup", {
+export default angular.module("app.signup", [authService]).component("signup", {
 	template,
 	controller: SignupController,
 }).name;
