@@ -236,7 +236,7 @@ const controller = function (
 		if (cellView != null) {
 			configs.elementSelector.cancel();
 			$timeout(() => {
-				cellView.model.toFront({"deep": true});
+				cellView.model.toFront({ deep: true });
 				ctrl.selectedElement = {
 					value: cellView.model.attributes?.attrs?.headerText?.text,
 					type: cellView.model.attributes.supertype,
@@ -290,11 +290,22 @@ const controller = function (
 			elementActions.render();
 		});
 
-		paper.on('element:pointerup', function(cellView) {
+		paper.on("element:mouseover", function (cellView) {
 			const parents = configs.graph.findModelsUnderElement(cellView.model);
+
 			if (parents.length > 0) {
-				parents[0].embed([cellView.model]);
-				parents[0].fitToChildElements();
+				const targetParent = parents[parents.length - 1];
+				const alreadyEmbedded = configs.graph.getElements().some((el) => {
+					const embeds = el.get("embeds") || [];
+					return embeds.includes(cellView.model.id);
+				});
+
+				if (!alreadyEmbedded) {
+					targetParent.embed(cellView.model);
+					targetParent.fitToChildElements();
+				} else {
+					parents[parents.length - 1].fitToChildElements();
+				}
 			}
 		});
 
