@@ -54,6 +54,7 @@ const controller = function (
 		user: $rootScope.loggeduser,
 	};
 	ctrl.selectedElement = {};
+	console.log(ctrl.selectedElement);
 	const configs = {
 		graph: {},
 		paper: {},
@@ -238,10 +239,12 @@ const controller = function (
 			$timeout(() => {
 				cellView.model.toFront({ deep: true });
 				ctrl.selectedElement = {
+					model: cellView.model,
 					value: cellView.model.attributes?.attrs?.headerText?.text,
 					type: cellView.model.attributes.supertype,
 					element: cellView,
 				};
+				console.log(ctrl.selectedElement);
 			});
 			return;
 		}
@@ -428,8 +431,12 @@ const controller = function (
 		const containerParent = new joint.shapes.nosql.Collection({
 			size: { width: 100, height: 100 },
 			z: 1,
-			attrs: { headerText: { text: "Coleção" } },
 			position: { x: 10, y: 10 },
+			attrs: {
+				headerText: { text: "Coleção" },
+				customText: { text: "" },
+			},
+			customAttributes: [],
 		});
 
 		enditorManager.loadElements([containerParent]);
@@ -441,27 +448,83 @@ const controller = function (
 		buildWorkspace();
 	};
 
+	ctrl.addAttribute = function (event) {
+		if (
+			event &&
+			event.value &&
+			ctrl.selectedElement &&
+			ctrl.selectedElement.model &&
+			ctrl.graph
+		) {
+			const attributeName = event.value;
+			const element = ctrl.graph.getCell(ctrl.selectedElement.model.id);
+
+			if (!element) {
+				console.warn("Not found element in graph.");
+				return;
+			}
+
+			if (!element.get("customAttributes")) {
+				element.set("customAttributes", []);
+			}
+
+			const customAttributes = element.get("customAttributes");
+			customAttributes.push({ name: attributeName });
+			element.set("customAttributes", customAttributes);
+
+			const allAttributeNames = customAttributes
+				.map((attr) => attr.name)
+				.join(", ");
+			element.attr("customText/text", allAttributeNames);
+
+			$rootScope.$broadcast("element:update", ctrl.selectedElement);
+		} else {
+			console.warn("Incomplete data");
+		}
+	};
+
 	ctrl.$onInit = () => {
 		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
+
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser)
 			.then((resp) => {
 				const jsonModel =
-					typeof resp.data.model == "string"
+					typeof resp.data.model === "string"
 						? JSON.parse(resp.data.model)
 						: resp.data.model;
+
 				ctrl.model = resp.data;
 				ctrl.model.id = resp.data._id;
 				ctrl.model.model = jsonModel;
+
 				configs.graph.fromJSON(jsonModel);
-				ctrl.modelState.updatedAt = resp.data.updated;
+				const selectedId = ctrl.selectedElement?.model?.id;
+
+				ctrl.graph = configs.graph;
+
+				if (selectedId) {
+					const realElement = ctrl.graph.getCell(selectedId);
+					if (realElement) {
+						ctrl.selectedElement.model = realElement;
+						const customAttributes = realElement.get("customAttributes") || [];
+						const allAttributeNames = customAttributes
+							.map((attr) => attr.name)
+							.join(", ");
+						realElement.attr("customText/text", allAttributeNames);
+					} else {
+						console.warn("Element with ID", selectedId, "not found in graph.");
+					}
+				}
 				ctrl.setLoading(false);
 			})
 			.catch((error) => {
-				if (error.status == 404 || error.status == 401) {
+				if (error.status === 404 || error.status === 401) {
 					$state.go("noaccess");
 				}
 				console.error(error);
+
+				ctrl.setLoading(false);
 			});
 	};
 

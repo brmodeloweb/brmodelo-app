@@ -58,6 +58,11 @@
 				</aside>
 			</header><!-- End .workspace-header -->
 		</section><!-- End .model-area -->
-		<sidebar-control-nosql selected="$ctrl.selectedElement" on-update="$ctrl.onUpdate(event)"></sidebar-control-nosql>
+		<sidebar-control-nosql
+		selected="$ctrl.selectedElement"
+		on-update="$ctrl.onUpdate(event)"
+		add-attribute-handler="$ctrl.addAttribute(event)">
+	</sidebar-control-nosql>
+
 	</div><!-- End .mainContent -->
 </section><!-- End .view -->

@@ -2,16 +2,15 @@ import angular from "angular";
 import template from "./sidebarControl.html";
 
 const configurator = () => {
-
 	const configuration = {
-		"emptyState": false,
-		"collection": false
-	}
+		emptyState: false,
+		collection: false,
+	};
 
 	const emptyState = () => {
 		configuration.emptyState = true;
 		return configuration;
-	}
+	};
 
 	const select = (element) => {
 		switch (element.type) {
@@ -23,21 +22,20 @@ const configurator = () => {
 		}
 
 		return emptyState();
-	}
+	};
 
 	return {
 		emptyState,
-		select
-	}
-}
+		select,
+	};
+};
 
-
-const controller = function($rootScope, $timeout) {
+const controller = function ($rootScope, $timeout) {
 	const $ctrl = this;
 	$ctrl.visible = true;
-	$ctrl.selectedElement = {}
+	$ctrl.selectedElement = {};
 
-	$rootScope.$on('command:openmenu', () => {
+	$rootScope.$on("command:openmenu", () => {
 		$timeout(() => {
 			$ctrl.visible = true;
 		});
@@ -45,35 +43,52 @@ const controller = function($rootScope, $timeout) {
 
 	$ctrl.$onInit = () => {
 		$ctrl.configuration = configurator().emptyState();
-	}
+	};
 
 	$ctrl.updateName = (newName) => {
 		if (newName != "") {
 			$ctrl.onUpdate({
-				"event": {
-					"type": "name",
-					"value": newName
-				}
+				event: {
+					type: "name",
+					value: newName,
+				},
 			});
 		}
-	}
+	};
 
+	$ctrl.newAttribute = "";
+	$ctrl.addAttribute = function (newAttribute) {
+		if (!newAttribute || !$ctrl.selected || !$ctrl.selected.model) {
+			console.warn("Atribute value is empty or selected is invalid.");
+			return;
+		}
+
+		$ctrl.addAttributeHandler({
+			event: {
+				type: "attribute",
+				value: newAttribute,
+			},
+		});
+
+		$ctrl.newAttributeName = "";
+	};
 	const customSelector = (selected) => {
 		return selected.currentValue;
-	}
+	};
 
 	$ctrl.$onChanges = (changes) => {
 		if (changes.selected != null && changes.selected.currentValue != null) {
-			$ctrl.configuration = configurator().select(changes.selected.currentValue);
+			$ctrl.configuration = configurator().select(
+				changes.selected.currentValue,
+			);
 			$ctrl.selectedElement = customSelector(changes.selected);
 		}
-	}
+	};
 
 	$ctrl.changeVisible = () => {
 		$ctrl.visible = !$ctrl.visible;
-	}
-
-}
+	};
+};
 
 export default angular
 	.module("app.workspace.nosql.sidebar", [])
@@ -83,5 +98,6 @@ export default angular
 		bindings: {
 			selected: "<",
 			onUpdate: "&",
+			addAttributeHandler: "&",
 		},
 	}).name;

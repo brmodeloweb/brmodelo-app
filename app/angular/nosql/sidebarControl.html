@@ -20,5 +20,27 @@
 					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
 			</div><!-- End .form-group -->
 		</div><!-- End .form-group -->
+
+
+
+		<div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
+			<div class="form-group">
+				<label for="attribute-name">{{ 'Attribute Name' | translate }}</label>
+				<div class="input-group">
+					<input id="attribute-name"
+						   type="text"
+						   class="form-control"
+						   ng-model="$ctrl.newAttributeName"
+						   placeholder="{{ 'Enter attribute name' | translate }}" />
+					<div class="input-group-append">
+						<button class="br-button br-button--full"
+								ng-click="$ctrl.addAttribute($ctrl.newAttributeName)">
+								{{ 'Add' | translate }}
+						</button>
+					</div>
+				</div>
+			</div><!-- End .form-group -->
+		</div><!-- End .form-group -->
+
 	</div><!-- End .properties-content -->
 </aside><!-- End .model-properties -->

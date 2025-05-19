@@ -9,6 +9,25 @@ const Collection = joint.dia.Element.define(
 		size: { width: 50, height: 50 },
 		supertype: "Collection",
 		attrs: {
+			customText: {
+				text: "",
+				textVerticalAnchor: "middle",
+				textAnchor: "start",
+				refX: 8,
+				refY: headerHeight + 20,
+				fontSize: 14,
+				fontFamily: "sans-serif",
+				letterSpacing: 1,
+				fill: "#333333",
+				textWrap: {
+					width: 120,
+					maxLineCount: 2,
+					ellipsis: "..",
+				},
+				style: {
+					textShadow: "1px 1px #DDDDDD",
+				},
+			},
 			root: {
 				magnetSelector: "body",
 			},
@@ -86,6 +105,10 @@ const Collection = joint.dia.Element.define(
 					},
 				],
 			},
+			{
+				tagName: "text",
+				selector: "customText",
+			},
 		],
 
 		toggle: function (shouldCollapse) {
@@ -120,21 +143,24 @@ const Collection = joint.dia.Element.define(
 			});
 		},
 
-		fitAncestorElements: function() {
+		fitAncestorElements: function () {
 			var padding = 10;
 			this.fitParent({
-					deep: true,
-					padding: {
-							top: headerHeight + padding,
-							left: padding,
-							right: padding,
-							bottom: padding
-					}
+				deep: true,
+				padding: {
+					top: headerHeight + padding,
+					left: padding,
+					right: padding,
+					bottom: padding,
+				},
 			});
 		},
 
 		updateName: function (name) {
 			this.attr("headerText/text", name);
+		},
+		updateCustomText: function (text) {
+			this.attr("customText/text", text);
 		},
 	},
 );
@@ -143,10 +169,9 @@ const CollectionView = joint.dia.ElementView.extend({
 	initialize: function () {
 		joint.dia.ElementView.prototype.initialize.apply(this, arguments);
 	},
-}
-);
+});
 
 export default {
-	Collection, 
-	CollectionView
+	Collection,
+	CollectionView,
 };
