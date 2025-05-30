@@ -1,0 +1,83 @@
+name: Reportar problema
+description: Reportar problema no BRMW
+title: "[Bug]: "
+labels: ["bug", "triage"]
+projects: []
+assignees:
+  - idmarjr
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por nos ajudar a melhorar o BRMW!
+  - type: input
+    id: model-link
+    attributes:
+      label: Link do modelo
+      description: Se o problema acontece em algum dos seus modelos, por favor adicione o link
+      placeholder: Ex: https://app.brmodeloweb.com/#!/conceptual/662baac2109a88e43a085e82
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Descreva o problema
+      description: Adicione aqui a descrição do problema. Tente ser o mais descritível possível.
+      placeholder: Descreva como reproduzir o problema.
+      value: "[Breve descrição do problema]
+
+              Passo a passo para reproduzir:
+              1. Na tela de...
+              1. Selecione a opção...
+              1. Clique em..."
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Qual seu navegador?
+      description: Por favor selecione o navegador que você estava usando quando o problema aconteceu
+      options:
+        - Arc
+        - Brave
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari
+        - Opera
+        - Vivaldi
+        - Outro
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Qual seu sistema operacional?
+      multiple: true
+      options:
+        - Debian
+        - Fedora
+        - Ubuntu
+        - Linux (Outra distribuição)
+        - Windows 8 (Ou inferior)
+        - Windows 10
+        - Windows 11
+        - Mac OSX
+        - iOS
+        - Android
+        - Outro (Mobile)
+  - type: textarea
+    id: images-and-video
+    attributes:
+      label: Imagens / Videos
+      description: Se possível adicione links para imagens e/ou videos pra nos ajudar a entender o problema. 
+      render: shell
+  - type: input
+    id: contact
+    attributes:
+      label: Contato
+      description: Como podemos entrar em contato se precisarmos de mais informações?
+      placeholder: Ex: email@example.com
+    validations:
+      required: false
