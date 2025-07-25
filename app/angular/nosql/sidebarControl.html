@@ -1,46 +1,95 @@
 <aside class="model-properties" data-ng-class="{'active': $ctrl.visible}">
 
 	<span class="action" data-ng-click="$ctrl.changeVisible()">
-		<i class="fa angle-double-icon" data-ng-class="!$ctrl.visible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+	  <i class="fa angle-double-icon" data-ng-class="!$ctrl.visible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
 	</span>
 
 	<div class="properties-content old">
 
-		<div class="form-group" ng-if="$ctrl.configuration.emptyState">
-			<div class="empty-state">
-				<i class="fa fa-mouse-pointer" aria-hidden="true"></i>
-				<p>{{ 'Select an element to edit' | translate }}</p>
+	  <div class="form-group" ng-if="$ctrl.configuration.emptyState">
+		<div class="empty-state">
+		  <i class="fa fa-mouse-pointer" aria-hidden="true"></i>
+		  <p>{{ 'Select an element to edit' | translate }}</p>
+		</div>
+	  </div>
+
+	  <div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
+		<div class="form-group">
+		  <label for="entry-name">{{ 'Name' | translate }}</label>
+		  <input id="entry-name" type="text" class="form-control"
+				 data-ng-model="$ctrl.selectedElement.value"
+				 ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
+		</div>
+	  </div>
+
+	  <div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
+		<div class="toggle-header"
+			 ng-click="$ctrl.atributosAbertos = !$ctrl.atributosAbertos"
+			 style="cursor:pointer; display:flex; align-items:center; margin-bottom:8px;">
+		  <strong style="flex:1;">Atributos</strong>
+		  <i class="fa" ng-class="{'fa-chevron-down': $ctrl.atributosAbertos, 'fa-chevron-right': !$ctrl.atributosAbertos}"></i>
+		</div>
+
+		<div ng-show="$ctrl.atributosAbertos">
+
+		  <div ng-show="$ctrl.getCustomAttributes().length > 0" style="margin-bottom:10px;">
+			<div ng-repeat="attr in $ctrl.getCustomAttributes() track by $index"
+				 style="margin-bottom:6px; display:flex; align-items:center;">
+			  <input type="text"
+					 class="form-control"
+					 style="width:40%; margin-right:4px;"
+					 ng-model="attr.name"
+					 ng-change="$ctrl.updateAttributeName($index, attr.name)" />
+
+			  <select class="form-control"
+					  style="width:30%; margin-right:4px;"
+					  ng-model="attr.type"
+					  ng-change="$ctrl.updateAttributeType($index, attr.type)">
+				<option value="int">int</option>
+				<option value="string">string</option>
+				<option value="float">float</option>
+			  </select>
+			  <button class="br-button br-button--danger"
+					  style="padding:0 8px;"
+					  ng-click="$ctrl.removeAttribute($index)">
+				<i class="fa fa-trash"></i>
+			  </button>
 			</div>
-		</div><!-- End .form-group -->
+		  </div>
+		  <div ng-show="!$ctrl.getCustomAttributes().length"
+			   style="color:#888; font-size:90%; margin-bottom:10px;">
+			{{ 'No attributes yet' | translate }}
+		  </div>
 
-		<div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
-			<div class="form-group">
-				<label for="entry-name">{{ 'Name' | translate }}</label>
-				<input id="entry-name" type="text" class="form-control" data-ng-model="$ctrl.selectedElement.value"
-					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus/>
-			</div><!-- End .form-group -->
-		</div><!-- End .form-group -->
+		  <ul style="margin-bottom:8px;" ng-if="$ctrl.getCustomAttributes().length > 0">
+			<li ng-repeat="attr in $ctrl.getCustomAttributes() track by $index">
+			  {{attr.name}} ({{attr.type}})
+			</li>
+		  </ul>
 
+		  <div style="margin-top:10px; display:flex; align-items:center;">
+			<input id="attribute-name"
+				   type="text"
+				   class="form-control"
+				   style="width:40%; margin-right:4px;"
+				   ng-model="$ctrl.newAttributeName"
+				   placeholder="{{ 'Enter attribute name' | translate }}" />
+			<select id="attribute-type"
+					class="form-control"
+					style="width:30%; margin-right:4px;"
+					ng-model="$ctrl.newAttributeType"
+					ng-init="$ctrl.newAttributeType = 'string'">
+			  <option value="int">int</option>
+			  <option value="string">string</option>
+			  <option value="float">float</option>
+			</select>
+			<button class="br-button br-button--full"
+					ng-click="$ctrl.addAttribute()">
+			  {{ 'Add' | translate }}
+			</button>
+		  </div>
 
-
-		<div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
-			<div class="form-group">
-				<label for="attribute-name">{{ 'Attribute Name' | translate }}</label>
-				<div class="input-group">
-					<input id="attribute-name"
-						   type="text"
-						   class="form-control"
-						   ng-model="$ctrl.newAttributeName"
-						   placeholder="{{ 'Enter attribute name' | translate }}" />
-					<div class="input-group-append">
-						<button class="br-button br-button--full"
-								ng-click="$ctrl.addAttribute($ctrl.newAttributeName)">
-								{{ 'Add' | translate }}
-						</button>
-					</div>
-				</div>
-			</div><!-- End .form-group -->
-		</div><!-- End .form-group -->
-
-	</div><!-- End .properties-content -->
-</aside><!-- End .model-properties -->
+		</div>
+	  </div>
+	</div>
+  </aside>

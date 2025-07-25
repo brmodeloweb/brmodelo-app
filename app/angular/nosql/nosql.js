@@ -54,7 +54,6 @@ const controller = function (
 		user: $rootScope.loggeduser,
 	};
 	ctrl.selectedElement = {};
-	console.log(ctrl.selectedElement);
 	const configs = {
 		graph: {},
 		paper: {},
@@ -233,31 +232,6 @@ const controller = function (
 		}
 	};
 
-	ctrl.onSelectElement = (cellView) => {
-		if (cellView != null) {
-			configs.elementSelector.cancel();
-			$timeout(() => {
-				cellView.model.toFront({ deep: true });
-				ctrl.selectedElement = {
-					model: cellView.model,
-					value: cellView.model.attributes?.attrs?.headerText?.text,
-					type: cellView.model.attributes.supertype,
-					element: cellView,
-				};
-				console.log(ctrl.selectedElement);
-			});
-			return;
-		}
-
-		$timeout(() => {
-			ctrl.selectedElement = {
-				value: "",
-				type: "blank",
-				element: null,
-			};
-		});
-	};
-
 	ctrl.onUpdate = (event) => {
 		if (event.type == "name") {
 			ctrl.selectedElement.element.model.updateName(event.value);
@@ -305,9 +279,12 @@ const controller = function (
 
 				if (!alreadyEmbedded) {
 					targetParent.embed(cellView.model);
-					targetParent.fitToChildElements();
-				} else {
-					parents[parents.length - 1].fitToChildElements();
+
+					if (targetParent.realignChildrenInGrid)
+						targetParent.realignChildrenInGrid();
+
+					if (cellView.model.realignChildrenInGrid)
+						cellView.model.realignChildrenInGrid();
 				}
 			}
 		});
@@ -395,8 +372,34 @@ const controller = function (
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
 			cellViewNamespace: joint.shapes,
 			linkPinning: false,
+			views: {
+				"nosql.Collection": joint.shapes.custom.ContainerView,
+			},
 		});
+		ctrl.paper = configs.paper;
+		ctrl.onSelectElement = (cellView) => {
+			if (cellView != null) {
+				configs.elementSelector.cancel();
+				$timeout(() => {
+					cellView.model.toFront({ deep: true });
+					ctrl.selectedElement = {
+						model: cellView.model,
+						value: cellView.model.attributes?.attrs?.headerText?.text,
+						type: cellView.model.attributes.supertype,
+						element: cellView,
+					};
+				});
+				return;
+			}
 
+			$timeout(() => {
+				ctrl.selectedElement = {
+					value: "",
+					type: "blank",
+					element: null,
+				};
+			});
+		};
 		configs.keyboardController = new KeyboardController(
 			configs.paper.$document,
 		);
@@ -447,42 +450,29 @@ const controller = function (
 	ctrl.$postLink = () => {
 		buildWorkspace();
 	};
-
-	ctrl.addAttribute = function (event) {
-		if (
-			event &&
-			event.value &&
-			ctrl.selectedElement &&
-			ctrl.selectedElement.model &&
-			ctrl.graph
-		) {
-			const attributeName = event.value;
-			const element = ctrl.graph.getCell(ctrl.selectedElement.model.id);
-
-			if (!element) {
-				console.warn("Not found element in graph.");
-				return;
-			}
-
-			if (!element.get("customAttributes")) {
-				element.set("customAttributes", []);
-			}
-
-			const customAttributes = element.get("customAttributes");
-			customAttributes.push({ name: attributeName });
-			element.set("customAttributes", customAttributes);
-
-			const allAttributeNames = customAttributes
-				.map((attr) => attr.name)
-				.join(", ");
-			element.attr("customText/text", allAttributeNames);
-
-			$rootScope.$broadcast("element:update", ctrl.selectedElement);
-		} else {
-			console.warn("Incomplete data");
+	ctrl.addAttributeHandler = function (args) {
+		const attributeName = args.name;
+		const attributeType = args.type;
+		const element = args.element;
+		if (!attributeName || !attributeType || !element) {
+			console.warn("Dados incompletos");
+			return;
 		}
-	};
+		const customAttributes = element.get("customAttributes") || [];
+		customAttributes.push({ name: attributeName, type: attributeType });
+		element.set("customAttributes", customAttributes);
 
+		if (typeof element.updateTable === "function") {
+			element.updateTable(customAttributes);
+		} else {
+			console.warn("Método updateTable não existe!", element);
+		}
+
+		if (configs.paper && configs.paper.draw) configs.paper.draw();
+
+		ctrl.newAttributeName = "";
+		ctrl.newAttributeType = "";
+	};
 	ctrl.$onInit = () => {
 		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);

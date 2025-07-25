@@ -56,32 +56,102 @@ const controller = function ($rootScope, $timeout) {
 		}
 	};
 
-	$ctrl.newAttribute = "";
-	$ctrl.addAttribute = function (newAttribute) {
-		if (!newAttribute || !$ctrl.selected || !$ctrl.selected.model) {
-			console.warn("Atribute value is empty or selected is invalid.");
+	$ctrl.newAttributeName = "";
+	$ctrl.newAttributeType = "";
+
+
+	$ctrl.addAttribute = function () {
+		if (
+			!$ctrl.newAttributeName ||
+			!$ctrl.newAttributeType ||
+			!$ctrl.selectedElement ||
+			typeof $ctrl.selectedElement.get !== "function"
+		) {
+			console.warn("Nome/tipo vazio ou seleção inválida.");
 			return;
 		}
-
-		$ctrl.addAttributeHandler({
-			event: {
-				type: "attribute",
-				value: newAttribute,
-			},
+		var customAttributes = $ctrl.selectedElement.get("customAttributes") || [];
+		customAttributes.push({
+			name: $ctrl.newAttributeName,
+			type: $ctrl.newAttributeType,
 		});
+		$ctrl.selectedElement.set("customAttributes", customAttributes);
+
+		if (typeof $ctrl.selectedElement.updateTable === "function") {
+			$ctrl.selectedElement.updateTable(customAttributes);
+		}
 
 		$ctrl.newAttributeName = "";
+		$ctrl.newAttributeType = "";
 	};
+
+	$ctrl.updateAttributeName = function (index, newName) {
+		if (
+			!$ctrl.selectedElement ||
+			typeof $ctrl.selectedElement.get !== "function"
+		)
+			return;
+		var customAttributes = $ctrl.selectedElement.get("customAttributes") || [];
+		customAttributes[index].name = newName;
+		$ctrl.selectedElement.set("customAttributes", customAttributes);
+		$ctrl.syncAttributes();
+	};
+
+	$ctrl.updateAttributeType = function (index, newType) {
+		if (
+			!$ctrl.selectedElement ||
+			typeof $ctrl.selectedElement.get !== "function"
+		)
+			return;
+		var customAttributes = $ctrl.selectedElement.get("customAttributes") || [];
+		customAttributes[index].type = newType;
+		$ctrl.selectedElement.set("customAttributes", customAttributes);
+		$ctrl.syncAttributes();
+	};
+
+	$ctrl.removeAttribute = function (index) {
+		if (
+			!$ctrl.selectedElement ||
+			typeof $ctrl.selectedElement.get !== "function"
+		)
+			return;
+		var customAttributes = $ctrl.selectedElement.get("customAttributes") || [];
+		var newCustomAttributes = customAttributes.filter((_, i) => i !== index);
+		$ctrl.selectedElement.set("customAttributes", newCustomAttributes);
+		if (typeof $ctrl.selectedElement.updateTable === "function") {
+			$ctrl.selectedElement.updateTable(newCustomAttributes);
+		}
+	};
+	$ctrl.syncAttributes = function () {
+		if (
+			$ctrl.selectedElement &&
+			typeof $ctrl.selectedElement.updateTable === "function"
+		) {
+			$ctrl.selectedElement.updateTable($ctrl.getCustomAttributes());
+		}
+	};
+
+	$ctrl.getCustomAttributes = function () {
+		if (
+			$ctrl.selectedElement &&
+			typeof $ctrl.selectedElement.get === "function"
+		) {
+			return $ctrl.selectedElement.get("customAttributes") || [];
+		}
+		return [];
+	};
+
 	const customSelector = (selected) => {
 		return selected.currentValue;
 	};
 
 	$ctrl.$onChanges = (changes) => {
-		if (changes.selected != null && changes.selected.currentValue != null) {
+		if (changes.selected && changes.selected.currentValue) {
 			$ctrl.configuration = configurator().select(
 				changes.selected.currentValue,
 			);
-			$ctrl.selectedElement = customSelector(changes.selected);
+			$ctrl.selectedElement =
+				changes.selected.currentValue.model || changes.selected.currentValue;
 		}
 	};
 
