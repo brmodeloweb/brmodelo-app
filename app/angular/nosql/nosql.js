@@ -24,7 +24,6 @@ import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import iconConceptual from "../components/icons/conceptual";
 import supportBannersList from "../components/supportBannersList";
-import { realignMutualExclusionChildren } from "../../joint/shapesNosql";
 const controller = function (
 	ModelAPI,
 	$stateParams,
@@ -267,242 +266,6 @@ const controller = function (
 
 			elementActions.render();
 		});
-
-		// paper.on("element:mouseover", function (cellView) {
-		// 	const parents = configs.graph.findModelsUnderElement(cellView.model);
-
-		// 	if (parents.length > 0) {
-		// 		const targetParent = parents[parents.length - 1];
-		// 		const alreadyEmbedded = configs.graph.getElements().some((el) => {
-		// 			const embeds = el.get("embeds");
-		// 			if (Array.isArray(embeds)) {
-		// 				return embeds.includes(cellView.model.id);
-		// 			}
-		// 			return false;
-		// 		});
-
-		// 		if (!alreadyEmbedded) {
-		// 			targetParent.embed(cellView.model);
-
-		// 			if (targetParent.realignChildrenInGrid)
-		// 				targetParent.realignChildrenInGrid();
-
-		// 			if (cellView.model.realignChildrenInGrid)
-		// 				cellView.model.realignChildrenInGrid();
-		// 		}
-		// 	}
-		// });
-		// paper.on("element:mouseover", function (cellView) {
-		// 	const parents = configs.graph.findModelsUnderElement(cellView.model);
-
-		// 	if (parents.length > 0) {
-		// 		const targetParent = parents[parents.length - 1];
-		// 		const alreadyEmbedded = configs.graph.getElements().some((el) => {
-		// 			const embeds = el.get("embeds");
-		// 			if (Array.isArray(embeds)) {
-		// 				return embeds.includes(cellView.model.id);
-		// 			}
-		// 			return false;
-		// 		});
-
-		// 		if (!alreadyEmbedded) {
-		// 			targetParent.embed(cellView.model);
-
-		// 			if (typeof targetParent.realignChildrenInGrid === "function") {
-		// 				targetParent.realignChildrenInGrid();
-		// 			}
-
-		// 			// Se quiser garantir que os ancestrais também se reajustem:
-		// 			if (typeof targetParent.resizeAncestorsToFit === "function") {
-		// 				targetParent.resizeAncestorsToFit(10);
-		// 			}
-		// 		}
-		// 	}
-		// });
-
-		// paper.on("element:mouseover", function (cellView) {
-		// 	const model = cellView.model;
-		// 	const parents = configs.graph.findModelsUnderElement(model);
-
-		// 	if (parents.length > 0) {
-		// 		const parent = parents[parents.length - 1];
-		// 		const alreadyEmbedded = parent.get("embeds")?.includes(model.id);
-
-		// 		if (!alreadyEmbedded) {
-		// 			if (parent.get("isMutualExclusionParent")) {
-		// 				embedMutualExclusionChild(parent, model, 10);
-		// 			} else {
-		// 				parent.embed(model);
-		// 				if (typeof parent.realignChildrenInGrid === "function") {
-		// 					parent.realignChildrenInGrid();
-		// 				}
-		// 			}
-
-		// 			if (typeof parent.resizeAncestorsToFit === "function") {
-		// 				parent.resizeAncestorsToFit(10);
-		// 			}
-		// 		}
-		// 	}
-		// });
-
-		// paper.on("element:mouseover", function (cellView) {
-		// 	const model = cellView.model;
-		// 	const parents = configs.graph.findModelsUnderElement(model);
-
-		// 	if (parents.length > 0) {
-		// 		const parent = parents[parents.length - 1];
-		// 		const alreadyEmbedded = parent.get("embeds")?.includes(model.id);
-
-		// 		if (!alreadyEmbedded) {
-		// 			embedChildBelowTable(parent, model);
-
-		// 			if (typeof parent.updateTable === "function") {
-		// 				parent.updateTable(parent.get("customAttributes") || []);
-		// 			}
-		// 			if (typeof parent.resizeAncestorsToFit === "function") {
-		// 				parent.resizeAncestorsToFit(10);
-		// 			}
-		// 		}
-		// 	}
-		// });
-
-		// paper.on("element:mouseover", function (cellView) {
-		// 	const model = cellView.model;
-		// 	const parents = configs.graph.findModelsUnderElement(model);
-
-		// 	console.log("==== Evento: element:mouseover ====");
-		// 	console.log("Model ID:", model.id);
-		// 	console.log(
-		// 		"Parents encontrados:",
-		// 		parents.map((p) => p.id),
-		// 	);
-		// 	console.log("Model.get('parent'):", model.get("parent"));
-
-		// 	// Regra: Se o model já tem parent, BLOQUEIA
-		// 	if (hasAnyParent(model)) {
-		// 		console.log("🚫 BLOQUEADO: Model já é filho (não pode receber embeds)");
-		// 		return;
-		// 	}
-
-		// 	if (parents.length > 0) {
-		// 		const parent = parents[parents.length - 1];
-		// 		// Se o parent também já tem parent, BLOQUEIA
-		// 		if (hasAnyParent(parent)) {
-		// 			console.log(
-		// 				"🚫 BLOQUEADO: Parent já é filho, não pode ser pai de mais nada.",
-		// 			);
-		// 			return;
-		// 		}
-
-		// 		const alreadyEmbedded = parent.get("embeds")?.includes(model.id);
-
-		// 		if (!alreadyEmbedded) {
-		// 			console.log("✅ EMBED: parent:", parent.id, "model:", model.id);
-		// 			parent.embed(model);
-
-		// 			if (typeof parent.updateTable === "function") {
-		// 				parent.updateTable(parent.get("customAttributes") || []);
-		// 			}
-		// 			if (typeof parent.resizeAncestorsToFit === "function") {
-		// 				parent.resizeAncestorsToFit(10);
-		// 			}
-		// 		} else {
-		// 			console.log("ℹ️ Já está embedado:", model.id, "em", parent.id);
-		// 		}
-		// 	}
-		// });
-		///////////////////////////////////////ta funfando bem, porem nao consegue embedar filho de filho
-		// paper.on("element:mouseover", function (cellView) {
-		// 	const model = cellView.model;
-		// 	const graph = configs.graph;
-		// 	const parents = graph.findModelsUnderElement(model);
-
-		// 	console.log("==== Evento: element:mouseover ====");
-		// 	console.log(
-		// 		"Model (arrastando):",
-		// 		model.id,
-		// 		"parent:",
-		// 		model.get("parent"),
-		// 		"embeds:",
-		// 		model.get("embeds"),
-		// 	);
-
-		// 	if (model.get("parent")) {
-		// 		console.log("🚫 Model já é filho, não pode ser embedado.");
-		// 		return;
-		// 	}
-		// 	if ((model.get("embeds") || []).length > 0) {
-		// 		console.log("🚫 Model já é PAI de alguém, não pode virar filho!");
-		// 		return;
-		// 	}
-
-		// 	if (parents.length > 0) {
-		// 		const parent = parents[parents.length - 1];
-		// 		console.log("Tentativa de embed:");
-		// 		console.log(
-		// 			"Parent candidato:",
-		// 			parent.id,
-		// 			"parent.get('parent'):",
-		// 			parent.get("parent"),
-		// 			"embeds:",
-		// 			parent.get("embeds"),
-		// 		);
-
-		// 		// Parent não pode ser filho de ninguém
-		// 		if (parent.get("parent")) {
-		// 			console.log(
-		// 				"🚫 BLOQUEADO: Parent já é filho, não pode receber embeds.",
-		// 			);
-		// 			return;
-		// 		}
-		// 		// Parent não pode ser o próprio model
-		// 		if (parent.id === model.id) {
-		// 			console.log("🚫 BLOQUEADO: Parent é o próprio model.");
-		// 			return;
-		// 		}
-		// 		// Parent não pode ser descendente do model
-		// 		if (isDescendant(parent, model, graph)) {
-		// 			console.log(
-		// 				"🚫 BLOQUEADO: Parent é descendente do model (tentativa de ciclo).",
-		// 			);
-		// 			return;
-		// 		}
-
-		// 		const alreadyEmbedded = parent.get("embeds")?.includes(model.id);
-		// 		if (!alreadyEmbedded) {
-		// 			embedChildBelowTable(parent, model);
-
-		// 			if (typeof parent.updateTable === "function") {
-		// 				parent.updateTable(parent.get("customAttributes") || []);
-		// 			}
-		// 			if (typeof parent.resizeAncestorsToFit === "function") {
-		// 				parent.resizeAncestorsToFit(10);
-		// 			}
-		// 			console.log(
-		// 				"✅ Embed + alinhamento realizado:",
-		// 				parent.id,
-		// 				"->",
-		// 				model.id,
-		// 			);
-
-		// 			setTimeout(() => {
-		// 				console.log("Após embed:");
-		// 				console.log("Parent:", parent.id, "embeds:", parent.get("embeds"));
-		// 				console.log(
-		// 					"Model:",
-		// 					model.id,
-		// 					"parent:",
-		// 					model.get("parent"),
-		// 					"embeds:",
-		// 					model.get("embeds"),
-		// 				);
-		// 			}, 100);
-		// 		} else {
-		// 			console.log("ℹ️ Já está embedado:", model.id, "em", parent.id);
-		// 		}
-		// 	}
-		// });
-
 		paper.on("element:mouseover", function (cellView) {
 			const model = cellView.model;
 			const graph = configs.graph;
@@ -511,35 +274,23 @@ const controller = function (
 			if (parents.length > 0) {
 				const parent = parents[parents.length - 1];
 
-				// ... suas regras de bloqueio ...
-
-				// Só faz embed SE for de fato um novo embed
 				const currentParentId = model.get("parent");
 				if (currentParentId !== parent.id) {
-					// Remove do parent anterior se necessário
 					if (currentParentId) {
 						const currentParent = graph.getCell(currentParentId);
 						if (currentParent) currentParent.unembed(model);
 					}
-					// Faz o embed
 					parent.embed(model);
 
-					// 🔄 Só aqui faz o alinhamento!
-					if (parent.attributes.customAttributes.length > 0) {
-						console.log("entrou em update");
+					if (
+						Array.isArray(parent.attributes.customAttributes) &&
+						parent.attributes.customAttributes.length > 0
+					) {
 						parent.updateTable(parent.get("customAttributes") || []);
-					}
-					// if (typeof parent.resizeAncestorsToFit === "function") {
-					else {
-						// parent.resizeAncestorsToFit(10);
+					} else if (typeof parent.realignChildrenInGrid === "function") {
 						parent.realignChildrenInGrid();
 					}
-					// }
-					// if (typeof parent.fit === "function") {
-					// 	parent.fit();
-					// }
 				}
-				// Se não houve embed, NÃO faz alinhamento!
 			}
 		});
 		paper.on("element:pointerdblclick", () => {
@@ -584,9 +335,8 @@ const controller = function (
 	};
 
 	$("#mutualExclusionBtn").on("click", function () {
-		console.log("Cliquei na chave!", selectedContainers);
 		if (selectedContainers.length < 2) {
-			alert("Selecione pelo menos dois containers para unir!");
+			alert("Select at least two containers to merge!");
 			return;
 		}
 
@@ -641,31 +391,7 @@ const controller = function (
 			configs.elementSelector.deleteAll(),
 		);
 	};
-	function embedChildBelowTable(parent, child) {
-		// 1. Calcule onde termina a tabela
-		const attrsCount = parent.get("customAttributes")?.length || 0;
-		const cellHeight = 30;
-		const baseTableY = 30;
-		const bgHeight = (attrsCount + 1) * cellHeight;
-		const tableBottom = baseTableY + bgHeight + 20; // 20 de padding opcional
 
-		const parentPos = parent.position();
-
-		const children = parent.getEmbeddedCells ? parent.getEmbeddedCells() : [];
-		const realChildren = children.filter((c) => c.id !== parent.id);
-		const childIndex = realChildren.length;
-		const childX = parentPos.x + 50;
-		const childY =
-			parentPos.y + tableBottom + 10 + childIndex * (child.size().height + 10);
-
-		child.position(childX, childY);
-		parent.embed(child);
-
-		const childBottom = childY + child.size().height;
-		const minHeight = childBottom - parentPos.y + 10;
-		const tableHeight = tableBottom - parentPos.y + 10;
-		parent.resize(parent.size().width, Math.max(tableHeight, minHeight));
-	}
 	const registerGraphEvents = (graph) => {
 		graph.on("change", () => {
 			setIsDirty(true);
