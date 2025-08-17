@@ -190,12 +190,26 @@ const Collection = joint.dia.Element.define(
 
 		updateTable: function (customAttributes) {
 			const MAX_ROWS = 10;
-			const tableY = 30;
 			const tableX = 10;
 			const cellHeight = 30;
 			const col1Width = 90;
 			const col2Width = 90;
 			const cellWidth = col1Width + col2Width;
+
+			const parent = this.model || this;
+			const children = parent.getEmbeddedCells ? parent.getEmbeddedCells() : [];
+			let baseTableY = 30;
+			if (children.length) {
+				baseTableY =
+					Math.max(
+						...children.map(
+							(child) =>
+								child.position().y + child.size().height - parent.position().y,
+						),
+					) + 20;
+			}
+			const bgHeight = (customAttributes.length + 1) * cellHeight;
+			const tableBottom = baseTableY + bgHeight + 20;
 
 			const attrs = this.get("attrs");
 			Object.keys(attrs).forEach((key) => {
@@ -211,7 +225,7 @@ const Collection = joint.dia.Element.define(
 			});
 
 			customAttributes.slice(0, MAX_ROWS).forEach((attr, i) => {
-				const rowY = tableY + cellHeight * (i + 1);
+				const rowY = baseTableY + cellHeight * (i + 1);
 
 				this.attr(`tableRow${i + 1}`, {
 					x: tableX,
@@ -252,25 +266,33 @@ const Collection = joint.dia.Element.define(
 				});
 			});
 
-			const bgHeight = (customAttributes.length + 1) * cellHeight;
 			this.attr({
+				"tableBg/y": baseTableY,
 				"tableBg/height": bgHeight,
 				"tableBg/opacity": customAttributes.length > 0 ? 1 : 0,
 				"tableBg/width": cellWidth,
 				"tableHeaderName/opacity": customAttributes.length > 0 ? 1 : 0,
 				"tableHeaderType/opacity": customAttributes.length > 0 ? 1 : 0,
+				"tableHeaderName/y": baseTableY + cellHeight / 2 + 6,
+				"tableHeaderType/y": baseTableY + cellHeight / 2 + 6,
 			});
 
-			this.resize(cellWidth + tableX * 2, tableY + bgHeight + 20);
+			const parentTop = parent.position().y;
+			const maxChildBottom = children.length
+				? Math.max(
+						...children.map(
+							(child) => child.position().y + child.size().height,
+						),
+					)
+				: tableBottom + parentTop;
 
-			if (this.realignChildrenInGrid) this.realignChildrenInGrid();
-
-			if (this.resizeAncestorsToFit) this.resizeAncestorsToFit(10);
+			const totalHeight =
+				Math.max(tableBottom + parentTop, maxChildBottom) - parentTop;
+			parent.resize(cellWidth + tableX * 2, totalHeight);
 
 			this.trigger("change:attrs", this, this.get("attrs"), {});
 			if (this.paper && this.paper.draw) this.paper.draw();
 		},
-
 		resizeAncestorsToFit: function (margem = 0) {
 			const parentIds = this.get("parent");
 			if (!parentIds) return;
@@ -444,8 +466,79 @@ const CollectionView = joint.dia.ElementView.extend({
 		joint.dia.ElementView.prototype.initialize.apply(this, arguments);
 	},
 });
+function createMutualExclusionBrace(containers, graph) {
+	if (!containers || containers.length < 2) return;
+
+	containers.sort((a, b) => a.position().y - b.position().y);
+
+	const minY = containers[0].position().y;
+	const maxY =
+		containers[containers.length - 1].position().y +
+		containers[containers.length - 1].size().height;
+	const minX = Math.min(...containers.map((c) => c.position().x));
+
+	const displacementX = 40;
+	const braceHeight = maxY - minY;
+
+	containers.forEach((c) => {
+		c.position(c.position().x + displacementX, c.position().y);
+	});
+
+	graph.getCells().forEach((cell) => {
+		if (cell.get("isMutualExclusionBrace")) cell.remove();
+	});
+
+	const brace = new joint.shapes.basic.Text({
+		position: { x: minX, y: minY },
+		size: { width: displacementX, height: braceHeight },
+		attrs: {
+			text: {
+				text: "{",
+				"font-size": Math.max(32, braceHeight * 0.92),
+				"font-family": "monospace",
+				"text-anchor": "start",
+				y: braceHeight * 0.85,
+				fill: "#3b3b3b",
+				"pointer-events": "none",
+				opacity: 0.8,
+			},
+		},
+		z: 0,
+		isMutualExclusionBrace: true,
+	});
+	graph.addCell(brace);
+
+	// Embed a key in the first container (or in all you want)
+	containers[0].embed(brace);
+
+	brace.toFront();
+}
+
+const KeyIcon = joint.dia.Element.define(
+	"nosql.KeyIcon",
+	{
+		size: { width: 60, height: 60 },
+		attrs: {
+			icon: {
+				text: "🔑",
+				x: 30,
+				y: 35,
+				fontSize: 32,
+				fontFamily: "Arial",
+				textAnchor: "middle",
+				textVerticalAnchor: "middle",
+				cursor: "pointer",
+			},
+		},
+	},
+	{
+		markup: [{ tagName: "text", selector: "icon" }],
+	},
+);
 
 export default {
 	Collection,
 	CollectionView,
+	createMutualExclusionBrace,
+	KeyIcon,
 };

@@ -59,7 +59,6 @@ const controller = function ($rootScope, $timeout) {
 	$ctrl.newAttributeName = "";
 	$ctrl.newAttributeType = "";
 
-
 	$ctrl.addAttribute = function () {
 		if (
 			!$ctrl.newAttributeName ||
@@ -158,6 +157,11 @@ const controller = function ($rootScope, $timeout) {
 	$ctrl.changeVisible = () => {
 		$ctrl.visible = !$ctrl.visible;
 	};
+
+	$ctrl.hasMultipleSelection = function () {
+		// Se passar selectedContainers como binding:
+		return $ctrl.selectedContainers && $ctrl.selectedContainers.length > 1;
+	};
 };
 
 export default angular
@@ -169,5 +173,7 @@ export default angular
 			selected: "<",
 			onUpdate: "&",
 			addAttributeHandler: "&",
+			createMutualExclusionBrace: "&",
+			selectedContainers: "<",
 		},
 	}).name;

@@ -58,10 +58,18 @@
 				</aside>
 			</header><!-- End .workspace-header -->
 		</section><!-- End .model-area -->
+		<section class="elements-holder">
+				<button id="mutualExclusionBtn" title="Disjunção Mútua" style="position: absolute; right: 60px; top: 200px; font-size: 22px; cursor: pointer; z-index: 5;">
+				<span style="font-size: 48px;">{</span>
+				</button>
+		</section>
+
 		<sidebar-control-nosql
 		selected="$ctrl.selectedElement"
 		on-update="$ctrl.onUpdate(event)"
 		add-attribute-handler="$ctrl.addAttributeHandler(event)">
+		create-mutual-exclusion-brace="$ctrl.createMutualExclusionBrace()"
+    	selected-containers="$ctrl.selectedContainers">
 		</sidebar-control-nosql>
 
 	</div><!-- End .mainContent -->
