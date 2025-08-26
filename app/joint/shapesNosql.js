@@ -69,6 +69,16 @@ const attrs = {
 			textShadow: "1px 1px #222222",
 		},
 	},
+	collectionCardinality: {
+		text: "",
+		refX: "97%",
+		refY: headerHeight / 2,
+		fontSize: 13,
+		fill: "#FFFFFF",
+		textAnchor: "end",
+		fontFamily: "sans-serif",
+		opacity: 1,
+	},
 	tableBg: {
 		x: tableX,
 		y: tableY,
@@ -102,6 +112,7 @@ for (let i = 1; i <= MAX_ROWS; i++) {
 	attrs[`tableRowText${i}`] = { opacity: 0 };
 	attrs[`tableRowType${i}`] = { opacity: 0 };
 	attrs[`tableRowTypeText${i}`] = { opacity: 0 };
+	attrs[`tableRowCardinality${i}`] = { opacity: 0 };
 }
 
 const markupBase = [
@@ -109,6 +120,7 @@ const markupBase = [
 	{ tagName: "rect", selector: "body" },
 	{ tagName: "rect", selector: "header" },
 	{ tagName: "text", selector: "headerText" },
+	{ tagName: "text", selector: "collectionCardinality" },
 	{
 		tagName: "g",
 		selector: "button",
@@ -128,6 +140,7 @@ for (let i = 1; i <= MAX_ROWS; i++) {
 	markupBase.push({ tagName: "text", selector: `tableRowText${i}` });
 	markupBase.push({ tagName: "rect", selector: `tableRowType${i}` });
 	markupBase.push({ tagName: "text", selector: `tableRowTypeText${i}` });
+	markupBase.push({ tagName: "text", selector: `tableRowCardinality${i}` });
 }
 
 const Collection = joint.dia.Element.define(
@@ -217,10 +230,12 @@ const Collection = joint.dia.Element.define(
 					key.startsWith("tableRow") ||
 					key.startsWith("tableRowText") ||
 					key.startsWith("tableRowType") ||
-					key.startsWith("tableRowTypeText")
+					key.startsWith("tableRowTypeText") ||
+					key.startsWith("tableRowCardinality")
 				) {
 					this.attr(key + "/opacity", 0);
-					if (key.endsWith("Text")) this.attr(key + "/text", "");
+					if (key.endsWith("Text") || key.startsWith("tableRowCardinality"))
+						this.attr(key + "/text", "");
 				}
 			});
 
@@ -264,6 +279,17 @@ const Collection = joint.dia.Element.define(
 					opacity: 1,
 					text: attr.type || "",
 				});
+
+				this.attr(`tableRowCardinality${i + 1}`, {
+					x: tableX + col1Width + col2Width - 10,
+					y: rowY + cellHeight / 2 + 6,
+					"font-size": 13,
+					fill: "#888",
+					opacity: attr.cardinalityEnabled ? 1 : 0,
+					text: attr.cardinalityEnabled
+						? `(${attr.minCardinality ?? 0},${attr.maxCardinality ?? 1})`
+						: "",
+				});
 			});
 
 			this.attr({
@@ -277,6 +303,12 @@ const Collection = joint.dia.Element.define(
 				"tableHeaderType/y": baseTableY + cellHeight / 2 + 6,
 			});
 
+			const enabled = this.get("cardinalityEnabled");
+			let cardinalityText = "";
+			if (enabled) {
+				cardinalityText = `(${this.get("minCardinality") ?? 0},${this.get("maxCardinality") ?? "N"})`;
+			}
+			this.attr("collectionCardinality/text", cardinalityText);
 			const parentTop = parent.position().y;
 			const maxChildBottom = children.length
 				? Math.max(
@@ -288,12 +320,12 @@ const Collection = joint.dia.Element.define(
 
 			const totalHeight =
 				Math.max(tableBottom + parentTop, maxChildBottom) - parentTop;
-			parent.resize(cellWidth + tableX * 2, totalHeight);
+			parent.resize(cellWidth + tableX * 5, totalHeight);
 
 			this.trigger("change:attrs", this, this.get("attrs"), {});
 			if (this.paper && this.paper.draw) this.paper.draw();
 		},
-		resizeAncestorsToFit: function (margem = 0) {
+		resizeAncestorsToFit: function (margin = 0) {
 			const parentIds = this.get("parent");
 			if (!parentIds) return;
 			const parentId = Array.isArray(parentIds) ? parentIds[0] : parentIds;
@@ -335,8 +367,8 @@ const Collection = joint.dia.Element.define(
 			}
 
 			const parentSize = parent.size();
-			const bboxWidth = bbox.width + margem * 2;
-			const bboxHeight = bbox.height + margem * 2;
+			const bboxWidth = bbox.width + margin * 2;
+			const bboxHeight = bbox.height + margin * 2;
 			if (bboxWidth > parentSize.width || bboxHeight > parentSize.height) {
 				parent.resize(
 					Math.max(parentSize.width, bboxWidth),
@@ -345,14 +377,14 @@ const Collection = joint.dia.Element.define(
 			}
 
 			if (parent.resizeAncestorsToFit) {
-				parent.resizeAncestorsToFit(margem);
+				parent.resizeAncestorsToFit(margin);
 			}
 		},
 
 		realignChildrenInGrid: function () {
 			const parent = this;
 			const marginTop = 10;
-			const marginSide = 10;
+			const marginSide = 45;
 			const marginBetweenChildrenX = 10;
 			const marginBetweenChildrenY = 10;
 

@@ -69,11 +69,19 @@ const controller = function ($rootScope, $timeout) {
 			console.warn("Nome/tipo vazio ou seleção inválida.");
 			return;
 		}
+
 		var customAttributes = $ctrl.selectedElement.get("customAttributes") || [];
-		customAttributes.push({
+		let newAttr = {
 			name: $ctrl.newAttributeName,
 			type: $ctrl.newAttributeType,
-		});
+		};
+		if ($ctrl.newAttributeCardinalityEnabled) {
+			newAttr.cardinalityEnabled = true;
+			newAttr.minCardinality = $ctrl.newAttributeMinCardinality;
+			newAttr.maxCardinality = $ctrl.newAttributeMaxCardinality;
+		}
+		customAttributes.push(newAttr);
+
 		$ctrl.selectedElement.set("customAttributes", customAttributes);
 
 		if (typeof $ctrl.selectedElement.updateTable === "function") {
@@ -82,6 +90,9 @@ const controller = function ($rootScope, $timeout) {
 
 		$ctrl.newAttributeName = "";
 		$ctrl.newAttributeType = "";
+		$ctrl.newAttributeCardinalityEnabled = false;
+		$ctrl.newAttributeMinCardinality = null;
+		$ctrl.newAttributeMaxCardinality = null;
 	};
 
 	$ctrl.updateAttributeName = function (index, newName) {
@@ -149,8 +160,9 @@ const controller = function ($rootScope, $timeout) {
 			$ctrl.configuration = configurator().select(
 				changes.selected.currentValue,
 			);
-			$ctrl.selectedElement =
+			const selected =
 				changes.selected.currentValue.model || changes.selected.currentValue;
+			$ctrl.selectedElement = selected;
 		}
 	};
 
@@ -159,11 +171,47 @@ const controller = function ($rootScope, $timeout) {
 	};
 
 	$ctrl.hasMultipleSelection = function () {
-		// Se passar selectedContainers como binding:
+
 		return $ctrl.selectedContainers && $ctrl.selectedContainers.length > 1;
 	};
-};
 
+	$ctrl.updateCollectionCardinality = function () {
+		const el = $ctrl.selectedElement;
+		const jointShape = el.jointElement || el;
+		if (jointShape && typeof jointShape.set === "function") {
+			jointShape.set("cardinalityEnabled", el.cardinalityEnabled); // ← ESSENCIAL!
+			if (el.cardinalityEnabled) {
+				jointShape.set("minCardinality", el.minCardinality ?? 0);
+				jointShape.set("maxCardinality", el.maxCardinality || "N");
+			} else {
+				jointShape.set("minCardinality", undefined);
+				jointShape.set("maxCardinality", undefined);
+			}
+			jointShape.updateTable(jointShape.get("customAttributes") || []);
+		}
+	};
+
+	$ctrl.updateAttributeCardinality = function (index) {
+		const attrs = $ctrl.getCustomAttributes();
+		const attr = attrs[index];
+		const jointShape =
+			$ctrl.selectedElement.jointElement || $ctrl.selectedElement;
+		if (jointShape && typeof jointShape.set === "function") {
+			if (!attr.cardinalityEnabled) {
+
+				attr.minCardinality = undefined;
+				attr.maxCardinality = undefined;
+			} else {
+
+				attr.minCardinality = attr.minCardinality ?? 0;
+				attr.maxCardinality =
+					attr.maxCardinality === "" ? "N" : attr.maxCardinality;
+			}
+			jointShape.set("customAttributes", attrs);
+			jointShape.updateTable(attrs);
+		}
+	};
+};
 export default angular
 	.module("app.workspace.nosql.sidebar", [])
 	.component("sidebarControlNosql", {

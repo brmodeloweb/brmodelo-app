@@ -430,6 +430,51 @@ const controller = function (
 			},
 		});
 		ctrl.paper = configs.paper;
+
+		let refModeActive = false;
+		let selectedReferenceCollection = null;
+
+		document.getElementById("refAttributeBtn").onclick = function () {
+			refModeActive = true;
+			selectedReferenceCollection = null;
+			alert("Selecione a coleção a ser referenciada");
+		};
+
+		configs.paper.on("element:pointerdown", function (cellView) {
+			if (!refModeActive) return;
+
+			const model = cellView.model;
+
+			if (!selectedReferenceCollection) {
+				selectedReferenceCollection = model;
+				alert(
+					"Agora selecione a coleção que vai receber o atributo de referência",
+				);
+				return;
+			}
+
+			const collectionDestino = model;
+
+			const refAttribute = {
+				name: "ref_" + selectedReferenceCollection.attr("headerText/text"),
+				type: "reference",
+				targetCollectionId: selectedReferenceCollection.id,
+				targetCollectionName:
+					selectedReferenceCollection.attr("headerText/text"),
+			};
+
+			let attributes = collectionDestino.get("customAttributes") || [];
+			attributes.push(refAttribute);
+			collectionDestino.set("customAttributes", attributes);
+
+			if (typeof collectionDestino.updateTable === "function") {
+				collectionDestino.updateTable(attributes);
+			}
+
+			refModeActive = false;
+			selectedReferenceCollection = null;
+			alert("Atributo de referência criado!");
+		});
 		ctrl.onSelectElement = (cellView) => {
 			if (cellView != null) {
 				configs.elementSelector.cancel();
