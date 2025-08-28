@@ -256,14 +256,17 @@ const controller = function (
 		paper.on("element:pointerup", (cellView, evt, x, y) => {
 			ctrl.onSelectElement(cellView);
 
+			const defaultActions = joint.ui.ElementActions.prototype.options.actions;
+			const actions = defaultActions.filter((a) =>
+				["remove", "resize"].includes(a.name),
+			);
+
 			const elementActions = new joint.ui.ElementActions({
 				cellView: cellView,
 				boxContent: false,
+				actions,
 			});
-
 			configs.selectedElementActions = elementActions;
-			elementActions.on("action:link:add", function (link) {});
-
 			elementActions.render();
 		});
 		paper.on("element:mouseover", function (cellView) {
