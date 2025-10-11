@@ -24,7 +24,6 @@ import ToolsViewService from "../service/toolsViewService";
 import preventExitServiceModule from "../service/preventExitService";
 import iconConceptual from "../components/icons/conceptual";
 import supportBannersList from "../components/supportBannersList";
-
 const controller = function (
 	ModelAPI,
 	$stateParams,
@@ -61,6 +60,7 @@ const controller = function (
 		keyboardController: null,
 		selectedElementActions: null,
 	};
+	let selectedContainers = [];
 
 	const setIsDirty = (isDirty) => {
 		ctrl.modelState.isDirty = isDirty;
@@ -232,29 +232,6 @@ const controller = function (
 		}
 	};
 
-	ctrl.onSelectElement = (cellView) => {
-		if (cellView != null) {
-			configs.elementSelector.cancel();
-			$timeout(() => {
-				cellView.model.toFront({"deep": true});
-				ctrl.selectedElement = {
-					value: cellView.model.attributes?.attrs?.headerText?.text,
-					type: cellView.model.attributes.supertype,
-					element: cellView,
-				};
-			});
-			return;
-		}
-
-		$timeout(() => {
-			ctrl.selectedElement = {
-				value: "",
-				type: "blank",
-				element: null,
-			};
-		});
-	};
-
 	ctrl.onUpdate = (event) => {
 		if (event.type == "name") {
 			ctrl.selectedElement.element.model.updateName(event.value);
@@ -279,25 +256,46 @@ const controller = function (
 		paper.on("element:pointerup", (cellView, evt, x, y) => {
 			ctrl.onSelectElement(cellView);
 
+			const defaultActions = joint.ui.ElementActions.prototype.options.actions;
+			const actions = defaultActions.filter((a) =>
+				["remove", "resize"].includes(a.name),
+			);
+
 			const elementActions = new joint.ui.ElementActions({
 				cellView: cellView,
 				boxContent: false,
+				actions,
 			});
-
 			configs.selectedElementActions = elementActions;
-			elementActions.on("action:link:add", function (link) {});
-
 			elementActions.render();
 		});
+		paper.on("element:mouseover", function (cellView) {
+			const model = cellView.model;
+			const graph = configs.graph;
+			const parents = graph.findModelsUnderElement(model);
 
-		paper.on('element:pointerup', function(cellView) {
-			const parents = configs.graph.findModelsUnderElement(cellView.model);
 			if (parents.length > 0) {
-				parents[0].embed([cellView.model]);
-				parents[0].fitToChildElements();
+				const parent = parents[parents.length - 1];
+
+				const currentParentId = model.get("parent");
+				if (currentParentId !== parent.id) {
+					if (currentParentId) {
+						const currentParent = graph.getCell(currentParentId);
+						if (currentParent) currentParent.unembed(model);
+					}
+					parent.embed(model);
+
+					if (
+						Array.isArray(parent.attributes.customAttributes) &&
+						parent.attributes.customAttributes.length > 0
+					) {
+						parent.updateTable(parent.get("customAttributes") || []);
+					} else if (typeof parent.realignChildrenInGrid === "function") {
+						parent.realignChildrenInGrid();
+					}
+				}
 			}
 		});
-
 		paper.on("element:pointerdblclick", () => {
 			$rootScope.$broadcast("command:openmenu");
 		});
@@ -313,8 +311,57 @@ const controller = function (
 		configs.paper.on("link:mouseleave", (linkView) => {
 			linkView.removeTools();
 		});
+		paper.on("element:pointerdown", function (cellView, evt) {
+			if (cellView.model.attributes.supertype === "Collection") {
+				if (evt.ctrlKey) {
+					if (!selectedContainers.includes(cellView.model)) {
+						selectedContainers.push(cellView.model);
+						cellView.highlight("body");
+					} else {
+						selectedContainers = selectedContainers.filter(
+							(c) => c !== cellView.model,
+						);
+						cellView.unhighlight("body");
+					}
+				} else {
+					selectedContainers.forEach((c) => {
+						const view = configs.paper.findViewByModel(c);
+						if (view && typeof view.unhighlight === "function") {
+							view.unhighlight("body");
+						}
+					});
+					selectedContainers = [cellView.model];
+					cellView.highlight("body");
+				}
+			}
+		});
 	};
 
+	$("#mutualExclusionBtn").on("click", function () {
+		if (selectedContainers.length < 2) {
+			alert("Select at least two containers to merge!");
+			return;
+		}
+
+		nosql.createMutualExclusionBrace(selectedContainers, configs.graph);
+
+		const allCells = configs.graph.getCells();
+		const parentContainer = allCells.find((cell) => {
+			return selectedContainers.every((child) =>
+				cell.getEmbeddedCells().includes(child),
+			);
+		});
+
+		if (parentContainer) {
+			parentContainer.set("isMutualExclusionParent", true);
+		} else {
+			console.warn("Anyone parent found to mutual exclusion.");
+		}
+		selectedContainers.forEach((cell) =>
+			configs.paper.findViewByModel(cell).unhighlight("body"),
+		);
+		selectedContainers = [];
+	});
 	const registerShortcuts = () => {
 		configs.keyboardController.registerHandler(types.SAVE, () =>
 			ctrl.saveModel(),
@@ -381,8 +428,79 @@ const controller = function (
 			linkConnectionPoint: joint.util.shapePerimeterConnectionPoint,
 			cellViewNamespace: joint.shapes,
 			linkPinning: false,
+			views: {
+				"nosql.Collection": joint.shapes.custom.ContainerView,
+			},
 		});
+		ctrl.paper = configs.paper;
 
+		let refModeActive = false;
+		let selectedReferenceCollection = null;
+
+		document.getElementById("refAttributeBtn").onclick = function () {
+			refModeActive = true;
+			selectedReferenceCollection = null;
+			alert("Selecione a coleção a ser referenciada");
+		};
+
+		configs.paper.on("element:pointerdown", function (cellView) {
+			if (!refModeActive) return;
+
+			const model = cellView.model;
+
+			if (!selectedReferenceCollection) {
+				selectedReferenceCollection = model;
+				alert(
+					"Agora selecione a coleção que vai receber o atributo de referência",
+				);
+				return;
+			}
+
+			const collectionDestino = model;
+
+			const refAttribute = {
+				name: "ref_" + selectedReferenceCollection.attr("headerText/text"),
+				type: "reference",
+				targetCollectionId: selectedReferenceCollection.id,
+				targetCollectionName:
+					selectedReferenceCollection.attr("headerText/text"),
+			};
+
+			let attributes = collectionDestino.get("customAttributes") || [];
+			attributes.push(refAttribute);
+			collectionDestino.set("customAttributes", attributes);
+
+			if (typeof collectionDestino.updateTable === "function") {
+				collectionDestino.updateTable(attributes);
+			}
+
+			refModeActive = false;
+			selectedReferenceCollection = null;
+			alert("Atributo de referência criado!");
+		});
+		ctrl.onSelectElement = (cellView) => {
+			if (cellView != null) {
+				configs.elementSelector.cancel();
+				$timeout(() => {
+					cellView.model.toFront({ deep: true });
+					ctrl.selectedElement = {
+						model: cellView.model,
+						value: cellView.model.attributes?.attrs?.headerText?.text,
+						type: cellView.model.attributes.supertype,
+						element: cellView,
+					};
+				});
+				return;
+			}
+
+			$timeout(() => {
+				ctrl.selectedElement = {
+					value: "",
+					type: "blank",
+					element: null,
+				};
+			});
+		};
 		configs.keyboardController = new KeyboardController(
 			configs.paper.$document,
 		);
@@ -417,10 +535,13 @@ const controller = function (
 		const containerParent = new joint.shapes.nosql.Collection({
 			size: { width: 100, height: 100 },
 			z: 1,
-			attrs: { headerText: { text: "Coleção" } },
 			position: { x: 10, y: 10 },
+			attrs: {
+				headerText: { text: "Coleção" },
+				customText: { text: "" },
+			},
+			customAttributes: [],
 		});
-
 		enditorManager.loadElements([containerParent]);
 
 		registerShortcuts();
@@ -429,31 +550,73 @@ const controller = function (
 	ctrl.$postLink = () => {
 		buildWorkspace();
 	};
+	ctrl.addAttributeHandler = function (args) {
+		const attributeName = args.name;
+		const attributeType = args.type;
+		const element = args.element;
+		if (!attributeName || !attributeType || !element) {
+			console.warn("Incomplete data");
+			return;
+		}
+		const customAttributes = element.get("customAttributes") || [];
+		customAttributes.push({ name: attributeName, type: attributeType });
+		element.set("customAttributes", customAttributes);
 
+		if (typeof element.updateTable === "function") {
+			element.updateTable(customAttributes);
+		} else {
+			console.warn("updateTable doesn't exists!", element);
+		}
+
+		if (configs.paper && configs.paper.draw) configs.paper.draw();
+
+		ctrl.newAttributeName = "";
+		ctrl.newAttributeType = "";
+	};
 	ctrl.$onInit = () => {
 		ctrl.toolsViewService = new ToolsViewService();
 		ctrl.setLoading(true);
+
 		ModelAPI.getModel($stateParams.modelid, $rootScope.loggeduser)
 			.then((resp) => {
 				const jsonModel =
-					typeof resp.data.model == "string"
+					typeof resp.data.model === "string"
 						? JSON.parse(resp.data.model)
 						: resp.data.model;
+
 				ctrl.model = resp.data;
 				ctrl.model.id = resp.data._id;
 				ctrl.model.model = jsonModel;
+
 				configs.graph.fromJSON(jsonModel);
-				ctrl.modelState.updatedAt = resp.data.updated;
+				const selectedId = ctrl.selectedElement?.model?.id;
+
+				ctrl.graph = configs.graph;
+
+				if (selectedId) {
+					const realElement = ctrl.graph.getCell(selectedId);
+					if (realElement) {
+						ctrl.selectedElement.model = realElement;
+						const customAttributes = realElement.get("customAttributes") || [];
+						const allAttributeNames = customAttributes
+							.map((attr) => attr.name)
+							.join(", ");
+						realElement.attr("customText/text", allAttributeNames);
+					} else {
+						console.warn("Element with ID", selectedId, "not found in graph.");
+					}
+				}
 				ctrl.setLoading(false);
 			})
 			.catch((error) => {
-				if (error.status == 404 || error.status == 401) {
+				if (error.status === 404 || error.status === 401) {
 					$state.go("noaccess");
 				}
 				console.error(error);
+
+				ctrl.setLoading(false);
 			});
 	};
-
 	window.onbeforeunload = preventExitService.handleBeforeUnload(ctrl);
 	const onBeforeDeregister = $transitions.onBefore(
 		{},
