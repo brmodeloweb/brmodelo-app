@@ -21,7 +21,16 @@
 				<i class="fa" data-ng-class="$ctrl.sections.tableProperties ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
 			</header>
 			<div class="panel-content" ng-show="$ctrl.sections.tableProperties">
-				<!-- Soon content here-->
+				<div class="form-group">
+					<label for="entry-name">{{ 'Name' | translate }}</label>
+					<input
+						id="entry-name"
+						type="text"
+						class="form-control"
+						data-ng-model="$ctrl.selectedElement.value"
+						ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus
+					/>
+				</div>
 			</div><!-- End .panel-content -->
 		</section><!-- End .sidebar-panel-->
 
