@@ -1,218 +1,48 @@
 <aside class="model-properties" data-ng-class="{'active': $ctrl.visible}">
 	<span class="action" data-ng-click="$ctrl.changeVisible()">
-		<i class="fa angle-double-icon" data-ng-class="!$ctrl.visible ? 'fa-angle-double-left' : 'fa-angle-double-right'"></i>
+		<i class="fa angle-double-icon" data-ng-class="$ctrl.visible ? 'fa-angle-double-right' : 'fa-angle-double-left'"></i>
 	</span>
 
-	<div class="properties-content old">
+	<div class="properties-content old" ng-if="$ctrl.selectedElement == null">
 		<!-- Empty state when nothing is selected -->
-		<div class="form-group" ng-if="$ctrl.configuration.emptyState">
+		<div class="form-group">
 			<div class="empty-state">
 				<i class="fa fa-mouse-pointer" aria-hidden="true"></i>
 				<p>{{ 'Select an element to edit' | translate }}</p>
 			</div>
 		</div>
-
-		<!-- Collection editing section -->
-		<div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
-			<div class="form-group">
-				<label for="entry-name">{{ 'Name' | translate }}</label>
-				<input
-					id="entry-name"
-					type="text"
-					class="form-control"
-					data-ng-model="$ctrl.selectedElement.value"
-					ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus
-				/>
-			</div>
-		</div>
-
-		<div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
-			<label>
-				<input
-					type="checkbox"
-					ng-model="$ctrl.selectedElement.cardinalityEnabled"
-					ng-change="$ctrl.updateCollectionCardinality()"
-				/>
-				Cardinalidade da coleção
-			</label>
-			<div
-				ng-if="$ctrl.selectedElement.cardinalityEnabled"
-				style="display:flex; gap:8px;"
-			>
-				<input
-					type="number"
-					min="0"
-					class="form-control"
-					ng-model="$ctrl.selectedElement.minCardinality"
-					ng-change="$ctrl.updateCollectionCardinality()"
-					placeholder="mín."
-					style="width:40%"
-				/>
-				<input
-					type="text"
-					class="form-control"
-					ng-model="$ctrl.selectedElement.maxCardinality"
-					ng-change="$ctrl.updateCollectionCardinality()"
-					placeholder="máx."
-					style="width:40%"
-				/>
-			</div>
-			<small
-				ng-if="$ctrl.selectedElement.cardinalityEnabled"
-				style="color:#888;"
-			>
-				Use N para ilimitado
-			</small>
-		</div>
-
-		<!-- Atributos section -->
-		<div class="form-group" ng-if="($ctrl.configuration.collection && $ctrl.visible)">
-			<div
-				class="toggle-header"
-				ng-click="$ctrl.atributosAbertos = !$ctrl.atributosAbertos"
-				style="cursor:pointer; display:flex; align-items:center; margin-bottom:8px;"
-			>
-				<strong style="flex:1;">Atributos</strong>
-				<i class="fa" ng-class="{'fa-chevron-down': $ctrl.atributosAbertos, 'fa-chevron-right': !$ctrl.atributosAbertos}"></i>
-			</div>
-
-			<div ng-show="$ctrl.atributosAbertos">
-				<div ng-show="$ctrl.getCustomAttributes().length > 0" style="margin-bottom:10px;">
-					<div
-						ng-repeat="attr in $ctrl.getCustomAttributes() track by $index"
-						style="margin-bottom:14px; padding:8px; border-radius:6px; border:1px solid #eee; background:#fafafa;"
-					>
-						<div style="display:flex; gap:8px; margin-bottom:6px;">
-						<input
-							type="text"
-							class="form-control"
-							style="width:55%;"
-							ng-model="attr.name"
-							ng-change="$ctrl.updateAttributeName($index, attr.name)"
-							placeholder="Nome"
-						/>
-
-						<select
-							class="form-control"
-							style="width:40%;"
-							ng-model="attr.type"
-							ng-change="$ctrl.updateAttributeType($index, attr.type)"
-						>
-							<option value="int">int</option>
-							<option value="string">string</option>
-							<option value="float">float</option>
-						</select>
-						</div>
-						<div style="display:flex; align-items:center; gap:8px;">
-							<label style="margin:0;">
-								<input
-								type="checkbox"
-								ng-model="attr.cardinalityEnabled"
-								ng-change="$ctrl.updateAttributeCardinality($index)"
-							/>
-								Cardinalidade
-							</label>
-							<input
-								type="text"
-								class="form-control"
-								style="width:40%;"
-								ng-model="attr.minCardinality"
-								ng-change="$ctrl.updateAttributeCardinality($index)"
-								ng-if="attr.cardinalityEnabled"
-								placeholder="mín."
-							/>
-							<input
-								type="text"
-								class="form-control"
-								style="width:40%;"
-								ng-model="attr.maxCardinality"
-								ng-change="$ctrl.updateAttributeCardinality($index)"
-								ng-if="attr.cardinalityEnabled"
-								placeholder="máx."
-							/>
-							<button
-								class="br-button br-button--danger"
-								style="padding:0 8px; margin-left:auto;"
-								ng-click="$ctrl.removeAttribute($index)"
-							>
-								<i class="fa fa-trash"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-				<div
-					ng-show="!$ctrl.getCustomAttributes().length"
-					style="color:#888; font-size:90%; margin-bottom:10px;"
-				>
-					{{ 'No attributes yet' | translate }}
-				</div>
-
-				<ul
-					style="margin-bottom:8px;"
-					ng-if="$ctrl.getCustomAttributes().length > 0"
-				>
-				<li ng-repeat="attr in $ctrl.getCustomAttributes() track by $index">
-					{{attr.name}} ({{attr.type}})
-				</li>
-				</ul>
-
-				<!-- Add new attribute -->
-				<div style="margin-top:10px; margin-bottom:10px; padding:8px; border-radius:6px; border:1px solid #eee; background:#fafafa;">
-				<div style="display:flex; gap:8px; margin-bottom:6px;">
-					<input
-						id="attribute-name"
-						type="text"
-						class="form-control"
-						style="width:55%;"
-						ng-model="$ctrl.newAttributeName"
-						placeholder="{{ 'Enter attribute name' | translate }}"
-					/>
-					<select
-						id="attribute-type"
-						class="form-control"
-						style="width:40%;"
-						ng-model="$ctrl.newAttributeType"
-						ng-init="$ctrl.newAttributeType = 'string'"
-					>
-					<option value="int">int</option>
-					<option value="string">string</option>
-					<option value="float">float</option>
-					</select>
-				</div>
-				<div style="display:flex; align-items:center; gap:8px;">
-					<label style="margin:0;">
-						<input
-							type="checkbox"
-							ng-model="$ctrl.newAttributeCardinalityEnabled"
-						/>
-						Cardinalidade
-						</label>
-					<input
-						type="text"
-						class="form-control"
-						style="width:40%;"
-						ng-model="$ctrl.newAttributeMinCardinality"
-						ng-if="$ctrl.newAttributeCardinalityEnabled"
-						placeholder="mín."
-					/>
-					<input
-						type="text"
-						class="form-control"
-						style="width:40%;"
-						ng-model="$ctrl.newAttributeMaxCardinality"
-						ng-if="$ctrl.newAttributeCardinalityEnabled"
-						placeholder="máx."
-					/>
-					<button
-						class="br-button br-button--full"
-						style="margin-left:auto;"
-						ng-click="$ctrl.addAttribute()"
-					>
-					{{ 'Add' | translate }}
-					</button>
-				</div>
-				</div>
-			</div>
-		</div>
 	</div>
+
+	<!-- Collection properties -->
+	<div class="properties-content">
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('tableProperties')">
+				<h3>{{ 'Collection properties' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.tableProperties ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+			<div class="panel-content" ng-show="$ctrl.sections.tableProperties">
+				<!-- Soon content here-->
+			</div><!-- End .panel-content -->
+		</section><!-- End .sidebar-panel-->
+
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('cardinality')">
+				<h3>{{ 'Cardinality' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.cardinality ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+			<div class="panel-content" ng-show="$ctrl.sections.cardinality">
+				<!-- Soon content here-->
+			</div><!-- End .panel-content -->
+		</section><!-- End .sidebar-panel-->
+
+		<section class="sidebar-panel">
+			<header class="panel-header" ng-click="$ctrl.toggleSection('attributes')">
+				<h3>{{ 'Attributes' | translate }}</h3>
+				<i class="fa" data-ng-class="$ctrl.sections.attributes ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+			</header>
+			<div class="panel-content" ng-show="$ctrl.sections.attributes">
+				<!-- Soon content here-->
+			</div><!-- End .panel-content -->
+		</section><!-- End .sidebar-panel-->
+	</div><!-- End .properties-content-->
 </aside>

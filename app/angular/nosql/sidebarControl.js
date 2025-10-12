@@ -35,11 +35,21 @@ const controller = function ($rootScope, $timeout) {
 	$ctrl.visible = true;
 	$ctrl.selectedElement = {};
 
+	$ctrl.sections = {
+		tableProperties: true,
+		cardinality: false,
+		attributes: false,
+	};
+
 	$rootScope.$on("command:openmenu", () => {
 		$timeout(() => {
 			$ctrl.visible = true;
 		});
 	});
+
+	$ctrl.toggleSection = (section) => {
+		$ctrl.sections[section] = !$ctrl.sections[section];
+	};
 
 	$ctrl.$onInit = () => {
 		$ctrl.configuration = configurator().emptyState();
