@@ -94,7 +94,143 @@
 				<i class="fa" data-ng-class="$ctrl.sections.attributes ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
 			</header>
 			<div class="panel-content" ng-show="$ctrl.sections.attributes">
-				<!-- Soon content here-->
+				<div>
+					<div ng-show="$ctrl.getCustomAttributes().length > 0" style="margin-bottom:10px;">
+						<div
+							ng-repeat="attr in $ctrl.getCustomAttributes() track by $index"
+							style="margin-bottom:14px; padding:8px; border-radius:6px; border:1px solid #eee; background:#fafafa;"
+						>
+							<div style="display:flex; gap:8px; margin-bottom:6px;">
+							<input
+								type="text"
+								class="form-control"
+								style="width:55%;"
+								ng-model="attr.name"
+								ng-change="$ctrl.updateAttributeName($index, attr.name)"
+								placeholder="Nome"
+							/>
+
+							<select
+								class="form-control"
+								style="width:40%;"
+								ng-model="attr.type"
+								ng-change="$ctrl.updateAttributeType($index, attr.type)"
+							>
+								<option value="int">int</option>
+								<option value="string">string</option>
+								<option value="float">float</option>
+							</select>
+							</div>
+							<div style="display:flex; align-items:center; gap:8px;">
+								<label style="margin:0;">
+									<input
+									type="checkbox"
+									ng-model="attr.cardinalityEnabled"
+									ng-change="$ctrl.updateAttributeCardinality($index)"
+								/>
+									Cardinalidade
+								</label>
+								<input
+									type="text"
+									class="form-control"
+									style="width:40%;"
+									ng-model="attr.minCardinality"
+									ng-change="$ctrl.updateAttributeCardinality($index)"
+									ng-if="attr.cardinalityEnabled"
+									placeholder="mín."
+								/>
+								<input
+									type="text"
+									class="form-control"
+									style="width:40%;"
+									ng-model="attr.maxCardinality"
+									ng-change="$ctrl.updateAttributeCardinality($index)"
+									ng-if="attr.cardinalityEnabled"
+									placeholder="máx."
+								/>
+								<button
+									class="br-button br-button--danger"
+									style="padding:0 8px; margin-left:auto;"
+									ng-click="$ctrl.removeAttribute($index)"
+								>
+									<i class="fa fa-trash"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div
+						ng-show="!$ctrl.getCustomAttributes().length"
+						style="color:#888; font-size:90%; margin-bottom:10px;"
+					>
+						{{ 'No attributes yet' | translate }}
+					</div>
+
+					<ul
+						style="margin-bottom:8px;"
+						ng-if="$ctrl.getCustomAttributes().length > 0"
+					>
+					<li ng-repeat="attr in $ctrl.getCustomAttributes() track by $index">
+						{{attr.name}} ({{attr.type}})
+					</li>
+					</ul>
+
+					<!-- Add new attribute -->
+					<div style="margin-top:10px; margin-bottom:10px; padding:8px; border-radius:6px; border:1px solid #eee; background:#fafafa;">
+						<div style="display:flex; gap:8px; margin-bottom:6px;">
+							<input
+								id="attribute-name"
+								type="text"
+								class="form-control"
+								style="width:55%;"
+								ng-model="$ctrl.newAttributeName"
+								placeholder="{{ 'Enter attribute name' | translate }}"
+							/>
+							<select
+								id="attribute-type"
+								class="form-control"
+								style="width:40%;"
+								ng-model="$ctrl.newAttributeType"
+								ng-init="$ctrl.newAttributeType = 'string'"
+							>
+							<option value="int">int</option>
+							<option value="string">string</option>
+							<option value="float">float</option>
+							</select>
+						</div>
+						<div style="display:flex; align-items:center; gap:8px;">
+							<label style="margin:0;">
+								<input
+									type="checkbox"
+									ng-model="$ctrl.newAttributeCardinalityEnabled"
+								/>
+								Cardinalidade
+								</label>
+							<input
+								type="text"
+								class="form-control"
+								style="width:40%;"
+								ng-model="$ctrl.newAttributeMinCardinality"
+								ng-if="$ctrl.newAttributeCardinalityEnabled"
+								placeholder="mín."
+							/>
+							<input
+								type="text"
+								class="form-control"
+								style="width:40%;"
+								ng-model="$ctrl.newAttributeMaxCardinality"
+								ng-if="$ctrl.newAttributeCardinalityEnabled"
+								placeholder="máx."
+							/>
+							<button
+								class="br-button br-button--full"
+								style="margin-left:auto;"
+								ng-click="$ctrl.addAttribute()"
+							>
+							{{ 'Add' | translate }}
+							</button>
+						</div>
+					</div>
+				</div>
 			</div><!-- End .panel-content -->
 		</section><!-- End .sidebar-panel-->
 	</div><!-- End .properties-content-->
