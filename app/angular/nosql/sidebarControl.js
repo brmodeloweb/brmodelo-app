@@ -33,7 +33,7 @@ const configurator = () => {
 const controller = function ($rootScope, $timeout) {
 	const $ctrl = this;
 	$ctrl.visible = true;
-	$ctrl.selectedElement = {};
+	$ctrl.selectedElement = null;
 
 	$ctrl.sections = {
 		tableProperties: true,
@@ -56,13 +56,14 @@ const controller = function ($rootScope, $timeout) {
 	};
 
 	$ctrl.updateName = (newName) => {
-		if (newName != "") {
-			$ctrl.onUpdate({
-				event: {
-					type: "name",
-					value: newName,
-				},
-			});
+		if (newName != "" && $ctrl.selectedElement) {
+			// Update using JointJS model's updateName method
+			if (typeof $ctrl.selectedElement.updateName === "function") {
+				$ctrl.selectedElement.updateName(newName);
+			} else {
+				// Fallback to setting the attribute directly
+				$ctrl.selectedElement.attr("headerText/text", newName);
+			}
 		}
 	};
 
@@ -166,13 +167,19 @@ const controller = function ($rootScope, $timeout) {
 	};
 
 	$ctrl.$onChanges = (changes) => {
-		if (changes.selected && changes.selected.currentValue) {
-			$ctrl.configuration = configurator().select(
-				changes.selected.currentValue,
-			);
-			const selected =
-				changes.selected.currentValue.model || changes.selected.currentValue;
-			$ctrl.selectedElement = selected;
+		if (changes.selected) {
+			const currentValue = changes.selected.currentValue;
+			if (currentValue && currentValue.model && currentValue.type !== "blank") {
+				$ctrl.configuration = configurator().select(currentValue);
+				// Keep the model for accessing JointJS properties
+				$ctrl.selectedElement = currentValue.model;
+				// Extract the name for easier access in the template
+				$ctrl.selectedElementName = currentValue.model.attr("headerText/text") || "";
+			} else {
+				$ctrl.selectedElement = null;
+				$ctrl.selectedElementName = "";
+				$ctrl.configuration = configurator().emptyState();
+			}
 		}
 	};
 

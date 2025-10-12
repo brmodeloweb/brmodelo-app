@@ -14,7 +14,7 @@
 	</div>
 
 	<!-- Collection properties -->
-	<div class="properties-content">
+	<div class="properties-content" ng-if="$ctrl.selectedElement != null">
 		<section class="sidebar-panel">
 			<header class="panel-header" ng-click="$ctrl.toggleSection('tableProperties')">
 				<h3>{{ 'Collection properties' | translate }}</h3>
@@ -27,8 +27,8 @@
 						id="entry-name"
 						type="text"
 						class="form-control"
-						data-ng-model="$ctrl.selectedElement.value"
-						ng-change="$ctrl.updateName($ctrl.selectedElement.value)" autofocus
+						data-ng-model="$ctrl.selectedElementName"
+						ng-change="$ctrl.updateName($ctrl.selectedElementName)" autofocus
 					/>
 				</div>
 			</div><!-- End .panel-content -->
