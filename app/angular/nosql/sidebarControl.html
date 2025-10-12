@@ -40,7 +40,51 @@
 				<i class="fa" data-ng-class="$ctrl.sections.cardinality ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
 			</header>
 			<div class="panel-content" ng-show="$ctrl.sections.cardinality">
-				<!-- Soon content here-->
+				<div class="collection-cardinality">
+					<div class="checkbox">
+						<label for="collection-cardinality-checkbox">
+							<input
+								id="collection-cardinality-checkbox"
+								type="checkbox"
+								ng-model="$ctrl.selectedElement.cardinalityEnabled"
+								ng-change="$ctrl.updateCollectionCardinality()"
+							/>
+							{{ 'Collection cardinality' | translate }}
+						</label>
+					</div>
+
+					<!-- TODO: Rework code markup-->
+					 <div class="cardinality-options">
+						<div
+							ng-if="$ctrl.selectedElement.cardinalityEnabled"
+							style="display:flex; gap:8px;"
+						>
+							<input
+								type="number"
+								min="0"
+								class="form-control"
+								ng-model="$ctrl.selectedElement.minCardinality"
+								ng-change="$ctrl.updateCollectionCardinality()"
+								placeholder="mín."
+								style="width:40%"
+							/>
+							<input
+								type="text"
+								class="form-control"
+								ng-model="$ctrl.selectedElement.maxCardinality"
+								ng-change="$ctrl.updateCollectionCardinality()"
+								placeholder="máx."
+								style="width:40%"
+							/>
+						</div>
+						<small
+							ng-if="$ctrl.selectedElement.cardinalityEnabled"
+							style="color:#888;"
+						>
+							Use N para ilimitado
+						</small>
+					</div><!-- End .cardinality-options -->
+				</div><!-- End .collection-cardinality-->
 			</div><!-- End .panel-content -->
 		</section><!-- End .sidebar-panel-->
 
