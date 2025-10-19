@@ -165,16 +165,25 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	};
 
 	ctrl.convertModel = (conceptualModel) => {
-		const model = {
-			"name": conceptualModel.name + $filter('translate')("_converted"),
-			"user": $rootScope.loggeduser,
-			"type": "logic",
-			"model": '{"cells":[]}'
-		};
-		ModelAPI.saveModel(model)
-			.then((newModel) => {
-				window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
-			});
+		ctrl.modelState.updatedAt = new Date();
+		setIsDirty(false);
+		ctrl.setLoading(true);
+		ctrl.model.model = JSON.stringify(configs.graph);
+
+		ModelAPI.updateModel(ctrl.model)
+			.then(() => {
+				ctrl.setLoading(false);
+				const model = {
+				"name": conceptualModel.name + $filter('translate')("_converted"),
+				"user": $rootScope.loggeduser,
+				"type": "logic",
+				"model": '{"cells":[]}'
+				};
+				ModelAPI.saveModel(model)
+					.then((newModel) => {
+						window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
+					});
+			})
 	}
 
 	ctrl.shareModel = (model) => {
