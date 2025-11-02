@@ -13,11 +13,11 @@ const Controller = function () {
 		{ name: 'INT', type: 'INT' },
 		{ name: 'BOOLEAN', type: 'BOOLEAN' },
 		{ name: 'FLOAT', type: 'FLOAT' },
-		{ name: 'VARCHAR(n)', type: 'VARCHAR(n)' },
-		{ name: 'CHAR(n)', type: 'CHAR(n)' },
+		{ name: 'VARCHAR', type: 'VARCHAR' },
+		{ name: 'CHAR', type: 'CHAR' },
 		{ name: 'JSON', type: 'JSON' },
-		{ name: 'ENUM(...)', type: 'ENUM(...)' },
-		{ name: 'SET(...', type: 'SET(...'}
+		{ name: 'ENUM', type: 'ENUM' },
+		{ name: 'SET', type: 'SET'}
 	];
 
 	$ctrl.cancel = () => {
