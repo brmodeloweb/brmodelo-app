@@ -4,7 +4,6 @@ const app = require("./server_app/app");
 const config = require("./server_app/helpers/config");
 const { Port, MongoUrl, ApiUrl, IsDevelopment } = config;
 
-mongoose.set("debug", true);
 mongoose.connect(
 	MongoUrl,
 	{ useNewUrlParser: true, useUnifiedTopology: true },

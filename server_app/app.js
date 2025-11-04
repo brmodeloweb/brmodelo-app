@@ -1,7 +1,5 @@
 const express = require("express");
-const responseTime = require("response-time");
 const errorhandler = require("errorhandler");
-const morgan = require("morgan");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -21,13 +19,12 @@ if (app.get("env") === "production") {
 const viewsPath = path.join(__dirname, "../views");
 app.set("views", viewsPath);
 
-app.use(morgan("dev"));
 app.use(bodyParser.json({limit: '50mb'})); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb'})); // support encoded bodies
 
 const appPath = path.join(__dirname, "../app");
 app.use(express.static(`${appPath}/dist`));
-app.use(responseTime());
+
 app.use(
 	session({
 		resave: true,
