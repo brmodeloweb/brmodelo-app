@@ -1,6 +1,6 @@
 # [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Web application for database modeling and teaching
@@ -99,6 +99,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dpldpc"><img src="https://avatars.githubusercontent.com/u/20994048?v=4?s=100" width="100px;" alt="David de Souza"/><br /><sub><b>David de Souza</b></sub></a><br /><a href="#financial-dpldpc" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/JeversonMisaelDaCruz"><img src="https://avatars.githubusercontent.com/u/143036544?v=4?s=100" width="100px;" alt="Jeverson misael da cruz filho"/><br /><sub><b>Jeverson misael da cruz filho</b></sub></a><br /><a href="#financial-JeversonMisaelDaCruz" title="Financial">💵</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/joaoMarceloDelfino"><img src="https://avatars.githubusercontent.com/u/150634109?v=4?s=100" width="100px;" alt="João Marcelo de Oliveira Delfino"/><br /><sub><b>João Marcelo de Oliveira Delfino</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=joaoMarceloDelfino" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/estefanotuyama"><img src="https://avatars.githubusercontent.com/u/56903306?v=4?s=100" width="100px;" alt="Estéfano Tuyama Gerassi"/><br /><sub><b>Estéfano Tuyama Gerassi</b></sub></a><br /><a href="https://github.com/brmodeloweb/brmodelo-app/commits?author=estefanotuyama" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
