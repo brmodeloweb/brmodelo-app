@@ -165,25 +165,53 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 	};
 
 	ctrl.convertModel = (conceptualModel) => {
-		ctrl.modelState.updatedAt = new Date();
-		setIsDirty(false);
-		ctrl.setLoading(true);
-		ctrl.model.model = JSON.stringify(configs.graph);
+		const isDirty = ctrl.modelState.isDirty;
+		const model = {
+			"name": conceptualModel.name + $filter('translate')("_converted"),
+			"user": $rootScope.loggeduser,
+			"type": "logic",
+			"model": '{"cells":[]}'
+		};
+		
+		if(isDirty == false) {
+			ModelAPI.saveModel(model)
+				.then((newModel) => {
+					
+					ctrl.setLoading(true);
+					ctrl.model.model = JSON.stringify(configs.graph);
+					window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
+					ctrl.setLoading(false);
+			});
+		} else {
+			const modalInstance = $uibModal.open({
+				animation: true,
+				component: "confirmationModal",
+				resolve: {
+					modalData: () => ({
+						title: $filter('translate')("Save changes before convert?"),
+						content: $filter('translate')("You have unsaved changes. Do you want to save them before converting?"),
+						cancelLabel: $filter('translate')("Cancel"),
+						confirmLabel: $filter('translate')("Save and convert"),
+					}),
+				},
+			}).result;
 
-		ModelAPI.updateModel(ctrl.model)
-			.then(() => {
-				ctrl.setLoading(false);
-				const model = {
-				"name": conceptualModel.name + $filter('translate')("_converted"),
-				"user": $rootScope.loggeduser,
-				"type": "logic",
-				"model": '{"cells":[]}'
-				};
-				ModelAPI.saveModel(model)
-					.then((newModel) => {
-						window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
-					});
+			modalInstance.then(() => {
+				ctrl.setLoading(true);
+				ctrl.model.model = JSON.stringify(configs.graph);
+				
+				ModelAPI.updateModel(ctrl.model)
+				.then(() => {
+					ctrl.modelState.updatedAt = new Date();
+					setIsDirty(false);
+					ModelAPI.saveModel(model)
+						.then((newModel) => {
+							window.open($state.href('logic', { references: { 'modelid': newModel._id, 'conversionId': conceptualModel._id } }), '_blank');
+							ctrl.setLoading(false);
+						});
+				})
 			})
+		}
 	}
 
 	ctrl.shareModel = (model) => {
@@ -364,6 +392,8 @@ const controller = function (ModelAPI, $stateParams, $rootScope, $timeout, $uibM
 				});
 				break;
 		}
+
+		setIsDirty(true);
 	}
 
 	ctrl.makeAssociative = (model) => {
