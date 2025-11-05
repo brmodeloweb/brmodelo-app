@@ -169,6 +169,15 @@
       "contributions": [
         "financial"
       ]
+    },
+    {
+      "login": "joaoMarceloDelfino",
+      "name": "João Marcelo de Oliveira Delfino",
+      "avatar_url": "https://avatars.githubusercontent.com/u/150634109?v=4",
+      "profile": "https://github.com/joaoMarceloDelfino",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
