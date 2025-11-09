@@ -1,0 +1,28 @@
+name: Eu preciso de ajuda com...
+description: Antes de enviar sua pergunta por favor explore a documentação do BRMW em: https://docs.brmodeloweb.com
+title: "[Question]: "
+labels: ["Question"]
+projects: []
+assignees:
+  - idmarjr
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por nos ajudar a melhorar o BRMW!
+  - type: textarea
+    id: your-question
+    attributes:
+      label: Qual a sua dúvida?
+      description: Por favor tente nos dar o maior número de detalhes possíve. Fique a vontade pra adicionar links para videos e imagens. 
+      placeholder: Ex: É muito complicado fazer...
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contato
+      description: Como podemos entrar em contato se precisarmos de mais informações?
+      placeholder: Ex: email@example.com
+    validations:
+      required: false
