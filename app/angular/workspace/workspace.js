@@ -11,6 +11,7 @@ import githubSponsorBanner from "../components/githubSponsorBanner";
 import shareModelModal from "../components/shareModelModal";
 import iconConceptual from  "../components/icons/conceptual";
 import iconLogic from  "../components/icons/logic";
+import whatsNewBanner from "../components/whatsNewBanner";
 
 const ListController = function (
 	$state,
@@ -224,7 +225,8 @@ export default angular
 		githubSponsorBanner,
 		shareModelModal,
 		iconConceptual,
-		iconLogic
+		iconLogic,
+		whatsNewBanner
 	])
 	.component("workspace", {
 		template,
