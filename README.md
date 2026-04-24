@@ -1,3 +1,18 @@
+> [!IMPORTANT]
+> ## 🚧 V2 Migration in Progress
+>
+> The application is currently migrating to **v2**. This includes:
+> - Full migration from AngularJS to **React**
+> - Rewrite of all editors
+> - Bug fixes and usability improvements
+> - New **NoSQL** modeling support
+>
+> **This repository is temporarily out of sync with the live application at [app.brmodeloweb.com](https://app.brmodeloweb.com/).**
+>
+> Until the migration is complete (over the next few weeks), we will **not** be updating this public repository nor accepting external contributions. Once the migration is finalized, the repo will be updated with the new version.
+>
+> Thank you for your patience!
+
 # [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors-)
