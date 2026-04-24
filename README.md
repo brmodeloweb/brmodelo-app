@@ -20,7 +20,6 @@
 
 ## Web application for database modeling and teaching
 
-![Hero shot](https://www.brmodeloweb.com/img/hero-shot-pt-br.png)
 > Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
 ## Dependencies
@@ -124,4 +123,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome — please note that external contributions are **temporarily paused** while the v2 migration is in progress (see the notice at the top of this README).
