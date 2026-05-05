@@ -72,7 +72,7 @@ const controller = function($rootScope, $timeout) {
 	}
 
 	$ctrl.updateName = (newName) => {
-		if (newName != "") {
+		if (newName != null) {
 			$ctrl.onUpdate({
 				"event": {
 					"type": "name",
