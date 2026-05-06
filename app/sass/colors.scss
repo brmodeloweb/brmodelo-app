@@ -68,3 +68,23 @@
 	///////////////////////////////////////////////////////////////////////////////
 	 --theme-purple: hsl(24, 80% 60%);
 }
+
+body.theme-dark {
+	--brand-default: var(--brand-primary-40);
+	--border-light: hsl(220, 16%, 24%);
+	--border-default: hsl(220, 14%, 32%);
+	--border-dark: hsl(220, 12%, 46%);
+	--gray-95: hsl(220, 18%, 12%);
+	--gray-90: hsl(220, 16%, 16%);
+	--gray-80: hsl(220, 14%, 24%);
+	--gray-70: hsl(220, 12%, 36%);
+	--gray-50: hsl(220, 10%, 62%);
+	--gray-30: hsl(220, 14%, 82%);
+	--gray-20: hsl(220, 18%, 90%);
+	--gray-10: hsl(220, 22%, 96%);
+	--white: hsl(220, 18%, 12%);
+	--black: hsl(220, 22%, 96%);
+	--accent-light: hsl(52, 60%, 20%);
+	--accent-base: hsl(52, 80%, 58%);
+	--accent-dark: hsl(52, 90%, 72%);
+}

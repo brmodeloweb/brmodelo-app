@@ -182,5 +182,8 @@ export default {
 	'Star on Github': 'Dê uma estrela',
 	'Donate': 'Doar',
 	'Note': 'Anotação',
-	'Color': 'Cor'
+	'Color': 'Cor',
+	'Theme': 'Tema',
+	'Light': 'Claro',
+	'Dark': 'Escuro'
 };

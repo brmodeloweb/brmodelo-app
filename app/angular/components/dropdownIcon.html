@@ -3,6 +3,26 @@
 		<i class="fa fa-user-circle"></i>
 	</button>
 	<ul class="dropdown-menu dropdown-menu-right">
+		<li class="theme-menu-item">
+			<span class="theme-menu-label">{{ 'Theme' | translate }}</span>
+			<div class="theme-toggle" role="group" aria-label="{{ 'Theme' | translate }}">
+				<button
+					type="button"
+					ng-class="{active: $ctrl.theme === 'light'}"
+					ng-click="$ctrl.setTheme('light')"
+				>
+					{{ 'Light' | translate }}
+				</button>
+				<button
+					type="button"
+					ng-class="{active: $ctrl.theme === 'dark'}"
+					ng-click="$ctrl.setTheme('dark')"
+				>
+					{{ 'Dark' | translate }}
+				</button>
+			</div>
+		</li>
+		<li role="separator" class="divider"></li>
 		<li>
 			<a
 				target="_blank"

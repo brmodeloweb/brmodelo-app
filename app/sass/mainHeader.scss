@@ -140,3 +140,40 @@
 .nav-icons .dropdown-menu > li > a {
 	color: var(--gray-20);
 }
+
+.theme-menu-item {
+	min-width: 190px;
+	padding: 8px 12px 10px;
+}
+
+.theme-menu-label {
+	display: block;
+	margin-bottom: 6px;
+	font-size: 0.85em;
+	font-weight: 600;
+	color: var(--gray-30);
+}
+
+.theme-toggle {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	padding: 2px;
+	border: 1px solid var(--border-default);
+	border-radius: 4px;
+	background-color: var(--gray-90);
+}
+
+.theme-toggle button {
+	border: 0;
+	border-radius: 2px;
+	padding: 5px 8px;
+	font-size: 0.9em;
+	line-height: 1.2;
+	color: var(--gray-20);
+	background-color: transparent;
+}
+
+.theme-toggle button.active {
+	color: hsl(0, 0%, 100%);
+	background-color: var(--brand-default);
+}

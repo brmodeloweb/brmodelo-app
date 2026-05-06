@@ -17,6 +17,7 @@ import "oclazyload";
 import sidebarControlConceptual from "./conceptual/sidebarControl";
 import sidebarControlLogic from "./logic/sidebarControl";
 import authService from "./service/authService";
+import themeService from "./service/themeService";
 import modelService from "./service/modelAPI";
 import dropdownComponent from "./components/dropdown";
 import dropdownIconComponent from "./components/dropdownIcon";
@@ -41,6 +42,7 @@ const app = angular.module("app", [
 	"ngCookies" /** textangular */,
 	"oc.lazyLoad",
 	authService,
+	themeService,
 	modelService,
 	logicService,
 	dropdownComponent,
@@ -249,7 +251,9 @@ app.config([
 	},
 ]);
 
-app.run(function ($transitions, $rootScope, AuthService, $state, $window, $location) {
+app.run(function ($transitions, $rootScope, AuthService, ThemeService, $state, $window, $location) {
+	ThemeService.applyTheme(ThemeService.getTheme());
+
 	$transitions.onStart({}, function (trans) {
 		const { requireLogin } = trans.to().data;
 		if (requireLogin) {
