@@ -26,6 +26,7 @@ body {
 	font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 	font-weight: 400;
 	color: var(--gray-20);
+	background-color: var(--white);
 }
 
 a,
@@ -288,4 +289,44 @@ a:hover,
 ////////////////////////////////////////////////////////////////////////////////
 .page-header {
 	border-color: var(--border-default);
+}
+
+.theme-dark .dropdown-menu,
+.theme-dark .modal-content {
+	background-color: var(--gray-95);
+	border-color: var(--border-default);
+	color: var(--gray-20);
+}
+
+.theme-dark .dropdown-menu .divider {
+	background-color: var(--border-default);
+}
+
+.theme-dark .dropdown-menu > li > a:hover,
+.theme-dark .dropdown-menu > li > a:focus {
+	background-color: var(--gray-90);
+	color: var(--gray-10);
+}
+
+.theme-dark .table > thead > tr > th,
+.theme-dark .table > tbody > tr > td {
+	border-color: var(--border-default);
+}
+
+.theme-dark .table-hover > tbody > tr:hover {
+	background-color: var(--gray-90);
+}
+
+.theme-dark .form-control {
+	background-color: var(--gray-90);
+	border-color: var(--border-default);
+	color: var(--gray-20);
+}
+
+.theme-dark .editor-scroller {
+	background-color: hsl(220, 18%, 10%);
+}
+
+.theme-dark .editor-scroller .joint-paper {
+	background-color: hsl(220, 18%, 13%);
 }

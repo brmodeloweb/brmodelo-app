@@ -16,3 +16,47 @@
 .joint-link.joint-theme-default .connection-wrap:hover {
 	display: none;
 }
+
+.theme-dark .joint-paper .joint-cell .outer,
+.theme-dark .joint-paper .joint-cell .poly {
+	fill: hsl(220, 16%, 18%);
+	stroke: hsl(170, 70%, 58%);
+}
+
+.theme-dark .joint-paper .joint-cell .inner {
+	stroke: hsl(170, 70%, 58%);
+}
+
+.theme-dark .joint-paper .joint-cell text {
+	fill: hsl(220, 22%, 96%);
+}
+
+.theme-dark .joint-paper .joint-link .connection,
+.theme-dark .joint-paper .joint-link .marker-source,
+.theme-dark .joint-paper .joint-link .marker-target {
+	stroke: hsl(220, 22%, 86%);
+}
+
+.theme-dark .joint-paper .joint-link .connection[stroke-dasharray] {
+	stroke: hsl(45, 86%, 68%);
+}
+
+.theme-dark .joint-paper .uml-class-name-rect {
+	fill: hsl(170, 58%, 32%);
+	stroke: hsl(170, 70%, 58%);
+}
+
+.theme-dark .joint-paper .uml-class-attrs-rect,
+.theme-dark .joint-paper .uml-class-methods-rect {
+	fill: hsl(220, 16%, 18%);
+	stroke: hsl(170, 34%, 48%);
+}
+
+.theme-dark .joint-paper .uml-class-name-text {
+	fill: hsl(0, 0%, 100%);
+}
+
+.theme-dark .joint-paper .uml-class-attrs-text,
+.theme-dark .joint-paper .uml-class-methods-text {
+	fill: hsl(220, 22%, 94%);
+}

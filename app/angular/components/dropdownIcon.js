@@ -1,12 +1,18 @@
 import angular from "angular";
 import template from "./dropdownIcon.html";
+import themeService from "../service/themeService";
 
-const dropDownIconController = function ($element, $timeout) {
+const dropDownIconController = function ($element, $timeout, ThemeService) {
 	const ctrl = this;
 	ctrl.open = false;
+	ctrl.theme = ThemeService.getTheme();
 
 	ctrl.toggle = (command) => {
 		ctrl.open = command;
+	};
+
+	ctrl.setTheme = (theme) => {
+		ctrl.theme = ThemeService.applyTheme(theme);
 	};
 
 	ctrl.select = (option) => {
@@ -26,7 +32,7 @@ const dropDownIconController = function ($element, $timeout) {
 	};
 };
 
-export default angular.module("app.dropdownIcon", []).component("dropdownIcon", {
+export default angular.module("app.dropdownIcon", [themeService]).component("dropdownIcon", {
 	template,
 	controller: dropDownIconController,
 	bindings: {
