@@ -1,85 +1,81 @@
-> [!IMPORTANT]
-> ## 🚧 V2 Migration in Progress
->
-> The application is currently migrating to **v2**. This includes:
-> - Full migration from AngularJS to **React**
-> - Rewrite of all editors
-> - Bug fixes and usability improvements
-> - New **NoSQL** modeling support
->
-> **This repository is temporarily out of sync with the live application at [app.brmodeloweb.com](https://app.brmodeloweb.com/).**
->
-> Until the migration is complete (over the next few weeks), we will **not** be updating this public repository nor accepting external contributions. Once the migration is finalized, the repo will be updated with the new version.
->
-> Thank you for your patience!
+# BRMW
 
-# [app.brmodeloweb.com](https://app.brmodeloweb.com)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-26-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-## Web application for database modeling and teaching
+BRMW is a web application for database modeling, built for teaching and learning. It runs entirely in the browser: there is no server, no account, and your models stay on your machine.
 
-> Released under the [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
+It follows the classic modeling workflow taught in database courses. You start with a **conceptual** model, convert it into a **logical** model, and generate the **SQL** to create the database. A **NoSQL** modeling module lets you explore the document-oriented alternative from the same conceptual model.
 
-## Dependencies
+A hosted version, with accounts, cloud storage, sharing and other features, is available at [app.brmodeloweb.com](https://app.brmodeloweb.com/). Learn more at [brmodeloweb.com](https://www.brmodeloweb.com/).
 
-To run this application you'll need:
+## Features
 
-- [EditorConfig](https://editorconfig.org/)
-- [Node.js version 20.x](https://nodejs.org/) (Strongly recommended to install it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
-- [Yarn version 1.x](https://yarnpkg.com/)
-- [MongoDB Community Edition version 4.x](https://www.mongodb.com/) (Check [installation guides](https://docs.mongodb.com/manual/installation/))
+- **Conceptual modeling** with the entity-relationship notation (Peter Chen, with the Heuser conventions common in Brazilian courses): entities, relationships, attributes, keys, cardinalities, weak entities, ISA hierarchies and associative entities
+- **Logical modeling** with tables, columns, primary and foreign keys, and views with query expressions
+- **NoSQL modeling** with collections, embedded documents and references
+- **Automatic conversion** from conceptual to logical and from conceptual to NoSQL, with interactive choices for the ambiguous cases (ISA strategies, attribute placement, references vs embedding)
+- **SQL generation** for the logical model
+- **Diagram editing** with multi-selection, copy and paste, undo and redo, snaplines, grid, page breaks and printing
+- **Local persistence**: models are saved in the browser's `localStorage`
+- **Interface in English and Brazilian Portuguese**
 
-## Running application
+## Technologies
 
-1. Install dependencies: `yarn install`
-1. Duplicate `.env.example` and rename it to `.env`
-1. Make sure you have MongoDB running (To know more: [MacOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#run-mongodb-community-edition), [Windows](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition-as-a-windows-service), [CentOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#run-mongodb-community-edition), [Ubuntu](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#run-mongodb-community-edition) or [Debian](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/#run-mongodb-community-edition))
-1. Start frontend: `yarn start:frontend`
-1. Start server: `yarn start:dev`
-1. Access it: [http://localhost:9000/](http://localhost:9000/)
+- [React 19](https://react.dev/) with [TypeScript](https://www.typescriptlang.org/) and [styled-components](https://styled-components.com/)
+- [JointJS](https://www.jointjs.com/) (`@joint/core`, open source) for the diagram canvas, with custom editor widgets in `app/editor/`
+- [React Router 7](https://reactrouter.com/) for routing
+- [react-i18next](https://react.i18next.com/) for internationalization
+- [Radix UI](https://www.radix-ui.com/) for accessible dialogs
+- [Webpack 5](https://webpack.js.org/), [Babel](https://babeljs.io/) and [Sass](https://sass-lang.com/) for the build
+- [Jest](https://jestjs.io/) and [Testing Library](https://testing-library.com/) for tests
 
-## Running with docker-compose
+## Getting started
 
-> **Note:** Docker setup is still a work in progress and does not offer a good developer experience. For now we recommend you to run the project locally following the instructions listed above. If you still want to use docker, here's how:
+You will need:
 
-1. Make sure you have [Docker Desktop](https://www.docker.com/get-started) running
-1. Start docker: `docker-compose up` or `docker-compose up -d`
-1. Access it: [http://localhost:9000/](http://localhost:9000/)
-1. Once your done, finish docker: `docker-compose down`
+- [Node.js 24.x](https://nodejs.org/) (we recommend installing it via [nvm](https://github.com/nvm-sh/nvm#readme) or [n](https://github.com/tj/n#readme))
+- [pnpm 10.x](https://pnpm.io/)
+- An editor with [EditorConfig](https://editorconfig.org/) support
 
-## Tests
+Then:
 
-### Setup tests
+```bash
+pnpm install
+pnpm run:fe
+```
 
-1. Duplicate `cypress.env.example.json` and rename it to `cypress.env.json`
-1. Update `cypress.env.json` with valid user credentials (Username and password)
+Open [http://localhost:9000](http://localhost:9000). Models are stored in your browser, so clearing site data erases them.
 
-> [!WARNING]
-> The data from the accound you set in `cypress.env.json` will be wiped out after the tests run.
-> So, don't use your real account here!
+Other commands:
 
-### E2E tests
+| Command | What it does |
+| --- | --- |
+| `pnpm build` | Production build into `app/dist` |
+| `pnpm test` | Runs the test suite with coverage |
+| `pnpm test:watch` | Runs the tests in watch mode |
 
-To run E2E tests you have two options:
+## Project structure
 
-1. Run headless mode in your terminal window: `yarn test:cy`
-1. Run interactive mode: `yarn cy:open`
+```
+app/
+  editor/        editor widgets (canvas, selection, toolbar, clipboard, undo/redo, snaplines, print)
+  joint/         JointJS shape definitions (conceptual, logical, NoSQL, links, notes)
+  react/         React application
+    pages/       one folder per screen: workspace, conceptual, logic, nosql
+    components/  shared components and modals
+    services/    local persistence and hooks
+    router/      routes
+    public/      translation files
+  sass/          global styles
+```
 
+Each page is split into a `*PageWrapper.tsx`, which wires routing and services, and a `*Page.tsx`, which is a presentational component. The conversion engines live next to their editors in `pages/logic/conversor.js` and `pages/nosql/conversor.js`.
 
-### Unit Tests
+## Contributing
 
-To run the unit tests you have two options:
-
-- `yarn test` to run all the tests and collect the coverage report. Or;
-- Execute in a `watch` mode by running `yarn test:watch`
-
-
-## Production environments
-
-- Stable: [https://app.brmodeloweb.com](https://app.brmodeloweb.com)
-- Staging: [https://brmodelo-stage.herokuapp.com](https://brmodelo-stage.herokuapp.com/)
+Contributions are welcome. Please read the [code of conduct](CODE_OF_CONDUCT.md) before opening an issue or a pull request.
 
 ## Contributors ✨
 
@@ -132,4 +128,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome — please note that external contributions are **temporarily paused** while the v2 migration is in progress (see the notice at the top of this README).
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
+
+## License
+
+Copyright 2026 Milton Bittencourt
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the [LICENSE](LICENSE) file for the specific language governing permissions and limitations under the License.
+
+This project continues the work started in [brmodelo-app](https://github.com/brmodeloweb/brmodelo-app), also released under the Apache License 2.0.

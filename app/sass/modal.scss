@@ -16,15 +16,28 @@
 	position: relative;
 }
 
-.modal-header .br-loader {
+.modal-body {
+	position: relative;
+}
+
+.modal-body > .br-loader {
 	position: absolute;
-	top: unset;
-	bottom: -9px;
+	top: 8px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // For validation inside modal
 ///////////////////////////////////////////////////////////////////////////////
+.modal-body .feedback {
+	position: static;
+	padding: 0;
+	min-width: unset;
+	margin-bottom: 12px;
+}
+
 .modal-body .feedback .alert {
 	padding: 6px 10px;
 }

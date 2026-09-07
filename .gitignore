@@ -41,16 +41,5 @@ app/dist
 .env.development
 .env.production
 
-###############################################################################
-# docker files
-###############################################################################
-data/
-coverage/
-
-###############################################################################
-# cypress
-###############################################################################
+# leftover local credentials from the removed Cypress suite
 cypress.env.json
-cypress/downloads/
-cypress/screenshots/
-cypress/videos/

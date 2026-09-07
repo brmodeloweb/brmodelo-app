@@ -2,7 +2,7 @@
 // Joint customizations
 ///////////////////////////////////////////////////////////////////////////////
 .link-tools {
-  display: none;
+	display: none;
 }
 
 .marker-arrowheads {
@@ -15,4 +15,28 @@
 
 .joint-link.joint-theme-default .connection-wrap:hover {
 	display: none;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .joint-paper
+///////////////////////////////////////////////////////////////////////////////
+// Weird selector to avoid styles to be applied at shape palette children
+.pseudo-canvas > .brmw-canvas .joint-paper {
+	border: 1px solid var(--border-light);
+	border-radius: 6px;
+	overflow: hidden;
+	background-color: var(--white);
+	box-shadow: 0 2px 10px -2px var(--gray-80);
+}
+
+.brmw-canvas {
+	background-color: var(--gray-95);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// NoSQL collection rows
+///////////////////////////////////////////////////////////////////////////////
+.nosql-row-hover:hover,
+.nosql-row-hit:hover {
+	fill: rgba(0, 0, 0, 0.06);
 }

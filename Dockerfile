@@ -1,15 +1,13 @@
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /usr/src/app
 
-COPY yarn.lock package.json .
+COPY pnpm-lock.yaml package.json ./
 
-RUN --mount=type=cache,target=/root/.yarn --mount=type=cache,target=/root/.cache YARN_CACHE_FOLDER=/root/.yarn yarn install
+RUN --mount=type=cache,target=/root/.pnpm --mount=type=cache,target=/root/.cache corepack enable && corepack prepare pnpm@latest --activate && pnpm install
 
 COPY . .
 
-# expose port 3000 for server and 9000 for webpack-dev-server
-EXPOSE 3000 9000
+EXPOSE 9000
 
-# run start:frontend and start:dev in parallel
-CMD ["yarn", "start:frontend", "start:dev"]
+CMD ["pnpm", "run:fe"]

@@ -25,23 +25,25 @@
 	text-align: right;
 }
 
-.actions-cell .fa {
+.actions-cell .svg-inline--fa {
 	pointer-events: none;
 	opacity: 0;
-	font-size: 1.3em;
+	font-size: 1.1em;
+	color: hsl(0, 0%, 50%);
 	padding: 4px 6px;
 	border: 1px solid transparent;
 	border-radius: 2px;
 	margin-left: 3px;
 }
 
-tr:hover .actions-cell .fa {
+tr:hover .actions-cell .svg-inline--fa {
 	pointer-events: all;
 	opacity: 1;
 	border-radius: 4px;
 }
 
-.actions-cell .fa:hover {
+.actions-cell .svg-inline--fa:hover {
+	color: var(--gray-50);
 	border-color: var(--border-default);
 	background-color: var(--gray-90);
 }
