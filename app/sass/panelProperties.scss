@@ -1,0 +1,68 @@
+///////////////////////////////////////////////////////////////////////////////
+// .panelProperties
+///////////////////////////////////////////////////////////////////////////////
+
+// Force all styles with .pseudo-canvas to avoid break legancy view
+// Later we're gonna need to clean this
+
+.panelProperties {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 250px;
+	bottom:auto;
+	border: none;
+	z-index: 1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .properties-content
+////////////////////////////////////////////////////////////////////////////////
+.open .properties-content {
+	pointer-events: all;
+	height: auto;
+	padding: 12px;
+	overflow-y: scroll;
+}
+
+.properties-content {
+	pointer-events: none;
+	height: 0;
+	max-height: calc(100svh - 150px);
+	overflow-y: clip;
+	scrollbar-width: none;
+	padding: 0;
+}
+
+.properties-content::-webkit-scrollbar {
+	display: none;
+}
+
+.properties-content .empty-state {
+	padding: 24px 0;
+	font-size: 1.3em;
+	font-weight: 200;
+	text-align: center;
+	color: var(--gray-20);
+}
+
+.properties-content .br-button {
+	text-align: center;
+	width: 100%;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .editionColumn
+////////////////////////////////////////////////////////////////////////////////
+.editionColumn {
+	margin-top: 5px;
+}
+
+.editionColumn .editionItem {
+	margin-bottom: 5px;
+}
+
+.editionItem .fieldInput {
+	padding: 2px 5px;
+	font-size: 1.0em;
+}

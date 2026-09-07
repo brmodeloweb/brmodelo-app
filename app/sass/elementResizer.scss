@@ -1,0 +1,27 @@
+///////////////////////////////////////////////////////////////////////////////
+// .brmw-element-resizer
+///////////////////////////////////////////////////////////////////////////////
+.brmw-element-resizer {
+	position: absolute;
+	border: 1px dashed var(--gray-50);
+	pointer-events: none;
+}
+
+.brmw-element-resizer-handle {
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	border: 1px solid var(--gray-30);
+	background-color: var(--white);
+	transform: translate(-50%, -50%);
+	pointer-events: all;
+}
+
+.brmw-element-resizer-nw { left: 0; top: 0; cursor: nwse-resize; }
+.brmw-element-resizer-n { left: 50%; top: 0; cursor: ns-resize; }
+.brmw-element-resizer-ne { left: 100%; top: 0; cursor: nesw-resize; }
+.brmw-element-resizer-e { left: 100%; top: 50%; cursor: ew-resize; }
+.brmw-element-resizer-se { left: 100%; top: 100%; cursor: nwse-resize; }
+.brmw-element-resizer-s { left: 50%; top: 100%; cursor: ns-resize; }
+.brmw-element-resizer-sw { left: 0; top: 100%; cursor: nesw-resize; }
+.brmw-element-resizer-w { left: 0; top: 50%; cursor: ew-resize; }

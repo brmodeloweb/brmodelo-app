@@ -1,58 +1,86 @@
-////////////////////////////////////////////////////////////////////////////////
-// .modelWorkspace .navbar
-////////////////////////////////////////////////////////////////////////////////
-.modelWorkspace .navbar {
-	width: 150px;
-	border-right: 1px solid var(--border-default);
-	border-bottom: 1px solid var(--border-default);
-	background-color: var(--gray-95)
+///////////////////////////////////////////////////////////////////////////////
+// Size related variables
+///////////////////////////////////////////////////////////////////////////////
+:root {
+	--modelWorspace-header-height: 60px;
 }
 
-.modelWorkspace .navbar .back-button {
+///////////////////////////////////////////////////////////////////////////////
+// .modelWorkspace-header
+///////////////////////////////////////////////////////////////////////////////
+.modelWorkspace-header {
+	display: flex;
+	max-height: var(--modelWorspace-header-height);
+	gap: 12px;
+	margin: 0;
+	border-bottom: 1px solid #BFBFBF;
+	background-color: #F2F2F2
+}
+.modelWorkspace-header .navigation-back {
+	padding: 20px;
+	border-radius: 0;
+	border: none;
+	border-right: 1px solid #BFBFBF;
+}
+
+.modelWorkspace-header .navigation-back:hover {
+	background-color: #dedede;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .header-actions
+///////////////////////////////////////////////////////////////////////////////
+.header-actions {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin: 0 12px 0 0;
+}
+
+.header-actions .br-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .document-info
+///////////////////////////////////////////////////////////////////////////////
+.document-info {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	gap: 2px;
+}
+
+.document-info > h2 {
+	display: flex;
+	align-items: flex-end;
+	margin: 0;
 	font-size: 1.2em;
-	color: var(--brand-default);
-	padding-top: 16px;
-	padding-bottom: 17px;
-	border-right: 1px solid var(--border-default);
+	gap: 6px;
 }
 
-.modelWorkspace .navbar .back-button:hover {
-	color: var(--brand-default);
-	background-color: #e1e1e1;
+.document-info > h2 span {
+	display: inline-block;
 }
 
-.modelWorkspace .navbar-header {
-	float: none;
+.status-bar {
+	font-size: 0.8em;
+	font-weight: 300;
+	color: var(--gray-50);
 }
 
-.modelWorkspace .navbar-header .navbar-brand {
-	float: none;
-	display: block;
-	padding: 15px 0;
-	text-align: center;
+.document-info .status-bar {
+	margin: 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// .modelWorkspace .mainContent
-////////////////////////////////////////////////////////////////////////////////
-.modelWorkspace .mainContent {
-	padding-top: 0;
+///////////////////////////////////////////////////////////////////////////////
+// .pseudo-canvas
+///////////////////////////////////////////////////////////////////////////////
+.pseudo-canvas {
+	position: relative;
+	height: calc(100svh - var(--modelWorspace-header-height));
+	overflow: hidden;
 }
-
-.modelWorkspace .model-area {
-	top: 0;
-}
-
-.modelWorkspace .workspace-header .page-header {
-	margin-top: 10px;
-	border-bottom: 1px solid var(--border-default);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .share-status
-////////////////////////////////////////////////////////////////////////////////
-.share-status {
-	color: var(--gray-70);
-	font-size: 1.2rem;
-	margin-right: 4px;
-} 

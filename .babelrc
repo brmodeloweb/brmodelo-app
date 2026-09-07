@@ -11,9 +11,6 @@
     ]
 	],
 	"plugins": [
-		"@babel/plugin-proposal-class-properties",
-    "@babel/plugin-syntax-dynamic-import",
-    "angularjs-annotate",
     ["@babel/plugin-transform-runtime",
       {
         "regenerator": true

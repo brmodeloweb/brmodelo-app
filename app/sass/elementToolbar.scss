@@ -1,0 +1,34 @@
+///////////////////////////////////////////////////////////////////////////////
+// .brmw-element-toolbar
+///////////////////////////////////////////////////////////////////////////////
+.brmw-element-toolbar-actions,
+.brmw-element-toolbar-links {
+	position: absolute;
+	display: flex;
+	gap: 4px;
+}
+
+.brmw-element-toolbar-actions {
+	flex-direction: row;
+}
+
+.brmw-element-toolbar-links {
+	flex-direction: column;
+}
+
+.brmw-element-toolbar-handle {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	cursor: pointer;
+}
+
+.brmw-element-toolbar-link,
+.brmw-element-toolbar-fork {
+	cursor: crosshair;
+}
