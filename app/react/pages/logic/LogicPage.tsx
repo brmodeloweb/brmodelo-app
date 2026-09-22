@@ -7,6 +7,7 @@ import { LogicIcon } from "../../components/Icons";
 import Feedback, { useFeedback } from "../../components/Feedback";
 import LogicSidebar from "./sidebar/LogicSidebar";
 import { formatDate } from "../../utils/formatDate";
+import { useConfirmationModal } from "../../components/ConfirmationModal";
 import loadingDots from "../../../img/loading-dots.gif";
 
 interface Model {
@@ -32,7 +33,7 @@ interface LogicPageProps {
 	onLoadModel: (modelId: string) => Promise<any>;
 	onSaveModel: (model: any) => Promise<void>;
 	onNavigateToWorkspace: () => void;
-	onGenerateSQL: (tablesMap: Map<string, any>, views: any[]) => void;
+	onGenerateSQL: (tablesMap: Map<string, any>, views: any[], modelName?: string) => void;
 	onEditorReady?: (editor: ILogicEditor | null) => void;
 	onOpenQueryExpression: (tables: any[], queryConditions: any) => Promise<any>;
 	onConversionConsumed?: (modelId: string) => void;
@@ -57,6 +58,7 @@ const LogicPage: React.FC<LogicPageProps> = React.memo(({
 	const [loading, setLoading] = useState(true);
 	const [model, setModel] = useState<Model>({ id: "", name: "", type: "logic", updatedAt: "" });
 	const { feedback, showFeedback, hideFeedback } = useFeedback();
+	const confirmationModal = useConfirmationModal();
 	const [selectedElement, setSelectedElement] = useState<SelectedElement>(BLANK_SELECTION);
 	const [shapePaletteVisible, setShapePaletteVisible] = useState(true);
 	const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -103,10 +105,22 @@ const LogicPage: React.FC<LogicPageProps> = React.memo(({
 
 		if (event.type === "editCardinalityA") {
 			editor.editCardinalityA(event.element, event.value);
+			selectedElementRef.current = {
+				...selectedElementRef.current,
+				type: "Link",
+				element: event.element,
+			};
+			setSelectedElement({ ...selectedElementRef.current });
 			return;
 		}
 		if (event.type === "editCardinalityB") {
 			editor.editCardinalityB(event.element, event.value);
+			selectedElementRef.current = {
+				...selectedElementRef.current,
+				type: "Link",
+				element: event.element,
+			};
+			setSelectedElement({ ...selectedElementRef.current });
 			return;
 		}
 
@@ -131,8 +145,8 @@ const LogicPage: React.FC<LogicPageProps> = React.memo(({
 		if (!editor) return;
 		const tablesJson = editor.buildTablesJson();
 		const views = editor.loadViews();
-		onGenerateSQL(tablesJson, views);
-	}, [onGenerateSQL]);
+		onGenerateSQL(tablesJson, views, model.name || modelRef.current?.name);
+	}, [onGenerateSQL, model.name]);
 
 	const handleClearSelection = useCallback(() => {
 		hideFeedback();
@@ -187,6 +201,14 @@ const LogicPage: React.FC<LogicPageProps> = React.memo(({
 				hideFeedback();
 				selectedElementRef.current = BLANK_SELECTION;
 				setSelectedElement(BLANK_SELECTION);
+			},
+			onNnCardinalityBlocked: () => {
+				confirmationModal.confirm({
+					title: t("Cannot set many-to-many"),
+					content: t("Many-to-many relationships require an intermediate associative table. Create the junction table manually or convert from a conceptual model."),
+					cancelable: false,
+					confirmLabel: t("Close"),
+				}).catch(() => {});
 			},
 		};
 
@@ -257,7 +279,7 @@ const LogicPage: React.FC<LogicPageProps> = React.memo(({
 				editorRef.current.destroy();
 			}
 		};
-	}, [modelId, conversionId, onLoadModel, onNavigateToWorkspace, showFeedback, hideFeedback, onEditorReady, handleSave, conversionAttributeModalService, conversionOptionModalService, onConversionConsumed]);
+	}, [modelId, conversionId, onLoadModel, onNavigateToWorkspace, showFeedback, hideFeedback, onEditorReady, handleSave, conversionAttributeModalService, conversionOptionModalService, onConversionConsumed, confirmationModal, t]);
 
 
 	return (

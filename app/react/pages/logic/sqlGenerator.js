@@ -1,6 +1,7 @@
 import { comparasionOperators } from "./queryExpressionService";
 
 const REGEX_TABLE_COLUMN_NAME = /^(?<table>[^.]+)\.(?<column>[^.]+)$/;
+const IDENTIFIER_REGEX = /^[A-Za-z_][A-Za-z0-9_]*$/;
 
 const constraints = [
 	{ key: 'PK', sqlValue: "PRIMARY KEY" },
@@ -8,8 +9,40 @@ const constraints = [
 	{ key: 'AUTO_INCREMENT', sqlValue: "AUTO_INCREMENT" },
 ];
 
-export const generate = function (model, views) {
+export const validateLogicModelForSql = function (model, views = []) {
+	const errors = [];
+	const keys = [...model.keys()];
 
+	if (keys.length === 0) {
+		errors.push("Model has no tables");
+		return errors;
+	}
+
+	for (const key of keys) {
+		const table = model.get(key);
+		const tableName = cleanString(table?.name || "");
+		if (!tableName || !IDENTIFIER_REGEX.test(tableName)) {
+			errors.push(`Invalid table name: "${table?.name || ""}"`);
+		}
+
+		const columns = table?.columns || [];
+		if (columns.length === 0) {
+			errors.push(`Table "${table?.name || tableName}" has no columns`);
+			continue;
+		}
+
+		for (const column of columns) {
+			const columnName = cleanString(column?.name || "");
+			if (!columnName || !IDENTIFIER_REGEX.test(columnName)) {
+				errors.push(`Invalid column name "${column?.name || ""}" in table "${table?.name || tableName}"`);
+			}
+		}
+	}
+
+	return errors;
+};
+
+export const generate = function (model, views) {
 	const pending = new Map();
 	const createdMap = new Map();
 
@@ -76,12 +109,30 @@ const createViewScript = (view) => {
 	return '';
 }
 
+const resolveReferencedPrimaryKey = (originTable, fkColumn) => {
+	const columns = originTable?.columns || [];
+	const explicit = columns.find((column) => cleanString(column?.name) === cleanString(fkColumn?.tableOrigin?.idName));
+	if (explicit) return cleanString(explicit.name);
+
+	const primaryKeys = columns.filter((column) => column.PK || column.isPrimaryKey);
+	if (primaryKeys.length === 1) return cleanString(primaryKeys[0].name);
+	if (primaryKeys.length > 1) {
+		const matchingName = primaryKeys.find((column) => cleanString(column.name) === cleanString(fkColumn?.name));
+		if (matchingName) return cleanString(matchingName.name);
+		return cleanString(primaryKeys[0].name);
+	}
+
+	return cleanString(fkColumn?.name);
+};
+
 const createAlterTable = function(key, table, createdMap){
 	var alter = "";
 	for (const column of table.columns) {
 		if(column.FK){
-			var originTable = createdMap.get(column.tableOrigin.idOrigin)?.name;
-			alter += "ALTER TABLE " + table?.name + " ADD FOREIGN KEY(" + cleanString(column?.name) + ") REFERENCES " + originTable + " ("+ cleanString(column?.name) + ")\n";
+			var originTable = createdMap.get(column.tableOrigin.idOrigin);
+			var originTableName = originTable?.name;
+			var referencedColumn = resolveReferencedPrimaryKey(originTable, column);
+			alter += "ALTER TABLE " + table?.name + " ADD FOREIGN KEY(" + cleanString(column?.name) + ") REFERENCES " + originTableName + " ("+ referencedColumn + ")\n";
 		}
 	}
 	return alter;

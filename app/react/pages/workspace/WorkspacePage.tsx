@@ -19,6 +19,8 @@ interface WorkspacePageProps {
 	dropdownOptions: DropdownOption[];
 	onOpenModel: (model: Model) => void;
 	onNewModel: () => void;
+	onImportModel: () => void;
+	onExportModel: (model: Model) => void;
 	onRenameModel: (model: Model) => void;
 	onDeleteModel: (model: Model) => void;
 	onMenuOptionSelected: (option: DropdownOption) => void;
@@ -33,6 +35,8 @@ const WorkspacePage: React.FC<WorkspacePageProps> = React.memo(({
 	dropdownOptions,
 	onOpenModel,
 	onNewModel,
+	onImportModel,
+	onExportModel,
 	onRenameModel,
 	onDeleteModel,
 	onMenuOptionSelected,
@@ -81,6 +85,10 @@ const WorkspacePage: React.FC<WorkspacePageProps> = React.memo(({
 					<div className="page-header clearfix">
 						<h2 className="h2 pull-left">{t('Models')}</h2>
 						<aside className="header-actions pull-right">
+							<a className="br-button" onClick={onImportModel}>
+								<FontAwesomeIcon icon="file-import" /> {t('Import model')}
+							</a>
+							{" "}
 							<a className="br-button" onClick={onNewModel}>
 								<FontAwesomeIcon icon="circle-plus" /> {t('New model')}
 							</a>
@@ -124,6 +132,11 @@ const WorkspacePage: React.FC<WorkspacePageProps> = React.memo(({
 										</td>
 										<td onClick={() => onOpenModel(model)}>{formatDate(model.created)}</td>
 										<td className="actions-cell">
+											<FontAwesomeIcon
+												title={t('Export')}
+												icon="download"
+												onClick={() => onExportModel(model)}
+											/>
 											<FontAwesomeIcon
 												title={t('Rename')}
 												icon="pencil"

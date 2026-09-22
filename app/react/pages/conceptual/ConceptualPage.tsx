@@ -44,7 +44,7 @@ const enrichSelectedElement = (element: SelectedElement): SelectedElement => {
 			...element,
 			value: {
 				weak: attributes.weak,
-				role: attributes.role,
+				role: labels?.[1]?.attrs?.text?.text || attributes.role || "",
 				cardinality: labels && labels[0] && labels[0].attrs?.text?.text || "",
 			},
 		};
