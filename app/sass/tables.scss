@@ -35,6 +35,10 @@
 	line-height: 1;
 }
 
+.actions-cell button.br-icon-button:focus-visible .svg-inline--fa {
+	opacity: 1;
+}
+
 .actions-cell .svg-inline--fa {
 	pointer-events: none;
 	opacity: 0;
