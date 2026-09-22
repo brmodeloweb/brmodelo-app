@@ -15,6 +15,9 @@ module.exports = [
 				describe: "readonly",
 				expect: "readonly",
 				test: "readonly",
+				beforeEach: "readonly",
+				afterEach: "readonly",
+				jest: "readonly",
 			},
 		},
 	},
@@ -66,6 +69,7 @@ module.exports = [
 			"no-shadow": "off",
 			"react/jsx-uses-react": "off",
 			"react/react-in-jsx-scope": "off",
+			"react/prop-types": "off",
 			"@typescript-eslint/no-shadow": ["error"],
 			"react/jsx-filename-extension": [
 				1,

@@ -53,16 +53,25 @@ describe("resolveFKColumnOrigin (#569)", () => {
 		expect(result).toEqual({ columnName: "codigo" });
 	});
 
-	test("falls back to FK name when it matches a PK", () => {
+	test("returns null when stored columnName no longer matches a PK", () => {
 		const result = resolveFKColumnOrigin(
 			{ columnName: "deleted" },
+			columns,
+			"idPessoa",
+		);
+		expect(result).toBeNull();
+	});
+
+	test("falls back to FK name when columnName is absent and FK name matches a PK", () => {
+		const result = resolveFKColumnOrigin(
+			{},
 			columns,
 			"idPessoa",
 		);
 		expect(result).toEqual({ columnName: "idPessoa" });
 	});
 
-	test("falls back to first PK when stored name and FK name do not match", () => {
+	test("falls back to first PK when columnName is absent and FK name does not match", () => {
 		const result = resolveFKColumnOrigin(
 			{},
 			columns,

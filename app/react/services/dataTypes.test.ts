@@ -5,6 +5,8 @@ import {
 	formatColumnType,
 	formatNosqlType,
 	getSqlTypeOptions,
+	getSqlTypeOptionsForPrimaryKey,
+	isSqlTypeAllowedForPrimaryKey,
 	isStringSqlType,
 	mapSqlTypeToNosql,
 	parseLegacyType,
@@ -24,6 +26,16 @@ describe("dataTypes", () => {
 			"UUID",
 			"TIMESTAMP",
 		]));
+		expect(names).not.toEqual(expect.arrayContaining(["ENUM", "SET"]));
+	});
+
+	test("primary key type options exclude TEXT and BLOB", () => {
+		const names = getSqlTypeOptionsForPrimaryKey().map((option) => option.type);
+		expect(names).toEqual(expect.arrayContaining(["INT", "VARCHAR", "UUID"]));
+		expect(names).not.toEqual(expect.arrayContaining(["TEXT", "BLOB"]));
+		expect(isSqlTypeAllowedForPrimaryKey("TEXT")).toBe(false);
+		expect(isSqlTypeAllowedForPrimaryKey("BLOB")).toBe(false);
+		expect(isSqlTypeAllowedForPrimaryKey("INT")).toBe(true);
 	});
 
 	test("applyTypeDefaults fills VARCHAR and DECIMAL params", () => {

@@ -19,8 +19,8 @@ export function resolveFKTableOrigin(
 ): { idName: string; idOrigin: string } | null {
 	if (!tableOrigin) return null;
 
-	const byName = new Map(tables.map(t => [t.name, t.id]));
-	const byId = new Map(tables.map(t => [t.id, t.name]));
+	const byName = new Map(tables.map(table => [table.name, table.id]));
+	const byId = new Map(tables.map(table => [table.id, table.name]));
 
 	if (tableOrigin.idName && byName.has(tableOrigin.idName)) {
 		return { idName: tableOrigin.idName, idOrigin: byName.get(tableOrigin.idName)! };
@@ -33,7 +33,8 @@ export function resolveFKTableOrigin(
 
 /**
  * Resolves which PK column on the origin table an FK should reference.
- * Preference order: explicit columnName (if still a PK) → same name as FK → first PK.
+ * Explicit columnName is authoritative: if present but not a PK, returns null.
+ * Legacy fallback (FK name match, then first PK) applies only when columnName is absent.
  */
 export function resolveFKColumnOrigin(
 	tableOrigin: TableOrigin,
@@ -50,6 +51,7 @@ export function resolveFKColumnOrigin(
 		if (byStoredName?.name) {
 			return { columnName: byStoredName.name };
 		}
+		return null;
 	}
 
 	if (fkColumnName) {

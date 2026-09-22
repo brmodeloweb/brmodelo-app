@@ -6,11 +6,14 @@ import {
 	applyTypeDefaults,
 	clearIrrelevantParams,
 	getSqlTypeOptions,
+	getSqlTypeOptionsForPrimaryKey,
+	isSqlTypeAllowedForPrimaryKey,
 	parseLegacyType,
 } from "../../../services/dataTypes";
 import CheckConstraint from "./CheckConstraint";
 
 const COLUMN_TYPES = getSqlTypeOptions();
+const PK_COLUMN_TYPES = getSqlTypeOptionsForPrimaryKey();
 
 interface TableOption {
 	name: string;
@@ -73,6 +76,13 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 			if (field === "PK" && value) {
 				updated.NOT_NULL = false;
 				updated.defaultValue = "";
+				if (!isSqlTypeAllowedForPrimaryKey(updated.type)) {
+					const applied = applyTypeDefaults("INT", {});
+					updated.type = applied.type;
+					updated.length = applied.length;
+					updated.precision = applied.precision;
+					updated.scale = applied.scale;
+				}
 			}
 			if (field === "FK" && value) {
 				updated.defaultValue = "";
@@ -83,6 +93,9 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 				updated.AUTO_INCREMENT = prev.AUTO_INCREMENT;
 			}
 			if (field === "type") {
+				if (updated.PK && !isSqlTypeAllowedForPrimaryKey(value)) {
+					return prev;
+				}
 				const applied = applyTypeDefaults(value, updated);
 				return clearIrrelevantParams({
 					...updated,
@@ -216,7 +229,7 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 				<Dropdown
 					onSelect={handleSelectType}
 					selected={{ name: column.type, type: column.type }}
-					options={COLUMN_TYPES}
+					options={column.PK ? PK_COLUMN_TYPES : COLUMN_TYPES}
 				/>
 			</div>
 

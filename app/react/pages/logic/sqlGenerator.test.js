@@ -88,4 +88,32 @@ describe("sqlGenerator foreign keys (#569)", () => {
 
 		expect(sql).toContain("FOREIGN KEY(fkIdCliente) REFERENCES pessoas (idPessoa)");
 	});
+
+	test("omits FOREIGN KEY when stored columnName is not a PK on origin", () => {
+		const tables = new Map();
+		tables.set("pessoas", {
+			name: "pessoas",
+			columns: [{ name: "idPessoa", type: "INT", PK: true }],
+		});
+		tables.set("materiais", {
+			name: "materiais",
+			columns: [
+				{
+					name: "fkIdCliente",
+					type: "INT",
+					FK: true,
+					tableOrigin: {
+						idOrigin: "pessoas",
+						idName: "pessoas",
+						columnName: "colunaInexistente",
+					},
+				},
+			],
+		});
+
+		const sql = generate(tables, []);
+
+		expect(sql).not.toContain("FOREIGN KEY");
+		expect(sql).toContain("fkIdCliente INT");
+	});
 });

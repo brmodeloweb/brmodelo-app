@@ -43,8 +43,6 @@ export const SQL_TYPES: SqlTypeMeta[] = [
 	{ name: "BLOB", params: "none" },
 	{ name: "JSON", params: "none" },
 	{ name: "UUID", params: "none", pkFkAllowed: true },
-	{ name: "ENUM", params: "none" },
-	{ name: "SET", params: "none" },
 ];
 
 export const NOSQL_TYPES = [
@@ -67,7 +65,7 @@ const SQL_TYPE_MAP = new Map(SQL_TYPES.map((entry) => [entry.name, entry]));
 const INTEGER_NOSQL = new Set(["INT", "BIGINT", "SMALLINT", "TINYINT"]);
 const FLOAT_NOSQL = new Set(["FLOAT", "DOUBLE"]);
 const DECIMAL_NOSQL = new Set(["DECIMAL", "NUMERIC"]);
-const STRING_NOSQL = new Set(["VARCHAR", "CHAR", "TEXT", "UUID", "JSON", "ENUM", "SET", "BLOB"]);
+const STRING_NOSQL = new Set(["VARCHAR", "CHAR", "TEXT", "UUID", "JSON", "BLOB"]);
 const DATE_NOSQL = new Set(["DATE", "DATETIME", "TIME", "TIMESTAMP"]);
 
 export const getSqlTypeMeta = (typeName: string | null | undefined): SqlTypeMeta | undefined => {
@@ -78,6 +76,14 @@ export const getSqlTypeMeta = (typeName: string | null | undefined): SqlTypeMeta
 
 export const getSqlTypeOptions = (): Array<{ name: string; type: string }> =>
 	SQL_TYPES.map(({ name }) => ({ name, type: name }));
+
+export const isSqlTypeAllowedForPrimaryKey = (typeName: string | null | undefined): boolean =>
+	Boolean(getSqlTypeMeta(typeName)?.pkFkAllowed);
+
+export const getSqlTypeOptionsForPrimaryKey = (): Array<{ name: string; type: string }> =>
+	SQL_TYPES
+		.filter((entry) => entry.pkFkAllowed)
+		.map(({ name }) => ({ name, type: name }));
 
 export const applyTypeDefaults = (typeName: string, current: TypedColumnLike = {}): ParsedType => {
 	const parsed = parseLegacyType(typeName);

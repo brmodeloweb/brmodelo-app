@@ -21,8 +21,24 @@ interface CollectionFormProps {
 // RowList — recursive component for rendering rows tree
 // //////////////////////////////////////////////////////////////////
 
+interface NosqlRow {
+	name?: string;
+	kind?: string;
+	type?: string;
+	length?: number | null;
+	precision?: number | null;
+	scale?: number | null;
+	cardinalityEnabled?: boolean;
+	minCardinality?: number | string;
+	maxCardinality?: number | string;
+	children?: NosqlRow[];
+	color?: string | null;
+	targetCollectionId?: string;
+	targetCollectionName?: string;
+}
+
 interface RowListProps {
-	rows: any[];
+	rows: NosqlRow[];
 	path: number[];
 	element: any;
 	onUpdate: CollectionFormProps["onUpdate"];
@@ -195,14 +211,14 @@ const RowList: React.FC<RowListProps> = React.memo(({
 	}, [element, onUpdate, path, showFeedback, t]);
 
 
-	const getRowLabel = (row: any): string => {
+	const getRowLabel = (row: NosqlRow): string => {
 		if (row.kind === "block" && row.cardinalityEnabled) {
 			return `${row.name} (${row.minCardinality ?? 0},${row.maxCardinality ?? "N"})`;
 		}
-		return row.name;
+		return row.name || "";
 	};
 
-	const getRowBadge = (row: any): string => {
+	const getRowBadge = (row: NosqlRow): string => {
 		if (row.kind === "block") return t("block");
 		if (row.kind === "reference") {
 			const refType = (row.type && row.type !== "reference") ? row.type : "ID";

@@ -78,14 +78,20 @@ const createViewScript = (view) => {
 }
 
 const resolveReferencedPkName = (column, originTable) => {
-	if (column?.tableOrigin?.columnName) {
-		return column.tableOrigin.columnName;
+	const originColumns = originTable?.columns || [];
+	const isPk = (col) => col.PK || col.isPrimaryKey;
+	const storedName = column?.tableOrigin?.columnName;
+
+	if (storedName) {
+		const matchedPk = originColumns.find((col) => isPk(col) && col.name === storedName);
+		return matchedPk?.name || null;
 	}
-	const originPk = (originTable?.columns || []).find(col => col.PK || col.isPrimaryKey);
+
+	const originPk = originColumns.find(isPk);
 	if (originPk?.name) {
 		return originPk.name;
 	}
-	return column?.name;
+	return column?.name || null;
 };
 
 const createAlterTable = function(key, table, createdMap){
@@ -95,6 +101,9 @@ const createAlterTable = function(key, table, createdMap){
 			const originTable = createdMap.get(column.tableOrigin.idOrigin);
 			const originTableName = originTable?.name;
 			const referencedPkName = resolveReferencedPkName(column, originTable);
+			if (!originTableName || !referencedPkName) {
+				continue;
+			}
 			alter += "ALTER TABLE " + table?.name + " ADD FOREIGN KEY(" + cleanString(column?.name) + ") REFERENCES " + originTableName + " ("+ cleanString(referencedPkName) + ")\n";
 		}
 	}

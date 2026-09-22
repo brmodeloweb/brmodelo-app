@@ -5,7 +5,7 @@ import TypeParamsFields from "../../../components/TypeParamsFields/TypeParamsFie
 import {
 	applyTypeDefaults,
 	clearIrrelevantParams,
-	getSqlTypeOptions,
+	getSqlTypeOptionsForPrimaryKey,
 } from "../../../services/dataTypes";
 
 interface KeyFormProps {
@@ -17,7 +17,7 @@ interface KeyFormProps {
 	onUpdate: (event: { type: string; value?: any }) => void;
 }
 
-const COLUMN_TYPES = getSqlTypeOptions();
+const COLUMN_TYPES = getSqlTypeOptionsForPrimaryKey();
 
 const KeyForm: React.FC<KeyFormProps> = React.memo(({
 	name,

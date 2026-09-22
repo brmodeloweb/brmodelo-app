@@ -234,6 +234,7 @@
 	"The column name cannot be empty!": "The column name cannot be empty!",
 	"Select the foreign table source!": "Select the foreign table source!",
 	"Select the foreign key reference column!": "Select the foreign key reference column!",
+	"This type cannot be used as a primary key!": "This type cannot be used as a primary key!",
 	"Error saving model": "Error saving model",
 	"White": "White",
 	"NoSQL": "NoSQL",

@@ -234,6 +234,7 @@
 	"The column name cannot be empty!": "O nome da coluna não pode ser vazio!",
 	"Select the foreign table source!": "Selecione a tabela de origem da chave estrangeira!",
 	"Select the foreign key reference column!": "Selecione a coluna de origem da chave estrangeira!",
+	"This type cannot be used as a primary key!": "Este tipo não pode ser usado como chave primária!",
 	"Error saving model": "Erro ao salvar modelo",
 	"White": "Branco",
 	"NoSQL": "NoSQL",
