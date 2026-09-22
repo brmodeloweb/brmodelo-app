@@ -1,21 +1,16 @@
 import React, { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Dropdown from "../../../components/Dropdown/Dropdown";
+import TypeParamsFields from "../../../components/TypeParamsFields/TypeParamsFields";
+import {
+	applyTypeDefaults,
+	clearIrrelevantParams,
+	getSqlTypeOptions,
+	parseLegacyType,
+} from "../../../services/dataTypes";
 import CheckConstraint from "./CheckConstraint";
 
-const COLUMN_TYPES = [
-	{ name: "DATE", type: "DATE" },
-	{ name: "DATETIME", type: "DATETIME" },
-	{ name: "TIME", type: "TIME" },
-	{ name: "INT", type: "INT" },
-	{ name: "BOOLEAN", type: "BOOLEAN" },
-	{ name: "FLOAT", type: "FLOAT" },
-	{ name: "VARCHAR", type: "VARCHAR" },
-	{ name: "CHAR", type: "CHAR" },
-	{ name: "JSON", type: "JSON" },
-	{ name: "ENUM", type: "ENUM" },
-	{ name: "SET", type: "SET" },
-];
+const COLUMN_TYPES = getSqlTypeOptions();
 
 interface ColumnFormProps {
 	column: any;
@@ -26,6 +21,22 @@ interface ColumnFormProps {
 	index?: number;
 }
 
+const normalizeInitialColumn = (column: any) => {
+	const parsed = parseLegacyType(column?.type);
+	const applied = applyTypeDefaults(parsed.type, {
+		length: column?.length ?? parsed.length,
+		precision: column?.precision ?? parsed.precision,
+		scale: column?.scale ?? parsed.scale,
+	});
+	return clearIrrelevantParams({
+		...column,
+		type: applied.type,
+		length: applied.length,
+		precision: applied.precision,
+		scale: applied.scale,
+	});
+};
+
 const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 	column: initialColumn,
 	tableNames,
@@ -35,7 +46,7 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 	index,
 }) => {
 	const { t } = useTranslation(["common"]);
-	const [column, setColumn] = useState({ ...initialColumn });
+	const [column, setColumn] = useState(() => normalizeInitialColumn(initialColumn));
 	const isExistingFK = initialColumn.FK;
 
 	const updateField = useCallback((field: string, value: any) => {
@@ -43,12 +54,10 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 			const updated = { ...prev, [field]: value };
 
 			if (field === "PK" && value) {
-				updated.type = "INT";
 				updated.NOT_NULL = false;
 				updated.defaultValue = "";
 			}
 			if (field === "FK" && value) {
-				updated.type = "INT";
 				updated.defaultValue = "";
 				updated.AUTO_INCREMENT = false;
 			}
@@ -56,18 +65,28 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 				updated.tableOrigin = { idOrigin: "", idLink: "", idName: "" };
 				updated.AUTO_INCREMENT = prev.AUTO_INCREMENT;
 			}
+			if (field === "type") {
+				const applied = applyTypeDefaults(value, updated);
+				return clearIrrelevantParams({
+					...updated,
+					type: applied.type,
+					length: applied.length,
+					precision: applied.precision,
+					scale: applied.scale,
+				});
+			}
 
 			return updated;
 		});
 	}, []);
 
 	const handleSelectType = useCallback((selected: { name: string; type: string }) => {
-		if (!column.PK && !column.FK) {
-			updateField("type", selected.type);
-		} else {
-			updateField("type", "INT");
-		}
-	}, [column.PK, column.FK, updateField]);
+		updateField("type", selected.type);
+	}, [updateField]);
+
+	const handleTypeParamChange = useCallback((field: "length" | "precision" | "scale", value: number | undefined) => {
+		setColumn((prev: any) => clearIrrelevantParams({ ...prev, [field]: value }));
+	}, []);
 
 	const handleSelectTableOrigin = useCallback((selected: { name: string; value: string }) => {
 		setColumn((prev: any) => ({
@@ -77,7 +96,7 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 	}, []);
 
 	const handleSave = useCallback(() => {
-		onSave(column, index);
+		onSave(clearIrrelevantParams(column), index);
 	}, [column, index, onSave]);
 
 	const tableOriginOptions = tableNames.map(t => ({ name: t.name, type: t.value }));
@@ -110,6 +129,14 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 					options={COLUMN_TYPES}
 				/>
 			</div>
+
+			<TypeParamsFields
+				typeName={column.type}
+				length={column.length}
+				precision={column.precision}
+				scale={column.scale}
+				onChange={handleTypeParamChange}
+			/>
 
 			<div className="form-group">
 				<label htmlFor="column-default">{t("Default")}</label>

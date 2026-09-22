@@ -1,5 +1,6 @@
 import Column from "./Column";
 import Validator from "../conceptual/validator";
+import { conceptualToLogicalType } from "../../services/dataTypes";
 
 export default class Conversor {
     constructor(logicEditor, conversionAttributeModal, conversionOptionModal) {
@@ -9,6 +10,28 @@ export default class Conversor {
         this.conversionAttributeModal = conversionAttributeModal;
         this.conversionOptionModal = conversionOptionModal;
         this.shapeValidator = new Validator();
+    }
+
+    columnFromConceptualAttribute(attribute, overrides = {}) {
+        const attrs = { ...(attribute?.attributes || {}) };
+        const isKey = attrs.type === 'erd.Key' || attrs.supertype === "Key";
+        // Legacy keys have no dataType; new keys default to INT in shapes.js.
+        if (isKey && !attrs.dataType) {
+            attrs.dataType = "INT";
+        }
+        const logicalType = conceptualToLogicalType(attrs);
+        return new Column({
+            name: overrides.name ?? attribute.attributes.attrs.text.text,
+            PK: overrides.PK ?? isKey,
+            FK: overrides.FK,
+            type: logicalType.type,
+            length: logicalType.length,
+            precision: logicalType.precision,
+            scale: logicalType.scale,
+            idOrigin: overrides.idOrigin,
+            idLink: overrides.idLink,
+            tableOrigin: overrides.tableOrigin,
+        });
     }
 
     async toLogic(conceptualGraph) {
@@ -127,7 +150,7 @@ export default class Conversor {
                         break;
                     case "new_column":
                         for (let index = 0; index < modalResult.quantity; index++) {
-                            table.columns.push(new Column({
+                            table.columns.push(this.columnFromConceptualAttribute(attribute, {
                                 name: `${attName}${index}`,
                                 PK: attribute.attributes.type === 'erd.Key',
                             }));
@@ -135,9 +158,8 @@ export default class Conversor {
                         break;
                 }
             } else {
-                table.columns.push(new Column({
-                    name: attribute.attributes.attrs.text.text,
-                    PK: attribute.attributes.type === 'erd.Key'
+                table.columns.push(this.columnFromConceptualAttribute(attribute, {
+                    PK: attribute.attributes.type === 'erd.Key',
                 }));
             }
         }
@@ -246,6 +268,9 @@ export default class Conversor {
                             PK: row.PK,
                             FK: row.FK,
                             type: row.type,
+                            length: row.length,
+                            precision: row.precision,
+                            scale: row.scale,
                             // Clone tableOrigin: addColumn mutates it (sets idLink
                             // to the new link) and we don't want to leak that
                             // back onto the parent's original row.
@@ -396,8 +421,7 @@ export default class Conversor {
             if (!tableRelation) continue;
 
             for (const attribute of newAttributes) {
-                const column = new Column({
-                    name: attribute.attributes.attrs.text.text,
+                const column = this.columnFromConceptualAttribute(attribute, {
                     PK: attribute.attributes.type === 'erd.Key',
                 });
                 tableRelation.addRow(column);
@@ -429,10 +453,9 @@ export default class Conversor {
         const y = attribute.attributes.position.y - 100;
         const table = this.createTableObject(name, x, y);
 
-        const column = new Column({
+        const column = this.columnFromConceptualAttribute(attribute, {
             name,
             PK: true,
-            type: "VARCHAR",
         });
         table.columns.push(column);
 
@@ -526,8 +549,7 @@ export default class Conversor {
 
         const elements = [...attributes, ...pks];
         for (const element of elements) {
-            const column = new Column({
-                name: element.attributes.attrs.text.text,
+            const column = this.columnFromConceptualAttribute(element, {
                 PK: element.attributes.supertype === "Key",
             });
             this.logicEditor.addColumn(this.logicEditor.selectedElement, column);
@@ -539,10 +561,16 @@ export default class Conversor {
     }
 
     connectTables(source, target, linkLabels) {
+        const sourceRows = source.getRows?.() || source.get?.('rows') || source.attributes?.rows || [];
+        const sourcePk = sourceRows.find((row) => row.PK || row.isPrimaryKey);
         const column = new Column({
             name: "id" + source.attributes.name,
             FK: true,
             idOrigin: source.id,
+            type: sourcePk?.type || "INT",
+            length: sourcePk?.length,
+            precision: sourcePk?.precision,
+            scale: sourcePk?.scale,
             tableOrigin: { idOrigin: source.id, idLink: null, idName: source.attributes.name }
         });
         this.logicEditor.selectedElement = this.logicEditor.paper.findViewByModel(target);
@@ -647,9 +675,11 @@ export default class Conversor {
     createFKColumn(entity) {
         const pks = this.getPKs(entity);
         let attName = "id" + entity.attributes.attrs.text.text;
+        let pkAttribute = null;
 
         if (pks.length > 0) {
-            attName = pks[0].attributes.attrs.text.text;
+            pkAttribute = pks[0];
+            attName = pkAttribute.attributes.attrs.text.text;
         }
 
         const tableEntry = this.entityTableMap.get(entity.id);
@@ -658,10 +688,20 @@ export default class Conversor {
         }
 
         const originId = tableEntry.id;
+        const originRow = (tableEntry.getRows?.() || tableEntry.get?.('rows') || tableEntry.attributes?.rows || [])
+            .find((row) => row.PK || row.isPrimaryKey);
+        const logicalType = originRow
+            ? { type: originRow.type, length: originRow.length, precision: originRow.precision, scale: originRow.scale }
+            : conceptualToLogicalType(pkAttribute?.attributes || { dataType: "INT" });
+
         return new Column({
             name: attName,
             FK: true,
             idOrigin: originId,
+            type: logicalType.type || "INT",
+            length: logicalType.length,
+            precision: logicalType.precision,
+            scale: logicalType.scale,
             tableOrigin: { idOrigin: originId, idLink: null, idName: entity.attributes.attrs.text.text }
         });
     }

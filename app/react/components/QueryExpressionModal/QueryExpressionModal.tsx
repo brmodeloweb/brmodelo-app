@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Dialog from "../Dialog";
 import Dropdown from "../Dropdown";
+import { isStringSqlType } from "../../services/dataTypes";
 
 const AND_OPERATOR = "AND";
 const OR_OPERATOR = "OR";
@@ -36,7 +37,7 @@ const CHECK_CONSTRAINT_OPTIONS: { NUMBER: DropdownOption[]; STRING: DropdownOpti
 };
 
 const isStringType = (columnType: string | null | undefined) =>
-	columnType === "VARCHAR(n)" || columnType === "CHAR(n)";
+	isStringSqlType(columnType);
 
 export interface Column {
 	name: string;

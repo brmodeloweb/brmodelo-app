@@ -1,4 +1,5 @@
 import { comparasionOperators } from "./queryExpressionService";
+import { formatColumnType } from "../../services/dataTypes";
 
 const REGEX_TABLE_COLUMN_NAME = /^(?<table>[^.]+)\.(?<column>[^.]+)$/;
 
@@ -100,7 +101,7 @@ const createTable = function(key, table, pending, createdMap){
 	table.columns.forEach((column, index) => {
 		var alreadyCreated = createdMap.get(key);
 
-		create += " " + cleanString(column?.name) + " " + column.type;
+		create += " " + cleanString(column?.name) + " " + formatColumnType(column);
 
 		constraints.forEach(({ key, sqlValue }) => {
 			if (column[key]) create += ` ${sqlValue}`;

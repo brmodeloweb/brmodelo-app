@@ -8,6 +8,17 @@ module.exports = [
 	// Base recommended config
 	js.configs.recommended,
 
+	{
+		files: ["app/**/*.test.*"],
+		languageOptions: {
+			globals: {
+				describe: "readonly",
+				expect: "readonly",
+				test: "readonly",
+			},
+		},
+	},
+
 	// Global ignores
 	{
 		ignores: [

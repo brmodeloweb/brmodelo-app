@@ -1,17 +1,11 @@
 import React, { useState, useCallback, useMemo, useId } from "react";
 import { useTranslation } from "react-i18next";
 import Dropdown from "../../../components/Dropdown/Dropdown";
+import TypeParamsFields from "../../../components/TypeParamsFields/TypeParamsFields";
+import { NOSQL_TYPES } from "../../../services/dataTypes";
 import type { CollectionOption } from "../INoSqlEditor";
 
-const ATTRIBUTE_TYPES: string[] = [
-	"block",
-	"ID",
-	"string",
-	"int",
-	"float",
-	"boolean",
-	"date",
-];
+const ATTRIBUTE_TYPES: string[] = [...NOSQL_TYPES];
 
 interface AttributeData {
 	name: string;
@@ -19,6 +13,9 @@ interface AttributeData {
 	cardinalityEnabled: boolean;
 	minCardinality: number;
 	maxCardinality: number | string;
+	length?: number | null;
+	precision?: number | null;
+	scale?: number | null;
 	isReference?: boolean;
 	targetCollectionId?: string | null;
 	targetCollectionName?: string | null;
@@ -42,7 +39,13 @@ const defaultAttribute: AttributeData = {
 	maxCardinality: 1,
 };
 
-const PK_ALLOWED_TYPES = ['ID', 'string', 'int'];
+const PK_ALLOWED_TYPES = ['ID', 'string', 'int', 'long'];
+
+const nosqlParamKind = (type: string): "none" | "length" | "precisionScale" => {
+	if (type === "string") return "length";
+	if (type === "decimal") return "precisionScale";
+	return "none";
+};
 
 const AttributeForm: React.FC<AttributeFormProps> = React.memo(({
 	initialValues,
@@ -118,6 +121,26 @@ const AttributeForm: React.FC<AttributeFormProps> = React.memo(({
 	}, []);
 
 	const handleChange = useCallback((field: keyof AttributeData, value: any) => {
+		setAttr(prev => {
+			const next = { ...prev, [field]: value };
+			if (field === "type") {
+				const kind = nosqlParamKind(value);
+				if (kind !== "length") delete next.length;
+				if (kind !== "precisionScale") {
+					delete next.precision;
+					delete next.scale;
+				}
+				if (kind === "length" && next.length == null) next.length = 255;
+				if (kind === "precisionScale") {
+					if (next.precision == null) next.precision = 10;
+					if (next.scale == null) next.scale = 2;
+				}
+			}
+			return next;
+		});
+	}, []);
+
+	const handleTypeParamChange = useCallback((field: "length" | "precision" | "scale", value: number | undefined) => {
 		setAttr(prev => ({ ...prev, [field]: value }));
 	}, []);
 
@@ -136,10 +159,27 @@ const AttributeForm: React.FC<AttributeFormProps> = React.memo(({
 		const normalizedName = isReference
 			? `${attr.name.trim().replace(/_REF$/i, "")}_REF`
 			: attr.name.trim();
-		const finalAttr = { ...attr, name: normalizedName, isReference };
+		const finalAttr: AttributeData = { ...attr, name: normalizedName, isReference };
 		if (identifier) {
 			finalAttr.cardinalityEnabled = false;
 		}
+		const kind = nosqlParamKind(finalAttr.type);
+		if (kind !== "length") delete finalAttr.length;
+		if (kind !== "precisionScale") {
+			delete finalAttr.precision;
+			delete finalAttr.scale;
+		}
+		const invalidLength = kind === "length"
+			&& finalAttr.length != null
+			&& (!Number.isInteger(finalAttr.length) || finalAttr.length < 1);
+		const invalidPrecision = kind === "precisionScale"
+			&& finalAttr.precision != null
+			&& (!Number.isInteger(finalAttr.precision) || finalAttr.precision < 1);
+		const invalidScale = kind === "precisionScale"
+			&& finalAttr.scale != null
+			&& (!Number.isInteger(finalAttr.scale) || finalAttr.scale < 0
+				|| (finalAttr.precision != null && finalAttr.scale > finalAttr.precision));
+		if (invalidLength || invalidPrecision || invalidScale) return;
 		onSave(finalAttr);
 	}, [attr, onSave, identifier, isReference]);
 
@@ -186,6 +226,17 @@ const AttributeForm: React.FC<AttributeFormProps> = React.memo(({
 					disabled={typeLocked || !!initialValues?.isReference}
 				/>
 			</div>
+
+			{!isReference && (
+				<TypeParamsFields
+					typeName={attr.type}
+					length={attr.length}
+					precision={attr.precision}
+					scale={attr.scale}
+					onChange={handleTypeParamChange}
+					paramKindOverride={nosqlParamKind(attr.type)}
+				/>
+			)}
 
 			{!identifier && !typeLocked && collections.length > 0 && (
 				<div className="form-group">

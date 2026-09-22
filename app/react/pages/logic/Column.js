@@ -1,5 +1,16 @@
 export default class Column {
-	constructor({ name = "", PK = false, FK = false, type = "INT", idOrigin = "", idLink = "", tableOrigin = null } = {}) {
+	constructor({
+		name = "",
+		PK = false,
+		FK = false,
+		type = "INT",
+		length = undefined,
+		precision = undefined,
+		scale = undefined,
+		idOrigin = "",
+		idLink = "",
+		tableOrigin = null,
+	} = {}) {
 		this.FK = FK;
 		this.PK = PK;
 		this.NOT_NULL = false;
@@ -13,5 +24,8 @@ export default class Column {
 			idName: "",
 		};
 		this.type = type;
+		if (length != null) this.length = length;
+		if (precision != null) this.precision = precision;
+		if (scale != null) this.scale = scale;
 	}
 }
