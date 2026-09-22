@@ -36,3 +36,56 @@ describe("sqlGenerator type formatting", () => {
 		expect(sql).toContain("id INT PRIMARY KEY");
 	});
 });
+
+describe("sqlGenerator foreign keys (#569)", () => {
+	test("REFERENCES uses origin PK name when FK local name differs", () => {
+		const tables = new Map();
+		tables.set("pessoas", {
+			name: "pessoas",
+			columns: [{ name: "idPessoa", type: "INT", PK: true }],
+		});
+		tables.set("materiais", {
+			name: "materiais",
+			columns: [
+				{ name: "id", type: "INT", PK: true },
+				{
+					name: "fkIdCliente",
+					type: "INT",
+					FK: true,
+					tableOrigin: {
+						idOrigin: "pessoas",
+						idName: "pessoas",
+						columnName: "idPessoa",
+					},
+				},
+			],
+		});
+
+		const sql = generate(tables, []);
+
+		expect(sql).toContain("FOREIGN KEY(fkIdCliente) REFERENCES pessoas (idPessoa)");
+	});
+
+	test("falls back to origin table first PK when columnName is missing", () => {
+		const tables = new Map();
+		tables.set("pessoas", {
+			name: "pessoas",
+			columns: [{ name: "idPessoa", type: "INT", PK: true }],
+		});
+		tables.set("materiais", {
+			name: "materiais",
+			columns: [
+				{
+					name: "fkIdCliente",
+					type: "INT",
+					FK: true,
+					tableOrigin: { idOrigin: "pessoas", idName: "pessoas" },
+				},
+			],
+		});
+
+		const sql = generate(tables, []);
+
+		expect(sql).toContain("FOREIGN KEY(fkIdCliente) REFERENCES pessoas (idPessoa)");
+	});
+});

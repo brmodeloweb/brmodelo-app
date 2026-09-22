@@ -331,6 +331,12 @@ export default class LogicEditor extends Editor {
                 length: pkType.length,
                 precision: pkType.precision,
                 scale: pkType.scale,
+                tableOrigin: {
+                    idOrigin,
+                    idLink: link.id,
+                    idName: originName,
+                    columnName: sourcePk?.name || "",
+                },
             });
 
             if (target) {

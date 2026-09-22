@@ -571,7 +571,12 @@ export default class Conversor {
             length: sourcePk?.length,
             precision: sourcePk?.precision,
             scale: sourcePk?.scale,
-            tableOrigin: { idOrigin: source.id, idLink: null, idName: source.attributes.name }
+            tableOrigin: {
+                idOrigin: source.id,
+                idLink: null,
+                idName: source.attributes.name,
+                columnName: sourcePk?.name || "",
+            }
         });
         this.logicEditor.selectedElement = this.logicEditor.paper.findViewByModel(target);
         this.logicEditor.addColumn(this.logicEditor.selectedElement, column, linkLabels);
@@ -702,7 +707,12 @@ export default class Conversor {
             length: logicalType.length,
             precision: logicalType.precision,
             scale: logicalType.scale,
-            tableOrigin: { idOrigin: originId, idLink: null, idName: entity.attributes.attrs.text.text }
+            tableOrigin: {
+                idOrigin: originId,
+                idLink: null,
+                idName: entity.attributes.attrs.text.text,
+                columnName: originRow?.name || attName,
+            }
         });
     }
 
@@ -725,6 +735,10 @@ export default class Conversor {
             const pkRow = tableEntry.attributes.rows.find(r => r.PK);
             if (pkRow) {
                 column.name = pkRow.name;
+                column.tableOrigin = {
+                    ...column.tableOrigin,
+                    columnName: pkRow.name,
+                };
             }
         }
 

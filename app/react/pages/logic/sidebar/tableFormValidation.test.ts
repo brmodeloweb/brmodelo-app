@@ -1,4 +1,4 @@
-import { resolveFKTableOrigin } from "./tableFormValidation";
+import { resolveFKColumnOrigin, resolveFKTableOrigin } from "./tableFormValidation";
 
 describe("resolveFKTableOrigin (#276)", () => {
 	const tables = [
@@ -34,5 +34,46 @@ describe("resolveFKTableOrigin (#276)", () => {
 	test("returns null for missing tableOrigin", () => {
 		expect(resolveFKTableOrigin(null, tables)).toBeNull();
 		expect(resolveFKTableOrigin(undefined, tables)).toBeNull();
+	});
+});
+
+describe("resolveFKColumnOrigin (#569)", () => {
+	const columns = [
+		{ name: "idPessoa", PK: true },
+		{ name: "nome", PK: false },
+		{ name: "codigo", isPrimaryKey: true },
+	];
+
+	test("uses stored columnName when it still matches a PK", () => {
+		const result = resolveFKColumnOrigin(
+			{ columnName: "codigo" },
+			columns,
+			"fkIdCliente",
+		);
+		expect(result).toEqual({ columnName: "codigo" });
+	});
+
+	test("falls back to FK name when it matches a PK", () => {
+		const result = resolveFKColumnOrigin(
+			{ columnName: "deleted" },
+			columns,
+			"idPessoa",
+		);
+		expect(result).toEqual({ columnName: "idPessoa" });
+	});
+
+	test("falls back to first PK when stored name and FK name do not match", () => {
+		const result = resolveFKColumnOrigin(
+			{},
+			columns,
+			"fkIdCliente",
+		);
+		expect(result).toEqual({ columnName: "idPessoa" });
+	});
+
+	test("returns null when origin table has no PK", () => {
+		expect(resolveFKColumnOrigin({}, [{ name: "nome" }], "fk")).toBeNull();
+		expect(resolveFKColumnOrigin({}, [], "fk")).toBeNull();
+		expect(resolveFKColumnOrigin({}, null, "fk")).toBeNull();
 	});
 });

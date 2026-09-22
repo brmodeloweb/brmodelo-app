@@ -5,7 +5,7 @@ import Sortable from "sortablejs";
 import ColumnForm from "./ColumnForm";
 import ViewForm from "./ViewForm";
 import ElementColorPicker, { getCurrentColor } from "../../../components/ElementColorPicker";
-import { resolveFKTableOrigin } from "./tableFormValidation";
+import { resolveFKColumnOrigin, resolveFKTableOrigin } from "./tableFormValidation";
 
 interface TableFormProps {
 	element: any;
@@ -25,7 +25,7 @@ const newColumnObject = () => ({
 	AUTO_INCREMENT: false,
 	defaultValue: "",
 	type: "INT",
-	tableOrigin: { idOrigin: "", idLink: "", idName: "" },
+	tableOrigin: { idOrigin: "", idLink: "", idName: "", columnName: "" },
 });
 
 const TableForm: React.FC<TableFormProps> = React.memo(({
@@ -119,7 +119,21 @@ const TableForm: React.FC<TableFormProps> = React.memo(({
 				showFeedback("Select the foreign table source!", true, "error");
 				return null;
 			}
-			column.tableOrigin = { ...column.tableOrigin, ...resolved };
+			const originTable = tables.find(t => t.id === resolved.idOrigin);
+			const resolvedColumn = resolveFKColumnOrigin(
+				column.tableOrigin,
+				originTable?.columns,
+				column.name,
+			);
+			if (!resolvedColumn) {
+				showFeedback("Select the foreign key reference column!", true, "error");
+				return null;
+			}
+			column.tableOrigin = {
+				...column.tableOrigin,
+				...resolved,
+				columnName: resolvedColumn.columnName,
+			};
 		}
 		return column;
 	}, [tables, showFeedback]);
@@ -233,6 +247,7 @@ const TableForm: React.FC<TableFormProps> = React.memo(({
 												},
 											}}
 											tableNames={tableNames}
+											tables={tables}
 											onSave={(editedColumn) => handleEditColumn(editedColumn, index)}
 											onDismiss={() => setExpandedColumnIndex(null)}
 											onDelete={() => handleDeleteColumn(index)}
@@ -248,6 +263,7 @@ const TableForm: React.FC<TableFormProps> = React.memo(({
 								<ColumnForm
 									column={newColumnObject()}
 									tableNames={tableNames}
+									tables={tables}
 									onSave={handleAddColumn}
 									onDismiss={() => handleShowAddColumn(false)}
 								/>

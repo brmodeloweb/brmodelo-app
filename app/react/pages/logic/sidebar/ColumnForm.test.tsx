@@ -46,6 +46,23 @@ describe("ColumnForm", () => {
 	const defaultProps = {
 		column: defaultColumn,
 		tableNames: [{ name: "Users", value: "user1" }, { name: "Orders", value: "order1" }],
+		tables: [
+			{
+				name: "Users",
+				id: "user1",
+				columns: [
+					{ name: "id", PK: true, type: "INT" },
+					{ name: "email", PK: false, type: "VARCHAR", length: 255 },
+				],
+			},
+			{
+				name: "Orders",
+				id: "order1",
+				columns: [
+					{ name: "orderId", PK: true, type: "INT" },
+				],
+			},
+		],
 		onSave: jest.fn(),
 		onDismiss: jest.fn(),
 	};
@@ -147,12 +164,65 @@ describe("ColumnForm", () => {
 	});
 
 	test("clears tableOrigin when FK is toggled off", () => {
-		const column = { ...defaultColumn, PK: false, FK: true, tableOrigin: { idOrigin: "t1", idLink: "l1", idName: "Users" } };
+		const column = { ...defaultColumn, PK: false, FK: true, tableOrigin: { idOrigin: "t1", idLink: "l1", idName: "Users", columnName: "id" } };
 		render(<ColumnForm {...defaultProps} column={column} />);
 		fireEvent.click(screen.getByLabelText("FK"));
 		fireEvent.click(screen.getByText("Save"));
 		expect(defaultProps.onSave).toHaveBeenCalledWith(
-			expect.objectContaining({ FK: false, tableOrigin: { idOrigin: "", idLink: "", idName: "" } }),
+			expect.objectContaining({ FK: false, tableOrigin: { idOrigin: "", idLink: "", idName: "", columnName: "" } }),
+			undefined
+		);
+	});
+
+	test("shows reference column dropdown for FK and persists selected PK", () => {
+		const column = {
+			...defaultColumn,
+			name: "fkIdCliente",
+			PK: false,
+			FK: true,
+			tableOrigin: { idOrigin: "user1", idLink: "l1", idName: "Users", columnName: "id" },
+		};
+		render(<ColumnForm {...defaultProps} column={column} />);
+
+		expect(screen.getByText("Reference column")).toBeInTheDocument();
+		const referenceDropdown = screen.getByTestId("dropdown-id");
+		fireEvent.change(referenceDropdown, { target: { value: "id" } });
+		fireEvent.click(screen.getByText("Save"));
+
+		expect(defaultProps.onSave).toHaveBeenCalledWith(
+			expect.objectContaining({
+				name: "fkIdCliente",
+				tableOrigin: expect.objectContaining({ columnName: "id", idName: "Users" }),
+			}),
+			undefined
+		);
+	});
+
+	test("selecting origin table suggests first PK columnName and type", () => {
+		const column = {
+			...defaultColumn,
+			name: "",
+			PK: false,
+			FK: true,
+			type: "VARCHAR",
+			tableOrigin: { idOrigin: "", idLink: "", idName: "", columnName: "" },
+		};
+		render(<ColumnForm {...defaultProps} column={column} />);
+
+		const sourceDropdown = screen.getByTestId("dropdown-Source");
+		fireEvent.change(sourceDropdown, { target: { value: "order1" } });
+		fireEvent.click(screen.getByText("Save"));
+
+		expect(defaultProps.onSave).toHaveBeenCalledWith(
+			expect.objectContaining({
+				name: "orderId",
+				type: "INT",
+				tableOrigin: expect.objectContaining({
+					idName: "Orders",
+					idOrigin: "order1",
+					columnName: "orderId",
+				}),
+			}),
 			undefined
 		);
 	});

@@ -18,10 +18,12 @@ export default class Column {
 		this.AUTO_INCREMENT = false;
 		this.defaultValue = "";
 		this.name = name;
-		this.tableOrigin = tableOrigin || {
-			idOrigin,
-			idLink,
+		this.tableOrigin = {
+			idOrigin: "",
+			idLink: "",
 			idName: "",
+			columnName: "",
+			...(tableOrigin || { idOrigin, idLink }),
 		};
 		this.type = type;
 		if (length != null) this.length = length;

@@ -77,12 +77,25 @@ const createViewScript = (view) => {
 	return '';
 }
 
+const resolveReferencedPkName = (column, originTable) => {
+	if (column?.tableOrigin?.columnName) {
+		return column.tableOrigin.columnName;
+	}
+	const originPk = (originTable?.columns || []).find(col => col.PK || col.isPrimaryKey);
+	if (originPk?.name) {
+		return originPk.name;
+	}
+	return column?.name;
+};
+
 const createAlterTable = function(key, table, createdMap){
 	var alter = "";
 	for (const column of table.columns) {
 		if(column.FK){
-			var originTable = createdMap.get(column.tableOrigin.idOrigin)?.name;
-			alter += "ALTER TABLE " + table?.name + " ADD FOREIGN KEY(" + cleanString(column?.name) + ") REFERENCES " + originTable + " ("+ cleanString(column?.name) + ")\n";
+			const originTable = createdMap.get(column.tableOrigin.idOrigin);
+			const originTableName = originTable?.name;
+			const referencedPkName = resolveReferencedPkName(column, originTable);
+			alter += "ALTER TABLE " + table?.name + " ADD FOREIGN KEY(" + cleanString(column?.name) + ") REFERENCES " + originTableName + " ("+ cleanString(referencedPkName) + ")\n";
 		}
 	}
 	return alter;
