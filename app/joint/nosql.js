@@ -1,4 +1,5 @@
 import { dia } from '@joint/core';
+import { formatNosqlType } from '../react/services/dataTypes';
 
 const nosql = {};
 
@@ -436,6 +437,9 @@ nosql.Collection = dia.Element.define('nosql.Collection', {
 				targetCollectionName: data.targetCollectionName || null
 			};
 			if (data.linkId) ref.linkId = data.linkId;
+			if (data.length != null) ref.length = data.length;
+			if (data.precision != null) ref.precision = data.precision;
+			if (data.scale != null) ref.scale = data.scale;
 			return ref;
 		}
 
@@ -448,6 +452,9 @@ nosql.Collection = dia.Element.define('nosql.Collection', {
 			maxCardinality: data.maxCardinality != null ? data.maxCardinality : 1
 		};
 		if (data.identifier) attr.identifier = true;
+		if (data.length != null) attr.length = data.length;
+		if (data.precision != null) attr.precision = data.precision;
+		if (data.scale != null) attr.scale = data.scale;
 		return attr;
 	},
 
@@ -719,7 +726,7 @@ nosql.Collection = dia.Element.define('nosql.Collection', {
 			}
 			return base;
 		}
-		const type = row.type || '';
+		const type = formatNosqlType(row) || row.type || '';
 		if (row.cardinalityEnabled) {
 			return type + ' (' + (row.minCardinality ?? 0) + ',' + (row.maxCardinality ?? 1) + ')';
 		}

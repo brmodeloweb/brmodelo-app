@@ -209,6 +209,28 @@ export default class ConceptualEditor extends Editor {
 					this.paper.unfreeze();
 				}
 				break;
+			case 'attribute.dataType':
+				{
+					const model = selectedElement.element.model;
+					const { dataType, length, precision, scale } = event.value || {};
+					model.set('dataType', dataType || 'VARCHAR');
+					if (length != null) {
+						model.set('length', length);
+					} else {
+						model.unset('length');
+					}
+					if (precision != null) {
+						model.set('precision', precision);
+					} else {
+						model.unset('precision');
+					}
+					if (scale != null) {
+						model.set('scale', scale);
+					} else {
+						model.unset('scale');
+					}
+				}
+				break;
 			case 'relationship.associative':
 				const relationship = selectedElement.element.model;
 				if(relationship.attributes.parent == null){

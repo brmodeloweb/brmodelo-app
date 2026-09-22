@@ -57,6 +57,10 @@ const ConceptualSidebar: React.FC<ConceptualSidebarProps> = React.memo(({
 						name={value.name}
 						cardinality={value.cardinality}
 						composed={value.composed}
+						dataType={value.dataType}
+						length={value.length}
+						precision={value.precision}
+						scale={value.scale}
 						cellView={element}
 						onUpdate={onUpdate}
 					/>
@@ -65,7 +69,11 @@ const ConceptualSidebar: React.FC<ConceptualSidebarProps> = React.memo(({
 				return (
 					<KeyForm
 						key={element?.model?.id}
-						name={value}
+						name={typeof value === "string" ? value : value?.name}
+						dataType={typeof value === "object" ? value?.dataType : undefined}
+						length={typeof value === "object" ? value?.length : undefined}
+						precision={typeof value === "object" ? value?.precision : undefined}
+						scale={typeof value === "object" ? value?.scale : undefined}
 						onUpdate={onUpdate}
 					/>
 				);

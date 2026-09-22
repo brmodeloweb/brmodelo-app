@@ -8,6 +8,20 @@ module.exports = [
 	// Base recommended config
 	js.configs.recommended,
 
+	{
+		files: ["app/**/*.test.*"],
+		languageOptions: {
+			globals: {
+				describe: "readonly",
+				expect: "readonly",
+				test: "readonly",
+				beforeEach: "readonly",
+				afterEach: "readonly",
+				jest: "readonly",
+			},
+		},
+	},
+
 	// Global ignores
 	{
 		ignores: [
@@ -55,6 +69,7 @@ module.exports = [
 			"no-shadow": "off",
 			"react/jsx-uses-react": "off",
 			"react/react-in-jsx-scope": "off",
+			"react/prop-types": "off",
 			"@typescript-eslint/no-shadow": ["error"],
 			"react/jsx-filename-extension": [
 				1,

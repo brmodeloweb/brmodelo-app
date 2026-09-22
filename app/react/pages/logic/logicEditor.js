@@ -9,6 +9,7 @@ import ToolsViewService from "../../../editor/toolsViewService";
 import ShapePalette from "../../../editor/shapePalette";
 import Conversor from './conversor';
 import { dia } from '@joint/core';
+import { applyTypeDefaults } from "../../services/dataTypes";
 
 export default class LogicEditor extends Editor {
     shapeFactory = null;
@@ -319,11 +320,23 @@ export default class LogicEditor extends Editor {
 
             const originName = source.get('name');
             const idOrigin = source.id;
+            const sourcePk = (source.getRows?.() || source.get('rows') || []).find((row) => row.PK || row.isPrimaryKey);
+            const pkType = applyTypeDefaults(sourcePk?.type || "INT", sourcePk || {});
             const column = new Column({
                 name: "id" + originName,
                 FK: true,
                 idOrigin,
                 idLink: link.id,
+                type: pkType.type,
+                length: pkType.length,
+                precision: pkType.precision,
+                scale: pkType.scale,
+                tableOrigin: {
+                    idOrigin,
+                    idLink: link.id,
+                    idName: originName,
+                    columnName: sourcePk?.name || "",
+                },
             });
 
             if (target) {
@@ -493,6 +506,9 @@ export default class LogicEditor extends Editor {
                     PK: column.PK,
                     FK: column.FK,
                     type: column.type || "",
+                    length: column.length,
+                    precision: column.precision,
+                    scale: column.scale,
                     tableOrigin: column.tableOrigin || null
                 }));
             });

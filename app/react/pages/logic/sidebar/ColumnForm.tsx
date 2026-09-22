@@ -1,41 +1,72 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Dropdown from "../../../components/Dropdown/Dropdown";
+import TypeParamsFields from "../../../components/TypeParamsFields/TypeParamsFields";
+import {
+	applyTypeDefaults,
+	clearIrrelevantParams,
+	getSqlTypeOptions,
+	getSqlTypeOptionsForPrimaryKey,
+	isSqlTypeAllowedForPrimaryKey,
+	parseLegacyType,
+} from "../../../services/dataTypes";
 import CheckConstraint from "./CheckConstraint";
 
-const COLUMN_TYPES = [
-	{ name: "DATE", type: "DATE" },
-	{ name: "DATETIME", type: "DATETIME" },
-	{ name: "TIME", type: "TIME" },
-	{ name: "INT", type: "INT" },
-	{ name: "BOOLEAN", type: "BOOLEAN" },
-	{ name: "FLOAT", type: "FLOAT" },
-	{ name: "VARCHAR", type: "VARCHAR" },
-	{ name: "CHAR", type: "CHAR" },
-	{ name: "JSON", type: "JSON" },
-	{ name: "ENUM", type: "ENUM" },
-	{ name: "SET", type: "SET" },
-];
+const COLUMN_TYPES = getSqlTypeOptions();
+const PK_COLUMN_TYPES = getSqlTypeOptionsForPrimaryKey();
+
+interface TableOption {
+	name: string;
+	id: string;
+	columns: any[];
+}
 
 interface ColumnFormProps {
 	column: any;
 	tableNames: Array<{ name: string; value: string }>;
+	tables?: TableOption[];
 	onSave: (column: any, index?: number) => void;
 	onDismiss: () => void;
 	onDelete?: (index: number) => void;
 	index?: number;
 }
 
+const normalizeInitialColumn = (column: any) => {
+	const parsed = parseLegacyType(column?.type);
+	const applied = applyTypeDefaults(parsed.type, {
+		length: column?.length ?? parsed.length,
+		precision: column?.precision ?? parsed.precision,
+		scale: column?.scale ?? parsed.scale,
+	});
+	return clearIrrelevantParams({
+		...column,
+		type: applied.type,
+		length: applied.length,
+		precision: applied.precision,
+		scale: applied.scale,
+		tableOrigin: {
+			idOrigin: "",
+			idLink: "",
+			idName: "",
+			columnName: "",
+			...(column?.tableOrigin || {}),
+		},
+	});
+};
+
+const isPrimaryKeyColumn = (col: any) => Boolean(col?.PK || col?.isPrimaryKey);
+
 const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 	column: initialColumn,
 	tableNames,
+	tables = [],
 	onSave,
 	onDismiss,
 	onDelete,
 	index,
 }) => {
 	const { t } = useTranslation(["common"]);
-	const [column, setColumn] = useState({ ...initialColumn });
+	const [column, setColumn] = useState(() => normalizeInitialColumn(initialColumn));
 	const isExistingFK = initialColumn.FK;
 
 	const updateField = useCallback((field: string, value: any) => {
@@ -43,18 +74,36 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 			const updated = { ...prev, [field]: value };
 
 			if (field === "PK" && value) {
-				updated.type = "INT";
 				updated.NOT_NULL = false;
 				updated.defaultValue = "";
+				if (!isSqlTypeAllowedForPrimaryKey(updated.type)) {
+					const applied = applyTypeDefaults("INT", {});
+					updated.type = applied.type;
+					updated.length = applied.length;
+					updated.precision = applied.precision;
+					updated.scale = applied.scale;
+				}
 			}
 			if (field === "FK" && value) {
-				updated.type = "INT";
 				updated.defaultValue = "";
 				updated.AUTO_INCREMENT = false;
 			}
 			if (field === "FK" && !value) {
-				updated.tableOrigin = { idOrigin: "", idLink: "", idName: "" };
+				updated.tableOrigin = { idOrigin: "", idLink: "", idName: "", columnName: "" };
 				updated.AUTO_INCREMENT = prev.AUTO_INCREMENT;
+			}
+			if (field === "type") {
+				if (updated.PK && !isSqlTypeAllowedForPrimaryKey(value)) {
+					return prev;
+				}
+				const applied = applyTypeDefaults(value, updated);
+				return clearIrrelevantParams({
+					...updated,
+					type: applied.type,
+					length: applied.length,
+					precision: applied.precision,
+					scale: applied.scale,
+				});
 			}
 
 			return updated;
@@ -62,32 +111,105 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 	}, []);
 
 	const handleSelectType = useCallback((selected: { name: string; type: string }) => {
-		if (!column.PK && !column.FK) {
-			updateField("type", selected.type);
-		} else {
-			updateField("type", "INT");
-		}
-	}, [column.PK, column.FK, updateField]);
+		updateField("type", selected.type);
+	}, [updateField]);
 
-	const handleSelectTableOrigin = useCallback((selected: { name: string; value: string }) => {
-		setColumn((prev: any) => ({
-			...prev,
-			tableOrigin: { ...prev.tableOrigin, idName: selected.name },
-		}));
+	const handleTypeParamChange = useCallback((field: "length" | "precision" | "scale", value: number | undefined) => {
+		setColumn((prev: any) => clearIrrelevantParams({ ...prev, [field]: value }));
 	}, []);
 
+	const applyOriginPk = useCallback((pkColumn: any, suggestName: boolean) => {
+		setColumn((prev: any) => {
+			const applied = applyTypeDefaults(pkColumn?.type || prev.type, {
+				length: pkColumn?.length,
+				precision: pkColumn?.precision,
+				scale: pkColumn?.scale,
+			});
+			return clearIrrelevantParams({
+				...prev,
+				name: suggestName && !prev.name ? (pkColumn?.name || prev.name) : prev.name,
+				type: applied.type,
+				length: applied.length,
+				precision: applied.precision,
+				scale: applied.scale,
+				tableOrigin: {
+					...prev.tableOrigin,
+					columnName: pkColumn?.name || "",
+				},
+			});
+		});
+	}, []);
+
+	const handleSelectTableOrigin = useCallback((selected: { name: string; value: string }) => {
+		const originTable = tables.find(table => table.id === selected.value || table.name === selected.name);
+		const primaryKeys = (originTable?.columns || []).filter(isPrimaryKeyColumn);
+		const firstPk = primaryKeys[0];
+
+		setColumn((prev: any) => {
+			const applied = firstPk
+				? applyTypeDefaults(firstPk.type || prev.type, {
+					length: firstPk.length,
+					precision: firstPk.precision,
+					scale: firstPk.scale,
+				})
+				: prev;
+			return clearIrrelevantParams({
+				...prev,
+				name: !prev.name && firstPk?.name ? firstPk.name : prev.name,
+				type: firstPk ? applied.type : prev.type,
+				length: firstPk ? applied.length : prev.length,
+				precision: firstPk ? applied.precision : prev.precision,
+				scale: firstPk ? applied.scale : prev.scale,
+				tableOrigin: {
+					...prev.tableOrigin,
+					idName: selected.name,
+					idOrigin: selected.value,
+					columnName: firstPk?.name || "",
+				},
+			});
+		});
+	}, [tables]);
+
+	const handleSelectOriginColumn = useCallback((selected: { name: string; type: string }) => {
+		const originTable = tables.find(
+			table => table.id === column.tableOrigin?.idOrigin || table.name === column.tableOrigin?.idName,
+		);
+		const pkColumn = (originTable?.columns || []).find(
+			(col: any) => isPrimaryKeyColumn(col) && col.name === selected.type,
+		);
+		applyOriginPk(pkColumn || { name: selected.type }, !column.name);
+	}, [tables, column.tableOrigin, column.name, applyOriginPk]);
+
 	const handleSave = useCallback(() => {
-		onSave(column, index);
+		onSave(clearIrrelevantParams(column), index);
 	}, [column, index, onSave]);
 
-	const tableOriginOptions = tableNames.map(t => ({ name: t.name, type: t.value }));
+	const tableOriginOptions = tableNames.map(table => ({ name: table.name, type: table.value }));
 	const resolvedOriginName = column.tableOrigin?.idName
-		|| tableNames.find(t => t.value === column.tableOrigin?.idOrigin)?.name
+		|| tableNames.find(table => table.value === column.tableOrigin?.idOrigin)?.name
 		|| "";
 	const selectedTableOrigin = {
 		name: resolvedOriginName || t("Source"),
 		type: column.tableOrigin?.idOrigin || "",
 	};
+
+	const originPkOptions = useMemo(() => {
+		const originTable = tables.find(
+			table => table.id === column.tableOrigin?.idOrigin || table.name === column.tableOrigin?.idName,
+		);
+		return (originTable?.columns || [])
+			.filter(isPrimaryKeyColumn)
+			.map((col: any) => ({ name: col.name, type: col.name }));
+	}, [tables, column.tableOrigin?.idOrigin, column.tableOrigin?.idName]);
+
+	const selectedOriginColumn = {
+		name: column.tableOrigin?.columnName || t("Reference column"),
+		type: column.tableOrigin?.columnName || "",
+	};
+
+	const hasResolvedOrigin = Boolean(
+		column.tableOrigin?.idOrigin || column.tableOrigin?.idName,
+	);
 
 	return (
 		<div className="column-form">
@@ -107,9 +229,17 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 				<Dropdown
 					onSelect={handleSelectType}
 					selected={{ name: column.type, type: column.type }}
-					options={COLUMN_TYPES}
+					options={column.PK ? PK_COLUMN_TYPES : COLUMN_TYPES}
 				/>
 			</div>
+
+			<TypeParamsFields
+				typeName={column.type}
+				length={column.length}
+				precision={column.precision}
+				scale={column.scale}
+				onChange={handleTypeParamChange}
+			/>
 
 			<div className="form-group">
 				<label htmlFor="column-default">{t("Default")}</label>
@@ -199,6 +329,18 @@ const ColumnForm: React.FC<ColumnFormProps> = React.memo(({
 					options={tableOriginOptions}
 				/>
 			</div>
+
+			{column.FK && (
+				<div className="form-group clearfix">
+					<label>{t("Reference column")}</label>
+					<Dropdown
+						disabled={!hasResolvedOrigin || originPkOptions.length === 0}
+						onSelect={handleSelectOriginColumn}
+						selected={selectedOriginColumn}
+						options={originPkOptions}
+					/>
+				</div>
+			)}
 
 			<footer className="card-item-actions">
 				<div className="actions-regular">

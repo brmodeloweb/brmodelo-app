@@ -172,6 +172,7 @@ describe("Conversor — multivalued attribute with 'new_table' option (#266)", (
         expect(fkCall).toBeDefined();
         expect(fkCall.column.tableOrigin.idOrigin).toBe(parentTable.id);
         expect(fkCall.column.tableOrigin.idName).toBe("Restaurador");
+        expect(fkCall.column.tableOrigin.columnName).toBeTruthy();
     });
 
     test("entityTableMap registers both the entity and the attribute sub-table", async () => {
@@ -477,6 +478,7 @@ describe("Conversor — ISA all_tables PK inheritance (#260 part 2)", () => {
             expect(column.name).toBe('codigo');
             expect(column.tableOrigin.idOrigin).toBe(obra.id);
             expect(column.tableOrigin.idName).toBe('Obra');
+            expect(column.tableOrigin.columnName).toBe('codigo');
         }
     });
 

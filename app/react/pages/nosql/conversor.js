@@ -3,6 +3,8 @@
 // aggregate model: collections with hierarchical rows (attributes, blocks, references)
 // and disjunction groups for disjoint specializations.
 
+import { mapSqlTypeToNosql } from "../../services/dataTypes";
+
 export default class Conversor {
 	constructor(nosqlEditor, conversionOptionModal) {
 		this.modelGraph = null;
@@ -100,27 +102,42 @@ export default class Conversor {
 			const choice = await this.askMultivaluedStrategy(name, collection);
 			switch (choice) {
 				case 'nested_block':
-					await this.addMultivaluedAsBlock(collection, path, name, cardinality);
+					await this.addMultivaluedAsBlock(collection, path, name, cardinality, attribute.attributes);
 					return;
 				case 'separate_collection':
-					await this.addMultivaluedAsSeparateCollection(collection, name, cardinality);
+					await this.addMultivaluedAsSeparateCollection(collection, name, cardinality, attribute.attributes);
 					return;
 				case 'cardinality':
 				default:
-					this.addSimpleAttribute(collection, path, { name, isKey, isMultivalued: true, cardinality });
+					this.addSimpleAttribute(collection, path, {
+						name,
+						isKey,
+						isMultivalued: true,
+						cardinality,
+						conceptualAttributes: attribute.attributes,
+					});
 					return;
 			}
 		}
 
-		this.addSimpleAttribute(collection, path, { name, isKey, isMultivalued: false });
+		this.addSimpleAttribute(collection, path, {
+			name,
+			isKey,
+			isMultivalued: false,
+			conceptualAttributes: attribute.attributes,
+		});
 	}
 
-	addSimpleAttribute(collection, path, { name, isKey, isMultivalued, cardinality }) {
+	addSimpleAttribute(collection, path, { name, isKey, isMultivalued, cardinality, conceptualAttributes }) {
+		const mapped = mapSqlTypeToNosql(conceptualAttributes || {}, { isKey });
 		const rowData = {
 			kind: 'attribute',
 			name,
-			type: isKey ? 'ID' : 'string',
+			type: mapped.type,
 		};
+		if (mapped.length != null) rowData.length = mapped.length;
+		if (mapped.precision != null) rowData.precision = mapped.precision;
+		if (mapped.scale != null) rowData.scale = mapped.scale;
 		if (isKey) rowData.identifier = true;
 		if (isMultivalued) {
 			const parsed = this.parseCardinality(cardinality) || { min: 1 };
@@ -131,7 +148,7 @@ export default class Conversor {
 		collection.addRow(path, rowData);
 	}
 
-	async addMultivaluedAsBlock(collection, path, name, cardinality) {
+	async addMultivaluedAsBlock(collection, path, name, cardinality, conceptualAttributes) {
 		const blockIdx = collection.addRow(path, {
 			kind: 'block',
 			name,
@@ -139,14 +156,19 @@ export default class Conversor {
 			minCardinality: cardinality && cardinality.includes('(0') ? 0 : 1,
 			maxCardinality: 'N',
 		});
-		collection.addRow([...path, blockIdx], {
+		const mapped = mapSqlTypeToNosql(conceptualAttributes || {});
+		const valueRow = {
 			kind: 'attribute',
 			name: 'value',
-			type: 'string',
-		});
+			type: mapped.type,
+		};
+		if (mapped.length != null) valueRow.length = mapped.length;
+		if (mapped.precision != null) valueRow.precision = mapped.precision;
+		if (mapped.scale != null) valueRow.scale = mapped.scale;
+		collection.addRow([...path, blockIdx], valueRow);
 	}
 
-	async addMultivaluedAsSeparateCollection(parentCollection, name, cardinality) {
+	async addMultivaluedAsSeparateCollection(parentCollection, name, cardinality, conceptualAttributes) {
 		const newCollection = await this.nosqlEditor.insertCollection({
 			name,
 			position: { x: 100, y: 100 },
@@ -157,11 +179,16 @@ export default class Conversor {
 			type: 'ID',
 			identifier: true,
 		});
-		newCollection.addRow([], {
+		const mapped = mapSqlTypeToNosql(conceptualAttributes || {});
+		const valueRow = {
 			kind: 'attribute',
 			name: 'value',
-			type: 'string',
-		});
+			type: mapped.type,
+		};
+		if (mapped.length != null) valueRow.length = mapped.length;
+		if (mapped.precision != null) valueRow.precision = mapped.precision;
+		if (mapped.scale != null) valueRow.scale = mapped.scale;
+		newCollection.addRow([], valueRow);
 		this.addReference(newCollection, [], {
 			kind: 'reference',
 			name: parentCollection.getName() + '_REF',
