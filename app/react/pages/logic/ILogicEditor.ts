@@ -13,7 +13,7 @@ export interface ILogicEditor extends IEditor {
 	loadViews(): Array<{ name: string; tables: any[]; queryConditions: any }>;
 	loadTables(): Array<{ name: string; columns: any[]; id: string }>;
 	loadViewsByTable(tableId: string): Array<{ name: string; tables: any[]; queryConditions: any }>;
-	editCardinalityA(selectedLink: any, card: string): void;
-	editCardinalityB(selectedLink: any, card: string): void;
+	editCardinalityA(selectedLink: any, card: string): { applied: boolean; reason?: string };
+	editCardinalityB(selectedLink: any, card: string): { applied: boolean; reason?: string };
 	toLogic(conceptualJson: any): Promise<void>;
 }

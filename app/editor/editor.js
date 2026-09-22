@@ -191,7 +191,7 @@ export default class Editor {
 	}
 
 	registerGraphEvents() {
-		this.graph.on("change:position add remove", () => {
+		this.graph.on("change:position change:labels add remove", () => {
 			if(this.paper && !this.paper.isFrozen()){
 				this.setDirty(true);
 			}	

@@ -20,6 +20,7 @@ export default class ConceptualEditor extends Editor {
 	toolsViewService = null;
 	selectedElementToolbar = null;
 	selectedElementResizer = null;
+	selectedLinkId = null;
 	constructor(document, container, customActions = {}) {
 		super(document, container, { selection: true, command: true, snaplines: true });
 		this.customActions = customActions;
@@ -76,6 +77,14 @@ export default class ConceptualEditor extends Editor {
 			if (this.elementSelector != null) {
 				this.elementSelector.collection.reset([]);
 			}
+			if (cellView.model.isLink()) {
+				if (this.selectedLinkId != null && this.selectedLinkId !== cellView.model.id) {
+					this.clearSelectedLinkTools();
+				}
+				this.selectedLinkId = cellView.model.id;
+			} else {
+				this.clearSelectedLinkTools();
+			}
 			const elementType = this.selectElementType(cellView);
 			this.customActions.selectElement({
 				value: cellView.model.attributes?.attrs?.text?.text,
@@ -84,11 +93,22 @@ export default class ConceptualEditor extends Editor {
 			});
 			return;
 		}
+		this.clearSelectedLinkTools();
 		this.customActions.selectElement({
 			value: "",
 			type: "blank",
 			element: null
 		});
+	}
+
+	clearSelectedLinkTools() {
+		if (this.selectedLinkId != null) {
+			const previous = this.graph.getCell(this.selectedLinkId);
+			if (previous) {
+				this.paper.findViewByModel(previous)?.removeTools?.();
+			}
+			this.selectedLinkId = null;
+		}
 	}
 
 	selectElementType(cellView) {
@@ -122,6 +142,8 @@ export default class ConceptualEditor extends Editor {
 			this.selectedElementResizer.remove();
 			this.selectedElementResizer = null;
 		}
+
+		this.clearSelectedLinkTools();
 	}
 
 	onUpdate = (event, selectedElement) => {
@@ -144,20 +166,27 @@ export default class ConceptualEditor extends Editor {
 			case 'addAutoRelationship':
 				this.shapeLinker.addAutoRelationship(selectedElement);
 				break;
-			case 'link.cardinality':
+			case 'link.cardinality': {
+				const existingLabel = selectedElement.element.model.label(0);
+				const position = existingLabel?.position ?? 0.3;
 				selectedElement.element.model.label(0,
 					{
-						position: 0.3,
+						position,
 						attrs: { text: { text: event.value } }
 					});
 				break;
-			case 'link.role':
+			}
+			case 'link.role': {
+				const existingRole = selectedElement.element.model.label(1);
+				const position = existingRole?.position ?? 0.7;
+				selectedElement.element.model.set('role', event.value);
 				selectedElement.element.model.label(1,
 					{
-						position: 0.7,
+						position,
 						attrs: { text: { text: event.value } }
 					});
 				break;
+			}
 			case 'link.weak':
 				selectedElement.element.model.setWeak(event.value, selectedElement.element);
 				break;
@@ -228,6 +257,12 @@ export default class ConceptualEditor extends Editor {
 	registerCustomPaperEvents() {
 		this.paper.on('link:options', (cellView) => {
 			this.onSelectElement(cellView);
+			this.customActions.openMenu?.();
+		});
+
+		this.paper.on('link:pointerclick', (linkView) => {
+			this.onSelectElement(linkView);
+			this.customActions.openMenu?.();
 		});
 
 		this.paper.on('element:pointerup', (cellView, evt) => {
@@ -248,6 +283,7 @@ export default class ConceptualEditor extends Editor {
 		});
 
 		this.paper.on('link:mouseleave', (linkView) => {
+			if (linkView.model.id === this.selectedLinkId) return;
 			linkView.removeTools();
 		});
 

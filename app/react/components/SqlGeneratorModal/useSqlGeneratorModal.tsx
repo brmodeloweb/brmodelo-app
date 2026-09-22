@@ -8,11 +8,12 @@ export function useSqlGeneratorModal() {
 		throw new Error("useSqlGeneratorModal must be used within a ModalsProvider");
 	}
 	return {
-		open: (sql: string) =>
+		open: (sql: string, modelName?: string) =>
 			context.open<void>(({ onSuccess, onCancel, onError }) => (
 				<SqlGeneratorModal
 					open
 					sql={sql}
+					modelName={modelName}
 					onSuccess={() => onSuccess()}
 					onCancel={() => onSuccess()}
 					onError={onError}

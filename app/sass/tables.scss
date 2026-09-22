@@ -25,6 +25,20 @@
 	text-align: right;
 }
 
+.actions-cell button.br-icon-button {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+	vertical-align: middle;
+	line-height: 1;
+}
+
+.actions-cell button.br-icon-button:focus-visible .svg-inline--fa {
+	opacity: 1;
+}
+
 .actions-cell .svg-inline--fa {
 	pointer-events: none;
 	opacity: 0;
@@ -42,7 +56,12 @@ tr:hover .actions-cell .svg-inline--fa {
 	border-radius: 4px;
 }
 
-.actions-cell .svg-inline--fa:hover {
+tr:hover .actions-cell button.br-icon-button .svg-inline--fa {
+	pointer-events: none;
+}
+
+.actions-cell .svg-inline--fa:hover,
+.actions-cell button.br-icon-button:hover .svg-inline--fa {
 	color: var(--gray-50);
 	border-color: var(--border-default);
 	background-color: var(--gray-90);

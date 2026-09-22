@@ -5,12 +5,16 @@ export default class ToolsViewService {
 	constructor() {
 		const defaultTools = this.#createDefaultTools();
 		this.toolsWithInfo = new dia.ToolsView({ tools: [...defaultTools, new erd.InfoButton()] });
+		this.toolsWithInfoAndRemove = new dia.ToolsView({
+			tools: [...defaultTools, new erd.InfoButton(), new linkTools.Remove()],
+		});
 		this.tools = new dia.ToolsView({ tools: [...defaultTools, new linkTools.Remove()] })
 		this.toolsWithoutRemove = new dia.ToolsView({ tools: defaultTools });
 	}
 
 	getToolsView(connectionType = "", editorSource = "") {
 		if (connectionType === "Entity-Relationship") return this.toolsWithInfo;
+		if (connectionType === "Table-Table") return this.toolsWithInfoAndRemove;
 		if (connectionType === "Table-View") return this.toolsWithoutRemove;
 		if (connectionType === "Note-Any") return this.tools;
 		if (editorSource === "conceptual") return this.toolsWithoutRemove;
