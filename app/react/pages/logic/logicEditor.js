@@ -357,6 +357,7 @@ export default class LogicEditor extends Editor {
                 position: 0.2,
                 attrs: { text: { text: card, 'font-weight': 'normal', 'font-size': 12 } }
             });
+            this.setDirty(true);
         }
     }
 
@@ -366,6 +367,7 @@ export default class LogicEditor extends Editor {
                 position: 0.8,
                 attrs: { text: { text: card, 'font-weight': 'normal', 'font-size': 12 } }
             });
+            this.setDirty(true);
         }
     }
 
