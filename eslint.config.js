@@ -52,6 +52,7 @@ module.exports = [
 		rules: {
 			...tsPlugin.configs.recommended.rules,
 			...reactPlugin.configs.recommended.rules,
+			"react/prop-types": "off",
 			"no-shadow": "off",
 			"react/jsx-uses-react": "off",
 			"react/react-in-jsx-scope": "off",

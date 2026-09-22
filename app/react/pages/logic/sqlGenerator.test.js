@@ -1,3 +1,4 @@
+import { describe, expect, test } from "@jest/globals";
 import { generate, validateLogicModelForSql } from "./sqlGenerator";
 
 describe("validateLogicModelForSql", () => {
@@ -17,6 +18,36 @@ describe("validateLogicModelForSql", () => {
 			'Table "Valid" has no columns',
 			'Invalid column name "preco$" in table "ok"',
 		]));
+	});
+
+	test("flags unsupported column types", () => {
+		const model = new Map([
+			["1", {
+				name: "users",
+				columns: [
+					{ name: "id", type: "INT", PK: true },
+					{ name: "evil", type: "INT; DROP TABLE users--" },
+				],
+			}],
+		]);
+		const errors = validateLogicModelForSql(model);
+		expect(errors).toEqual(expect.arrayContaining([
+			'Invalid column type "INT; DROP TABLE users--" in table "users"',
+		]));
+	});
+
+	test("accepts parameterized VARCHAR and DECIMAL-like forms for known bases", () => {
+		const model = new Map([
+			["1", {
+				name: "users",
+				columns: [
+					{ name: "id", type: "INT", PK: true },
+					{ name: "email", type: "VARCHAR(255)" },
+					{ name: "code", type: "CHAR(2)" },
+				],
+			}],
+		]);
+		expect(validateLogicModelForSql(model)).toEqual([]);
 	});
 });
 

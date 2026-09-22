@@ -208,6 +208,9 @@ export default class LogicEditor extends Editor {
             }
 
             if (cellView.model.isLink()) {
+                if (this.selectedLinkId != null && this.selectedLinkId !== cellView.model.id) {
+                    this.clearSelectedLinkTools();
+                }
                 this.selectedLinkId = cellView.model.id;
             } else {
                 this.clearSelectedLinkTools();

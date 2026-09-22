@@ -40,7 +40,7 @@ const SqlGeneratorModal: React.FC<SqlGeneratorModalProps> = ({
 	}, [sql]);
 
 	const handleDownload = useCallback(() => {
-		const safeName = (modelName || "model").replace(/[<>:"/\\|?*\u0000-\u001f]/g, "_").trim() || "model";
+		const safeName = (modelName || "model").replace(/[<>:"/\\|?*\p{Cc}]/gu, "_").trim() || "model";
 		downloadTextFile(`${safeName}.sql`, sql, "application/sql");
 	}, [modelName, sql]);
 

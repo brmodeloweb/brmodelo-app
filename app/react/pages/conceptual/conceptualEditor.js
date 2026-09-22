@@ -78,6 +78,9 @@ export default class ConceptualEditor extends Editor {
 				this.elementSelector.collection.reset([]);
 			}
 			if (cellView.model.isLink()) {
+				if (this.selectedLinkId != null && this.selectedLinkId !== cellView.model.id) {
+					this.clearSelectedLinkTools();
+				}
 				this.selectedLinkId = cellView.model.id;
 			} else {
 				this.clearSelectedLinkTools();

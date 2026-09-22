@@ -31,7 +31,7 @@ const LogicPageWrapper: React.FC = () => {
 	const handleNavigateToWorkspace = React.useCallback(() => navigate("/"), [navigate]);
 
 	const handleGenerateSQL = React.useCallback((tablesMap: Map<string, any>, views: any[], modelName?: string) => {
-		const errors = validateLogicModelForSql(tablesMap, views);
+		const errors = validateLogicModelForSql(tablesMap);
 		if (errors.length > 0) {
 			confirmationModal.confirm({
 				title: t("Cannot generate SQL"),

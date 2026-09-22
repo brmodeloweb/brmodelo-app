@@ -2,6 +2,14 @@ import { comparasionOperators } from "./queryExpressionService";
 
 const REGEX_TABLE_COLUMN_NAME = /^(?<table>[^.]+)\.(?<column>[^.]+)$/;
 const IDENTIFIER_REGEX = /^[A-Za-z_][A-Za-z0-9_]*$/;
+const SUPPORTED_SQL_TYPES = [
+	"DATE", "DATETIME", "TIME", "INT", "BOOLEAN", "FLOAT",
+	"VARCHAR", "CHAR", "JSON", "ENUM", "SET",
+];
+const SQL_TYPE_TOKEN_REGEX = new RegExp(
+	`^(${SUPPORTED_SQL_TYPES.join("|")})(?:\\(\\d+(?:,\\s*\\d+)?\\))?$`,
+	"i",
+);
 
 const constraints = [
 	{ key: 'PK', sqlValue: "PRIMARY KEY" },
@@ -9,7 +17,7 @@ const constraints = [
 	{ key: 'AUTO_INCREMENT', sqlValue: "AUTO_INCREMENT" },
 ];
 
-export const validateLogicModelForSql = function (model, views = []) {
+export const validateLogicModelForSql = function (model) {
 	const errors = [];
 	const keys = [...model.keys()];
 
@@ -35,6 +43,11 @@ export const validateLogicModelForSql = function (model, views = []) {
 			const columnName = cleanString(column?.name || "");
 			if (!columnName || !IDENTIFIER_REGEX.test(columnName)) {
 				errors.push(`Invalid column name "${column?.name || ""}" in table "${table?.name || tableName}"`);
+			}
+
+			const columnType = String(column?.type || "").trim();
+			if (!columnType || !SQL_TYPE_TOKEN_REGEX.test(columnType)) {
+				errors.push(`Invalid column type "${column?.type || ""}" in table "${table?.name || tableName}"`);
 			}
 		}
 	}

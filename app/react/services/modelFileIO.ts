@@ -9,7 +9,7 @@ export class InvalidModelFileError extends Error {
 }
 
 const sanitizeFileName = (name: string): string => {
-	const cleaned = (name || "model").replace(/[<>:"/\\|?*\u0000-\u001f]/g, "_").trim();
+	const cleaned = (name || "model").replace(/[<>:"/\\|?*\p{Cc}]/gu, "_").trim();
 	return cleaned.length > 0 ? cleaned : "model";
 };
 
