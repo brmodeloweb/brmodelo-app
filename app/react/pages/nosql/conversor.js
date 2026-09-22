@@ -3,6 +3,8 @@
 // aggregate model: collections with hierarchical rows (attributes, blocks, references)
 // and disjunction groups for disjoint specializations.
 
+import { mapSqlTypeToNosql } from "../../services/dataTypes";
+
 export default class Conversor {
 	constructor(nosqlEditor, conversionOptionModal) {
 		this.modelGraph = null;
@@ -107,20 +109,35 @@ export default class Conversor {
 					return;
 				case 'cardinality':
 				default:
-					this.addSimpleAttribute(collection, path, { name, isKey, isMultivalued: true, cardinality });
+					this.addSimpleAttribute(collection, path, {
+						name,
+						isKey,
+						isMultivalued: true,
+						cardinality,
+						conceptualAttributes: attribute.attributes,
+					});
 					return;
 			}
 		}
 
-		this.addSimpleAttribute(collection, path, { name, isKey, isMultivalued: false });
+		this.addSimpleAttribute(collection, path, {
+			name,
+			isKey,
+			isMultivalued: false,
+			conceptualAttributes: attribute.attributes,
+		});
 	}
 
-	addSimpleAttribute(collection, path, { name, isKey, isMultivalued, cardinality }) {
+	addSimpleAttribute(collection, path, { name, isKey, isMultivalued, cardinality, conceptualAttributes }) {
+		const mapped = mapSqlTypeToNosql(conceptualAttributes || {}, { isKey });
 		const rowData = {
 			kind: 'attribute',
 			name,
-			type: isKey ? 'ID' : 'string',
+			type: mapped.type,
 		};
+		if (mapped.length != null) rowData.length = mapped.length;
+		if (mapped.precision != null) rowData.precision = mapped.precision;
+		if (mapped.scale != null) rowData.scale = mapped.scale;
 		if (isKey) rowData.identifier = true;
 		if (isMultivalued) {
 			const parsed = this.parseCardinality(cardinality) || { min: 1 };

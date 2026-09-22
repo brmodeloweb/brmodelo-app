@@ -311,6 +311,9 @@ const RowList: React.FC<RowListProps> = React.memo(({
 										cardinalityEnabled: row.cardinalityEnabled || false,
 										minCardinality: row.minCardinality ?? 0,
 										maxCardinality: row.maxCardinality ?? 1,
+										length: row.length,
+										precision: row.precision,
+										scale: row.scale,
 									}}
 									onSave={(data) => handleSaveRow(data, index)}
 									onDismiss={() => setExpandedIndex(null)}

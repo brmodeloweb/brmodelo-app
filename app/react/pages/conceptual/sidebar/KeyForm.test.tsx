@@ -6,9 +6,35 @@ jest.mock("react-i18next", () => ({
 	useTranslation: () => ({ t: (key: string) => key }),
 }));
 
+jest.mock("../../../components/Dropdown", () => {
+	return function MockDropdown({ onSelect, selected, options }: any) {
+		return (
+			<select
+				data-testid={`dropdown-${selected.type}`}
+				value={selected.type}
+				onChange={(e) => {
+					const option = options.find((o: any) => o.type === e.target.value);
+					if (option) onSelect(option);
+				}}
+			>
+				{options.map((o: any) => (
+					<option key={o.type} value={o.type}>{o.name}</option>
+				))}
+			</select>
+		);
+	};
+});
+
+jest.mock("../../../components/TypeParamsFields/TypeParamsFields", () => {
+	return function MockTypeParamsFields() {
+		return null;
+	};
+});
+
 describe("KeyForm", () => {
 	const defaultProps = {
 		name: "TestKey",
+		dataType: "INT",
 		onUpdate: jest.fn(),
 	};
 
@@ -35,5 +61,14 @@ describe("KeyForm", () => {
 		const { rerender } = render(<KeyForm {...defaultProps} />);
 		rerender(<KeyForm {...defaultProps} name="UpdatedKey" />);
 		expect(screen.getByLabelText("Name")).toHaveValue("UpdatedKey");
+	});
+
+	test("calls onUpdate with attribute.dataType when type changes", () => {
+		render(<KeyForm {...defaultProps} />);
+		fireEvent.change(screen.getByTestId("dropdown-INT"), { target: { value: "UUID" } });
+		expect(defaultProps.onUpdate).toHaveBeenCalledWith({
+			type: "attribute.dataType",
+			value: expect.objectContaining({ dataType: "UUID" }),
+		});
 	});
 });

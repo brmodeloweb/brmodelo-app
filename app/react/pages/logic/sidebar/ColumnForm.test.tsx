@@ -116,15 +116,34 @@ describe("ColumnForm", () => {
 		expect(screen.getByLabelText("Name")).toHaveValue("username");
 	});
 
-	test("normalizes state when FK is toggled on", () => {
-		const column = { ...defaultColumn, PK: false, type: "VARCHAR(n)", defaultValue: "test", AUTO_INCREMENT: true };
+	test("preserves column type when FK is toggled on", () => {
+		const column = { ...defaultColumn, PK: false, type: "VARCHAR", length: 100, defaultValue: "test", AUTO_INCREMENT: true };
 		render(<ColumnForm {...defaultProps} column={column} />);
 		fireEvent.click(screen.getByLabelText("FK"));
 		fireEvent.click(screen.getByText("Save"));
 		expect(defaultProps.onSave).toHaveBeenCalledWith(
-			expect.objectContaining({ FK: true, type: "INT", defaultValue: "", AUTO_INCREMENT: false }),
+			expect.objectContaining({ FK: true, type: "VARCHAR", length: 100, defaultValue: "", AUTO_INCREMENT: false }),
 			undefined
 		);
+	});
+
+	test("shows length field for VARCHAR and saves updated length", () => {
+		const column = { ...defaultColumn, PK: false, type: "VARCHAR", length: 255 };
+		render(<ColumnForm {...defaultProps} column={column} />);
+		const lengthInput = screen.getByTestId("type-param-length");
+		fireEvent.change(lengthInput, { target: { value: "100" } });
+		fireEvent.click(screen.getByText("Save"));
+		expect(defaultProps.onSave).toHaveBeenCalledWith(
+			expect.objectContaining({ type: "VARCHAR", length: 100 }),
+			undefined
+		);
+	});
+
+	test("shows precision and scale fields for DECIMAL", () => {
+		const column = { ...defaultColumn, PK: false, type: "DECIMAL", precision: 10, scale: 2 };
+		render(<ColumnForm {...defaultProps} column={column} />);
+		expect(screen.getByTestId("type-param-precision")).toHaveValue(10);
+		expect(screen.getByTestId("type-param-scale")).toHaveValue(2);
 	});
 
 	test("clears tableOrigin when FK is toggled off", () => {

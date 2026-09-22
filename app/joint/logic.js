@@ -1,4 +1,5 @@
 import { dia } from '@joint/core';
+import { formatColumnType } from '../react/services/dataTypes';
 
 const logic = {};
 
@@ -186,6 +187,10 @@ logic.Table = dia.Element.define('logic.Table', {
 			tableOrigin: rowData.tableOrigin || null
 		};
 
+		if (rowData.length != null) normalized.length = rowData.length;
+		if (rowData.precision != null) normalized.precision = rowData.precision;
+		if (rowData.scale != null) normalized.scale = rowData.scale;
+
 		normalized.isPrimaryKey = normalized.PK;
 		normalized.isForeignKey = normalized.FK;
 		normalized.isNotNull = normalized.NOT_NULL;
@@ -202,7 +207,7 @@ logic.Table = dia.Element.define('logic.Table', {
 
 		return {
 			name: row.name || '',
-			type: row.type || '',
+			type: formatColumnType(row) || row.type || '',
 			constraints: constraints.join(', ')
 		};
 	},

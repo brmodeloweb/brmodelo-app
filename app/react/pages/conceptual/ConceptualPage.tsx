@@ -57,6 +57,23 @@ const enrichSelectedElement = (element: SelectedElement): SelectedElement => {
 				name: attributes.attrs?.text?.text?.replace(/ *\([^)]*\) */g, "") || "",
 				cardinality: attributes.cardinality,
 				composed: attributes.composed,
+				dataType: attributes.dataType || "VARCHAR",
+				length: attributes.length ?? (attributes.dataType ? undefined : 255),
+				precision: attributes.precision,
+				scale: attributes.scale,
+			},
+		};
+	}
+
+	if (element.type === "Key") {
+		return {
+			...element,
+			value: {
+				name: attributes.attrs?.text?.text?.replace(/ *\([^)]*\) */g, "") || "",
+				dataType: attributes.dataType || "INT",
+				length: attributes.length,
+				precision: attributes.precision,
+				scale: attributes.scale,
 			},
 		};
 	}
@@ -134,6 +151,12 @@ const ConceptualPage: React.FC<ConceptualPageProps> = React.memo(({
 		}
 		if (event.type === "attribute.name" && current.value) {
 			current.value.name = event.value;
+		}
+		if (event.type === "attribute.dataType" && current.value && typeof current.value === "object") {
+			current.value.dataType = event.value?.dataType;
+			current.value.length = event.value?.length;
+			current.value.precision = event.value?.precision;
+			current.value.scale = event.value?.scale;
 		}
 
 		editor.onUpdate(event, current);

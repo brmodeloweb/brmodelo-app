@@ -10,7 +10,8 @@ jest.mock("../../../components/Dropdown", () => {
 	return function MockDropdown({ onSelect, selected, options }: any) {
 		return (
 			<select
-				data-testid="dropdown"
+				data-testid={`dropdown-${selected.type}`}
+				aria-label={selected.name}
 				value={selected.type}
 				onChange={(e) => {
 					const option = options.find((o: any) => o.type === e.target.value);
@@ -21,6 +22,20 @@ jest.mock("../../../components/Dropdown", () => {
 					<option key={o.type} value={o.type}>{o.name}</option>
 				))}
 			</select>
+		);
+	};
+});
+
+jest.mock("../../../components/TypeParamsFields/TypeParamsFields", () => {
+	return function MockTypeParamsFields({ typeName, length, onChange }: any) {
+		if (typeName !== "VARCHAR" && typeName !== "CHAR") return null;
+		return (
+			<input
+				data-testid="type-param-length"
+				aria-label="Length"
+				value={length ?? ""}
+				onChange={(e) => onChange("length", Number(e.target.value))}
+			/>
 		);
 	};
 });
@@ -57,7 +72,7 @@ describe("AttributeForm", () => {
 
 	test("calls onUpdate with attribute.cardinality on dropdown change", () => {
 		render(<AttributeForm {...defaultProps} />);
-		fireEvent.change(screen.getByTestId("dropdown"), { target: { value: "(0, n)" } });
+		fireEvent.change(screen.getByTestId("dropdown-(1, 1)"), { target: { value: "(0, n)" } });
 		expect(defaultProps.onUpdate).toHaveBeenCalledWith({ type: "attribute.cardinality", value: "(0, n)" });
 	});
 
@@ -80,6 +95,15 @@ describe("AttributeForm", () => {
 	test("syncs cardinality when prop changes", () => {
 		const { rerender } = render(<AttributeForm {...defaultProps} />);
 		rerender(<AttributeForm {...defaultProps} cardinality="(0, n)" />);
-		expect(screen.getByTestId("dropdown")).toHaveValue("(0, n)");
+		expect(screen.getByTestId("dropdown-(0, n)")).toHaveValue("(0, n)");
+	});
+
+	test("calls onUpdate with attribute.dataType when type changes", () => {
+		render(<AttributeForm {...defaultProps} />);
+		fireEvent.change(screen.getByTestId("dropdown-VARCHAR"), { target: { value: "INT" } });
+		expect(defaultProps.onUpdate).toHaveBeenCalledWith({
+			type: "attribute.dataType",
+			value: expect.objectContaining({ dataType: "INT" }),
+		});
 	});
 });

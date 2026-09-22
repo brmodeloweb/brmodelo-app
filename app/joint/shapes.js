@@ -192,6 +192,8 @@ erd.Attribute = dia.Element.define('erd.Attribute', {
   cardinality: "(1, 1)",
   multivalued: false,
   composed: false,
+  dataType: "VARCHAR",
+  length: 255,
   size: {
     width: 15,
     height: 15,
@@ -247,6 +249,7 @@ erd.Key = dia.Element.define('erd.Key', {
   cardinality: "(1, 1)",
   multivalued: false,
   composed: false,
+  dataType: "INT",
   size: {
     width: 15,
     height: 15,

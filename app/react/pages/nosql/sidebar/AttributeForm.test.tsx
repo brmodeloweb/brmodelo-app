@@ -46,7 +46,9 @@ describe("NoSQL AttributeForm", () => {
 		const dropdown = screen.getByTestId("type-dropdown");
 		const options = Array.from(dropdown.querySelectorAll("option"));
 		const types = options.map(o => o.value);
-		expect(types).toEqual(["block", "ID", "string", "int", "float", "boolean", "date"]);
+		expect(types).toEqual([
+			"block", "ID", "string", "int", "long", "float", "double", "decimal", "boolean", "date",
+		]);
 	});
 
 	test("renders initialValues when provided", () => {
@@ -124,7 +126,7 @@ describe("NoSQL AttributeForm", () => {
 	// Identifier behavior
 	// //////////////////////////////////////////////////////////////////
 
-	test("shows only ID, string, int types when identifier is true", () => {
+	test("shows only ID, string, int, long types when identifier is true", () => {
 		render(
 			<AttributeForm
 				initialValues={{ name: "_id", type: "ID", cardinalityEnabled: false, minCardinality: 0, maxCardinality: 1 }}
@@ -136,7 +138,7 @@ describe("NoSQL AttributeForm", () => {
 		const dropdown = screen.getByTestId("type-dropdown");
 		const options = Array.from(dropdown.querySelectorAll("option"));
 		const types = options.map(o => o.value);
-		expect(types).toEqual(["ID", "string", "int"]);
+		expect(types).toEqual(["ID", "string", "int", "long"]);
 	});
 
 	test("shows identifier checkbox when identifier is true", () => {
