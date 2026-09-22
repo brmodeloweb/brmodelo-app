@@ -169,6 +169,17 @@ const AttributeForm: React.FC<AttributeFormProps> = React.memo(({
 			delete finalAttr.precision;
 			delete finalAttr.scale;
 		}
+		const invalidLength = kind === "length"
+			&& finalAttr.length != null
+			&& (!Number.isInteger(finalAttr.length) || finalAttr.length < 1);
+		const invalidPrecision = kind === "precisionScale"
+			&& finalAttr.precision != null
+			&& (!Number.isInteger(finalAttr.precision) || finalAttr.precision < 1);
+		const invalidScale = kind === "precisionScale"
+			&& finalAttr.scale != null
+			&& (!Number.isInteger(finalAttr.scale) || finalAttr.scale < 0
+				|| (finalAttr.precision != null && finalAttr.scale > finalAttr.precision));
+		if (invalidLength || invalidPrecision || invalidScale) return;
 		onSave(finalAttr);
 	}, [attr, onSave, identifier, isReference]);
 

@@ -14,11 +14,11 @@ interface TypeParamsFieldsProps {
 const toInputValue = (value: number | null | undefined): string =>
 	value == null ? "" : String(value);
 
-const parsePositiveInt = (raw: string): number | undefined => {
+const parseInteger = (raw: string, min: number): number | undefined => {
 	if (raw === "") return undefined;
 	const parsed = Number(raw);
-	if (!Number.isFinite(parsed)) return undefined;
-	return Math.trunc(parsed);
+	if (!Number.isInteger(parsed) || parsed < min) return undefined;
+	return parsed;
 };
 
 const TypeParamsFields: React.FC<TypeParamsFieldsProps> = ({
@@ -30,7 +30,9 @@ const TypeParamsFields: React.FC<TypeParamsFieldsProps> = ({
 	paramKindOverride,
 }) => {
 	const { t } = useTranslation(["common"]);
-	const kind = paramKindOverride ?? getSqlTypeMeta(typeName)?.params ?? "none";
+	const meta = getSqlTypeMeta(typeName);
+	const kind = paramKindOverride ?? meta?.params ?? "none";
+	const effectivePrecision = precision ?? meta?.defaultPrecision;
 
 	if (kind === "none") {
 		return null;
@@ -46,7 +48,7 @@ const TypeParamsFields: React.FC<TypeParamsFieldsProps> = ({
 					min={1}
 					className="form-control"
 					value={toInputValue(length)}
-					onChange={(event) => onChange("length", parsePositiveInt(event.target.value))}
+					onChange={(event) => onChange("length", parseInteger(event.target.value, 1))}
 					data-testid="type-param-length"
 				/>
 			</div>
@@ -63,7 +65,15 @@ const TypeParamsFields: React.FC<TypeParamsFieldsProps> = ({
 					min={1}
 					className="form-control"
 					value={toInputValue(precision)}
-					onChange={(event) => onChange("precision", parsePositiveInt(event.target.value))}
+					onChange={(event) => {
+						const nextPrecision = parseInteger(event.target.value, 1);
+						onChange(
+							"precision",
+							nextPrecision == null || scale == null
+								? nextPrecision
+								: Math.max(nextPrecision, scale),
+						);
+					}}
 					data-testid="type-param-precision"
 				/>
 			</div>
@@ -73,9 +83,18 @@ const TypeParamsFields: React.FC<TypeParamsFieldsProps> = ({
 					id="type-param-scale"
 					type="number"
 					min={0}
+					max={effectivePrecision ?? undefined}
 					className="form-control"
 					value={toInputValue(scale)}
-					onChange={(event) => onChange("scale", parsePositiveInt(event.target.value))}
+					onChange={(event) => {
+						const nextScale = parseInteger(event.target.value, 0);
+						onChange(
+							"scale",
+							nextScale == null || effectivePrecision == null
+								? nextScale
+								: Math.min(nextScale, effectivePrecision),
+						);
+					}}
 					data-testid="type-param-scale"
 				/>
 			</div>

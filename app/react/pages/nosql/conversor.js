@@ -102,10 +102,10 @@ export default class Conversor {
 			const choice = await this.askMultivaluedStrategy(name, collection);
 			switch (choice) {
 				case 'nested_block':
-					await this.addMultivaluedAsBlock(collection, path, name, cardinality);
+					await this.addMultivaluedAsBlock(collection, path, name, cardinality, attribute.attributes);
 					return;
 				case 'separate_collection':
-					await this.addMultivaluedAsSeparateCollection(collection, name, cardinality);
+					await this.addMultivaluedAsSeparateCollection(collection, name, cardinality, attribute.attributes);
 					return;
 				case 'cardinality':
 				default:
@@ -148,7 +148,7 @@ export default class Conversor {
 		collection.addRow(path, rowData);
 	}
 
-	async addMultivaluedAsBlock(collection, path, name, cardinality) {
+	async addMultivaluedAsBlock(collection, path, name, cardinality, conceptualAttributes) {
 		const blockIdx = collection.addRow(path, {
 			kind: 'block',
 			name,
@@ -156,14 +156,19 @@ export default class Conversor {
 			minCardinality: cardinality && cardinality.includes('(0') ? 0 : 1,
 			maxCardinality: 'N',
 		});
-		collection.addRow([...path, blockIdx], {
+		const mapped = mapSqlTypeToNosql(conceptualAttributes || {});
+		const valueRow = {
 			kind: 'attribute',
 			name: 'value',
-			type: 'string',
-		});
+			type: mapped.type,
+		};
+		if (mapped.length != null) valueRow.length = mapped.length;
+		if (mapped.precision != null) valueRow.precision = mapped.precision;
+		if (mapped.scale != null) valueRow.scale = mapped.scale;
+		collection.addRow([...path, blockIdx], valueRow);
 	}
 
-	async addMultivaluedAsSeparateCollection(parentCollection, name, cardinality) {
+	async addMultivaluedAsSeparateCollection(parentCollection, name, cardinality, conceptualAttributes) {
 		const newCollection = await this.nosqlEditor.insertCollection({
 			name,
 			position: { x: 100, y: 100 },
@@ -174,11 +179,16 @@ export default class Conversor {
 			type: 'ID',
 			identifier: true,
 		});
-		newCollection.addRow([], {
+		const mapped = mapSqlTypeToNosql(conceptualAttributes || {});
+		const valueRow = {
 			kind: 'attribute',
 			name: 'value',
-			type: 'string',
-		});
+			type: mapped.type,
+		};
+		if (mapped.length != null) valueRow.length = mapped.length;
+		if (mapped.precision != null) valueRow.precision = mapped.precision;
+		if (mapped.scale != null) valueRow.scale = mapped.scale;
+		newCollection.addRow([], valueRow);
 		this.addReference(newCollection, [], {
 			kind: 'reference',
 			name: parentCollection.getName() + '_REF',

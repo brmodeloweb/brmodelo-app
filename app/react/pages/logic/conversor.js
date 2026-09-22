@@ -13,10 +13,16 @@ export default class Conversor {
     }
 
     columnFromConceptualAttribute(attribute, overrides = {}) {
-        const logicalType = conceptualToLogicalType(attribute?.attributes || {});
+        const attrs = { ...(attribute?.attributes || {}) };
+        const isKey = attrs.type === 'erd.Key' || attrs.supertype === "Key";
+        // Legacy keys have no dataType; new keys default to INT in shapes.js.
+        if (isKey && !attrs.dataType) {
+            attrs.dataType = "INT";
+        }
+        const logicalType = conceptualToLogicalType(attrs);
         return new Column({
             name: overrides.name ?? attribute.attributes.attrs.text.text,
-            PK: overrides.PK ?? (attribute.attributes.type === 'erd.Key' || attribute.attributes.supertype === "Key"),
+            PK: overrides.PK ?? isKey,
             FK: overrides.FK,
             type: logicalType.type,
             length: logicalType.length,
@@ -415,8 +421,7 @@ export default class Conversor {
             if (!tableRelation) continue;
 
             for (const attribute of newAttributes) {
-                const column = new Column({
-                    name: attribute.attributes.attrs.text.text,
+                const column = this.columnFromConceptualAttribute(attribute, {
                     PK: attribute.attributes.type === 'erd.Key',
                 });
                 tableRelation.addRow(column);
@@ -556,10 +561,16 @@ export default class Conversor {
     }
 
     connectTables(source, target, linkLabels) {
+        const sourceRows = source.getRows?.() || source.get?.('rows') || source.attributes?.rows || [];
+        const sourcePk = sourceRows.find((row) => row.PK || row.isPrimaryKey);
         const column = new Column({
             name: "id" + source.attributes.name,
             FK: true,
             idOrigin: source.id,
+            type: sourcePk?.type || "INT",
+            length: sourcePk?.length,
+            precision: sourcePk?.precision,
+            scale: sourcePk?.scale,
             tableOrigin: { idOrigin: source.id, idLink: null, idName: source.attributes.name }
         });
         this.logicEditor.selectedElement = this.logicEditor.paper.findViewByModel(target);

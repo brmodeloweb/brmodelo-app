@@ -5,6 +5,7 @@ import Sortable from "sortablejs";
 import AttributeForm from "./AttributeForm";
 import DisjunctionGroupsEditor from "./DisjunctionGroupsEditor";
 import ElementColorPicker, { getCurrentColor } from "../../../components/ElementColorPicker";
+import { formatNosqlType } from "../../../services/dataTypes";
 import type { CollectionOption, NoSqlUpdateEvent } from "../INoSqlEditor";
 
 interface CollectionFormProps {
@@ -207,7 +208,7 @@ const RowList: React.FC<RowListProps> = React.memo(({
 			const refType = (row.type && row.type !== "reference") ? row.type : "ID";
 			return `${refType} · ref`;
 		}
-		return row.type || "string";
+		return formatNosqlType(row) || row.type || "string";
 	};
 
 	return (

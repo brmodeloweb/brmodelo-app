@@ -83,7 +83,14 @@ export const applyTypeDefaults = (typeName: string, current: TypedColumnLike = {
 	const parsed = parseLegacyType(typeName);
 	const meta = SQL_TYPE_MAP.get(parsed.type.toUpperCase());
 	if (!meta) {
-		return { type: parsed.type || "INT" };
+		const result: ParsedType = { type: parsed.type || "INT" };
+		const length = current.length ?? parsed.length;
+		const precision = current.precision ?? parsed.precision;
+		const scale = current.scale ?? parsed.scale;
+		if (length != null) result.length = length;
+		if (precision != null) result.precision = precision;
+		if (scale != null) result.scale = scale;
+		return result;
 	}
 
 	const result: ParsedType = { type: meta.name };
@@ -107,10 +114,12 @@ export const clearIrrelevantParams = (column: TypedColumnLike): TypedColumnLike 
 	const meta = getSqlTypeMeta(column.type);
 	const next: TypedColumnLike = { ...column, type: meta?.name || column.type };
 
-	if (!meta || meta.params !== "length") {
+	if (!meta) return next;
+
+	if (meta.params !== "length") {
 		delete next.length;
 	}
-	if (!meta || meta.params !== "precisionScale") {
+	if (meta.params !== "precisionScale") {
 		delete next.precision;
 		delete next.scale;
 	}
@@ -127,10 +136,12 @@ export const formatColumnType = (column: TypedColumnLike | null | undefined): st
 	const base = meta?.name || parsed.type;
 
 	if (!meta) {
-		if (parsed.length != null) return `${base}(${parsed.length})`;
-		if (parsed.precision != null) {
-			const scale = parsed.scale ?? 0;
-			return `${base}(${parsed.precision},${scale})`;
+		const length = column.length ?? parsed.length;
+		const precision = column.precision ?? parsed.precision;
+		const scale = column.scale ?? parsed.scale;
+		if (length != null) return `${base}(${length})`;
+		if (precision != null) {
+			return `${base}(${precision},${scale ?? 0})`;
 		}
 		return base;
 	}

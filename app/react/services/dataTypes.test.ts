@@ -57,6 +57,16 @@ describe("dataTypes", () => {
 		});
 	});
 
+	test("preserves parameters for unknown legacy types", () => {
+		expect(applyTypeDefaults("BIT(8)")).toEqual({ type: "BIT", length: 8 });
+		expect(applyTypeDefaults("BIT", { length: 8 })).toEqual({ type: "BIT", length: 8 });
+		expect(clearIrrelevantParams({ type: "BIT", length: 8 })).toEqual({
+			type: "BIT",
+			length: 8,
+		});
+		expect(formatColumnType({ type: "BIT", length: 8 })).toBe("BIT(8)");
+	});
+
 	test("validateTypeParams enforces length and precision/scale rules", () => {
 		expect(validateTypeParams({ type: "VARCHAR", length: 0 })).toContain("Length must be a positive integer");
 		expect(validateTypeParams({ type: "DECIMAL", precision: 5, scale: 6 })).toContain(
