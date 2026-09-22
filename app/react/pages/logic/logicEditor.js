@@ -9,6 +9,12 @@ import ToolsViewService from "../../../editor/toolsViewService";
 import ShapePalette from "../../../editor/shapePalette";
 import Conversor from './conversor';
 import { dia } from '@joint/core';
+import { resolveLogicalCardinality } from './logicalCardinality';
+
+const getLinkLabelText = (linkModel, index, fallback = "(1, 1)") => {
+    const labels = linkModel?.attributes?.labels;
+    return labels?.[index]?.attrs?.text?.text || fallback;
+};
 
 export default class LogicEditor extends Editor {
     shapeFactory = null;
@@ -16,6 +22,7 @@ export default class LogicEditor extends Editor {
     toolsViewService = null;
     selectedElementToolbar = null;
     selectedElementResizer = null;
+    selectedLinkId = null;
     model = null;
 
     constructor(document, container, conversionAttributeModal, conversionOptionModal, customActions = {}) {
@@ -63,25 +70,147 @@ export default class LogicEditor extends Editor {
     }
 
 	removeLinkColumn(cell) {
-		const target = cell.attributes?.target;
-		if (!target?.id) return;
+		const linkId = cell.attributes?.id;
+		if (!linkId) return;
 
-		const targetCell = this.graph.getCell(target.id);
-		if (targetCell != null && targetCell.attributes.type === 'logic.Table') {
-			const rows = targetCell.getRows();
+		for (const end of [cell.attributes?.source, cell.attributes?.target]) {
+			if (!end?.id) continue;
+			const tableCell = this.graph.getCell(end.id);
+			if (tableCell == null || tableCell.attributes.type !== 'logic.Table') continue;
+
+			const rows = tableCell.getRows();
 			const index = rows.findIndex(row => {
-				return row.tableOrigin != null && row.tableOrigin.idLink === cell.attributes.id;
+				return row.tableOrigin != null && row.tableOrigin.idLink === linkId;
 			});
 			if (index > -1) {
-				this.deleteColumn(this.paper.findViewByModel(targetCell), index);
+				this.deleteColumn(this.paper.findViewByModel(tableCell), index);
+				return;
 			}
 		}
+	}
+
+	findFkByLinkId(linkId) {
+		const tables = this.graph.getElements().filter(el => el.get('type') === 'logic.Table');
+		for (const table of tables) {
+			const rows = table.getRows() || [];
+			const index = rows.findIndex(row => row.tableOrigin?.idLink === linkId);
+			if (index > -1) {
+				return { table, index, row: rows[index] };
+			}
+		}
+		return null;
+	}
+
+	deleteRowWithoutRemovingLink(table, index) {
+		table.deleteRow(index);
+		const view = this.paper.findViewByModel(table);
+		view?.updateSize?.();
+		view?.update?.();
+	}
+
+	refreshTableView(table) {
+		const view = this.paper.findViewByModel(table);
+		view?.updateSize?.();
+		view?.update?.();
+	}
+
+	syncForeignKeyForLink(linkModel, resolved) {
+		if (!linkModel || !resolved || resolved.kind === 'nn' || resolved.kind === 'invalid') {
+			return;
+		}
+
+		const sourceId = linkModel.get('source')?.id;
+		const targetId = linkModel.get('target')?.id;
+		if (!sourceId || !targetId) return;
+
+		const sourceTable = this.graph.getCell(sourceId);
+		const targetTable = this.graph.getCell(targetId);
+		if (!sourceTable || !targetTable) return;
+		if (sourceTable.get('type') !== 'logic.Table' || targetTable.get('type') !== 'logic.Table') {
+			return;
+		}
+
+		const labelStyle = { 'font-weight': 'normal', 'font-size': 12 };
+		const oldLabel0 = getLinkLabelText(linkModel, 0);
+		const oldLabel1 = getLinkLabelText(linkModel, 1);
+
+		if (resolved.fkEnd === 'source') {
+			linkModel.set({
+				source: { id: targetId },
+				target: { id: sourceId },
+			});
+			linkModel.label(0, {
+				position: 0.2,
+				attrs: { text: { text: oldLabel1, ...labelStyle } },
+			});
+			linkModel.label(1, {
+				position: 0.8,
+				attrs: { text: { text: oldLabel0, ...labelStyle } },
+			});
+		}
+
+		const fkOwner = this.graph.getCell(linkModel.get('target').id);
+		const referenced = this.graph.getCell(linkModel.get('source').id);
+		const existing = this.findFkByLinkId(linkModel.id);
+		const preservedName = existing?.row?.name;
+		const preservedType = existing?.row?.type || 'INT';
+
+		if (existing && existing.table.id !== fkOwner.id) {
+			this.deleteRowWithoutRemovingLink(existing.table, existing.index);
+		}
+
+		const columnData = {
+			name: preservedName || (`id${referenced.get('name')}`),
+			type: preservedType,
+			FK: true,
+			PK: false,
+			NOT_NULL: resolved.notNull,
+			UNIQUE: resolved.unique,
+			tableOrigin: {
+				idOrigin: referenced.id,
+				idLink: linkModel.id,
+				idName: '',
+			},
+		};
+
+		const fkAfterMove = this.findFkByLinkId(linkModel.id);
+		if (fkAfterMove) {
+			fkOwner.editRow(fkAfterMove.index, {
+				...fkAfterMove.row,
+				...columnData,
+				name: preservedName || fkAfterMove.row.name,
+			});
+			this.refreshTableView(fkOwner);
+			return;
+		}
+
+		fkOwner.addRow(new Column({
+			name: columnData.name,
+			FK: true,
+			type: columnData.type,
+			idOrigin: referenced.id,
+			idLink: linkModel.id,
+		}));
+		const rows = fkOwner.getRows();
+		const newIndex = rows.length - 1;
+		fkOwner.editRow(newIndex, {
+			...rows[newIndex],
+			NOT_NULL: resolved.notNull,
+			UNIQUE: resolved.unique,
+		});
+		this.refreshTableView(fkOwner);
 	}
 
     onSelectElement(cellView) {
         if (cellView != null) {
             if (this.elementSelector != null) {
                 this.elementSelector.collection.reset([]);
+            }
+
+            if (cellView.model.isLink()) {
+                this.selectedLinkId = cellView.model.id;
+            } else {
+                this.clearSelectedLinkTools();
             }
 
             const elementType = cellView.model.isLink() ? "Link" : cellView.model.get('type');
@@ -94,11 +223,22 @@ export default class LogicEditor extends Editor {
             return;
         }
 
+        this.clearSelectedLinkTools();
         this.customActions.selectElement({
             value: "",
             type: "blank",
             element: null
         });
+    }
+
+    clearSelectedLinkTools() {
+        if (this.selectedLinkId != null) {
+            const previous = this.graph.getCell(this.selectedLinkId);
+            if (previous) {
+                this.paper.findViewByModel(previous)?.removeTools?.();
+            }
+            this.selectedLinkId = null;
+        }
     }
 
     onUpdate = (event) => {
@@ -224,6 +364,12 @@ export default class LogicEditor extends Editor {
     registerCustomPaperEvents() {
         this.paper.on('link:options', (cellView) => {
             this.onSelectElement(cellView);
+            this.customActions.openMenu?.();
+        });
+
+        this.paper.on('link:pointerclick', (linkView) => {
+            this.onSelectElement(linkView);
+            this.customActions.openMenu?.();
         });
 
         this.paper.on('element:pointerup', (cellView, evt) => {
@@ -237,11 +383,12 @@ export default class LogicEditor extends Editor {
 
         this.paper.on('link:mouseenter', (linkView) => {
             const connectionType = this.getConnectionType(linkView.model);
-            const toolsView = this.toolsViewService.getToolsView(connectionType);
+            const toolsView = this.toolsViewService.getToolsView(connectionType, "logic");
             linkView.addTools(toolsView);
         });
 
         this.paper.on('link:mouseleave', (linkView) => {
+            if (linkView.model.id === this.selectedLinkId) return;
             linkView.removeTools();
         });
 
@@ -255,8 +402,15 @@ export default class LogicEditor extends Editor {
     }
 
     getConnectionType(link) {
+        const source = this.graph.getCell(link.get('source').id);
         const target = this.graph.getCell(link.get('target').id);
-        return target?.get('type') === 'uml.Abstract' ? 'Table-View' : '';
+        if (target?.get('type') === 'uml.Abstract' || source?.get('type') === 'uml.Abstract') {
+            return 'Table-View';
+        }
+        if (source?.get('type') === 'logic.Table' && target?.get('type') === 'logic.Table') {
+            return 'Table-Table';
+        }
+        return '';
     }
 
     activateElementToolbar(cellView) {
@@ -352,21 +506,50 @@ export default class LogicEditor extends Editor {
     }
 
     editCardinalityA(selectedLink, card) {
-        if (selectedLink && selectedLink.model) {
-            selectedLink.model.label(0, {
-                position: 0.2,
-                attrs: { text: { text: card, 'font-weight': 'normal', 'font-size': 12 } }
-            });
-        }
+        return this.editCardinality(selectedLink, 0, card);
     }
 
     editCardinalityB(selectedLink, card) {
-        if (selectedLink && selectedLink.model) {
-            selectedLink.model.label(1, {
-                position: 0.8,
-                attrs: { text: { text: card, 'font-weight': 'normal', 'font-size': 12 } }
-            });
+        return this.editCardinality(selectedLink, 1, card);
+    }
+
+    editCardinality(selectedLink, labelIndex, card) {
+        if (!selectedLink?.model) {
+            return { applied: false };
         }
+
+        const linkModel = selectedLink.model;
+        const labelStyle = { 'font-weight': 'normal', 'font-size': 12 };
+        const previous = getLinkLabelText(linkModel, labelIndex);
+        const position = labelIndex === 0 ? 0.2 : 0.8;
+
+        linkModel.label(labelIndex, {
+            position,
+            attrs: { text: { text: card, ...labelStyle } },
+        });
+
+        const resolved = resolveLogicalCardinality({
+            cardSource: getLinkLabelText(linkModel, 0),
+            cardTarget: getLinkLabelText(linkModel, 1),
+        });
+
+        if (resolved.kind === 'nn') {
+            linkModel.label(labelIndex, {
+                position,
+                attrs: { text: { text: previous, ...labelStyle } },
+            });
+            this.customActions.onNnCardinalityBlocked?.();
+            return { applied: false, reason: 'nn' };
+        }
+
+        if (resolved.kind === 'invalid') {
+            this.setDirty(true);
+            return { applied: true };
+        }
+
+        this.syncForeignKeyForLink(linkModel, resolved);
+        this.setDirty(true);
+        return { applied: true };
     }
 
     buildTablesJson() {
@@ -470,6 +653,7 @@ export default class LogicEditor extends Editor {
             this.selectedElementResizer.remove();
             this.selectedElementResizer = null;
         }
+        this.clearSelectedLinkTools();
         if(this.customActions.clearSelection) {
             this.customActions.clearSelection();
         }

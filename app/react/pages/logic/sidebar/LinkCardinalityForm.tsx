@@ -30,7 +30,7 @@ const LinkCardinalityForm: React.FC<LinkCardinalityFormProps> = React.memo(({ el
 	useEffect(() => {
 		setCardA(getLabel(element, 0));
 		setCardB(getLabel(element, 1));
-	}, [element?.model?.id]);
+	}, [element, element?.model?.id, element?.model?.attributes?.labels]);
 
 	const handleCardAChange = useCallback((selected: { name: string; type: string }) => {
 		setCardA(selected.type);
