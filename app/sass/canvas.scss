@@ -1,0 +1,29 @@
+///////////////////////////////////////////////////////////////////////////////
+// .brmw-canvas
+///////////////////////////////////////////////////////////////////////////////
+.brmw-canvas {
+	position: relative;
+	overflow: scroll;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	overscroll-behavior: contain;
+}
+
+.brmw-canvas > .brmw-canvas-background {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	overflow: hidden;
+	margin: 0;
+	line-height: 0;
+}
+
+.brmw-canvas .joint-paper {
+	display: inline-block;
+	margin: 0;
+}
+
+.brmw-canvas .joint-paper > svg {
+	display: block;
+}

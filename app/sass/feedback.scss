@@ -1,13 +1,56 @@
 ////////////////////////////////////////////////////////////////////////////////
 // .feedback
 ////////////////////////////////////////////////////////////////////////////////
-.workspace-header .feedback {
-	position: absolute;
-	top: calc(100% + 12px);
-	left: 12px;
-	width: calc(100% - 64px);
-	z-index: 1;
+.feedback {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	padding: 20px;
+	min-width: 300px;
+	z-index: 10;
 }
+
+.alert {
+	margin-bottom: 0;
+	box-shadow: 0 2px 6px -2px var(--gray-70);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .feedback-form
+////////////////////////////////////////////////////////////////////////////////
+.feedback-inline {
+	margin-bottom: 12px;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Overwrite Boostrap defaults
+////////////////////////////////////////////////////////////////////////////////
+.alert {
+	color: var();
+	border-color: var(--border-base);
+	background-color: var(--white);
+
+}
+
+.alert.alert-success {
+	background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+
+.alert.alert-danger {
+	color: #991b1b;
+	border-color: #991b1b;
+	background-color: #fef2f2;
+}
+
+.alert.alert-warning {
+	color: #92400e;
+	border-color: #92400e;
+	background-color: #fffbeb;
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // .field.error

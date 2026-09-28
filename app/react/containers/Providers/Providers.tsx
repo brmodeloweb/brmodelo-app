@@ -1,12 +1,12 @@
 import i18n from "i18n";
-import PropTypes from "prop-types";
 import React from "react";
 import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "styled-components";
 import theme from "../../theme";
+import { ModalsProvider } from "../Modals";
 
 type ProviderProps = {
-	children: JSX.Element;
+	children: React.ReactNode;
 };
 
 const Providers: React.FC<ProviderProps> = ({
@@ -14,7 +14,9 @@ const Providers: React.FC<ProviderProps> = ({
 }) => {
 	return (
 		<ThemeProvider theme={theme}>
-			<I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+			<I18nextProvider i18n={i18n}>
+				<ModalsProvider>{children}</ModalsProvider>
+			</I18nextProvider>
 		</ThemeProvider>
 	);
 };

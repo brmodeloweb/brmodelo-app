@@ -1,4 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
+// Change form elements color
+////////////////////////////////////////////////////////////////////////////////
+:root {
+	accent-color: var(--brand-primary-30);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Font declaration
 ////////////////////////////////////////////////////////////////////////////////
 label,
@@ -19,13 +26,30 @@ input[type="submit"] {
 	transition: box-shadow 0.2s ease;
 }
 
-
 button:focus,
 input[type="button"]:focus,
 input[type="submit"]:focus {
 	outline: 0;
+}
+
+button:focus-visible,
+input[type="button"]:focus-visible,
+input[type="submit"]:focus-visible {
 	box-shadow: 0 0 0 2px var(--white),
-				0 0 0 4px var(--brand-default); 
+				0 0 0 4px var(--brand-default);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Remove arrows from input number
+////////////////////////////////////////////////////////////////////////////////
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +78,12 @@ input[type="submit"]:focus {
 	font-style: italic;
 	margin: 2px 0 0 4px;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Form size blocks
+////////////////////////////////////////////////////////////////////////////////
+.form-lg {max-width: 600px;}
+.form-md {max-width: 300px;}
 
 ////////////////////////////////////////////////////////////////////////////////
 // .columnsList
@@ -168,8 +198,8 @@ input[type="submit"]:focus {
 ////////////////////////////////////////////////////////////////////////////////
 .form-control {
 	border-color: var(--border-default);
-	box-shadow: 0 0 0 var(--brand-default), 
-				0 0 0 var(--brand-default); 
+	box-shadow: 0 0 0 var(--brand-default),
+				0 0 0 var(--brand-default);
 	transition: box-shadow 0.2s
 }
 
@@ -177,7 +207,7 @@ input[type="submit"]:focus {
 	outline: none;
 	border-color: var(--brand-default);
 	box-shadow: 1px 1px 0 var(--brand-default),
- 				-1px 3px 0 var(--brand-default); 
+ 				-1px 3px 0 var(--brand-default);
 }
 
 .form-control.error {

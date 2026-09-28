@@ -1,0 +1,52 @@
+///////////////////////////////////////////////////////////////////////////////
+// .brmw-selection
+///////////////////////////////////////////////////////////////////////////////
+.joint-paper {
+	position: relative;
+}
+
+.brmw-selection-wrapper {
+	position: absolute;
+	border: 1px solid var(--brand-primary-30);
+	background-color: color-mix(in srgb, var(--brand-primary-30) 4%, transparent);
+	pointer-events: none;
+}
+
+.brmw-selection-box {
+	position: absolute;
+	border: 1px dashed var(--brand-primary-30);
+	pointer-events: none;
+}
+
+.brmw-selection-lasso {
+	position: absolute;
+	border: 1px solid var(--brand-primary-30);
+	background-color: color-mix(in srgb, var(--brand-primary-30) 8%, transparent);
+	pointer-events: none;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// .brmw-selection-remove
+///////////////////////////////////////////////////////////////////////////////
+.brmw-selection-remove {
+	position: absolute;
+	transform: translate(-100%, -100%);
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background-color: var(--gray-30);
+	color: var(--white);
+	font-size: 12px;
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.brmw-selection-remove::before {
+	content: "✕";
+}
+
+.brmw-selection-remove:hover {
+	background-color: var(--gray-10);
+}

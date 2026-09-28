@@ -1,0 +1,17 @@
+///////////////////////////////////////////////////////////////////////////////
+// .brmw-snapline
+///////////////////////////////////////////////////////////////////////////////
+.brmw-snapline {
+	position: absolute;
+	pointer-events: none;
+}
+
+.brmw-snapline-vertical {
+	width: 0;
+	border-left: 1px dotted var(--brand-primary-40);
+}
+
+.brmw-snapline-horizontal {
+	height: 0;
+	border-top: 1px dotted var(--brand-primary-40);
+}

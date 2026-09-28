@@ -7,16 +7,35 @@
 }
 
 .modelsList header.container .page-header {
-	margin-top: 60px
+	margin-top: 60px;
+	display: flex !important;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// .modelsList .feedback
-///////////////////////////////////////////////////////////////////////////////
-.modelsList .feedback {
-	position: absolute;
-	top: 15px;
-	right: 15px;
-	left: 15px;	
+.modelsList header.container .page-header h2.h2 {
+	margin: 0;
+	padding: 0;
+	float: none !important;
+	line-height: 1;
+	vertical-align: middle;
+	text-align: left;
+}
 
+.modelsList header.container .page-header .header-actions {
+	margin: 0;
+	float: none !important;
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// .share-status
+////////////////////////////////////////////////////////////////////////////////
+.share-status {
+	color: var(--gray-70);
+	font-size: 1.2rem;
+	margin-right: 4px;
 }

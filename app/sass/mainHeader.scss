@@ -1,4 +1,19 @@
 ///////////////////////////////////////////////////////////////////////////////
+// .navbar-brand.navigation-back
+///////////////////////////////////////////////////////////////////////////////
+.navbar-default .navigation-back {
+	border: none;
+	border-radius: 0;
+	padding: 16px;
+	margin-right: 8px;
+	background-color: transparent;
+}
+
+.navbar-default .navigation-back:hover {
+	background-color: var(--gray-90);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // .navbar-brand
 ///////////////////////////////////////////////////////////////////////////////
 .navbar-default .navbar-brand,
@@ -27,111 +42,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 // purelly icon nav
 ///////////////////////////////////////////////////////////////////////////////
-.nav-icons .fa {
+.nav-icons .svg-inline--fa {
 	font-size: 1.5em;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// toolbar with icons
-///////////////////////////////////////////////////////////////////////////////
-.tool-icons {
-	float: none;
-	width: 100%;
-	border-bottom: 1px solid var(--border-default);
-}
-
-.tool-icons .fa {
-	font-size: 1.2em;
-}
-
-.navbar-nav.tool-icons > li > a {
-	padding: 8px 12px;
-}
-
-.tool-icons .divider {
-	border-right: 1px solid var(--border-default);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .modelOptions
-////////////////////////////////////////////////////////////////////////////////
-.modelOptions {float: left;}
-
-.modelName,
-.modelViewiewOptions {
-	float: left;
-	padding: 8px 0;
-	margin: 0 10px;
-}
-
-.modelName input {
-	min-width: 250px;
-	padding: 3px 25px 3px 5px;
-	border-color: 1px solid var(--border-default);
-	background-color: rgba(255, 255, 255, 0.1);
-	color: grey;
-}
-
-.inputPencil {
-	float: right;
-	margin-right: 6px;
-	margin-top: -20px;
-	position: relative;
-	z-index: 2;
-	color: grey;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// .modelViewiewOptions
-////////////////////////////////////////////////////////////////////////////////
-.modelViewiewOptions {
-	position: relative;
-	top: 8px;
-}
-
-.modelViewiewOptions a {
-	padding: 5px 10px 5px 10px;
-	color: black;
-	position: relative;
-}
-
-.modelViewiewOptions a:hover {opacity: 0.6;}
-.modelViewiewOptions a:active {opacity: 0.2;}
-
-////////////////////////////////////////////////////////////////////////////////
-// Loading
-////////////////////////////////////////////////////////////////////////////////
-.br-loader {
-	display: none;
-	position: fixed;
-	top: 70px;
-	left: 50%;
-	margin-left: -20px;
-	padding: 3px;;
-	border: 1px solid var(--border-light);
-	border-radius: 4px;
-	background-color: var(--white);
-}
-
-.br-loader.loading {display: block;}
-
-///////////////////////////////////////////////////////////////////////////////
 // .nav-icons dropdown-icon
 ///////////////////////////////////////////////////////////////////////////////
-.nav-icons > dropdown-icon > .dropdown > .dropdown-menu {
+.nav-icons .dropdown > .dropdown-menu {
 	margin-top: 0;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
 
-.nav-icons > dropdown-icon > .dropdown > button {
+.nav-icons .dropdown > button {
 	border: 0;
 	padding: 15px;
 	color: var(--gray-20);
 	background-color: transparent;
 }
 
-.nav-icons > dropdown-icon > .dropdown > button:focus {
+.nav-icons .dropdown > button:focus {
 	text-decoration: none;
 	box-shadow: none;
 	background-color: var(--gray-90);
